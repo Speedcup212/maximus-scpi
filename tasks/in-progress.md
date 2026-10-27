@@ -54,3 +54,14 @@ Preuves :
 - Aucun commit direct sur `main`.
 - Aucun déploiement Netlify.
 - Pas de TypeScript global, Monitor, plugin, 212 SCPI ou nouvelle feature.
+
+
+## RECOVERY-006 — Correctif demandé le 27/10/2026 : trajectoire partielle
+
+La phase initiale est clôturée sur la branche Recovery (archive `2ad779b`).
+Branche dédiée : `fix/trajectory-last-validated-values-20261027`.
+Périmètre : `trajectoryData.ts`, `ScpiTrajectoryPanel.tsx`, tests ciblés,
+rapprochement SQL sourcé CORUM USA T3 et étape CI des tests de trajectoire.
+Critères : valeurs datées par métrique, aucun remplissage des séries, liquidité inchangée,
+valorisation sur une même observation, double lecture du bulletin, tests et build PASS.
+État : validation en cours ; aucun statut global de readiness modifié.

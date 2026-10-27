@@ -315,3 +315,37 @@ export const valuationGapPct = (price: number | null, reconstitution: number | n
   if (price === null || reconstitution === null || reconstitution === 0) return null;
   return ((price - reconstitution) / reconstitution) * 100;
 };
+
+/** Summary cards may show a dated older observation, never fill gaps in the series.
+ * Liquidity is deliberately excluded: its certified current regime remains authoritative.
+ */
+export type SummaryMetricKey = 'tof' | 'prix_souscription' | 'prix_reconstitution'
+  | 'distribution_par_part' | 'endettement';
+
+export const latestMetricSnapshot = (rows: NormalizedHistoryRow[], key: SummaryMetricKey) => {
+  for (let index = rows.length - 1; index >= 0; index -= 1) {
+    const value = toFiniteNumber(rows[index][key]);
+    if (value === null) continue;
+    return {
+      value,
+      period: rows[index].source_period,
+      sourceUrl: rows[index].source_url,
+      isLastKnown: index !== rows.length - 1,
+      annualDelta: latestDelta(rows.slice(0, index + 1), key, 4),
+    };
+  }
+  return null;
+};
+
+export const latestValuationSnapshot = (rows: NormalizedHistoryRow[]) => {
+  // Compare a price and a reconstitution from the SAME observation only.
+  for (let index = rows.length - 1; index >= 0; index -= 1) {
+    const row = rows[index];
+    const gap = valuationGapPct(row.prix_souscription, row.prix_reconstitution);
+    if (gap === null) continue;
+    return { price: row.prix_souscription!, reconstitution: row.prix_reconstitution!,
+      gap, period: row.source_period, sourceUrl: row.source_url,
+      isLastKnown: index !== rows.length - 1 };
+  }
+  return null;
+};

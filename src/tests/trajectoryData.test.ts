@@ -4,6 +4,8 @@ import {
   CertifiedLiquiditySnapshot,
   currentCertifiedLiquidity,
   latestDelta,
+  latestMetricSnapshot,
+  latestValuationSnapshot,
   liquidityLabel,
   formatLiquidityPercent,
   normalizeAndDedupeHistory,
@@ -164,5 +166,40 @@ describe('Historique client : sémantique des données et précision', () => {
       row('2025-T2', { capital_type: null, liquidity_basis: null, parts_attente_retrait: 25, nombre_parts: 656071 }),
     ]);
     expect(unknown[0].retrait_attente_pct).toBeNull();
+  });
+});
+
+describe('dated last-known summary observations', () => {
+  it('CORUM USA: a partial T3 does not hide the available T2 values', () => {
+    const history = normalizeAndDedupeHistory([
+      row('2026-T2', { prix_souscription: 200, prix_reconstitution: 216.34, endettement: 0, distribution_par_part: 3.27 }),
+      row('2026-T3'),
+    ]);
+    expect(latestMetricSnapshot(history, 'endettement')).toMatchObject({ value: 0, period: '2026-T2', isLastKnown: true, annualDelta: null });
+    expect(latestMetricSnapshot(history, 'distribution_par_part')).toMatchObject({ value: 3.27, period: '2026-T2', isLastKnown: true });
+    expect(latestValuationSnapshot(history)).toMatchObject({ price: 200, reconstitution: 216.34, period: '2026-T2', isLastKnown: true });
+    expect(history[1].endettement).toBeNull();
+    expect(history[1].prix_reconstitution).toBeNull();
+  });
+  it('prefers a genuinely newer distribution without annualising it', () => {
+    const history = normalizeAndDedupeHistory([row('2026-T2', { distribution_par_part: 3.27 }), row('2026-T3', { distribution_par_part: 3.15 })]);
+    expect(latestMetricSnapshot(history, 'distribution_par_part')).toMatchObject({ value: 3.15, period: '2026-T3', isLastKnown: false });
+  });
+  it('returns no value for an entirely absent series', () => {
+    expect(latestMetricSnapshot(normalizeAndDedupeHistory([row('2026-T3')]), 'endettement')).toBeNull();
+    expect(latestValuationSnapshot([])).toBeNull();
+  });
+  it('does not combine valuation figures from different quarters', () => {
+    const history = normalizeAndDedupeHistory([row('2026-T2', { prix_reconstitution: 216.34 }), row('2026-T3', { prix_souscription: 200 })]);
+    expect(latestValuationSnapshot(history)).toBeNull();
+  });
+  it('anchors annual changes to the displayed observation, never to the empty latest quarter', () => {
+    const history = normalizeAndDedupeHistory([row('2025-T2', { endettement: 8 }), row('2026-T2', { endettement: 10 }), row('2026-T3')]);
+    expect(latestMetricSnapshot(history, 'endettement')).toMatchObject({ value: 10, period: '2026-T2', annualDelta: 2 });
+    expect(latestDelta(history, 'endettement')).toBeNull();
+  });
+  it('ignores invalid newer rows and keeps dated source provenance', () => {
+    const history = normalizeAndDedupeHistory([row('2026-T2', { endettement: 5 }), row('2026-T3', { endettement: 9, qa_status: 'invalid_source' })]);
+    expect(latestMetricSnapshot(history, 'endettement')).toMatchObject({ value: 5, period: '2026-T2', sourceUrl: 'https://example.com/bulletin.pdf' });
   });
 });
