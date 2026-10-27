@@ -38,6 +38,16 @@ class PipelineTest(unittest.TestCase):
   import scpi_ocr_worker as ocr
   ocr.LANGUAGES='eng';pdf=self.fixture(scan=True);self.assertFalse(c.mupdf(pdf)[0][0].strip());pages=ocr.extract_pages(pdf)
   self.assertEqual(pages[0]['method'],'tesseract_ocr');self.assertIn('corum origin',ocr.normalized(pages[0]['text']))
+ def test_current_table_column_is_not_assumed_last(self):
+  d=fitz.open();p=d.new_page(width=600,height=800)
+  for point,text in [((260,100),'31/12/2022'),((410,100),'31/12/2021'),((30,150),'Nombre de parts'),((260,150),'2 281 547'),((410,150),'2 030 869')]:p.insert_text(point,text,fontsize=10)
+  words=[tuple(w[:5]) for w in p.get_text('words')]
+  found=c.dated_table_integer(words,'Nombre de parts','2022-T4');self.assertEqual({v[0] for v in found},{2281547})
+  self.assertFalse(c.dated_table_integer(words,'Nombre de parts','2023-T4'))
+ def test_official_tof_above_100_not_clamped(self):
+  pdf=self.fixture().replace(b'not-a-marker',b'not-a-marker')
+  d=fitz.open();p=d.new_page();p.insert_text((30,130),'FINANCIER (TOF)',fontsize=10);p.insert_text((30,190),'100,72 %',fontsize=22)
+  self.assertNotIn('tof',c.parse_core(*c.mupdf(d.tobytes())))
  def test_interruption_cache_unchanged(self):
   with tempfile.TemporaryDirectory() as td:
    cache=pathlib.Path(td);item={'slug':'corum-origin','period':'2025-T1','kind':'quarterly_bulletin','url':'https://www.corum.fr/sites/default/files/fixture.pdf'}

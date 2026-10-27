@@ -13,7 +13,7 @@ import fitz
 
 FUNDS={'corum-origin':('CORUM Origin','corum-origin'), 'corum-xl':('CORUM XL','corum-xl'),
        'corum-eurion':('CORUM Eurion','eurion'), 'corum-usa':('CORUM USA','corum-usa')}
-VERSION='corum-dual-pdf-20261027-v1'
+VERSION='corum-dual-pdf-20261027-v2'
 UA='Mozilla/5.0 (compatible; MaximusSCPI-OfficialArchive/1.0)'
 MAX_BYTES=65*1024*1024
 
@@ -80,7 +80,7 @@ def validate_issue(slug,period,pages,kind):
  year,q=period.split('-T');q=int(q)
  # Cover issue, not future validity dates or a historical performance chart.
  cover=norm(pages[0])[:1500]
- patterns=[rf'\b{q}\s*(?:er|e|eme)?\s*trimestre\s*{year}',rf'\b{q}\s*t\s*{year}',rf'\b{year}\s*[-/]?\s*t\s*{q}\b']
+ patterns=[rf'\b{q}\s*(?:er|e|eme|[°º][^a-z0-9\s]{0,3})?\s*trimestre\s*{year}',rf'\b{q}\s*t\s*{year}',rf'\b{year}\s*[-/]?\s*t\s*{q}\b']
  if not any(re.search(p,cover) for p in patterns):raise ValueError('quarter_issue_mismatch')
 
 # A word is (x0,y0,x1,y1,text). Both engines feed the same geometry checks.
@@ -103,7 +103,32 @@ def percent_box(words,rect):
  vals={number(m.group(1)) for m in re.finditer(r'(?<![\d.,])(\d{1,3}(?:[,.]\d{1,2})?)\s*%',t)}
  return vals,t
 
-def parse_core(pages,wordpages,widths):
+def dated_table_integer(words,label,period):
+ if not period:return []
+ year,q=period.split('-T');q=int(q);dates={1:('31','03'),2:('30','06'),3:('30','09'),4:('31','12')};day,month=dates[q]
+ anchors=[]
+ for phrase in [f'{day}/{month}/{year}',f'{day}/{month}/{year[-2:]}',f'{day}.{month}.{year}',f'{day}.{month}.{year[-2:]}',f'{q}T {year}',f'T{q} {year}',f'{q}T{year}',f'T{q}{year}']:
+  anchors+=phrases(words,phrase)
+ out=[]
+ for rect in phrases(words,label):
+  x0,y0,x1,y1=rect;cy=(y0+y1)/2
+  row=sorted([w for w in words if abs((w[1]+w[3])/2-cy)<4 and w[0]>x1+2 and re.fullmatch(r'\d[\d\s]*',w[4])],key=lambda w:w[0])
+  groups=[]
+  for w in row:
+   if groups and w[0]-groups[-1][-1][2]<9 and len(w[4])==3:groups[-1].append(w)
+   else:groups.append([w])
+  for anchor in anchors:
+   ax=(anchor[0]+anchor[2])/2
+   if not 0<y0-anchor[3]<210:continue
+   distances=[(abs(ax-(g[0][0]+g[-1][2])/2),g) for g in groups]
+   if not distances:continue
+   distances.sort(key=lambda d:d[0]);distance,g=distances[0]
+   if distance>25 or (len(distances)>1 and distances[1][0]-distance<12):continue
+   text=' '.join(w[4] for w in g);v=int(number(text))
+   if v>0 or (v==0 and 'attente' in label.lower()):out.append((v,rect,anchor,label+' '+text+'; exact column '+period+' (official '+day+'/'+month+'/'+year+')'))
+ return out
+
+def parse_core(pages,wordpages,widths,period=None):
  hits={}
  for i,words in enumerate(wordpages):
   for rect in phrases(words,'FINANCIER (TOF)'):
@@ -112,7 +137,29 @@ def parse_core(pages,wordpages,widths):
    # Drop franchise/vacancy subcomponents by range; never choose max among
    # two occupancy measures. The box excludes the neighbouring TOP column.
    vals={v for v in vals if 50<=v<=100}
+   if len(vals)!=1:
+    large=[w for w in words if w[3]-w[1]>=14]
+    vals,txt=percent_box(large,(x0-15,y0-115,x1+15,y1+145));vals={v for v in vals if 50<=v<=100}
+    txt='FINANCIER (TOF) | '+txt
    if len(vals)==1:hits.setdefault('tof',[]).append((vals.pop(),i+1,txt))
+  if period:
+   year,q=period.split('-T')
+   for caption in [f'TOP et TOF {q}T{year}',f'TOP et TOF {q}T {year}']:
+    for x0,y0,x1,y1 in phrases(words,caption):
+     vals,txt=percent_box([w for w in words if w[3]-w[1]>=14],(x0-20,y0-85,x1+20,y0))
+     vals={v for v in vals if 50<=v<=100}
+     if len(vals)==1:hits.setdefault('tof',[]).append((vals.pop(),i+1,caption+' | '+txt))
+  for value,rect,anchor,txt in dated_table_integer(words,'Nombre de parts',period):
+   hits.setdefault('nombre_parts',[]).append((value,i+1,txt))
+  for queue_label in ['Parts en attente de retrait','Parts en attente de retraits','Parts en attente de cession']:
+   for value,rect,anchor,txt in dated_table_integer(words,queue_label,period):
+    hits.setdefault('parts_attente_retrait',[]).append((value,i+1,txt))
+  if 'nombre de parts' in norm(pages[i]):
+   for queue_label in ['Part en attente de retrait','Parts en attente de retrait','Parts en attente de retraits']:
+    for x0,y0,x1,y1 in phrases(words,queue_label):
+     txt=text_box(words,(x0-8,y0-48,x1+8,y1+5))
+     vals=re.findall(r'(?<![\d.,])\b\d+\b(?![\d.,%])',txt)
+     if len(vals)==1:hits.setdefault('parts_attente_retrait',[]).append((int(vals[0]),i+1,txt))
   # Explicit statement in Evolution du capital; no zero inferred from silence.
   page_norm=norm(pages[i])
   if 'nombre de parts' in page_norm and ('volution du capital' in page_norm or 'capitalisation' in page_norm):
@@ -161,14 +208,14 @@ def reconcile(a,b):
  return core,evidence,anomalies
 
 def inspect(item,cache):
- result={**item,'parser_version':VERSION,'metrics':{},'evidence':{},'anomalies':[]}
+ result={**item,'parser_version':VERSION,'run_reference':'github:'+os.environ.get('GITHUB_RUN_ID','local')+':'+os.environ.get('GITHUB_SHA','working-tree'),'metrics':{},'evidence':{},'anomalies':[]}
  path=cache/(hashlib.sha256(item['url'].encode()).hexdigest()+'.pdf')
  try:
   if path.exists():pdf=path.read_bytes()
   else:
    pdf=fetch(item['url'])
    if not pdf.startswith(b'%PDF'):raise ValueError('not_pdf')
-   path.write_bytes(pdf)
+   temporary=path.with_suffix('.download');temporary.write_bytes(pdf);temporary.replace(path)
   if not pdf.startswith(b'%PDF'):raise ValueError('not_pdf')
   result['sha256']=hashlib.sha256(pdf).hexdigest();result['bytes']=len(pdf)
   a=mupdf(pdf);b=poppler(path);result['page_count']=len(a[0]);result['native_chars']=sum(map(len,a[0]))
@@ -182,17 +229,23 @@ def inspect(item,cache):
    langs=subprocess.run(['tesseract','--list-langs'],capture_output=True,text=True,check=True).stdout
    ocr.LANGUAGES='fra+eng' if 'fra' in langs.split() else 'eng'
    with fitz.open(stream=pdf,filetype='pdf') as d:cover=ocr.ocr_page(d[0])
-   a[0][0]=cover;b[0][0]=cover;result['cover_method']='tesseract_ocr_identity_only'
-   validate_issue(item['slug'],item['period'],a[0],item['kind']);validate_issue(item['slug'],item['period'],b[0],item['kind'])
+   a[0][0]=cover;b[0][0]=cover;result['cover_method']='tesseract_ocr_identity_only';result['cover_excerpt']=cover[:1800]
+   try:
+    validate_issue(item['slug'],item['period'],a[0],item['kind']);validate_issue(item['slug'],item['period'],b[0],item['kind'])
+   except ValueError:
+    recovered=ocr.extract_pages(pdf);result['ocr_pages']=recovered
+    a[0][:]=[p['text'] for p in recovered];b[0][:]=a[0][:]
+    result['cover_method']='tesseract_ocr_full_document_identity'
+    validate_issue(item['slug'],item['period'],a[0],item['kind']);validate_issue(item['slug'],item['period'],b[0],item['kind'])
   result['identity_verified']=True;result['period_verified']=True
   result['identity_excerpt']=norm(' '.join(a[0][:8]))[:1600]
   result['issue_excerpt']=norm(a[0][0])[:1500]
   if item['kind']=='annual_report':result['status']='source_verified';return result
-  result['metrics'],result['evidence'],result['anomalies']=reconcile(parse_core(*a),parse_core(*b))
+  result['metrics'],result['evidence'],result['anomalies']=reconcile(parse_core(*a,period=item['period']),parse_core(*b,period=item['period']))
   complete=all(k in result['metrics'] for k in ['tof','nombre_parts','parts_attente_retrait'])
   result['anomalies'] += ['missing_core:'+k for k in ['tof','nombre_parts','parts_attente_retrait'] if k not in result['metrics']]
-  result['status']='certified_core' if complete else ('ocr_pending' if sum(len(compact(p)) for p in a[0])/len(a[0])<120 else 'partial_review')
-  if result['status']=='ocr_pending':
+  result['status']='certified_core' if complete else ('ocr_pending' if 'ocr_pages' in result or sum(len(compact(p)) for p in a[0])/len(a[0])<120 else 'partial_review')
+  if result['status']=='ocr_pending' and 'ocr_pages' not in result:
    import scpi_ocr_worker as ocr
    langs=subprocess.run(['tesseract','--list-langs'],capture_output=True,text=True,check=True).stdout
    ocr.LANGUAGES='fra+eng' if 'fra' in langs.split() else 'eng'

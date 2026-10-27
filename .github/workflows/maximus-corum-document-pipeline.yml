@@ -4,7 +4,7 @@ on:
     - cron: '37 5 * * *'
   workflow_dispatch:
   push:
-    branches: [recovery/corum-backfill-20261027]
+    branches: [main, recovery/corum-backfill-20261027]
     paths:
       - 'scripts/agents/corum_document_pipeline*'
       - '.github/workflows/maximus-corum-document-pipeline.yml'
