@@ -989,7 +989,7 @@ async function startEvent(db:any,s:Source){const {data}=await db.from("scpi_inge
 async function finish(db:any,id:string|null,x:any){if(id)await db.from("scpi_ingestion_events").update({...x,ended_at:new Date().toISOString()}).eq("id",id);}
 async function reg(db:any,slug:string,x:any){const {error}=await db.from("scpi_source_registry").update({...x,updated_at:new Date().toISOString()}).eq("scpi_slug",slug);if(error)throw new Error(error.message);}
 async function next(db:any){
-  const {data,error}=await db.from("scpi_source_registry").select("scpi_slug,scpi_name,management_company,official_scpi_page_url,discovered_page_url,source_domain,last_checked_at,next_check_at,error_count").eq("automation_enabled",true).limit(200);if(error)throw error;const now=Date.now();
+  const {data,error}=await db.from("scpi_source_registry").select("scpi_slug,scpi_name,management_company,official_scpi_page_url,discovered_page_url,source_domain,last_checked_at,next_check_at,error_count").eq("automation_enabled",true).eq("ingestion_driver","generic").limit(200);if(error)throw error;const now=Date.now();
   return (data||[]).filter((x:any)=>!x.next_check_at||new Date(x.next_check_at).getTime()<=now).sort((a:any,b:any)=>(a.last_checked_at?new Date(a.last_checked_at).getTime():0)-(b.last_checked_at?new Date(b.last_checked_at).getTime():0))[0] as Source|undefined;
 }
 
@@ -1020,7 +1020,7 @@ Deno.serve(async(req:Request)=>{
   if(body?.slug){
     const {data,error}=await db.from("scpi_source_registry")
       .select("scpi_slug,scpi_name,management_company,official_scpi_page_url,discovered_page_url,source_domain,last_checked_at,next_check_at,error_count")
-      .eq("automation_enabled",true).eq("scpi_slug",String(body.slug)).maybeSingle();
+      .eq("automation_enabled",true).eq("ingestion_driver","generic").eq("scpi_slug",String(body.slug)).maybeSingle();
     if(error)throw error;
     if(!data)return Response.json({ok:false,status:"unknown_slug",slug:String(body.slug)},{status:404});
     s=data as Source;
