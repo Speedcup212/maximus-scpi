@@ -112,8 +112,11 @@ try{
        x=>x.textContent?.trim()==='Nombre d’immeubles' || x.textContent?.trim()==="Nombre d'immeubles");
      const sourceLabels=modal?.textContent||'';
      const renter=modal?.querySelector('[data-testid="scpi-rental-source-coverage"]');
+     const keys=Array.from(modal?.querySelectorAll('h3')||[]).find(x=>x.textContent?.trim()==='Chiffres clés');
+     const lease=modal?.querySelector('[data-testid="scpi-rental-source-coverage"] [data-testid="scpi-lease-durations"]');
+     const leaseAfterKeys=!!keys && !!lease && lease.getBoundingClientRect().top>keys.getBoundingClientRect().top;
      const shareholders=modal?.querySelector('[data-testid="scpi-shareholders-count"]')?.textContent||'';
-     return {hasHeading:!!heading,vrText,analysis,sourceLabels,
+     return {hasHeading:!!heading,leaseAfterKeys,vrText,analysis,sourceLabels,
        visibleProperties:Boolean(tech),
        renterText:renter?.textContent||'',shareholders,
        favorable};
@@ -122,6 +125,7 @@ try{
    const shown=obj.vrText.replace(/\u202f/g,' ').replace(/\xa0/g,' ');
    return {
     real_modal_for_correct_fund:obj.hasHeading,
+    lease_duration_stays_in_rental_section_after_key_figures:obj.leaseAfterKeys,
     current_reconstitution_is_visible:shown.includes(euro)||shown.includes(vr.toFixed(2)),
     nonempty_source_anchored_analysis:obj.analysis.length>85 &&
       !/données insuffisantes pour conclure de façon robuste/i.test(obj.analysis),

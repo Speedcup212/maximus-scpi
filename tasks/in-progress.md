@@ -75,3 +75,11 @@ Branche : recovery/scpi-bulletin-completeness-20261027.
 Périmètre : driver CORUM, RPC, provenance, catalogue, mapping, trajectoire et modal.
 État : données T3 des quatre CORUM rapprochées ; code et tests en validation.
 Preuves : reports/trajectory/RECOVERY-007-20261027.md.
+
+## RECOVERY-008 — Ordre du bloc WALT/WALB, 27/10/2026
+
+Demande : le bloc ne doit pas précéder les chiffres clés.
+Cause : enfant indépendant sans ordre CSS, placé avant les enfants order=10+.
+Correction : bloc inclus dans scpi-rental-source-coverage du tableau technique ;
+assertion Chromium vérifiant sa présence dans ce groupe et après Chiffres clés.
+Branche : fix/walb-rental-section-20261027. Validation puis contrôle public requis.
