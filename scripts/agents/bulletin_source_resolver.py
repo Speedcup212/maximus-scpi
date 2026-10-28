@@ -6,7 +6,7 @@ The caller supplies the existing public downloader and two-reader PDF verifier.
 from __future__ import annotations
 import hashlib, html, html.parser, re, unicodedata, urllib.parse
 
-VERSION = 'issuer-source-resolution-20261028-v1'
+VERSION = 'issuer-source-resolution-20261028-v2'
 
 def norm(value):
     value = unicodedata.normalize('NFKD', urllib.parse.unquote(str(value))).replace('œ', 'oe')
@@ -112,7 +112,7 @@ def candidates(page, period):
         if document_link(link['url'], link['text']):
             docs.append(link)
         elif (urllib.parse.urlsplit(link['url']).hostname == urllib.parse.urlsplit(page['url']).hostname
-              and re.search(r'bulletin|trimestr|/document/', norm(link['text'] + ' ' + link['url']))
+              and re.search(r'bulletin|trimestr|document(?:ation)?s?|archives?', norm(link['text'] + ' ' + link['url']))
               and (not hints or period in hints)):
             wrappers.append(link)
     docs.sort(key=lambda x: period not in issue_hints(x['text'] + ' ' + x['url']))
@@ -161,7 +161,7 @@ def resolve(item, initial, fetch, verify):
                     errors.append({'url': link['url'], 'error': str(error)[:300]})
             # Documentation wrappers are followed, while a general site crawl is
             # kept out of a single document lease. A gap remains explicit.
-            if depth < 1:
+            if depth < 2:
                 queue.extend((link['url'], None, depth + 1) for link in wrappers)
         except (OSError, ValueError, RuntimeError) as error:
             errors.append({'url': url, 'error': str(error)[:300]})
