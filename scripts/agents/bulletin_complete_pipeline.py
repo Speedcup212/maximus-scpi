@@ -14,6 +14,7 @@ import fitz
 from corum_document_pipeline import mupdf, poppler
 import corum_bulletin_fields
 import bulletin_fields
+import bulletin_source_resolver as source_resolver
 
 VERSION = 'all-bulletins-20261027-v3'
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -78,6 +79,8 @@ def fetch_source(item, cache):
                     while chunk := resp.read(1024 * 1024):
                         target.write(chunk)
                 tmp.replace(path)
+                save_json(path.with_suffix('.metadata.json'), {'final_url':resp.url,
+                    'content_type':resp.headers.get('Content-Type'), 'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat()})
             return path, path.read_bytes()
         except (OSError, ValueError, urllib.error.HTTPError) as err:
             errors.append(type(err).__name__ + ': ' + str(err)[:200])
@@ -94,24 +97,106 @@ def oidc_bridge(payload):
     except urllib.error.HTTPError as err:
         raise RuntimeError('Protected replay bridge HTTP '+str(err.code)+': '+err.read(1000).decode('utf8','replace')) from None
 
+def preflight(out):
+    try:
+        health=oidc_bridge({'op':'health','parser_version':VERSION})
+        if health.get('effective_role')!='service_role' or health.get('permissions_ok') is not True:
+            raise RuntimeError('Replay requires verified service_role table and RPC permissions')
+        save_json(out/'preflight.json',health)
+        print('Replay preflight:',health.get('enabled_scpi'),'SCPI;',health.get('eligible_now'),'eligible documents',flush=True)
+        return health
+    except Exception as error:
+        save_json(out/'run-summary.json',{'status':'failed','stage':'preflight','error':str(error)[:1200],'documents':[]})
+        raise
+
+def resolve_source(item, downloaded, out):
+    """A page resolves to a separate PDF queue entry, never to invented fields."""
+    cache=out/'source-cache'
+    def fetch(url):
+        path,data=fetch_source({'source_url':url},cache)
+        metadata=path.with_suffix('.metadata.json')
+        final=json.loads(metadata.read_text()).get('final_url',url) if metadata.exists() else url
+        public_source(final)
+        return data,final
+    def verify(data):
+        with fitz.open(stream=data,filetype='pdf') as pdf:
+            native=[page.get_text('text') for page in pdf]
+        sha=hashlib.sha256(data).hexdigest();path=cache/(sha+'.verify.pdf')
+        if not path.exists():path.write_bytes(data)
+        try:independent=poppler(path)[0]
+        except subprocess.CalledProcessError as error:raise ValueError('Independent PDF reader rejected source') from error
+        aliases=item.get('aliases',[])
+        return all(identity_matches(item,pages,aliases) and period_matches(item['period'],pages)
+                   for pages in (native,independent))
+    initial=None
+    if downloaded.get('status')=='downloaded':
+        initial={'url':item['source_url'],'data':pathlib.Path(downloaded['path']).read_bytes()}
+    resolution=source_resolver.resolve(item,initial,fetch,verify)
+    resolution['resolver_version']=source_resolver.VERSION
+    save_json(out/'source-resolution'/(item['id']+'.json'),resolution)
+    result={k:v for k,v in downloaded.items() if k!='path'}
+    result.update(parser_version=VERSION,source_resolution=resolution,metrics={},evidence={},
+                  field_coverage={},processing_complete=False,financial_complete=False)
+    if resolution['matched']:
+        registration=oidc_bridge({'op':'register_link','document_key':item['document_key'],
+            'lease_token':item['lease_token'],'link':{**resolution,'period':item['period'],
+            'identity_verified':True,'period_verified':True,'independent_engines':['MuPDF','Poppler']}})
+        if registration.get('ok') is not True:raise RuntimeError('Resolved issuer PDF was not registered: '+str(registration))
+        result['status']='source_reference_resolved';result['resolved_document_key']=registration['document_key']
+    elif downloaded.get('status')=='downloaded':result['status']='source_reference_review'
+    elif 'private_source_requires_separate_authorization' in downloaded.get('error',''):result['status']='source_access_blocked'
+    else:result['status']='fetch_error'
+    return result
+
+def archive_pdf(item, downloaded, result):
+    if (result.get('identity_verified') is not True or result.get('period_verified') is not True
+            or downloaded.get('kind')!='pdf' or not result.get('processing_complete')):return
+    archived=oidc_bridge({'op':'archive_prepare','document_key':item['document_key'],
+        'lease_token':item['lease_token'],'sha256':downloaded['sha256']})
+    if not archived.get('already_archived'):
+        request=urllib.request.Request(archived['signed_url'],data=pathlib.Path(downloaded['path']).read_bytes(),
+            headers={'Content-Type':'application/pdf'},method='PUT')
+        with urllib.request.urlopen(request,timeout=90) as response:
+            if response.status not in (200,201):raise RuntimeError('Archive upload was not acknowledged')
+    result['archive_path']=archived['path']
+
 def run_queue(out):
     """Drain the durable queue until the runner deadline; resume on the next run."""
     out.mkdir(parents=True,exist_ok=True);deadline=time.monotonic()+44*60
-    oidc_bridge({'op':'seed'});results=[]
-    while time.monotonic()<deadline:
-        response=oidc_bridge({'op':'claim','parser_version':VERSION});item=response.get('task')
-        if not item:break
-        item['id']=item['document_key'];item['period']=item['source_period']
-        downloaded=download(item,out/'source-cache')
-        result=inspect(item,downloaded,out,item.get('aliases',[]))
-        # Runner filesystem paths and temporary signed URLs are never persisted.
-        result.pop('path',None)
-        recorded=oidc_bridge({'op':'record','doc':result,'lease_token':item['lease_token']})
-        if recorded.get('ok') is not True:raise RuntimeError('Replay record not acknowledged')
-        results.append({'id':item['id'],'scpi_slug':item['scpi_slug'],'period':item['period'],'status':result['status'],'page_count':result.get('page_count'),'metrics_count':result.get('metrics_count'),'record':recorded})
-        (out/'run-summary.json').write_text(json.dumps(results,ensure_ascii=False,indent=2))
-        print(item['scpi_slug'],item['period'],result['status'],recorded.get('applied',0),flush=True)
-    print('Durable queue checkpoint:',len(results),'documents; unclaimed work remains queued',flush=True)
+    results=[];summary={'status':'starting','parser_version':VERSION,'resolver_version':source_resolver.VERSION,'documents':results}
+    save_json(out/'run-summary.json',summary)
+    try:
+        summary['before']=preflight(out)
+        summary['seed']=oidc_bridge({'op':'seed'})
+        while time.monotonic()<deadline:
+            response=oidc_bridge({'op':'claim','parser_version':VERSION});item=response.get('task')
+            if not item:
+                summary['stop_reason']='no_eligible_document';break
+            item['id']=item['document_key'];item['period']=item['source_period']
+            downloaded=download(item,out/'source-cache')
+            if downloaded['status']!='downloaded' or downloaded.get('kind')!='pdf':
+                result=resolve_source(item,downloaded,out)
+            else:
+                result=inspect(item,downloaded,out,item.get('aliases',[]))
+                try:archive_pdf(item,downloaded,result)
+                except Exception as error:result['archive_error']=str(error)[:300]
+            if item.get('discovery'):result['discovery']=item['discovery']
+            result['source_review_version']=source_resolver.VERSION
+            # Runner filesystem paths and temporary signed URLs are never persisted.
+            result.pop('path',None)
+            recorded=oidc_bridge({'op':'record','doc':result,'lease_token':item['lease_token']})
+            if recorded.get('ok') is not True:raise RuntimeError('Replay record not acknowledged')
+            results.append({'id':item['id'],'scpi_slug':item['scpi_slug'],'period':item['period'],'status':result['status'],'page_count':result.get('page_count'),'metrics_count':result.get('metrics_count'),'record':recorded})
+            save_json(out/'run-summary.json',summary)
+            print(item['scpi_slug'],item['period'],result['status'],recorded.get('applied',0),flush=True)
+        else:summary['stop_reason']='runner_checkpoint'
+        summary['after']=oidc_bridge({'op':'health','parser_version':VERSION})
+        summary['status']='completed'
+        print('Durable queue checkpoint:',len(results),'documents;',summary['stop_reason'],flush=True)
+    except Exception as error:
+        summary.update(status='failed',error=type(error).__name__+': '+str(error)[:1200])
+        raise
+    finally:save_json(out/'run-summary.json',summary)
 
 def download(item, cache):
     try:
@@ -133,7 +218,7 @@ def identity_matches(item, pages, aliases):
             return True
         except ValueError:pass
     head=norm(' '.join(pages[:2]))
-    names=[item['scpi_name']]+[a['alias'] for a in aliases if a['scpi_slug']==item['scpi_slug'] and a.get('active')]
+    names=[item['scpi_name']]+[a['alias'] for a in aliases if a.get('scpi_slug',item['scpi_slug'])==item['scpi_slug'] and a.get('active',True)]
     for name in names:
         n=norm(name)
         if re.search(r'(?<![a-z0-9])'+re.escape(n)+r'(?![a-z0-9])',head):return True
@@ -143,6 +228,8 @@ def period_matches(period,pages):
     if not re.fullmatch(r'20\d{2}-T[1-4]',period):return False
     year,q=period.split('-T');head=norm(' '.join(pages[:2]))
     patterns=[rf'\b{year}\s*[- /]?\s*[tq]\s*{q}\b',rf'\b[tq]\s*{q}\s*[- /]?\s*{year}\b',rf'\b{q}\s*t\s*{year}\b',rf'\b{q}\s*(?:er|e|eme)?\s*trimestre\s*{year}\b']
+    ordinal=['premier','deuxieme','troisieme','quatrieme'][int(q)-1]
+    patterns.append(rf'\b{ordinal}\s+trimestre\s+{year}\b')
     return any(re.search(p,head) for p in patterns)
 
 def ocr_full_page(page):
@@ -226,10 +313,12 @@ def main():
     ap.add_argument('--download-only', action='store_true')
     ap.add_argument('--inspect-downloaded', action='store_true')
     ap.add_argument('--run', action='store_true')
+    ap.add_argument('--preflight', action='store_true')
     ap.add_argument('--result-dir', default='documents')
     ap.add_argument('--workers', type=int, default=6)
     args = ap.parse_args()
     out = pathlib.Path(args.out); out.mkdir(parents=True, exist_ok=True)
+    if args.preflight:return preflight(out)
     if args.run:return run_queue(out)
     if not args.manifest:ap.error('--manifest required for local replay')
     items = json.loads(pathlib.Path(args.manifest).read_text())

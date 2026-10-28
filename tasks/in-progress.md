@@ -102,3 +102,9 @@ Critères : chaque document connu possède une tentative/version et un résultat
 explicite ; aucune donnée publiée omise par limite de lot, de page ou de période ;
 preuves par champ, tests adversariaux et contrôle des consommateurs.
 État : inventaire et reprise en cours.
+
+Suite autorisée le 28/10 : achever le correctif SELECT, mettre le workflow sur
+main après CI du head exact, reprendre les 201 erreurs et 515 références HTML.
+Périmètre et preuves : reports/trajectory/RECOVERY-009-20261027.md. Les sources
+inaccessibles et les conflits restent traçables ; aucune complétude financière
+ni publication n'est déduite d'un workflow vert.

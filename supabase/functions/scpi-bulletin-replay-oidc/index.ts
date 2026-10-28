@@ -19,6 +19,10 @@ Deno.serve(async(req:Request)=>{
  try{
   const raw=await req.text();if(raw.length>2500000)return fail(413,'payload too large');
   const body=JSON.parse(raw);
+  if(body.op==='health'){
+   const {data,error}=await db.rpc('scpi_bulletin_replay_health',{p_version:body.parser_version});if(error)throw error;
+   return Response.json(data,{headers:{'Cache-Control':'no-store'}});
+  }
   if(body.op==='seed'){
    const {data,error}=await db.rpc('scpi_bulletin_replay_seed');if(error)throw error;
    return Response.json({ok:true,seeded:data},{headers:{'Cache-Control':'no-store'}});
@@ -37,6 +41,19 @@ Deno.serve(async(req:Request)=>{
    if(!/^[0-9a-f-]{36}$/i.test(String(body.lease_token)))return fail(400,'invalid lease');
    const {data,error}=await db.rpc('scpi_bulletin_replay_record',{p_doc:body.doc,p_lease:body.lease_token});if(error)throw error;
    return Response.json(data,{headers:{'Cache-Control':'no-store'}});
+  }
+  if(body.op==='register_link'){
+   const {data,error}=await db.rpc('scpi_bulletin_replay_register_link',{p_parent:body.document_key,p_lease:body.lease_token,p_link:body.link});if(error)throw error;
+   return Response.json(data,{headers:{'Cache-Control':'no-store'}});
+  }
+  if(body.op==='archive_prepare'){
+   const {data:target,error}=await db.rpc('scpi_bulletin_replay_archive_target',{p_key:body.document_key,p_lease:body.lease_token,p_sha:body.sha256});if(error)throw error;
+   const {data:signed,error:signError}=await db.storage.from('scpi-bulletins').createSignedUploadUrl(target.path);
+   if(signError){
+    if(/already exists|duplicate/i.test(signError.message))return Response.json({ok:true,path:target.path,already_archived:true},{headers:{'Cache-Control':'no-store'}});
+    throw signError;
+   }
+   return Response.json({ok:true,path:target.path,signed_url:signed.signedUrl},{headers:{'Cache-Control':'no-store'}});
   }
   return fail(400,'unsupported operation');
  }catch(err){return fail(422,err instanceof Error?err.message:String((err as any)?.message||'replay transaction rejected'));}

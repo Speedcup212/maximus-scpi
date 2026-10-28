@@ -8,17 +8,21 @@ on:
     paths:
       - scripts/agents/bulletin_complete_pipeline*
       - scripts/agents/bulletin_fields.py
+      - scripts/agents/bulletin_source_resolver*
+      - supabase/functions/scpi-bulletin-replay-oidc/**
       - .github/workflows/maximus-all-bulletins-replay.yml
   pull_request:
     paths:
       - scripts/agents/bulletin_complete_pipeline*
       - scripts/agents/bulletin_fields.py
+      - scripts/agents/bulletin_source_resolver*
+      - supabase/functions/scpi-bulletin-replay-oidc/**
       - .github/workflows/maximus-all-bulletins-replay.yml
 permissions:
   contents: read
   id-token: write
 concurrency:
-  group: all-scpi-bulletin-replay-${{ github.event_name }}-${{ github.ref }}
+  group: all-scpi-bulletin-replay-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref }}
   cancel-in-progress: false
 jobs:
   replay:
@@ -44,14 +48,20 @@ jobs:
         run: |
           python -m unittest discover -s scripts/agents -p 'bulletin*_test.py' -v
           python -m unittest discover -s scripts/agents -p 'corum*_test.py' -v
+      - name: Verify actual service role permissions and durable queue health
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
+        run: python scripts/agents/bulletin_complete_pipeline.py --preflight --out test-results/bulletin-replay-${{ matrix.slot }}
       - name: Drain durable queue - all 65 SCPI and all registered periods
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
         run: python scripts/agents/bulletin_complete_pipeline.py --run --out test-results/bulletin-replay-${{ matrix.slot }}
       - name: Keep document outcomes and checkpoints
-        if: always()
+        if: always() && github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
         uses: actions/upload-artifact@v4
         with:
           name: bulletin-replay-${{ github.run_id }}-${{ matrix.slot }}
-          path: test-results/bulletin-replay-${{ matrix.slot }}/run-summary.json
+          path: |
+            test-results/bulletin-replay-${{ matrix.slot }}/run-summary.json
+            test-results/bulletin-replay-${{ matrix.slot }}/preflight.json
+            test-results/bulletin-replay-${{ matrix.slot }}/source-resolution/*.json
           if-no-files-found: ignore
       # No readiness override, public release, marketing or Netlify deployment.

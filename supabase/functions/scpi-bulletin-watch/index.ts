@@ -251,6 +251,14 @@ function nearestMoney(t:string,label:RegExp){
   }
   return best?.value??null;
 }
+// Cabinet policy: TOF ASPIM is not an eligible MaximusSCPI TOF metric,
+// including when displayed in a management company's official bulletin.
+// Do not substitute an ASPIM value for the issuer's separately published TOF.
+const FORBIDDEN_TOF_ASPIM_LABEL = /\bTOF\s+(?:financier\s+)?ASPIM\b|\btaux\s+d['’]?occupation\s+financier\s+ASPIM\b/i;
+function rejectAspimTof(text:string, metrics:Record<string,unknown>){
+  if(FORBIDDEN_TOF_ASPIM_LABEL.test(text))delete metrics.tof;
+}
+
 function parseMetrics(t:string,sourcePeriod?:string){
   t=t.replace(/\r/g,"\n").replace(/\u00a0|\u202f/g," ").replace(/[’‘]/g,"'");const flat=t.replace(/\s+/g," ");const o:any={};
   const caps:number[]=[];
@@ -927,6 +935,7 @@ function parseMetrics(t:string,sourcePeriod?:string){
       if(parefPartsFinal[2])o.parts_attente_retrait=parseInt(parefPartsFinal[2].replace(/[ \u00a0\u202f]/g,""),10);
     }
   }
+  rejectAspimTof(t,o);
   return Object.fromEntries(Object.entries(o).filter(([,v])=>v!==null&&v!==undefined&&!(typeof v==="number"&&!Number.isFinite(v))));
 }
 
@@ -963,6 +972,7 @@ function parseHtmlMetrics(t:string){
   if(/\bSCPI\s+[àa]\s+capital\s+fixe\b/i.test(t))o.capital_type="fixe";
   else if(/\bSCPI\s+[àa]\s+capital\s+variable\b/i.test(t))o.capital_type="variable";
 
+  rejectAspimTof(t,o);
   return o;
 }
 
@@ -1042,6 +1052,19 @@ Deno.serve(async(req:Request)=>{
   const eid=await startEvent(db,s);await reg(db,s.scpi_slug,{last_checked_at:new Date().toISOString(),next_check_at:later(1)});
   try{
     const c=await findBulletin(s);if(!c){const ec=(s.error_count||0)+1;await reg(db,s.scpi_slug,{verification_status:"manual_review_required",confidence_level:"low",last_error:"Aucun bulletin trimestriel pertinent détecté automatiquement.",error_count:ec,next_check_at:later(Math.min(168,12+ec*12))});await finish(db,eid,{status:"needs_review",step:"edge_discovery",message:"Bulletin introuvable"});return Response.json({ok:false,slug:s.scpi_slug,status:"needs_review"});}
+    // Refuse third-party PDFs before extraction or any live indicator write.
+    // Issuer/CDN hosts are registered individually for every active SCPI.
+    const {data:hostCfg,error:hostErr}=await db.from("scpi_source_connectors")
+      .select("allowed_hosts").eq("scpi_slug",s.scpi_slug).maybeSingle();
+    if(hostErr)throw new Error("Official bulletin hosts: "+hostErr.message);
+    const allowed=(hostCfg?.allowed_hosts||[]) as string[];
+    let bulletinHost="";
+    try{bulletinHost=new URL(c.pdf).hostname.toLowerCase();}catch{}
+    if(!allowed.includes(bulletinHost)){
+      await finish(db,eid,{status:"needs_review",step:"issuer_host_gate",bulletin_url:c.pdf,
+        message:"TOF rejected: bulletin URL is outside this SCPI issuer's official hosts"});
+      return Response.json({ok:false,slug:s.scpi_slug,status:"issuer_bulletin_host_rejected"},{status:422});
+    }
     let text="",hashPdf="",path:string|null=null,ocrRecovered=false;
     if(c.html){const html=await getText(c.pdf,10000);text=stripHtml(html);hashPdf=await shaText(html);}else{const bytes=await getPdf(c.pdf);hashPdf=await shaBytes(bytes);text=await extractPdfText(bytes);}
     if(!c.html&&text.trim().length<200){
@@ -1113,7 +1136,8 @@ Deno.serve(async(req:Request)=>{
       typeof r.nombre_parts==="number"||typeof r.nombre_immeubles==="number"||typeof r.nombre_associes==="number"
     ].filter(Boolean).length;
     const hasPerformance=typeof r.td==="number"||typeof r.distribution_par_part==="number";
-    const strong=metricCount>=(c.html?7:10)&&!bad.length&&confidence>=0.6&&coreCount>=4&&hasPerformance;
+    const tofRequired=s.scpi_slug!=="patrimmo-croissance-impact";
+    const strong=metricCount>=(c.html?7:10)&&!bad.length&&confidence>=0.6&&coreCount>=4&&hasPerformance&&(!tofRequired||typeof r.tof==="number");
     const qas=bad.length?"auto_partial_review":strong?"auto_verified":"auto_partial";
     // Garde anti-régression : une relecture moins complète du même bulletin ne doit
     // jamais remplacer un snapshot canonique déjà auto-vérifié.
