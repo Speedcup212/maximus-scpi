@@ -1,0 +1,369 @@
+{
+  "sources": [
+    {
+      "scpi_slug": "alta-convictions",
+      "label": "official_fund_page",
+      "url": "https://www.altarea-im.com/"
+    },
+    {
+      "scpi_slug": "ncap-education-sante",
+      "label": "official_fund_page",
+      "url": "https://www.normacapital.fr/nos-offres-grand-public/scpi-ncap-education-sante/"
+    },
+    {
+      "scpi_slug": "perial-grand-paris",
+      "label": "official_fund_page",
+      "url": "https://www.perial.com/scpi/perial-grand-paris"
+    },
+    {
+      "scpi_slug": "altixia-commerces",
+      "label": "official_fund_page",
+      "url": "https://www.altixia.fr/scpi-altixia-commerces.php"
+    },
+    {
+      "scpi_slug": "sofiprime",
+      "label": "official_fund_page",
+      "url": "https://www.sofidy.com/"
+    },
+    {
+      "scpi_slug": "esg-pierre-capital",
+      "label": "official_fund_page",
+      "url": "https://fr.swisslife-am.com/fr/particuliers/documentation/scpi-pierre-capitale.html"
+    },
+    {
+      "scpi_slug": "log-in",
+      "label": "official_fund_page",
+      "url": "https://theoreim.com/gamme/scpi-login/"
+    },
+    {
+      "scpi_slug": "coeur-d-europe",
+      "label": "official_fund_page",
+      "url": "https://www.sogenial.fr/societe/scpi-coeur-deurope/"
+    },
+    {
+      "scpi_slug": "epargne-pierre",
+      "label": "official_fund_page",
+      "url": "https://atland-voisin.com/scpi/epargne-pierre/"
+    },
+    {
+      "scpi_slug": "lf-grand-paris-patrimoine",
+      "label": "official_fund_page",
+      "url": "https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=LF-Grand-Paris-Patrimoine&amcScpi=19050&code=Z2"
+    },
+    {
+      "scpi_slug": "perial-o2",
+      "label": "official_fund_page",
+      "url": "https://www.perial.com/scpi/perial-o2"
+    },
+    {
+      "scpi_slug": "urban-coeur-de-commerce",
+      "label": "official_fund_page",
+      "url": "https://www.urban-coeurcommerce.com/documentation/"
+    },
+    {
+      "scpi_slug": "edissimo",
+      "label": "official_fund_page",
+      "url": "https://www.amundi-immobilier.com/Local-content/Producsheet/SCPI/EDISSIMMO/Documents"
+    },
+    {
+      "scpi_slug": "aestiam-horizon",
+      "label": "official_fund_page",
+      "url": "https://www.aestiam.com/nos-scpi/aestiam-horizon/"
+    },
+    {
+      "scpi_slug": "paref-hexa",
+      "label": "official_fund_page",
+      "url": "https://paref-gestion.com/nos-scpi/paref-hexa/"
+    },
+    {
+      "scpi_slug": "iroko-zen",
+      "label": "official_fund_page",
+      "url": "https://www.iroko.eu/scpi/zen"
+    },
+    {
+      "scpi_slug": "comete",
+      "label": "official_fund_page",
+      "url": "https://alderan.fr/scpi-comete-documentation/"
+    },
+    {
+      "scpi_slug": "perial-hospitalite-europe",
+      "label": "official_fund_page",
+      "url": "https://www.perial.com/"
+    },
+    {
+      "scpi_slug": "atream-hotel",
+      "label": "official_fund_page",
+      "url": "https://atream.com/solutions/fonds-ouverts/scpi-atream-hotels/"
+    },
+    {
+      "scpi_slug": "altixia-cadence-12",
+      "label": "official_fund_page",
+      "url": "https://www.altixia.fr/scpi-cadence.php"
+    },
+    {
+      "scpi_slug": "wemo-one",
+      "label": "official_fund_page",
+      "url": "https://wemo-reim.fr/documents-et-bulletins/"
+    },
+    {
+      "scpi_slug": "rivoli-avenir-patrimoine",
+      "label": "official_fund_page",
+      "url": "https://www.amundi-immobilier.com/Local-content/Producsheet/SCPI/RIVOLI-AVENIR-PATRIMOINE/Documents"
+    },
+    {
+      "scpi_slug": "credit-mutuel-pierre-1",
+      "label": "official_fund_page",
+      "url": "https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=Credit-Mutuel-Pierre-1&amcScpi=16555&code=A7"
+    },
+    {
+      "scpi_slug": "selectinvest-1",
+      "label": "official_fund_page",
+      "url": "https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=Selectinvest-1&amcScpi=17357&code=I9"
+    },
+    {
+      "scpi_slug": "perial-opportunites-europe",
+      "label": "official_fund_page",
+      "url": "https://www.perial.com/scpi/perial-opportunites-europe"
+    },
+    {
+      "scpi_slug": "transitions-europe",
+      "label": "official_fund_page",
+      "url": "https://www.arkea-reim.com/immobilier/pa_89367/scpi-transitions-europe"
+    },
+    {
+      "scpi_slug": "paref-evo",
+      "label": "official_fund_page",
+      "url": "https://paref-gestion.com/nos-scpi/paref-evo/"
+    },
+    {
+      "scpi_slug": "novapierre-residentiel",
+      "label": "official_fund_page",
+      "url": "https://paref-gestion.com/nos-scpi/novapierre-residentiel/"
+    },
+    {
+      "scpi_slug": "cristal-rente",
+      "label": "official_fund_page",
+      "url": "https://www.inter-gestion.com/corpo/cristal-rente"
+    },
+    {
+      "scpi_slug": "fonciere-des-praticiens",
+      "label": "official_fund_page",
+      "url": "https://www.groupemagellim.com/reim/scpi-foncieres-des-praticiens/"
+    },
+    {
+      "scpi_slug": "novapierre-1",
+      "label": "official_fund_page",
+      "url": "https://paref-gestion.com/nos-scpi/novapierre-1/"
+    },
+    {
+      "scpi_slug": "epargne-pierre-europe",
+      "label": "official_fund_page",
+      "url": "https://atland-voisin.com/scpi/epargne-pierre-europe/"
+    },
+    {
+      "scpi_slug": "coeur-de-region",
+      "label": "official_fund_page",
+      "url": "https://www.sogenial.fr/nos-scpi/coeur-de-region"
+    },
+    {
+      "scpi_slug": "novaxia-neo",
+      "label": "official_fund_page",
+      "url": "https://www.novaxia-investissement.fr/produits/novaxia-neo/"
+    },
+    {
+      "scpi_slug": "corum-usa",
+      "label": "official_fund_page",
+      "url": "https://www.corum.fr/nos-scpi/corum-usa/documents"
+    },
+    {
+      "scpi_slug": "coeur-de-ville",
+      "label": "official_fund_page",
+      "url": "https://www.sogenial.fr/societe/scpi-coeur-de-ville/"
+    },
+    {
+      "scpi_slug": "activimmo",
+      "label": "official_fund_page",
+      "url": "https://alderan.fr/scpi-activimmo/"
+    },
+    {
+      "scpi_slug": "kyaneos-pierre",
+      "label": "official_fund_page",
+      "url": "https://kyaneosam.com/"
+    },
+    {
+      "scpi_slug": "epsicap-nano",
+      "label": "official_fund_page",
+      "url": "https://epsicap.fr/"
+    },
+    {
+      "scpi_slug": "efimmo-1",
+      "label": "official_fund_page",
+      "url": "https://www.sofidy.com/solutions/efimmo1/"
+    },
+    {
+      "scpi_slug": "cristal-life",
+      "label": "official_fund_page",
+      "url": "https://www.inter-gestion.com/corpo/cristal-life"
+    },
+    {
+      "scpi_slug": "iroko-atlas",
+      "label": "official_fund_page",
+      "url": "https://www.iroko.eu/"
+    },
+    {
+      "scpi_slug": "optimale",
+      "label": "official_fund_page",
+      "url": "https://www.consultim-am.com/"
+    },
+    {
+      "scpi_slug": "remake-uk-2025",
+      "label": "official_fund_page",
+      "url": "https://www.remake.fr/remake-uk/"
+    },
+    {
+      "scpi_slug": "remake-live",
+      "label": "official_fund_page",
+      "url": "https://www.remake.fr/remake-live/"
+    },
+    {
+      "scpi_slug": "lf-europimmo",
+      "label": "official_fund_page",
+      "url": "https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=LF-Europimmo&amcScpi=16849&code=D1"
+    },
+    {
+      "scpi_slug": "ncap-regions",
+      "label": "official_fund_page",
+      "url": "https://www.normacapital.fr/nos-offres-grand-public/scpi-vendome-regions/"
+    },
+    {
+      "scpi_slug": "lf-avenir-sante",
+      "label": "official_fund_page",
+      "url": "https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=LF-Avenir-Sante&amcScpi=18149&code=Q1"
+    },
+    {
+      "scpi_slug": "pierval-sante",
+      "label": "official_fund_page",
+      "url": "https://www.euryale-am.fr/nos-solutions/pierval-sante/"
+    },
+    {
+      "scpi_slug": "ncap-continent",
+      "label": "official_fund_page",
+      "url": "https://www.normacapital.fr/nos-offres-grand-public/scpi-ncap-continent/"
+    },
+    {
+      "scpi_slug": "opportunite-immo",
+      "label": "official_fund_page",
+      "url": "https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=LF-Opportunite-Immo&amcScpi=17148&code=G0"
+    },
+    {
+      "scpi_slug": "immorente",
+      "label": "official_fund_page",
+      "url": "https://www.sofidy.com/solutions/immorente/"
+    },
+    {
+      "scpi_slug": "epargne-fonciere",
+      "label": "official_fund_page",
+      "url": "https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=Epargne-Fonciere&amcScpi=16969&code=EE"
+    },
+    {
+      "scpi_slug": "aestiam-agora",
+      "label": "official_fund_page",
+      "url": "https://www.aestiam.com/"
+    },
+    {
+      "scpi_slug": "selectipierre-2",
+      "label": "official_fund_page",
+      "url": "https://www.fiducial-gerance.fr/investir-en-scpi/nos-scpi/selectipierre-2-paris"
+    },
+    {
+      "scpi_slug": "patrimmo-croissance-impact",
+      "label": "official_fund_page",
+      "url": "https://www.praemiareim.fr/fr/"
+    },
+    {
+      "scpi_slug": "ficommerce-proximite",
+      "label": "official_fund_page",
+      "url": "https://www.fiducial-gerance.fr/investir-en-scpi/nos-scpi/ficommerce-proximite"
+    },
+    {
+      "scpi_slug": "patrimmo-commerce",
+      "label": "official_fund_page",
+      "url": "https://www.praemiareim.fr/fr/scpi-patrimmo-commerce"
+    },
+    {
+      "scpi_slug": "praemia-hotels-europe",
+      "label": "official_fund_page",
+      "url": "https://www.praemiareim.fr/fr/scpi-praemia-hotels-europe"
+    },
+    {
+      "scpi_slug": "buroboutic-metropoles",
+      "label": "official_fund_page",
+      "url": "https://www.fiducial-gerance.fr/"
+    },
+    {
+      "scpi_slug": "corum-xl",
+      "label": "official_fund_page",
+      "url": "https://www.corum.fr/nos-scpi/corum-xl/documents"
+    },
+    {
+      "scpi_slug": "primovie",
+      "label": "official_fund_page",
+      "url": "https://www.praemiareim.fr/fr/scpi-primovie"
+    },
+    {
+      "scpi_slug": "grand-paris-residentiel",
+      "label": "official_fund_page",
+      "url": "https://www.inter-gestion.com/corpo/scpi-gerees/grand-paris-residentiels"
+    },
+    {
+      "scpi_slug": "corum-origin",
+      "label": "official_fund_page",
+      "url": "https://www.corum.fr/nos-scpi/corum-origin/documents"
+    },
+    {
+      "scpi_slug": "corum-eurion",
+      "label": "official_fund_page",
+      "url": "https://www.corum.fr/nos-scpi/eurion/documents"
+    },
+    {
+      "scpi_slug": "immorente",
+      "label": "registered_pdf",
+      "url": "https://www.sofidy.com/app/uploads/2026/05/IMMORENTE-BT-1T-2026-1.pdf"
+    },
+    {
+      "scpi_slug": "immorente",
+      "label": "indexed_pdf",
+      "url": "https://www.sofidy.com/app/uploads/2026/05/IMMORENTE-BT-1T-2026.pdf"
+    },
+    {
+      "scpi_slug": "immorente",
+      "label": "apex_pdf",
+      "url": "https://sofidy.com/app/uploads/2026/05/IMMORENTE-BT-1T-2026.pdf"
+    },
+    {
+      "scpi_slug": "edissimo",
+      "label": "issuer_root",
+      "url": "https://www.amundi-immobilier.com/"
+    },
+    {
+      "scpi_slug": "sofiprime",
+      "label": "issuer_fund",
+      "url": "https://www.sofidy.com/solutions/sofiprime/"
+    },
+    {
+      "scpi_slug": "novaxia-neo",
+      "label": "registered_s3_raw_plus",
+      "url": "https://novaxia-invest.s3.eu-west-3.amazonaws.com/NEO/Bulletin_trimestriel/BULLETIN_NEO_1T+2023.pdf"
+    },
+    {
+      "scpi_slug": "edissimo",
+      "label": "primary_pdf_raw_path",
+      "url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_68547a04-1780-4e43-8b5c-b2a3b2e8bc7f"
+    },
+    {
+      "scpi_slug": "edissimo",
+      "label": "primary_pdf_encoded_path",
+      "url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz%3A%3AsfForwardFront%3A%3AparamsList%3Dservice%3DProxyGedApi%26routeId%3D_dl_68547a04-1780-4e43-8b5c-b2a3b2e8bc7f"
+    }
+  ]
+}
