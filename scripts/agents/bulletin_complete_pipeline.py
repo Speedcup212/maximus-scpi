@@ -15,6 +15,7 @@ from corum_document_pipeline import mupdf, poppler
 import corum_bulletin_fields
 import bulletin_fields
 import bulletin_source_resolver as source_resolver
+import bulletin_source_transport as source_transport
 
 VERSION = 'all-bulletins-20261027-v3'
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -37,7 +38,8 @@ class PublicRedirect(urllib.request.HTTPRedirectHandler):
         public_source(newurl)
         return super().redirect_request(req,fp,code,msg,headers,newurl)
 
-PUBLIC_OPENER=urllib.request.build_opener(PublicRedirect())
+PUBLIC_OPENER=urllib.request.build_opener(PublicRedirect(),
+    urllib.request.HTTPSHandler(context=source_transport.ssl_context()))
 
 def norm(s):
     return re.sub(r'\s+', ' ', ''.join(c for c in unicodedata.normalize('NFKD', str(s).replace('œ','oe')) if not unicodedata.combining(c))).lower().replace('’', "'").strip()
@@ -69,18 +71,11 @@ def fetch_source(item, cache):
     for url in urls:
         try:
             public_source(url)
-            parts=urllib.parse.urlsplit(url)
-            url=urllib.parse.urlunsplit((parts.scheme,parts.netloc,urllib.parse.quote(parts.path,safe='/%:@'),urllib.parse.quote(parts.query,safe='=&%:/?@'),''))
-            req = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept':'application/pdf,text/html;q=0.8'})
-            with PUBLIC_OPENER.open(req, timeout=45) as resp:
-                # Disk checkpoint supports documents of any size without an in-memory read cap.
-                tmp = path.with_suffix('.'+str(os.getpid())+'-'+str(threading.get_ident())+'.download')
-                with tmp.open('wb') as target:
-                    while chunk := resp.read(1024 * 1024):
-                        target.write(chunk)
-                tmp.replace(path)
-                save_json(path.with_suffix('.metadata.json'), {'final_url':resp.url,
-                    'content_type':resp.headers.get('Content-Type'), 'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat()})
+            tmp = path.with_suffix('.'+str(os.getpid())+'-'+str(threading.get_ident())+'.download')
+            metadata=source_transport.fetch_to_path(url,tmp,PUBLIC_OPENER,public_source,UA)
+            tmp.replace(path)
+            save_json(path.with_suffix('.metadata.json'), {**metadata,
+                'checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat()})
             return path, path.read_bytes()
         except (OSError, ValueError, urllib.error.HTTPError) as err:
             errors.append(type(err).__name__ + ': ' + str(err)[:200])

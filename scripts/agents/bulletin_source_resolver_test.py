@@ -72,6 +72,16 @@ class PublisherSourceTests(unittest.TestCase):
         page=resolver.parse_html(b'<meta http-equiv="refresh" content="0;/.well-known/sgcaptcha/?r=issue.pdf">','https://issuer.fr/issue.pdf')
         self.assertTrue(page['access_blocked'])
 
+    def test_contact_form_captcha_does_not_hide_public_document_links(self):
+        page=resolver.parse_html(b'<title>Alderan Documentation de la SCPI Comete</title><a href="/bulletin.pdf">Bulletin T2 2026</a><form><div class="gfield--type-hcaptcha">Contact</div><div class="g-recaptcha" hidden></div></form>','https://issuer.fr/documentation/')
+        self.assertFalse(page['access_blocked'])
+        result=resolver.resolve({'period':'2026-T2'},{'url':page['url'],'data':b'<title>Documentation</title><a href="/bulletin.pdf">Bulletin T2 2026</a><div class="hcaptcha"></div>'},lambda url:(b'%PDF',url),lambda data:True)
+        self.assertTrue(result['matched'])
+
+    def test_real_captcha_interstitial_without_a_title_remains_blocked(self):
+        page=resolver.parse_html(b'<div>Verify that you are human</div><div class="g-recaptcha"></div>','https://issuer.fr/docs/')
+        self.assertTrue(page['access_blocked'])
+
     def test_seed_permission_failure_still_produces_a_failed_summary(self):
         with tempfile.TemporaryDirectory() as root,mock.patch.object(replay,'oidc_bridge',side_effect=RuntimeError('permission denied')):
             out=pathlib.Path(root)

@@ -89,8 +89,15 @@ def parse_html(data, url):
         candidate = absolute_url(url, match.group())
         if candidate: parser.links.append({'url': candidate, 'text': ''})
     title = ' '.join(parser.title).strip()
+    # Contact forms routinely embed reCAPTCHA/hCaptcha on otherwise public
+    # document pages. Only an actual access interstitial blocks the page.
     blocked = bool(re.search(r'just a moment|access denied|403 forbidden|captcha|security check', norm(title))
-                   or re.search(r'/\.well-known/sgcaptcha/|cf-chl-|g-recaptcha|hcaptcha', source, re.I))
+                   or re.search(r'/\.well-known/sgcaptcha/|cf-chl-', source, re.I))
+    if (not blocked and re.search(r'g-recaptcha|hcaptcha', source, re.I)
+            and len(' '.join(parser.text).strip()) < 500
+            and re.search(r'verify.{0,30}human|confirm.{0,30}human|verifi.{0,30}(humain|robot)', source, re.I)
+            and not any(document_link(link['url'],link['text']) for link in parser.links)):
+        blocked = True
     unique={}
     for link in parser.links:
         if link['url'] not in unique or (link['text'].strip() and not unique[link['url']]['text'].strip()):

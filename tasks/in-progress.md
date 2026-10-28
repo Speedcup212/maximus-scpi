@@ -126,3 +126,6 @@ Les trois actions techniques sont clôturées. L'archive globale et la validatio
 financière restent ouvertes sur ces exceptions : aucun 100 % financier annoncé.
 Preuves et inventaire : reports/trajectory/RECOVERY-009-20261027.md et
 reports/trajectory/RECOVERY-009-20261028-final-audit.json.
+
+
+Exigence confirmée par Éric le 28/10 : la mission RECOVERY-009 demeure NON TERMINÉE jusqu'au résultat exhaustif vérifié. La réussite de sous-actions ne la clôture pas. Reprise actuelle : réparer la chaîne TLS Sofidy sans désactiver la validation, préserver les URL avec +, corriger les faux écrans CAPTCHA causés par les formulaires de contact, puis reprendre l'inventaire réel des périodes et des documents. Périmètre et preuves dans le rapport RECOVERY-009.
