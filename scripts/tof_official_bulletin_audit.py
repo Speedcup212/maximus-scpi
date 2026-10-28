@@ -108,6 +108,17 @@ def audit(doc):
         if not payload.startswith(b"%PDF"): raise ValueError("not_pdf")
         digest=hashlib.sha256(payload).hexdigest()
         reader=fitz.open(stream=payload,filetype="pdf")
+        diagnostics=[]
+        diagnostic_pages={
+            ("aestiam-horizon","2026-T3"):[3],
+            ("corum-origin","2015-T3"):[4,5],
+            ("corum-origin","2015-T4"):[4,5],
+            ("corum-origin","2016-T1"):[4,5],
+            ("corum-origin","2017-T3"):[5],
+        }
+        for page_num in diagnostic_pages.get((doc["scpi_slug"],doc["source_period"]),[]):
+            page=reader[page_num-1]
+            diagnostics.append({"page":page_num,"text":page.get_text("text",sort=True)[:14000]})
         contexts=[]
         for ix,page in enumerate(reader):
             page_text=page.get_text("text",sort=True)
@@ -118,7 +129,7 @@ def audit(doc):
                 if snippet in seen:continue
                 seen.add(snippet)
                 contexts.append({"page":ix+1,"label":mm.group(0),"snippet":snippet,"nearby_percentages":PCT.findall(snippet)})
-        return {**doc,"sha256":digest,"size_bytes":len(payload),"page_count":len(reader),"matches":contexts[:20],"match_count":len(contexts),"download_ok":True}
+        return {**doc,"sha256":digest,"size_bytes":len(payload),"page_count":len(reader),"matches":contexts[:20],"match_count":len(contexts),"diagnostics":diagnostics,"download_ok":True}
     except Exception as err:
         return {**doc,"error":str(err)[:300],"download_ok":False}
 def main():
