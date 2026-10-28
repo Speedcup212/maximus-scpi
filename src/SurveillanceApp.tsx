@@ -33,7 +33,7 @@ const SurveillanceApp: React.FC = () => {
     <div className={isDarkMode ? 'dark' : ''}>
       <SEOHead
         title="Surveillance SCPI : alertes, liquidité, TOF et risques | MaximusSCPI"
-        description="Surveillez les SCPI suivies par MaximusSCPI : signaux certifiés sur le TOF, la liquidité, la valorisation, la dette et les changements structurels."
+        description="Surveillez les SCPI suivies par MaximusSCPI : signaux contrôlés selon la méthodologie MaximusSCPI sur le TOF, la liquidité, la valorisation, la dette et les changements structurels."
         keywords={[
           'surveillance SCPI',
           'alerte SCPI',

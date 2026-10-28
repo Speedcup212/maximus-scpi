@@ -18,7 +18,7 @@ export const landingPages: LandingPageConfig[] = [
   {
     id: 'scpi-bureaux',
     title: 'SCPI Bureaux 2025 : Comparateur & Investissement',
-    metaDescription: 'Comparez les meilleures SCPI bureaux. Rendements attractifs, capitalisation sécurisée. Analyse détaillée et conseils d\'expert gratuits.',
+    metaDescription: 'Comparez les meilleures SCPI bureaux. Rendements attractifs, capitalisation sécurisée. Analyse détaillée et premier échange sans engagement.',
     h1: 'Comparateur SCPI Bureaux : Trouvez les Meilleurs Placements 2025',
     description: 'Investissez dans les SCPI spécialisées en bureaux avec des rendements stables et une diversification géographique optimale.',
     urlParams: { sector: 'bureaux' },
@@ -27,7 +27,7 @@ export const landingPages: LandingPageConfig[] = [
   {
     id: 'scpi-commerces',
     title: 'SCPI Commerces 2025 : Meilleurs Rendements',
-    metaDescription: 'Découvrez les SCPI commerces aux rendements élevés. Investissez dans les murs de magasins et centres commerciaux. Conseil gratuit.',
+    metaDescription: 'Découvrez les SCPI commerces aux rendements élevés. Investissez dans les murs de magasins et centres commerciaux. Premier échange sans engagement.',
     h1: 'SCPI Commerces : Investissement Immobilier à Haut Rendement',
     description: 'Les SCPI commerces offrent des rendements attractifs grâce aux baux commerciaux et à la diversification des enseignes.',
     urlParams: { sector: 'commerces' },

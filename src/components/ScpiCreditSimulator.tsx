@@ -1012,7 +1012,7 @@ const ScpiCreditSimulator: React.FC<ScpiCreditSimulatorProps> = ({
                 Besoin de valider ce montage ?
               </h3>
               <p className="text-sm mb-4 opacity-90">
-                Banque, fiscalité, choix de SCPI : faites-vous accompagner par un conseiller indépendant.
+                Banque, fiscalité, choix de SCPI : faites-vous accompagner par un conseiller en investissements financiers — conseil non indépendant.
               </p>
               {onCtaClick ? (
                 <button

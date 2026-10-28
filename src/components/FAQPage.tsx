@@ -88,7 +88,7 @@ const FAQPage: React.FC = () => {
     {
       category: "Frais",
       question: "Quels sont les frais associés aux SCPI ?",
-      answer: "Les SCPI comportent plusieurs types de frais : les frais de souscription (8% à 12% en moyenne), les frais de gestion annuels (environ 10% HT des loyers collectés), et d'éventuels frais de cession lors de la revente (généralement 5%). Ces frais sont déjà intégrés dans le calcul du rendement net. Chez MaximusSCPI, nous vous orientons vers les SCPI offrant le meilleur rapport rendement/frais et notre accompagnement est totalement gratuit pour vous."
+      answer: "Les frais varient selon les SCPI (souscription, gestion, cession), certaines ne prélevant pas de frais d’entrée. La commission de gestion est prélevée sur les loyers selon la note d’information. Les montants exacts figurent sur chaque fiche et dans la note d’information. Aucun honoraire n’est facturé en supplément pour une souscription de SCPI ; le cabinet est rémunéré par une partie des frais supportés par l’investisseur, selon le document d’entrée en relation et le rapport d’adéquation."
     },
     {
       category: "Types de SCPI",
@@ -108,27 +108,27 @@ const FAQPage: React.FC = () => {
     {
       category: "Stratégie",
       question: "Comment diversifier son portefeuille de SCPI ?",
-      answer: "Une bonne diversification passe par plusieurs axes : diversification sectorielle (bureaux, commerces, santé, logistique), géographique (France, Europe, zones urbaines/régionales), et par type de SCPI (rendement, fiscale). Nous recommandons d'investir dans au moins 3 à 5 SCPI différentes pour répartir les risques. MaximusSCPI utilise des algorithmes d'IA pour construire un portefeuille optimal selon votre profil et vos objectifs."
+      answer: "Une bonne diversification passe par plusieurs axes : diversification sectorielle (bureaux, commerces, santé, logistique), géographique (France, Europe, zones urbaines/régionales), et par type de SCPI (rendement, fiscale). Nous recommandons d'investir dans au moins 3 à 5 SCPI différentes pour répartir les risques. Les outils d’analyse MaximusSCPI structurent la lecture des données publiées par les sociétés de gestion. Une allocation personnalisée suppose un recueil préalable de votre situation et de vos objectifs."
     },
     {
       category: "MaximusSCPI",
-      question: "Pourquoi MaximusSCPI est-il gratuit ?",
-      answer: "MaximusSCPI est rémunéré directement par les sociétés de gestion de SCPI lors de vos souscriptions. Nous ne facturons jamais nos clients, notre rémunération n'augmente pas le coût de votre investissement car elle est déjà incluse dans les frais de souscription, que vous passiez par nous ou non. Notre objectif est de démocratiser l'accès aux SCPI en offrant des outils d'analyse avancés et un accompagnement expert, sans barrière financière."
+      question: "Comment MaximusSCPI est-il rémunéré ?",
+      answer: "Aucun honoraire n’est facturé en supplément pour une souscription de SCPI. Le cabinet est rémunéré par une partie des frais de souscription et, le cas échéant, de gestion, reversée par la société de gestion ou le partenaire. Ces frais sont supportés par l’investisseur via le prix de souscription. Leur détail figure dans le document d’entrée en relation et dans le rapport d’adéquation."
     },
     {
       category: "MaximusSCPI",
-      question: "Quelle est la différence entre un conseiller SCPI gratuit et payant ?",
-      answer: "**Conseillers gratuits (comme MaximusSCPI) :**\n\nAvantages : aucun frais pour l'investisseur, rémunération par les sociétés de gestion, accès à un large choix de SCPI, outils d'analyse et accompagnement personnalisé sans surcoût.\n\nInconvénients : certains conseillers peuvent privilégier les SCPI qui les rémunèrent le mieux, risque de conflit d'intérêts potentiel.\n\n**Conseillers payants (CGP indépendants au forfait) :**\n\nAvantages : indépendance totale (pas de commissions des sociétés de gestion), conseil objectif et personnalisé, vision globale de votre patrimoine (immobilier, financier, fiscal).\n\nInconvénients : honoraires à votre charge (souvent 1000€ à 3000€ pour une mission de conseil), rentable uniquement pour des patrimoines importants.\n\n**Notre approche chez MaximusSCPI :** Nous combinons le meilleur des deux mondes en offrant gratuitement des outils d'analyse objectifs basés sur 35 critères et l'intelligence artificielle, tout en maintenant une totale transparence sur notre méthodologie de sélection."
+      question: "Quels frais rémunèrent le cabinet pour une souscription de SCPI ?",
+      answer: "Aucun honoraire n’est facturé en supplément pour une souscription de SCPI. Le cabinet est rémunéré par une partie des frais de souscription et, le cas échéant, de gestion, reversée par la société de gestion ou le partenaire. Ces frais sont supportés par l’investisseur via le prix de souscription. Leur détail figure dans le document d’entrée en relation et dans le rapport d’adéquation."
     },
     {
       category: "MaximusSCPI",
       question: "Comment MaximusSCPI sélectionne-t-il les meilleures SCPI ?",
-      answer: "Notre méthodologie repose sur l'analyse approfondie de 35 critères quantitatifs et qualitatifs : rendement historique, qualité du patrimoine, taux d'occupation, report à nouveau, distribution, politique d'investissement, équipe de gestion, transparence, frais, liquidité, etc. Nous utilisons également des algorithmes d'intelligence artificielle pour identifier les SCPI les plus performantes et construire des portefeuilles optimisés selon votre profil de risque et vos objectifs patrimoniaux."
+      answer: "Notre méthodologie repose sur l'analyse approfondie de 35 critères quantitatifs et qualitatifs : rendement historique, qualité du patrimoine, taux d'occupation, report à nouveau, distribution, politique d'investissement, équipe de gestion, transparence, frais, liquidité, etc. Nos outils d’analyse permettent une lecture structurée des données publiées par les sociétés de gestion, avec leurs périodes et leurs limites. Ils ne préjugent pas des performances futures."
     },
     {
       category: "MaximusSCPI",
       question: "Qui est Eric Bellaiche ?",
-      answer: "Eric Bellaiche est le fondateur de MaximusSCPI. Expert reconnu en investissement financier et en SCPI, il cumule plus de 15 ans d'expérience dans le conseil en gestion de patrimoine et a accompagné des centaines d'investisseurs dans la construction et la valorisation de leur patrimoine immobilier.\n\nDétenteur de plusieurs certifications reconnues en finance et en gestion de patrimoine, Eric a développé une méthodologie d'analyse exclusive alliant expertise humaine et intelligence artificielle, afin d'identifier les meilleures opportunités d'investissement en SCPI.\n\nSa mission : rendre l'investissement en SCPI plus accessible, transparent et performant pour tous les épargnants français.\n\nAuteur du livre « Boostez vos réseaux d'affaires: avec l'échelle de Clubinaire », il à été également fondateur et président d'un club d'affaires réunissant plus de quarante dirigeants dans l'agglomération de Grenoble."
+      answer: "Eric Bellaiche est le fondateur de MaximusSCPI et conseiller en investissements financiers — conseil non indépendant, immatriculé à l’ORIAS (n° 13001580). Son accompagnement s’appuie sur une lecture structurée des données publiées par les sociétés de gestion et sur le recueil de la situation, des objectifs et des risques acceptables pour chaque client."
     },
     {
       category: "Gestionnaires",

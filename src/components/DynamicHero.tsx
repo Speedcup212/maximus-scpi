@@ -66,14 +66,14 @@ const DynamicHero: React.FC<DynamicHeroProps> = ({
                 <blockquote className="relative mb-4">
                   <div className="absolute -left-2 -top-2 text-6xl text-white/20 font-serif">"</div>
                   <p className="relative text-sm sm:text-base text-white/90 leading-relaxed italic pl-6">
-                    J'ai créé MaximusSCPI pour rendre l'investissement en SCPI simple, transparent et performant, même pour les débutants. Mon expertise de 15 ans combinée à l'intelligence artificielle vous garantit des recommandations personnalisées.
+                    J’ai créé MaximusSCPI pour clarifier la cohérence d’un projet SCPI, même pour les débutants : 15 ans de pratique et une lecture structurée des données publiées, sans promesse ni décision à votre place.
                   </p>
                 </blockquote>
 
                 <div className="flex flex-wrap gap-3 justify-center md:justify-start mt-4">
                   <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg border border-white/20">
                     <Shield className="w-4 h-4 text-green-300" />
-                    <span className="text-xs sm:text-sm font-semibold text-white">ACPR</span>
+                    <span className="text-xs sm:text-sm font-semibold text-white">ORIAS 13001580</span>
                   </div>
                   <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg border border-white/20">
                     <Award className="w-4 h-4 text-emerald-300" />
@@ -118,7 +118,7 @@ const DynamicHero: React.FC<DynamicHeroProps> = ({
           </div>
           <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-3 rounded-xl border border-white/20">
             <BarChart3 className="w-5 h-5 text-blue-300" />
-            <span className="text-sm sm:text-base font-bold text-white">63 SCPI analysées</span>
+            <span className="text-sm sm:text-base font-bold text-white">SCPI suivies</span>
           </div>
         </div>
       </div>

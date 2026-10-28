@@ -457,7 +457,7 @@ export const ScpiOuImmobilierLocatifComparatif20AnsArticle: React.FC = () => {
           <div className="bg-white/10 rounded-lg p-6 mt-6">
             <h3 className="text-xl font-bold mb-3">{'🎯'} Analysez votre situation personnalisée</h3>
             <p className="mb-4">
-              Utilisez nos outils pour simuler <strong>votre stratégie optimale</strong> selon votre TMI, capital disponible et objectifs. Nos conseillers analysent gratuitement votre profil et recommandent l'allocation idéale SCPI/locatif.
+              Utilisez nos outils pour simuler <strong>votre stratégie optimale</strong> selon votre TMI, capital disponible et objectifs. Un premier échange sans engagement avec Eric Bellaiche permet de préciser votre projet ; tout conseil personnalisé suppose le recueil préalable de votre situation.
             </p>
             <div className="flex flex-wrap gap-4">
               <a

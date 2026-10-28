@@ -11,7 +11,7 @@ const AboutUsPage: React.FC = () => {
         <div className="text-center mb-20">
           <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-4 py-2 rounded-full text-sm font-semibold mb-6">
             <Sparkles className="w-4 h-4" />
-            Intelligence Artificielle × Expertise Humaine
+            Outils d’analyse × Expertise humaine
           </div>
           <h1 className="text-5xl md:text-6xl font-black text-gray-900 dark:text-white mb-8 tracking-tight">
             Qui sommes-nous ?
@@ -36,11 +36,11 @@ const AboutUsPage: React.FC = () => {
                   </div>
 
                   <p>
-                    Nous avons créé la <span className="font-semibold text-gray-900 dark:text-white">première plateforme</span> qui fusionne la puissance de l'intelligence artificielle avec l'expertise humaine de <span className="font-semibold text-emerald-600 dark:text-emerald-400">15 années d'expérience</span>.
+                    Nous avons créé la <span className="font-semibold text-gray-900 dark:text-white">plateforme d’analyse</span> qui associe une lecture structurée des données publiées à une pratique de <span className="font-semibold text-emerald-600 dark:text-emerald-400">15 années d'expérience</span>.
                   </p>
 
                   <p>
-                    Notre comparateur intelligent analyse en temps réel <span className="font-semibold text-emerald-600 dark:text-emerald-400">63 SCPI</span> sélectionnées selon <span className="font-semibold text-emerald-600 dark:text-emerald-400">35 critères</span> pour vous offrir une clarté absolue.
+                    Notre comparateur permet de rapprocher les données publiées sur les <span className="font-semibold text-emerald-600 dark:text-emerald-400">SCPI suivies</span> sélectionnées selon <span className="font-semibold text-emerald-600 dark:text-emerald-400">35 critères</span> pour en examiner les caractéristiques et les risques.
                   </p>
 
                   <p>
@@ -106,7 +106,7 @@ const AboutUsPage: React.FC = () => {
 
                 <div className="space-y-4 text-gray-700 dark:text-gray-300 leading-relaxed">
                   <p>
-                    Expert reconnu en investissement financier et en SCPI, Éric cumule <span className="font-bold text-gray-900 dark:text-white">plus de 15 ans d'expérience</span> dans le conseil en gestion de patrimoine.
+                    Conseiller en investissements financiers — conseil non indépendant, Éric cumule <span className="font-bold text-gray-900 dark:text-white">plus de 15 ans d'expérience</span> dans le conseil en gestion de patrimoine.
                   </p>
 
                   <p>
@@ -114,7 +114,7 @@ const AboutUsPage: React.FC = () => {
                   </p>
 
                   <p>
-                    Détenteur de plusieurs certifications reconnues en finance et en gestion de patrimoine, Éric a développé une <span className="font-bold text-gray-900 dark:text-white">méthodologie d'analyse exclusive</span> alliant expertise humaine et intelligence artificielle.
+                    Détenteur de plusieurs certifications reconnues en finance et en gestion de patrimoine, Éric a développé une <span className="font-bold text-gray-900 dark:text-white">méthodologie d'analyse exclusive</span> fondée sur une lecture structurée des données publiées par les sociétés de gestion.
                   </p>
 
                   <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-xl p-5 mt-4 border border-emerald-200 dark:border-emerald-800">
@@ -200,10 +200,10 @@ const AboutUsPage: React.FC = () => {
                   <Brain className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                  Intelligence Artificielle
+                  Outils d’analyse
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                  Algorithmes d'IA avancés analysant <span className="font-bold text-blue-600">35 critères</span> quantitatifs et qualitatifs sur <span className="font-bold text-blue-600">63 SCPI</span> sélectionnées. Notre technologie identifie les meilleures opportunités et construit des portefeuilles optimisés selon votre profil.
+                  Lecture structurée de <span className="font-bold text-blue-600">35 critères</span> quantitatifs et qualitatifs sur <span className="font-bold text-blue-600">SCPI suivies</span> sélectionnées. Ces outils aident à comparer les données publiées, sans prévoir les performances ni remplacer un conseil personnalisé.
                 </p>
               </div>
             </div>
@@ -278,7 +278,7 @@ const AboutUsPage: React.FC = () => {
                 Accessibilité
               </h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Service gratuit pour tous
+                Premier échange sans engagement
               </p>
             </div>
           </div>

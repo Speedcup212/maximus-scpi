@@ -12,7 +12,7 @@ interface SEOHeadProps {
 const SEOHead: React.FC<SEOHeadProps> = ({
   title = 'MaximusSCPI — Comparateur et analyse de SCPI | CGP-CIF',
   description = 'Comparez les SCPI selon rendement, TOF, frais, capitalisation, endettement et risques. Analyses et outils par un CGP-CIF immatriculé à l’ORIAS.',
-  keywords = ['comparateur SCPI', 'meilleure SCPI 2026', 'investir SCPI', 'rendement SCPI', 'SCPI européenne', 'simulateur SCPI', 'conseil SCPI gratuit'],
+  keywords = ['comparateur SCPI', 'meilleure SCPI 2026', 'investir SCPI', 'rendement SCPI', 'SCPI européenne', 'simulateur SCPI'],
   canonical,
   schemaData,
   noIndex = false

@@ -69,7 +69,7 @@ const MethodologieDonneesPage: React.FC<MethodologieDonneesPageProps> = ({ onNav
 
           <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 mb-8 border-l-4 border-blue-600">
             <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
-              <strong>MaximusSCPI s'engage à fournir des données SCPI exactes, vérifiables et actualisées.</strong> Cette page détaille nos sources officielles, notre fréquence de mise à jour, notre process de vérification, et les limites de notre analyse. <strong>Transparence totale.</strong>
+              <strong>MaximusSCPI s'engage à fournir des données SCPI exactes, vérifiables et actualisées.</strong> Cette page détaille nos sources officielles, notre fréquence de mise à jour, notre process de vérification, et les limites de notre analyse. <strong>Présentation des sources et des limites.</strong>
             </p>
           </div>
 

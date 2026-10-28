@@ -198,7 +198,7 @@ const ScpiObjectifsHubPage: React.FC = () => {
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full">
                 <Shield className="w-5 h-5" />
-                <span>Conseil Gratuit ORIAS</span>
+                <span>Premier échange sans engagement</span>
               </div>
             </div>
           </div>

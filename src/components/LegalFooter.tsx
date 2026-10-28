@@ -31,7 +31,7 @@ const LegalFooter: React.FC = () => {
                 <Logo className="h-12 w-auto mb-3" isDarkMode={true} />
               </div>
               <p className="text-sm text-gray-400 leading-relaxed">
-                Plateforme d'analyse SCPI powered by IA pour analyser la cohérence de votre portefeuille SCPI.
+                Outils d’analyse pour examiner la cohérence de votre portefeuille SCPI.
               </p>
               <div className="mt-4 space-y-1">
                 <a href="/societes-de-gestion-scpi/" className="text-xs text-gray-500 hover:text-blue-400 transition-colors block">
@@ -63,7 +63,7 @@ const LegalFooter: React.FC = () => {
                     }}
                     className="text-gray-400 hover:text-white transition-colors"
                   >
-                    Simulateur IA
+                    Simulateur SCPI
                   </button>
                 </li>
                 <li>
@@ -222,7 +222,7 @@ const LegalFooter: React.FC = () => {
                     <strong>MaximusSCPI</strong><br />
                     Représenté par Eric Bellaiche<br />
                     Conseiller en Gestion de Patrimoine – CIF<br />
-                    CIF n°D016571
+                    Adhérent CNCEF Patrimoine n° D016571, association agréée par l’AMF
                   </p>
 
                   <h3>Hébergement</h3>

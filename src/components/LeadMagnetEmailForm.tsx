@@ -80,7 +80,7 @@ const LeadMagnetEmailForm: React.FC = () => {
     <div className="bg-white rounded-xl shadow-lg p-8">
 
       <h1 className="text-3xl font-bold mb-3 text-center leading-tight">
-        <span className="block text-emerald-700">SCPI sans frais</span>
+        <span className="block text-emerald-700">SCPI sans frais d’entrée</span>
         <span className="block text-gray-900">Iroko Zen vs Novaxia Neo :</span>
         <span className="block text-gray-900">le comparatif qui tranche</span>
       </h1>

@@ -74,7 +74,7 @@ const ExpertBanner: React.FC<ExpertBannerProps> = ({
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/50 dark:bg-gray-700/50 backdrop-blur-sm">
                 <Award className={`w-4 h-4 ${isDarkMode ? 'text-green-400' : 'text-green-600'}`} />
                 <span className={`text-xs font-semibold ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>
-                  ACPR
+                  ORIAS 13001580
                 </span>
               </div>
 

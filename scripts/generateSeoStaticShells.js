@@ -48,7 +48,7 @@ const PAGES = [
   {
     slug:'surveillance',
     title:'Surveillance SCPI : alertes, liquidité, TOF et risques | MaximusSCPI',
-    description:'Surveillez les SCPI suivies par MaximusSCPI : signaux certifiés sur le TOF, la liquidité, la valorisation, la dette et les changements structurels.',
+    description:'Surveillez les SCPI suivies par MaximusSCPI : signaux contrôlés selon la méthodologie MaximusSCPI sur le TOF, la liquidité, la valorisation, la dette et les changements structurels.',
     h1:'Surveillance SCPI : les signaux qui méritent une attention immédiate',
     intro:'MaximusSCPI priorise les variations et événements qui justifient une vérification : occupation, liquidité, valorisation, endettement et changements de régime. Les données non comparables restent neutralisées.',
     sections:[['Prioriser les vigilances','Les signaux forts remontent d’abord afin de concentrer la lecture sur les SCPI qui présentent une dégradation ou une tension documentée.'],['Respecter les régimes de liquidité','Une file de retraits, un carnet d’ordres et un changement de régime ne sont jamais mélangés dans un même indicateur.'],['Éviter les faux signaux','Les gates de certification neutralisent les périodes insuffisantes, les ruptures structurelles et les ratios non comparables.']],
@@ -118,9 +118,9 @@ const PAGES = [
   },
   {
     slug:'expertise-orias-cif', title:'Expertise ORIAS & CIF | MaximusSCPI',
-    description:'Cadre professionnel de MaximusSCPI : conseil en investissements financiers, ORIAS, devoir de conseil et transparence.',
+    description:'Eric Bellaiche, conseiller en investissements financiers — conseil non indépendant, immatriculé à l’ORIAS (n° 13001580).',
     h1:'Expertise, statut CIF et cadre ORIAS',
-    intro:'MaximusSCPI distingue l’information générale du conseil personnalisé et présente le cadre professionnel applicable.',
+    intro:'Eric Bellaiche est conseiller en investissements financiers — conseil non indépendant, immatriculé à l’ORIAS (n° 13001580). Adhérent CNCEF Patrimoine n° D016571, association agréée par l’AMF. Les contenus publics ne remplacent pas une recommandation personnalisée.',
     sections:[['Information générale','Les contenus publics ne remplacent pas une recommandation personnalisée.'],['Conseil personnalisé','Une recommandation individualisée suppose de recueillir les informations nécessaires sur le client.'],['Transparence','Statuts, rémunérations et conflits d’intérêts doivent être présentés dans le cadre applicable.']],
     links:[['/qui-sommes-nous/','Qui sommes-nous'],['/avertissements-risques-scpi/','Risques']]
   },
@@ -224,23 +224,29 @@ for (const page of PAGES) {
   fs.writeFileSync(target,html,'utf-8');
   generated++;
 }
-// Unknown /actualites/:slug/ paths return 404, while existing static news pages
-// shadow the UNFORCED guard. Preserve the SPA fallback byte-for-byte.
+// The existing React news index must remain reachable. Unknown news slugs still
+// return 404, while existing static files shadow the UNFORCED guard.
 const redirectFile = path.join(distDir, '_redirects');
 if (!fs.existsSync(redirectFile)) {
   throw new Error('Missing generated _redirects: cannot guarantee correct routing');
 }
 let rules = fs.readFileSync(redirectFile, 'utf8');
 const unknownNewsGuard = '/actualites/* /404.html 404';
+const newsIndex = '/actualites/ /index.html 200';
 const spaFallback = /^\/\*\s+\/index\.html\s+200\s*$/m;
 if (!spaFallback.test(rules)) {
   throw new Error('SPA fallback missing: refuse to ship invalid Netlify redirects');
 }
 if (!rules.split(/\r?\n/).some(line => line.trim() === unknownNewsGuard)) {
   rules = rules.replace(spaFallback, original => unknownNewsGuard + '\n' + original);
-  fs.writeFileSync(redirectFile, rules, 'utf8');
 }
+// Reposition the exact index exception idempotently, including on an old build
+// that already contains the wildcard guard.
+rules = rules.split(/\r?\n/).filter(line => line.trim() !== newsIndex).join('\n');
+rules = rules.replace(unknownNewsGuard, newsIndex + '\n' + unknownNewsGuard);
+fs.writeFileSync(redirectFile, rules, 'utf8');
 if (rules.indexOf(unknownNewsGuard) < 0 ||
+    rules.indexOf(newsIndex) > rules.indexOf(unknownNewsGuard) ||
     rules.indexOf(unknownNewsGuard) > rules.search(spaFallback)) {
   throw new Error('Unknown-news 404 must precede unchanged SPA fallback');
 }

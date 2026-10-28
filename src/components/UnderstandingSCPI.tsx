@@ -156,7 +156,7 @@ const UnderstandingSCPI: React.FC = () => {
     },
     {
       question: "Quels sont les frais associés aux SCPI ?",
-      answer: "Les SCPI comportent plusieurs types de frais : les frais de souscription (0% à 10% HT en moyenne), les frais de gestion annuels (environ 10% à 15% HT des loyers collectés), et d'éventuels frais de cession lors de la revente (généralement 5%). Ces frais sont déjà intégrés dans le calcul du rendement net. Chez MaximusSCPI, nous vous orientons vers les SCPI offrant le meilleur rapport rendement/frais et notre accompagnement est totalement gratuit pour vous."
+      answer: "Les frais varient selon les SCPI (souscription, gestion, cession), certaines ne prélevant pas de frais d’entrée. La commission de gestion est prélevée sur les loyers selon la note d’information. Les montants exacts figurent sur chaque fiche et dans la note d’information. Aucun honoraire n’est facturé en supplément pour une souscription de SCPI ; le cabinet est rémunéré par une partie des frais supportés par l’investisseur, selon le document d’entrée en relation et le rapport d’adéquation."
     },
     {
       question: "Peut-on investir en SCPI avec un crédit immobilier ?",
@@ -216,7 +216,7 @@ const UnderstandingSCPI: React.FC = () => {
     },
     {
       icon: <BadgeCheck className="w-6 h-6 text-green-600" />,
-      title: "Transparence totale",
+      title: "Présentation des frais et des sources",
       description: "Rapports trimestriels et valorisation régulière du patrimoine"
     },
     {
@@ -535,10 +535,10 @@ const UnderstandingSCPI: React.FC = () => {
         {/* CTA */}
         <div className="mt-16 text-center bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl p-8 md:p-12 text-white shadow-2xl">
           <h3 className="text-3xl md:text-4xl font-black mb-4">
-            Prêt à investir en SCPI ?
+            Besoin d’un échange ?
           </h3>
           <p className="text-xl text-green-100 mb-6 max-w-2xl mx-auto">
-            MaximusSCPI analyse les 63 SCPI du marché pour vous proposer le portefeuille optimal
+            MaximusSCPI permet une lecture structurée des SCPI suivies pour éclairer votre réflexion
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <div className="flex items-center gap-2 text-left bg-white/20 backdrop-blur-sm rounded-xl px-6 py-3">

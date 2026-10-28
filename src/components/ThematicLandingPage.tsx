@@ -280,7 +280,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
                     <ul className="space-y-2 text-sm text-gray-700">
                       <li className="flex items-start gap-2">
                         <Star className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                        <span>Conseil indépendant et personnalisé</span>
+                        <span>Conseiller en investissements financiers — conseil non indépendant</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <Clock className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
@@ -288,7 +288,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
                       </li>
                       <li className="flex items-start gap-2">
                         <FileText className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                        <span>Accompagnement gratuit de A à Z</span>
+                        <span>Premier échange sans engagement</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <Award className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
@@ -363,7 +363,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
                       1
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-gray-900">Analyse gratuite</div>
+                      <div className="text-sm font-semibold text-gray-900">Premier échange</div>
                       <div className="text-xs text-gray-600">Étude de votre profil et objectifs</div>
                     </div>
                   </div>
@@ -409,7 +409,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
                   Prendre RDV avec MaximusSCPI
                 </h2>
                 <p className="text-gray-600">
-                  Échangez avec un expert SCPI - Gratuit et sans engagement
+                  Premier échange sans engagement avec Eric Bellaiche
                 </p>
               </div>
 
@@ -526,7 +526,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
                     disabled={isSubmitting}
                     className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-green-700 hover:to-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                   >
-                    {isSubmitting ? 'Envoi en cours...' : 'Prendre rendez-vous gratuitement'}
+                    {isSubmitting ? 'Envoi en cours...' : 'Prendre rendez-vous'}
                   </button>
 
                   <div className="text-center">
@@ -747,14 +747,14 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
                 </p>
 
                 <p className="text-sm md:text-base text-gray-700 mb-4 italic leading-relaxed">
-                  "J'ai créé MaximusSCPI pour rendre l'investissement en SCPI simple, transparent et performant, même pour les débutants. Mon expertise de 15 ans combinée à l'intelligence artificielle vous garantit des recommandations personnalisées."
+                  "J’ai créé MaximusSCPI pour clarifier la cohérence d’un projet SCPI, même pour les débutants : 15 ans de pratique et une lecture structurée des données publiées, sans promesse ni décision à votre place."
                 </p>
 
                 <div className="flex flex-wrap items-center gap-3 md:gap-4">
                   <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/50 backdrop-blur-sm">
                     <Award className="w-4 h-4 text-green-600" />
                     <span className="text-xs font-semibold text-gray-700">
-                      ACPR
+                      ORIAS 13001580
                     </span>
                   </div>
 
@@ -799,7 +799,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
               <Award className="w-8 h-8 inline-block text-amber-600 mr-2" />
-              Classement Officiel Top 5 SCPI de Rendement 2026
+              Exemples de SCPI suivies — taux de distribution passés, non garantis
             </h2>
 
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
@@ -931,10 +931,10 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
       <div className="bg-gradient-to-r from-green-600 to-emerald-600 py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Prêt à investir dans les SCPI ?
+            Besoin d’un échange ?
           </h2>
           <p className="text-xl text-purple-100 mb-8 max-w-3xl mx-auto">
-            Échangez gratuitement avec Éric Bellaiche pour construire votre sélection SCPI optimale
+            Premier échange sans engagement avec Eric Bellaiche pour préciser votre projet SCPI
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <button
@@ -947,7 +947,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
               className="inline-flex items-center gap-2 bg-white text-purple-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all shadow-lg"
             >
               <MessageCircle className="w-6 h-6" />
-              Prendre rendez-vous gratuitement
+              Prendre rendez-vous
             </button>
             <button
               type="button"
@@ -1091,7 +1091,7 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
               <div className="text-xs text-gray-400 space-y-1">
                 <p>ORIAS N° <strong>13001580</strong></p>
                 <p>CNCEF Patrimoine N° <strong>D016571</strong></p>
-                <p>Sous le contrôle de l'ACPR</p>
+                <p>Adhérent CNCEF Patrimoine n° D016571, association agréée par l’AMF</p>
               </div>
             </div>
 
@@ -1117,10 +1117,10 @@ const ThematicLandingPage: React.FC<ThematicLandingPageProps> = ({
                   <strong>Durée recommandée :</strong> 8 à 10 ans minimum
                 </p>
                 <p>
-                  <strong>Frais de souscription :</strong> 8% à 12% HT
+                  <strong>Frais :</strong> variables selon les SCPI (souscription, gestion, cession), certaines ne prélevant pas de frais d’entrée.
                 </p>
                 <p>
-                  <strong>Frais de gestion :</strong> 10% à 12% HT sur les loyers
+                  Montants exacts sur chaque fiche et dans la note d’information.
                 </p>
               </div>
             </div>

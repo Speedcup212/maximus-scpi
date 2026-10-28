@@ -90,12 +90,15 @@ const formatHistoryNumber = (value, type) => {
   return new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 2 }).format(n);
 };
 
-const buildStaticHistory = (slug, name) => {
+const buildStaticHistory = (slug, name, indicatorPeriod) => {
   const rows = historyBySlug.get(slug) || [];
   if (rows.length < 2) return '';
 
   const previous = rows[rows.length - 2];
   const current = rows[rows.length - 1];
+  // Never compare a stale history snapshot with the current displayed indicators.
+  const displayedPeriod = String(indicatorPeriod || '').trim();
+  if (!displayedPeriod || String(current.source_period || '').trim() !== displayedPeriod) return '';
   const candidates = [
     ['Parts en attente', 'parts_attente_retrait', 'parts'],
     ['TOF', 'tof', 'pct'],
@@ -133,7 +136,7 @@ const buildStaticHistory = (slug, name) => {
     .sort((a, b) => Number(b.changed) - Number(a.changed))
     .slice(0, 5);
 
-  if (metrics.length === 0) return '';
+  if (!metrics.some(metric => metric.changed)) return '';
 
   const metricHtml = metrics.map((metric) => {
     const sign = metric.delta > 0 ? '+' : '';
@@ -183,7 +186,8 @@ const setScpiInitialShell = (baseHtml, scpi, slug) => {
   const cap = Number(scpi['Capitalisation (M€)']);
   const price = Number(scpi['Prix de souscription (€)']);
 
-  const historyHtml = buildStaticHistory(slug, name);
+  const indicatorPeriod = scpi['Période bulletin trimestriel'] || scpi.maximus_source_periode;
+  const historyHtml = buildStaticHistory(slug, name, indicatorPeriod);
 
   const metrics = [
     Number.isFinite(yieldValue)

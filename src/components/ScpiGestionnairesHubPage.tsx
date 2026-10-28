@@ -123,7 +123,7 @@ const ScpiGestionnairesHubPage: React.FC = () => {
           <div className="text-center">
             <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur px-4 py-2 rounded-full mb-6">
               <Award className="w-5 h-5" />
-              <span className="font-semibold">Classement Officiel 2026</span>
+              <span className="font-semibold">Repères 2026</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 leading-tight">
               Gestionnaires SCPI : Top 38 Sociétés 2026 (Encours 80 Mds€)

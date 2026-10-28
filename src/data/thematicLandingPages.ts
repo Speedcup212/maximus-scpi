@@ -56,20 +56,18 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     title: 'SCPI rendement 2026 : comparer les taux de distribution et les risques',
     metaDescription: 'Comparez les SCPI en 2026 : taux de distribution, frais, capitalisation, TOF, endettement, valeur de reconstitution et risques. Analyse MaximusSCPI.',
     heroTitle: 'Comparer les SCPI de rendement en 2026',
-    heroTitleHighlight: 'Rendements moyens de 4% à 6%',
+    heroTitleHighlight: 'Taux de distribution passés, non garantis',
     heroSubtitle: 'Le taux de distribution ne suffit pas : comparez rendement, prix de part, TOF, endettement, liquidité et qualité du patrimoine.',
     labelText: 'Comparatif MaximusSCPI - Données 2026',
     senderGroupId: 'LM_SCPI_MeilleursRendements',
     keyMetrics: [
       { value: 'Variable', label: 'Distribution passée, non garantie' },
-      { value: '61', label: 'SCPI analysées' },
-      { value: '95%+', label: 'TOF moyen' }
+      { value: 'SCPI suivies', label: 'Catalogue MaximusSCPI' },
     ],
     benefits: [
-      'Sélection rigoureuse parmi 61 SCPI suivies par MaximusSCPI',
-      'Rendements moyens de 4% à 6%',
+      'Lecture structurée des SCPI suivies par MaximusSCPI',
+      'Taux de distribution passés, non garantis',
       'Diversification géographique et sectorielle',
-      'Taux d\'occupation financier supérieur à 93%',
       'Labels ISR et investissement responsable'
     ],
     pourquoiChoisir: {
@@ -89,12 +87,12 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         {
           icon: 'globe',
           title: 'Diversification à analyser',
-          description: 'Investissements répartis sur plusieurs pays européens (France, Espagne, Allemagne, Pays-Bas) et multiples secteurs d\'activité'
+          description: 'Diversification géographique variable selon les SCPI, y compris hors zone euro (risque de change).'
         },
         {
           icon: 'leaf',
           title: 'Investissement responsable',
-          description: 'Toutes labellisées ISR (Investissement Socialement Responsable), conformes aux critères ESG et Article 8 SFDR'
+          description: 'Label ISR et classification SFDR : variables selon les SCPI, à vérifier sur chaque fiche.'
         }
       ]
     },
@@ -108,7 +106,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
             'Montant minimum : de 1 000€ à 5 000€ selon les SCPI',
             'Délai de jouissance : 4 à 6 mois en moyenne',
             'Versements : trimestriels ou mensuels',
-            'Frais de souscription : 0% à 10% selon la SCPI'
+            'Frais de souscription : variables selon la SCPI, à vérifier dans la note d’information'
           ]
         },
         {
@@ -116,8 +114,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           title: 'Performance et risques',
           points: [
             'Taux de distribution : variable selon les SCPI et les années',
-            'Taux d\'occupation moyen : 95%+',
-            'Diversification : 4 à 5 pays européens',
+            'Diversification géographique variable, avec risque de change hors zone euro',
             'Horizon recommandé : 8 à 10 ans minimum'
           ]
         },
@@ -147,12 +144,12 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Un rendement élevé peut refléter différents facteurs : SCPI récente en phase de collecte, stratégie internationale, niveau de risque immobilier ou politique de distribution. La diversification géographique et sectorielle peut réduire certains risques de concentration sans supprimer le risque de perte en capital. Pour Comète, le TOF publié au 30 juin 2026 est de 99,6%.'
       },
       {
-        question: 'Peut-on investir dans plusieurs SCPI du Top 5 ?',
+        question: 'Peut-on investir dans plusieurs de ces SCPI ?',
         answer: 'Diversifier plusieurs SCPI peut réduire la concentration sur un seul gestionnaire, secteur ou pays, sans supprimer le risque de perte en capital. La pondération doit dépendre de votre horizon, de votre fiscalité, de la liquidité recherchée et des caractéristiques de chaque SCPI.'
       },
       {
         question: 'Quels sont les frais à prévoir pour investir dans ces SCPI ?',
-        answer: 'Les frais varient selon les SCPI : Comète et Transitions Europe ont 10% de frais de souscription, Remake Live 0% (compensés par des frais de gestion plus élevés). Ajoutez environ 10-12% de frais de gestion annuels (déjà déduits du rendement affiché). Sur 10 ans, les frais d\'entrée sont amortis par les rendements élevés.'
+        answer: 'Frais : variables selon les SCPI (souscription, gestion, cession), certaines ne prélevant pas de frais d’entrée. La commission de gestion est prélevée sur les loyers selon la note d’information. Montants exacts sur chaque fiche et dans la note d’information. La durée nécessaire pour absorber les frais d’entrée dépend des distributions futures, qui ne sont pas garanties.'
       }
     ],
     temoignages: [],
@@ -536,7 +533,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
   'comparateur-scpi': {
     slug: 'comparateur-scpi',
     title: 'Comparateur SCPI 2026 : Comparez 61 SCPI (Rendement, Frais, Secteur)',
-    metaDescription: 'Comparez les meilleures SCPI en temps réel : rendements, frais, capitalisation, secteur et géographie. Outil gratuit par un conseiller certifié ORIAS.',
+    metaDescription: 'Comparez les SCPI : taux de distribution passés, frais, capitalisation, secteurs et géographie. Outils d’analyse proposés par un CIF immatriculé à l’ORIAS (n° 13001580).',
     heroTitle: 'Comparateur SCPI',
     heroTitleHighlight: '61 SCPI à comparer',
     heroSubtitle: 'Comparez les 61 SCPI suivies par MaximusSCPI avec le même référentiel',
@@ -551,7 +548,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       'Données officielles des sociétés de gestion',
       'Mise à jour régulière des performances',
       'Comparaison objective et transparente',
-      'Recommandations personnalisées gratuites'
+      'Échange sur votre projet, sans engagement'
     ],
     pourquoiChoisir: {
       title: 'Pourquoi utiliser notre comparateur ?',
@@ -606,7 +603,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
           icon: 'user-check',
           title: 'Obtenir un conseil personnalisé',
           points: [
-            'Contactez gratuitement notre expert MaximusSCPI',
+            'Prenez rendez-vous avec Eric Bellaiche',
             'Recevez une recommandation adaptée à vos objectifs',
             'Bénéficiez d\'un accompagnement dans votre investissement',
             'Sans engagement ni frais supplémentaires'
@@ -625,7 +622,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
       },
       {
         question: 'Comment choisir la meilleure SCPI ?',
-        answer: 'Il n\'y a pas de "meilleure SCPI" universelle. Le choix dépend de votre profil, vos objectifs et votre horizon d\'investissement. Notre expert peut vous conseiller gratuitement.'
+        answer: 'Il n\'y a pas de "meilleure SCPI" universelle. Le choix dépend de votre profil, vos objectifs et votre horizon d\'investissement. Un premier échange sans engagement permet de préciser votre projet.'
       }
     ],
     temoignages: [],
@@ -1055,7 +1052,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         },
         {
           icon: 'trending-up',
-          title: 'SCPI sans frais (0%)',
+          title: 'SCPI sans frais d’entrée (0%)',
           description: 'Une commission de souscription à 0 % réduit le coût d’entrée, mais d’autres frais peuvent s’appliquer. Leur niveau doit être vérifié dans la documentation de chaque SCPI.'
         },
         {
@@ -1065,17 +1062,17 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         },
         {
           icon: 'file-text',
-          title: 'Transparence totale',
+          title: 'Présentation des frais et des sources',
           description: 'L’analyse doit intégrer souscription, gestion, cession, acquisition, arbitrage éventuel et conditions de retrait à partir des documents de la SCPI.'
         }
       ]
     },
     informationsPratiques: {
-      title: 'Comparatif détaillé : SCPI sans frais VS avec frais',
+      title: 'Comparatif détaillé : SCPI sans frais d’entrée VS avec frais d’entrée',
       items: [
         {
           icon: 'file-text',
-          title: 'SCPI Sans Frais (0%)',
+          title: 'SCPI sans frais d’entrée (0%)',
           points: [
             '✅ Pas de commission de souscription lorsqu’elle est réellement fixée à 0 %',
             '✅ Coût d’entrée réduit',
@@ -1107,11 +1104,11 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
     },
     faq: [
       {
-        question: 'Quelle est la différence entre une SCPI sans frais et avec frais ?',
+        question: 'Quelle est la différence entre une SCPI sans frais d’entrée et avec frais d’entrée ?',
         answer: 'Une SCPI dite « sans frais d’entrée » affiche généralement une commission de souscription nulle. Cela ne signifie pas qu’elle est sans frais : frais de gestion, d’acquisition, de cession ou de retrait peuvent exister. Il faut comparer le coût total à partir de la note d’information.'
       },
       {
-        question: 'Les SCPI sans frais sont-elles vraiment plus avantageuses ?',
+        question: 'Les SCPI sans frais d’entrée sont-elles vraiment plus avantageuses ?',
         answer: 'Pas nécessairement. L’absence de commission de souscription est un avantage de coût à l’entrée, mais le résultat dépend du taux de distribution, des autres frais, de l’évolution du prix de part, de la fiscalité et des conditions de sortie.'
       },
       {
@@ -1119,7 +1116,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         answer: 'Il n’existe pas de durée universelle d’amortissement. Elle dépend notamment de la commission de souscription, du taux de distribution, des frais récurrents, du prix de retrait et de l’évolution de la valeur de la part. Une simulation par scénarios est préférable.'
       },
       {
-        question: 'Comment comparer les SCPI sans frais ?',
+        question: 'Comment comparer les SCPI sans frais d’entrée ?',
         answer: 'Comparez au minimum la commission de souscription, les frais de gestion, les frais liés aux acquisitions ou cessions, le taux de distribution, le TOF, l’endettement, la valeur de reconstitution, la liquidité et l’horizon recommandé.'
       },
       {
@@ -1704,7 +1701,7 @@ export const thematicLandingPages: Record<string, ThematicLandingPageData> = {
         },
         {
           icon: 'eye',
-          title: 'Transparence totale',
+          title: 'Présentation des frais et des sources',
           description: 'Communication claire et régulière, reporting détaillé, proximité avec les associés, événements et visites de patrimoine organisés'
         }
       ]

@@ -100,7 +100,7 @@ const createCoverPage = (
   // Sous-titre
   pdf.setFontSize(16);
   pdf.setFont('helvetica', 'normal');
-  pdf.text('Plateforme d\'analyse SCPI powered by IA', pageWidth / 2, 70, { align: 'center' });
+  pdf.text('Outils d\'analyse SCPI', pageWidth / 2, 70, { align: 'center' });
 
   // Titre principal
   pdf.setFontSize(36);
@@ -615,7 +615,7 @@ const createCallToActionPage = (
 
   pdf.setFontSize(14);
   pdf.setFont('helvetica', 'normal');
-  pdf.text('Plateforme d\'analyse SCPI powered by IA', pageWidth / 2, 80, { align: 'center' });
+  pdf.text('Outils d\'analyse SCPI', pageWidth / 2, 80, { align: 'center' });
 
   // Titre principal avec émojis
   pdf.setFontSize(32);
@@ -664,7 +664,7 @@ const createCallToActionPage = (
 
   pdf.setFontSize(14);
   pdf.setFont('helvetica', 'normal');
-  pdf.text('Plateforme d\'analyse SCPI powered by IA', pageWidth / 2, contactY + 35, { align: 'center' });
+  pdf.text('Outils d\'analyse SCPI', pageWidth / 2, contactY + 35, { align: 'center' });
 
   pdf.setTextColor(...colors.dark);
   pdf.setFontSize(12);

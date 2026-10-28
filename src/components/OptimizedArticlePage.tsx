@@ -165,7 +165,7 @@ const SupabaseArticlePage: React.FC<{ slug: string }> = ({ slug }) => {
         <div className="my-16 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 rounded-2xl p-8 text-center text-white shadow-2xl">
           <h2 className="text-3xl font-bold mb-4">Besoin d'un conseil personnalisé ?</h2>
           <p className="text-xl mb-6 text-blue-100 max-w-2xl mx-auto">
-            Nos conseillers certifiés ORIAS analysent votre situation et vous proposent une stratégie SCPI adaptée à votre profil.
+            Eric Bellaiche, CIF immatriculé à l’ORIAS (n° 13001580), fournit un conseil non indépendant après analyse de votre situation et de vos objectifs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

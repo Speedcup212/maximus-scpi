@@ -360,7 +360,7 @@ export const SuccessionScpiTransmissionDroitsHeritageArticle: React.FC = () => {
           <div className="bg-white/10 rounded-lg p-6 mt-6">
             <h3 className="text-xl font-bold mb-3">🎯 Besoin d'un accompagnement personnalisé ?</h3>
             <p className="mb-4">
-              Notre équipe analyse gratuitement votre situation pour vous recommander la stratégie optimale adaptée à vos objectifs.
+              Premier échange sans engagement avec Eric Bellaiche pour préciser votre projet SCPI. Un conseil personnalisé suppose le recueil préalable de votre situation et de vos objectifs.
             </p>
             <div className="flex flex-wrap gap-4">
               <a

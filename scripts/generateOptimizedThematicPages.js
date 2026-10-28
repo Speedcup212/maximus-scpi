@@ -726,11 +726,6 @@ const generateThematicHTML = (slug, pageData, resolvedScpis) => {
         "@type": "Organization",
         "name": "MaximusSCPI",
         "url": "https://maximusscpi.com"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "127"
       }
     }${faqSchemaJSON ? `,
     ${faqSchemaJSON.replace(/^,\s*/, '')}
@@ -787,7 +782,7 @@ const generateThematicHTML = (slug, pageData, resolvedScpis) => {
           ${pageData.heroSubtitle ? `<h2>${pageData.heroSubtitle}</h2>` : ''}
           ${benefitsHTML}
           <div style="margin-top:2rem">
-            <a href="#contact" class="btn btn-primary">✓ Obtenir un Conseil Gratuit</a>
+            <a href="#contact" class="btn btn-primary">Prendre rendez-vous</a>
           </div>
         </div>
       </div>
@@ -816,18 +811,18 @@ const generateThematicHTML = (slug, pageData, resolvedScpis) => {
 
     <!-- CTA Section -->
     <section class="cta-section" id="contact">
-      <h3>Prêt à investir ?</h3>
-      <p>Eric Bellaiche vous rappelle gratuitement sous 24h</p>
+      <h3>Besoin d’un échange ?</h3>
+      <p>Eric Bellaiche vous propose un premier échange sans engagement</p>
       <a
         href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi"
         class="btn btn-white"
         style="font-size:1.25rem;padding:1.25rem 3rem"
         rel="noopener"
       >
-        📞 Prendre Rendez-vous Gratuit
+        📞 Prendre rendez-vous
       </a>
       <p style="margin-top:1.5rem;font-size:1rem;opacity:0.95">
-        Sans engagement • Conseiller certifié ORIAS • Réponse sous 24h
+        Sans engagement • Conseiller immatriculé à l’ORIAS (n° 13001580) • Réponse sous 24h
       </p>
     </section>
 
@@ -1081,11 +1076,6 @@ const generateSocietyHTML = (slug, content, resolvedScpis) => {
         "@type": "Organization",
         "name": "MaximusSCPI",
         "url": "https://maximusscpi.com"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "127"
       }
     }${faqSchemaJSON ? `,
     ${faqSchemaJSON.replace(/^,\s*/, '')}
@@ -1189,10 +1179,10 @@ const generateSocietyHTML = (slug, content, resolvedScpis) => {
         style="font-size:1.25rem;padding:1.25rem 3rem"
         rel="noopener"
       >
-        📞 Prendre Rendez-vous Gratuit
+        📞 Prendre rendez-vous
       </a>
       <p style="margin-top:1.5rem;font-size:1rem;opacity:0.95">
-        Sans engagement • Conseiller certifié ORIAS • Réponse sous 24h
+        Sans engagement • Conseiller immatriculé à l’ORIAS (n° 13001580) • Réponse sous 24h
       </p>
     </section>
 

@@ -134,7 +134,7 @@ export const fraisScpiConfig: ScpiEducationalPageConfig = {
       answer: 'Ils ne sont pas remboursés à la revente. Ils s\'amortissent sur la durée de détention : plus l\'horizon est long, moins leur impact relatif est important sur le rendement net annuel.',
     },
     {
-      question: 'Les SCPI sans frais sont-elles toujours meilleures ?',
+      question: 'Les SCPI sans frais d’entrée sont-elles toujours meilleures ?',
       answer: 'Non. Des frais réduits ou nuls peuvent être compensés par des frais de gestion plus élevés, un TOF plus faible ou un rendement moins régulier. L\'absence de frais n\'est pas un gage de qualité.',
     },
     {

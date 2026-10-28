@@ -8,6 +8,9 @@ import { fileURLToPath } from 'node:url';
 import { getVerifiedScpiNews, buildScpiEditorialNews } from '../src/utils/scpiNewsRecord.mjs';
 import { filterDocumentedNonLiquidityWarnings } from '../src/utils/scpiLiquidityText.mjs';
 import { build } from 'esbuild';
+// Keep the history regression in the existing SEO CI command.
+import './test-static-scpi-history.mjs';
+import './test-editorial-browser.mjs';
 
 const repository = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const news = { status: 'verified', text: 'Collecte documentée au T3 2025.', period: '2025-T3', document_date: '2025-10-24', source_document: 'Bulletin T3 2025', source_url: 'https://example.com/bulletin-2025-t3.pdf' };
@@ -148,9 +151,17 @@ test('Vite head entry produces dedicated SCPI roots and analyses HTML with sourc
     const redirectsPath = path.join(fixture, 'dist/_redirects');
     const rules = fs.readFileSync(redirectsPath, 'utf8');
     const unknownNewsGuard = '/actualites/* /404.html 404';
+    const newsIndex = '/actualites/ /index.html 200';
+    assert.equal(rules.split(/\r?\n/).filter(x => x.trim() === newsIndex).length, 1);
     assert.equal(rules.split(/\r?\n/).filter(x => x.trim() === unknownNewsGuard).length, 1);
     assert.equal(rules.split(/\r?\n/).filter(x => x.trim() === spaRedirect).length, 1);
     assert.ok(rules.indexOf(unknownNewsGuard) < rules.indexOf(spaRedirect));
+    assert.ok(rules.indexOf(newsIndex) < rules.indexOf(unknownNewsGuard));
+    const resolveNews = url => rules.split(/\r?\n/).find(line =>
+      line.trim() === newsIndex && url === '/actualites/' ||
+      line.trim() === unknownNewsGuard && url.startsWith('/actualites/'));
+    assert.equal(resolveNews('/actualites/'), newsIndex);
+    assert.equal(resolveNews('/actualites/slug-inconnu/'), unknownNewsGuard);
     assert.doesNotMatch(rules, /console\.log|generated|skipped|Rattrapage SEO/);
     execFileSync(process.execPath, [path.join(fixture, 'scripts/generateSeoStaticShells.js')], { cwd: fixture });
     assert.equal(fs.readFileSync(redirectsPath, 'utf8'), rules, 'rerun must not duplicate the news guard');
@@ -158,7 +169,8 @@ test('Vite head entry produces dedicated SCPI roots and analyses HTML with sourc
     assert.match(transitions, /<h1>SCPI Transitions Europe : analyse, indicateurs et risques<\/h1>/);
     assert.doesNotMatch(transitions, /135 M€|Testez\. Comparez\. Décidez\.|\\n/);
     assert.doesNotMatch(transitions, /10,2 % de parts|suspendu depuis/);
-    assert.match(transitions, /Résumé en attente de vérification documentaire/);
+    assert.doesNotMatch(transitions, /Résumé en attente de vérification documentaire|Confiance donnée/);
+    assert.doesNotMatch(transitions, /class="static-quarterly"/);
     assert.doesNotMatch(transitions, /<span>Parts en attente<\/span>|<span>Prix de retrait<\/span>/);
     assert.match(transitions, /<span>TOF<\/span>/);
     assert.match(transitions, /type="module" src="\/assets\/app\.js"/);
