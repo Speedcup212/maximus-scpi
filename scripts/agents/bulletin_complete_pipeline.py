@@ -133,7 +133,9 @@ def resolve_source(item, downloaded, out):
         initial={'url':item['source_url'],'data':pathlib.Path(downloaded['path']).read_bytes()}
     resolution=source_resolver.resolve(item,initial,fetch,verify)
     resolution['resolver_version']=source_resolver.VERSION
-    save_json(out/'source-resolution'/(item['id']+'.json'),resolution)
+    resolution.update(document_key=item['document_key'],scpi_slug=item['scpi_slug'],period=item['period'])
+    report_name=hashlib.sha256(item['document_key'].encode()).hexdigest()+'.json'
+    save_json(out/'source-resolution'/report_name,resolution)
     result={k:v for k,v in downloaded.items() if k!='path'}
     result.update(parser_version=VERSION,source_resolution=resolution,metrics={},evidence={},
                   field_coverage={},processing_complete=False,financial_complete=False)

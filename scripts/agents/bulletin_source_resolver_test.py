@@ -51,6 +51,16 @@ class PublisherSourceTests(unittest.TestCase):
             return (b'<a href="/issue.pdf">Bulletin T2 2026</a>' if url.endswith('/docs') else b'%PDF verified',url)
         self.assertTrue(resolver.resolve(item,None,fetch,lambda data:True)['matched'])
 
+    def test_product_page_follows_documentation_hub_and_issue_wrapper(self):
+        item={'source_url':'https://issuer.fr/fund','period':'2026-T2'}
+        bodies={'https://issuer.fr/documentation/':b'<a href="/document/bulletin-t2-2026">Bulletin T2 2026</a>',
+                'https://issuer.fr/document/bulletin-t2-2026':b'<a href="/issue.pdf">Download bulletin</a>',
+                'https://issuer.fr/issue.pdf':b'%PDF verified'}
+        initial={'url':item['source_url'],'data':b'<a href="/documentation/">Toute la documentation et les archives</a>'}
+        result=resolver.resolve(item,initial,lambda url:(bodies[url],url),lambda data:True)
+        self.assertTrue(result['matched'])
+        self.assertEqual(result['source_url'],'https://issuer.fr/issue.pdf')
+
     def test_access_challenge_remains_an_explicit_source_failure(self):
         page={'url':'https://issuer.fr/docs','data':b'<title>Access denied</title><a href="fake.pdf">Bulletin T2 2026</a>'}
         fetch=mock.Mock()
@@ -74,6 +84,10 @@ class PublisherSourceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as root:
             path=pathlib.Path(root)/'source';path.write_bytes(b'<h1>Documentation Fund</h1>')
             result=replay.resolve_source(item,{'status':'downloaded','kind':'html','path':str(path)},pathlib.Path(root))
+            reports=list((pathlib.Path(root)/'source-resolution').glob('*.json'))
+            self.assertEqual(len(reports),1);self.assertNotIn(':',reports[0].name)
+            import json
+            self.assertEqual(json.loads(reports[0].read_text())['document_key'],'ref:example')
         self.assertEqual(result['status'],'source_reference_review')
         self.assertEqual(result['metrics'],{});self.assertFalse(result['financial_complete']);self.assertFalse(result['processing_complete'])
 
