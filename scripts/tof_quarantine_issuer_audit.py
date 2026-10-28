@@ -794,11 +794,24 @@ def analyze(row):
                 if ASPIM.search(direct): aspim.append(item)
                 else: plain.append(item)
         targeted={
-          ("buroboutic-metropoles","2026-T1"):[2,4],
-          ("buroboutic-metropoles","2026-T2"):[2,4],
-          ("cristal-rente","2026-T2"):[3],
-          ("atream-hotel","2026-T2"):[5],
-          ("novapierre-1","2024-T4"):[1,4,5],
+          ("aestiam-agora","2024-T2"):[1,2],
+          ("aestiam-agora","2024-T4"):[1,2],
+          ("aestiam-agora","2025-T2"):[1,2],
+          ("aestiam-agora","2025-T3"):[1,2],
+          ("aestiam-horizon","2023-T1"):[1,2],
+          ("aestiam-horizon","2023-T2"):[1,2],
+          ("aestiam-horizon","2023-T4"):[1,2],
+          ("aestiam-horizon","2024-T4"):[1,2],
+          ("aestiam-horizon","2025-T2"):[1,2],
+          ("aestiam-horizon","2025-T3"):[1,2],
+          ("cristal-life","2024-T3"):[3],
+          ("cristal-life","2025-T2"):[3],
+          ("novapierre-residentiel","2022-T1"):[1,4],
+          ("novapierre-residentiel","2024-T2"):[1,4],
+          ("novapierre-residentiel","2024-T3"):[1,4],
+          ("novapierre-residentiel","2024-T4"):[1,4],
+          ("novapierre-residentiel","2025-T2"):[1,4],
+          ("paref-hexa","2025-T2"):[1,4,5],
         }
         details=[{"page":n,"text":pdf[n-1].get_text("text",sort=True)[:16000]}
                  for n in targeted.get((row["scpi_slug"],row["source_period"]),[])
