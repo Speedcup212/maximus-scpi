@@ -65,3 +65,25 @@ jobs:
             test-results/bulletin-replay-${{ matrix.slot }}/source-resolution/*.json
           if-no-files-found: ignore
       # No readiness override, public release, marketing or Netlify deployment.
+
+  source-access-proof:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Read-only official publisher access and certificate proof
+        run: python scripts/agents/bulletin_source_resolver_probe.py --registry data-import/scpi_archive_sources_20261028.json --out test-results/source-access
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: source-access-${{ github.run_id }}-${{ github.run_attempt }}
+          path: test-results/source-access/
+          if-no-files-found: error
