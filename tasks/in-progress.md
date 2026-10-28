@@ -112,3 +112,17 @@ ni publication n'est déduite d'un workflow vert.
 PR #217 fusionné après CI complète PASS ; replay main `40704515532` actif.
 Second correctif ciblé : lecture service_role de l'audit privé TOF, migration
 `20261028142132`, contrôle de non-recertification automatique avec ROLLBACK PASS.
+
+Clôture de la suite technique du 28/10 : PR #217, #224 et #225 fusionnés ;
+replay main `40708808846` PASS 4/4, quatre artefacts téléchargés et SHA vérifiés,
+preflight réel service_role PASS pour 65 SCPI. Build complet et contrôles
+Chromium main `40708808881` PASS. Cron trois fois par jour sur main.
+Les 201 erreurs et 515 HTML initiaux ont tous un résultat explicite.
+État final 15:02 UTC : 834 références intégralement lues (+90), 185 erreurs
+d'accès, 434 références de source à vérifier, 148 revues documentaires,
+12 contrôles canoniques bloquants et 1 accès privé exclu ; zéro permission,
+extraction ou archivage en erreur, zéro élément immédiatement éligible.
+Les trois actions techniques sont clôturées. L'archive globale et la validation
+financière restent ouvertes sur ces exceptions : aucun 100 % financier annoncé.
+Preuves et inventaire : reports/trajectory/RECOVERY-009-20261027.md et
+reports/trajectory/RECOVERY-009-20261028-final-audit.json.

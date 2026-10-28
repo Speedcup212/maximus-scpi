@@ -1,0 +1,266 @@
+{
+  "cohort": 65,
+  "health": {
+    "statuses": {
+      "extracted": 674,
+      "fetch_error": 185,
+      "source_access_blocked": 1,
+      "canonical_guard_review": 12,
+      "extracted_needs_review": 148,
+      "source_reference_review": 434,
+      "source_reference_resolved": 24
+    },
+    "checked_at": "2026-10-28T15:02:13.274478+00:00",
+    "fully_read": 834,
+    "eligible_now": 0,
+    "enabled_scpi": 65,
+    "effective_role": "postgres",
+    "permissions_ok": true,
+    "financially_complete": 0
+  },
+  "storage": {
+    "objects": 223,
+    "new_objects_since_first_pass": 137
+  },
+  "checked_at": "2026-10-28T15:02:13.274478+00:00",
+  "all_documents": {
+    "fully_read": 834,
+    "references": 1478,
+    "archived_paths": 156,
+    "archive_failures": 0,
+    "financially_complete": 0,
+    "unique_pdf_hashes_read": 767,
+    "verified_fund_issue_pdf_hashes": 682,
+    "scpi_processed_since_first_pass": 57
+  },
+  "initial_716_outcomes": [
+    {
+      "scpi": 6,
+      "status": "extracted",
+      "fully_read": 15,
+      "processed_v2": 0,
+      "resolved_pdf": 0,
+      "initial_status": "fetch_error",
+      "reference_count": 15
+    },
+    {
+      "scpi": 12,
+      "status": "fetch_error",
+      "fully_read": 0,
+      "processed_v2": 185,
+      "resolved_pdf": 0,
+      "initial_status": "fetch_error",
+      "reference_count": 185
+    },
+    {
+      "scpi": 1,
+      "status": "source_access_blocked",
+      "fully_read": 0,
+      "processed_v2": 0,
+      "resolved_pdf": 0,
+      "initial_status": "fetch_error",
+      "reference_count": 1
+    },
+    {
+      "scpi": 5,
+      "status": "extracted",
+      "fully_read": 55,
+      "processed_v2": 5,
+      "resolved_pdf": 0,
+      "initial_status": "html_pending_semantic_extraction",
+      "reference_count": 55
+    },
+    {
+      "scpi": 2,
+      "status": "extracted_needs_review",
+      "fully_read": 5,
+      "processed_v2": 5,
+      "resolved_pdf": 0,
+      "initial_status": "html_pending_semantic_extraction",
+      "reference_count": 5
+    },
+    {
+      "scpi": 10,
+      "status": "source_reference_resolved",
+      "fully_read": 0,
+      "processed_v2": 0,
+      "resolved_pdf": 21,
+      "initial_status": "html_pending_semantic_extraction",
+      "reference_count": 21
+    },
+    {
+      "scpi": 27,
+      "status": "source_reference_review",
+      "fully_read": 0,
+      "processed_v2": 434,
+      "resolved_pdf": 0,
+      "initial_status": "html_pending_semantic_extraction",
+      "reference_count": 434
+    }
+  ],
+  "remaining_fetch_errors": [
+    {
+      "errors": [
+        "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
+      ],
+      "scpi_slug": "sofiprime",
+      "reference_count": 50
+    },
+    {
+      "errors": [
+        "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
+      ],
+      "scpi_slug": "efimmo-1",
+      "reference_count": 33
+    },
+    {
+      "errors": [
+        "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
+      ],
+      "scpi_slug": "immorente",
+      "reference_count": 33
+    },
+    {
+      "errors": [
+        "HTTPError: HTTP Error 503: Service Temporarily Unavailable"
+      ],
+      "scpi_slug": "rivoli-avenir-patrimoine",
+      "reference_count": 32
+    },
+    {
+      "errors": [
+        "HTTPError: HTTP Error 503: Service Temporarily Unavailable"
+      ],
+      "scpi_slug": "edissimo",
+      "reference_count": 19
+    },
+    {
+      "errors": [
+        "HTTPError: HTTP Error 403: Forbidden"
+      ],
+      "scpi_slug": "epargne-pierre",
+      "reference_count": 4
+    },
+    {
+      "errors": [
+        "HTTPError: HTTP Error 403: Forbidden",
+        "HTTPError: HTTP Error 404: Not Found"
+      ],
+      "scpi_slug": "perial-o2",
+      "reference_count": 4
+    },
+    {
+      "errors": [
+        "HTTPError: HTTP Error 403: Forbidden"
+      ],
+      "scpi_slug": "praemia-hotels-europe",
+      "reference_count": 4
+    },
+    {
+      "errors": [
+        "HTTPError: HTTP Error 404: Not Found"
+      ],
+      "scpi_slug": "novaxia-neo",
+      "reference_count": 2
+    },
+    {
+      "errors": [
+        "HTTPError: HTTP Error 403: Forbidden"
+      ],
+      "scpi_slug": "patrimmo-commerce",
+      "reference_count": 2
+    },
+    {
+      "errors": [
+        "HTTPError: HTTP Error 404: Not Found"
+      ],
+      "scpi_slug": "kyaneos-pierre",
+      "reference_count": 1
+    },
+    {
+      "errors": [
+        "HTTPError: HTTP Error 403: Forbidden"
+      ],
+      "scpi_slug": "selectipierre-2",
+      "reference_count": 1
+    }
+  ],
+  "remaining_guard_reviews": [
+    {
+      "error": "duplicate key value violates unique constraint \"uq_pdf_sha256\"",
+      "reference_count": 3
+    },
+    {
+      "error": "SCPI_HISTORY_QA_BLOCK [corum-xl] capitalisation incohérente: cap 1500, implicite 1955.4730650000000000",
+      "reference_count": 1
+    },
+    {
+      "error": "SCPI_HISTORY_QA_BLOCK [corum-origin] capitalisation incohérente: cap 2300, implicite 3083.1174050000000000",
+      "reference_count": 1
+    },
+    {
+      "error": "SCPI_HISTORY_QA_BLOCK [corum-origin] capitalisation incohérente: cap 2400, implicite 3162.7387900000000000",
+      "reference_count": 1
+    },
+    {
+      "error": "SCPI_HISTORY_QA_BLOCK [corum-xl] capitalisation incohérente: cap 1, implicite 1919.3502900000000000",
+      "reference_count": 1
+    },
+    {
+      "error": "SCPI_HISTORY_QA_BLOCK [corum-origin] retraits en attente > parts totales",
+      "reference_count": 1
+    },
+    {
+      "error": "SCPI_HISTORY_QA_BLOCK [corum-origin] capitalisation incohérente: cap 2, implicite 2939.8452200000000000",
+      "reference_count": 1
+    },
+    {
+      "error": "SCPI_HISTORY_QA_BLOCK [corum-origin] capitalisation incohérente: cap 2300, implicite 3007.9906200000000000",
+      "reference_count": 1
+    },
+    {
+      "error": "SCPI_HISTORY_QA_BLOCK [corum-xl] capitalisation incohérente: cap 1600, implicite 2016.7428450000000000",
+      "reference_count": 1
+    },
+    {
+      "error": "SCPI_HISTORY_QA_BLOCK [corum-xl] capitalisation incohérente: cap 1500, implicite 1988.5550100000000000",
+      "reference_count": 1
+    }
+  ],
+  "remaining_permission_errors": 0,
+  "baseline": {
+    "fully_read": 744,
+    "fetch_error": 201,
+    "html_pending_semantic_extraction": 515
+  },
+  "main_sha": "f604169635e4303b4e65123fe5f735343c80a1d5",
+  "replay_run_url": "https://github.com/Speedcup212/maximus-scpi/actions/runs/40708808846",
+  "build_run_url": "https://github.com/Speedcup212/maximus-scpi/actions/runs/40708808881",
+  "artifact_digest_verification": "downloaded_each_zip_and_matched_github_sha256",
+  "artifacts": [
+    {
+      "id": 12827075669,
+      "name": "bulletin-replay-40708808846-1-1",
+      "digest": "sha256:99ea4caa05018c17422d07477c11843bcae23563ac542f2812880ab6e3ce0150",
+      "size_in_bytes": 252819
+    },
+    {
+      "id": 12826047375,
+      "name": "bulletin-replay-40708808846-1-2",
+      "digest": "sha256:6fa7501629dc1b0a27935525873f5e208b3e26d98692210a156dca8c7959bbaf",
+      "size_in_bytes": 274018
+    },
+    {
+      "id": 12826396670,
+      "name": "bulletin-replay-40708808846-1-3",
+      "digest": "sha256:8cd03e42205456b046dbf17bb20722c8ca95550fd4e26d23a52861f61fd6f278",
+      "size_in_bytes": 237411
+    },
+    {
+      "id": 12826248575,
+      "name": "bulletin-replay-40708808846-1-4",
+      "digest": "sha256:bd815d471a2fd33450806d6e4d97e909ce4fa0ef4ee2cade6557f33470d9ced6",
+      "size_in_bytes": 332696
+    }
+  ]
+}
