@@ -63,6 +63,7 @@ scripts/generateOptimizedThematicPages.js
 scripts/generateSeoStaticShells.js
 scripts/generateStaticPages.js
 scripts/test-execution-seo.mjs
+scripts/test-editorial-browser.mjs
 scripts/test-static-scpi-history.mjs
 src/App.tsx
 src/SurveillanceApp.tsx
@@ -136,6 +137,11 @@ du JSON-LD documenté dans le rapport. Le build standard est bloqué par tsx
 (IPC EPERM) ; Chromium est bloqué par socket() EPERM, donc le gate de
 pré-rendu / profondeur des articles reste à valider dans la CI. Aucun secret
 Supabase n'a été inventé ; aucun contrôle financier distant n'est revendiqué.
+
+Le test SEO existant déclenche aussi le contrôle Chromium des neuf routes en CI
+(ou RUN_EDITORIAL_BROWSER=true). Les réponses FAQ sont effectivement ouvertes,
+les erreurs React et les notes structurées sont contrôlées. La preuve JSON est
+incluse dans l'artefact CI scpi-existing-browser déjà prévu par le dépôt.
 
 Statut : correctif implémenté, PR vers main à examiner, sans merge ni
 déploiement. Gate navigateur/build complet requis avant fusion. Clôture

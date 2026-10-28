@@ -10,6 +10,7 @@ import { filterDocumentedNonLiquidityWarnings } from '../src/utils/scpiLiquidity
 import { build } from 'esbuild';
 // Keep the history regression in the existing SEO CI command.
 import './test-static-scpi-history.mjs';
+import './test-editorial-browser.mjs';
 
 const repository = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const news = { status: 'verified', text: 'Collecte documentée au T3 2025.', period: '2025-T3', document_date: '2025-10-24', source_document: 'Bulletin T3 2025', source_url: 'https://example.com/bulletin-2025-t3.pdf' };
