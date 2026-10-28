@@ -46,6 +46,10 @@ const USER_AGENT =
 const BULLETIN_WORDS =
   /(bulletin|trimestriel|trimestrielle|information\s+trimestrielle|bulletin\s+d['’]?information|\bbt\b)/i;
 
+// Cabinet rule: a labelled "TOF ASPIM" cannot be used as MaximusSCPI TOF.
+const FORBIDDEN_TOF_ASPIM_LABEL =
+  /\bTOF\s+(?:financier\s+)?ASPIM\b|\btaux\s+d['’]?occupation\s+financier\s+ASPIM\b/i;
+
 const EXCLUDED_DOCUMENTS =
   /(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|document[-_\s]+pr[eé]contractuel|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|code[-_\s]+de[-_\s]+transparence)/i;
 
@@ -680,6 +684,34 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
       };
     }
 
+    // An accepted host must come from this SCPI's own issuer connector.
+    // A third-party copy is never sufficient, even if it embeds the real PDF.
+    const { data: sourceConnector, error: sourceConnectorError } = await client
+      .from('scpi_source_connectors')
+      .select('allowed_hosts')
+      .eq('scpi_slug', source.scpi_slug)
+      .maybeSingle();
+    if (sourceConnectorError) throw new Error('Issuer host registry: ' + sourceConnectorError.message);
+    const approvedHosts = (sourceConnector?.allowed_hosts || []) as string[];
+    let candidateHost = '';
+    try { candidateHost = new URL(candidate.pdfUrl).hostname.toLowerCase(); } catch { /* QA gate below */ }
+    if (!approvedHosts.includes(candidateHost)) {
+      const reason = 'Bulletin TOF interdit : hôte non officiel de la SCPI (' + candidateHost + ')';
+      await updateRegistry(client, source.scpi_slug, {
+        verification_status: 'manual_review_required',
+        confidence_level: 'low',
+        last_error: reason,
+        next_check_at: futureIso(24),
+      });
+      await finishEvent(client, eventId, {
+        status: 'needs_review',
+        step: 'issuer_host_gate',
+        bulletin_url: candidate.pdfUrl,
+        message: reason,
+      });
+      return { status: 'needs_review', scpi_slug: source.scpi_slug, message: reason };
+    }
+
     const buffer = await fetchPdf(candidate.pdfUrl);
     const sha256 = createHash('sha256').update(buffer).digest('hex');
 
@@ -687,6 +719,7 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
       .from('scpi_bulletins')
       .select('id,period,pdf_sha256,extraction_json')
       .eq('pdf_sha256', sha256)
+      .eq('scpi_slug', source.scpi_slug)
       .maybeSingle();
 
     if (existingByHash?.id && existingByHash.extraction_json) {
@@ -723,6 +756,7 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
       throw new Error('Texte PDF insuffisant pour une extraction fiable.');
     }
 
+    const forbiddenAspimTof = FORBIDDEN_TOF_ASPIM_LABEL.test(text);
     const extraction = extractFromText(text);
     const qa = runQa(toExtractedMetrics(extraction));
     const periodFromPdf = parsePeriod(
@@ -758,6 +792,7 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
     const storagePath = `${source.scpi_slug}/${period}/${sha256}.pdf`;
 
     const rawPatch = buildIndicatorPatch(extraction);
+    if (forbiddenAspimTof) delete rawPatch.tof;
     const { data: current } = await client
       .from('scpi_indicators')
       .select('*')
@@ -768,6 +803,7 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
       rawPatch,
       (current as Record<string, unknown> | null) || null
     );
+    if (forbiddenAspimTof) rejected.push('tof: TOF ASPIM interdit, aucune substitution au TOF du bulletin');
 
     const metricsCount = Object.keys(accepted).filter(
       (key) => !['repartition_sectorielle', 'repartition_geographique'].includes(key)
@@ -819,7 +855,7 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
 
     if (bulletinError) throw new Error(`Bulletin DB: ${bulletinError.message}`);
 
-    if (metricsCount >= 2) {
+    if (metricsCount >= 2 && rejected.length === 0) {
       const merged = {
         ...(current || {}),
         ...accepted,
