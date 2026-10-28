@@ -58,8 +58,8 @@ def extract(pages,wordpages,widths,period):
    if len(set(amounts))==1:add('distribution_par_part',float(amounts[0].replace(',','.')),page,'Dividende BRUT TRIMESTRIEL : '+txt)
   for x0,y0,x1,y1 in labels(words,'Capitalisation'):
    seen.add('capitalisation');txt=box(words,(x0-12,y0-45,min(x0+width*.29,width),y0+2))
-   matches=re.findall(r'(\d+(?:[,.]\d+)?)\s*(million|milliard)',norm(txt))
-   if len(matches)==1:add('capitalisation',float(matches[0][0].replace(',','.'))*(1000 if matches[0][1]=='milliard' else 1),page,'Capitalisation en prix de souscription : '+txt)
+   matches=re.findall(r'(\d+(?:[ \u00a0\u202f]\d{3})*(?:[,.]\d+)?)\s*(million|milliard)',norm(txt))
+   if len(matches)==1:add('capitalisation',float(re.sub(r'\s','',matches[0][0]).replace(',','.'))*(1000 if matches[0][1]=='milliard' else 1),page,'Capitalisation en prix de souscription : '+txt)
   for k,label in [('nombre_immeubles',"Nombre d’immeubles"),('nombre_locataires','Nombre de locataires')]:
    for x0,y0,x1,y1 in labels(words,label):
     seen.add(k);txt=box(words,(x0-8,y0-50,x1+8,y0+1));v=nums(txt)
