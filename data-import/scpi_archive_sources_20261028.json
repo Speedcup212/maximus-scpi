@@ -354,6 +354,16 @@
       "scpi_slug": "novaxia-neo",
       "label": "registered_s3_raw_plus",
       "url": "https://novaxia-invest.s3.eu-west-3.amazonaws.com/NEO/Bulletin_trimestriel/BULLETIN_NEO_1T+2023.pdf"
+    },
+    {
+      "scpi_slug": "edissimo",
+      "label": "primary_pdf_raw_path",
+      "url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_68547a04-1780-4e43-8b5c-b2a3b2e8bc7f"
+    },
+    {
+      "scpi_slug": "edissimo",
+      "label": "primary_pdf_encoded_path",
+      "url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz%3A%3AsfForwardFront%3A%3AparamsList%3Dservice%3DProxyGedApi%26routeId%3D_dl_68547a04-1780-4e43-8b5c-b2a3b2e8bc7f"
     }
   ]
 }

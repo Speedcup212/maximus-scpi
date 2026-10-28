@@ -22,8 +22,8 @@ def request_url(url):
     # Preserve the semantics of an existing URL. In particular an S3 raw "+"
     # must not become "%2B" (a different key), and query "+" must stay unchanged.
     return urllib.parse.urlunsplit((parts.scheme, parts.netloc,
-        urllib.parse.quote(parts.path, safe='/%:@+'),
-        urllib.parse.quote(parts.query, safe='=&%:/?@+'), ''))
+        urllib.parse.quote(parts.path, safe="/%:@!$&'()*+,;="),
+        urllib.parse.quote(parts.query, safe="=&%:/?@!$'()*+,;[]"), ''))
 
 def curl_fetch(url, target, validate):
     """An independent standard HTTPS client; inspect every redirect ourselves."""

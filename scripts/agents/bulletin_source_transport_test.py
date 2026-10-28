@@ -10,6 +10,10 @@ class SourceTransportTests(unittest.TestCase):
         self.assertEqual(transport.request_url(raw),raw)
         self.assertEqual(transport.request_url('https://issuer.fr/un fichier.pdf'),'https://issuer.fr/un%20fichier.pdf')
 
+    def test_amundi_path_parameters_are_preserved(self):
+        raw='https://issuer.fr/ezjscore/call/buzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_document'
+        self.assertEqual(transport.request_url(raw),raw)
+
     def test_intermediate_never_enables_partial_chain_trust(self):
         context=transport.ssl_context()
         self.assertEqual(context.verify_mode,ssl.CERT_REQUIRED)
