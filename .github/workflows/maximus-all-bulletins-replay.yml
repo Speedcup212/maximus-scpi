@@ -9,6 +9,8 @@ on:
       - scripts/agents/bulletin_complete_pipeline*
       - scripts/agents/bulletin_fields.py
       - scripts/agents/bulletin_source_resolver*
+      - scripts/agents/bulletin_source_transport*
+      - scripts/agents/certificates/**
       - supabase/functions/scpi-bulletin-replay-oidc/**
       - .github/workflows/maximus-all-bulletins-replay.yml
   pull_request:
@@ -16,6 +18,8 @@ on:
       - scripts/agents/bulletin_complete_pipeline*
       - scripts/agents/bulletin_fields.py
       - scripts/agents/bulletin_source_resolver*
+      - scripts/agents/bulletin_source_transport*
+      - scripts/agents/certificates/**
       - supabase/functions/scpi-bulletin-replay-oidc/**
       - .github/workflows/maximus-all-bulletins-replay.yml
 permissions:
@@ -79,6 +83,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Verify issuer intermediate against existing system roots
+        run: openssl verify scripts/agents/certificates/tbs-rsa-organization-validation-ca4.pem
       - name: Read-only official publisher access and certificate proof
         run: python scripts/agents/bulletin_source_resolver_probe.py --registry data-import/scpi_archive_sources_20261028.json --out test-results/source-access
       - uses: actions/upload-artifact@v4

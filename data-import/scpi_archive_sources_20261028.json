@@ -349,6 +349,11 @@
       "scpi_slug": "sofiprime",
       "label": "issuer_fund",
       "url": "https://www.sofidy.com/solutions/sofiprime/"
+    },
+    {
+      "scpi_slug": "novaxia-neo",
+      "label": "registered_s3_raw_plus",
+      "url": "https://novaxia-invest.s3.eu-west-3.amazonaws.com/NEO/Bulletin_trimestriel/BULLETIN_NEO_1T+2023.pdf"
     }
   ]
 }
