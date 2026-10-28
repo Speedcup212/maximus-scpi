@@ -94,8 +94,8 @@ DOCS = [
   }
 ]
 ISSUER_HOSTS = {"corum-origin":{"www.corum.fr","corum.fr"},"corum-eurion":{"www.corum.fr","corum.fr"},"corum-xl":{"www.corum.fr","corum.fr"},"aestiam-horizon":{"www.aestiam.com","aestiam.com"}}
-RE = re.compile(r"(?i)(?:\\bTOF\\b|taux\\s+d[’'\\u0027]?occupation\\s+financier)")
-PCT = re.compile(r"(?<![0-9])(?:[0-9]{1,3}(?:[.,][0-9]{1,3})?)\\s*%")
+RE = re.compile(r"(?i)(?:\bTOF\b|taux\s+d[’'\u0027]?occupation\s+financier)")
+PCT = re.compile(r"(?<![0-9])(?:[0-9]{1,3}(?:[.,][0-9]{1,3})?)\s*%")
 def audit(doc):
     from urllib.parse import urlparse
     host = urlparse(doc["source_url"]).hostname
