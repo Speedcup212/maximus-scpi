@@ -1,0 +1,42 @@
+name: SCPI issuer archive inventory proof
+on:
+  pull_request:
+    paths:
+      - scripts/agents/bulletin_archive_inventory.py
+      - scripts/agents/bulletin_document_periods.py
+      - data-import/scpi_archive_inventory_20261028.json
+      - .github/workflows/scpi-archive-inventory-proof.yml
+permissions:
+  contents: read
+concurrency:
+  group: scpi-archive-inventory-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent document readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils tesseract-ocr tesseract-ocr-fra tesseract-ocr-eng
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Archive and source safety regressions
+        run: python -m unittest discover -s scripts/agents -p 'bulletin*_test.py' -v
+      - name: Enumerate actual official archive documents for all 65 SCPI
+        run: python -u scripts/agents/bulletin_archive_inventory.py --manifest data-import/scpi_archive_inventory_20261028.json --out test-results/archive-inventory
+      - name: Preserve actual documents and metadata proof without financial writes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scpi-archive-inventory-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            test-results/archive-inventory/*.json
+            test-results/archive-inventory/pdf/*.pdf
+          if-no-files-found: error
