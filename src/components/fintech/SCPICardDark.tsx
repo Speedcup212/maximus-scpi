@@ -197,7 +197,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
           <p className="text-xs text-slate-400 mb-0.5 flex items-center gap-1">
             <span>Note MaximusSCPI</span>
             <a
-              href="/methodologie-donnees"
+              href="/methodologie-donnees-scpi/"
               className="text-slate-500 hover:text-emerald-400"
               title="Méthodologie de la note MaximusSCPI"
               aria-label="Voir la méthodologie de la note MaximusSCPI"

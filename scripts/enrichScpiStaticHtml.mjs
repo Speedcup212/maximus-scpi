@@ -85,11 +85,10 @@ for (const row of catalog) {
   const tenants = firstNumber(row, ['Nombre de locataires', 'Nombre_de_locataires', 'nb_locataires']);
   const period = firstValue(row, ['Période bulletin trimestriel', 'maximus_source_periode']);
   const bulletinDate = firstValue(row, ['Date bulletin', 'maximus_source_date']);
-  const confidence = firstNumber(row, ['maximus_confidence_score']);
   const editorialNews = getVerifiedScpiNews(row.maximus_editorial_news);
   const actualityHtml = editorialNews
     ? `<section class="static-quarterly"><h3>Actualité trimestrielle documentée</h3><p>${esc(truncate(editorialNews.text))}</p><p>Période du résumé : ${esc(editorialNews.period)} · Document daté : ${esc(editorialNews.documentDate)}</p><p><a href="${esc(editorialNews.sourceUrl)}" rel="noopener noreferrer">${esc(editorialNews.sourceDocument)}</a></p></section>`
-    : `<section class="static-quarterly"><h3>Actualité trimestrielle</h3><p>Résumé en attente de vérification documentaire. Consultez les sources disponibles avant d’interpréter les indicateurs.</p></section>`;
+    : '';
   const warnings = filterDocumentedNonLiquidityWarnings(row.maximus_warnings).slice(0, 4);
 
   const cards = [
@@ -117,8 +116,7 @@ for (const row of catalog) {
 
   const sourceBits = [
     period ? `Période des indicateurs : ${period}` : null,
-    bulletinDate ? `Document daté : ${bulletinDate}` : null,
-    confidence !== null ? `Confiance donnée : ${Math.round(confidence * 100)} %` : null
+    bulletinDate ? `Document daté : ${bulletinDate}` : null
   ].filter(Boolean);
 
   const section = `<section id="scpi-static-dashboard" class="static-tech" aria-label="Tableau de bord technique SCPI"><div class="static-tech-inner"><p class="static-tech-kicker">Tableau de bord technique</p><h2>Indicateurs à lire sur ${esc(name)}</h2><p class="static-tech-intro">Ces données complètent le rendement affiché. Elles permettent de lire occupation, durée des baux, valorisation, dette et liquidité avant d’interpréter la trajectoire.</p><div class="static-tech-grid">${cardsHtml}</div>${warningHtml}${actualityHtml}<div class="static-tech-footer">${sourceBits.length ? `<p>${sourceBits.map(esc).join(' · ')}</p>` : ''}<p><a href="/methodologie-donnees-scpi/">Méthodologie des données</a> · <a href="/comparateur-scpi/">Comparer cette SCPI</a> · <a href="/analyses/">Radar et trajectoires SCPI</a> · <a href="/surveillance/">Surveillance SCPI</a></p></div></div></section><style>.static-tech{background:#0f172a;color:#e2e8f0;padding:44px 24px;border-top:1px solid #263244;border-bottom:1px solid #263244}.static-tech-inner{max-width:1180px;margin:0 auto}.static-tech-kicker{margin:0;color:#6ee7b7;text-transform:uppercase;letter-spacing:.08em;font-size:12px;font-weight:800}.static-tech h2{margin:8px 0 8px;color:#fff;font-size:30px;line-height:1.15}.static-tech-intro{max-width:820px;margin:0 0 24px;color:#aebbd0;line-height:1.65}.static-tech-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.static-tech-card{background:#121a25;border:1px solid #263244;border-radius:12px;padding:15px}.static-tech-card span,.static-tech-card small{display:block;color:#94a3b8}.static-tech-card span{font-size:12px;font-weight:700;margin-bottom:6px}.static-tech-card strong{display:block;color:#fff;font-size:21px;margin-bottom:4px}.static-tech-card small{font-size:11px;line-height:1.4}.static-vigilance,.static-quarterly{margin-top:20px;border:1px solid #334155;border-radius:12px;padding:18px;background:#111827}.static-vigilance h3,.static-quarterly h3{margin:0 0 10px;color:#fff;font-size:18px}.static-vigilance ul{margin:0;padding-left:20px;color:#cbd5e1}.static-vigilance li{margin:6px 0;line-height:1.55}.static-vigilance p,.static-quarterly p{margin:0;color:#cbd5e1;line-height:1.65}.static-vigilance-neutral{border-color:#263244}.static-tech-footer{margin-top:18px;color:#94a3b8;font-size:12px;line-height:1.6}.static-tech-footer p{margin:4px 0}.static-tech-footer a{color:#6ee7b7;text-decoration:none;font-weight:700}@media(max-width:800px){.static-tech-grid{grid-template-columns:1fr}.static-tech h2{font-size:26px}}</style>`;

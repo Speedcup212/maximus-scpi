@@ -144,7 +144,7 @@ const ReviewsModal: React.FC<ReviewsModalProps> = ({ isOpen, onClose }) => {
                 }}
                 className="px-6 py-3 bg-green-600 text-white rounded-xl font-black text-base hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform"
               >
-                Prendre rendez-vous gratuitement
+                Prendre rendez-vous
               </button>
             </div>
           </div>

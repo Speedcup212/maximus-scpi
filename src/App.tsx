@@ -37,7 +37,6 @@ const AuthGuard = lazy(() => import('./app/components/AuthGuard'));
 const RoleGuard = lazy(() => import('./app/components/RoleGuard'));
 const PartnerProRedirect = lazy(() => import('./app/components/PartnerProRedirect'));
 const DynamicHero = lazy(() => import('./components/DynamicHero'));
-const Testimonials = lazy(() => import('./components/Testimonials'));
 const AdvancedFilters = lazy(() => import('./components/AdvancedFilters'));
 const FloatingButton = lazy(() => import('./components/FloatingButton'));
 const CategoryPage = lazy(() => import('./components/CategoryPage'));
@@ -5034,11 +5033,6 @@ const App: React.FC = () => {
             onContactClick={() => setIsRdvModalOpen(true)}
           />
         </div>
-
-        {/* POSITION 3 — Témoignages clients + CTA RDV (déplacé) */}
-        <Suspense fallback={<div className="py-12"><LoadingSpinner /></div>}>
-          <Testimonials />
-        </Suspense>
 
         {/* POSITION 4 — Preuve sociale (réassurance, non chiffrée) */}
         <PreuveSociale />

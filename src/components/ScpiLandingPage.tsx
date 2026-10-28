@@ -243,7 +243,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
                     <ul className="space-y-2 text-sm text-gray-700">
                       <li className="flex items-start gap-2">
                         <Star className="w-4 h-4 text-yellow-500 flex-shrink-0 mt-0.5" />
-                        <span>Conseil indépendant et personnalisé</span>
+                        <span>Conseiller en investissements financiers — conseil non indépendant</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <Clock className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
@@ -251,7 +251,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
                       </li>
                       <li className="flex items-start gap-2">
                         <FileText className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                        <span>Accompagnement gratuit de A à Z</span>
+                        <span>Premier échange sans engagement</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <Award className="w-4 h-4 text-purple-600 flex-shrink-0 mt-0.5" />
@@ -326,7 +326,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
                       1
                     </div>
                     <div>
-                      <div className="text-sm font-semibold text-gray-900">Analyse gratuite</div>
+                      <div className="text-sm font-semibold text-gray-900">Premier échange</div>
                       <div className="text-xs text-gray-600">Étude de votre profil et objectifs</div>
                     </div>
                   </div>
@@ -367,7 +367,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
                   Prendre RDV avec MaximusSCPI
                 </h2>
                 <p className="text-gray-600">
-                  Échangez avec un expert SCPI - Gratuit et sans engagement
+                  Premier échange sans engagement avec Eric Bellaiche
                 </p>
               </div>
 
@@ -593,14 +593,14 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
                   </p>
 
                   <p className="text-sm md:text-base text-gray-700 mb-4 italic leading-relaxed">
-                    "J'ai créé MaximusSCPI pour rendre l'investissement en SCPI simple, transparent et performant, même pour les débutants. Mon expertise de 15 ans combinée à l'intelligence artificielle vous garantit des recommandations personnalisées."
+                    "J’ai créé MaximusSCPI pour clarifier la cohérence d’un projet SCPI, même pour les débutants : 15 ans de pratique et une lecture structurée des données publiées, sans promesse ni décision à votre place."
                   </p>
 
                   <div className="flex flex-wrap items-center gap-3 md:gap-4">
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/50 backdrop-blur-sm">
                       <Award className="w-4 h-4 text-green-600" />
                       <span className="text-xs font-semibold text-gray-700">
-                        ACPR
+                        ORIAS 13001580
                       </span>
                     </div>
 
@@ -804,7 +804,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Prêt à investir dans la SCPI {scpiData.nom} ?
+            Besoin d’un échange sur {scpiData.nom} ?
           </h2>
           <p className="text-xl text-purple-100 mb-8">
             Profitez d'un rendement de {scpiData.rendement} avec un accompagnement expert personnalisé
@@ -829,7 +829,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
             </div>
             <div className="flex items-center gap-2">
               <Shield className="w-5 h-5" />
-              <span>100% Gratuit</span>
+              <span>Premier échange sans engagement</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="w-5 h-5" />
@@ -853,101 +853,6 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
           </div>
         </div>
       )}
-
-      {/* Témoignages clients */}
-      <div className="bg-gradient-to-br from-gray-50 to-blue-50 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Ils nous font confiance
-            </h2>
-            <p className="text-xl text-gray-600">
-              Plus de 200 investisseurs satisfaits ont investi en SCPI avec notre accompagnement
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-6 shadow-lg">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                  MC
-                </div>
-                <div>
-                  <div className="font-bold text-gray-900">Marie C.</div>
-                  <div className="flex items-center gap-1">
-                    {[1,2,3,4,5].map(i => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-700 italic mb-3">
-                "Eric m'a parfaitement conseillé pour diversifier mon patrimoine. J'ai investi dans la SCPI {scpiData.nom} et je suis ravie du rendement. Un vrai professionnel à l'écoute !"
-              </p>
-              <p className="text-sm text-gray-500">Investissement : 50 000€ | Janvier 2024</p>
-            </div>
-
-            <div className="bg-white rounded-xl p-6 shadow-lg">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                  JL
-                </div>
-                <div>
-                  <div className="font-bold text-gray-900">Jean-Luc D.</div>
-                  <div className="flex items-center gap-1">
-                    {[1,2,3,4,5].map(i => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-700 italic mb-3">
-                "Très satisfait de l'accompagnement personnalisé. Eric a pris le temps de m'expliquer tous les détails de la SCPI {scpiData.nom}. Rendement au rendez-vous !"
-              </p>
-              <p className="text-sm text-gray-500">Investissement : 75 000€ | Mars 2024</p>
-            </div>
-
-            <div className="bg-white rounded-xl p-6 shadow-lg">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                  SB
-                </div>
-                <div>
-                  <div className="font-bold text-gray-900">Sophie B.</div>
-                  <div className="flex items-center gap-1">
-                    {[1,2,3,4,5].map(i => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <p className="text-gray-700 italic mb-3">
-                "Première expérience en SCPI et je ne regrette pas ! Eric a été très pédagogue et m'a rassuré à chaque étape. Je recommande vivement !"
-              </p>
-              <p className="text-sm text-gray-500">Investissement : 30 000€ | Février 2024</p>
-            </div>
-          </div>
-
-          <div className="mt-12 text-center">
-            <div className="inline-flex items-center gap-4 sm:gap-6 lg:gap-8 bg-white rounded-xl px-4 sm:px-6 lg:px-8 py-3 shadow-lg">
-              <div>
-                <div className="text-2xl sm:text-3xl font-bold text-blue-600">1800+</div>
-                <div className="text-xs sm:text-sm text-gray-600">Clients satisfaits</div>
-              </div>
-              <div className="h-10 sm:h-12 w-px bg-gray-300"></div>
-              <div>
-                <div className="text-2xl sm:text-3xl font-bold text-blue-600">4,9/5</div>
-                <div className="text-xs sm:text-sm text-gray-600">Note moyenne</div>
-              </div>
-              <div className="h-10 sm:h-12 w-px bg-gray-300"></div>
-              <div>
-                <div className="text-2xl sm:text-3xl font-bold text-blue-600">15 ans</div>
-                <div className="text-xs sm:text-sm text-gray-600">D'expérience</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* FAQ spécifique SCPI */}
       <div className="bg-white py-16">
@@ -1041,7 +946,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
                   <strong>Durée de placement recommandée :</strong> 8 à 10 ans minimum. Les SCPI sont des placements de long terme.
                 </p>
                 <p>
-                  <strong>Frais :</strong> Frais de souscription de 10% HT. Frais de gestion annuels de 10% HT sur les loyers. Consultez la note d'information complète avant tout investissement.
+                  <strong>Frais :</strong> variables selon les SCPI (souscription, gestion, cession), certaines ne prélevant pas de frais d’entrée. Montants exacts sur chaque fiche et dans la note d’information.
                 </p>
                 <p>
                   <strong>Conseiller :</strong> Eric Bellaiche - Conseiller en Investissements Financiers enregistré à l'ORIAS sous le numéro 13001580. Membre de la CNCEF Patrimoine sous le numéro D016571.
@@ -1061,7 +966,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
           <div className="grid md:grid-cols-4 gap-8 items-center justify-items-center text-center">
             <div>
               <Shield className="w-12 h-12 text-blue-600 mx-auto mb-2" />
-              <p className="font-semibold text-gray-900">Expert certifié ORIAS</p>
+              <p className="font-semibold text-gray-900">CIF immatriculé à l’ORIAS (n° 13001580)</p>
               <p className="text-sm text-gray-500">N° 13001580</p>
             </div>
             <div>
@@ -1071,8 +976,8 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
             </div>
             <div>
               <Star className="w-12 h-12 text-yellow-400 mx-auto mb-2 fill-yellow-400" />
-              <p className="font-semibold text-gray-900">Note 4,9/5</p>
-              <p className="text-sm text-gray-500">+200 avis clients</p>
+              <p className="font-semibold text-gray-900">Sources publiées</p>
+              <p className="text-sm text-gray-500">DIC, notes et bulletins</p>
             </div>
             <div>
               <CheckCircle className="w-12 h-12 text-blue-600 mx-auto mb-2" />
@@ -1117,7 +1022,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
               <div className="text-xs text-gray-400 space-y-1">
                 <p>ORIAS N° <strong>13001580</strong></p>
                 <p>CNCEF Patrimoine N° <strong>D016571</strong></p>
-                <p>Sous le contrôle de l'ACPR</p>
+                <p>Adhérent CNCEF Patrimoine n° D016571, association agréée par l’AMF</p>
               </div>
             </div>
 
@@ -1143,10 +1048,10 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
                   <strong>Durée recommandée :</strong> 8 à 10 ans minimum
                 </p>
                 <p>
-                  <strong>Frais de souscription :</strong> 8% à 12% HT
+                  <strong>Frais :</strong> variables selon les SCPI (souscription, gestion, cession), certaines ne prélevant pas de frais d’entrée.
                 </p>
                 <p>
-                  <strong>Frais de gestion :</strong> 10% à 12% HT sur les loyers
+                  Montants exacts sur chaque fiche et dans la note d’information.
                 </p>
               </div>
             </div>

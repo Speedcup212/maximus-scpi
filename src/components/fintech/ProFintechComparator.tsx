@@ -1376,7 +1376,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                   </div>
                   <div className="mt-3 sm:mt-4 p-2 sm:p-3 bg-slate-800/50 rounded-lg border border-slate-700">
                     <p className="text-[9px] sm:text-[10px] text-slate-400 italic leading-relaxed">
-                      <strong className="text-slate-300">Note :</strong> Cette analyse est basée sur les caractéristiques objectives du portefeuille sélectionné. Elle ne constitue pas un conseil personnalisé en investissement. Un conseiller certifié ORIAS analysera votre situation personnelle avant toute décision.
+                      <strong className="text-slate-300">Note :</strong> Cette analyse est basée sur les caractéristiques objectives du portefeuille sélectionné. Elle ne constitue pas un conseil personnalisé en investissement. Eric Bellaiche, CIF immatriculé à l’ORIAS (n° 13001580), analysera votre situation personnelle avant toute décision dans le cadre d’un conseil non indépendant.
                     </p>
                   </div>
                 </div>

@@ -71,7 +71,7 @@ const ConditionsUtilisationPage: React.FC = () => {
                   <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <h4 className="font-semibold text-gray-900">Conseiller en Investissements Financiers (CIF)</h4>
-                    <p className="text-sm text-gray-600">Membre de la CNCEF PATRIMOINE N° D016571</p>
+                    <p className="text-sm text-gray-600">Adhérent CNCEF Patrimoine n° D016571, association agréée par l’AMF</p>
                   </div>
                 </div>
 
@@ -79,7 +79,7 @@ const ConditionsUtilisationPage: React.FC = () => {
                   <CheckCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                   <div>
                     <h4 className="font-semibold text-gray-900">Courtier d'assurance ou de réassurance (COA)</h4>
-                    <p className="text-sm text-gray-600">Sous le contrôle de l'ACPR</p>
+                    <p className="text-sm text-gray-600">Immatriculé à l’ORIAS (n° 13001580)</p>
                   </div>
                 </div>
 

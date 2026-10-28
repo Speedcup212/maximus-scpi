@@ -69,10 +69,10 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center">
                   <span className="px-3 py-1 bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 text-xs font-bold rounded-full">
-                    CGP Certifié
+                    Conseiller CIF
                   </span>
                   <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-xs font-bold rounded-full">
-                    CIF n°D016571
+                    CNCEF Patrimoine D016571
                   </span>
                   <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300 text-xs font-bold rounded-full">
                     Expert SCPI
@@ -97,7 +97,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
 
               <p>
                 Grâce à <strong>MaximusSCPI</strong>, j'ai développé une plateforme innovante combinant mon expertise
-                humaine avec des outils d'analyse avancés et l\'intelligence artificielle. Cette approche unique vous
+                humaine avec une lecture structurée des données publiées par les sociétés de gestion. Cette approche vous
                 permet de bénéficier d'une analyse objective et approfondie du marché des SCPI, tout en profitant d\'un
                 accompagnement personnalisé par un professionnel certifié.
               </p>
@@ -109,7 +109,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
                   <li>✓ Sélection rigoureuse des meilleures SCPI du marché</li>
                   <li>✓ Optimisation fiscale selon votre TMI</li>
                   <li>✓ Suivi régulier de vos investissements</li>
-                  <li>✓ Transparence totale et conseils indépendants</li>
+                  <li>✓ Conseiller en investissements financiers — conseil non indépendant</li>
                 </ul>
               </div>
             </div>
@@ -125,7 +125,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
                 Découvrir mon site
               </a>
               <div className="text-xs font-medium text-gray-700 dark:text-gray-200 text-center sm:text-left">
-                CIF n°D016571 • Sous contrôle ACPR • ORIAS n°13001580
+                Conseiller en investissements financiers — conseil non indépendant • Immatriculé à l’ORIAS (n° 13001580) • Adhérent CNCEF Patrimoine n° D016571, association agréée par l’AMF
               </div>
             </div>
           </div>
@@ -139,12 +139,12 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             
             <div className="grid grid-cols-3 gap-2 text-sm">
               <div className="bg-white/60 dark:bg-gray-800/60 p-2 rounded-lg text-center">
-                <div className="font-black text-gray-900 dark:text-white mb-0.5">CIF n°D016571</div>
-                <div className="font-medium text-gray-700 dark:text-gray-200">CNCEF</div>
+                <div className="font-black text-gray-900 dark:text-white mb-0.5">CNCEF D016571</div>
+                <div className="font-medium text-gray-700 dark:text-gray-200">Association agréée par l’AMF</div>
               </div>
               <div className="bg-white/60 dark:bg-gray-800/60 p-2 rounded-lg text-center">
-                <div className="font-black text-gray-900 dark:text-white mb-0.5">ACPR</div>
-                <div className="font-medium text-gray-700 dark:text-gray-200">Contrôle</div>
+                <div className="font-black text-gray-900 dark:text-white mb-0.5">ORIAS 13001580</div>
+                <div className="font-medium text-gray-700 dark:text-gray-200">Immatriculation</div>
               </div>
               <div className="bg-white/60 dark:bg-gray-800/60 p-2 rounded-lg text-center">
                 <div className="font-black text-gray-900 dark:text-white mb-0.5">ORIAS</div>
@@ -212,7 +212,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               }}
               className="px-6 py-3 bg-green-600 text-white rounded-xl font-black text-base hover:bg-green-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform"
             >
-              Prendre rendez-vous gratuitement
+              Prendre rendez-vous
             </button>
           </div>
         </div>

@@ -331,7 +331,7 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
                       Obtenez votre analyse personnalisée
                     </h2>
                     <p className="text-gray-600">
-                      Gratuit et sans engagement - Rappel sous 24h
+                      Premier échange sans engagement
                     </p>
                   </div>
 
@@ -431,7 +431,7 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
                         </button>
 
                         <p className="text-sm text-center text-gray-600 font-medium">
-                          🔒 Conseil 100% gratuit et sans engagement.
+                          🔒 Premier échange sans engagement.
                         </p>
 
                         {submitStatus === 'error' && (
@@ -670,89 +670,8 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
                   </span>
                 </div>
                 <blockquote className="text-lg text-gray-700 italic leading-relaxed border-l-4 border-blue-600 pl-6">
-                  "J'ai créé MaximusSCPI pour rendre l'investissement en SCPI simple, transparent et performant, même pour les débutants. Mon expertise de 15 ans combinée à l'intelligence artificielle vous garantit des recommandations personnalisées."
+                  "J’ai créé MaximusSCPI pour clarifier la cohérence d’un projet SCPI, même pour les débutants : 15 ans de pratique et une lecture structurée des données publiées, sans promesse ni décision à votre place."
                 </blockquote>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section Témoignages Clients */}
-      <section aria-labelledby="testimonials-title" className="bg-gray-50 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 id="testimonials-title" className="text-4xl font-bold text-gray-900 mb-4">
-              Ce que disent nos clients
-            </h2>
-            <p className="text-xl text-gray-600">
-              Plus de 200 investisseurs nous font confiance
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                initial: 'MC',
-                nom: 'Marie C.',
-                investissement: '50 000€',
-                date: 'Janvier 2024',
-                temoignage: `Eric m'a parfaitement conseillé pour mon projet SCPI. J'ai investi et je suis ravie de l'accompagnement. Un vrai professionnel à l'écoute !`
-              },
-              {
-                initial: 'JL',
-                nom: 'Jean-Luc D.',
-                investissement: '75 000€',
-                date: 'Mars 2024',
-                temoignage: `Très satisfait de l'accompagnement personnalisé. Eric a pris le temps de m'expliquer tous les détails. Service impeccable !`
-              },
-              {
-                initial: 'SB',
-                nom: 'Sophie B.',
-                investissement: '30 000€',
-                date: 'Février 2024',
-                temoignage: `Première expérience en SCPI. Eric a été très pédagogue pour m'expliquer le fonctionnement. Je recommande vivement !`
-              }
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                    {testimonial.initial}
-                  </div>
-                  <div>
-                    <div className="font-bold text-gray-900">{testimonial.nom}</div>
-                    <div className="flex items-center gap-1">
-                      {[1,2,3,4,5].map(i => (
-                        <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <p className="text-gray-700 italic mb-3">
-                  "{testimonial.temoignage}"
-                </p>
-                <p className="text-sm text-gray-500">
-                  Investissement : {testimonial.investissement} | {testimonial.date}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <div className="inline-flex items-center gap-8 bg-white rounded-xl px-8 py-4 shadow-lg">
-              <div>
-                <div className="text-3xl font-bold text-blue-600">1800+</div>
-                <div className="text-sm text-gray-600">Clients satisfaits</div>
-              </div>
-              <div className="h-12 w-px bg-gray-300"></div>
-              <div>
-                <div className="text-3xl font-bold text-blue-600">4,9/5</div>
-                <div className="text-sm text-gray-600">Note moyenne</div>
-              </div>
-              <div className="h-12 w-px bg-gray-300"></div>
-              <div>
-                <div className="text-3xl font-bold text-blue-600">15 ans</div>
-                <div className="text-sm text-gray-600">D'expérience</div>
               </div>
             </div>
           </div>
@@ -763,7 +682,7 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
       <section aria-labelledby="cta-title" className="bg-gradient-to-r from-blue-600 via-indigo-700 to-blue-800 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 id="cta-title" className="text-4xl font-bold text-white mb-6">
-            Prêt à investir en SCPI ?
+            Besoin d’un échange ?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
             {pageData.heroSubtitle}
@@ -788,7 +707,7 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
             </div>
             <div className="flex items-center gap-2">
               <Shield className="w-5 h-5" />
-              <span>100% Gratuit</span>
+              <span>Premier échange sans engagement</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="w-5 h-5" />

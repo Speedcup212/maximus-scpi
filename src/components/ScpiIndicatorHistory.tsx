@@ -164,7 +164,7 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
                   <ShieldCheck className="w-4 h-4" /> Liquidité Maximus
                 </div>
                 <h2 className="mt-2 text-2xl sm:text-3xl font-black text-white">Marché des parts de {scpiName}</h2>
-                <p className="mt-2 max-w-3xl text-slate-300">Lecture fondée sur le régime et les signaux certifiés. Les séries incompatibles ne sont pas raccordées artificiellement.</p>
+                <p className="mt-2 max-w-3xl text-slate-300">Lecture fondée sur le régime et les signaux contrôlés selon la méthodologie MaximusSCPI. Les séries incompatibles ne sont pas raccordées artificiellement.</p>
               </div>
               <div className={`inline-flex items-center self-start gap-2 rounded-xl border px-4 py-2.5 text-sm font-black ${level.className}`}>
                 <ShieldAlert className="w-4 h-4" /> {level.label}

@@ -958,7 +958,7 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
         }}
         className="bg-white text-emerald-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-emerald-50 transition-colors shadow-lg"
       >
-        Prendre rendez-vous gratuitement
+        Prendre rendez-vous
       </button>
     </div>
   );

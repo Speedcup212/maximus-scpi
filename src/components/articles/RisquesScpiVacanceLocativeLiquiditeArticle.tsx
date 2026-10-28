@@ -624,7 +624,7 @@ export const RisquesScpiVacanceLocativeLiquiditeArticle: React.FC = () => {
           <div className="bg-white/10 rounded-lg p-6 mt-6">
             <h3 className="text-xl font-bold mb-3">{'🛡'} Besoin d'aide pour sécuriser votre investissement SCPI ?</h3>
             <p className="mb-4">
-              Notre équipe analyse gratuitement votre portefeuille actuel ou votre projet d'investissement pour identifier les risques et vous recommander une stratégie optimale et diversifiée.
+              Premier échange sans engagement avec Eric Bellaiche pour préciser votre projet SCPI. Un conseil personnalisé suppose le recueil préalable de votre situation et de vos objectifs.
             </p>
             <div className="flex flex-wrap gap-4">
               <a

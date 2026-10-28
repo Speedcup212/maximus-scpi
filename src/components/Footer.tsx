@@ -39,8 +39,8 @@ const Footer: React.FC = () => {
             </p>
             <div className="text-xs text-gray-400 space-y-1">
               <p>ORIAS N° <strong>13001580</strong></p>
-              <p>CNCEF Patrimoine N° <strong>D016571</strong></p>
-              <p>CIF suivi par l'AMF</p>
+              <p>Adhérent CNCEF Patrimoine n° <strong>D016571</strong>, association agréée par l’AMF</p>
+              <p>Conseiller en investissements financiers — conseil non indépendant</p>
             </div>
           </div>
 
@@ -66,10 +66,10 @@ const Footer: React.FC = () => {
                 <strong>Durée recommandée :</strong> 8 à 10 ans minimum
               </p>
               <p>
-                <strong>Frais de souscription :</strong> 8% à 12% HT
+                <strong>Frais :</strong> variables selon les SCPI (souscription, gestion, cession), certaines ne prélevant pas de frais d’entrée.
               </p>
               <p>
-                <strong>Frais de gestion :</strong> 10% à 12% HT sur les loyers
+                Montants exacts sur chaque fiche et dans la note d’information.
               </p>
             </div>
           </div>

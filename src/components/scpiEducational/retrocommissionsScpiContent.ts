@@ -42,7 +42,7 @@ export const retrocommissionsScpiConfig: ScpiEducationalPageConfig = {
     {
       level: 'Honoraires de conseil',
       advantage: 'Le conseiller est rémunéré directement par l\'investisseur, sans rétrocession.',
-      vigilance: 'Coût explicite. Transparence totale. Réduit les conflits d\'intérêts potentiels.',
+      vigilance: 'Coût explicite. Rémunération explicitée. Réduit les conflits d\'intérêts potentiels.',
     },
     {
       level: 'Commissions de souscription en AV',

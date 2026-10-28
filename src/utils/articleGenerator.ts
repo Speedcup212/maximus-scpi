@@ -642,7 +642,7 @@ function generateCTA(): string {
         <div class="text-4xl mb-4">🔍</div>
         <h3 class="text-xl font-bold mb-3">Comparateur SCPI</h3>
         <p class="text-blue-100 mb-4">
-          Comparez 63 SCPI : rendements, secteurs, zones géographiques, frais. Trouvez les SCPI adaptées à votre profil.
+          Comparez les SCPI suivies : rendements, secteurs, zones géographiques, frais. Trouvez les SCPI adaptées à votre profil.
         </p>
         <button class="w-full px-6 py-3 bg-white text-blue-600 rounded-lg font-bold hover:bg-blue-50 transition-all">
           Accéder au comparateur
@@ -664,7 +664,7 @@ function generateCTA(): string {
         <div class="text-4xl mb-4">👨‍💼</div>
         <h3 class="text-xl font-bold mb-3">Rendez-vous avec un CGP</h3>
         <p class="text-blue-100 mb-4">
-          Échangez gratuitement 30 minutes en visio avec un conseiller spécialisé SCPI pour un diagnostic personnalisé.
+          Premier échange sans engagement avec Eric Bellaiche pour préciser votre projet SCPI.
         </p>
         <button class="w-full px-6 py-3 bg-white text-blue-600 rounded-lg font-bold hover:bg-blue-50 transition-all">
           Prendre rendez-vous

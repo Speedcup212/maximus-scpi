@@ -828,20 +828,20 @@ export const DiversificationScpiCombienNombrePartsArticle: React.FC = () => {
           <div className="bg-white/10 rounded-lg p-6 mt-6">
             <h3 className="text-xl font-bold mb-3">🎯 Construisez votre portefeuille SCPI personnalisé</h3>
             <p className="mb-4">
-              Notre équipe analyse gratuitement votre situation (capital, TMI, objectifs) et vous recommande l'allocation SCPI optimale avec le bon nombre de SCPI et la répartition idéale secteurs/géographie.
+              Premier échange sans engagement avec Eric Bellaiche pour préciser votre projet SCPI. Un conseil personnalisé suppose le recueil préalable de votre situation et de vos objectifs.
             </p>
             <div className="flex flex-wrap gap-4">
               <a
                 href="/comparateur-scpi"
                 className="inline-flex items-center px-6 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-colors"
               >
-                Comparer 63 SCPI
+                Comparer les SCPI suivies
               </a>
               <a
                 href="/contact"
                 className="inline-flex items-center px-6 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-400 transition-colors"
               >
-                Analyse gratuite portefeuille
+                Premier échange sans engagement
               </a>
             </div>
           </div>

@@ -45,7 +45,7 @@ export const documentsReglementairesScpiConfig: ScpiEducationalPageConfig = {
     },
     {
       level: 'Bulletin trimestriel',
-      advantage: 'Suivi en temps réel de la collecte, des acquisitions, du TOF et des dividendes.',
+      advantage: 'Suivi de la collecte, des acquisitions, du TOF et des dividendes selon les publications disponibles.',
       vigilance: 'Un trimestre isolé peut être atypique. Analyser la tendance sur plusieurs trimestres.',
     },
     {

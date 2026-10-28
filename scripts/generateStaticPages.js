@@ -79,7 +79,7 @@ const generateScpiPages = () => {
                          sector === 'hotellerie' ? 'Hôtellerie & Tourisme' : 'Diversifié';
 
     const title = `SCPI ${scpi['Nom SCPI']} : ${scpi['Taux de distribution (%)']}% Rendement 2026 ✓ ${scpi['Société de gestion']} | Analyse & Avis`;
-    const metaDescription = `✓ SCPI ${scpi['Nom SCPI']} (${scpi['Société de gestion']}) : ${performanceLevel} rendement ${scpi['Taux de distribution (%)']}% ✓ ${tofQuality} ${scpi['TOF (%)']}% ✓ Capitalisation ${scpi['Capitalisation (M€)'].toFixed(0)}M€ ✓ ${sectorKeyword}${isISR ? ' ✓ Label ISR' : ''} ✓ Prix ${scpi['Prix de souscription (€)']}€ ✓ Analyse complète & conseils expert gratuits`;
+    const metaDescription = `✓ SCPI ${scpi['Nom SCPI']} (${scpi['Société de gestion']}) : ${performanceLevel} rendement ${scpi['Taux de distribution (%)']}% ✓ ${tofQuality} ${scpi['TOF (%)']}% ✓ Capitalisation ${scpi['Capitalisation (M€)'].toFixed(0)}M€ ✓ ${sectorKeyword}${isISR ? ' ✓ Label ISR' : ''} ✓ Prix ${scpi['Prix de souscription (€)']}€ ✓ Analyse des données publiées et premier échange sans engagement`;
     const h1 = `SCPI ${scpi['Nom SCPI']} : ${isISR ? 'Investissement Responsable ISR' : 'Analyse & Avis 2026'}`;
     const subtitle = `${performanceLevel} rendement ${scpi['Taux de distribution (%)']}% avec ${scpi['Société de gestion']} | ${sectorKeyword}`;
 
@@ -182,11 +182,11 @@ const generateScpiPages = () => {
 
           <h3>Pourquoi investir dans la SCPI ${scpi['Nom SCPI']} ?</h3>
           <p>MaximusSCPI vous accompagne dans votre investissement en SCPI ${scpi['Nom SCPI']}.
-          Bénéficiez de l'expertise d'Eric Bellaiche, conseiller certifié ORIAS avec 15 ans d'expérience,
+          Bénéficiez de l'expertise d'Eric Bellaiche, conseiller immatriculé à l’ORIAS (n° 13001580) avec 15 ans d'expérience,
           pour optimiser votre portefeuille immobilier pierre-papier.</p>
 
           <h3>Contact et accompagnement personnalisé</h3>
-          <p>✓ Conseil gratuit et sans engagement<br>
+          <p>✓ Premier échange sans engagement<br>
           ✓ Analyse personnalisée de votre profil investisseur<br>
           ✓ Zéro commission cachée<br>
           ✓ Suivi régulier de votre portefeuille SCPI</p>

@@ -326,18 +326,18 @@ const buildStaticHTML = (meta, capturedHtml) => {
     </article>
 
     <section class="cta-section" id="contact">
-      <h3>Prêt à investir ?</h3>
-      <p>Eric Bellaiche vous rappelle gratuitement sous 24h</p>
+      <h3>Besoin d’un échange ?</h3>
+      <p>Eric Bellaiche vous propose un premier échange sans engagement</p>
       <a
         href="https://calendly.com/eric-bellaiche/rdv-strategique-scpi"
         class="btn btn-white"
         style="font-size:1.25rem;padding:1.25rem 3rem"
         rel="noopener"
       >
-        📞 Prendre Rendez-vous Gratuit
+        📞 Prendre rendez-vous
       </a>
       <p style="margin-top:1.5rem;font-size:1rem;opacity:0.95">
-        Sans engagement • Conseiller certifié ORIAS • Réponse sous 24h
+        Sans engagement • Conseiller immatriculé à l’ORIAS (n° 13001580) • Réponse sous 24h
       </p>
     </section>
 

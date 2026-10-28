@@ -18,8 +18,8 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
       <SchemaOrg
         type="Article"
         data={{
-          title: "Expert SCPI ORIAS : Certification CIF | MaximusSCPI",
-          description: "Eric Bellaiche, Conseiller en Investissement Financier certifié ORIAS. Expertise indépendante SCPI, transparence totale, conformité AMF.",
+          title: "Statut CIF et immatriculation ORIAS | MaximusSCPI",
+          description: "Eric Bellaiche, conseiller en investissements financiers — conseil non indépendant, immatriculé à l’ORIAS (n° 13001580).",
           datePublished: "2026-01-15",
           dateModified: currentDate,
           url: "/expertise-orias-cif"
@@ -38,17 +38,17 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
             <Shield className="w-12 h-12 text-blue-600" />
             <div>
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-                Expert SCPI Certifié ORIAS
+                CIF immatriculé à l’ORIAS (n° 13001580)
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mt-2">
-                Conseil indépendant et transparent | CIF | MaximusSCPI
+                Conseiller en investissements financiers — conseil non indépendant
               </p>
             </div>
           </div>
 
           <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 mb-8 border-l-4 border-blue-600">
             <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
-              <strong className="text-blue-900 dark:text-blue-200">MaximusSCPI</strong> est un service de conseil en investissement indépendant spécialisé en SCPI. Notre mission : vous aider à investir en toute transparence, avec une analyse objective de 63 SCPI et un accompagnement personnalisé par un conseiller certifié ORIAS.
+              <strong className="text-blue-900 dark:text-blue-200">MaximusSCPI</strong> propose des outils d’analyse des SCPI suivies et un accompagnement par Eric Bellaiche, conseiller en investissements financiers — conseil non indépendant, immatriculé à l’ORIAS (n° 13001580).
             </p>
           </div>
 
@@ -68,11 +68,11 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                    <span><strong>Spécialisation SCPI</strong> depuis 2015 : analyse de 63 fonds, accompagnement 350+ clients</span>
+                    <span><strong>Spécialisation SCPI</strong> depuis 2015 : analyse des SCPI suivies et accompagnement patrimonial</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                    <span><strong>Fondateur MaximusSCPI</strong> (2023) : premier comparateur indépendant avec méthodologie transparente</span>
+                    <span><strong>Fondateur MaximusSCPI</strong> (2023) : comparateur de SCPI avec une méthodologie documentée</span>
                   </li>
                 </ul>
               </div>
@@ -82,7 +82,7 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
                 <ul className="space-y-2 text-gray-700 dark:text-gray-300">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span><strong>63 SCPI analysées</strong> en détail : rendement, patrimoine, risques, fiscalité</span>
+                    <span><strong>SCPI suivies</strong> en détail : rendement, patrimoine, risques, fiscalité</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -100,7 +100,7 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
               <FileText className="w-7 h-7 text-blue-600" />
-              Certifications Officielles
+              Statut et immatriculation
             </h2>
 
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 mb-6 border-l-4 border-blue-600">
@@ -156,7 +156,7 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
               <CheckCircle2 className="w-7 h-7 text-blue-600" />
-              Indépendance et Déontologie
+              Statut du conseil et déontologie
             </h2>
 
             <div className="space-y-4">
@@ -173,7 +173,7 @@ const ExpertiseOriasPage: React.FC<ExpertiseOriasPageProps> = ({ onNavigate }) =
                     Dans le cas d'un conseil CIF dit non-indépendant, ou d'un acte d'intermédiation, d'une solution d'épargne ou d'investissement, Eric Bellaiche sera rémunéré par une fraction des frais initialement prélevés par le promoteur du produit et/ou les intermédiaires intercalés.
                   </p>
                   <p>
-                    Cette rémunération non indépendante n'affecte en aucun cas la qualité du conseil ou des services fournis aux clients. Elle reflète simplement un modèle de rémunération traditionnel dans le secteur financier, où le conseiller perçoit une commission pour les services d'intermédiation et de conseil liés à l'acquisition d'instruments financiers ou de produits d'épargne.
+                    Cette rémunération peut créer des conflits d’intérêts. Les frais, les rémunérations et les mesures de gestion de ces conflits sont présentés dans le document d’entrée en relation et le rapport d’adéquation.
                   </p>
                   <p>
                     Dans le cas d'un conseil en investissement financier fourni de manière non-indépendante, Eric Bellaiche peut conserver les commissions. Dans ce cadre Eric Bellaiche évalue un éventail restreint d'instruments financiers émis par une entité avec laquelle Eric Bellaiche entretient des relations étroites pouvant prendre la forme de liens capitalistiques, économiques ou contractuels.
