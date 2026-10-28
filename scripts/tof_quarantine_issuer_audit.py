@@ -793,7 +793,18 @@ def analyze(row):
                 item={"page":i+1,"label":m.group(0),"snippet":sample[:400],"percentages":PCT.findall(sample)[:10]}
                 if ASPIM.search(direct): aspim.append(item)
                 else: plain.append(item)
+        targeted={
+          ("buroboutic-metropoles","2026-T1"):[2,4],
+          ("buroboutic-metropoles","2026-T2"):[2,4],
+          ("cristal-rente","2026-T2"):[3],
+          ("atream-hotel","2026-T2"):[5],
+          ("novapierre-1","2024-T4"):[1,4,5],
+        }
+        details=[{"page":n,"text":pdf[n-1].get_text("text",sort=True)[:16000]}
+                 for n in targeted.get((row["scpi_slug"],row["source_period"]),[])
+                 if 1<=n<=len(pdf)]
         return {**row,"status":"PDF_READ","sha256":hashlib.sha256(b).hexdigest(),
+                "page_diagnostics":details,
                 "pages":len(pdf),"readable_pages":all_pages,
                 "labels_ASPIM":len(aspim),"labels_other":len(plain),
                 "other_examples":plain[:5],"aspim_examples":aspim[:2]}
