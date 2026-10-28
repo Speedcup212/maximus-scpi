@@ -108,3 +108,7 @@ main après CI du head exact, reprendre les 201 erreurs et 515 références HTML
 Périmètre et preuves : reports/trajectory/RECOVERY-009-20261027.md. Les sources
 inaccessibles et les conflits restent traçables ; aucune complétude financière
 ni publication n'est déduite d'un workflow vert.
+
+PR #217 fusionné après CI complète PASS ; replay main `40704515532` actif.
+Second correctif ciblé : lecture service_role de l'audit privé TOF, migration
+`20261028142132`, contrôle de non-recertification automatique avec ROLLBACK PASS.
