@@ -9,7 +9,7 @@ const repository = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '.
 const dist = path.join(repository, 'dist');
 const enabled = process.env.CI === 'true' || process.env.RUN_EDITORIAL_BROWSER === 'true';
 
-test('RECOVERY-028: nine built routes render compliant copy in Chromium', {
+test('RECOVERY-028: nine built routes and the thematic React view render compliant copy', {
   skip: enabled ? false : 'Browser gate runs after the production build in CI, or with RUN_EDITORIAL_BROWSER=true.',
   timeout: 180000,
 }, async () => {
@@ -18,7 +18,11 @@ test('RECOVERY-028: nine built routes render compliant copy in Chromium', {
   const mime = { '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.woff2': 'font/woff2' };
   const server = http.createServer((request, response) => {
     const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
-    let file = path.resolve(dist, '.' + pathname);
+    // The thematic generator intentionally serves standalone HTML. The extra
+    // header is test-only: it also exercises the existing SPA counterpart.
+    const forceSpa = request.headers['x-recovery-028-spa'] === '1'
+      && (pathname.endsWith('/') || !path.extname(pathname));
+    let file = forceSpa ? path.join(dist, 'index.html') : path.resolve(dist, '.' + pathname);
     if (file !== dist && !file.startsWith(dist + path.sep)) {
       response.writeHead(403).end();
       return;
@@ -64,11 +68,12 @@ test('RECOVERY-028: nine built routes render compliant copy in Chromium', {
       const errors = [];
       const onError = error => errors.push(error.message);
       page.on('pageerror', onError);
+      const standalone = route === '/meilleures-scpi-rendement/';
       await page.goto(origin + route, { waitUntil: 'networkidle0', timeout: 30000 });
-      // A matching static shell is insufficient: the h1 must belong to React.
-      await page.waitForFunction(text => [...document.querySelectorAll('#root h1')].some(node =>
-        node.textContent.includes(text) && Object.keys(node).some(key => key.startsWith('__reactFiber$'))
-      ), { timeout: 15000 }, heading);
+      // For SPA routes a matching shell is insufficient: wait for React's h1.
+      await page.waitForFunction((text, isStandalone) => [...document.querySelectorAll('h1')].some(node =>
+        node.textContent.includes(text) && (isStandalone || Object.keys(node).some(key => key.startsWith('__reactFiber$')))
+      ), { timeout: 15000 }, heading, standalone);
       if (route === '/') {
         await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
         await page.waitForSelector('footer');
@@ -93,6 +98,20 @@ test('RECOVERY-028: nine built routes render compliant copy in Chromium', {
       if (route === '/meilleures-scpi-rendement/') {
         assert.match(text, /Taux de distribution passés, non garantis/);
         assert.doesNotMatch(text, /95%\+|supérieur à 93%/);
+        await page.setExtraHTTPHeaders({ 'x-recovery-028-spa': '1' });
+        try {
+          await page.goto(origin + route, { waitUntil: 'networkidle0', timeout: 30000 });
+          await page.waitForFunction(text => [...document.querySelectorAll('#root h1')].some(node =>
+            node.textContent.includes(text) && Object.keys(node).some(key => key.startsWith('__reactFiber$'))
+          ), { timeout: 15000 }, heading);
+          const reactText = await page.evaluate(() => document.body.innerText);
+          assert.doesNotMatch(reactText, forbidden, route + ': React counterpart');
+          assert.match(reactText, /Taux de distribution passés, non garantis/);
+          assert.doesNotMatch(reactText, /95%\+|supérieur à 93%/);
+          assert.deepEqual(errors, [], route + ': React counterpart runtime');
+        } finally {
+          await page.setExtraHTTPHeaders({});
+        }
       }
       if (route === '/comparateur-scpi/') {
         assert.equal(await page.$('a[href="/methodologie-donnees"]'), null);
@@ -113,7 +132,7 @@ test('RECOVERY-028: nine built routes render compliant copy in Chromium', {
       });
       assert.ok(!schemaTypes.some(type => type === 'Review' || type === 'AggregateRating'), route);
       page.off('pageerror', onError);
-      results.push({ route, heading, status: 'passed', runtimeErrors: errors, schemaTypes });
+      results.push({ route, heading, mode: standalone ? 'standalone HTML + React counterpart' : 'React', status: 'passed', runtimeErrors: errors, schemaTypes });
       console.log('EDITORIAL_BROWSER_PASS', route);
     }
   } finally {
