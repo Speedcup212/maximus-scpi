@@ -251,6 +251,14 @@ function nearestMoney(t:string,label:RegExp){
   }
   return best?.value??null;
 }
+// Cabinet policy: TOF ASPIM is not an eligible MaximusSCPI TOF metric,
+// including when displayed in a management company's official bulletin.
+// Do not substitute an ASPIM value for the issuer's separately published TOF.
+const FORBIDDEN_TOF_ASPIM_LABEL = /\bTOF\s+(?:financier\s+)?ASPIM\b|\btaux\s+d['’]?occupation\s+financier\s+ASPIM\b/i;
+function rejectAspimTof(text:string, metrics:Record<string,unknown>){
+  if(FORBIDDEN_TOF_ASPIM_LABEL.test(text))delete metrics.tof;
+}
+
 function parseMetrics(t:string,sourcePeriod?:string){
   t=t.replace(/\r/g,"\n").replace(/\u00a0|\u202f/g," ").replace(/[’‘]/g,"'");const flat=t.replace(/\s+/g," ");const o:any={};
   const caps:number[]=[];
@@ -927,6 +935,7 @@ function parseMetrics(t:string,sourcePeriod?:string){
       if(parefPartsFinal[2])o.parts_attente_retrait=parseInt(parefPartsFinal[2].replace(/[ \u00a0\u202f]/g,""),10);
     }
   }
+  rejectAspimTof(t,o);
   return Object.fromEntries(Object.entries(o).filter(([,v])=>v!==null&&v!==undefined&&!(typeof v==="number"&&!Number.isFinite(v))));
 }
 
@@ -963,6 +972,7 @@ function parseHtmlMetrics(t:string){
   if(/\bSCPI\s+[àa]\s+capital\s+fixe\b/i.test(t))o.capital_type="fixe";
   else if(/\bSCPI\s+[àa]\s+capital\s+variable\b/i.test(t))o.capital_type="variable";
 
+  rejectAspimTof(t,o);
   return o;
 }
 
