@@ -229,6 +229,17 @@ def reconcile(a,b):
     ah,aseen=a;bh,bseen=b;results={};proofs={};coverage={};candidates={}
     for metric in FIELDS:
         av=ah.get(metric,[]);bv=bh.get(metric,[])
+        if metric=='tof':
+            # Fiducial's occupancy breakdown has a small line such as
+            # "Locaux vacants en restructuration (intégrés au TOF sous
+            # conditions) : 1,77 %". Both PDF readers can agree on this
+            # subordinate percentage. It is NOT the SCPI's financial
+            # occupancy rate and must never be promoted to a TOF proof.
+            def is_occupancy_breakdown(v):
+                caption=norm(v.get('text',''))
+                return bool(re.search(r'integres? au tof sous conditions',caption))
+            av=[v for v in av if not is_occupancy_breakdown(v)]
+            bv=[v for v in bv if not is_occupancy_breakdown(v)]
         def signature(v):return v['value'],v['page'],v['reference_date'],v['definition']
         same={signature(v):v for v in av if any(signature(v)==signature(w) for w in bv)}
         if len(same)==1 and len({(v['value'],v['reference_date']) for v in av+bv})==1:

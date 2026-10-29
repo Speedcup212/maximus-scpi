@@ -34,6 +34,27 @@ class FinancialAssociationTests(unittest.TestCase):
     def test_two_readers_disagreement_stays_review(self):
         a=self.parse([(20,'TOF 99,12 %')]);b=self.parse([(20,'TOF 99,72 %')])
         m,p,c,_=fields.reconcile(a,b);self.assertNotIn('tof',m);self.assertEqual(c['tof'],'needs_review')
+    def test_fiducial_tof_breakdown_never_becomes_official_tof(self):
+        breakdown={'value':1.77,'page':4,'reference_date':'2026-06-30',
+                   'definition':'reported_metric','text':
+                   '(intégrés au TOF sous conditions) : - | 1,77 %'}
+        proposals=({'tof':[breakdown]},{'tof'})
+        values,proofs,coverage,candidates=fields.reconcile(proposals,proposals)
+        self.assertNotIn('tof',values)
+        self.assertNotIn('tof',proofs)
+        self.assertEqual(coverage['tof'],'needs_review')
+
+    def test_valid_tof_can_survive_a_bad_breakdown_candidate(self):
+        breakdown={'value':1.77,'page':4,'reference_date':'2026-06-30',
+                   'definition':'reported_metric','text':
+                   '(intégrés au TOF sous conditions) : - | 1,77 %'}
+        real={**breakdown,'value':91.56,'text':'TOF | 91,56 %'}
+        proposals=({'tof':[breakdown,real]},{'tof'})
+        values,proofs,coverage,_=fields.reconcile(proposals,proposals)
+        self.assertEqual(values['tof'],91.56)
+        self.assertEqual(coverage['tof'],'verified')
+        self.assertIn('91,56',proofs['tof']['text'])
+
     def test_neighboring_table_counts_must_not_be_concatenated(self):
         a=self.parse([(20,'TOF 90,20 %'),(40,'Parts en attente de retrait 2 703 162 957 003 057 800')])
         m,proof,coverage,_=fields.reconcile(a,a)
