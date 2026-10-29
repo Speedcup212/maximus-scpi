@@ -225,8 +225,28 @@ def identity_matches(item, pages, aliases):
         if re.search(r'(?<![a-z0-9])'+re.escape(n)+r'(?![a-z0-9])',head):return True
     return False
 
-def period_matches(period,pages):
+def document_issue_from_filename(source_url):
+    """Only a quarterly bulletin's basename is issue evidence, never upload folders."""
+    if not source_url:return None
+    basename=urllib.parse.unquote(urllib.parse.urlsplit(source_url).path.rsplit('/',1)[-1])
+    title=norm(basename)
+    if not re.search(r'bulletin|trimestr|(?:^|[-_.])bti?[-_.]|reporting',title):return None
+    hints=source_resolver.issue_hints(title)
+    if len(hints)==1:return next(iter(hints))
+    # Issuer file identifiers such as Optimale-Bulletin-trimestriel-202206.pdf
+    # use YYYYMM, where the month encodes the actual closing quarter.
+    match=re.search(r'(?<!\\d)(20\\d{2})[-_.]?((?:0[1-9])|(?:1[0-2]))(?!\\d)',title)
+    if match:return match[1]+'-T'+str((int(match[2])-1)//3+1)
+    return None
+
+def period_matches(period,pages,source_url=None):
     if not re.fullmatch(r'20\d{2}-T[1-4]',period):return False
+    # Never certify a historical comparator figure as the PDF's issue.
+    filename_issue=document_issue_from_filename(source_url)
+    if filename_issue and filename_issue!=period:return False
+    first_page=norm(pages[0][:700]) if pages else ''
+    first_page_issues=source_resolver.issue_hints(first_page)
+    if len(first_page_issues)==1 and period not in first_page_issues:return False
     year,q=period.split('-T');head=norm(' '.join(pages[:2]))
     patterns=[rf'\b{year}\s*[- /]?\s*[tq]\s*{q}\b',rf'\b[tq]\s*{q}\s*[- /]?\s*{year}\b',rf'\b{q}\s*t\s*{year}\b',rf'\b{q}\s*(?:er|e|eme)?\s*trimestre\s*{year}\b']
     ordinal=['premier','deuxieme','troisieme','quatrieme'][int(q)-1]
@@ -272,7 +292,7 @@ def inspect(item, downloaded, out, aliases):
         for p in ocr:
             if len(p['text'])>len(texts[p['page']-1]):texts[p['page']-1]=p['text']
         result['identity_verified']=identity_matches(item,texts,aliases)
-        result['period_verified']=period_matches(item['period'],texts)
+        result['period_verified']=period_matches(item['period'],texts,item['source_url'])
         result['period_method']='document_issue_text'
         if not result['period_verified'] and not downloaded['hash_changed'] and item.get('qa_status') and re.search(r'verified|source_verified|certified_official',item['qa_status']) and not item['qa_status'].startswith('invalid'):
             result['period_verified']=True;result['period_method']='existing_same_hash_period_certificate'
