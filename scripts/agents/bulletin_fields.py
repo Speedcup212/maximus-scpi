@@ -204,7 +204,13 @@ def extract(pages,wordpages,widths,period):
                     if nearby and (len(nearby)==1 or nearby[1][0]-nearby[0][0]>8):
                         _,v,t=nearby[0];candidates=[(v,label+' | '+t,'adjacent_caption')]
                 for value,snippet,association in candidates:
-                    if unit in ('parts','count') and (value<0 or not float(value).is_integer()):continue
+                    # A PDF table can concatenate adjacent figures across columns
+                    # (e.g. 2 703 162 + 957 003 + 057 800). It is not a valid
+                    # single count, even if both native readers produce it.
+                    # Reject before applying any integer database column.
+                    if unit in ('parts','count'):
+                        if value<0 or not float(value).is_integer():continue
+                        if value>(1_000_000_000 if unit=='parts' else 100_000_000):continue
                     if unit=='%' and not 0<=value<=100:continue
                     if unit=='years' and not 0<=value<=100:continue
                     if unit=='months' and not 0<=value<=24:continue

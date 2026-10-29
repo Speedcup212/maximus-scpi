@@ -33,6 +33,17 @@ class FinancialAssociationTests(unittest.TestCase):
     def test_two_readers_disagreement_stays_review(self):
         a=self.parse([(20,'TOF 99,12 %')]);b=self.parse([(20,'TOF 99,72 %')])
         m,p,c,_=fields.reconcile(a,b);self.assertNotIn('tof',m);self.assertEqual(c['tof'],'needs_review')
+    def test_neighboring_table_counts_must_not_be_concatenated(self):
+        a=self.parse([(20,'TOF 90,20 %'),(40,'Parts en attente de retrait 2 703 162 957 003 057 800')])
+        m,proof,coverage,_=fields.reconcile(a,a)
+        self.assertEqual(m['tof'],90.2)
+        self.assertNotIn('parts_attente_retrait',m)
+        self.assertEqual(coverage['parts_attente_retrait'],'needs_review')
+    def test_large_but_valid_share_count_retained(self):
+        a=self.parse([(20,'Nombre de parts 3 835 627')])
+        m,_,coverage,_=fields.reconcile(a,a)
+        self.assertEqual(m['nombre_parts'],3835627)
+        self.assertEqual(coverage['nombre_parts'],'verified')
     def test_zero_queue_is_explicit_and_not_imputed(self):
         a=self.parse([(20,'Parts en attente de retrait 0')]);m,p,c,_=fields.reconcile(a,a)
         self.assertEqual(m['parts_attente_retrait'],0)
