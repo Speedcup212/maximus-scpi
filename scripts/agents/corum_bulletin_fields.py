@@ -75,11 +75,55 @@ def extract(pages,wordpages,widths,period):
   # Intentionally do not infer debt from a missing debt label, nor fees from a flat blend.
  return {k:vs[0] for k,vs in hits.items() if len({(x['value'],x['reference_date']) for x in vs})==1},seen
 
+def printed_capitalisation_candidates(proof):
+ """Only values visibly printed before the publisher's million/billion unit.
+ A historical comparison column is NOT current-quarter proof by itself.
+ """
+ m=re.search(r'capitalisation en prix de souscription\s*:\s*(.*?)\s*(millions?|milliards?)\b',norm(proof.get('text','')))
+ if not m:return set()
+ figures=re.findall(r'(?<![\d.,])(?:\d{1,3}(?:[ \u00a0\u202f]\d{3})+|\d+(?:[,.]\d+)?)(?![\d.,])',m[1])
+ multiplier=1000 if m[2].startswith('milliard') else 1
+ return {round(float(re.sub(r'\s','',value).replace(',','.'))*multiplier,6) for value in figures}
+
+def validated_printed_capitalisation(a,b,core):
+ """Never invent cap from shares*price: arithmetic checks which printed
+ source-column value, if any, is uniquely supported by the same-period facts.
+ Ambiguous columns are review-only even when MuPDF and Poppler agree on
+ the WRONG historical neighbouring column.
+ """
+ ca=printed_capitalisation_candidates(a);cb=printed_capitalisation_candidates(b)
+ if not ca or ca!=cb:return None
+ price=core.get('prix_souscription')
+ shares=core.get('nombre_parts')
+ if not price or not shares:
+  return next(iter(ca)) if len(ca)==1 and a['value']==b['value'] else None
+ implied=float(shares)*float(price)/1_000_000
+ if implied<=0:return None
+ matching=[v for v in ca if abs(v-implied)/implied<=0.05]
+ if len(matching)!=1:return None
+ return matching[0]
+
 def reconcile_extended(a,b,core):
  x,seen_a=a;y,seen_b=b;metrics={};proofs={};coverage={}
  for k in FIELDS:
   if k in core:coverage[k]='verified_core';continue
-  if k in x and k in y and all(x[k][f]==y[k][f] for f in ['value','page','reference_date']):
-   metrics[k]=x[k]['value'];proofs[k]={**x[k],'poppler_text':y[k]['text'],'independent_engines':['MuPDF','Poppler'],'method':'pdf_page_text_match','value_match':True};coverage[k]='verified'
-  else:coverage[k]='needs_review' if k in seen_a|seen_b or k in x or k in y else 'not_extracted'
+  if k in x and k in y and all(x[k][f]==y[k][f] for f in ['page','reference_date']):
+   if k=='capitalisation':
+    value=validated_printed_capitalisation(x[k],y[k],core)
+    if value is None:
+     coverage[k]='needs_review';continue
+    metrics[k]=value
+    proofs[k]={**x[k],'value':value,'poppler_text':y[k]['text'],
+      'independent_engines':['MuPDF','Poppler'],
+      'method':'pdf_page_text_match_issuer_arithmetic_qa',
+      'definition':'publisher_printed_quarter_value_verified_with_share_price_crosscheck',
+      'value_match':True}
+    coverage[k]='verified'
+    continue
+   if x[k]['value']==y[k]['value']:
+    metrics[k]=x[k]['value'];proofs[k]={**x[k],'poppler_text':y[k]['text'],
+      'independent_engines':['MuPDF','Poppler'],'method':'pdf_page_text_match','value_match':True}
+    coverage[k]='verified'
+    continue
+  coverage[k]='needs_review' if k in seen_a|seen_b or k in x or k in y else 'not_extracted'
  return metrics,proofs,coverage
