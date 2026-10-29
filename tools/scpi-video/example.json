@@ -1,0 +1,10 @@
+{
+  "hook": "Le taux de distribution suffit-il pour choisir une SCPI ?",
+  "scpi_name": "EXEMPLE FICTIF — ne pas publier",
+  "metric_value": "X %",
+  "metric_label": "Taux de distribution — valeur fictive",
+  "source_title": "Bulletin officiel à renseigner",
+  "source_url": "https://example.org/document-officiel-a-remplacer",
+  "as_of": "date à renseigner",
+  "conclusion": "Comparez les indicateurs, les frais et les risques avant toute décision."
+}
