@@ -36,7 +36,7 @@ BEGIN
    OR (d.metrics->>'tof')::numeric IS DISTINCT FROM h.tof
    OR (d.evidence->'tof'->>'page')::int<>4
    OR d.evidence->'tof'->>'reference_date'<>'2026-03-31'
-   OR d.evidence->'tof'->>'independent_engines' IS DISTINCT FROM
+   OR d.evidence->'tof'->'independent_engines' IS DISTINCT FROM
       '["MuPDF","Poppler"]'::jsonb
    OR c.source_url IS DISTINCT FROM b.source_url
    OR c.bulletin_id IS DISTINCT FROM b.id
