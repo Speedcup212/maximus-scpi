@@ -1,4 +1,5 @@
-import pathlib,sys,tempfile,unittest
+import pathlib,sys,tempfile,unittest,io,urllib.error
+from unittest.mock import patch
 sys.path.insert(0,str(pathlib.Path(__file__).parent))
 import bulletin_fields as fields
 import bulletin_complete_pipeline as replay
@@ -73,6 +74,38 @@ class OptionalMetricStatusTests(unittest.TestCase):
         self.assertEqual(sum(s not in ('verified','not_found_after_full_read') for s in coverage.values()),1)
 
 class SourceSafetyTests(unittest.TestCase):
+    def test_transient_github_oidc_503_retries_only_token_get(self):
+        token_url='https://oidc.actions.example/token'
+        first=urllib.error.HTTPError(token_url,503,'temporary',{},io.BytesIO(b''))
+        responses=[first,io.BytesIO(b'{"value":"test-github-jwt"}'),io.BytesIO(b'{"ok":true}')]
+        env={'ACTIONS_ID_TOKEN_REQUEST_URL':token_url,'ACTIONS_ID_TOKEN_REQUEST_TOKEN':'fixture'}
+        with patch.dict(replay.os.environ,env),patch.object(replay.time,'sleep') as sleep:
+            with patch.object(replay.urllib.request,'urlopen',side_effect=responses) as open_request:
+                self.assertEqual(replay.oidc_bridge({'op':'health'}),{'ok':True})
+                self.assertEqual(open_request.call_count,3)
+                self.assertEqual([call.args[0].get_method() for call in open_request.call_args_list],['GET','GET','POST'])
+                sleep.assert_called_once()
+    def test_persistent_github_oidc_403_never_retries(self):
+        token_url='https://oidc.actions.example/token'
+        denied=urllib.error.HTTPError(token_url,403,'forbidden',{},io.BytesIO(b''))
+        env={'ACTIONS_ID_TOKEN_REQUEST_URL':token_url,'ACTIONS_ID_TOKEN_REQUEST_TOKEN':'fixture'}
+        with patch.dict(replay.os.environ,env),patch.object(replay.time,'sleep') as sleep:
+            with patch.object(replay.urllib.request,'urlopen',side_effect=[denied]) as open_request:
+                with self.assertRaises(urllib.error.HTTPError):
+                    replay.oidc_bridge({'op':'health'})
+                self.assertEqual(open_request.call_count,1)
+                sleep.assert_not_called()
+    def test_bridge_record_503_is_not_retried_as_duplicate_write(self):
+        token_url='https://oidc.actions.example/token'
+        responses=[io.BytesIO(b'{"value":"test-github-jwt"}'),
+                   urllib.error.HTTPError('https://supabase.example',503,'temporary',{},io.BytesIO(b'{"error":"temporary"}'))]
+        env={'ACTIONS_ID_TOKEN_REQUEST_URL':token_url,'ACTIONS_ID_TOKEN_REQUEST_TOKEN':'fixture'}
+        with patch.dict(replay.os.environ,env),patch.object(replay.time,'sleep') as sleep:
+            with patch.object(replay.urllib.request,'urlopen',side_effect=responses) as open_request:
+                with self.assertRaisesRegex(RuntimeError,'Protected replay bridge HTTP 503'):
+                    replay.oidc_bridge({'op':'record','doc':{'id':'fixture'}})
+                self.assertEqual(open_request.call_count,2)
+                sleep.assert_not_called()
     def test_private_host_and_redirect_rejected_before_network(self):
         for u in ['https://extranet.example.com/doc.pdf','https://intranet.example.com/a','http://example.com/a','https://127.0.0.1/a']:
             with self.assertRaises(ValueError):replay.public_source(u)
