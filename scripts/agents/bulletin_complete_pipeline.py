@@ -89,7 +89,19 @@ def oidc_bridge(payload):
     audience='maximus-scpi-bulletin-replay-ygvsddcpohsnaowofuwc'
     url=os.environ['ACTIONS_ID_TOKEN_REQUEST_URL'];url+=('&' if '?' in url else '?')+urllib.parse.urlencode({'audience':audience})
     req=urllib.request.Request(url,headers={'Authorization':'Bearer '+os.environ['ACTIONS_ID_TOKEN_REQUEST_TOKEN']})
-    with urllib.request.urlopen(req,timeout=25) as r:token=json.load(r)['value']
+    # GitHub's OIDC minting endpoint can transiently return 429/5xx even
+    # though the workflow identity is valid. Retry only this idempotent GET,
+    # never an ambiguous side-effecting Supabase record/archive POST.
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(req,timeout=25) as r:
+                token=json.load(r)['value']
+            if not token:raise ValueError('empty_github_oidc_token')
+            break
+        except urllib.error.HTTPError as err:
+            if err.code not in (429,500,502,503,504) or attempt==4:raise
+            time.sleep(min(1.5*(2**attempt),8))
+    else:raise RuntimeError('github_oidc_token_unavailable')
     req=urllib.request.Request(PROJECT+'/functions/v1/scpi-bulletin-replay-oidc',data=json.dumps(payload,ensure_ascii=False).encode(),headers={'Authorization':'Bearer '+token,'Content-Type':'application/json'},method='POST')
     try:
         with urllib.request.urlopen(req,timeout=90) as r:return json.load(r)
