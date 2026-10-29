@@ -73,6 +73,31 @@ class OptionalMetricStatusTests(unittest.TestCase):
         self.assertEqual(coverage['tof'],'needs_review')
         self.assertEqual(sum(s not in ('verified','not_found_after_full_read') for s in coverage.values()),1)
 
+class OfficialArchiveMigrationTests(unittest.TestCase):
+    def test_nine_praemia_quarters_have_exact_primary_publisher_pdf_urls(self):
+        import re, urllib.parse
+        migration=(pathlib.Path(__file__).resolve().parents[2]/
+                   'supabase/migrations/20261029102000_praemia_9_exact_quarterly_issuers.sql').read_text()
+        rows=re.findall(r"\\('(primovie|patrimmo-commerce)','(20\\d{2}-T[1-4])','(https://[^']+)'\\)",migration)
+        self.assertEqual(len(rows),9)
+        self.assertEqual(len(set((fund,period) for fund,period,_ in rows)),9)
+        for fund,period,url in rows:
+            parsed=urllib.parse.urlsplit(url)
+            self.assertEqual(parsed.hostname,'www.praemiareim.fr')
+            self.assertEqual(parsed.scheme,'https')
+            self.assertIn('.pdf/',urllib.parse.unquote(parsed.path))
+            self.assertIn('_T'+period[-1]+'_'+period[:4],urllib.parse.unquote(parsed.path))
+            self.assertNotIn('scpi-lab',url.lower())
+    def test_historical_tof_repair_requires_exact_issuer_and_two_pdf_engines(self):
+        migration=(pathlib.Path(__file__).resolve().parents[2]/
+                   'supabase/migrations/20261029104000_patrimmo_exact_quarter_tof_certification.sql').read_text()
+        for period in ('2025-T3','2025-T4','2026-T1'):
+            self.assertIn("'"+period+"'::text",migration)
+        for guard in ("d.result->>'identity_verified'","d.result->>'period_verified'",
+                      "'[\"MuPDF\",\"Poppler\"]'::jsonb","d.evidence->'tof'->>'page'",
+                      "d.pdf_sha256 !~","scpi_replay_provenance_quarantine"):
+            self.assertIn(guard,migration)
+
 class SourceSafetyTests(unittest.TestCase):
     def test_transient_github_oidc_503_retries_only_token_get(self):
         token_url='https://oidc.actions.example/token'
