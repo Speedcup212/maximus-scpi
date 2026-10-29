@@ -30,6 +30,22 @@ class ExtendedFieldsTest(unittest.TestCase):
     self.assertEqual(coverage['capitalisation'],'verified')
     self.assertIn(str(displayed).split(' ')[0],proofs['capitalisation']['text'])
     self.assertEqual(proofs['capitalisation']['method'],'pdf_page_text_match_issuer_arithmetic_qa')
+ def test_capitalisation_uses_dual_reader_extended_price_not_missing_core_price(self):
+  for slug,source,shares,price,expected in [
+    ('origin',"Capitalisation en prix de souscription : 3,163 2,4 milliards d'euros",2786554,1135,3163),
+    ('xl',"Capitalisation en prix de souscription : 2,017 1,6 milliards d'euros",10342271,195,2017),
+  ]:
+   with self.subTest(fund=slug):
+    cap={'value':2400 if slug=='origin' else 1600,'page':3,'text':source,
+         'reference_date':'2024-09-30','unit':'MEUR'}
+    issuer_price={'value':price,'page':2,'text':'Prix de souscription '+str(price)+' EUR',
+                  'reference_date':'2024-09-30','unit':'EUR_PER_PART'}
+    a=({'capitalisation':cap,'prix_souscription':issuer_price},{'capitalisation','prix_souscription'})
+    metrics,proof,coverage=f.reconcile_extended(a,a,{'nombre_parts':shares})
+    self.assertEqual(metrics['capitalisation'],expected)
+    self.assertEqual(metrics['prix_souscription'],price)
+    self.assertEqual(coverage['capitalisation'],'verified')
+    self.assertEqual(proof['capitalisation']['method'],'pdf_page_text_match_issuer_arithmetic_qa')
  def test_ambiguous_capitalization_never_inferred_from_share_price(self):
   evidence={'value':1500,'page':4,'text':"Capitalisation en prix de souscription : 2 1,5 milliards d'euros",
      'reference_date':'2024-03-31','unit':'MEUR'}
