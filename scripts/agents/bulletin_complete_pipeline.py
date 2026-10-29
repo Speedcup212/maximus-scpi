@@ -295,9 +295,12 @@ def inspect(item, downloaded, out, aliases):
                 else:result['metrics'][k]=v;result['evidence'][k]=ep[k];result['field_coverage'][k]='verified'
         result['status']='extracted_needs_review' if result['anomalies'] else 'extracted'
         result['metrics_count']=len(result['metrics'])
-        result['unresolved_count']=sum(s!='verified' for s in result['field_coverage'].values())
+        result['unresolved_count']=sum(s not in ('verified','not_found_after_full_read') for s in result['field_coverage'].values())
+        result['officially_absent_metrics']=[k for k,s in result['field_coverage'].items() if s=='not_found_after_full_read']
+        # Missing from both full-page PDF readers is a documented absence, not a parser failure.
+        # Do not invent a value or overwrite the last independently certified, dated value.
         result['processing_complete']=result['pages_read']==result['page_count']
-        result['financial_complete']=result['unresolved_count']==0 and not result['anomalies']
+        result['financial_complete']=result['processing_complete'] and result['unresolved_count']==0 and not result['anomalies']
         return result
     except Exception as err:
         result['status']='extraction_error';result['error']=type(err).__name__+': '+str(err)[:400]
