@@ -69,6 +69,18 @@ class SourceSafetyTests(unittest.TestCase):
         self.assertEqual(replay.public_source('https://www.corum.fr/sites/default/files/a.pdf'),'https://www.corum.fr/sites/default/files/a.pdf')
     def test_wrong_product_identity_rejected(self):
         self.assertFalse(replay.identity_matches({'scpi_slug':'atream-hotel','scpi_name':'Atream Hôtels'},['SCI Atream Euro Hospitality'],[]))
+    def test_filename_202206_rejects_2021_t3_historical_comparison(self):
+        url='https://www.consultim-am.com/wp-content/uploads/2022/07/Optimale-Bulletin-trimestriel-202206.pdf'
+        pages=['2ème trimestre 2022 Bulletin trimestriel 2022 : historique 3ème trimestre 2021']
+        self.assertEqual(replay.document_issue_from_filename(url),'2022-T2')
+        self.assertFalse(replay.period_matches('2021-T3',pages,url))
+        self.assertTrue(replay.period_matches('2022-T2',pages,url))
+    def test_filename_upload_folder_does_not_set_issue(self):
+        self.assertIsNone(replay.document_issue_from_filename('https://issuer.com/wp-content/uploads/2022/07/bulletin-trimestriel.pdf'))
+    def test_publisher_heading_rejects_wrong_prior_period(self):
+        pages=['Bulletin 2ème trimestre 2022. Historique de comparaison 3ème trimestre 2021']
+        self.assertFalse(replay.period_matches('2021-T3',pages))
+        self.assertTrue(replay.period_matches('2022-T2',pages))
     def test_true_issue_not_other_quarter(self):
         self.assertTrue(replay.period_matches('2026-T3',['Bulletin 3e trimestre 2026']))
         self.assertFalse(replay.period_matches('2026-T3',['Bulletin 2e trimestre 2026']))
