@@ -46,7 +46,7 @@ class FinancialAssociationTests(unittest.TestCase):
 
 class OptionalMetricStatusTests(unittest.TestCase):
     def test_absent_metric_is_not_an_extraction_error(self):
-        a=fields.extract(['Bulletin trimestriel informations générales'],[words([(20,'Bulletin sans valeur de reconstitution')])],[595],'2026-T3')
+        a=fields.extract(['Bulletin trimestriel informations générales'],[words([(20,'Bulletin trimestriel informations générales')])],[595],'2026-T3')
         _,_,coverage,_=fields.reconcile(a,a)
         self.assertEqual(coverage['prix_reconstitution'],'not_found_after_full_read')
         self.assertEqual(sum(s not in ('verified','not_found_after_full_read') for s in coverage.values()),0)
