@@ -78,7 +78,7 @@ class OfficialArchiveMigrationTests(unittest.TestCase):
         import re, urllib.parse
         migration=(pathlib.Path(__file__).resolve().parents[2]/
                    'supabase/migrations/20261029102000_praemia_9_exact_quarterly_issuers.sql').read_text()
-        rows=re.findall(r"\\('(primovie|patrimmo-commerce)','(20\\d{2}-T[1-4])','(https://[^']+)'\\)",migration)
+        rows=re.findall(r"\('(primovie|patrimmo-commerce)','(20\d{2}-T[1-4])','(https://[^']+)'\)",migration)
         self.assertEqual(len(rows),9)
         self.assertEqual(len(set((fund,period) for fund,period,_ in rows)),9)
         for fund,period,url in rows:
