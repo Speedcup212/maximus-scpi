@@ -44,6 +44,19 @@ class FinancialAssociationTests(unittest.TestCase):
         a=self.parse([(20,'31/12/2025 30/06/2026'),(40,'Valeur de réalisation 177,04 € 187,67 €')]);m,_,_,_=fields.reconcile(a,a)
         self.assertNotIn('valeur_realisation',m)
 
+class OptionalMetricStatusTests(unittest.TestCase):
+    def test_absent_metric_is_not_an_extraction_error(self):
+        a=fields.extract(['Bulletin trimestriel informations générales'],[words([(20,'Bulletin trimestriel informations générales')])],[595],'2026-T3')
+        _,_,coverage,_=fields.reconcile(a,a)
+        self.assertEqual(coverage['prix_reconstitution'],'not_found_after_full_read')
+        self.assertEqual(sum(s not in ('verified','not_found_after_full_read') for s in coverage.values()),0)
+    def test_present_but_unresolved_metric_stays_blocking(self):
+        a=fields.extract(['TOF 99,12 %'],[words([(20,'TOF 99,12 %')])],[595],'2026-T3')
+        b=fields.extract(['TOF 99,72 %'],[words([(20,'TOF 99,72 %')])],[595],'2026-T3')
+        _,_,coverage,_=fields.reconcile(a,b)
+        self.assertEqual(coverage['tof'],'needs_review')
+        self.assertEqual(sum(s not in ('verified','not_found_after_full_read') for s in coverage.values()),1)
+
 class SourceSafetyTests(unittest.TestCase):
     def test_private_host_and_redirect_rejected_before_network(self):
         for u in ['https://extranet.example.com/doc.pdf','https://intranet.example.com/a','http://example.com/a','https://127.0.0.1/a']:
