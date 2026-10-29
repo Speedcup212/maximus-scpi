@@ -305,7 +305,9 @@ def inspect(item, downloaded, out, aliases):
         # remain explicitly unverified until a separate typed parser certifies them.
         # Never invent or red-date a previously certified official value.
         result['processing_complete']=result['pages_read']==result['page_count']
-        result['financial_complete']=result['processing_complete'] and result['financial_unresolved_count']==0 and not result['anomalies']
+        result['financial_core_verified']=any(result['field_coverage'].get(k)=='verified' for k in ('tof','prix_souscription','capitalisation','td'))
+        result['financial_complete']=(result['processing_complete'] and result['financial_core_verified']
+                                      and result['financial_unresolved_count']==0 and not result['anomalies'])
         return result
     except Exception as err:
         result['status']='extraction_error';result['error']=type(err).__name__+': '+str(err)[:400]
