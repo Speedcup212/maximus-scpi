@@ -109,7 +109,15 @@ def reconcile_extended(a,b,core):
   if k in core:coverage[k]='verified_core';continue
   if k in x and k in y and all(x[k][f]==y[k][f] for f in ['page','reference_date']):
    if k=='capitalisation':
-    value=validated_printed_capitalisation(x[k],y[k],core)
+    # parse_core validates share counts but has no subscription price key.
+    # The exact-quarter price is independently read by both extended engines.
+    # Use it for QA only if the two source facts agree in value/page/date.
+    cap_context={**core}
+    if ('prix_souscription' in x and 'prix_souscription' in y and
+        all(x['prix_souscription'][f]==y['prix_souscription'][f]
+            for f in ('value','page','reference_date'))):
+     cap_context['prix_souscription']=x['prix_souscription']['value']
+    value=validated_printed_capitalisation(x[k],y[k],cap_context)
     if value is None:
      coverage[k]='needs_review';continue
     metrics[k]=value
