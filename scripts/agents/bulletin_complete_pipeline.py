@@ -328,7 +328,16 @@ def inspect(item, downloaded, out, aliases):
         if item['scpi_slug'].startswith('corum-') and re.fullmatch(r'20\d{2}-T[1-4]',item['period']):
             from corum_document_pipeline import parse_core,reconcile
             cm,cp,_=reconcile(parse_core(*a,period=item['period']),parse_core(*b,period=item['period']))
-            em,ep,ec=corum_bulletin_fields.reconcile_extended(corum_bulletin_fields.extract(*a,item['period']),corum_bulletin_fields.extract(*b,item['period']),cm)
+            # The print-visible cap column must also agree with independently
+            # verified same-period share count and subscription price. A
+            # computed cap is never emitted as financial evidence.
+            verified_current={**cm}
+            if (result['field_coverage'].get('prix_souscription')=='verified'
+                    and 'prix_souscription' in result['metrics']):
+                verified_current['prix_souscription']=result['metrics']['prix_souscription']
+            em,ep,ec=corum_bulletin_fields.reconcile_extended(
+                corum_bulletin_fields.extract(*a,item['period']),
+                corum_bulletin_fields.extract(*b,item['period']),verified_current)
             for k,v in cm.items():
                 cmproof={**cp[k],'value':v,'reference_date':bulletin_fields.end_date(item['period']),'definition':'reported_metric'}
                 result['metrics'][k]=v;result['evidence'][k]=cmproof;result['field_coverage'][k]='verified'
