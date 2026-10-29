@@ -114,6 +114,22 @@ class FirstPartyAffiliateSourcePolicyTests(unittest.TestCase):
         self.assertNotIn("r.source_domain='moniwan.fr'",sql)
         self.assertIn('PENDING',sql.upper()) if 'PENDING' in sql.upper() else self.assertIn('pending_independent_readers',sql)
 
+class CorumCrossReaderReplayRegressionTests(unittest.TestCase):
+    def test_same_issue_corum_price_from_extended_readers_replaces_bad_history_column(self):
+        import corum_bulletin_fields as cb
+        cap={'value':2400,'page':3,
+             'text':"Capitalisation en prix de souscription : 3,163 2,4 milliards d'euros",
+             'unit':'MEUR','reference_date':'2024-09-30'}
+        price={'value':1135,'page':2,'text':'Prix de souscription 1 135 euros',
+               'unit':'EUR_PER_PART','reference_date':'2024-09-30'}
+        proposals=({'capitalisation':cap,'prix_souscription':price},
+                   {'capitalisation','prix_souscription'})
+        metrics,proofs,coverage=cb.reconcile_extended(
+            proposals,proposals,{'nombre_parts':2786554})
+        self.assertEqual(metrics['capitalisation'],3163)
+        self.assertEqual(coverage['capitalisation'],'verified')
+        self.assertEqual(proofs['capitalisation']['method'],
+                         'pdf_page_text_match_issuer_arithmetic_qa')
 class SourceSafetyTests(unittest.TestCase):
     def test_transient_github_oidc_503_retries_only_token_get(self):
         token_url='https://oidc.actions.example/token'
