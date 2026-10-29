@@ -98,6 +98,22 @@ class OfficialArchiveMigrationTests(unittest.TestCase):
                       "d.pdf_sha256 !~","scpi_replay_provenance_quarantine"):
             self.assertIn(guard,migration)
 
+class FirstPartyAffiliateSourcePolicyTests(unittest.TestCase):
+    def test_only_two_exact_issuer_group_documents_are_whitelisted(self):
+        sql=(pathlib.Path(__file__).resolve().parents[2]/
+             'supabase/migrations/20261029120000_lafrancaise_moniwan_exact_issuer_distributor_pdf.sql').read_text()
+        urls=(
+            'https://www.moniwan.fr/documents/bulletin-trimestriel-scpi-lf-avenir-sante-30062025',
+            'https://www.moniwan.fr/documents/bulletin-trimestriel-lf-europimmo-30062025',
+        )
+        for url in urls:
+            self.assertIn(url,sql)
+        self.assertIn("p_slug=''lf-avenir-sante''",sql)
+        self.assertIn("p_slug=''lf-europimmo''",sql)
+        self.assertNotIn("LIKE '%moniwan.fr'",sql)
+        self.assertNotIn("r.source_domain='moniwan.fr'",sql)
+        self.assertIn('PENDING',sql.upper()) if 'PENDING' in sql.upper() else self.assertIn('pending_independent_readers',sql)
+
 class SourceSafetyTests(unittest.TestCase):
     def test_transient_github_oidc_503_retries_only_token_get(self):
         token_url='https://oidc.actions.example/token'
