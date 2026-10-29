@@ -50,6 +50,10 @@ class OptionalMetricStatusTests(unittest.TestCase):
         _,_,coverage,_=fields.reconcile(a,a)
         self.assertEqual(coverage['prix_reconstitution'],'not_found_after_full_read')
         self.assertEqual(sum(s not in ('verified','not_found_after_full_read') for s in coverage.values()),0)
+    def test_all_absent_values_never_form_a_financial_certificate(self):
+        self.assertFalse(replay.has_verified_financial_core({'prix_reconstitution':'not_found_after_full_read','tof':'not_found_after_full_read'}))
+        self.assertFalse(replay.has_verified_financial_core({'capital_type':'needs_review'}))
+        self.assertTrue(replay.has_verified_financial_core({'tof':'verified','prix_reconstitution':'not_found_after_full_read'}))
     def test_present_but_unresolved_metric_stays_blocking(self):
         a=fields.extract(['TOF 99,12 %'],[words([(20,'TOF 99,12 %')])],[595],'2026-T3')
         b=fields.extract(['TOF 99,72 %'],[words([(20,'TOF 99,72 %')])],[595],'2026-T3')

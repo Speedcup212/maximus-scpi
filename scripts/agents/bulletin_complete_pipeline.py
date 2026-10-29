@@ -44,6 +44,10 @@ PUBLIC_OPENER=urllib.request.build_opener(PublicRedirect(),
 def norm(s):
     return re.sub(r'\s+', ' ', ''.join(c for c in unicodedata.normalize('NFKD', str(s).replace('œ','oe')) if not unicodedata.combining(c))).lower().replace('’', "'").strip()
 
+def has_verified_financial_core(coverage):
+    """An all-absent bulletin is never a financial certification."""
+    return any(coverage.get(k)=='verified' for k in ('tof','prix_souscription','capitalisation','td'))
+
 def source_key(item):
     return str(item['scpi_slug']) + ':' + str(item['period']) + ':' + str(item['id'])
 
@@ -305,7 +309,9 @@ def inspect(item, downloaded, out, aliases):
         # remain explicitly unverified until a separate typed parser certifies them.
         # Never invent or red-date a previously certified official value.
         result['processing_complete']=result['pages_read']==result['page_count']
-        result['financial_complete']=result['processing_complete'] and result['financial_unresolved_count']==0 and not result['anomalies']
+        result['financial_core_verified']=has_verified_financial_core(result['field_coverage'])
+        result['financial_complete']=(result['processing_complete'] and result['financial_core_verified']
+                                      and result['financial_unresolved_count']==0 and not result['anomalies'])
         return result
     except Exception as err:
         result['status']='extraction_error';result['error']=type(err).__name__+': '+str(err)[:400]
