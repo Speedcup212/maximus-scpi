@@ -50,9 +50,27 @@ const waitForServer = async () => {
   throw new Error(`Vite dev n'a pas démarré.\n${previewLogs}`);
 };
 
+const waitForAppRender = async (page, path) => {
+  try {
+    await page.waitForFunction(() => {
+      const root = document.getElementById('root');
+      return !document.documentElement.classList.contains('private-app-booting')
+        && Boolean(root?.innerText?.trim());
+    }, { timeout: 20_000 });
+  } catch (error) {
+    const state = await page.evaluate(() => ({
+      path: location.pathname,
+      booting: document.documentElement.classList.contains('private-app-booting'),
+      rootText: document.getElementById('root')?.innerText?.slice(0, 600),
+      rootHtml: document.getElementById('root')?.innerHTML?.slice(0, 900),
+    }));
+    throw new Error(`Smoke test ${path}: rendu React non disponible. State: ${JSON.stringify(state)}. Vite: ${previewLogs.slice(-1200)}. ${error}`);
+  }
+};
+
 const assertContains = async (page, path, expected) => {
   await page.goto(`${BASE}${path}`, { waitUntil: 'networkidle2', timeout: 30_000 });
-  await page.waitForSelector('body', { timeout: 10_000 });
+  await waitForAppRender(page, path);
   const body = await page.$eval('body', el => el.innerText);
   for (const text of expected) {
     if (!body.includes(text)) {
@@ -113,7 +131,7 @@ try {
   await assertContains(page, '/app/request-access', ['Demander un accès', 'Après validation']);
 
   await page.goto(`${BASE}/app`, { waitUntil: 'networkidle2', timeout: 30_000 });
-  await sleep(1000);
+  await waitForAppRender(page, '/app');
   const appEntryBody = await page.$eval('body', el => el.innerText);
   if (!appEntryBody.includes('Connexion') || appEntryBody.includes('Suivez vos SCPI. Surveillez leur trajectoire.')) {
     throw new Error(
@@ -122,7 +140,7 @@ try {
   }
 
   await page.goto(`${BASE}/app/client`, { waitUntil: 'networkidle2', timeout: 30_000 });
-  await sleep(1000);
+  await waitForAppRender(page, '/app/client');
   const protectedBody = await page.$eval('body', el => el.innerText);
   if (!protectedBody.includes('Connexion')) {
     throw new Error(
