@@ -235,7 +235,7 @@ def document_issue_from_filename(source_url):
     if len(hints)==1:return next(iter(hints))
     # Issuer file identifiers such as Optimale-Bulletin-trimestriel-202206.pdf
     # use YYYYMM, where the month encodes the actual closing quarter.
-    match=re.search(r'(?<!\\d)(20\\d{2})[-_.]?((?:0[1-9])|(?:1[0-2]))(?!\\d)',title)
+    match=re.search(r'(?<!\d)(20\d{2})[-_.]?((?:0[1-9])|(?:1[0-2]))(?!\d)',title)
     if match:return match[1]+'-T'+str((int(match[2])-1)//3+1)
     return None
 
@@ -245,8 +245,15 @@ def period_matches(period,pages,source_url=None):
     filename_issue=document_issue_from_filename(source_url)
     if filename_issue and filename_issue!=period:return False
     first_page=norm(pages[0][:700]) if pages else ''
-    first_page_issues=source_resolver.issue_hints(first_page)
-    if len(first_page_issues)==1 and period not in first_page_issues:return False
+    # An issue explicitly named on the cover overrides older periods
+    # reproduced in performance tables later on the same page.
+    cover=re.search(r'\b(?:bulletin\s+(?:d.information\s+)?)?([1-4])\s*(?:er|e|eme)?\s*trimestre\s*(20\d{2})\b', first_page[:180])
+    if cover:
+        cover_issue=cover[2]+'-T'+cover[1]
+        if cover_issue!=period:return False
+    else:
+        first_page_issues=source_resolver.issue_hints(first_page)
+        if len(first_page_issues)==1 and period not in first_page_issues:return False
     year,q=period.split('-T');head=norm(' '.join(pages[:2]))
     patterns=[rf'\b{year}\s*[- /]?\s*[tq]\s*{q}\b',rf'\b[tq]\s*{q}\s*[- /]?\s*{year}\b',rf'\b{q}\s*t\s*{year}\b',rf'\b{q}\s*(?:er|e|eme)?\s*trimestre\s*{year}\b']
     ordinal=['premier','deuxieme','troisieme','quatrieme'][int(q)-1]
