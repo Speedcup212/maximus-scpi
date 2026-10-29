@@ -130,6 +130,76 @@ class CorumCrossReaderReplayRegressionTests(unittest.TestCase):
         self.assertEqual(coverage['capitalisation'],'verified')
         self.assertEqual(proofs['capitalisation']['method'],
                          'pdf_page_text_match_issuer_arithmetic_qa')
+class ExactReplacementArchiveRegressionTests(unittest.TestCase):
+    def test_old_404_remains_a_failure_with_exact_quarter_provenance(self):
+        migration=(pathlib.Path(__file__).resolve().parents[2]/
+                   'supabase/migrations/20261029124500_resolve_dead_lafrancaise_links_by_same_issue_pdf.sql').read_text()
+        self.assertEqual(migration.count("'https://doc.la-francaise.com/documents/bulletin-trimestriel-"),2)
+        self.assertIn("old_row.status<>'fetch_error'",migration)
+        self.assertIn("coalesce(old_row.result->>'error','') NOT ILIKE '%404%'",migration)
+        self.assertIn("verified_row.result->>'identity_verified'<>'true'",migration)
+        self.assertIn("verified_row.result->>'period_verified'<>'true'",migration)
+        self.assertIn("verified_row.pdf_sha256 !~ '^[a-f0-9]{64}
+    def test_transient_github_oidc_503_retries_only_token_get(self):
+        token_url='https://oidc.actions.example/token'
+        first=urllib.error.HTTPError(token_url,503,'temporary',{},io.BytesIO(b''))
+        responses=[first,io.BytesIO(b'{"value":"test-github-jwt"}'),io.BytesIO(b'{"ok":true}')]
+        env={'ACTIONS_ID_TOKEN_REQUEST_URL':token_url,'ACTIONS_ID_TOKEN_REQUEST_TOKEN':'fixture'}
+        with patch.dict(replay.os.environ,env),patch.object(replay.time,'sleep') as sleep:
+            with patch.object(replay.urllib.request,'urlopen',side_effect=responses) as open_request:
+                self.assertEqual(replay.oidc_bridge({'op':'health'}),{'ok':True})
+                self.assertEqual(open_request.call_count,3)
+                self.assertEqual([call.args[0].get_method() for call in open_request.call_args_list],['GET','GET','POST'])
+                sleep.assert_called_once()
+    def test_persistent_github_oidc_403_never_retries(self):
+        token_url='https://oidc.actions.example/token'
+        denied=urllib.error.HTTPError(token_url,403,'forbidden',{},io.BytesIO(b''))
+        env={'ACTIONS_ID_TOKEN_REQUEST_URL':token_url,'ACTIONS_ID_TOKEN_REQUEST_TOKEN':'fixture'}
+        with patch.dict(replay.os.environ,env),patch.object(replay.time,'sleep') as sleep:
+            with patch.object(replay.urllib.request,'urlopen',side_effect=[denied]) as open_request:
+                with self.assertRaises(urllib.error.HTTPError):
+                    replay.oidc_bridge({'op':'health'})
+                self.assertEqual(open_request.call_count,1)
+                sleep.assert_not_called()
+    def test_bridge_record_503_is_not_retried_as_duplicate_write(self):
+        token_url='https://oidc.actions.example/token'
+        responses=[io.BytesIO(b'{"value":"test-github-jwt"}'),
+                   urllib.error.HTTPError('https://supabase.example',503,'temporary',{},io.BytesIO(b'{"error":"temporary"}'))]
+        env={'ACTIONS_ID_TOKEN_REQUEST_URL':token_url,'ACTIONS_ID_TOKEN_REQUEST_TOKEN':'fixture'}
+        with patch.dict(replay.os.environ,env),patch.object(replay.time,'sleep') as sleep:
+            with patch.object(replay.urllib.request,'urlopen',side_effect=responses) as open_request:
+                with self.assertRaisesRegex(RuntimeError,'Protected replay bridge HTTP 503'):
+                    replay.oidc_bridge({'op':'record','doc':{'id':'fixture'}})
+                self.assertEqual(open_request.call_count,2)
+                sleep.assert_not_called()
+    def test_private_host_and_redirect_rejected_before_network(self):
+        for u in ['https://extranet.example.com/doc.pdf','https://intranet.example.com/a','http://example.com/a','https://127.0.0.1/a']:
+            with self.assertRaises(ValueError):replay.public_source(u)
+    def test_official_public_document_permitted(self):
+        self.assertEqual(replay.public_source('https://www.corum.fr/sites/default/files/a.pdf'),'https://www.corum.fr/sites/default/files/a.pdf')
+    def test_wrong_product_identity_rejected(self):
+        self.assertFalse(replay.identity_matches({'scpi_slug':'atream-hotel','scpi_name':'Atream Hôtels'},['SCI Atream Euro Hospitality'],[]))
+    def test_filename_202206_rejects_2021_t3_historical_comparison(self):
+        url='https://www.consultim-am.com/wp-content/uploads/2022/07/Optimale-Bulletin-trimestriel-202206.pdf'
+        pages=['2ème trimestre 2022 Bulletin trimestriel 2022 : historique 3ème trimestre 2021']
+        self.assertEqual(replay.document_issue_from_filename(url),'2022-T2')
+        self.assertFalse(replay.period_matches('2021-T3',pages,url))
+        self.assertTrue(replay.period_matches('2022-T2',pages,url))
+    def test_filename_upload_folder_does_not_set_issue(self):
+        self.assertIsNone(replay.document_issue_from_filename('https://issuer.com/wp-content/uploads/2022/07/bulletin-trimestriel.pdf'))
+    def test_publisher_heading_rejects_wrong_prior_period(self):
+        pages=['Bulletin 2ème trimestre 2022. Historique de comparaison 3ème trimestre 2021']
+        self.assertFalse(replay.period_matches('2021-T3',pages))
+        self.assertTrue(replay.period_matches('2022-T2',pages))
+    def test_true_issue_not_other_quarter(self):
+        self.assertTrue(replay.period_matches('2026-T3',['Bulletin 3e trimestre 2026']))
+        self.assertFalse(replay.period_matches('2026-T3',['Bulletin 2e trimestre 2026']))
+
+if __name__=='__main__':unittest.main()
+",migration)
+        self.assertIn("old_fetch_error_retained_for_audit",migration)
+        self.assertIn("financial_certification",migration)
+        self.assertIn("scpi_replay_provenance_quarantine",migration)
 class SourceSafetyTests(unittest.TestCase):
     def test_transient_github_oidc_503_retries_only_token_get(self):
         token_url='https://oidc.actions.example/token'
