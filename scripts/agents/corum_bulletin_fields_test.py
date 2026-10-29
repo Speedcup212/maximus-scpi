@@ -5,6 +5,45 @@ class ExtendedFieldsTest(unittest.TestCase):
   words=[(10,50,80,60,'Capitalisation'),(10,20,15,30,'1'),(17,20,32,30,'148'),(34,20,70,30,'millions'),(72,20,100,30,"d'euros")]
   a,_=f.extract(['Capitalisation 1 148 millions d’euros'],[words],[400],'2023-T4')
   self.assertEqual(a['capitalisation']['value'],1148)
+ def test_eight_mixed_column_corum_capitals_use_only_printed_current_value(self):
+  # Publisher PDFs put the current and previous issue columns in one
+  # geometry fragment. Neither engine disagreement nor arithmetic inference
+  # may become a fabricated capitalisation.
+  examples=[
+   ('2 940 2 millions d\'euros',2590172,1135,2940),
+   ('3 2,3 milliards d\'euros',2650212,1135,3000),
+   ('3,1 2,3 milliards d\'euros',2716403,1135,3100),
+   ('3,163 2,4 milliards d\'euros',2786554,1135,3163),
+   ('1 919 1 millions d\'euros',9842822,195,1919),
+   ('2 1,5 milliards d\'euros',10028067,195,2000),
+   ('2 1,5 milliards d\'euros',10197718,195,2000),
+   ('2,017 1,6 milliards d\'euros',10342271,195,2017),
+  ]
+  for displayed,shares,price,expected in examples:
+   with self.subTest(displayed=displayed):
+    evidence={'value':0,'page':4,'text':'Capitalisation en prix de souscription : '+displayed,
+      'reference_date':'2024-03-31','unit':'MEUR'}
+    data=({'capitalisation':evidence},{'capitalisation'})
+    core={'nombre_parts':shares,'prix_souscription':price}
+    values,proofs,coverage=f.reconcile_extended(data,data,core)
+    self.assertEqual(values['capitalisation'],expected)
+    self.assertEqual(coverage['capitalisation'],'verified')
+    self.assertIn(str(displayed).split(' ')[0],proofs['capitalisation']['text'])
+    self.assertEqual(proofs['capitalisation']['method'],'pdf_page_text_match_issuer_arithmetic_qa')
+ def test_ambiguous_capitalization_never_inferred_from_share_price(self):
+  evidence={'value':1500,'page':4,'text':"Capitalisation en prix de souscription : 2 1,5 milliards d'euros",
+     'reference_date':'2024-03-31','unit':'MEUR'}
+  data=({'capitalisation':evidence},{'capitalisation'})
+  # Without independently verified shares and price, the current issue
+  # cannot be distinguished from the historical adjacent column.
+  m,_,status=f.reconcile_extended(data,data,{})
+  self.assertNotIn('capitalisation',m)
+  self.assertEqual(status['capitalisation'],'needs_review')
+  # With two equally plausible source amounts, no inferred value is allowed.
+  data2=({'capitalisation':{**evidence,'text':"Capitalisation en prix de souscription : 2,00 2,01 milliards d'euros"}},{'capitalisation'})
+  m,_,status=f.reconcile_extended(data2,data2,{'nombre_parts':10200000,'prix_souscription':195})
+  self.assertNotIn('capitalisation',m)
+  self.assertEqual(status['capitalisation'],'needs_review')
  def test_dates_are_not_bulletin_quarters(self):
   self.assertEqual(f.valuation_date('VALEURS DE RÉFÉRENCE AU 30 JUIN 2026'),'2026-06-30')
   self.assertEqual(f.quarter_date('2026-T3'),'2026-09-30')
