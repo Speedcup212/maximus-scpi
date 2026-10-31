@@ -1,0 +1,27 @@
+name: Amundi SCPI issuer link discovery
+on:
+  push:
+    branches:
+      - feat/edr-europa-66-scpi-20261031
+    paths:
+      - 'scripts/scpi-agents/discover-amundi-sources.mjs'
+      - '.github/workflows/scpi-amundi-link-discovery.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/scpi-agents/discover-amundi-sources.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: amundi-source-links-${{ github.run_id }}
+          path: artifacts/amundi-bulletin-link-inventory/links.json
+          retention-days: 7
