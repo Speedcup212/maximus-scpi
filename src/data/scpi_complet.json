@@ -4859,7 +4859,14 @@
       "annual_2024_pdf_sha256": "05263c54c27697ed1f7036f1f620ea106094d25427376bdeda25d925e382b640",
       "annual_2025_pdf_sha256": "cfb2b425b57146fec7ee7b765e92c6855989f778ea82d6a10067321cc90cd192",
       "release_ready": false,
-      "checked_on": "2026-10-31"
-    }
+      "checked_on": "2026-10-31",
+      "checked_notice_fields": 8,
+      "checked_price_gap_fields": 1,
+      "total_verified_field_certificates": 58,
+      "notice_issuer_pdf_sha256": "abab3708fc0240a16390e55714b0866666e3cc65b3d45bcaf3f59a00a495acea",
+      "note_information_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-EdR-Europa-Note-dinformation-06-2026.pdf",
+      "certification_restriction": "Current T2 certified; T1 original primary-host hash and historic source certification pending; EdR release disabled."
+    },
+    "Surcote/décote (%)": -5.07
   }
 ]
