@@ -42,7 +42,7 @@ test('EdR provenance is official and distinct fiscal / quarterly periods', () =>
   assert.equal(edr.maximus_metric_provenance.tof.source_url, officialBulletin);
   assert.equal(edr.maximus_metric_provenance.minimum_souscription.source_url, officialNotice);
   assert.equal(edr.maximus_metric_provenance.prix_reconstitution.reference_date, '2026-06-30');
-  assert.equal(edr['Décote/Surcote QA'], 'manual_review');
+  assert.equal(edr['Décote/Surcote QA'], 'publishable');
 });
 
 test('EdR publisher data is certified and catalog-visible while advice remains manual', () => {
@@ -60,7 +60,9 @@ test('EdR publisher data is certified and catalog-visible while advice remains m
   assert.equal(edr.maximus_certification.checked_t1_field_values,13);
   assert.equal(edr.maximus_certification.notice_issuer_pdf_sha256,'abab3708fc0240a16390e55714b0866666e3cc65b3d45bcaf3f59a00a495acea');
   assert.equal(edr['Surcote/décote (%)'],-5.07);
-  assert.notEqual(edr['Décote/Surcote QA'], 'publishable');
+  assert.equal(edr['Décote/Surcote QA'], 'publishable');
+  assert.equal(edr.maximus_metric_provenance.decote_reconstitution.issuer_pdf_sha256,'401987ac4d713eb30253a3d327b76b723c73753f72b5b31e28ffcd504f737d7d');
+  assert.equal(Math.round((202/212.78-1)*10000)/100,-5.07);
 });
 
 const history = load('../../src/data/edr_europa_history_provisional.json');
