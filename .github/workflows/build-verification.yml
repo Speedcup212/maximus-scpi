@@ -196,6 +196,17 @@ jobs:
             sleep 1
           done
           node scripts/scpi-history/trajectory-summary-browser.mjs
+          node scripts/scpi-history/edrTrajectoryBrowser.mjs
+          node scripts/scpi-history/bnppTrajectoryBrowser.mjs
+
+      - name: Save BNP prepublication desktop/mobile trajectory snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bnpp-two-candidate-trajectory-${{ github.run_id }}
+          path: test-results/bnpp-trajectory/
+          retention-days: 14
+          if-no-files-found: warn
 
       - name: CORUM atomic SEO sitemap release verification
         run: node scripts/scpi-candidates/assertCorumReleaseSeo.mjs
