@@ -102,7 +102,7 @@ manifest.unresolved_critical=unresolvedCritical.map(x=>x.period+'-'+x.kind);
 manifest.issuer_host_unavailable=reports.filter(x=>x.kind==='bulletin' && x.http_status===404)
   .map(x=>({period:x.period,url:x.url,mirror_period:mirrorCover[x.period]||null}));
 manifest.mirror_not_original_certification=true;
-await writeFile(join(out,'manifest.json'),JSON.stringify(manifest,null,2)+'\\n','utf8');
+await writeFile(join(out,'manifest.json'),JSON.stringify(manifest,null,2)+'\n','utf8');
 const status=unresolvedCritical.length?'INCOMPLETE':'ARCHIVE_COVERED_MIRRORS_NOT_CERTIFIED';
 console.log('EDR_DOCUMENT_AUDIT='+status+'; '+reports.filter(isFetched).length+'/'+reports.length+' PDF fetched; original issuer-host 404='+
   manifest.issuer_host_unavailable.length+'; critical unresolved='+unresolvedCritical.length);
