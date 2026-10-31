@@ -945,6 +945,13 @@ function parseMetrics(t:string,sourcePeriod?:string){
       if(parefPartsFinal[2])o.parts_attente_retrait=parseInt(parefPartsFinal[2].replace(/[ \u00a0\u202f]/g,""),10);
     }
   }
+  // Explicit issuer-labelled pair must win over later generic money fallbacks.
+  if(subscriptionWithdrawalPair){
+    const officialSubscription=fr(subscriptionWithdrawalPair[1]);
+    const officialWithdrawal=fr(subscriptionWithdrawalPair[2]);
+    if(officialSubscription!==null)o.prix_souscription=officialSubscription;
+    if(officialWithdrawal!==null)o.prix_retrait=officialWithdrawal;
+  }
   rejectAspimTof(t,o);
   return Object.fromEntries(Object.entries(o).filter(([,v])=>v!==null&&v!==undefined&&!(typeof v==="number"&&!Number.isFinite(v))));
 }
