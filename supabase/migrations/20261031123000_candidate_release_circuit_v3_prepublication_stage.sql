@@ -8,6 +8,19 @@ ALTER TABLE maximus_agents.scpi_candidate_indicator_stage ENABLE ROW LEVEL SECUR
 REVOKE ALL ON maximus_agents.scpi_candidate_indicator_stage FROM PUBLIC, anon, authenticated;
 GRANT SELECT, INSERT, UPDATE, DELETE ON maximus_agents.scpi_candidate_indicator_stage TO service_role;
 
+-- Defense in depth for legacy private tables, including old candidate/OCR
+-- tables created before the private-schema RLS policy was standardized.
+DO $$
+DECLARE t record;
+BEGIN
+ FOR t IN SELECT relname FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
+   WHERE n.nspname='maximus_agents' AND c.relkind='r' AND NOT c.relrowsecurity
+ LOOP
+   EXECUTE format('REVOKE ALL ON TABLE maximus_agents.%I FROM PUBLIC,anon,authenticated',t.relname);
+   EXECUTE format('ALTER TABLE maximus_agents.%I ENABLE ROW LEVEL SECURITY',t.relname);
+ END LOOP;
+END $$;
+
 -- Generic issuer-period candidate release circuit, independent of legacy CORUM/T2 rules.
 -- This view never authorizes a release without documented human sign-off.
 CREATE OR REPLACE VIEW maximus_agents.scpi_candidate_release_circuit_v3
