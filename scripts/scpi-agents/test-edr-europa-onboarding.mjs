@@ -45,17 +45,19 @@ test('EdR provenance is official and distinct fiscal / quarterly periods', () =>
   assert.equal(edr['Décote/Surcote QA'], 'manual_review');
 });
 
-test('EdR stays explicitly in pre-certification state until documented release', () => {
-  assert.equal(edr.maximus_publication_status, 'pending_certification');
-  assert.equal(edr.maximus_data_status, 'current_certified_history_unverified');
+test('EdR publisher data is certified and catalog-visible while advice remains manual', () => {
+  assert.equal(edr.maximus_publication_status, 'certified');
+  assert.equal(edr.maximus_recommendation_status,'manual_review_required');
+  assert.equal(edr.maximus_data_status, 'current_and_history_certified');
   assert.equal(edr.maximus_certification.current_source_certified,true);
-  assert.equal(edr.maximus_certification.historical_comparison_certified,false);
-  assert.equal(edr.maximus_certification.release_ready,false);
+  assert.equal(edr.maximus_certification.historical_comparison_certified,true);
+  assert.equal(edr.maximus_certification.release_ready,true);
   assert.equal(edr.maximus_certification.checked_official_field_values,23);
   assert.equal(edr.maximus_certification.checked_annual_report_values,26);
   assert.equal(edr.maximus_certification.checked_notice_fields,8);
   assert.equal(edr.maximus_certification.checked_price_gap_fields,1);
-  assert.equal(edr.maximus_certification.total_verified_field_certificates,58);
+  assert.equal(edr.maximus_certification.total_verified_field_certificates,70);
+  assert.equal(edr.maximus_certification.checked_t1_field_values,13);
   assert.equal(edr.maximus_certification.notice_issuer_pdf_sha256,'abab3708fc0240a16390e55714b0866666e3cc65b3d45bcaf3f59a00a495acea');
   assert.equal(edr['Surcote/décote (%)'],-5.07);
   assert.notEqual(edr['Décote/Surcote QA'], 'publishable');
