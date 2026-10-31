@@ -196,6 +196,7 @@ jobs:
             sleep 1
           done
           node scripts/scpi-history/trajectory-summary-browser.mjs
+          node scripts/scpi-history/edrTrajectoryBrowser.mjs
 
       - name: CORUM atomic SEO sitemap release verification
         run: node scripts/scpi-candidates/assertCorumReleaseSeo.mjs
