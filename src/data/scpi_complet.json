@@ -4755,7 +4755,7 @@
     "Nombre de locataires": 16,
     "Nombre d’associés": 3293,
     "Nombre de parts": 757047,
-    "Minimum de souscription €": 5000,
+    "Minimum de souscription €": 5050,
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 10,
@@ -4787,7 +4787,9 @@
       "Taux de distribution 2025 de 8,75% : historique et non objectif 2026 ; objectif indicatif de 6% non garanti.",
       "Chiffres patrimoniaux T2 2026 en attente de la certification MaximusSCPI ; T3 2026 signalé, document officiel à confirmer.",
       "Risque de concentration locative : quatre actifs loués au groupe NTS ; ratio de concentration à certifier.",
-      "Exposition au risque de change sur les actifs au Royaume-Uni."
+      "Exposition au risque de change sur les actifs au Royaume-Uni.",
+      "Souscription initiale minimale: 25 parts à 202€, soit 5 050€ ; le message commercial général 'à partir de 5 000 €' n'est pas à jour au nouveau prix.",
+      "Commission de gestion : 10,50% HT / 12,60% TTC sur produits locatifs HT encaissés et produits financiers nets ; ne pas la confondre avec les 12% TTC de souscription."
     ],
     "maximus_metric_provenance": {
       "prix_souscription": {
@@ -4826,7 +4828,25 @@
         "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
         "source_period": "2026-T2",
         "source_page": 6
+      },
+      "minimum_souscription": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-EdR-Europa-Note-dinformation-06-2026.pdf",
+        "source_page": 12,
+        "reference_date": "2026-06-01",
+        "value": "25 parts x 202 EUR = 5050 EUR",
+        "certification_status": "pending"
+      },
+      "frais_gestion": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_page": 9,
+        "source_period": "2026-T2",
+        "unit": "10.5% HT; 12.60% TTC",
+        "certification_status": "pending"
       }
-    }
+    },
+    "Frais de gestion (HT/%)": 10.5,
+    "Frais de gestion (TTC/%)": 12.6,
+    "Nombre minimum de parts": 25,
+    "Commission de souscription (HT/%)": 10
   }
 ]
