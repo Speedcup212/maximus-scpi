@@ -4789,7 +4789,8 @@
       "Risque de concentration locative : quatre actifs loués au groupe NTS ; ratio de concentration à certifier.",
       "Exposition au risque de change sur les actifs au Royaume-Uni.",
       "Souscription initiale minimale: 25 parts à 202€, soit 5 050€ ; le message commercial général 'à partir de 5 000 €' n'est pas à jour au nouveau prix.",
-      "Commission de gestion : 10,50% HT / 12,60% TTC sur produits locatifs HT encaissés et produits financiers nets ; ne pas la confondre avec les 12% TTC de souscription."
+      "Commission de gestion : 10,50% HT / 12,60% TTC sur produits locatifs HT encaissés et produits financiers nets ; ne pas la confondre avec les 12% TTC de souscription.",
+      "Note d'information juin 2026, p.20 : commission standard de souscription 12 % TTC ; exceptions historiques (0 % pour associés fondateurs, 6 % TTC pour une fenêtre initiale limitée à 100 jours et 126 000 parts). Ces exceptions ne sont pas le barème courant."
     ],
     "maximus_metric_provenance": {
       "prix_souscription": {
@@ -4865,7 +4866,8 @@
       "total_verified_field_certificates": 58,
       "notice_issuer_pdf_sha256": "abab3708fc0240a16390e55714b0866666e3cc65b3d45bcaf3f59a00a495acea",
       "note_information_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-EdR-Europa-Note-dinformation-06-2026.pdf",
-      "certification_restriction": "Current T2 certified; T1 original primary-host hash and historic source certification pending; EdR release disabled."
+      "certification_restriction": "Current T2 certified; T1 original primary-host hash and historic source certification pending; EdR release disabled.",
+      "subscription_fee_special_cases_verified": true
     },
     "Surcote/décote (%)": -5.07
   }
