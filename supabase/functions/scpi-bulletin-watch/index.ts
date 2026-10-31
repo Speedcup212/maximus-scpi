@@ -3,7 +3,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
-const PARSER_VERSION="2026-09-25-v89";
+const PARSER_VERSION="2026-10-31-v90-labelled-price-pair";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
 const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
@@ -305,6 +305,16 @@ function parseMetrics(t:string,sourcePeriod?:string){
     o.tof=tofCandidates[0].v;
   }
   const price=nearestMoney(t,/prix\s+de\s+souscription(?:\s*\/\s*valeur\s+de\s+retrait)?/i);if(price!==null)o.prix_souscription=price;
+  // Éditeurs mettant le montant AVANT le libellé. Exemple PERIAL :
+  // «44,00 € Prix de souscription 39,82 € Prix de retrait».
+  // La proximité de 39,82 € avec «Prix de souscription» n'est PAS une preuve
+  // d'un prix de souscription à 39,82 €.
+  const subscriptionWithdrawalPair=/(\d{1,5}(?:[.,]\d{1,2})?)\s*€\s+prix\s+de\s+souscription\s+(\d{1,5}(?:[.,]\d{1,2})?)\s*€\s+prix\s+de\s+retrait/i.exec(t);
+  if(subscriptionWithdrawalPair){
+    const priceBefore=fr(subscriptionWithdrawalPair[1]),withdrawalBefore=fr(subscriptionWithdrawalPair[2]);
+    if(priceBefore!==null)o.prix_souscription=priceBefore;
+    if(withdrawalBefore!==null)o.prix_retrait=withdrawalBefore;
+  }
   const vr=datedMoney(t,/valeur\s+de\s+reconstitution/i)??nearestMoney(t,/valeur\s+de\s+reconstitution/i);if(vr!==null)o.prix_reconstitution=vr;
   const ret=nearestMoney(t,/(?:prix|valeur)\s+de\s+retrait/i);if(ret!==null)o.prix_retrait=ret;
   const rea=datedMoney(t,/valeur\s+de\s+r[eé]alisation/i)??nearestMoney(t,/valeur\s+de\s+r[eé]alisation/i);if(rea!==null)o.valeur_realisation=rea;
@@ -935,6 +945,13 @@ function parseMetrics(t:string,sourcePeriod?:string){
       if(parefPartsFinal[2])o.parts_attente_retrait=parseInt(parefPartsFinal[2].replace(/[ \u00a0\u202f]/g,""),10);
     }
   }
+  // Explicit issuer-labelled pair must win over later generic money fallbacks.
+  if(subscriptionWithdrawalPair){
+    const officialSubscription=fr(subscriptionWithdrawalPair[1]);
+    const officialWithdrawal=fr(subscriptionWithdrawalPair[2]);
+    if(officialSubscription!==null)o.prix_souscription=officialSubscription;
+    if(officialWithdrawal!==null)o.prix_retrait=officialWithdrawal;
+  }
   rejectAspimTof(t,o);
   return Object.fromEntries(Object.entries(o).filter(([,v])=>v!==null&&v!==undefined&&!(typeof v==="number"&&!Number.isFinite(v))));
 }
@@ -1094,7 +1111,14 @@ Deno.serve(async(req:Request)=>{
       }
     }
     if(text.trim().length<200)throw new Error("Texte source insuffisant");
-    const {data:old}=await db.from("scpi_bulletins").select("id,period,extraction_json,qa_status,extraction_confidence").eq("pdf_sha256",hashPdf).maybeSingle();
+    const pp=c.p?{p:c.p,k:c.k}:period(c.label+" "+c.pdf+" "+text.slice(0,9000))||periodFromUrlDate(c.pdf)||periodFromDates(text);if(!pp)throw new Error("Période du bulletin introuvable");
+    const {data:old}=await db.from("scpi_bulletins").select("id,scpi_slug,period,extraction_json,qa_status,extraction_confidence").eq("pdf_sha256",hashPdf).maybeSingle();
+    if(old?.id&&(old.scpi_slug!==s.scpi_slug||old.period!==pp.p)){
+      const reason="PDF_SHA256_PERIOD_OR_PRODUCT_COLLISION: existing "+old.scpi_slug+" / "+old.period+"; candidate "+s.scpi_slug+" / "+pp.p;
+      await reg(db,s.scpi_slug,{verification_status:"manual_review_required",last_error:reason,error_count:(s.error_count||0)+1,next_check_at:later(24)});
+      await finish(db,eid,{status:"needs_review",step:"edge_pdf_identity_collision",bulletin_url:c.pdf,source_period:pp.p,message:reason});
+      return Response.json({ok:true,slug:s.scpi_slug,status:"pdf_identity_collision",period:pp.p});
+    }
     if(old?.id&&old.extraction_json?.parser_version===PARSER_VERSION){
       const {data:cur}=await db.from("scpi_indicators").select("source_period").eq("scpi_slug",s.scpi_slug).maybeSingle();
       const oldKey=period(String(old.period||""))?.k||0,currentKey=period(String(cur?.source_period||""))?.k||0;
@@ -1110,10 +1134,25 @@ Deno.serve(async(req:Request)=>{
       await finish(db,eid,{status:promotable?"unchanged":"stale_document",step:"edge_dedup",bulletin_url:c.pdf,source_period:old.period,message:promotable?"Bulletin déjà traité":"Bulletin plus ancien que la période courante — non promu"});
       return Response.json({ok:true,slug:s.scpi_slug,status:promotable?"unchanged":"stale_document",period:old.period});
     }
-    const pp=c.p?{p:c.p,k:c.k}:period(c.label+" "+c.pdf+" "+text.slice(0,9000))||periodFromUrlDate(c.pdf)||periodFromDates(text);if(!pp)throw new Error("Période du bulletin introuvable");
     const raw=c.html?parseHtmlMetrics(text):parseMetrics(text,pp.p),count=Object.keys(raw).length,confidence=Math.min(1,count/12);
     if(ocrRecovered){await finish(db,eid,{status:"needs_review",step:"edge_ocr_qa_required",bulletin_url:c.pdf,source_period:pp.p,metrics_count:count,message:"Page OCR present; numeric values awaiting independent QA; no public promotion."});return Response.json({ok:true,slug:s.scpi_slug,status:"ocr_pending_independent_qa",period:pp.p,metrics:count});}
     if(count<2)console.log("[scpi-bulletin-debug]",s.scpi_slug,text.slice(0,5000).replace(/[\u0000-\u001F]/g," "));const {data:cur}=await db.from("scpi_indicators").select("*").eq("scpi_slug",s.scpi_slug).maybeSingle();const sameAutomatedPeriod=cur?.source_type==="bulletin_edge_automated"&&cur?.source_period===pp.p;const {r,bad}=validate(raw,cur,sameAutomatedPeriod);
+    // Confusion récurrente : la valeur de retrait est parfois capturée
+    // sous l'étiquette prix de souscription (p. ex. 39,82 vs 44 €).
+    // Ne jamais promouvoir une baisse artificielle du prix de part.
+    const priorSubscription=Number(cur?.prix_souscription), priorWithdrawal=Number(cur?.prix_retrait);
+    const incomingSubscription=Number(r.prix_souscription), incomingWithdrawal=Number(r.prix_retrait);
+    const withdrawalMislabelSuspected=Number.isFinite(priorSubscription) && priorSubscription>0 &&
+      Number.isFinite(priorWithdrawal) && priorWithdrawal>0 &&
+      Number.isFinite(incomingSubscription) && incomingSubscription>0 &&
+      Number.isFinite(incomingWithdrawal) && incomingWithdrawal>0 &&
+      Math.abs(incomingSubscription-incomingWithdrawal)<0.00001 &&
+      Math.abs(incomingWithdrawal-priorWithdrawal)<0.00001 &&
+      Math.abs(incomingSubscription-priorSubscription)/priorSubscription>0.05;
+    if(withdrawalMislabelSuspected){
+      bad.push("prix_souscription: likely withdrawal-value confusion; issuer page validation required");
+      delete r.prix_souscription;
+    }
     const currentKey=period(String(cur?.source_period||""))?.k||0,incomingKey=pp.k||0;
     const canPromote=!currentKey||incomingKey>=currentKey;
     // La QA SQL protège un snapshot manuel du même trimestre. Ne pas toucher
@@ -1173,13 +1212,12 @@ Deno.serve(async(req:Request)=>{
       return Response.json({ok:true,slug:s.scpi_slug,status:"regression_ignored",period:pp.p,metrics:metricCount,previous_metrics:previousMetricsCount,rejected:bad});
     }
     const {data:b,error:be}=await db.from("scpi_bulletins").upsert({scpi_slug:s.scpi_slug,period:pp.p,pdf_path:path,pdf_sha256:hashPdf,source_url:c.pdf,run_id:"edge-"+new Date().toISOString(),found_at:new Date().toISOString(),extraction_json:{metrics:raw,parser_version:PARSER_VERSION},qa_status:qas,extraction_confidence:confidence,processed_at:new Date().toISOString()},{onConflict:"scpi_slug,period"}).select("id").single();if(be)throw be;
+    // This crawler ONLY stages issuer documents and extraction candidates.
+    // A strong parser result is NOT a verified financial metric. The separate
+    // page-evidence and certified-publication gate owns public promotion.
     if(canPromote&&strong){
-      const meta={nom:s.scpi_name,societe_gestion:s.management_company,source_period:pp.p,source_confidence:confidence,source_type:"bulletin_edge_automated",bulletin_id:b.id,source_document:c.html?("bulletin-web-"+pp.p):decodeURIComponent(new URL(c.pdf).pathname.split("/").pop()||"bulletin.pdf"),source_url:c.pdf,qa_status:qas,updated_at:new Date().toISOString()};
-      const metricKeys=["td","td_annee","tof","capitalisation","prix_souscription","prix_reconstitution","prix_retrait","valeur_realisation","endettement","walt","walb","collecte_nette","nombre_locataires","nombre_immeubles","nombre_associes","nombre_parts","parts_attente_retrait","distribution_par_part","capital_type"];
-      const clearSamePeriod:any={};
-      if(cur?.source_type==="bulletin_edge_automated"&&cur?.source_period===pp.p)for(const k of metricKeys)clearSamePeriod[k]=null;
-      const wr=cur?await db.from("scpi_indicators").update({...clearSamePeriod,...r,...meta}).eq("scpi_slug",s.scpi_slug):await db.from("scpi_indicators").insert({scpi_slug:s.scpi_slug,...r,...meta});
-      if(wr.error)throw wr.error;
+      console.log("[scpi-bulletin-watch] staged pending independent source-page QA",
+        JSON.stringify({scpi_slug:s.scpi_slug,period:pp.p,bulletin_id:b.id,metrics:metricCount}));
     }
     const st=strong?"verified":metricCount>=2?"incomplete":"manual_review_required";
     if(canPromote&&metricCount>=2){
@@ -1187,8 +1225,8 @@ Deno.serve(async(req:Request)=>{
     }else{
       await reg(db,s.scpi_slug,{verification_status:canPromote?"manual_review_required":undefined,confidence_level:canPromote?"low":undefined,last_error:canPromote?"Extraction insuffisante — source non mémorisée":undefined,last_success_at:new Date().toISOString(),next_check_at:later(24)});
     }
-    const eventStatus=!canPromote?"stale_document":st==="verified"?"updated":"needs_review";
-    await finish(db,eid,{status:eventStatus,step:"edge_completed",source_page_url:c.page,bulletin_url:c.pdf,source_period:pp.p,extraction_confidence:confidence,metrics_count:metricCount,message:!canPromote?"Document plus ancien que la période courante — historique uniquement":metricCount+" indicateurs validés; coeurs="+coreCount+"; rejets: "+bad.join(", ")});
+    const eventStatus=!canPromote?"stale_document":"needs_review";
+    await finish(db,eid,{status:eventStatus,step:"edge_staged_independent_qa",source_page_url:c.page,bulletin_url:c.pdf,source_period:pp.p,extraction_confidence:confidence,metrics_count:metricCount,message:!canPromote?"Document plus ancien que la période courante — historique uniquement":metricCount+" indicateurs extraits, attente de certification PDF/page; coeurs="+coreCount+"; rejets: "+bad.join(", ")});
     return Response.json({ok:true,slug:s.scpi_slug,status:eventStatus,verification:st,period:pp.p,metrics:metricCount,core:coreCount,rejected:bad});
   }catch(e){const msg=e instanceof Error?e.message:(e&&typeof e==="object"?JSON.stringify(e):String(e)),ec=(s.error_count||0)+1;await reg(db,s.scpi_slug,{verification_status:ec>=3?"manual_review_required":"incomplete",confidence_level:"low",last_error:msg.slice(0,1800),error_count:ec,next_check_at:later(Math.min(168,12+ec*12))}).catch(()=>{});await finish(db,eid,{status:"failed",step:"edge_exception",message:msg.slice(0,1800)});return Response.json({ok:false,slug:s.scpi_slug,status:"failed",error:msg},{status:200});}
 });

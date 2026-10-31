@@ -855,29 +855,15 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
 
     if (bulletinError) throw new Error(`Bulletin DB: ${bulletinError.message}`);
 
-    if (metricsCount >= 2 && rejected.length === 0) {
-      const merged = {
-        ...(current || {}),
-        ...accepted,
-        scpi_slug: source.scpi_slug,
-        nom: source.scpi_name,
-        societe_gestion: source.management_company,
-        source_period: period,
-        source_confidence: extraction.confidence,
-        source_type: 'bulletin_automated',
-        bulletin_id: bulletin.id,
-        source_document: fileName,
-        source_url: candidate.pdfUrl,
-        qa_status: qaStatus,
-        updated_at: new Date().toISOString(),
-      };
-
-      const { error: indicatorError } = await client
-        .from('scpi_indicators')
-        .upsert(merged, { onConflict: 'scpi_slug' });
-
-      if (indicatorError) throw new Error(`Indicators DB: ${indicatorError.message}`);
-    }
+    // Stage-only ingestion: never write unverified PDF extraction to the public
+    // indicators table. The separate page-evidence/certification pipeline must
+    // first validate issuer, period, metric units and source pages. Promotion is
+    // performed by the certified publisher, not by a crawler.
+    const stagedForIndependentQa = metricsCount >= 2 && rejected.length === 0;
+    console.log('[scpi-ingest] candidate staged, public snapshot preserved', JSON.stringify({
+      slug: source.scpi_slug, period, metricsCount, stagedForIndependentQa,
+      bulletinId: bulletin.id,
+    }));
 
     const confidenceLevel =
       extraction.confidence >= 0.7 && rejected.length === 0 ? 'high' :
@@ -901,8 +887,8 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
     });
 
     await finishEvent(client, eventId, {
-      status: sourceStatus === 'verified' ? 'updated' : 'needs_review',
-      step: 'completed',
+      status: 'needs_review',
+      step: 'staged_independent_qa',
       source_page_url: candidate.pageUrl,
       bulletin_url: candidate.pdfUrl,
       source_period: period,
@@ -910,17 +896,17 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
       metrics_count: metricsCount,
       message: rejected.length
         ? `Extraction partielle : ${rejected.join(' | ')}`
-        : `${metricsCount} indicateurs validés et enregistrés.`,
+        : `${metricsCount} indicateurs extraits et stockés ; promotion suspendue jusqu'à preuve indépendante par champ.`,
     });
 
     return {
-      status: sourceStatus === 'verified' ? 'updated' : 'needs_review',
+      status: 'needs_review',
       scpi_slug: source.scpi_slug,
       period,
       metrics_count: metricsCount,
       message: rejected.length
         ? `${metricsCount} indicateurs enregistrés, ${rejected.length} à vérifier.`
-        : `${metricsCount} indicateurs enregistrés.`,
+        : `${metricsCount} indicateurs extraits ; publication en attente de certification.`,
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
