@@ -126,8 +126,14 @@ Deno.serve(async (req: Request) => {
     PERIOD.test(b.period) && b.extraction_json?.evidence_version
   ) as Candidate[];
   const results: Array<Record<string,unknown>> = [];
-  for (const b of candidates) {
-    if (results.length >= limit) break;
+  // Rotate through candidate slugs every run. Persistent rejects may not
+  // monopolize the first entries and starve other certified bulletins.
+  const offset = candidates.length ? Math.floor(Date.now() / 1_800_000) % candidates.length : 0;
+  const ordered = [...candidates.slice(offset), ...candidates.slice(0, offset)];
+  let inspected = 0;
+  let eligible = 0;
+  for (const b of ordered) {
+    if (inspected++ >= 20 || eligible >= limit) break;
     const [{data:active},{data:connector},{data:registry},{data:current},{data:certs}] = await Promise.all([
       db.from("scpi_trajectory_pilot").select("enabled").eq("scpi_slug",b.scpi_slug).maybeSingle(),
       db.from("scpi_source_connectors").select("enabled,allowed_hosts").eq("scpi_slug",b.scpi_slug).maybeSingle(),
@@ -145,6 +151,7 @@ Deno.serve(async (req: Request) => {
       continue;
     }
     if (dryRun) {
+      eligible++;
       results.push({scpi_slug:b.scpi_slug,period:b.period,status:"eligible_shadow",fields:Object.keys(decision.patch||{})});
       continue;
     }
@@ -186,7 +193,8 @@ Deno.serve(async (req: Request) => {
       message:status+(queueError?": "+queueError.message:"; frontend publish gate retained"),
       ended_at:new Date().toISOString(),
     });
+    if (!queueError) eligible++;
     results.push({scpi_slug:b.scpi_slug,period:b.period,status});
   }
-  return Response.json({ok:true,mode:dryRun?"shadow":"promotion",scanned:candidates.length,results});
+  return Response.json({ok:true,mode:dryRun?"shadow":"promotion",scanned:candidates.length,inspected:Math.min(inspected,20),eligible,results});
 });
