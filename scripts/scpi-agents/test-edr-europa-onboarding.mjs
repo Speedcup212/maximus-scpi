@@ -47,7 +47,12 @@ test('EdR provenance is official and distinct fiscal / quarterly periods', () =>
 
 test('EdR stays explicitly in pre-certification state until documented release', () => {
   assert.equal(edr.maximus_publication_status, 'pending_certification');
-  assert.equal(edr.maximus_data_status, 'pending_certification');
+  assert.equal(edr.maximus_data_status, 'current_certified_history_unverified');
+  assert.equal(edr.maximus_certification.current_source_certified,true);
+  assert.equal(edr.maximus_certification.historical_comparison_certified,false);
+  assert.equal(edr.maximus_certification.release_ready,false);
+  assert.equal(edr.maximus_certification.checked_official_field_values,23);
+  assert.equal(edr.maximus_certification.checked_annual_report_values,26);
   assert.notEqual(edr['Décote/Surcote QA'], 'publishable');
 });
 
