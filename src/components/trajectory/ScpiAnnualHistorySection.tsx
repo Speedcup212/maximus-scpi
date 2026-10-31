@@ -26,8 +26,7 @@ export const ScpiAnnualHistorySection: React.FC<{ scpiSlug: string }> = ({scpiSl
           ? ' Les trois séries annuelles sont complètes ; cela ne certifie pas tous les autres indicateurs.'
           : ' Historique annuel partiel : les années manquantes ne sont ni estimées ni interpolées.'}
       </p>
-      {coverage?.first_fiscal_year && coverage.launch_year &&
-        coverage.first_fiscal_year > coverage.launch_year && (
+      {coverage?.first_fiscal_year_note && (
         <p data-testid="scpi-fiscal-start-note" className="mx-4 mt-3 rounded-lg border border-sky-600/30 bg-sky-950/20 px-3 py-2 text-xs text-sky-100">
           {coverage.first_fiscal_year && coverage.launch_year && coverage.first_fiscal_year > coverage.launch_year
             ? `Lancée en ${coverage.launch_year}, premier exercice clos en ${coverage.first_fiscal_year}. `
