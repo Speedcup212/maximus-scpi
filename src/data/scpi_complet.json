@@ -4780,12 +4780,12 @@
     "maximus_source_periode": "2026-T2",
     "maximus_source_document": "Bulletin officiel n°9 T2 2026",
     "maximus_source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
-    "maximus_data_status": "pending_certification",
+    "maximus_data_status": "current_certified_history_unverified",
     "maximus_publication_status": "pending_certification",
     "Décote/Surcote QA": "manual_review",
     "maximus_warnings": [
       "Taux de distribution 2025 de 8,75% : historique et non objectif 2026 ; objectif indicatif de 6% non garanti.",
-      "Chiffres patrimoniaux T2 2026 en attente de la certification MaximusSCPI ; T3 2026 signalé, document officiel à confirmer.",
+      "Chiffres du T2 2026 recoupés avec PDF officiel signé par l’éditeur (pages, unités, SHA-256) et certifiés dans Supabase ; historique trimestriel précédent non encore certifié ; T3 2026 non prouvé depuis la source officielle.",
       "Risque de concentration locative : quatre actifs loués au groupe NTS ; ratio de concentration à certifier.",
       "Exposition au risque de change sur les actifs au Royaume-Uni.",
       "Souscription initiale minimale: 25 parts à 202€, soit 5 050€ ; le message commercial général 'à partir de 5 000 €' n'est pas à jour au nouveau prix.",
@@ -4847,6 +4847,19 @@
     "Frais de gestion (HT/%)": 10.5,
     "Frais de gestion (TTC/%)": 12.6,
     "Nombre minimum de parts": 25,
-    "Commission de souscription (HT/%)": 10
+    "Commission de souscription (HT/%)": 10,
+    "maximus_certification": {
+      "current_period": "2026-T2",
+      "current_source_certified": true,
+      "historical_comparison_certified": false,
+      "issuer_source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+      "issuer_pdf_sha256": "401987ac4d713eb30253a3d327b76b723c73753f72b5b31e28ffcd504f737d7d",
+      "checked_official_field_values": 23,
+      "checked_annual_report_values": 26,
+      "annual_2024_pdf_sha256": "05263c54c27697ed1f7036f1f620ea106094d25427376bdeda25d925e382b640",
+      "annual_2025_pdf_sha256": "cfb2b425b57146fec7ee7b765e92c6855989f778ea82d6a10067321cc90cd192",
+      "release_ready": false,
+      "checked_on": "2026-10-31"
+    }
   }
 ]
