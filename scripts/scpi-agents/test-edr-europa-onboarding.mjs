@@ -61,7 +61,8 @@ test('EdR quarterly dividends are reconciled with official retrospective chart a
   assert.deepEqual(history.historical_dividends.map(row => [row.period,row.value]),expected);
   assert.equal(history.source_page,3);
   assert.equal(history.source_url,officialBulletin);
-  assert.equal(history.state,'official_page_review_pending_pdf_sha256');
+  assert.equal(history.state,'source_pdf_sha256_verified_pending_final_field_qa');
+  assert.equal(history.source_sha256,'401987ac4d713eb30253a3d327b76b723c73753f72b5b31e28ffcd504f737d7d');
   const annual2025 = history.historical_dividends.filter(row => row.period.startsWith('2025-')).reduce((sum,row) => sum + Math.round(row.value*100),0);
   assert.equal(annual2025,1749);
   assert.equal(Math.round((annual2025 / 100 / 200)*10000)/100,8.75);
