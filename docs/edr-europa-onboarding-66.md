@@ -86,3 +86,17 @@ Preuves reproductibles et non-certifiantes :
 - Mise à jour du catalogue JSON et du test de contrat EdR sur cette branche pour inclure 58 champs, empreinte de la note et certification T2 courante sans fausse attestation de l'historique.
 
 **Doctrine :** ne jamais certifier sur seul taux secondaire, ne jamais déguiser une URL historique renvoyant HTTP404 en original téléchargeable, ne pas imputer une valeur au T1 si le document donne comme date de valorisation le 31/12/2025. Tout gain de statut historique doit résulter de la preuve du bulletin d'origine, pas du changement manuel du champ `qa_status`.
+
+
+## État actualisé du 31 octobre 2026 — production 66 et valorisations datées
+
+**Cette section prévaut sur les mentions « pending_certification » ci-dessus, qui documentent les étapes préparatoires de la PR #244.**
+
+- SCPI EdR Europa et quatre CORUM comprises dans les **66 SCPI actives**, sources courantes certifiées.
+- Raccordement du prédicat sécurisé `maximus_scpi_is_in_public_cohort` aux historiques publics EdR.
+- **Cinq valeurs d'arrêté vérifiées** (reconstitution / réalisation par part) : 30/06/2024 203,85 € / 171,33 € ; 31/12/2024 210,81 € / 169,60 € ; 30/06/2025 213,21 € / 174,71 € ; 31/12/2025 220,66 € / 179,28 € ; 30/06/2026 212,78 € / 174,23 €. Chaque valeur conserve son document, sa page et sa date.
+- **T3 2025 et T1 2026 ne comportent pas une nouvelle valeur d'arrêté** : le comparateur présente désormais la dernière valeur officielle connue directement en montant avec mention distincte de sa date d'arrêté, et ne crée aucun point de valorisation artificiel.
+- Historique public : 8 périodes couvrant 2024-T2 à 2026-T2, dont 5 couples de valorisation, distributions vérifiées et observations locatives selon pièces disponibles. Absences réelles restent N.D., sans zéro fictif.
+- Note historique : deux clôtures 2024, 2025 pleinement documenté, distribution totale 2024 non reconstituée artificiellement.
+- Code fusionné : PR #245 (trajectoire et valorisations), PR #247 (affichage dernière valeur datée), commit de code `599ae7e10592eeee1b76807a47e7f058773236e8`. CI GitHub [41190737591](https://github.com/Speedcup212/maximus-scpi/actions/runs/41190737591) : succès, incluant validations Chromium desktop et mobile et certification distante de la cohorte.
+- **Ce paragraphe ne prouve pas un déploiement Netlify** : publication de la version frontend à contrôler séparément par l'ID et le SHA du déploiement effectif.
