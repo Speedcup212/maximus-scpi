@@ -84,6 +84,26 @@ const manifest={
   unresolved:[...reports.filter(x=>x.status!=='pdf_retrieved_page_extraction_pending_review').map(x=>x.period+'-'+x.kind)],
 };
 await writeFile(join(out,'manifest.json'),JSON.stringify(manifest,null,2)+'\n','utf8');
-const status=manifest.unresolved.length?'INCOMPLETE':'FETCHED_PENDING_QA';
-console.log('EDR_DOCUMENT_AUDIT='+status+'; '+reports.filter(x=>x.status==='pdf_retrieved_page_extraction_pending_review').length+'/'+reports.length+' PDF retrieved, hashed and text extracted');
-if(manifest.unresolved.length)process.exitCode=1;
+// Historical original-host links may be removed by the issuer, but the same
+// issuer-authored period can exist in a distributor archive. This check is
+// ARCHIVE COVERAGE only: never convert mirror proof into regulatory certification.
+const mirrorCover={ '2024-T2':'2024-T2','2024-T3':'2024-T3',
+  '2024-S2':'2024-T4','2025-T3':'2025-T3',
+  '2025-S2':'2025-T4','2026-T1':'2026-T1' };
+const isFetched=row=>row?.status==='pdf_retrieved_page_extraction_pending_review';
+const unresolvedCritical=reports.filter(row=>{
+  if(isFetched(row))return false;
+  if(row.kind==='bulletin' && row.http_status===404 && mirrorCover[row.period]){
+    return !reports.some(x=>x.period===mirrorCover[row.period] && x.kind==='bulletin_miroir' && isFetched(x));
+  }
+  return true;
+});
+manifest.unresolved_critical=unresolvedCritical.map(x=>x.period+'-'+x.kind);
+manifest.issuer_host_unavailable=reports.filter(x=>x.kind==='bulletin' && x.http_status===404)
+  .map(x=>({period:x.period,url:x.url,mirror_period:mirrorCover[x.period]||null}));
+manifest.mirror_not_original_certification=true;
+await writeFile(join(out,'manifest.json'),JSON.stringify(manifest,null,2)+'\\n','utf8');
+const status=unresolvedCritical.length?'INCOMPLETE':'ARCHIVE_COVERED_MIRRORS_NOT_CERTIFIED';
+console.log('EDR_DOCUMENT_AUDIT='+status+'; '+reports.filter(isFetched).length+'/'+reports.length+' PDF fetched; original issuer-host 404='+
+  manifest.issuer_host_unavailable.length+'; critical unresolved='+unresolvedCritical.length);
+if(unresolvedCritical.length)process.exitCode=1;
