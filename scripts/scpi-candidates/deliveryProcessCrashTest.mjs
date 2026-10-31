@@ -18,8 +18,8 @@ const slug=name=>String(name).toLowerCase().normalize('NFD')
 // The adversarial fixture starts from the immutable 61-fund baseline, even if
 // the real 65-fund owner-approved release is staged in the same checkout.
 const baselineCohort={...currentCohort,count:61,
- slugs:currentCohort.slugs.filter(id=>!fundSlugs.includes(id))};
-const baselineCatalog=currentCatalog.filter(row=>!fundSlugs.includes(slug(row['Nom SCPI'])));
+ slugs:currentCohort.slugs.filter(id=>!fundSlugs.includes(id)&&id!=='edr-europa')};
+const baselineCatalog=currentCatalog.filter(row=>!fundSlugs.includes(slug(row['Nom SCPI']))&&slug(row['Nom SCPI'])!=='edr-europa');
 if(baselineCohort.slugs.length!==61)
  throw Error('Crash test cannot extract the original 61-fund cohort');
 const clone=x=>structuredClone(x);
