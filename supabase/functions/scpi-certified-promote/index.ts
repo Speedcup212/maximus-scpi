@@ -51,6 +51,16 @@ function gate(b: Candidate, allowedHosts: string[], certs: any[], current: any):
   if (Number(ex.evidence_stats?.coverage || 0) < 1) return {ok:false,reason:"INCOMPLETE_FIELD_EVIDENCE"};
   const values = ex.metrics || {};
   if (!CORE.every((k) => positive(values[k]))) return {ok:false,reason:"MISSING_CORE_INDICATOR"};
+  // A withdrawal value mislabelled as subscription must not pass a page-text
+  // match merely because both prices occur in the same official PDF.
+  const sub=Number(values.prix_souscription),withdrawal=Number(values.prix_retrait);
+  const oldSub=Number(current.prix_souscription),oldWithdrawal=Number(current.prix_retrait);
+  if (Number.isFinite(sub)&&sub>0 && Number.isFinite(withdrawal)&&withdrawal>0 &&
+      Number.isFinite(oldSub)&&oldSub>0 && Number.isFinite(oldWithdrawal)&&oldWithdrawal>0 &&
+      Math.abs(sub-withdrawal)<0.00001 && Math.abs(withdrawal-oldWithdrawal)<0.00001 &&
+      Math.abs(sub-oldSub)/oldSub > 0.05) {
+    return {ok:false,reason:"WITHDRAWAL_MISLABELLED_AS_SUBSCRIPTION"};
+  }
   const fields = Object.entries(values).filter(([,v]) => typeof v === "number");
   if (fields.length < 8) return {ok:false,reason:"INSUFFICIENT_METRICS"};
   const proof = new Map<string, any>();
