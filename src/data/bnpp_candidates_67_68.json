@@ -22,7 +22,7 @@
           "unit": "M€",
           "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "prix_souscription",
@@ -30,7 +30,7 @@
           "unit": "EUR_PER_PART",
           "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "prix_retrait",
@@ -38,7 +38,7 @@
           "unit": "EUR_PER_PART",
           "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "prix_reconstitution",
@@ -46,7 +46,7 @@
           "unit": "EUR_PER_PART",
           "period": "2026-06-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "valeur_realisation",
@@ -54,7 +54,7 @@
           "unit": "EUR_PER_PART",
           "period": "2026-06-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "tof",
@@ -62,7 +62,7 @@
           "unit": "PERCENT",
           "period": "2026-09-30",
           "page": 2,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "nombre_parts",
@@ -70,7 +70,7 @@
           "unit": "PARTS",
           "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "nombre_associes",
@@ -78,7 +78,7 @@
           "unit": "COUNT",
           "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "parts_attente_retrait",
@@ -86,7 +86,7 @@
           "unit": "PARTS",
           "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "distribution_brute_par_part",
@@ -94,7 +94,7 @@
           "unit": "EUR_PER_PART",
           "period": "2026-T3",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "walb",
@@ -110,7 +110,7 @@
           "unit": "COUNT",
           "period": "2026-09-30",
           "page": 2,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "nombre_locataires",
@@ -118,7 +118,7 @@
           "unit": "COUNT",
           "period": "2026-09-30",
           "page": 4,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "srri",
@@ -126,7 +126,7 @@
           "unit": "COUNT",
           "period": "2026-T3",
           "page": 2,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "frais_souscription_ttc",
@@ -134,7 +134,7 @@
           "unit": "PERCENT",
           "period": "2026-T3",
           "page": 6,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         }
       ],
       "previous_quarter": {
@@ -167,7 +167,7 @@
           "unit": "M€",
           "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "prix_souscription",
@@ -175,7 +175,7 @@
           "unit": "EUR_PER_PART",
           "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "prix_retrait",
@@ -183,7 +183,7 @@
           "unit": "EUR_PER_PART",
           "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "prix_reconstitution",
@@ -191,7 +191,7 @@
           "unit": "EUR_PER_PART",
           "period": "2026-06-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "valeur_realisation",
@@ -199,7 +199,7 @@
           "unit": "EUR_PER_PART",
           "period": "2026-06-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "tof",
@@ -207,7 +207,7 @@
           "unit": "PERCENT",
           "period": "2026-09-30",
           "page": 2,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "nombre_parts",
@@ -215,7 +215,7 @@
           "unit": "PARTS",
           "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "nombre_associes",
@@ -223,7 +223,7 @@
           "unit": "COUNT",
           "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "parts_attente_retrait",
@@ -231,7 +231,7 @@
           "unit": "PARTS",
           "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "distribution_brute_par_part",
@@ -239,7 +239,7 @@
           "unit": "EUR_PER_PART",
           "period": "2026-T3",
           "page": 5,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "walb",
@@ -255,7 +255,7 @@
           "unit": "COUNT",
           "period": "2026-09-30",
           "page": 2,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "nombre_locataires",
@@ -263,7 +263,7 @@
           "unit": "COUNT",
           "period": "2026-09-30",
           "page": 4,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "srri",
@@ -271,7 +271,7 @@
           "unit": "COUNT",
           "period": "2026-T3",
           "page": 2,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         },
         {
           "key": "frais_souscription_ttc",
@@ -279,7 +279,7 @@
           "unit": "PERCENT",
           "period": "2026-T3",
           "page": 6,
-          "review": "document_verified_pending_independent_field_qa"
+          "review": "qa_pass_technical_ai_second_pass_nonhuman"
         }
       ],
       "previous_quarter": {
@@ -306,5 +306,22 @@
     "Frontend catalog/comparator/simulators/radar/card/SEO smoke test",
     "Exact 68 members in release cohort, attested CI, deployed edge function",
     "Historical Accès Valeur Pierre TOF T2 discrepancy: official T2 PDF 87.07%, T3 bulletin historical comparison row 85.49%; suppress unverified quarter-to-quarter trend."
-  ]
+  ],
+  "technical_audit": {
+    "kind": "GPT6_AI_SECOND_PASS_SOURCE_QA_NOT_HUMAN_SIGNOFF",
+    "date": "2026-10-31",
+    "issuer_pdfs": "same_binary_sha256_as_official_BNP_REIM",
+    "fields_verified": 47,
+    "fields_total": 47,
+    "allocations_verified": 14,
+    "allocations_sum_sector_and_geography": 100,
+    "human_signed_off": false,
+    "public_release_authorized": false,
+    "exceptions": [
+      "Accimmo PDF native text concatenates 636 021 waiting withdrawal parts and 248 622 executed withdrawal parts; values separately confirmed in rendered page 5.",
+      "Accès Valeur Pierre T2 official bulletin TOF 87.07% conflicts with historical T2 value 85.49% reported in T3; suppress TOF T2 to T3 trend.",
+      "2026 T3 bulletin publishes reconstitution and realization valuation effective 2026-06-30, never relabel at 2026-09-30.",
+      "Accimmo special reimbursement fund EUR98.50 per share distinct from standard withdrawal EUR128.41."
+    ]
+  }
 }
