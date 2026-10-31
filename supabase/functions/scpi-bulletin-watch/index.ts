@@ -1111,7 +1111,14 @@ Deno.serve(async(req:Request)=>{
       }
     }
     if(text.trim().length<200)throw new Error("Texte source insuffisant");
-    const {data:old}=await db.from("scpi_bulletins").select("id,period,extraction_json,qa_status,extraction_confidence").eq("pdf_sha256",hashPdf).maybeSingle();
+    const pp=c.p?{p:c.p,k:c.k}:period(c.label+" "+c.pdf+" "+text.slice(0,9000))||periodFromUrlDate(c.pdf)||periodFromDates(text);if(!pp)throw new Error("Période du bulletin introuvable");
+    const {data:old}=await db.from("scpi_bulletins").select("id,scpi_slug,period,extraction_json,qa_status,extraction_confidence").eq("pdf_sha256",hashPdf).maybeSingle();
+    if(old?.id&&(old.scpi_slug!==s.scpi_slug||old.period!==pp.p)){
+      const reason="PDF_SHA256_PERIOD_OR_PRODUCT_COLLISION: existing "+old.scpi_slug+" / "+old.period+"; candidate "+s.scpi_slug+" / "+pp.p;
+      await reg(db,s.scpi_slug,{verification_status:"manual_review_required",last_error:reason,error_count:(s.error_count||0)+1,next_check_at:later(24)});
+      await finish(db,eid,{status:"needs_review",step:"edge_pdf_identity_collision",bulletin_url:c.pdf,source_period:pp.p,message:reason});
+      return Response.json({ok:true,slug:s.scpi_slug,status:"pdf_identity_collision",period:pp.p});
+    }
     if(old?.id&&old.extraction_json?.parser_version===PARSER_VERSION){
       const {data:cur}=await db.from("scpi_indicators").select("source_period").eq("scpi_slug",s.scpi_slug).maybeSingle();
       const oldKey=period(String(old.period||""))?.k||0,currentKey=period(String(cur?.source_period||""))?.k||0;
@@ -1127,7 +1134,6 @@ Deno.serve(async(req:Request)=>{
       await finish(db,eid,{status:promotable?"unchanged":"stale_document",step:"edge_dedup",bulletin_url:c.pdf,source_period:old.period,message:promotable?"Bulletin déjà traité":"Bulletin plus ancien que la période courante — non promu"});
       return Response.json({ok:true,slug:s.scpi_slug,status:promotable?"unchanged":"stale_document",period:old.period});
     }
-    const pp=c.p?{p:c.p,k:c.k}:period(c.label+" "+c.pdf+" "+text.slice(0,9000))||periodFromUrlDate(c.pdf)||periodFromDates(text);if(!pp)throw new Error("Période du bulletin introuvable");
     const raw=c.html?parseHtmlMetrics(text):parseMetrics(text,pp.p),count=Object.keys(raw).length,confidence=Math.min(1,count/12);
     if(ocrRecovered){await finish(db,eid,{status:"needs_review",step:"edge_ocr_qa_required",bulletin_url:c.pdf,source_period:pp.p,metrics_count:count,message:"Page OCR present; numeric values awaiting independent QA; no public promotion."});return Response.json({ok:true,slug:s.scpi_slug,status:"ocr_pending_independent_qa",period:pp.p,metrics:count});}
     if(count<2)console.log("[scpi-bulletin-debug]",s.scpi_slug,text.slice(0,5000).replace(/[\u0000-\u001F]/g," "));const {data:cur}=await db.from("scpi_indicators").select("*").eq("scpi_slug",s.scpi_slug).maybeSingle();const sameAutomatedPeriod=cur?.source_type==="bulletin_edge_automated"&&cur?.source_period===pp.p;const {r,bad}=validate(raw,cur,sameAutomatedPeriod);
