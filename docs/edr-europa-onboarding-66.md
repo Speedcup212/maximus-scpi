@@ -100,3 +100,13 @@ Preuves reproductibles et non-certifiantes :
 - Note historique : deux clôtures 2024, 2025 pleinement documenté, distribution totale 2024 non reconstituée artificiellement.
 - Code fusionné : PR #245 (trajectoire et valorisations), PR #247 (affichage dernière valeur datée), commit de code `599ae7e10592eeee1b76807a47e7f058773236e8`. CI GitHub [41190737591](https://github.com/Speedcup212/maximus-scpi/actions/runs/41190737591) : succès, incluant validations Chromium desktop et mobile et certification distante de la cohorte.
 - **Ce paragraphe ne prouve pas un déploiement Netlify** : publication de la version frontend à contrôler séparément par l'ID et le SHA du déploiement effectif.
+
+## Release EDR Europa — reprise du 31/10/2026 (supersède l'état documentaire précédent)
+
+- État confirmé en base Supabase de production : `edr-europa` actif dans la cohorte 66 ; `scpi_bulletin_analysis.certification_status=certified`, `current_source_certified=true`, `comparison_certified=true`, `scpi_crash_test_status=PASS`, `scpi_operational_status=DONE`.
+- Neuf périodes trimestrielles conservées : 2024-T2, 2024-T3, 2024-T4, 2025-T1, T2, T3, T4, 2026-T1 et T2. TOF 100 % documenté pour chacune par un bulletin rédigé par l'émetteur ; distinguer originaux téléchargeables des copies hébergées par distributeur, sans attribuer une empreinte d'original à une copie.
+- Cinq couples réalisation/reconstitution datés aux 30/06/2024, 31/12/2024, 30/06/2025, 31/12/2025 et 30/06/2026 ; dates d'arrêté réelles, pas de valeurs trimestrielles interpolées.
+- Le bulletin T2 2026 officiel : correction du JSON d'extraction automatique (nombres de parts, immeubles, dividende, valorisations) en préservant l'ancienne extraction pour audit ; horodatage de l'historique rectifié au 30/06/2026.
+- Rapports annuels 2024 et 2025 certifiés en base avec arrêts au 31 décembre ; première clôture distincte du 30 juin 2024 maintenue dans l'historique.
+- Fichier statique `src/data/scpiIndicatorHistory.json` enrichi de neuf périodes, et test `test-edr-europa-onboarding.mjs` complété ; `scpi_publish_queue` contient l'événement `trajectory_data` tant que la mise en ligne n'est pas confirmée.
+- Les commits préparatoires sans token ont été volontairement ignorés par `scripts/netlify-ignore.mjs`. Ce commit est le **déclencheur unique** de build Netlify de production via le marqueur `[deploy]` ; le succès du build, l'ID de déploiement et le rendu public doivent être vérifiés avant de marquer l'événement publié.
