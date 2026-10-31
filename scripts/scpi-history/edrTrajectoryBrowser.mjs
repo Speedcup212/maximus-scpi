@@ -13,7 +13,22 @@ const base={scpi_slug:'edr-europa',snapshot_at:'2026-10-31',source_url:issuer,qa
   valeur_realisation:null,endettement:null,distribution_par_part:null,parts_attente_retrait:null,
   nombre_parts:null,capital_type:'variable',liquidity_basis:null,retrait_attente_pct:null,liquidity_pressure_pct:null,metric_provenance:{}};
 const rows=[
- ...dividends.map(([source_period,distribution_par_part])=>({...base,source_period,distribution_par_part})),
+ ...dividends.map(([source_period,distribution_par_part])=>{
+   const valuations={
+     '2024-T4':{prix_reconstitution:210.81,valeur_realisation:169.60,date:'2024-12-31'},
+     '2025-T2':{prix_reconstitution:213.21,valeur_realisation:174.71,date:'2025-06-30'},
+     '2025-T4':{prix_reconstitution:220.66,valeur_realisation:179.28,date:'2025-12-31'},
+   }[source_period];
+   return {...base,source_period,distribution_par_part,
+     prix_reconstitution:valuations?.prix_reconstitution??null,
+     valeur_realisation:valuations?.valeur_realisation??null,
+     prix_souscription:valuations?200:null,
+     metric_provenance:valuations?{
+       prix_reconstitution:{reference_date:valuations.date},
+       valeur_realisation:{reference_date:valuations.date}
+     }:{}
+   };
+ }),
  {...base,source_period:'2026-T1',source_url:q1,qa_status:'manual_verified_issuer_bulletin_official_web_and_mirror_sha',
   source_confidence:0.95,tof:100,capitalisation:103.1064,prix_souscription:200,prix_retrait:180,endettement:0,distribution_par_part:4.33,nombre_parts:515532},
  {...base,source_period:'2026-T2',qa_status:'manual_verified_official_pdf_sha256_page',source_confidence:1,
@@ -58,6 +73,12 @@ try{
    assert.match(first,/210,81 €/);
    assert.match(first,/Non consolidée : exercices distincts/);
    assert.match(first,/4,69 €/);
+   assert.match(first,/213,21 €/);
+   assert.match(first,/174,71 €/);
+   assert.match(first,/212,78 €/);
+   assert.match(first,/174,23 €/);
+   assert.match(first,/Dernière valeur : 220,66 €/);
+   assert.match(first,/Dernière valeur : 179,28 €/);
    await page.evaluate(()=>Array.from(document.querySelectorAll('button')).find(x=>x.textContent?.trim()==='Signaux du marché de la SCPI')?.click());
    await page.waitForFunction(()=>document.body.innerText.includes('4/5 indicateurs exploitables'),{timeout:16000});
    const market=await page.evaluate(()=>document.body.innerText);
