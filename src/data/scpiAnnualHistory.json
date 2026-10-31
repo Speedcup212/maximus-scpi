@@ -458,7 +458,7 @@
       "distribution_totale_par_part": null,
       "valeur_realisation_par_part": 169.6,
       "valeur_reconstitution_par_part": 210.81,
-      "distribution_basis": "partial_multi_closing_not_annual_distribution",
+      "distribution_basis": "multi_closing_2024_distributions_not_consolidated",
       "distribution_arbitration": "2024 comporte deux exercices distincts clos le 30/06 et le 31/12 ; la distribution annuelle totale n'est pas certifiée. Les valeurs sont uniquement celles de la clôture du 31/12/2024, sans fusion des comptes.",
       "source_url": "https://edr-europa.com/wp-content/uploads/2025/06/SCPI-Edmond-de-Rothschild-Europa-Rapport-annuel-30-06-2024.pdf",
       "evidence_pages": {
