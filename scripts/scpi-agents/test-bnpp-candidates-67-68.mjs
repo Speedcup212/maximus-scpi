@@ -72,3 +72,31 @@ test('both BNP T3 entries are staged in canonical raw catalog but are not public
     assert.ok(!cohort.slugs.includes(candidate.scpi_slug), candidate.scpi_slug + ': cannot be in public certified cohort yet');
   }
 });
+
+test('both issuer-valued and source-dated cards are coherent for 68-fund preview', () => {
+  assert.equal(candidates.technical_audit.fields_verified, 47);
+  assert.equal(candidates.technical_audit.allocations_verified, 14);
+  assert.equal(candidates.technical_audit.human_signed_off, false);
+  for (const candidate of candidates.candidates) {
+    const row = rawCatalog.find(r => r['Nom SCPI'] === candidate.name);
+    assert.ok(row);
+    assert.equal(row['Label ISR'], 'Oui');
+    assert.equal(row['SFDR'], 'Article 8');
+    const sector = Object.values(row['Répartition Sectorielle JSON']).reduce((a,b)=>a+Number(b),0);
+    const geography = Object.values(row['Répartition Géographique JSON']).reduce((a,b)=>a+Number(b),0);
+    assert.ok(Math.abs(sector - 100) < 1e-8, candidate.scpi_slug+' sectors not 100%');
+    assert.ok(Math.abs(geography - 100) < 1e-8, candidate.scpi_slug+' geography not 100%');
+    assert.match(row['Répartition Sectorielle'], /Bureaux/);
+    assert.equal(row.maximus_valeur_realisation_reference_date, '2026-06-30');
+    assert.equal(row.maximus_walb_reference_date, '2026-09-30');
+    assert.equal(row.maximus_prix_retrait_source_url, candidate.quarterly_pdf);
+    assert.equal(row.maximus_publication_status, 'pending_certification');
+    assert.ok(row['Surcote/décote (%)'] > 0);
+    assert.ok(row.maximus_metric_provenance['Surcote/décote (%)']);
+  }
+  const ap = rawCatalog.find(r => r['Nom SCPI'] === 'Accimmo Pierre');
+  assert.ok(ap.maximus_prix_retrait_definition.includes('98,50'));
+  assert.ok(ap.maximus_prix_retrait_definition.includes('128,41'));
+  assert.equal(ap['Répartition Géographique JSON']['Autres'], 0.1);
+  assert.equal(ap['Répartition Géographique JSON']['Autres pays'], undefined);
+});
