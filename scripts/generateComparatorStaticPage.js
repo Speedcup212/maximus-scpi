@@ -18,7 +18,12 @@ let html = fs.readFileSync(sourcePath, 'utf-8');
 
 const cohort = JSON.parse(fs.readFileSync(path.join(__dirname,'../src/data/certified_scpi_cohort.json'),'utf8'));
 const scpiCount=cohort.count;
-if(![61,65].includes(scpiCount)||cohort.slugs.length!==scpiCount)
+const ids=new Set(cohort.slugs);
+const corum=['corum-eurion','corum-origin','corum-usa','corum-xl'];
+const corumN=corum.filter(id=>ids.has(id)).length;
+if(cohort.slugs.length!==scpiCount||ids.size!==scpiCount||
+  ![0,4].includes(corumN)|| (ids.has('edr-europa')&&corumN!==4) ||
+  scpiCount!==61+corumN+(ids.has('edr-europa')?1:0))
   throw Error('Invalid published SCPI cohort in comparator HTML');
 const title = 'Comparateur SCPI 2026 : rendement et risques | MaximusSCPI';
 const description = 'Comparateur SCPI : confrontez rendement, frais, valeur de reconstitution, TOF, dette et liquidité. Historique, Radar et Trajectoire sourcés.';

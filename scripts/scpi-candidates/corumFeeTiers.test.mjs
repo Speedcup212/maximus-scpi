@@ -22,10 +22,11 @@ test('CORUM XL retains two official, non-interchangeable HT rates and no blended
 });
 test('All four CORUM remain private even with completed fee evidence',()=>{
  assert.equal(pilot.status,'private_staging_non_published');
- assert.ok([61,65].includes(publicCohort.count));
+ assert.ok([61,65,66].includes(publicCohort.count));
+ if(publicCohort.count===66)assert.ok(publicCohort.slugs.includes('edr-europa'));
  const published=pilot.scpi.filter(x=>publicCohort.slugs.includes(x.scpi_slug));
  assert.ok(published.length===0||published.length===4,'No partial CORUM publication');
- assert.equal(published.length,publicCohort.count===65?4:0);
+ assert.equal(published.length,publicCohort.count>=65?4:0);
  for(const x of pilot.scpi){
   // An immutable private pilot remains historical and is never overwritten
   // to make its outdated candidate flags an artificial publication signoff.

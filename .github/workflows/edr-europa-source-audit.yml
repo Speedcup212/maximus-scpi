@@ -1,0 +1,51 @@
+name: EdR Europa - PDF official source audit
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/scpi-agents/verify-edr-source-pdfs.mjs'
+      - '.github/workflows/edr-europa-source-audit.yml'
+  push:
+    branches:
+      - 'feat/edr-europa-66-scpi-20261031'
+    paths:
+      - 'scripts/scpi-agents/verify-edr-source-pdfs.mjs'
+      - '.github/workflows/edr-europa-source-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: edr-europa-source-audit-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fetch-official-documents:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+      - name: Configure Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install PDF inspection tools
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: Download, fingerprint, extract and identify issuer sources
+        run: node scripts/scpi-agents/verify-edr-source-pdfs.mjs
+        env:
+          EDR_REPORT_DIR: artifacts/edr-europa-source-audit
+      - name: Upload manifest and extracted text for manual certification review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: edr-europa-official-pdf-proof-${{ github.run_id }}
+          path: |
+            artifacts/edr-europa-source-audit/manifest.json
+            artifacts/edr-europa-source-audit/*.txt
+          retention-days: 30
+          if-no-files-found: warn

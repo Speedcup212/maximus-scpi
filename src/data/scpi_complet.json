@@ -929,15 +929,15 @@
     "Année de création": 1983,
     "Label ISR": "Oui",
     "Capitalisation (M€)": 3030,
-    "Prix de souscription (€)": 172,
-    "Valeur de retrait (€)": 158.25,
+    "Prix de souscription (€)": 150,
+    "Valeur de retrait (€)": 138.01,
     "Surcote/décote (%)": -7.27,
-    "Valeur de reconstitution (€)": 364.52,
-    "Valeur de réalisation (€)": 269.67,
+    "Valeur de reconstitution (€)": 150.66,
+    "Valeur de réalisation (€)": 130.96,
     "Taux de distribution (%)": 3.63,
-    "Distribution (€/part)": "15.20",
-    "Endettement (%)": 945,
-    "TOF (%)": 87.03,
+    "Distribution (€/part)": 1.74,
+    "Endettement (%)": null,
+    "TOF (%)": 83.84,
     "Nombre d’immeubles": 186,
     "Minimum de souscription €": 338,
     "Délai de jouissance (mois)": 4,
@@ -975,15 +975,67 @@
     },
     "Frais de souscription (TTC/%)": 7.993,
     "maximus_warnings": [
-      "Prix de souscription 172€ (depuis 31/03/2025, commission incluse) — prix de retrait 158,25€. Écart normal lié aux frais. Perte en capital vs prix historique 338€.",
-      "Risque de liquidité : 620 526 parts en attente de retrait ; fonds de remboursement activé (source : EDISSIMMO - Bulletin Semestriel 2025 S2.pdf)"
+      "TOF de 83,84 % et capitalisation de 3 030 M€ au 30/06/2026 (source bulletin officiel S1 2026).",
+      "Prix de souscription 150 € et retrait 138,01 € depuis le 28/08/2026, contre 172 € et 158,25 € au 30/06/2026.",
+      "Endettement officiel 936 M€ ; un taux d'endettement n'est pas déduit mécaniquement de ce montant.",
+      "Risque de liquidité : parts en attente de retrait. La liquidité n'est pas garantie."
     ],
-    "Nombre d'associés": 59148,
+    "Nombre d'associés": 59272,
     "Nombre d'immeubles": 178,
-    "liquidite": 620526,
+    "liquidite": 861584,
     "Article SFDR": 8,
     "niveau_risque_dic": 4,
-    "Décote/Surcote QA": "manual_review"
+    "Décote/Surcote QA": "manual_review",
+    "Valeur de reconstitution par part (€)": 150.66,
+    "Valeur de réalisation par part (€)": 130.96,
+    "Nombre d’associés": 59272,
+    "Nombre de parts": 17616631,
+    "Endettement nominal (M€)": 936,
+    "Distribution référence": "2026-T2",
+    "Période bulletin trimestriel": "S1 2026",
+    "Date bulletin": "30/06/2026",
+    "maximus_source_document": "Amundi Immobilier — Bulletin d’information S1 2026",
+    "maximus_source_url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_b1f04db8-c532-40f1-9847-b0f840fff7d6",
+    "maximus_source_periode": "S1 2026",
+    "maximus_data_status": "manual_verified_original_issuer_sha256",
+    "maximus_document_sha256": "37e2e887a160951199d2ee9263fef5df66389b8a96605c8e56f10996ee66d378",
+    "td_reference_period": "2025",
+    "maximus_metric_provenance": {
+      "tof": {
+        "value": 83.84,
+        "source_page": 1,
+        "reference_date": "2026-06-30",
+        "source_url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_b1f04db8-c532-40f1-9847-b0f840fff7d6"
+      },
+      "prix_souscription": {
+        "value": 150,
+        "source_page": 1,
+        "reference_date": "2026-08-28",
+        "previous_value": 172,
+        "previous_reference_date": "2026-06-30",
+        "source_url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_b1f04db8-c532-40f1-9847-b0f840fff7d6"
+      },
+      "prix_retrait": {
+        "value": 138.01,
+        "source_page": 1,
+        "reference_date": "2026-08-28",
+        "previous_value": 158.25,
+        "source_url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_b1f04db8-c532-40f1-9847-b0f840fff7d6"
+      },
+      "capitalisation": {
+        "value_m_eur": 3030,
+        "source_page": 1,
+        "reference_date": "2026-06-30",
+        "source_url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_b1f04db8-c532-40f1-9847-b0f840fff7d6"
+      },
+      "endettement": {
+        "value_m_eur": 936,
+        "source_page": 1,
+        "reference_date": "2026-06-30",
+        "rate_percent": null,
+        "source_url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_b1f04db8-c532-40f1-9847-b0f840fff7d6"
+      }
+    }
   },
   {
     "Nom SCPI": "Efimmo 1",
@@ -3521,10 +3573,10 @@
     "Prix de souscription (€)": 203,
     "Capitalisation (M€)": 2927,
     "TOF (%)": 85.01,
-    "Endettement (%)": 931,
+    "Endettement (%)": null,
     "Nombre d'immeubles": 180,
-    "Nombre d'associés": 36768,
-    "Nombre de parts": 12836120,
+    "Nombre d'associés": 36886,
+    "Nombre de parts": 12836379,
     "Versement des loyers": "trimestrielle",
     "Période bulletin trimestriel": "S1 2026",
     "Répartition Sectorielle JSON": {
@@ -3535,13 +3587,13 @@
       "Résidences services": 1.6
     },
     "maximus_warnings": [
-      "TOF de 85,01 % au 30/06/2026",
-      "818 629 parts en attente de retrait au 30/06/2026",
-      "Prix de souscription abaissé à 203 € le 28/08/2026",
-      "Patrimoine encore très exposé aux bureaux, notamment franciliens"
+      "TOF de 85,01 % et capitalisation de 2 927 M€ au 30/06/2026 (bulletin officiel S1).",
+      "Prix de souscription 203 € et retrait 186,77 € depuis le 28/08/2026, contre 228 € et 209,78 € au 30/06/2026.",
+      "Endettement officiel : 879 M€ ; le ratio d'endettement n'est pas déduit automatiquement.",
+      "818 629 parts en attente de retrait au 30/06/2026, soit environ 6,4 % des parts."
     ],
-    "maximus_data_status": "extracted_s1_2026",
-    "maximus_source_document": "Amundi Immobilier — Bulletin 1er semestre 2026",
+    "maximus_data_status": "manual_verified_original_issuer_sha256",
+    "maximus_source_document": "Amundi Immobilier — Bulletin S1 2026",
     "maximus_source_periode": "S1 2026",
     "maximus_confidence_score": 0.9,
     "Valeur de retrait (€)": 186.77,
@@ -3558,7 +3610,45 @@
     "Frais de souscription (TTC/%)": 7.993,
     "Frais de gestion (HT/%)": 0.89,
     "Décote/Surcote QA": "manual_review",
-    "Date bulletin": "30/06/2026"
+    "Date bulletin": "30/06/2026",
+    "Endettement nominal (M€)": 879,
+    "maximus_source_url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_0b692331-20c6-4ef9-a5e7-b79ba1651047",
+    "maximus_document_sha256": "744c885c970d6deceda6ef19633fa3b0ee0419b0b14d2990f8198bfc62e0cdfc",
+    "maximus_metric_provenance": {
+      "tof": {
+        "value": 85.01,
+        "reference_date": "2026-06-30",
+        "source_page": 1,
+        "source_url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_0b692331-20c6-4ef9-a5e7-b79ba1651047"
+      },
+      "capitalisation": {
+        "value_m_eur": 2927,
+        "reference_date": "2026-06-30",
+        "source_page": 1,
+        "source_url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_0b692331-20c6-4ef9-a5e7-b79ba1651047"
+      },
+      "prix_souscription": {
+        "value": 203,
+        "reference_date": "2026-08-28",
+        "previous_value": 228,
+        "previous_reference_date": "2026-06-30",
+        "source_page": 1,
+        "source_url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_0b692331-20c6-4ef9-a5e7-b79ba1651047"
+      },
+      "prix_retrait": {
+        "value": 186.77,
+        "reference_date": "2026-08-28",
+        "previous_value": 209.78,
+        "source_page": 1,
+        "source_url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_0b692331-20c6-4ef9-a5e7-b79ba1651047"
+      },
+      "endettement": {
+        "value_m_eur": 879,
+        "rate_percent": null,
+        "source_page": 1,
+        "source_url": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_0b692331-20c6-4ef9-a5e7-b79ba1651047"
+      }
+    }
   },
   {
     "Nom SCPI": "Primovie",
@@ -3893,8 +3983,8 @@
     "Nom SCPI": "CORUM Eurion",
     "Société de gestion": "CORUM Asset Management",
     "Année de création": 2020,
-    "Capitalisation (M€)": 1560.0,
-    "Prix de souscription (€)": 215.0,
+    "Capitalisation (M€)": 1560,
+    "Prix de souscription (€)": 215,
     "Valeur de reconstitution par part (€)": 224.07,
     "Valeur de réalisation (€)": 177.78,
     "WALB": 6.43,
@@ -4096,8 +4186,8 @@
     "Nom SCPI": "CORUM Origin",
     "Société de gestion": "CORUM Asset Management",
     "Année de création": 2012,
-    "Capitalisation (M€)": 4165.0,
-    "Prix de souscription (€)": 1135.0,
+    "Capitalisation (M€)": 4165,
+    "Prix de souscription (€)": 1135,
     "Valeur de reconstitution par part (€)": 1186.3,
     "Valeur de réalisation (€)": 968.75,
     "WALB": 5.8,
@@ -4306,8 +4396,8 @@
     "Nom SCPI": "CORUM USA",
     "Société de gestion": "CORUM Asset Management",
     "Année de création": 2024,
-    "Capitalisation (M€)": 82.0,
-    "Prix de souscription (€)": 200.0,
+    "Capitalisation (M€)": 82,
+    "Prix de souscription (€)": 200,
     "Valeur de reconstitution par part (€)": 216.34,
     "Valeur de réalisation (€)": 187.67,
     "WALB": 9.41,
@@ -4376,7 +4466,7 @@
       "Exposition au risque de change : les cours des devises peuvent modifier les résultats en euros."
     ],
     "maximus_lifecycle_status": "normal",
-    "Valeur de retrait (€)": 176.0,
+    "Valeur de retrait (€)": 176,
     "maximus_prix_retrait_source_url": "https://content.corum.fr/app/uploads/corum-fr/CORUM-USA-FR1-Note-information-20250124.pdf",
     "maximus_prix_retrait_source_page": 13,
     "maximus_prix_retrait_reference_period": "2026-T2",
@@ -4510,8 +4600,8 @@
     "Nom SCPI": "CORUM XL",
     "Société de gestion": "CORUM Asset Management",
     "Année de création": 2017,
-    "Capitalisation (M€)": 2185.0,
-    "Prix de souscription (€)": 195.0,
+    "Capitalisation (M€)": 2185,
+    "Prix de souscription (€)": 195,
     "Valeur de reconstitution par part (€)": 194.27,
     "Valeur de réalisation (€)": 157.73,
     "WALB": 7.25,
@@ -4724,5 +4814,164 @@
         "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf"
       }
     }
+  },
+  {
+    "Nom SCPI": "EdR Europa",
+    "Société de gestion": "Edmond de Rothschild REIM (France)",
+    "Année de création": 2024,
+    "Label ISR": "Oui",
+    "SFDR": "Article 8",
+    "Profil_de_risque": {
+      "SRRI": 3,
+      "Echelle": "1-7",
+      "Source": "Bulletin officiel T2 2026 (page 9)",
+      "Verification": "official_document_pending_certification"
+    },
+    "Capitalisation (M€)": 152.923494,
+    "Prix de souscription (€)": 202,
+    "Valeur de retrait (€)": 181.8,
+    "Valeur de reconstitution par part (€)": 212.78,
+    "Valeur de réalisation (€)": 174.23,
+    "Taux de distribution (%)": 8.75,
+    "td_reference_period": "2025",
+    "td_reference_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+    "Distribution (€/part)": 4.69,
+    "Endettement (%)": 0,
+    "debt_reference_period": "2026-T2",
+    "debt_reference_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+    "TOF (%)": 100,
+    "TOP (%)": 100,
+    "Nombre d'immeubles": 19,
+    "Nombre de locataires": 16,
+    "Nombre d’associés": 3293,
+    "Nombre de parts": 757047,
+    "Minimum de souscription €": 5050,
+    "Délai de jouissance (mois)": 6,
+    "Versement des loyers": "Trimestrielle",
+    "Durée de détention recommandée (ans)": 10,
+    "Frais de souscription (TTC/%)": 12,
+    "WALT": 13.4,
+    "WALB": 13.4,
+    "Collecte nette trimestre": 48.427906,
+    "Répartition Géographique JSON": {
+      "Pays-Bas": 50,
+      "Allemagne": 22,
+      "Royaume-Uni": 21,
+      "France": 7
+    },
+    "Répartition Sectorielle JSON": {
+      "Locaux d'activités": 45,
+      "Commerces": 25,
+      "Logistique": 12,
+      "Hôtellerie": 10,
+      "Bureaux": 8
+    },
+    "Période bulletin trimestriel": "2026-T2",
+    "maximus_source_periode": "2026-T2",
+    "maximus_source_document": "Bulletin officiel n°9 T2 2026",
+    "maximus_source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+    "maximus_data_status": "current_and_history_certified",
+    "maximus_publication_status": "certified",
+    "Décote/Surcote QA": "manual_review",
+    "maximus_warnings": [
+      "Taux de distribution 2025 de 8,75% : historique et non objectif 2026 ; objectif indicatif de 6% non garanti.",
+      "Chiffres du T2 2026 recoupés avec PDF officiel signé par l’éditeur (pages, unités, SHA-256) et certifiés dans Supabase ; historique trimestriel précédent non encore certifié ; T3 2026 non prouvé depuis la source officielle.",
+      "Risque de concentration locative : quatre actifs loués au groupe NTS ; ratio de concentration à certifier.",
+      "Exposition au risque de change sur les actifs au Royaume-Uni.",
+      "Souscription initiale minimale: 25 parts à 202€, soit 5 050€ ; le message commercial général 'à partir de 5 000 €' n'est pas à jour au nouveau prix.",
+      "Commission de gestion : 10,50% HT / 12,60% TTC sur produits locatifs HT encaissés et produits financiers nets ; ne pas la confondre avec les 12% TTC de souscription.",
+      "Note d'information juin 2026, p.20 : commission standard de souscription 12 % TTC ; exceptions historiques (0 % pour associés fondateurs, 6 % TTC pour une fenêtre initiale limitée à 100 jours et 126 000 parts). Ces exceptions ne sont pas le barème courant.",
+      "Source courante : bulletin officiel T2 2026 du gestionnaire, source T3 2026 non confirmée au 31/10/2026.",
+      "Comparaison T1 2026 issue du bulletin rédigé par EdR REIM, texte original réconcilié avec copie archivée chez un distributeur. Empreintes de l’original et de la copie distinctes.",
+      "Valeurs de réalisation/reconstitution du bulletin T1 2026 datées du 31/12/2025 : ne pas les assimiler aux valeurs du 31/03/2026."
+    ],
+    "maximus_metric_provenance": {
+      "prix_souscription": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 4,
+        "reference_date": "2026-06-30"
+      },
+      "prix_retrait": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 4,
+        "reference_date": "2026-06-30"
+      },
+      "prix_reconstitution": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 4,
+        "reference_date": "2026-06-30"
+      },
+      "valeur_realisation": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 4,
+        "reference_date": "2026-06-30"
+      },
+      "tof": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 2,
+        "reference_date": "2026-06-30"
+      },
+      "walb": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 6,
+        "reference_date": "2026-06-30"
+      },
+      "walt": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 6
+      },
+      "minimum_souscription": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-EdR-Europa-Note-dinformation-06-2026.pdf",
+        "source_page": 12,
+        "reference_date": "2026-06-01",
+        "value": "25 parts x 202 EUR = 5050 EUR",
+        "certification_status": "pending"
+      },
+      "frais_gestion": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_page": 9,
+        "source_period": "2026-T2",
+        "unit": "10.5% HT; 12.60% TTC",
+        "certification_status": "pending"
+      }
+    },
+    "Frais de gestion (HT/%)": 10.5,
+    "Frais de gestion (TTC/%)": 12.6,
+    "Nombre minimum de parts": 25,
+    "Commission de souscription (HT/%)": 10,
+    "maximus_certification": {
+      "current_period": "2026-T2",
+      "current_source_certified": true,
+      "historical_comparison_certified": true,
+      "issuer_source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+      "issuer_pdf_sha256": "401987ac4d713eb30253a3d327b76b723c73753f72b5b31e28ffcd504f737d7d",
+      "checked_official_field_values": 23,
+      "checked_annual_report_values": 26,
+      "annual_2024_pdf_sha256": "05263c54c27697ed1f7036f1f620ea106094d25427376bdeda25d925e382b640",
+      "annual_2025_pdf_sha256": "cfb2b425b57146fec7ee7b765e92c6855989f778ea82d6a10067321cc90cd192",
+      "release_ready": true,
+      "checked_on": "2026-10-31",
+      "checked_notice_fields": 8,
+      "checked_price_gap_fields": 1,
+      "total_verified_field_certificates": 70,
+      "notice_issuer_pdf_sha256": "abab3708fc0240a16390e55714b0866666e3cc65b3d45bcaf3f59a00a495acea",
+      "note_information_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-EdR-Europa-Note-dinformation-06-2026.pdf",
+      "certification_restriction": "Current T2 certified; T1 original primary-host hash and historic source certification pending; EdR release disabled.",
+      "subscription_fee_special_cases_verified": true,
+      "checked_t1_field_values": 13,
+      "certification_status": "certified",
+      "history_source": "official_publisher_pdf_indexed_and_issuer_authored_mirror_SHA256",
+      "history_source_note": "The historical source is issuer-authored; mirror SHA256 is not the original publisher binary SHA256.",
+      "previous_period": "2026-T1"
+    },
+    "Surcote/décote (%)": -5.07,
+    "maximus_recommendation_status": "manual_review_required"
   }
 ]

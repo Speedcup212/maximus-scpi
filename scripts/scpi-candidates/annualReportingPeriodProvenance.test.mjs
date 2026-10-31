@@ -56,10 +56,11 @@ test('UI reports actual annual data year or neutral wording, with issuer link bu
 
 test('Historical year labels survive either 61-public or full 65-CORUM official release',()=>{
  assert.equal(cohort.count,cohort.slugs.length);
- assert.ok([61,65].includes(cohort.count));
+ assert.ok([61,65,66].includes(cohort.count));
+ if(cohort.count===66)assert.ok(cohort.slugs.includes('edr-europa'),'EdR must be the additional 66th fund');
  const ids=['corum-eurion','corum-origin','corum-usa','corum-xl'];
  const included=ids.filter(slug=>cohort.slugs.includes(slug));
- assert.equal(included.length,cohort.count===65?4:0);
+ assert.equal(included.length,cohort.count>=65?4:0);
  if(included.length===4){
    const catalog=JSON.parse(read('src/data/scpi_complet.json'));
    for(const slug of included){

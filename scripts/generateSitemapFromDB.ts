@@ -112,12 +112,13 @@ async function generateSitemap() {
   if (scpiSlugs.length !== scpiNames.length) {
     throw new Error(`Catalogue SCPI incohérent: ${scpiNames.length} noms pour ${scpiSlugs.length} slugs uniques.`);
   }
-  // The approved public catalog may have exactly the historical 61 or the
-  // atomic 65-fund CORUM batch. Reject any partial 62/63/64 transition.
+  // Cohort stage: original 61, atomic four-CORUM to 65, then
+  // explicitly authorized EdR Europa to 66. Never silently replace a CORUM.
   const corumIds = ['corum-eurion','corum-origin','corum-usa','corum-xl'];
   const released = corumIds.filter(id=>certifiedScpiSlugSet.has(id)).length;
-  if (![0,4].includes(released) ||
-      certifiedScpiSlugSet.size !== (released === 4 ? 65 : 61) ||
+  const edrIncluded = certifiedScpiSlugSet.has('edr-europa');
+  if (![0,4].includes(released) || (edrIncluded && released!==4) ||
+      certifiedScpiSlugSet.size !== (61 + released + (edrIncluded ? 1 : 0)) ||
       scpiSlugs.length !== certifiedScpiSlugSet.size) {
     throw new Error(`Cohorte publique SCPI incohérente: ${scpiSlugs.length}/${certifiedScpiSlugSet.size} slugs certifiés trouvés.`);
   }

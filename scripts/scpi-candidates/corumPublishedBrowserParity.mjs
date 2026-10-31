@@ -1,4 +1,4 @@
-// Verify the *actual 65-fund public catalog* and real production components.
+// Verify the complete *65-CORUM or 66-EdR staged catalog* and real production components.
 // Unlike private staging this NEVER overlays invented candidate data.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -15,7 +15,12 @@ const EXPECTED=[['corum-eurion','CORUM Eurion',224.07,55,43470],
 const OUT=path.resolve('test-results/corum-published-rendering');
 const PORT=4191,BASE='http://127.0.0.1:'+PORT;
 fs.mkdirSync(OUT,{recursive:true});
-if(COHORT.count!==65||COHORT.slugs.length!==65)throw Error('Production 65-fund cohort not built');
+const slugs=new Set(COHORT.slugs);
+const corum=['corum-eurion','corum-origin','corum-usa','corum-xl'];
+const edr=slugs.has('edr-europa');
+if((COHORT.count!==65&&!edr)||(edr&&COHORT.count!==66)||
+    slugs.size!==COHORT.count||COHORT.slugs.length!==COHORT.count||
+    corum.some(id=>!slugs.has(id)))throw Error('Expected complete 65-CORUM or 66-EdR staged cohort');
 for(const [slug,name,vr,buildings,investors] of EXPECTED){
  const row=CATALOG.find(x=>x['Nom SCPI']===name);
  if(!COHORT.slugs.includes(slug)||!row)throw Error('Published CORUM absent '+slug);
