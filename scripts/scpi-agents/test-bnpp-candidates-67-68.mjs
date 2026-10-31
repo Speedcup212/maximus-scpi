@@ -18,6 +18,13 @@ test('BNP candidate manifest is unique and backed by official sources', () => {
     assert.equal(candidate.source_period, '2026-T2');
     assert.ok(candidate.observations.length >= 10);
     assert.ok(candidate.observations.some(m => m.key === 'capitalisation' && m.value > 100));
+    const value = key => candidate.observations.find(m => m.key === key)?.value;
+    assert.ok(Math.abs(value('nombre_parts') * value('prix_souscription') / 1_000_000 -
+      value('capitalisation')) < 0.01, candidate.scpi_slug + ': shares × price != capitalization');
+    const queueRatio = value('parts_attente_retrait') / value('nombre_parts') * 100;
+    assert.ok(queueRatio > 0 && queueRatio < 100, candidate.scpi_slug + ': invalid withdrawal queue');
+    assert.ok(candidate.observations.filter(m => m.key.startsWith('tof')).every(m => m.page === 2),
+      candidate.scpi_slug + ': TOF evidence must refer to issuer bulletin, page 2');
     for (const item of candidate.observations) {
       assert.equal(typeof item.value, 'number');
       assert.ok(Number.isFinite(item.value));
