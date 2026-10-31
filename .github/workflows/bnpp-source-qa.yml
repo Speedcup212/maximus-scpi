@@ -1,0 +1,23 @@
+name: BNP T3 official issuer source QA
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify-official-bulletins:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF verifier
+        run: python -m pip install --quiet pymupdf==1.26.5
+      - name: Verify official T3 BNP PDFs SHA and per-page source values (no automatic publication)
+        run: python scripts/scpi-agents/verify-bnpp-t3.py
+      - name: Verify unpublished candidate manifest invariant
+        run: node --test scripts/scpi-agents/test-bnpp-candidates-67-68.mjs
