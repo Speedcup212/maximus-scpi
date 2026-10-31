@@ -3,7 +3,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
-const PARSER_VERSION="2026-09-25-v89";
+const PARSER_VERSION="2026-10-31-v90-labelled-price-pair";
 const BW=/(bulletin|\bbpi\b|bpi[1-4]|trimestriel|trimestrielle|semestriel|semestrielle|information\s+(?:trimestrielle|semestrielle)|\bbt\b)/i;
 const DOC_HUB=/(documentation|documents?|ressources|publications|t[eé]l[eé]chargements?)/i;
 const BAD=/(dic|kiid|priips?|prospectus|statuts?|rapport[-_\s]+annuel|annual[-_\s]+report|sfdr|notice[-_\s]+d['’]?information|r[eè]glement|politique[-_\s]+esg|code[-_\s]+de[-_\s]+transparence|rapport[-_\s]+isr|rapport[-_\s]+extra[-_\s]?financier|annexe[-_\s]+[24][-_\s]+sfdr)/i;
@@ -305,6 +305,16 @@ function parseMetrics(t:string,sourcePeriod?:string){
     o.tof=tofCandidates[0].v;
   }
   const price=nearestMoney(t,/prix\s+de\s+souscription(?:\s*\/\s*valeur\s+de\s+retrait)?/i);if(price!==null)o.prix_souscription=price;
+  // Éditeurs mettant le montant AVANT le libellé. Exemple PERIAL :
+  // «44,00 € Prix de souscription 39,82 € Prix de retrait».
+  // La proximité de 39,82 € avec «Prix de souscription» n'est PAS une preuve
+  // d'un prix de souscription à 39,82 €.
+  const subscriptionWithdrawalPair=/(\d{1,5}(?:[.,]\d{1,2})?)\s*€\s+prix\s+de\s+souscription\s+(\d{1,5}(?:[.,]\d{1,2})?)\s*€\s+prix\s+de\s+retrait/i.exec(t);
+  if(subscriptionWithdrawalPair){
+    const priceBefore=fr(subscriptionWithdrawalPair[1]),withdrawalBefore=fr(subscriptionWithdrawalPair[2]);
+    if(priceBefore!==null)o.prix_souscription=priceBefore;
+    if(withdrawalBefore!==null)o.prix_retrait=withdrawalBefore;
+  }
   const vr=datedMoney(t,/valeur\s+de\s+reconstitution/i)??nearestMoney(t,/valeur\s+de\s+reconstitution/i);if(vr!==null)o.prix_reconstitution=vr;
   const ret=nearestMoney(t,/(?:prix|valeur)\s+de\s+retrait/i);if(ret!==null)o.prix_retrait=ret;
   const rea=datedMoney(t,/valeur\s+de\s+r[eé]alisation/i)??nearestMoney(t,/valeur\s+de\s+r[eé]alisation/i);if(rea!==null)o.valeur_realisation=rea;
