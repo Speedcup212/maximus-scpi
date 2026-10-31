@@ -53,7 +53,7 @@ def check(manifest, root):
             merged_case = (slug == "accimmo-pierre" and
                            field in ("parts_attente_retrait", "parts_retirees_trimestre") and
                            "636 021248 622" in txt)
-            value_pattern = r"(?<!\\d)" + re.escape(token) + r"(?!\\d)"
+            value_pattern = r"(?<![0-9])" + re.escape(token) + r"(?![0-9])"
             assert re.search(value_pattern, txt) or merged_case, (
                 f"{slug}: source PDF page {page_no} missing {field}={token}")
         assert len(EXPECTED[slug]) >= 20
