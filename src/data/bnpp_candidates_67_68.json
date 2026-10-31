@@ -3,16 +3,16 @@
   "scope": "ONBOARDING_ONLY_NOT_PUBLIC",
   "target_cohort_count": 68,
   "issuer": "BNP Paribas REIM France",
-  "source_policy": "Official issuer PDF, exact source period, PDF page and SHA-256. Never use an aggregator for financial certification. T3 2026 is listed by issuer but direct PDF and per-field proof are not yet verified.",
+  "source_policy": "Issuer-only BNP Paribas REIM T3 2026 PDFs. Each page, period and SHA-256 traceable; no aggregator figures. Do not publish until independent financial, liquidity, regulatory and frontend QA and exact-cohort attestation.",
   "candidates": [
     {
       "scpi_slug": "acces-valeur-pierre",
       "name": "Accès Valeur Pierre",
       "release_ready": false,
-      "source_period": "2026-T2",
+      "source_period": "2026-T3",
       "official_page_url": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/acces-valeur-pierre",
-      "quarterly_pdf": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCES%20VALEUR%20PIERRE_BT_FR_T2%202026_DEF.pdf",
-      "quarterly_sha256": "ef0480622e4a8ed94f37195158606e098f321dcc8d136f78b813924d96e275da",
+      "quarterly_pdf": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+      "quarterly_sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
       "annual_2025_pdf": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/ACCES%20VALEUR%20PIERRE_RA_FR_2025_def.pdf",
       "annual_2025_sha256": "eecaa88894b8e7a900629e6b81012be34ca67e72a01d3b7afcd1f364211fe236",
       "observations": [
@@ -20,204 +20,291 @@
           "key": "capitalisation",
           "value": 1829.37,
           "unit": "M€",
-          "period": "2026-T2",
-          "page": 2,
-          "review": "document_verified_pending_field_qa"
+          "period": "2026-09-30",
+          "page": 5,
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "prix_souscription",
           "value": 765,
           "unit": "EUR_PER_PART",
-          "period": "2026-T2",
+          "period": "2026-09-30",
           "page": 5,
-          "review": "qa_pass"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "prix_retrait",
           "value": 696.69,
           "unit": "EUR_PER_PART",
-          "period": "2026-T2",
+          "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_field_qa"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "prix_reconstitution",
           "value": 745.63,
           "unit": "EUR_PER_PART",
-          "period": "2026-T2",
+          "period": "2026-06-30",
           "page": 5,
-          "review": "document_verified_pending_field_qa"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "valeur_realisation",
           "value": 610.32,
           "unit": "EUR_PER_PART",
-          "period": "2026-T2",
+          "period": "2026-06-30",
           "page": 5,
-          "review": "document_verified_pending_field_qa"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "tof",
-          "value": 87.07,
+          "value": 86.5,
           "unit": "PERCENT",
-          "period": "2026-T2",
+          "period": "2026-09-30",
           "page": 2,
-          "review": "qa_pass"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "nombre_parts",
           "value": 2391334,
           "unit": "PARTS",
-          "period": "2026-T2",
+          "period": "2026-09-30",
           "page": 5,
-          "review": "qa_pass"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "nombre_associes",
-          "value": 25746,
+          "value": 25864,
           "unit": "COUNT",
-          "period": "2026-T2",
+          "period": "2026-09-30",
           "page": 5,
-          "review": "pending_independent_qa_corrected_period"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "parts_attente_retrait",
-          "value": 120254,
+          "value": 129463,
           "unit": "PARTS",
-          "period": "2026-T2",
+          "period": "2026-09-30",
           "page": 5,
-          "review": "qa_pass"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
-          "key": "td_2025",
-          "value": 3.85,
-          "unit": "PERCENT",
-          "period": "2025-RA",
-          "page": 7,
-          "review": "qa_pass",
-          "source_document": "annual_2025"
+          "key": "distribution_brute_par_part",
+          "value": 7.08,
+          "unit": "EUR_PER_PART",
+          "period": "2026-T3",
+          "page": 5,
+          "review": "document_verified_pending_independent_field_qa"
+        },
+        {
+          "key": "walb",
+          "value": 2,
+          "unit": "YEARS",
+          "period": "2026-09-30",
+          "page": 4,
+          "review": "document_verified_pending_independent_field_qa"
+        },
+        {
+          "key": "nombre_immeubles",
+          "value": 61,
+          "unit": "COUNT",
+          "period": "2026-09-30",
+          "page": 2,
+          "review": "document_verified_pending_independent_field_qa"
+        },
+        {
+          "key": "nombre_locataires",
+          "value": 217,
+          "unit": "COUNT",
+          "period": "2026-09-30",
+          "page": 4,
+          "review": "document_verified_pending_independent_field_qa"
+        },
+        {
+          "key": "srri",
+          "value": 3,
+          "unit": "COUNT",
+          "period": "2026-T3",
+          "page": 2,
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "frais_souscription_ttc",
           "value": 10.72,
           "unit": "PERCENT",
-          "period": "2026-T2",
+          "period": "2026-T3",
           "page": 6,
-          "review": "document_verified_pending_field_qa"
+          "review": "document_verified_pending_independent_field_qa"
         }
-      ]
+      ],
+      "previous_quarter": {
+        "period": "2026-T2",
+        "pdf": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCES%20VALEUR%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+        "sha256": "ef0480622e4a8ed94f37195158606e098f321dcc8d136f78b813924d96e275da"
+      },
+      "td_2025": {
+        "value": 3.85,
+        "period": "2025-RA",
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/ACCES%20VALEUR%20PIERRE_RA_FR_2025_def.pdf",
+        "review": "qa_pass"
+      },
+      "specific_liquidity_warning": "129,463 parts awaiting withdrawal as of 30 September 2026; 5.41% of 2,391,334 parts. Cash exit is not guaranteed."
     },
     {
       "scpi_slug": "accimmo-pierre",
       "name": "Accimmo Pierre",
       "release_ready": false,
-      "source_period": "2026-T2",
+      "source_period": "2026-T3",
       "official_page_url": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/accimmo-pierre",
-      "quarterly_pdf": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCIMMO%20PIERRE_BT_FR_T2%202026_DEF.pdf",
-      "quarterly_sha256": "2adc825b6776f9ea55f6d4bc1d55a55142b01957b49d486fa2472cdec35abb20",
+      "quarterly_pdf": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+      "quarterly_sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
       "annual_2025_pdf": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-06/AP_RA2025_web.pdf",
       "annual_2025_sha256": "f548b268225d9d2fc7946f03b4d8053af9566762d7253330d2c47f6957d2d048",
       "observations": [
         {
           "key": "capitalisation",
-          "value": 2657.59,
+          "value": 2622.71,
           "unit": "M€",
-          "period": "2026-T2",
-          "page": 2,
-          "review": "document_verified_pending_field_qa"
+          "period": "2026-09-30",
+          "page": 5,
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "prix_souscription",
           "value": 141,
           "unit": "EUR_PER_PART",
-          "period": "2026-T2",
+          "period": "2026-09-30",
           "page": 5,
-          "review": "qa_pass"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "prix_retrait",
           "value": 128.41,
           "unit": "EUR_PER_PART",
-          "period": "2026-T2",
+          "period": "2026-09-30",
           "page": 5,
-          "review": "document_verified_pending_field_qa"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "prix_reconstitution",
           "value": 132.51,
           "unit": "EUR_PER_PART",
-          "period": "2026-T2",
+          "period": "2026-06-30",
           "page": 5,
-          "review": "document_verified_pending_field_qa"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "valeur_realisation",
           "value": 109.46,
           "unit": "EUR_PER_PART",
-          "period": "2026-T2",
+          "period": "2026-06-30",
           "page": 5,
-          "review": "document_verified_pending_field_qa"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
-          "key": "tof_quarterly",
-          "value": 87.44,
+          "key": "tof",
+          "value": 87.52,
           "unit": "PERCENT",
-          "period": "2026-T2",
+          "period": "2026-09-30",
           "page": 2,
-          "review": "qa_pass"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "nombre_parts",
-          "value": 18848157,
+          "value": 18600813,
           "unit": "PARTS",
-          "period": "2026-T2",
+          "period": "2026-09-30",
           "page": 5,
-          "review": "qa_pass"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "nombre_associes",
-          "value": 59576,
+          "value": 58611,
           "unit": "COUNT",
-          "period": "2026-T2",
+          "period": "2026-09-30",
           "page": 5,
-          "review": "pending_independent_qa_corrected_period"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "parts_attente_retrait",
-          "value": 844571,
+          "value": 636021,
           "unit": "PARTS",
-          "period": "2026-T2",
+          "period": "2026-09-30",
           "page": 5,
-          "review": "qa_pass"
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
-          "key": "td_2025",
-          "value": 4.77,
-          "unit": "PERCENT",
-          "period": "2025-RA",
+          "key": "distribution_brute_par_part",
+          "value": 1.59,
+          "unit": "EUR_PER_PART",
+          "period": "2026-T3",
+          "page": 5,
+          "review": "document_verified_pending_independent_field_qa"
+        },
+        {
+          "key": "walb",
+          "value": 3.03,
+          "unit": "YEARS",
+          "period": "2026-09-30",
           "page": 4,
-          "review": "qa_pass",
-          "source_document": "annual_2025"
+          "review": "document_verified_pending_independent_field_qa"
+        },
+        {
+          "key": "nombre_immeubles",
+          "value": 143,
+          "unit": "COUNT",
+          "period": "2026-09-30",
+          "page": 2,
+          "review": "document_verified_pending_independent_field_qa"
+        },
+        {
+          "key": "nombre_locataires",
+          "value": 363,
+          "unit": "COUNT",
+          "period": "2026-09-30",
+          "page": 4,
+          "review": "document_verified_pending_independent_field_qa"
+        },
+        {
+          "key": "srri",
+          "value": 4,
+          "unit": "COUNT",
+          "period": "2026-T3",
+          "page": 2,
+          "review": "document_verified_pending_independent_field_qa"
         },
         {
           "key": "frais_souscription_ttc",
           "value": 10.72,
           "unit": "PERCENT",
-          "period": "2026-T2",
+          "period": "2026-T3",
           "page": 6,
-          "review": "document_verified_pending_field_qa"
+          "review": "document_verified_pending_independent_field_qa"
         }
-      ]
+      ],
+      "previous_quarter": {
+        "period": "2026-T2",
+        "pdf": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCIMMO%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+        "sha256": "2adc825b6776f9ea55f6d4bc1d55a55142b01957b49d486fa2472cdec35abb20"
+      },
+      "td_2025": {
+        "value": 4.77,
+        "period": "2025-RA",
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-06/AP_RA2025_web.pdf",
+        "review": "qa_pass"
+      },
+      "specific_liquidity_warning": "Issuer T3 2026 describes a separate reimbursement-fund price of EUR 98.50 for certain withdrawals; it is NOT the standard EUR 128.41 withdrawal price and not guaranteed."
     }
   ],
   "hard_gates": [
-    "Issuer PDF T3 2026 URL/SHA256/pages per field",
+    "Official T3 2026 issuer PDF: URL + SHA-256 + 7-page identity VERIFIED; per-field independent QA remains required",
     "Independent QA: every material financial indicator",
     "Annual vs quarter chronology / valuation reference dates",
     "Debt/liquidity/withdrawal certification and honest risk assessment",
     "Risk SRRI, fees and DIC/SFDR",
     "Source-matched indicators, bulletin analysis, trajectory",
     "Frontend catalog/comparator/simulators/radar/card/SEO smoke test",
-    "Exact 68 members in release cohort, attested CI, deployed edge function"
+    "Exact 68 members in release cohort, attested CI, deployed edge function",
+    "Historical Accès Valeur Pierre TOF T2 discrepancy: official T2 PDF 87.07%, T3 bulletin historical comparison row 85.49%; suppress unverified quarter-to-quarter trend."
   ]
 }
