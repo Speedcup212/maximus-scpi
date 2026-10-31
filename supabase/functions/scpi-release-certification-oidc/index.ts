@@ -41,12 +41,16 @@ Deno.serve(async(req:Request)=>{
   const db=createClient(base,key,{auth:{persistSession:false,autoRefreshToken:false}});
 
   try {
-    const [{data:pilot,error:pilotError},{data:analyses,error:analysisError}]=await Promise.all([
-      db.from('scpi_trajectory_pilot').select('scpi_slug').eq('enabled',true),
-      db.from('scpi_bulletin_analysis').select('scpi_slug,current_period,previous_period,risk_level,improvements,deteriorations,alerts,watch_points,analysis_version,certification_status,certification_reasons,current_source_certified,comparison_certified,structural_event_detected,certified_source_url').limit(5000)
-    ]);
-    if(pilotError||analysisError)throw pilotError||analysisError;
+    const {data:pilot,error:pilotError}=await db.from('scpi_trajectory_pilot')
+      .select('scpi_slug').eq('enabled',true);
+    if(pilotError)throw pilotError;
     const allowed=new Set((pilot||[]).map(row=>String(row.scpi_slug)));
+    // Inspect only active SCPI. Staged / disabled SCPI must not change
+    // the attested release cohort before their coordinated activation.
+    const {data:analyses,error:analysisError}=await db.from('scpi_bulletin_analysis')
+      .select('scpi_slug,current_period,previous_period,risk_level,improvements,deteriorations,alerts,watch_points,analysis_version,certification_status,certification_reasons,current_source_certified,comparison_certified,structural_event_detected,certified_source_url')
+      .in('scpi_slug',[...allowed]).limit(5000);
+    if(analysisError)throw analysisError;
     const observed=new Set((analyses||[]).map(row=>String(row.scpi_slug)));
     if(allowed.size!==66 || (analyses||[]).length!==66 ||
        observed.size!==66 || [...allowed].some(slug=>!observed.has(slug))) {
