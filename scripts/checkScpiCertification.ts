@@ -64,15 +64,30 @@ if (required) {
     console.error('[SCPI certification] FAIL: actual analyses differ from the exact 66-fund certified cohort.');
     process.exit(1);
   }
-  // Cohort size is necessary but NOT sufficient: do not release review_required
-  // or unproven current sources just because there are 66 analysis rows.
+  // Release concerns accurate CURRENT financial sources. A non-comparable
+  // historical period is an allowed, explicitly visible missing value, NOT a
+  // false historical certification. This must never permit review_required.
+  // Structural/cadence exceptions must disable the trend comparison entirely.
+  const qualifiedHistoryException = (row: Record<string, any>): boolean => {
+    if (row.certification_status !== 'current_certified_history_unverified' ||
+        row.current_source_certified !== true || row.comparison_certified !== false ||
+        !row.previous_period || !row.current_period ||
+        !Array.isArray(row.certification_reasons) ||
+        row.certification_reasons.length !== 1 ||
+        !Array.isArray(row.improvements) || row.improvements.length > 0 ||
+        !Array.isArray(row.deteriorations) || row.deteriorations.length > 0) return false;
+    const code = String(row.certification_reasons[0]?.code || '');
+    if (code === 'structural_or_extreme_change') return row.structural_event_detected === true;
+    if (code === 'semiannual_reporting_cadence') return row.structural_event_detected !== true;
+    return false;
+  };
   const notCertified = data.filter(row =>
-    row.certification_status !== 'certified' ||
     row.current_source_certified !== true ||
-    !/^https:\/\//.test(String(row.certified_source_url || ''))
+    !/^https:\/\//.test(String(row.certified_source_url || '')) ||
+    (row.certification_status !== 'certified' && !qualifiedHistoryException(row))
   );
   if (notCertified.length) {
-    console.error('[SCPI certification] FAIL CLOSED: exact cohort present but current-source certification incomplete: ' +
+    console.error('[SCPI certification] FAIL CLOSED: current issuer evidence invalid or a historical exception is not documented: ' +
       notCertified.map(row => `${row.scpi_slug} (${row.certification_status}, source=${row.current_source_certified})`).join(', '));
     process.exit(1);
   }
