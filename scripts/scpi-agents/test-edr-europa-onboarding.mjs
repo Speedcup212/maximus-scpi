@@ -53,6 +53,11 @@ test('EdR stays explicitly in pre-certification state until documented release',
   assert.equal(edr.maximus_certification.release_ready,false);
   assert.equal(edr.maximus_certification.checked_official_field_values,23);
   assert.equal(edr.maximus_certification.checked_annual_report_values,26);
+  assert.equal(edr.maximus_certification.checked_notice_fields,8);
+  assert.equal(edr.maximus_certification.checked_price_gap_fields,1);
+  assert.equal(edr.maximus_certification.total_verified_field_certificates,58);
+  assert.equal(edr.maximus_certification.notice_issuer_pdf_sha256,'abab3708fc0240a16390e55714b0866666e3cc65b3d45bcaf3f59a00a495acea');
+  assert.equal(edr['Surcote/décote (%)'],-5.07);
   assert.notEqual(edr['Décote/Surcote QA'], 'publishable');
 });
 
