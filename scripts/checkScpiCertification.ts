@@ -64,6 +64,18 @@ if (required) {
     console.error('[SCPI certification] FAIL: actual analyses differ from the exact 66-fund certified cohort.');
     process.exit(1);
   }
+  // Cohort size is necessary but NOT sufficient: do not release review_required
+  // or unproven current sources just because there are 66 analysis rows.
+  const notCertified = data.filter(row =>
+    row.certification_status !== 'certified' ||
+    row.current_source_certified !== true ||
+    !/^https:\/\//.test(String(row.certified_source_url || ''))
+  );
+  if (notCertified.length) {
+    console.error('[SCPI certification] FAIL CLOSED: exact cohort present but current-source certification incomplete: ' +
+      notCertified.map(row => `${row.scpi_slug} (${row.certification_status}, source=${row.current_source_certified})`).join(', '));
+    process.exit(1);
+  }
 }
 
 const trendMetrics = new Set([
