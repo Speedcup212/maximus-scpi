@@ -444,7 +444,7 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     walbDefinition: typeof scpi['maximus_walb_definition'] === 'string'
       ? scpi['maximus_walb_definition'] : undefined,
     walbSourceUrl: typeof scpi['maximus_walb_source_url'] === 'string'
-      && /^https:\/\/www\.corum\.fr\//.test(scpi['maximus_walb_source_url'])
+      && /^https:\/\/(?:www\.corum\.fr|reim\.bnpparibas-am\.com)\//.test(scpi['maximus_walb_source_url'])
       ? scpi['maximus_walb_source_url'] : undefined,
     distribution: cleanNumericValue(scpi['Distribution (€/part)']),
     nbImmeubles: cleanNumericValue(scpi['Nombre d\'immeubles']),
