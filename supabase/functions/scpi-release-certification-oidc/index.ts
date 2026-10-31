@@ -52,9 +52,12 @@ Deno.serve(async(req:Request)=>{
       .in('scpi_slug',[...allowed]).limit(5000);
     if(analysisError)throw analysisError;
     const observed=new Set((analyses||[]).map(row=>String(row.scpi_slug)));
-    if(allowed.size!==66 || (analyses||[]).length!==66 ||
-       observed.size!==66 || [...allowed].some(slug=>!observed.has(slug))) {
-      return deny(409,'Release coverage mismatch: exact 66 active SCPI analyses required');
+    // The API must cover every active pilot exactly. The GitHub release gate
+    // additionally verifies this set against the explicit certified cohort file.
+    // Do not allow a partial or duplicate snapshot to pass.
+    if(allowed.size<66 || (analyses||[]).length!==allowed.size ||
+       observed.size!==allowed.size || [...allowed].some(slug=>!observed.has(slug))) {
+      return deny(409,'Release coverage mismatch: exact active SCPI analyses required');
     }
     return Response.json({
       ok:true,sha:claim.sha,enabled_scpi:allowed.size,
