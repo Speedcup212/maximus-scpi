@@ -50,3 +50,20 @@ test('EdR stays explicitly in pre-certification state until documented release',
   assert.equal(edr.maximus_data_status, 'pending_certification');
   assert.notEqual(edr['Décote/Surcote QA'], 'publishable');
 });
+
+const history = load('../../src/data/edr_europa_history_provisional.json');
+
+test('EdR quarterly dividends are reconciled with official retrospective chart and 2025 TD', () => {
+  const expected = [
+    ['2024-T4',4.59],['2025-T1',4.03],['2025-T2',4.04],
+    ['2025-T3',4.21],['2025-T4',5.21],['2026-T1',4.33],['2026-T2',4.69]
+  ];
+  assert.deepEqual(history.historical_dividends.map(row => [row.period,row.value]),expected);
+  assert.equal(history.source_page,3);
+  assert.equal(history.source_url,officialBulletin);
+  assert.equal(history.state,'official_page_review_pending_pdf_sha256');
+  const annual2025 = history.historical_dividends.filter(row => row.period.startsWith('2025-')).reduce((sum,row) => sum + Math.round(row.value*100),0);
+  assert.equal(annual2025,1749);
+  assert.equal(Math.round((annual2025 / 100 / 200)*10000)/100,8.75);
+  assert.equal(history.historical_dividends.find(row => row.period==='2026-T2').value,edr['Distribution (€/part)']);
+});
