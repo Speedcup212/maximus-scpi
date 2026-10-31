@@ -23,10 +23,20 @@ test('Preuve PDF et base documentée exigées pour chaque mesure publiée', () =
     unique.add(k);
     assert.match(r.source_url,/^https:\/\//);
     assert.ok(Number.isInteger(r.fiscal_year));
-    for(const name of ['distribution_totale_par_part','valeur_realisation_par_part','valeur_reconstitution_par_part'])
+    for(const name of ['valeur_realisation_par_part','valeur_reconstitution_par_part'])
       assert.ok(Number.isFinite(r[name]),k+'/'+name+' valeur absente');
-    for(const name of ['distribution','realisation','reconstitution'])
+    for(const name of ['realisation','reconstitution'])
       assert.ok(r.evidence_pages?.[name]>0,k+'/'+name+' source absente');
+    if(r.distribution_totale_par_part===null){
+      // Explicit incomplete year: a missing distribution must not become zero,
+      // an estimated full-year yield, or a made-up documentary page.
+      assert.equal(k,'edr-europa:2024','Missing annual distribution only permitted for audited double closing');
+      assert.equal(r.evidence_pages?.distribution,null);
+      assert.match(r.distribution_arbitration||'',/deux exercices/);
+    } else {
+      assert.ok(Number.isFinite(r.distribution_totale_par_part),k+' distribution absent');
+      assert.ok(r.evidence_pages?.distribution>0,k+' distribution source absente');
+    }
   }
 });
 test('Rendement annualisé de lancement correctement signalé', () => {
@@ -100,4 +110,23 @@ test('Origin 2012 et XL 2017 : exercice partiel réel et non montant annualisé 
   assert.match(x?.distribution_basis||'',/partial/);
   assert.equal(o?.distribution_totale_par_part,40.05);
   assert.equal(x?.distribution_totale_par_part,9.13);
+});
+
+test('EdR Europa : T4 2024 à T2 2026, année 2024 multi-clôtures sans rendement inventé',()=>{
+  const edr=data.filter(r=>r.scpi_slug==='edr-europa').sort((a,b)=>a.fiscal_year-b.fiscal_year);
+  assert.deepEqual(edr.map(r=>r.fiscal_year),[2024,2025]);
+  const y2024=edr[0];
+  assert.equal(y2024.distribution_totale_par_part,null);
+  assert.equal(y2024.valeur_realisation_par_part,169.60);
+  assert.equal(y2024.valeur_reconstitution_par_part,210.81);
+  assert.ok(y2024.distribution_arbitration.includes('31/12/2024'));
+  const y2025=edr[1];
+  assert.equal(y2025.distribution_totale_par_part,17.49);
+  assert.equal(y2025.valeur_realisation_par_part,179.28);
+  assert.equal(y2025.valeur_reconstitution_par_part,220.66);
+  const coverage=cov.find(r=>r.scpi_slug==='edr-europa');
+  assert.equal(coverage?.years_expected,2);
+  assert.equal(coverage?.years_fully_verified,1);
+  assert.equal(coverage?.metrics_missing,1);
+  assert.equal(coverage?.core_historical_ready,false);
 });

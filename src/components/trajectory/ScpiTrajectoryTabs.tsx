@@ -22,6 +22,7 @@ import {
   formatPeriod,
   formatSigned,
   latestDelta,
+  latestSequentialDelta,
   liquidityLabel,
   normalizeAndDedupeHistory,
   valuationGapPct,
@@ -145,7 +146,11 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
   const signals = useMemo<Signal[]>(() => {
     const { value: liquidity, delta: liquidityDelta, basis: liquidityBasis } = currentCertifiedLiquidity(history, liquiditySnapshot, signalGate);
     const tof = latestNumeric(history, 'tof');
-    const tofDelta = latestDelta(history, 'tof', 4);
+    const tofAnnualDelta = latestDelta(history, 'tof', 4);
+    const tofQuarterlyDelta = latestSequentialDelta(history, 'tof');
+    const tofDelta = tofAnnualDelta ?? tofQuarterlyDelta;
+    const tofDeltaLabel = tofAnnualDelta !== null ? 'Sur un an'
+      : tofQuarterlyDelta !== null ? 'Sur le trimestre' : 'Variation non calculable';
     const debt = latestNumeric(history, 'endettement');
 
     const valuationRow = latestRowWith(
@@ -156,15 +161,18 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
       ? valuationGapPct(valuationRow.prix_souscription, valuationRow.prix_reconstitution)
       : null;
 
-    const caps = history
-      .map((row) => row.capitalisation)
-      .filter((value): value is number => value !== null && Number.isFinite(value));
+    const capObservations = history.filter((row) => row.capitalisation !== null && Number.isFinite(row.capitalisation));
+    const caps = capObservations.map((row) => row.capitalisation as number);
     const currentCap = caps.length ? caps[caps.length - 1] : null;
     const previousCap = caps.length >= 2 ? caps[Math.max(0, caps.length - 5)] : null;
     const capDeltaPct =
       currentCap !== null && previousCap !== null && previousCap !== 0
         ? ((currentCap - previousCap) / previousCap) * 100
         : null;
+
+    const capPeriodLabel = capObservations.length >= 2
+      ? `${formatPeriod(capObservations[Math.max(0, capObservations.length-5)].source_period)} → ${formatPeriod(capObservations[capObservations.length-1].source_period)}`
+      : null;
 
     const liquidityTone: Tone =
       liquidity === null
@@ -234,7 +242,9 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
         detail:
           tof === null
             ? 'TOF historique insuffisant.'
-            : `Variation sur un an : ${formatSigned(tofDelta, ' pt')}.`,
+            : tofDelta === null
+              ? 'Variation non calculable sur les périodes disponibles.'
+              : `${tofDeltaLabel} : ${formatSigned(tofDelta, ' pt')}.`,
         tone: tofTone,
         icon: <Gauge className="h-5 w-5" />,
       },
@@ -257,8 +267,8 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
           capDeltaPct === null
             ? 'Historique de capitalisation insuffisant.'
             : capDeltaPct > 25
-              ? 'Croissance rapide : vérifier la capacité de déploiement de la collecte et la qualité des acquisitions.'
-              : 'Variation calculée sur les dernières observations disponibles.',
+              ? `Croissance rapide (${capPeriodLabel ?? 'périodes comparables'}) : contrôler déploiement de la collecte et acquisitions.`
+              : `Évolution sur ${capPeriodLabel ?? 'les observations disponibles'} ; aucune extrapolation annuelle.`,
         tone: capTone,
         icon: <TrendingUp className="h-5 w-5" />,
       },

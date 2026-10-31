@@ -122,6 +122,25 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
   const history = useMemo(() => applyCertifiedLiquidity(normalizeAndDedupeHistory(rows), liquidity, signalGate), [rows, liquidity, signalGate]);
   const recentHistory = useMemo(() => history.slice(-16), [history]);
   const latest = history[history.length - 1] || null;
+  // A quarterly bulletin can repeat a valuation stopped at an earlier date.
+  // Keep quarterly observations sparse; show the prior publisher valuation only
+  // with its actual reference date, never as a new quarterly NAV.
+  const priorValuation = (row: typeof history[number], field: 'prix_reconstitution' | 'valeur_realisation') => {
+    const rowIndex = history.findIndex((item) => item.source_period === row.source_period);
+    for (let pos = rowIndex - 1; pos >= 0; pos--) {
+      const prior = history[pos];
+      const value = prior[field];
+      if (value !== null && Number.isFinite(value)) {
+        return {
+          value,
+          date: prior.metric_provenance?.[field]?.reference_date || null,
+          period: prior.source_period,
+          sourceUrl: prior.metric_provenance?.[field]?.source_url || prior.source_url,
+        };
+      }
+    }
+    return null;
+  };
 
   const chartData = useMemo(
     () =>
@@ -152,7 +171,9 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
         <span className="block">{snapshot.isLastKnown ? 'Dernière valeur connue · ' : 'Observation · '}{formatPeriod(snapshot.period)}</span>
         {snapshot.referenceDate && <span className="block">Valeur arrêtée au {metricDateLabel(snapshot.referenceDate)}</span>}
         {snapshot.isLastKnown && <span className="block text-amber-300">{formatPeriod(latest?.source_period)} : donnée non renseignée ou non validée</span>}
-        {snapshot.sourceUrl && <a href={snapshot.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-sky-300 underline">Source officielle ↗</a>}
+        {snapshot.sourceUrl && <a href={snapshot.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-sky-300 underline">
+          {snapshot.sourceUrl.includes('francescpi.com/') ? "Document de l'émetteur (copie archivée) ↗" : 'Source officielle ↗'}
+        </a>}
       </> : 'Aucune observation disponible'}
     </div>
   );
@@ -419,9 +440,29 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
                         <span className="block text-[10px] text-slate-500">{liquidityLabel(row.liquidity_basis)}</span>
                       </td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.prix_souscription, ' €')}</td>
-                      <td className="px-4 py-3 text-right">{numberFormatter(row.prix_reconstitution, ' €')}<span className="block text-[10px] text-slate-400">{metricDateLabel(row.metric_provenance?.prix_reconstitution?.reference_date)}</span></td>
+                      <td className="px-4 py-3 text-right">
+                        {numberFormatter(row.prix_reconstitution, ' €')}
+                        {row.prix_reconstitution !== null && row.metric_provenance?.prix_reconstitution?.reference_date &&
+                          <span className="block text-[10px] text-slate-400">Au {metricDateLabel(row.metric_provenance.prix_reconstitution.reference_date)}</span>}
+                        {row.prix_reconstitution === null && priorValuation(row, 'prix_reconstitution') && (
+                          <span className="block text-[10px] text-amber-200">
+                            Dernière valeur : {numberFormatter(priorValuation(row, 'prix_reconstitution')!.value, ' €')}
+                            {' · '}{priorValuation(row, 'prix_reconstitution')!.date
+                              ? metricDateLabel(priorValuation(row, 'prix_reconstitution')!.date!)
+                              : formatPeriod(priorValuation(row, 'prix_reconstitution')!.period)}
+                          </span>
+                        )}
+                      </td>
                       <td className="px-4 py-3 text-right">
                           {numberFormatter(row.valeur_realisation, ' €')}
+                          {row.valeur_realisation === null && priorValuation(row, 'valeur_realisation') && (
+                            <span className="block text-[10px] text-amber-200">
+                              Dernière valeur : {numberFormatter(priorValuation(row, 'valeur_realisation')!.value, ' €')}
+                              {' · '}{priorValuation(row, 'valeur_realisation')!.date
+                                ? metricDateLabel(priorValuation(row, 'valeur_realisation')!.date!)
+                                : formatPeriod(priorValuation(row, 'valeur_realisation')!.period)}
+                            </span>
+                          )}
                           {row.metric_provenance?.valeur_realisation?.reference_date && <span className="block text-[10px] text-slate-400">Au {metricDateLabel(row.metric_provenance.valeur_realisation.reference_date)}</span>}
                           {!row.metric_provenance?.valeur_realisation && row.valeur_realisation !== null &&
                             annualRows.some(a => a.fiscal_year === 2025
@@ -434,12 +475,15 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
                       <td className="px-4 py-3">
                         {row.source_url ? (
                           <a
-                            href={row.source_url}
+                            href={row.metric_provenance?.prix_reconstitution?.source_url
+                              || row.metric_provenance?.valeur_realisation?.source_url || row.source_url}
                             target="_blank"
                             rel="noreferrer"
                             className="font-medium text-sky-300 hover:text-sky-200"
                           >
-                            Document officiel ↗
+                            {(row.metric_provenance?.prix_reconstitution?.source_url
+                              || row.metric_provenance?.valeur_realisation?.source_url || row.source_url).includes('francescpi.com/')
+                              ? "Document de l'émetteur (copie archivée) ↗" : 'Document officiel ↗'}
                           </a>
                         ) : (
                           <span className="text-slate-600">N.D.</span>
