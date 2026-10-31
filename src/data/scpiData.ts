@@ -189,6 +189,8 @@ const cleanRepartition = (repartition: Record<string, number>) => {
 // Helper function to determine if SCPI is recommended by MaximusSCPI
 // Critères : TOF ≥ 90%, Décote ≤ 0, Capitalisation ≥ 100M€, Rendement ≥ 5%, Endettement < 30%
 const isRecommended = (scpi: any): boolean => {
+  // Une fiche en cours d'onboarding ne peut jamais être recommandée avant certification.
+  if (scpi.maximus_publication_status === 'pending_certification') return false;
   const hasTofAbove90 = scpi['TOF (%)'] >= 90;
   const hasDiscountOrPar = scpi['Surcote/décote (%)'] <= 0;
   const hasCapitalizationAbove100M = scpi['Capitalisation (M€)'] >= 100;
