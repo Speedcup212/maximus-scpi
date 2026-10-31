@@ -2,7 +2,7 @@ import React from 'react';
 import { Activity, ExternalLink } from 'lucide-react';
 import { getAnnualHistoryCoverage, getVerifiedAnnualRows } from './scpiAnnualHistoryData';
 
-const euro = (v: number) => v.toLocaleString('fr-FR', {minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+const euro = (v: number | null) => v === null ? 'N.D.' : v.toLocaleString('fr-FR', {minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
 export const ScpiAnnualHistorySection: React.FC<{ scpiSlug: string }> = ({scpiSlug}) => {
   const rows = getVerifiedAnnualRows(scpiSlug);
   const coverage = getAnnualHistoryCoverage(scpiSlug);
@@ -20,7 +20,8 @@ export const ScpiAnnualHistorySection: React.FC<{ scpiSlug: string }> = ({scpiSl
       </div>
       <p className="px-4 pt-3 text-xs leading-5 text-slate-400">
         Valeurs de réalisation et de reconstitution par part arrêtées au 31 décembre de chaque année.
-        Distribution brute annuelle par part, avant fiscalité. Historique annuel distinct des bulletins trimestriels.
+        Distribution brute annuelle par part, avant fiscalité, uniquement lorsqu’elle est certifiée sur l’exercice entier.
+        Historique annuel distinct des bulletins trimestriels.
         {coverage?.core_historical_ready
           ? ' Les trois séries annuelles sont complètes ; cela ne certifie pas tous les autres indicateurs.'
           : ' Historique annuel partiel : les années manquantes ne sont ni estimées ni interpolées.'}
@@ -28,9 +29,10 @@ export const ScpiAnnualHistorySection: React.FC<{ scpiSlug: string }> = ({scpiSl
       {coverage?.first_fiscal_year && coverage.launch_year &&
         coverage.first_fiscal_year > coverage.launch_year && (
         <p data-testid="scpi-fiscal-start-note" className="mx-4 mt-3 rounded-lg border border-sky-600/30 bg-sky-950/20 px-3 py-2 text-xs text-sky-100">
-          Lancée en {coverage.launch_year}, la SCPI présente son premier exercice financier clos en {coverage.first_fiscal_year}.
-          {coverage.first_fiscal_year_note ? ' ' + coverage.first_fiscal_year_note : ''}
-          Les périodes antérieures ne sont pas comptées comme des exercices indépendants.
+          {coverage.first_fiscal_year && coverage.launch_year && coverage.first_fiscal_year > coverage.launch_year
+            ? `Lancée en ${coverage.launch_year}, premier exercice clos en ${coverage.first_fiscal_year}. `
+            : ''}
+          {coverage.first_fiscal_year_note}
         </p>
       )}
       <div className="overflow-x-auto">
@@ -46,9 +48,14 @@ export const ScpiAnnualHistorySection: React.FC<{ scpiSlug: string }> = ({scpiSl
           </thead>
           <tbody className="divide-y divide-slate-800 text-slate-200">
             {rows.map((r) => <tr key={r.fiscal_year}>
-              <td className="px-4 py-3 font-semibold">{r.fiscal_year}</td>
+              <td className="px-4 py-3 font-semibold">{r.fiscal_year}
+                {r.scpi_slug === 'edr-europa' && r.fiscal_year === 2024 &&
+                  <span className="block text-[10px] font-normal text-amber-200">2e clôture au 31/12</span>}
+              </td>
               <td className="px-4 py-3 text-right">
                 {euro(r.distribution_totale_par_part)}
+                {r.distribution_totale_par_part === null &&
+                  <span className="block text-[10px] text-amber-200">Non consolidée : exercices distincts</span>}
                 {r.distribution_basis.includes('annualized_inception') &&
                   <span className="block text-[10px] text-amber-300" title="Référence annualisée du premier exercice : ne pas l'assimiler à un flux réellement perçu pour douze mois.">Référence annualisée*</span>}
                 {r.distribution_basis.includes('partial') &&
