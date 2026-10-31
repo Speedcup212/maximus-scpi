@@ -13,6 +13,11 @@ const base={scpi_slug:'edr-europa',snapshot_at:'2026-10-31',source_url:issuer,qa
   valeur_realisation:null,endettement:null,distribution_par_part:null,parts_attente_retrait:null,
   nombre_parts:null,capital_type:'variable',liquidity_basis:null,retrait_attente_pct:null,liquidity_pressure_pct:null,metric_provenance:{}};
 const rows=[
+ {...base,source_period:'2024-T2',
+  source_url:'https://access.fortunyconseil.fr/api/v1/SCPI/files/rapport_annuel2024_230ee4f0327011f0ab012dfda4e19bae.pdf',
+  qa_status:'manual_verified_first_2024_closing_signed_issuer_report_and_legal_AG',
+  source_confidence:0.95,prix_reconstitution:203.85,valeur_realisation:171.33,capitalisation:13.40488,
+  prix_souscription:200,metric_provenance:{prix_reconstitution:{reference_date:'2024-06-30'},valeur_realisation:{reference_date:'2024-06-30'}}},
  ...dividends.map(([source_period,distribution_par_part])=>{
    const valuations={
      '2024-T4':{prix_reconstitution:210.81,valeur_realisation:169.60,date:'2024-12-31'},
@@ -62,9 +67,11 @@ try{
  for(const width of [1440,390]){
    await page.setViewport({width,height:1000});
    await page.goto(origin+'/trajectory-edr-regression.html',{waitUntil:'networkidle0'});
-   await page.waitForFunction(()=>document.body.innerText.includes('7 périodes observées'),{timeout:16000});
+   await page.waitForFunction(()=>document.body.innerText.includes('8 périodes observées'),{timeout:16000});
    const first=await page.evaluate(()=>document.body.innerText);
-   assert.match(first,/7 périodes observées/);
+   assert.match(first,/8 périodes observées/);
+   assert.match(first,/203,85 €/);
+   assert.match(first,/171,33 €/);
    assert.match(first,/1\/2 exercices validés/);
    assert.match(first,/17,49 €/);
    assert.match(first,/220,66 €/);
@@ -90,6 +97,6 @@ try{
    assert.match(market,/Endettement/);
    assert.match(market,/Base non documentée/);
    assert.equal(errors.length,0,'Browser console runtime errors: '+errors.join(', '));
-   console.log(JSON.stringify({width,status:'PASS',historyPeriods:7,annualComplete:1,annualExpected:2,marketSignals:4,unknownLiquidity:'N.D.'}));
+   console.log(JSON.stringify({width,status:'PASS',historyPeriods:8,annualComplete:1,annualExpected:2,marketSignals:4,unknownLiquidity:'N.D.'}));
  }
 }finally{if(browser)await browser.close();await rm(fixture,{force:true})}
