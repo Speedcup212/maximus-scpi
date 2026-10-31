@@ -1114,6 +1114,22 @@ Deno.serve(async(req:Request)=>{
     const raw=c.html?parseHtmlMetrics(text):parseMetrics(text,pp.p),count=Object.keys(raw).length,confidence=Math.min(1,count/12);
     if(ocrRecovered){await finish(db,eid,{status:"needs_review",step:"edge_ocr_qa_required",bulletin_url:c.pdf,source_period:pp.p,metrics_count:count,message:"Page OCR present; numeric values awaiting independent QA; no public promotion."});return Response.json({ok:true,slug:s.scpi_slug,status:"ocr_pending_independent_qa",period:pp.p,metrics:count});}
     if(count<2)console.log("[scpi-bulletin-debug]",s.scpi_slug,text.slice(0,5000).replace(/[\u0000-\u001F]/g," "));const {data:cur}=await db.from("scpi_indicators").select("*").eq("scpi_slug",s.scpi_slug).maybeSingle();const sameAutomatedPeriod=cur?.source_type==="bulletin_edge_automated"&&cur?.source_period===pp.p;const {r,bad}=validate(raw,cur,sameAutomatedPeriod);
+    // Confusion récurrente : la valeur de retrait est parfois capturée
+    // sous l'étiquette prix de souscription (p. ex. 39,82 vs 44 €).
+    // Ne jamais promouvoir une baisse artificielle du prix de part.
+    const priorSubscription=Number(cur?.prix_souscription), priorWithdrawal=Number(cur?.prix_retrait);
+    const incomingSubscription=Number(r.prix_souscription), incomingWithdrawal=Number(r.prix_retrait);
+    const withdrawalMislabelSuspected=Number.isFinite(priorSubscription) && priorSubscription>0 &&
+      Number.isFinite(priorWithdrawal) && priorWithdrawal>0 &&
+      Number.isFinite(incomingSubscription) && incomingSubscription>0 &&
+      Number.isFinite(incomingWithdrawal) && incomingWithdrawal>0 &&
+      Math.abs(incomingSubscription-incomingWithdrawal)<0.00001 &&
+      Math.abs(incomingWithdrawal-priorWithdrawal)<0.00001 &&
+      Math.abs(incomingSubscription-priorSubscription)/priorSubscription>0.05;
+    if(withdrawalMislabelSuspected){
+      bad.push("prix_souscription: likely withdrawal-value confusion; issuer page validation required");
+      delete r.prix_souscription;
+    }
     const currentKey=period(String(cur?.source_period||""))?.k||0,incomingKey=pp.k||0;
     const canPromote=!currentKey||incomingKey>=currentKey;
     // La QA SQL protège un snapshot manuel du même trimestre. Ne pas toucher
