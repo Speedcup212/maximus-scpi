@@ -4991,5 +4991,462 @@
     "maximus_history_status": "PARTIAL_VERIFIED_MULTIPLE_CLOSINGS",
     "maximus_history_start_year_status": "official_verified",
     "maximus_history_note": "2025 : distribution brute 17,49 € et valeurs annuelles 179,28 € / 220,66 € certifiées. 2024 : deux clôtures distinctes; valeurs à fin 2024 certifiées, distribution totale annuelle non consolidée."
+  },
+  {
+    "Année de création": 1985,
+    "Label ISR": "Oui",
+    "SFDR": "Article 8",
+    "Taux de distribution (%)": 3.85,
+    "Délai de jouissance (mois)": 2,
+    "Versement des loyers": "Trimestrielle",
+    "Durée de détention recommandée (ans)": 10,
+    "Frais de gestion (HT/%)": null,
+    "WALT": null,
+    "maximus_publication_status": "pending_certification",
+    "maximus_recommendation_status": "manual_review_required",
+    "maximus_data_status": "official_T3_fields_staged_pending_independent_qa",
+    "Décote/Surcote QA": "computed_from_verified_issuer_T3_pub_value_reference_T2_2026",
+    "Période bulletin trimestriel": "2026-T3",
+    "maximus_source_periode": "2026-T3",
+    "td_reference_period": "2025",
+    "liquidity_basis": "withdrawal_queue",
+    "Date bulletin": "30/09/2026",
+    "Nom SCPI": "Accès Valeur Pierre",
+    "Société de gestion": "BNP Paribas REIM France",
+    "Capitalisation (M€)": 1829.37,
+    "Prix de souscription (€)": 765,
+    "Valeur de retrait (€)": 696.69,
+    "Valeur de reconstitution par part (€)": 745.63,
+    "Valeur de réalisation (€)": 610.32,
+    "TOF (%)": 86.5,
+    "Distribution (€/part)": 7.08,
+    "Endettement (%)": null,
+    "Nombre de parts": 2391334,
+    "Nombre d’associés": 25864,
+    "Nombre d'immeubles": 61,
+    "Nombre de locataires": 217,
+    "Parts en attente de retrait": 129463,
+    "Minimum de souscription €": 765,
+    "Frais de souscription (TTC/%)": 10.72,
+    "WALB": 2,
+    "Répartition Sectorielle JSON": {
+      "Bureaux": 92.1,
+      "Commerces": 7.9
+    },
+    "Répartition Géographique JSON": {
+      "Paris intra-muros": 74,
+      "Région parisienne": 20.8,
+      "Autres régions françaises": 5.2
+    },
+    "Profil_de_risque": {
+      "SRRI": 3,
+      "Echelle": "1-7",
+      "Source": "Bulletin officiel T3 2026, page 2",
+      "Verification": "publisher_pdf_sha_verified_pending_financial_review"
+    },
+    "maximus_metric_provenance": {
+      "tof": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 2,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "capitalisation": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "nombre_immeubles": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 2,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "nombre_locataires": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 4,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "nombre_parts": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "nombre_associes": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "prix_souscription": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "prix_retrait": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "prix_reconstitution": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-06-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "valeur_realisation": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-06-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "parts_attente_retrait": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "distribution_par_part": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "walb": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 4,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "frais_souscription": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 6,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "certification_status": "pending_independent_qa"
+      },
+      "td": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/ACCES%20VALEUR%20PIERRE_RA_FR_2025_def.pdf",
+        "source_period": "2025-RA",
+        "reference_date": "2025-12-31",
+        "certification_status": "qa_pass_2025"
+      },
+      "repartition_sectorielle": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 4,
+        "reference_date": "2026-06-30",
+        "certification_status": "pending_independent_qa"
+      },
+      "repartition_geographique": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 4,
+        "reference_date": "2026-06-30",
+        "certification_status": "pending_independent_qa"
+      },
+      "Surcote/décote (%)": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-06-30",
+        "formula": "(prix_souscription / valeur_reconstitution_par_part - 1) * 100",
+        "certification_status": "calculated_from_two_issuer_verified_values"
+      },
+      "Délai de jouissance (mois)": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 6,
+        "source_period": "2026-T3",
+        "verbatim": "jouissance le 1er jour du deuxième mois suivant la date de souscription",
+        "certification_status": "document_verified"
+      },
+      "Label ISR": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "source_page": 2,
+        "source_period": "2026-T3",
+        "certification_status": "publisher_logo_verified"
+      }
+    },
+    "maximus_source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+    "maximus_source_document": "Bulletin officiel BNP Paribas REIM T3 2026, SHA256 40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+    "td_reference_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/ACCES%20VALEUR%20PIERRE_RA_FR_2025_def.pdf",
+    "maximus_warnings": [
+      "Risque de perte en capital, de liquidité et revenus non garantis.",
+      "TOF T2 2026 incohérent entre bulletins T2 (87,07%) et tableau comparatif du T3 (85,49%) : interdire une évolution T2/T3 non arbitrée. Valeurs de réalisation et de reconstitution arrêtées au 30 juin 2026.",
+      "La jouissance prend effet le premier jour du deuxième mois suivant la souscription ; l'indication « 2 mois » est une convention de présentation."
+    ],
+    "liquidite": "Retrait non garanti, parts en attente au 30/09/2026 : 129463 ; sans promesse de délai ni de prix pour la sortie.",
+    "Répartition Sectorielle": "Bureaux (92.1%), Commerces (7.9%)",
+    "Répartition Géographique": "{\"Paris intra-muros\":74,\"Région parisienne\":20.8,\"Autres régions françaises\":5.2}",
+    "Surcote/décote (%)": 2.6,
+    "maximus_valeur_realisation_reference_date": "2026-06-30",
+    "maximus_walb_reference_date": "2026-09-30",
+    "maximus_walb_definition": "Durée moyenne résiduelle des baux (WALB), exprimée en années, source bulletin officiel T3 2026 page 4",
+    "maximus_walb_source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+    "maximus_prix_retrait_source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+    "maximus_prix_retrait_source_page": 5,
+    "maximus_prix_retrait_reference_period": "2026-T3",
+    "maximus_prix_retrait_definition": "Valeur de retrait d'une part, hors garantie de délai et de liquidité"
+  },
+  {
+    "Année de création": 1989,
+    "Label ISR": "Oui",
+    "SFDR": "Article 8",
+    "Taux de distribution (%)": 4.77,
+    "Délai de jouissance (mois)": 2,
+    "Versement des loyers": "Trimestrielle",
+    "Durée de détention recommandée (ans)": 10,
+    "Frais de gestion (HT/%)": null,
+    "WALT": null,
+    "maximus_publication_status": "pending_certification",
+    "maximus_recommendation_status": "manual_review_required",
+    "maximus_data_status": "official_T3_fields_staged_pending_independent_qa",
+    "Décote/Surcote QA": "computed_from_verified_issuer_T3_pub_value_reference_T2_2026",
+    "Période bulletin trimestriel": "2026-T3",
+    "maximus_source_periode": "2026-T3",
+    "td_reference_period": "2025",
+    "liquidity_basis": "withdrawal_queue",
+    "Date bulletin": "30/09/2026",
+    "Nom SCPI": "Accimmo Pierre",
+    "Société de gestion": "BNP Paribas REIM France",
+    "Capitalisation (M€)": 2622.71,
+    "Prix de souscription (€)": 141,
+    "Valeur de retrait (€)": 128.41,
+    "Valeur de reconstitution par part (€)": 132.51,
+    "Valeur de réalisation (€)": 109.46,
+    "TOF (%)": 87.52,
+    "Distribution (€/part)": 1.59,
+    "Endettement (%)": 21.5,
+    "Nombre de parts": 18600813,
+    "Nombre d’associés": 58611,
+    "Nombre d'immeubles": 143,
+    "Nombre de locataires": 363,
+    "Parts en attente de retrait": 636021,
+    "Minimum de souscription €": 141,
+    "Frais de souscription (TTC/%)": 10.72,
+    "WALB": 3.03,
+    "Répartition Sectorielle JSON": {
+      "Bureaux": 64.2,
+      "Commerces": 17.7,
+      "Hôtellerie, tourisme et loisirs": 7.8,
+      "Logistique et locaux d'activité": 5.9,
+      "Santé et éducation": 4.4
+    },
+    "Répartition Géographique JSON": {
+      "Paris intra-muros": 12.6,
+      "Région parisienne": 51.1,
+      "Autres régions françaises": 36.2,
+      "Autres": 0.1
+    },
+    "Profil_de_risque": {
+      "SRRI": 4,
+      "Echelle": "1-7",
+      "Source": "Bulletin officiel T3 2026, page 2",
+      "Verification": "publisher_pdf_sha_verified_pending_financial_review"
+    },
+    "maximus_metric_provenance": {
+      "tof": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 2,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "capitalisation": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "nombre_immeubles": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 2,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "nombre_locataires": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 4,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "nombre_parts": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "nombre_associes": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "prix_souscription": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "prix_retrait": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "prix_reconstitution": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-06-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "valeur_realisation": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-06-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "parts_attente_retrait": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "distribution_par_part": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "walb": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 4,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "frais_souscription": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 6,
+        "source_period": "2026-T3",
+        "reference_date": "2026-09-30",
+        "sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "certification_status": "pending_independent_qa"
+      },
+      "td": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-06/AP_RA2025_web.pdf",
+        "source_period": "2025-RA",
+        "reference_date": "2025-12-31",
+        "certification_status": "qa_pass_2025"
+      },
+      "repartition_sectorielle": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 4,
+        "reference_date": "2026-06-30",
+        "certification_status": "pending_independent_qa"
+      },
+      "repartition_geographique": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 4,
+        "reference_date": "2026-06-30",
+        "certification_status": "pending_independent_qa"
+      },
+      "Surcote/décote (%)": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 5,
+        "source_period": "2026-T3",
+        "reference_date": "2026-06-30",
+        "formula": "(prix_souscription / valeur_reconstitution_par_part - 1) * 100",
+        "certification_status": "calculated_from_two_issuer_verified_values"
+      },
+      "Délai de jouissance (mois)": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 6,
+        "source_period": "2026-T3",
+        "verbatim": "jouissance le 1er jour du deuxième mois suivant la date de souscription",
+        "certification_status": "document_verified"
+      },
+      "Label ISR": {
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+        "source_page": 2,
+        "source_period": "2026-T3",
+        "certification_status": "publisher_logo_verified"
+      }
+    },
+    "maximus_source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+    "maximus_source_document": "Bulletin officiel BNP Paribas REIM T3 2026, SHA256 f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+    "td_reference_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-06/AP_RA2025_web.pdf",
+    "maximus_warnings": [
+      "Risque de perte en capital, de liquidité et revenus non garantis.",
+      "Fonds de remboursement particulier évoqué à 98,50 € par part, distinct du prix de retrait standard de 128,41 €; risque de liquidité matérialisé. Répartitions immobilières datées du 30 juin 2026.",
+      "Répartition géographique du 30/06/2026 : la société de gestion publie une catégorie résiduelle « Autres » de 0,1 %, sans assimilation automatique à un pays étranger.",
+      "La jouissance prend effet le premier jour du deuxième mois suivant la souscription ; l'indication « 2 mois » est une convention de présentation."
+    ],
+    "liquidite": "Retrait non garanti, parts en attente au 30/09/2026 : 636021 ; sans promesse de délai ni de prix pour la sortie.",
+    "Répartition Sectorielle": "Bureaux (64.2%), Commerces (17.7%), Hôtellerie, tourisme et loisirs (7.8%), Logistique et locaux d'activité (5.9%), Santé et éducation (4.4%)",
+    "Répartition Géographique": "{\"Paris intra-muros\":12.6,\"Région parisienne\":51.1,\"Autres régions françaises\":36.2,\"Autres\":0.1}",
+    "Surcote/décote (%)": 6.41,
+    "maximus_valeur_realisation_reference_date": "2026-06-30",
+    "maximus_walb_reference_date": "2026-09-30",
+    "maximus_walb_definition": "Durée moyenne résiduelle des baux (WALB), exprimée en années, source bulletin officiel T3 2026 page 4",
+    "maximus_walb_source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+    "maximus_prix_retrait_source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+    "maximus_prix_retrait_source_page": 5,
+    "maximus_prix_retrait_reference_period": "2026-T3",
+    "maximus_prix_retrait_definition": "Valeur de retrait standard 128,41 €/part ; le prix spécifique du fonds de remboursement est de 98,50 €/part pour les demandes éligibles et n'est pas le prix de retrait standard."
   }
 ]
