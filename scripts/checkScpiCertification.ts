@@ -4,6 +4,8 @@ import { readFileSync } from 'node:fs';
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 const required = process.env.REQUIRE_SUPABASE_CERTIFICATION === 'true';
+const certifiedCohort = JSON.parse(readFileSync(new URL('../src/data/certified_scpi_cohort.json', import.meta.url), 'utf8')) as { count: number; slugs: string[] };
+const expectedCount = certifiedCohort.count;
 const sourceFields = 'scpi_slug,current_period,previous_period,risk_level,improvements,deteriorations,alerts,watch_points,analysis_version,certification_status,certification_reasons,current_source_certified,comparison_certified,structural_event_detected,certified_source_url';
 
 const oidcSnapshot = async (): Promise<Record<string, any>[]> => {
@@ -26,7 +28,7 @@ const oidcSnapshot = async (): Promise<Record<string, any>[]> => {
   });
   if (!response.ok) throw new Error(`Supabase OIDC certification HTTP ${response.status}: ${(await response.text()).slice(0,250)}`);
   const snapshot = await response.json() as { ok?: boolean; sha?: string; enabled_scpi?: number; analyses?: Record<string, any>[] };
-  if (!snapshot.ok || snapshot.sha !== sha || snapshot.enabled_scpi !== 66 || !Array.isArray(snapshot.analyses)) {
+  if (!snapshot.ok || snapshot.sha !== sha || snapshot.enabled_scpi !== expectedCount || !Array.isArray(snapshot.analyses)) {
     throw new Error('Release attestation invalid or incomplete');
   }
   return snapshot.analyses;
@@ -54,14 +56,14 @@ try {
 }
 
 if (required) {
-  // The public site declares 66 funds; a short or extra data response cannot
-  // silently make a production release look successfully certified.
-  const expected = JSON.parse(readFileSync(new URL('../src/data/certified_scpi_cohort.json', import.meta.url), 'utf8')) as { count: number; slugs: string[] };
+  // Any release must match the exact declared certified cohort; never infer
+  // the expected members from the live analysis results themselves.
   const actualSlugs = new Set(data.map(row => String(row.scpi_slug)));
-  const expectedSlugs = new Set(expected.slugs);
-  if (expected.count !== 66 || expectedSlugs.size !== 66 || data.length !== 66 ||
-      actualSlugs.size !== 66 || [...expectedSlugs].some(slug => !actualSlugs.has(slug))) {
-    console.error('[SCPI certification] FAIL: actual analyses differ from the exact 66-fund certified cohort.');
+  const expectedSlugs = new Set(certifiedCohort.slugs);
+  if (!Number.isSafeInteger(expectedCount) || expectedCount < 66 ||
+      expectedSlugs.size !== expectedCount || data.length !== expectedCount ||
+      actualSlugs.size !== expectedCount || [...expectedSlugs].some(slug => !actualSlugs.has(slug))) {
+    console.error('[SCPI certification] FAIL: actual analyses differ from the exact declared certified cohort (' + expectedCount + ').');
     process.exit(1);
   }
   // Release concerns accurate CURRENT financial sources. A non-comparable

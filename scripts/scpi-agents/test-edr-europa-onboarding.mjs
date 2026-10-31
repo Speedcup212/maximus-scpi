@@ -11,12 +11,12 @@ const edr = selected.find(item => slug(item['Nom SCPI']) === 'edr-europa');
 const officialBulletin = 'https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf';
 const officialNotice = 'https://edr-europa.com/wp-content/uploads/2026/07/SCPI-EdR-Europa-Note-dinformation-06-2026.pdf';
 
-test('66 unique active catalog names, with all four CORUM still present', () => {
-  assert.equal(cohort.count, 66);
-  assert.equal(cohort.slugs.length, 66);
-  assert.equal(new Set(cohort.slugs).size, 66);
-  assert.equal(selected.length, 66);
-  assert.equal(new Set(selected.map(item => slug(item['Nom SCPI']))).size, 66);
+test('exact declared active catalog names, with all four CORUM still present', () => {
+  assert.ok(Number.isInteger(cohort.count) && cohort.count >= 66);
+  assert.equal(cohort.slugs.length, cohort.count);
+  assert.equal(new Set(cohort.slugs).size, cohort.count);
+  assert.equal(selected.length, cohort.count);
+  assert.equal(new Set(selected.map(item => slug(item['Nom SCPI']))).size, cohort.count);
   for (const name of ['corum-origin','corum-xl','corum-usa','corum-eurion']) {
     assert.ok(cohort.slugs.includes(name), name);
   }
