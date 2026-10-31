@@ -534,9 +534,10 @@
       "first_fiscal_year_note": "2024 comporte deux exercices distincts (clôtures du 30/06 et du 31/12). Les valorisations présentées pour 2024 correspondent uniquement à la seconde clôture, sans fusion des distributions des deux exercices.",
       "years_expected": 2,
       "years_fully_verified": 1,
-      "metrics_missing": 1,
+      "metrics_missing": 0,
       "historical_status": "PARTIAL_VERIFIED_MULTIPLE_CLOSINGS",
-      "core_historical_ready": false
+      "core_historical_ready": false,
+      "exceptions_verified": 1
     }
   ]
 }
