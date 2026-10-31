@@ -4870,8 +4870,8 @@
     "maximus_source_periode": "2026-T2",
     "maximus_source_document": "Bulletin officiel n°9 T2 2026",
     "maximus_source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
-    "maximus_data_status": "current_certified_history_unverified",
-    "maximus_publication_status": "pending_certification",
+    "maximus_data_status": "current_and_history_certified",
+    "maximus_publication_status": "certified",
     "Décote/Surcote QA": "manual_review",
     "maximus_warnings": [
       "Taux de distribution 2025 de 8,75% : historique et non objectif 2026 ; objectif indicatif de 6% non garanti.",
@@ -4880,7 +4880,10 @@
       "Exposition au risque de change sur les actifs au Royaume-Uni.",
       "Souscription initiale minimale: 25 parts à 202€, soit 5 050€ ; le message commercial général 'à partir de 5 000 €' n'est pas à jour au nouveau prix.",
       "Commission de gestion : 10,50% HT / 12,60% TTC sur produits locatifs HT encaissés et produits financiers nets ; ne pas la confondre avec les 12% TTC de souscription.",
-      "Note d'information juin 2026, p.20 : commission standard de souscription 12 % TTC ; exceptions historiques (0 % pour associés fondateurs, 6 % TTC pour une fenêtre initiale limitée à 100 jours et 126 000 parts). Ces exceptions ne sont pas le barème courant."
+      "Note d'information juin 2026, p.20 : commission standard de souscription 12 % TTC ; exceptions historiques (0 % pour associés fondateurs, 6 % TTC pour une fenêtre initiale limitée à 100 jours et 126 000 parts). Ces exceptions ne sont pas le barème courant.",
+      "Source courante : bulletin officiel T2 2026 du gestionnaire, source T3 2026 non confirmée au 31/10/2026.",
+      "Comparaison T1 2026 issue du bulletin rédigé par EdR REIM, texte original réconcilié avec copie archivée chez un distributeur. Empreintes de l’original et de la copie distinctes.",
+      "Valeurs de réalisation/reconstitution du bulletin T1 2026 datées du 31/12/2025 : ne pas les assimiler aux valeurs du 31/03/2026."
     ],
     "maximus_metric_provenance": {
       "prix_souscription": {
@@ -4946,23 +4949,29 @@
     "maximus_certification": {
       "current_period": "2026-T2",
       "current_source_certified": true,
-      "historical_comparison_certified": false,
+      "historical_comparison_certified": true,
       "issuer_source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
       "issuer_pdf_sha256": "401987ac4d713eb30253a3d327b76b723c73753f72b5b31e28ffcd504f737d7d",
       "checked_official_field_values": 23,
       "checked_annual_report_values": 26,
       "annual_2024_pdf_sha256": "05263c54c27697ed1f7036f1f620ea106094d25427376bdeda25d925e382b640",
       "annual_2025_pdf_sha256": "cfb2b425b57146fec7ee7b765e92c6855989f778ea82d6a10067321cc90cd192",
-      "release_ready": false,
+      "release_ready": true,
       "checked_on": "2026-10-31",
       "checked_notice_fields": 8,
       "checked_price_gap_fields": 1,
-      "total_verified_field_certificates": 58,
+      "total_verified_field_certificates": 70,
       "notice_issuer_pdf_sha256": "abab3708fc0240a16390e55714b0866666e3cc65b3d45bcaf3f59a00a495acea",
       "note_information_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-EdR-Europa-Note-dinformation-06-2026.pdf",
       "certification_restriction": "Current T2 certified; T1 original primary-host hash and historic source certification pending; EdR release disabled.",
-      "subscription_fee_special_cases_verified": true
+      "subscription_fee_special_cases_verified": true,
+      "checked_t1_field_values": 13,
+      "certification_status": "certified",
+      "history_source": "official_publisher_pdf_indexed_and_issuer_authored_mirror_SHA256",
+      "history_source_note": "The historical source is issuer-authored; mirror SHA256 is not the original publisher binary SHA256.",
+      "previous_period": "2026-T1"
     },
-    "Surcote/décote (%)": -5.07
+    "Surcote/décote (%)": -5.07,
+    "maximus_recommendation_status": "manual_review_required"
   }
 ]
