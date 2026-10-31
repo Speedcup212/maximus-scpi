@@ -190,12 +190,12 @@ const cleanRepartition = (repartition: Record<string, number>) => {
 // Critères : TOF ≥ 90%, Décote ≤ 0, Capitalisation ≥ 100M€, Rendement ≥ 5%, Endettement < 30%
 const isRecommended = (scpi: any): boolean => {
   // Une fiche en cours d'onboarding ne peut jamais être recommandée avant certification.
-  if (scpi.maximus_publication_status === 'pending_certification') return false;
+  if (scpi.maximus_publication_status === 'pending_certification' || scpi.maximus_recommendation_status === 'manual_review_required') return false;
   const hasTofAbove90 = scpi['TOF (%)'] >= 90;
   const hasDiscountOrPar = scpi['Surcote/décote (%)'] <= 0;
   const hasCapitalizationAbove100M = scpi['Capitalisation (M€)'] >= 100;
   const hasYieldAbove5 = scpi['Taux de distribution (%)'] >= 5;
-  const hasDebtBelow30 = scpi['Endettement (%)'] !== undefined && scpi['Endettement (%)'] < 30;
+  const hasDebtBelow30 = typeof scpi['Endettement (%)'] === 'number' && Number.isFinite(scpi['Endettement (%)']) && scpi['Endettement (%)'] < 30;
 
   return hasTofAbove90 && hasDiscountOrPar && hasCapitalizationAbove100M && hasYieldAbove5 && hasDebtBelow30;
 };
