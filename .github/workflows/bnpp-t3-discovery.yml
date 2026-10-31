@@ -1,0 +1,44 @@
+name: BNP official T3 PDF discovery (branch only)
+on:
+  push:
+    branches:
+      - feature/scpi-67-68-release-gates
+permissions:
+  contents: read
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Inspect official BNP publisher listing (no financial publication)
+        shell: bash
+        run: |
+          mkdir -p evidence
+          curl -L --retry 2 --max-time 45 -sS -A 'Mozilla/5.0 (compatible; MaximusSCPI-document-research/1.0)' \
+            'https://reim.bnpparibas-am.com/fr-fr/documentation' -o evidence/issuer-documentation.html
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, html
+          s=Path('evidence/issuer-documentation.html').read_text(errors='replace')
+          chunks=[]
+          for term in ['T3 2026','Accès Valeur Pierre','Accimmo Pierre','ACCIMMO','ACCES']:
+              occ=list(re.finditer(re.escape(term),s,re.I))
+              chunks.append('QUERY '+term+' HITS '+str(len(occ)))
+              for m in occ[-20:]:
+                  chunks.append(s[max(0,m.start()-350):min(len(s),m.end()+650)])
+          links=re.findall(r'(?:href|data-url|src)\\s*=\\s*["\\x27]([^"\\x27]{1,1000})["\\x27]',s,re.I)
+          chunks.append('POTENTIAL PDF URLS: '+str(len(links)))
+          for url in links:
+              u=html.unescape(url)
+              if '.pdf' in u.lower() and (any(x in u.lower() for x in ('t3','2026','accim','acces'))):
+                  chunks.append(u)
+          Path('evidence/discovery.txt').write_text('\\n'.join(chunks))
+          print('official html bytes:',len(s),'matched snippets:',len(chunks))
+          print(Path('evidence/discovery.txt').read_text()[:12000])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bnpp-t3-official-index
+          path: evidence/
+          retention-days: 1
