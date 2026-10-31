@@ -1,0 +1,47 @@
+{
+  "scpi_slug": "edr-europa",
+  "source_document": "Bulletin officiel n°9 – T2 2026",
+  "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+  "source_page": 3,
+  "currency": "EUR",
+  "unit": "EUR/part brute fiscalité",
+  "state": "official_page_review_pending_pdf_sha256",
+  "historical_dividends": [
+    {
+      "period": "2024-T4",
+      "reference_date": "2024-12-31",
+      "value": 4.59
+    },
+    {
+      "period": "2025-T1",
+      "reference_date": "2025-03-31",
+      "value": 4.03
+    },
+    {
+      "period": "2025-T2",
+      "reference_date": "2025-06-30",
+      "value": 4.04
+    },
+    {
+      "period": "2025-T3",
+      "reference_date": "2025-09-30",
+      "value": 4.21
+    },
+    {
+      "period": "2025-T4",
+      "reference_date": "2025-12-31",
+      "value": 5.21
+    },
+    {
+      "period": "2026-T1",
+      "reference_date": "2026-03-31",
+      "value": 4.33
+    },
+    {
+      "period": "2026-T2",
+      "reference_date": "2026-06-30",
+      "value": 4.69
+    }
+  ],
+  "notes": "Official issuer retrospective chart. These are distinct quarterly distributions; 2025 TD=8.75% is an annual official value, not the extrapolation of 2026."
+}
