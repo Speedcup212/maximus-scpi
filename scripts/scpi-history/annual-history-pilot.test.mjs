@@ -119,7 +119,7 @@ test('EdR Europa : T4 2024 à T2 2026, année 2024 multi-clôtures sans rendemen
   assert.equal(y2024.distribution_totale_par_part,null);
   assert.equal(y2024.valeur_realisation_par_part,169.60);
   assert.equal(y2024.valeur_reconstitution_par_part,210.81);
-  assert.match(y2024.distribution_arbitration,/31\\/12\\/2024/);
+  assert.ok(y2024.distribution_arbitration.includes('31/12/2024'));
   const y2025=edr[1];
   assert.equal(y2025.distribution_totale_par_part,17.49);
   assert.equal(y2025.valeur_realisation_par_part,179.28);
