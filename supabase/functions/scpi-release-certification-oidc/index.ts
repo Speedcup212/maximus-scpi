@@ -48,9 +48,9 @@ Deno.serve(async(req:Request)=>{
     if(pilotError||analysisError)throw pilotError||analysisError;
     const allowed=new Set((pilot||[]).map(row=>String(row.scpi_slug)));
     const observed=new Set((analyses||[]).map(row=>String(row.scpi_slug)));
-    if(allowed.size!==65 || (analyses||[]).length!==65 ||
-       observed.size!==65 || [...allowed].some(slug=>!observed.has(slug))) {
-      return deny(409,'Release coverage mismatch: exact 65 active SCPI analyses required');
+    if(allowed.size!==66 || (analyses||[]).length!==66 ||
+       observed.size!==66 || [...allowed].some(slug=>!observed.has(slug))) {
+      return deny(409,'Release coverage mismatch: exact 66 active SCPI analyses required');
     }
     return Response.json({
       ok:true,sha:claim.sha,enabled_scpi:allowed.size,
