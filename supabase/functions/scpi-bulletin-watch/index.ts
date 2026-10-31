@@ -1173,13 +1173,12 @@ Deno.serve(async(req:Request)=>{
       return Response.json({ok:true,slug:s.scpi_slug,status:"regression_ignored",period:pp.p,metrics:metricCount,previous_metrics:previousMetricsCount,rejected:bad});
     }
     const {data:b,error:be}=await db.from("scpi_bulletins").upsert({scpi_slug:s.scpi_slug,period:pp.p,pdf_path:path,pdf_sha256:hashPdf,source_url:c.pdf,run_id:"edge-"+new Date().toISOString(),found_at:new Date().toISOString(),extraction_json:{metrics:raw,parser_version:PARSER_VERSION},qa_status:qas,extraction_confidence:confidence,processed_at:new Date().toISOString()},{onConflict:"scpi_slug,period"}).select("id").single();if(be)throw be;
+    // This crawler ONLY stages issuer documents and extraction candidates.
+    // A strong parser result is NOT a verified financial metric. The separate
+    // page-evidence and certified-publication gate owns public promotion.
     if(canPromote&&strong){
-      const meta={nom:s.scpi_name,societe_gestion:s.management_company,source_period:pp.p,source_confidence:confidence,source_type:"bulletin_edge_automated",bulletin_id:b.id,source_document:c.html?("bulletin-web-"+pp.p):decodeURIComponent(new URL(c.pdf).pathname.split("/").pop()||"bulletin.pdf"),source_url:c.pdf,qa_status:qas,updated_at:new Date().toISOString()};
-      const metricKeys=["td","td_annee","tof","capitalisation","prix_souscription","prix_reconstitution","prix_retrait","valeur_realisation","endettement","walt","walb","collecte_nette","nombre_locataires","nombre_immeubles","nombre_associes","nombre_parts","parts_attente_retrait","distribution_par_part","capital_type"];
-      const clearSamePeriod:any={};
-      if(cur?.source_type==="bulletin_edge_automated"&&cur?.source_period===pp.p)for(const k of metricKeys)clearSamePeriod[k]=null;
-      const wr=cur?await db.from("scpi_indicators").update({...clearSamePeriod,...r,...meta}).eq("scpi_slug",s.scpi_slug):await db.from("scpi_indicators").insert({scpi_slug:s.scpi_slug,...r,...meta});
-      if(wr.error)throw wr.error;
+      console.log("[scpi-bulletin-watch] staged pending independent source-page QA",
+        JSON.stringify({scpi_slug:s.scpi_slug,period:pp.p,bulletin_id:b.id,metrics:metricCount}));
     }
     const st=strong?"verified":metricCount>=2?"incomplete":"manual_review_required";
     if(canPromote&&metricCount>=2){
@@ -1187,8 +1186,8 @@ Deno.serve(async(req:Request)=>{
     }else{
       await reg(db,s.scpi_slug,{verification_status:canPromote?"manual_review_required":undefined,confidence_level:canPromote?"low":undefined,last_error:canPromote?"Extraction insuffisante — source non mémorisée":undefined,last_success_at:new Date().toISOString(),next_check_at:later(24)});
     }
-    const eventStatus=!canPromote?"stale_document":st==="verified"?"updated":"needs_review";
-    await finish(db,eid,{status:eventStatus,step:"edge_completed",source_page_url:c.page,bulletin_url:c.pdf,source_period:pp.p,extraction_confidence:confidence,metrics_count:metricCount,message:!canPromote?"Document plus ancien que la période courante — historique uniquement":metricCount+" indicateurs validés; coeurs="+coreCount+"; rejets: "+bad.join(", ")});
+    const eventStatus=!canPromote?"stale_document":"needs_review";
+    await finish(db,eid,{status:eventStatus,step:"edge_staged_independent_qa",source_page_url:c.page,bulletin_url:c.pdf,source_period:pp.p,extraction_confidence:confidence,metrics_count:metricCount,message:!canPromote?"Document plus ancien que la période courante — historique uniquement":metricCount+" indicateurs extraits, attente de certification PDF/page; coeurs="+coreCount+"; rejets: "+bad.join(", ")});
     return Response.json({ok:true,slug:s.scpi_slug,status:eventStatus,verification:st,period:pp.p,metrics:metricCount,core:coreCount,rejected:bad});
   }catch(e){const msg=e instanceof Error?e.message:(e&&typeof e==="object"?JSON.stringify(e):String(e)),ec=(s.error_count||0)+1;await reg(db,s.scpi_slug,{verification_status:ec>=3?"manual_review_required":"incomplete",confidence_level:"low",last_error:msg.slice(0,1800),error_count:ec,next_check_at:later(Math.min(168,12+ec*12))}).catch(()=>{});await finish(db,eid,{status:"failed",step:"edge_exception",message:msg.slice(0,1800)});return Response.json({ok:false,slug:s.scpi_slug,status:"failed",error:msg},{status:200});}
 });
