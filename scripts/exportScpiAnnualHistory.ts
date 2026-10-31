@@ -39,28 +39,42 @@ const [annualRecords, auditedYearRecords, readinessRecords, yearScopes] = await 
     'scpi_slug,fiscal_year,distribution_totale_par_part,valeur_realisation_par_part,valeur_reconstitution_par_part,qa_status,source_confidence,source_url,evidence',
     ['scpi_slug','fiscal_year']),
   fetchPaged('scpi_history_year_audit_v1',
-    'scpi_slug,fiscal_year,all_three_verified', ['scpi_slug','fiscal_year'],
-    (query: any) => query.eq('all_three_verified', true)),
+    'scpi_slug,fiscal_year,all_three_verified,all_three_documented,metric_statuses', ['scpi_slug','fiscal_year'],
+    (query: any) => query.eq('all_three_documented', true)),
   fetchPaged('scpi_history_readiness_v1',
-    'scpi_slug,years_expected,years_fully_verified,metrics_missing,historical_status,core_historical_ready',
+    'scpi_slug,years_expected,years_fully_verified,metrics_missing,exceptions_verified,historical_status,core_historical_ready',
     ['scpi_slug']),
   fetchPaged('scpi_history_scope',
     'scpi_slug,start_year,first_fiscal_year,first_fiscal_year_evidence', ['scpi_slug']),
 ]);
 const yearScopeBySlug = new Map(yearScopes.map((r: any) => [r.scpi_slug, r]));
-const verified = new Set(auditedYearRecords.map((r: any) => r.scpi_slug + ':' + r.fiscal_year));
+const verified = new Set(auditedYearRecords.filter((r: any) => r.all_three_verified)
+  .map((r: any) => r.scpi_slug + ':' + r.fiscal_year));
+// The 2024 EdR Europa accounts have two distinct fiscal closings. Their annual
+// consolidated distribution is not a single issuer-certified value; retain the
+// two verified year-end valuations and a documented exception instead of
+// dropping the whole year or manufacturing a distribution.
+const documentedEdR2024 = new Set(auditedYearRecords
+  .filter((r: any) => r.scpi_slug === 'edr-europa' && Number(r.fiscal_year) === 2024
+    && r.all_three_documented === true
+    && r.metric_statuses?.distribution_totale_par_part === 'documented_exception'
+    && r.metric_statuses?.valeur_realisation_par_part === 'verified_value'
+    && r.metric_statuses?.valeur_reconstitution_par_part === 'verified_value')
+  .map((r: any) => r.scpi_slug + ':' + r.fiscal_year));
 const readNum = (v: unknown): number | null => {
   if (v === null || v === undefined || v === '') return null;
   const n = Number(v);
   return Number.isFinite(n) ? n : null;
 };
 const rows = annualRecords.filter((r: any) => allowed.has(r.scpi_slug) &&
-  verified.has(r.scpi_slug + ':' + r.fiscal_year))
+  (verified.has(r.scpi_slug + ':' + r.fiscal_year) ||
+    documentedEdR2024.has(r.scpi_slug + ':' + r.fiscal_year)))
   .map((r: any) => {
     const d = readNum(r.distribution_totale_par_part);
     const real = readNum(r.valeur_realisation_par_part);
     const recon = readNum(r.valeur_reconstitution_par_part);
     const ev = r.evidence || {};
+    const isDocumentedEdR2024 = documentedEdR2024.has(r.scpi_slug + ':' + r.fiscal_year);
     const keys = ['distribution_totale_par_part','valeur_realisation_par_part','valeur_reconstitution_par_part'];
     const values = [d, real, recon];
     if (r.qa_status !== 'manual_verified_official' || (readNum(r.source_confidence) ?? 0) < 0.95 ||
@@ -73,6 +87,13 @@ const rows = annualRecords.filter((r: any) => allowed.has(r.scpi_slug) &&
       fail('Arbitrage financier insuffisant : ' + r.scpi_slug + '/' + r.fiscal_year);
     }
     keys.forEach((key, i) => {
+      if (isDocumentedEdR2024 && key === 'distribution_totale_par_part') {
+        if (values[i] !== null || ev[key]?.page != null ||
+          !/deux exercices/.test(String(ev[key]?.arbitration || ''))) {
+          fail('Exception multi-clôtures EdR 2024 non documentée ou valeur annuelle artificielle');
+        }
+        return;
+      }
       if (values[i] === null || !(Number(ev[key]?.page) > 0) ||
         (ev[key]?.fiscal_year_column != null && Number(ev[key].fiscal_year_column) !== Number(r.fiscal_year)) ||
         (ev[key]?.value != null && Math.abs(Number(ev[key].value) - values[i]!) > 0.001)) {
@@ -89,7 +110,7 @@ const rows = annualRecords.filter((r: any) => allowed.has(r.scpi_slug) &&
       distribution_arbitration: ev.distribution_totale_par_part?.arbitration || null,
       source_url: r.source_url,
       evidence_pages: {
-        distribution: Number(ev.distribution_totale_par_part.page),
+        distribution: isDocumentedEdR2024 ? null : Number(ev.distribution_totale_par_part.page),
         realisation: Number(ev.valeur_realisation_par_part.page),
         reconstitution: Number(ev.valeur_reconstitution_par_part.page),
       },
@@ -107,6 +128,7 @@ const coverage = readinessRecords.filter((r: any) => allowed.has(r.scpi_slug))
     years_expected: r.years_expected,
     years_fully_verified: r.years_fully_verified,
     metrics_missing: r.metrics_missing,
+    exceptions_verified: r.exceptions_verified,
     historical_status: r.historical_status,
     core_historical_ready: r.core_historical_ready,
   }))
