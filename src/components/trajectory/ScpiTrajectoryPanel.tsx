@@ -152,7 +152,9 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
         <span className="block">{snapshot.isLastKnown ? 'Dernière valeur connue · ' : 'Observation · '}{formatPeriod(snapshot.period)}</span>
         {snapshot.referenceDate && <span className="block">Valeur arrêtée au {metricDateLabel(snapshot.referenceDate)}</span>}
         {snapshot.isLastKnown && <span className="block text-amber-300">{formatPeriod(latest?.source_period)} : donnée non renseignée ou non validée</span>}
-        {snapshot.sourceUrl && <a href={snapshot.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-sky-300 underline">Source officielle ↗</a>}
+        {snapshot.sourceUrl && <a href={snapshot.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-sky-300 underline">
+          {snapshot.sourceUrl.includes('francescpi.com/') ? "Document de l'émetteur (copie archivée) ↗" : 'Source officielle ↗'}
+        </a>}
       </> : 'Aucune observation disponible'}
     </div>
   );
@@ -439,7 +441,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
                             rel="noreferrer"
                             className="font-medium text-sky-300 hover:text-sky-200"
                           >
-                            Document officiel ↗
+                            {row.source_url.includes('francescpi.com/') ? "Document de l'émetteur (copie archivée) ↗" : 'Document officiel ↗'}
                           </a>
                         ) : (
                           <span className="text-slate-600">N.D.</span>
