@@ -26,7 +26,7 @@ const oidcSnapshot = async (): Promise<Record<string, any>[]> => {
   });
   if (!response.ok) throw new Error(`Supabase OIDC certification HTTP ${response.status}: ${(await response.text()).slice(0,250)}`);
   const snapshot = await response.json() as { ok?: boolean; sha?: string; enabled_scpi?: number; analyses?: Record<string, any>[] };
-  if (!snapshot.ok || snapshot.sha !== sha || snapshot.enabled_scpi !== 65 || !Array.isArray(snapshot.analyses)) {
+  if (!snapshot.ok || snapshot.sha !== sha || snapshot.enabled_scpi !== 66 || !Array.isArray(snapshot.analyses)) {
     throw new Error('Release attestation invalid or incomplete');
   }
   return snapshot.analyses;
@@ -54,14 +54,14 @@ try {
 }
 
 if (required) {
-  // The public site declares 65 funds; a short or extra data response cannot
+  // The public site declares 66 funds; a short or extra data response cannot
   // silently make a production release look successfully certified.
   const expected = JSON.parse(readFileSync(new URL('../src/data/certified_scpi_cohort.json', import.meta.url), 'utf8')) as { count: number; slugs: string[] };
   const actualSlugs = new Set(data.map(row => String(row.scpi_slug)));
   const expectedSlugs = new Set(expected.slugs);
-  if (expected.count !== 65 || expectedSlugs.size !== 65 || data.length !== 65 ||
-      actualSlugs.size !== 65 || [...expectedSlugs].some(slug => !actualSlugs.has(slug))) {
-    console.error('[SCPI certification] FAIL: actual analyses differ from the exact 65-fund certified cohort.');
+  if (expected.count !== 66 || expectedSlugs.size !== 66 || data.length !== 66 ||
+      actualSlugs.size !== 66 || [...expectedSlugs].some(slug => !actualSlugs.has(slug))) {
+    console.error('[SCPI certification] FAIL: actual analyses differ from the exact 66-fund certified cohort.');
     process.exit(1);
   }
 }
