@@ -84,8 +84,10 @@ try{
    assert.match(first,/174,71 €/);
    assert.match(first,/212,78 €/);
    assert.match(first,/174,23 €/);
-   assert.match(first,/Dernière valeur : 220,66 €/);
-   assert.match(first,/Dernière valeur : 179,28 €/);
+   assert.match(first,/220,66 €/);
+   assert.match(first,/Dernière valeur officielle connue/);
+   assert.match(first,/179,28 €/);
+   assert.match(first,/Valeur arrêtée au/);
    await page.evaluate(()=>Array.from(document.querySelectorAll('button')).find(x=>x.textContent?.trim()==='Signaux du marché de la SCPI')?.click());
    await page.waitForFunction(()=>document.body.innerText.includes('4/5 indicateurs exploitables'),{timeout:16000});
    const market=await page.evaluate(()=>document.body.innerText);
