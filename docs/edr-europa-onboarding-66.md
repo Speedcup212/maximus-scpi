@@ -33,3 +33,29 @@
 9. Fusionner cette PR puis déployer **uniquement après** obtention des 66/66 validations documentaires et du bon effectif de la release.
 
 **IMPORTANT — Ne pas fusionner ni activer directement depuis ce document.** L'ouverture d'une PR brouillon n'autorise pas la publication.
+
+
+## Reprise du 31/10/2026 — audit complémentaire et conformité
+- Confirmation officielle : première souscription de **25 parts**, prix courant **202 €**, soit **5 050 €** (note d'information juin 2026 p. 12-13). Corrigé dans le JSON ; l'ancien 5 000 € était la valeur commerciale basée sur 200 €.
+- Frais distincts : **commission de souscription 10 % HT / 12 % TTC**, **gestion 10,50 % HT / 12,60 % TTC** sur produits locatifs HT encaissés et produits financiers nets (bulletin T2 2026 p. 9). Corrigés dans le catalogue et `scpi_indicators.frais_gestion`. Provenance et unités dans les données.
+- Documents périodiques officiels identifiés et enregistrés dans `scpi_bulletins` : `2024-T2`, `2024-T3`, `2024-S2`, `2025-T3`, `2025-S2`, `2026-T1`, `2026-T2` ; **7 sources distinctes** au statut `discovered`, extraction/QA non attestée.
+- Backfill : 10 entrées `scpi_backfill_queue` pour EdR avec contrôle de source explicite, dont `2025-T1`, `2025-T2`, `2026-T3` sans URL directe officielle confirmée. Enregistrement dans la file de revue ne vaut pas traitement ni certification.
+- Rapports annuels 2024 et 2025 identifiés dans `scpi_annual_reports` et mis en file `scpi_annual_backfill_queue` au statut `pending` ; **ne pas assimiler l'existence de leur URL à une extraction**.
+- Première et seconde clôtures comptables 2024 identifiées ; `scpi_history_scope` garde `multiple_closings_unmodeled` jusqu'à réconciliation démontrée.
+- Un article externe du 30/10/2026 mentionne un bulletin T3 2026, mais le PDF officiel T3 n'est pas relié depuis le site du gestionnaire au moment de la vérification. Les données T3 ne sont **pas importées**.
+- Test intégré au `prebuild` et à `qa:scpi` : `node --test scripts/scpi-agents/test-edr-europa-onboarding.mjs`. **Tests de CI à exécuter par GitHub Actions** ; présence du test dans le code ≠ passage du job distant.
+- `scripts/checkScpiCertification.ts` : garde additionnelle **fail-closed** en release, pour les **66** sources courantes ayant un statut `certified` et une URL officielle, sans exception de cohorte.
+- **Incident de transition 65→66 résolu en production :** fonction OIDC Supabase déployée en v2, désormais filtrée sur `scpi_trajectory_pilot.enabled=true`, contrôle exact **65** conservé. Correctif synchronisé avec la branche `main` (commit `f894275b28ba75ccd1f519a7a5c364a4fbc04e6b`). La branche EdR prépare le même filtre avec exigence **66**. **Ne pas déployer la version 66 tant qu'EdR n'est pas activée et complètement certifiée.**
+
+## Liste des documents officiels découverts
+| Période | Statut | Document |
+|---|---|---|
+| 2024-T2 | découvert | https://edr-europa.com/wp-content/uploads/2024/08/SCPI-Edmond-de-Rothschild-Bulletin-trimestriel-30-06-2024-1.pdf |
+| 2024-T3 | découvert | https://edr-europa.com/wp-content/uploads/2024/11/SCPI-Edmond-de-Rothschild-Europa-Bulletin-trimestriel-T3-2024.pdf |
+| 2024-S2 | découvert | https://edr-europa.com/wp-content/uploads/2025/02/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-S2-2024-2.pdf |
+| 2025-T3 | découvert | https://edr-europa.com/wp-content/uploads/2025/11/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T3-2025.pdf |
+| 2025-S2 | découvert | https://edr-europa.com/wp-content/uploads/2026/01/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-S2-2025.pdf |
+| 2026-T1 | découvert | https://edr-europa.com/wp-content/uploads/2026/05/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T1-2026.pdf |
+| 2026-T2 | découvert | https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf |
+
+**Interdiction de publication :** tant que 66/66 certifications et le contrôle d'historique ne sont pas prêts, garder cette PR en brouillon et les deux options EdR de connecteur / pilote désactivées. La CI GitHub et le test Netlify restent à établir.
