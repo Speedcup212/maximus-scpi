@@ -43,10 +43,11 @@ test('a staging draft never signs off or makes any CORUM public',()=>{
  assert.match(draft,/d\.dossier_digest_sha256 IS NULL/);
  assert.match(draft,/responsible_batch_approved/);
  assert.doesNotMatch(draft,/UPDATE\s+(?:maximus_agents\.scpi_universe|public\.scpi_indicators)/i);
- assert.ok([61,65].includes(cohort.count));
+ assert.ok([61,65,66].includes(cohort.count));
+ if(cohort.count===66)assert.ok(cohort.slugs.includes('edr-europa'),'66th fund must be EdR Europa');
  const ids=['corum-eurion','corum-origin','corum-usa','corum-xl'];
- assert.equal(ids.filter(slug=>cohort.slugs.includes(slug)).length,cohort.count===65?4:0);
- if(cohort.count===65){
+ assert.equal(ids.filter(slug=>cohort.slugs.includes(slug)).length,cohort.count>=65?4:0);
+ if(cohort.count>=65){
    const approved=read('supabase/migrations/20261017_corum_responsible_owner_batch_approval.sql');
    assert.match(approved,/decision='approved'/);
    assert.match(approved,/responsible_name='Eric Bellaiche'/);
