@@ -409,7 +409,10 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
             Historique vérifiable
           </div>
           <p className="px-4 pt-3 text-xs leading-5 text-slate-400 sm:px-5">
-            « N.D. » ou « — » signifie que la valeur n'est pas renseignée ou validée dans MaximusSCPI pour cette période,
+            « N.D. » ou « — » signifie que la valeur n'est pas renseignée ou validée dans MaximusSCPI pour cette période.
+            Pour la réalisation et la reconstitution, une valeur antérieure certifiée peut être affichée
+            comme « Dernière valeur officielle connue », avec sa date d'arrêté réelle ; elle ne constitue pas
+            une nouvelle valorisation du trimestre.
             et non qu'elle est nulle. « Base non documentée » signifie que le mode de liquidité n'est pas identifié.
             Les files de retraits et les marchés secondaires ne sont pas comparés entre eux.
           </p>
@@ -441,24 +444,24 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
                       </td>
                       <td className="px-4 py-3 text-right">{numberFormatter(row.prix_souscription, ' €')}</td>
                       <td className="px-4 py-3 text-right">
-                        {numberFormatter(row.prix_reconstitution, ' €')}
+                        {numberFormatter(row.prix_reconstitution ?? priorValuation(row, 'prix_reconstitution')?.value ?? null, ' €')}
                         {row.prix_reconstitution !== null && row.metric_provenance?.prix_reconstitution?.reference_date &&
-                          <span className="block text-[10px] text-slate-400">Au {metricDateLabel(row.metric_provenance.prix_reconstitution.reference_date)}</span>}
+                          <span className="block text-[10px] text-slate-400">Valeur arrêtée au {metricDateLabel(row.metric_provenance.prix_reconstitution.reference_date)}</span>}
                         {row.prix_reconstitution === null && priorValuation(row, 'prix_reconstitution') && (
                           <span className="block text-[10px] text-amber-200">
-                            Dernière valeur : {numberFormatter(priorValuation(row, 'prix_reconstitution')!.value, ' €')}
-                            {' · '}{priorValuation(row, 'prix_reconstitution')!.date
+                            Dernière valeur officielle connue · arrêtée au{' '}
+                            {priorValuation(row, 'prix_reconstitution')!.date
                               ? metricDateLabel(priorValuation(row, 'prix_reconstitution')!.date!)
                               : formatPeriod(priorValuation(row, 'prix_reconstitution')!.period)}
                           </span>
                         )}
                       </td>
                       <td className="px-4 py-3 text-right">
-                          {numberFormatter(row.valeur_realisation, ' €')}
+                          {numberFormatter(row.valeur_realisation ?? priorValuation(row, 'valeur_realisation')?.value ?? null, ' €')}
                           {row.valeur_realisation === null && priorValuation(row, 'valeur_realisation') && (
                             <span className="block text-[10px] text-amber-200">
-                              Dernière valeur : {numberFormatter(priorValuation(row, 'valeur_realisation')!.value, ' €')}
-                              {' · '}{priorValuation(row, 'valeur_realisation')!.date
+                              Dernière valeur officielle connue · arrêtée au{' '}
+                              {priorValuation(row, 'valeur_realisation')!.date
                                 ? metricDateLabel(priorValuation(row, 'valeur_realisation')!.date!)
                                 : formatPeriod(priorValuation(row, 'valeur_realisation')!.period)}
                             </span>
