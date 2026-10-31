@@ -1,3 +1,13 @@
+-- Isolate candidate indicator rows behind private-schema RLS before creating the
+-- final prepublication circuit; never insert candidates into public here.
+CREATE TABLE IF NOT EXISTS maximus_agents.scpi_candidate_indicator_stage
+(LIKE public.scpi_indicators INCLUDING DEFAULTS INCLUDING CONSTRAINTS INCLUDING INDEXES,
+ staged_at timestamptz NOT NULL DEFAULT now(),
+ stage_note text NOT NULL DEFAULT '');
+ALTER TABLE maximus_agents.scpi_candidate_indicator_stage ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON maximus_agents.scpi_candidate_indicator_stage FROM PUBLIC, anon, authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON maximus_agents.scpi_candidate_indicator_stage TO service_role;
+
 -- Generic issuer-period candidate release circuit, independent of legacy CORUM/T2 rules.
 -- This view never authorizes a release without documented human sign-off.
 CREATE OR REPLACE VIEW maximus_agents.scpi_candidate_release_circuit_v3
