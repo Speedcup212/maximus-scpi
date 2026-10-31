@@ -18,12 +18,15 @@
 - Catalogue JSON et cohorte GitHub préparés, garde de recommandation automatique ajoutée pour les fiches `pending_certification`.
 - Contrôle d'effectif strict de la CI / Edge Function OIDC préparé pour 66 **uniquement dans cette branche**.
 
+## État des analyses après génération automatique
+- Total : **66 analyses** en base, dont **52 `certified`**, **6 `current_certified_history_unverified`** et **8 `review_required`** (dont EdR Europa), au contrôle du 31/10/2026. Cela ne constitue pas 66 certifications complètes. Le statut de l'analyse EdR est `insufficient_history` ; `certification_reasons` inclut `current_source_not_certified`.
+
 ## Conditions obligatoires avant mise en production
 1. Vérifier l'accessibilité et le contenu de chaque document officiel cité ; récupérer le **dernier** bulletin officiel T3 2026 s'il est effectivement disponible. Calculer hash, périodes et pages.
 2. Ingestion réelle et QA du dernier bulletin, extraction de tous les indicateurs utiles avec preuve URL / page / date / unité ; appliquer la doctrine absence officielle ≠ échec d'extraction (TOF uniquement depuis bulletin du gestionnaire).
 3. Vérifier les paramètres investisseur : entrée, frais, délai de jouissance, dividendes, liquidité, risque et concentration locative, avec bon périmètre des taux de gestion et souscription.
 4. Reconstituer la trajectoire complète depuis 2024, avec traitement explicite des exercices clos multiples en 2024 ; certifier les années disponibles et justifier les données officiellement absentes.
-5. Alimenter et **certifier** `scpi_bulletin_analysis` pour `edr-europa`. Obtenir 66 analyses correspondant exactement aux 66 slugs du fichier `certified_scpi_cohort.json`.
+5. Une analyse `scpi_bulletin_analysis` EdR a été générée automatiquement le 31/10/2026 après l'insertion : 66 analyses présentes, mais **EdR est en `review_required`, `current_source_certified=false`**. La faire relier au bulletin certifié, résoudre les motifs de revue et s'assurer que les 66 slugs correspondent exactement au fichier `certified_scpi_cohort.json`. Ne pas confondre présence d'une analyse et certification.
 6. Activer `scpi_source_connectors.enabled`, `scpi_source_registry.automation_enabled` et `scpi_trajectory_pilot.enabled` **seulement après** la certification du périmètre, sans faire perdre le 65/65 existant.
 7. Déployer la nouvelle version de l'Edge Function OIDC `scpi-release-certification-oidc` (source modifiée dans cette branche), en synchronisant ses exigences de cohorte 66. En l'état **la fonction active exige 65** : un merge prématuré bloquerait la CI.
 8. Faire passer tous les tests de release : `npm run check:certification`, `npm run qa:scpi`, contrôles des 66 cartes et pages, comparaison, simulateurs, radar, trajectoire, espace client, sitemap/canonical/SEO ; aucune recommandation ou décote non certifiée.
