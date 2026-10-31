@@ -39,3 +39,7 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Isolated visual QA of SCPI 67-68. Production uses the exact certified cohort.
+[context."feature/scpi-67-68-release-circuit-v3".environment]
+  VITE_BNPP_CANDIDATE_PREVIEW = "true"
