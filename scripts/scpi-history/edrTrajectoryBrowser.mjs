@@ -4,9 +4,9 @@ import puppeteer from 'puppeteer';
 import assert from 'node:assert/strict';
 import {writeFile,rm} from 'node:fs/promises';
 const origin = process.env.TRAJECTORY_TEST_ORIGIN || 'http://127.0.0.1:4173';
-const base = {scpi_slug:'edr-europa',snapshot_at:'2026-10-27',source_url:'https://www.corum.fr/bulletin.pdf',qa_status:'verified',source_confidence:1,
+const base = {scpi_slug:'edr-europa',snapshot_at:'2026-10-27',source_url:'https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf',qa_status:'verified',source_confidence:1,
   tof:100,td:null,capitalisation:null,prix_souscription:null,prix_reconstitution:null,prix_retrait:null,valeur_realisation:null,endettement:null,
-  distribution_par_part:null,parts_attente_retrait:0,nombre_parts:412240,capital_type:'variable',liquidity_basis:'withdrawal_queue',retrait_attente_pct:0};
+  distribution_par_part:null,parts_attente_retrait:0,nombre_parts:757047,capital_type:'variable',liquidity_basis:'withdrawal_queue',retrait_attente_pct:0};
 const rows = [{...base,source_period:'2026-T1',prix_souscription:200,prix_reconstitution:220.66,distribution_par_part:4.33,endettement:0},
   {...base,source_period:'2026-T2',prix_souscription:202,distribution_par_part:4.69,prix_reconstitution:212.78,valeur_realisation:174.23,metric_provenance:{prix_reconstitution:{reference_date:'2026-06-30'},valeur_realisation:{reference_date:'2026-06-30'}}}];
 const fixture = new URL('../../trajectory-summary-check.html',import.meta.url);
