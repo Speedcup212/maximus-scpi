@@ -40,7 +40,7 @@ for(const [period,kind,relative,date] of docs){
     const txt=join(out,`${period}-${kind}.txt`);
     await writeFile(file,data);
     const pdfinfo=spawnSync('pdfinfo',[file],{encoding:'utf8',timeout:20000});
-    item.page_count=Number((pdfinfo.stdout||'').match(/^Pages:\\s*(\\d+)/m)?.[1]||0)||null;
+    item.page_count=Number((pdfinfo.stdout||'').match(/^Pages:\s*(\d+)/m)?.[1]||0)||null;
     const result=spawnSync('pdftotext',['-layout',file,txt],{encoding:'utf8',timeout:45000});
     if(result.status!==0)throw Error('pdftotext failed: '+String(result.stderr||'').slice(0,150));
     const text=norm(await readFile(txt,'utf8'));
@@ -52,13 +52,13 @@ for(const [period,kind,relative,date] of docs){
     if(!item.period_match)throw Error('Expected official reporting period absent');
     if(period==='2026-T2' && kind==='bulletin'){
       const required=['152 923 494','48 427 906','212,78','174,23','181,8','4,69','100%'];
-      item.t2_required_metrics=Object.fromEntries(required.map(x=>[x,text.includes(norm(x))]));
+      item.t2_required_metrics=Object.fromEntries(required.map(x=>[x,text.replace(/\s+/g,'').includes(norm(x).replace(/\s+/g,''))]));
       if(Object.values(item.t2_required_metrics).some(x=>!x))throw Error('T2 critical fields missing from PDF text');
     }
     item.status='pdf_retrieved_page_extraction_pending_review';
   }catch(error){item.status='qa_review';item.issue=String(error?.message||error).slice(0,450);}
   reports.push(item);
-  process.stdout.write(JSON.stringify({period:item.period,kind:item.kind,status:item.status,sha256:item.sha256?.slice(0,16),issue:item.issue})+'\\n');
+  process.stdout.write(JSON.stringify({period:item.period,kind:item.kind,status:item.status,sha256:item.sha256?.slice(0,16),issue:item.issue})+'\n');
 }
 const manifest={
   schema_version:'edr-europa-2026-10-31-v1',
@@ -68,7 +68,7 @@ const manifest={
   note:'Manifest tracks fetched public PDFs and machine-read PDF text only. It NEVER constitutes financial or regulatory certification.',
   unresolved:[...reports.filter(x=>x.status!=='pdf_retrieved_page_extraction_pending_review').map(x=>x.period+'-'+x.kind)],
 };
-await writeFile(join(out,'manifest.json'),JSON.stringify(manifest,null,2)+'\\n','utf8');
+await writeFile(join(out,'manifest.json'),JSON.stringify(manifest,null,2)+'\n','utf8');
 const status=manifest.unresolved.length?'INCOMPLETE':'FETCHED_PENDING_QA';
 console.log('EDR_DOCUMENT_AUDIT='+status+'; '+reports.filter(x=>x.status==='pdf_retrieved_page_extraction_pending_review').length+'/'+reports.length+' PDF retrieved, hashed and text extracted');
 if(manifest.unresolved.length)process.exitCode=1;
