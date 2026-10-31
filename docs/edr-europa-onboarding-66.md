@@ -59,3 +59,16 @@
 | 2026-T2 | découvert | https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf |
 
 **Interdiction de publication :** tant que 66/66 certifications et le contrôle d'historique ne sont pas prêts, garder cette PR en brouillon et les deux options EdR de connecteur / pilote désactivées. La CI GitHub et le test Netlify restent à établir.
+
+
+## Audit source exécuté — GitHub Actions 31/10/2026
+Preuves reproductibles et non-certifiantes :
+- [Audit PDF 41183264173](https://github.com/Speedcup212/maximus-scpi/actions/runs/41183264173) : **12/18 documents téléchargés, identité de l'émetteur vérifiée par texte PDF, empreinte SHA256 calculée** ; 6 anciennes URL officielles renvoient encore HTTP 404, et le job reste volontairement en échec.
+- **Trois PDF sur domaine officiel EdR** : bulletin T2 2026 (11 p., SHA256 `401987ac4d713eb30253a3d327b76b723c73753f72b5b31e28ffcd504f737d7d`), rapport annuel clos 31/12/2024 (44 p., SHA256 `05263c54c27697ed1f7036f1f620ea106094d25427376bdeda25d925e382b640`, titre exact confirmé malgré nom de fichier ambigu) et rapport annuel 2025 (79 p., SHA256 `cfb2b425b57146fec7ee7b765e92c6855989f778ea82d6a10067321cc90cd192`).
+- **Premier rapport annuel clos le 30/06/2024** : PDF de l'émetteur hébergé chez Fortuny Conseil, 37 p., SHA256 `a8e8590987611879323ab2975c5b0e8e64e9cb0de8abd7db94b36fb82b1ba35d`. Son hébergement tiers est explicite et exige une validation d'origine avant certification.
+- **Huit bulletins d'origine EdR archivés chez FranceSCPI**, périodes 2024-T2, 2024-T3, 2024-T4, 2025-T1, 2025-T2, 2025-T3, 2025-T4, 2026-T1 ; les huit documents ont passé la vérification SHA, de période et d'identité. Toutefois, les exemplaires hébergés chez le distributeur sont des copies parfois filigranées et **ne sont pas des originaux téléchargeables du site du gestionnaire**. Leurs 8 URL, empreintes, pages, origine et restrictions de certification sont dans `public.scpi_source_link_audit` (sous le slug `edr-europa`). Les six anciennes URL du domaine EdR restent notées HTTP 404.
+- **Historique en base** : 8 lignes `scpi_indicator_history`, de 2024-T2 à 2026-T2, plusieurs trimestres ayant seulement les dividendes. 23 preuves trimestrielles, 26 candidats annuels (13 sur 2024 clôture décembre, 13 sur 2025) ; toutes les validations finales restent en attente.
+- T3 2026 : des informations secondaires datées du 30/10/2026 l'évoquent, mais le PDF original officiel n'est pas encore retrouvé ; **aucune valeur T3 n'est publiée sous statut certifié**.
+- Technique CI : les anciens tests/étapes de validation 61→65 et le sitemap ont été adaptés sur branche au périmètre 61+4 CORUM+EdR ; des jobs GitHub Actions continuent d'échouer tant que l'ensemble de la matrice de release et l'archive officielle ne passent pas. **Ne pas fusionner** avant les tests complets.
+
+**Point réglementaire** : les valeurs TOF retenues ou certifiées pour MaximusSCPI doivent provenir des bulletins de chaque société de gestion. Les miroirs tiers ne justifient pas une certification de TOF indépendante des originaux.
