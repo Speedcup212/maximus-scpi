@@ -27,7 +27,8 @@ const docs = [
   ['2025-T3','bulletin_miroir','https://francescpi.com/scpi-de-rendement/edmond-de-rothschild-europa/bi/edmond-de-rothschild-europa-bulletin-2025-t3.pdf','30/09/2025'],
   ['2025-T4','bulletin_miroir','https://francescpi.com/scpi-de-rendement/edmond-de-rothschild-europa/bi/edmond-de-rothschild-europa-bulletin-2025-t4.pdf','31/12/2025'],
   ['2026-T1','bulletin_miroir','https://francescpi.com/scpi-de-rendement/edmond-de-rothschild-europa/bi/edmond-de-rothschild-europa-bulletin-2026-t1.pdf','31/03/2026'],
-  ['2025','rapport_annuel','2026/07/SCPI-Edmond-de-Rothschild-Europa-Rapport-annuel-31-12-2025.pdf','31/12/2025']
+  ['2025','rapport_annuel','2026/07/SCPI-Edmond-de-Rothschild-Europa-Rapport-annuel-31-12-2025.pdf','31/12/2025'],
+  ['2026-06','note_information','2026/07/SCPI-EdR-Europa-Note-dinformation-06-2026.pdf','2026']
 ];
 const out = process.env.EDR_REPORT_DIR || 'artifacts/edr-europa-source-audit';
 await mkdir(out,{recursive:true});
