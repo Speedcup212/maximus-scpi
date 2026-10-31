@@ -18,6 +18,7 @@ const docs = [
   ['2026-T1','bulletin','2026/05/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T1-2026.pdf','31/03/2026'],
   ['2026-T2','bulletin','2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf','30/06/2026'],
   ['2024','rapport_annuel','2025/06/SCPI-Edmond-de-Rothschild-Europa-Rapport-annuel-30-06-2024.pdf','31/12/2024'],
+  ['2024-H1','rapport_annuel_miroir','https://access.fortunyconseil.fr/api/v1/SCPI/files/rapport_annuel2024_230ee4f0327011f0ab012dfda4e19bae.pdf','30/06/2024'],
   ['2025','rapport_annuel','2026/07/SCPI-Edmond-de-Rothschild-Europa-Rapport-annuel-31-12-2025.pdf','31/12/2025']
 ];
 const out = process.env.EDR_REPORT_DIR || 'artifacts/edr-europa-source-audit';
@@ -26,8 +27,11 @@ const norm = str => String(str).normalize('NFD').replace(/[\u0300-\u036f]/g,'').
 const reports=[];
 for(const [period,kind,relative,date] of docs){
   const url=new URL(relative,base);
-  if(url.hostname!=='edr-europa.com' || !url.pathname.startsWith('/wp-content/uploads/')) throw Error('Untrusted document URL');
-  const item={period,kind,url:url.href,expected_reference_date:date,status:'pending',sha256:null,page_count:null,text_match:false,period_match:false,issue:null};
+  const issuerHosted=url.hostname==='edr-europa.com' && url.pathname.startsWith('/wp-content/uploads/');
+  const documentedMirror=kind==='rapport_annuel_miroir' && url.hostname==='access.fortunyconseil.fr' && url.pathname==='/api/v1/SCPI/files/rapport_annuel2024_230ee4f0327011f0ab012dfda4e19bae.pdf';
+  if(!issuerHosted && !documentedMirror)throw Error('Untrusted document URL');
+
+  const item={period,kind,url:url.href,expected_reference_date:date,origin:issuerHosted?'official_issuer_host':'third_party_mirror_of_issuer_report',status:'pending',sha256:null,page_count:null,text_match:false,period_match:false,issue:null};
   try{
     const response=await fetch(url,{headers:{'User-Agent':'MaximusSCPI-document-QA/1.0'},signal:AbortSignal.timeout(55000)});
     item.http_status=response.status;
