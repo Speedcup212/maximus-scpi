@@ -4796,17 +4796,20 @@
       "prix_souscription": {
         "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
         "source_period": "2026-T2",
-        "source_page": 4
+        "source_page": 4,
+        "reference_date": "2026-06-30"
       },
       "prix_retrait": {
         "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
         "source_period": "2026-T2",
-        "source_page": 4
+        "source_page": 4,
+        "reference_date": "2026-06-30"
       },
       "prix_reconstitution": {
         "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
         "source_period": "2026-T2",
-        "source_page": 4
+        "source_page": 4,
+        "reference_date": "2026-06-30"
       },
       "valeur_realisation": {
         "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
@@ -4817,7 +4820,8 @@
       "tof": {
         "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
         "source_period": "2026-T2",
-        "source_page": 2
+        "source_page": 2,
+        "reference_date": "2026-06-30"
       },
       "walb": {
         "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
