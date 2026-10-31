@@ -30,7 +30,7 @@ EXPECTED = {
 
 
 def page_text(page):
-    return re.sub(r"\\s+", " ", page.get_text(sort=True).replace("\\u202f", " ").replace("\\xa0", " "))
+    return re.sub(r"\s+", " ", page.get_text(sort=True).replace("\u202f", " ").replace("\xa0", " "))
 
 
 def check(manifest, root):
