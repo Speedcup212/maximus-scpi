@@ -75,6 +75,6 @@ test('EdR quarterly dividends are reconciled with official retrospective chart a
   assert.equal(history.source_sha256,'401987ac4d713eb30253a3d327b76b723c73753f72b5b31e28ffcd504f737d7d');
   const annual2025 = history.historical_dividends.filter(row => row.period.startsWith('2025-')).reduce((sum,row) => sum + Math.round(row.value*100),0);
   assert.equal(annual2025,1749);
-  assert.equal(Math.round((annual2025 / 100 / 200)*10000)/100,8.75);
+  assert.equal(Math.round(annual2025 * 10000 / 20000) / 100,8.75); // integer cents, half-up to 2 decimal %
   assert.equal(history.historical_dividends.find(row => row.period==='2026-T2').value,edr['Distribution (€/part)']);
 });
