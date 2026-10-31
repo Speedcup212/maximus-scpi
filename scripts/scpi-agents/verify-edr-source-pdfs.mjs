@@ -14,10 +14,10 @@ const docs = [
   ['2024-T3','bulletin','2024/11/SCPI-Edmond-de-Rothschild-Europa-Bulletin-trimestriel-T3-2024.pdf','30/09/2024'],
   ['2024-S2','bulletin','2025/02/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-S2-2024-2.pdf','31/12/2024'],
   ['2025-T3','bulletin','2025/11/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T3-2025.pdf','30/09/2025'],
-  ['2025-S2','bulletin','2026/01/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-S2-2025.pdf','31/12/2025'],
+  ['2025-S2','bulletin','2026/02/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-S2-2025.pdf','31/12/2025'],
   ['2026-T1','bulletin','2026/05/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T1-2026.pdf','31/03/2026'],
   ['2026-T2','bulletin','2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf','30/06/2026'],
-  ['2024','rapport_annuel','2025/12/SCPI-Edmond-de-Rothschild-Europa-Rapport-annuel-31-12-2024.pdf','31/12/2024'],
+  ['2024','rapport_annuel','2025/06/SCPI-Edmond-de-Rothschild-Europa-Rapport-annuel-30-06-2024.pdf','31/12/2024'],
   ['2025','rapport_annuel','2026/07/SCPI-Edmond-de-Rothschild-Europa-Rapport-annuel-31-12-2025.pdf','31/12/2025']
 ];
 const out = process.env.EDR_REPORT_DIR || 'artifacts/edr-europa-source-audit';
