@@ -127,6 +127,9 @@ test('EdR Europa : T4 2024 à T2 2026, année 2024 multi-clôtures sans rendemen
   const coverage=cov.find(r=>r.scpi_slug==='edr-europa');
   assert.equal(coverage?.years_expected,2);
   assert.equal(coverage?.years_fully_verified,1);
-  assert.equal(coverage?.metrics_missing,1);
-  assert.equal(coverage?.core_historical_ready,false);
+  assert.equal(coverage?.metrics_missing,0,'Une exception justifiée ne doit pas être déclarée donnée manquante');
+  assert.equal(coverage?.exceptions_verified,1,'La distribution 2024 doit rester une exception explicite et documentée');
+  assert.equal(coverage?.core_historical_ready,false,'Deux clôtures comptables ne sont pas une série annuelle entièrement certifiée');
+  assert.match(y2024.source_url,/31-12-2024/, 'La clôture 2024 affichée doit être celle du 31 décembre, pas du 30 juin');
+  assert.equal(y2024.evidence_pages.distribution,null,'Ne jamais inventer une page de distribution 2024');
 });
