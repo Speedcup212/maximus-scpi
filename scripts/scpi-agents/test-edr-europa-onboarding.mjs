@@ -83,3 +83,25 @@ test('EdR quarterly dividends are reconciled with official retrospective chart a
   assert.equal(Math.round(annual2025 * 10000 / 20000) / 100,8.75); // integer cents, half-up to 2 decimal %
   assert.equal(history.historical_dividends.find(row => row.period==='2026-T2').value,edr['Distribution (€/part)']);
 });
+
+test('EdR official time series is included in the published static history with 9 dated periods', () => {
+  const exported = load('../../src/data/scpiIndicatorHistory.json');
+  const edrRows = exported.rows.filter(row => row.scpi_slug === 'edr-europa');
+  const periods = ['2024-T2','2024-T3','2024-T4','2025-T1','2025-T2','2025-T3','2025-T4','2026-T1','2026-T2'];
+  assert.deepEqual(edrRows.map(row => row.source_period), periods);
+  assert.equal(edrRows.length, 9);
+  assert.ok(edrRows.every(row => Number(row.tof) === 100), 'TOF issuer documentation must cover all nine periods');
+  assert.ok(edrRows.every(row => row.metric_provenance?.tof?.source_url || ['2026-T1','2026-T2'].includes(row.source_period)), 'Issuer bulletin TOF source is required');
+  assert.deepEqual(edrRows.filter(row => row.prix_reconstitution !== null).map(row =>
+    [row.source_period, Number(row.prix_reconstitution), Number(row.valeur_realisation)]), [
+    ['2024-T2',203.85,171.33],
+    ['2024-T4',210.81,169.60],
+    ['2025-T2',213.21,174.71],
+    ['2025-T4',220.66,179.28],
+    ['2026-T2',212.78,174.23],
+  ]);
+  const t2 = edrRows.at(-1);
+  assert.equal(Number(t2.distribution_par_part), 4.69);
+  assert.equal(Number(t2.endettement), 0);
+  assert.equal(Number(t2.prix_souscription), 202);
+});
