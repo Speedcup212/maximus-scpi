@@ -19,6 +19,14 @@ const docs = [
   ['2026-T2','bulletin','2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf','30/06/2026'],
   ['2024','rapport_annuel','2025/06/SCPI-Edmond-de-Rothschild-Europa-Rapport-annuel-30-06-2024.pdf','31/12/2024'],
   ['2024-H1','rapport_annuel_miroir','https://access.fortunyconseil.fr/api/v1/SCPI/files/rapport_annuel2024_230ee4f0327011f0ab012dfda4e19bae.pdf','30/06/2024'],
+  ['2024-T2','bulletin_miroir','https://francescpi.com/scpi-de-rendement/edmond-de-rothschild-europa/bi/edmond-de-rothschild-europa-bulletin-2024-t2.pdf','30/06/2024'],
+  ['2024-T3','bulletin_miroir','https://francescpi.com/scpi-de-rendement/edmond-de-rothschild-europa/bi/edmond-de-rothschild-europa-bulletin-2024-t3.pdf','30/09/2024'],
+  ['2024-T4','bulletin_miroir','https://francescpi.com/scpi-de-rendement/edmond-de-rothschild-europa/bi/edmond-de-rothschild-europa-bulletin-2024-t4.pdf','31/12/2024'],
+  ['2025-T1','bulletin_miroir','https://francescpi.com/scpi-de-rendement/edmond-de-rothschild-europa/bi/edmond-de-rothschild-europa-bulletin-2025-t1.pdf','31/03/2025'],
+  ['2025-T2','bulletin_miroir','https://francescpi.com/scpi-de-rendement/edmond-de-rothschild-europa/bi/edmond-de-rothschild-europa-bulletin-2025-t2.pdf','30/06/2025'],
+  ['2025-T3','bulletin_miroir','https://francescpi.com/scpi-de-rendement/edmond-de-rothschild-europa/bi/edmond-de-rothschild-europa-bulletin-2025-t3.pdf','30/09/2025'],
+  ['2025-T4','bulletin_miroir','https://francescpi.com/scpi-de-rendement/edmond-de-rothschild-europa/bi/edmond-de-rothschild-europa-bulletin-2025-t4.pdf','31/12/2025'],
+  ['2026-T1','bulletin_miroir','https://francescpi.com/scpi-de-rendement/edmond-de-rothschild-europa/bi/edmond-de-rothschild-europa-bulletin-2026-t1.pdf','31/03/2026'],
   ['2025','rapport_annuel','2026/07/SCPI-Edmond-de-Rothschild-Europa-Rapport-annuel-31-12-2025.pdf','31/12/2025']
 ];
 const out = process.env.EDR_REPORT_DIR || 'artifacts/edr-europa-source-audit';
@@ -29,9 +37,11 @@ for(const [period,kind,relative,date] of docs){
   const url=new URL(relative,base);
   const issuerHosted=url.hostname==='edr-europa.com' && url.pathname.startsWith('/wp-content/uploads/');
   const documentedMirror=kind==='rapport_annuel_miroir' && url.hostname==='access.fortunyconseil.fr' && url.pathname==='/api/v1/SCPI/files/rapport_annuel2024_230ee4f0327011f0ab012dfda4e19bae.pdf';
-  if(!issuerHosted && !documentedMirror)throw Error('Untrusted document URL');
+  const documentedBulletinMirror=kind==='bulletin_miroir' && url.hostname==='francescpi.com' &&
+    /^\/scpi-de-rendement\/edmond-de-rothschild-europa\/bi\/edmond-de-rothschild-europa-bulletin-20(?:24|25|26)-t[1-4]\.pdf$/.test(url.pathname);
+  if(!issuerHosted && !documentedMirror && !documentedBulletinMirror)throw Error('Untrusted document URL');
 
-  const item={period,kind,url:url.href,expected_reference_date:date,origin:issuerHosted?'official_issuer_host':'third_party_mirror_of_issuer_report',status:'pending',sha256:null,page_count:null,text_match:false,period_match:false,issue:null};
+  const item={period,kind,url:url.href,expected_reference_date:date,origin:issuerHosted?'official_issuer_host':(documentedBulletinMirror?'third_party_mirror_of_issuer_bulletin':'third_party_mirror_of_issuer_report'),status:'pending',sha256:null,page_count:null,text_match:false,period_match:false,issue:null};
   try{
     const response=await fetch(url,{headers:{'User-Agent':'MaximusSCPI-document-QA/1.0'},signal:AbortSignal.timeout(55000)});
     item.http_status=response.status;
