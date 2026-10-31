@@ -60,6 +60,9 @@ function gate(b: Candidate, allowedHosts: string[], certs: any[], current: any):
   }
   for (const [metric, value] of fields) {
     if (metric === "td_annee") continue;
+    if (metric === "tof" && /\\bTOF\\s+(?:financier\\s+)?ASPIM\\b/i.test(String(ex.evidence?.tof?.text || ""))) {
+      return {ok:false,reason:"FORBIDDEN_ASPIM_TOF"};
+    }
     const cert = proof.get(metric), ev = ex.evidence?.[metric];
     if (!cert || cert.bulletin_id !== b.id ||
         cert.verification_status !== "auto_verified_with_evidence" ||
@@ -125,8 +128,9 @@ Deno.serve(async (req: Request) => {
     .eq("qa_status","auto_verified")
     .order("found_at",{ascending:false}).limit(350);
   if(error) return Response.json({error:error.message},{status:500});
+  const targetSlug = typeof body.slug === "string" ? body.slug.trim() : "";
   const candidates = (items || []).filter((b: Candidate) =>
-    PERIOD.test(b.period) && b.extraction_json?.evidence_version
+    PERIOD.test(b.period) && b.extraction_json?.evidence_version && (!targetSlug || b.scpi_slug === targetSlug)
   ) as Candidate[];
   const results: Array<Record<string,unknown>> = [];
   // Rotate through candidate slugs every run. Persistent rejects may not
