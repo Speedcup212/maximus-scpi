@@ -5215,7 +5215,7 @@
       "Paris intra-muros": 12.6,
       "Région parisienne": 51.1,
       "Autres régions françaises": 36.2,
-      "Autres pays": 0.1
+      "Autres": 0.1
     },
     "Profil_de_risque": {
       "SRRI": 4,
@@ -5360,7 +5360,8 @@
     "td_reference_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-06/AP_RA2025_web.pdf",
     "maximus_warnings": [
       "Risque de perte en capital, de liquidité et revenus non garantis.",
-      "Fonds de remboursement particulier évoqué à 98,50 € par part, distinct du prix de retrait standard de 128,41 €; risque de liquidité matérialisé. Répartitions immobilières datées du 30 juin 2026."
+      "Fonds de remboursement particulier évoqué à 98,50 € par part, distinct du prix de retrait standard de 128,41 €; risque de liquidité matérialisé. Répartitions immobilières datées du 30 juin 2026.",
+      "Répartition géographique du 30/06/2026 : la société de gestion publie une catégorie résiduelle « Autres » de 0,1 %, sans assimilation automatique à un pays étranger."
     ],
     "liquidite": "Retrait non garanti, parts en attente au 30/09/2026 : 636021 ; sans promesse de délai ni de prix pour la sortie."
   }
