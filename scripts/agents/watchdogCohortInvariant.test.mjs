@@ -17,7 +17,11 @@ test('Certified cohort remains internally coherent and separated from provisiona
  const corumIds=candidates.scpi.map(c=>c.scpi_slug);
  const included=corumIds.filter(id=>cohort.slugs.includes(id));
  assert.ok(included.length===0||included.length===4,'Four approved CORUM must be promoted together');
- assert.equal(cohort.count,included.length===4?65:61);
+ // The 66th EdR Europa fund is a distinct additional approved cohort stage;
+ // never let this change silently drop any of the four CORUM.
+ const edrIncluded=cohort.slugs.includes('edr-europa');
+ if(edrIncluded)assert.equal(included.length,4,'EdR cannot replace any of the four CORUM');
+ assert.equal(cohort.count,61+included.length+(edrIncluded?1:0));
  if(included.length===4){
   const catalog=JSON.parse(read('src/data/scpi_complet.json'));
   const slug=name=>String(name).toLowerCase().normalize('NFD')
