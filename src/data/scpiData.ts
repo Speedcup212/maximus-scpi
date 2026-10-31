@@ -244,7 +244,7 @@ const toCertifiedScpiSlug = (name: string): string =>
 
 // Branch-specific Netlify Deploy Preview only: exercise candidates without changing
 // the production 66-SCPI certified cohort. Never trust a user-facing query string.
-const bnppPreviewCandidates = import.meta.env.VITE_BNPP_CANDIDATE_PREVIEW === 'true'
+const bnppPreviewCandidates = import.meta.env?.VITE_BNPP_CANDIDATE_PREVIEW === 'true'
   ? ['acces-valeur-pierre', 'accimmo-pierre']
   : [];
 const certifiedScpiSlugSet = new Set<string>([
