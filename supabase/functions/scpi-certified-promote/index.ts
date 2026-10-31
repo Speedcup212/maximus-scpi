@@ -128,7 +128,7 @@ Deno.serve(async (req: Request) => {
   const results: Array<Record<string,unknown>> = [];
   // Rotate through candidate slugs every run. Persistent rejects may not
   // monopolize the first entries and starve other certified bulletins.
-  const offset = candidates.length ? Math.floor(Date.now() / 1_800_000) % candidates.length : 0;
+  const offset = candidates.length ? (Math.floor(Date.now() / 1_800_000) * 20) % candidates.length : 0;
   const ordered = [...candidates.slice(offset), ...candidates.slice(0, offset)];
   let inspected = 0;
   let eligible = 0;
