@@ -5,6 +5,8 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 // This worker promotes issuer-origin, same-period, SHA-256-anchored and
 // independently page-certified metrics. Missing or contradictory proof => hold.
 const CORE = ["tof", "capitalisation", "prix_souscription"];
+const UNIT_MAP: Record<string,string> = {tof:"%",top:"%",td:"%",endettement:"%",capitalisation:"M€",prix_souscription:"€",prix_retrait:"€",prix_reconstitution:"€",valeur_realisation:"€",distribution_par_part:"€/part",nombre_parts:"parts",parts_attente_retrait:"parts",nombre_associes:"associés",nombre_immeubles:"immeubles",nombre_locataires:"locataires",walt:"ans",walb:"ans"};
+
 const SAFE_FIELDS = new Set([
   "tof", "top", "capitalisation", "prix_souscription", "prix_retrait",
   "endettement", "walt", "walb", "collecte_nette", "nombre_locataires",
@@ -62,6 +64,7 @@ function gate(b: Candidate, allowedHosts: string[], certs: any[], current: any):
     if (!cert || cert.bulletin_id !== b.id ||
         cert.verification_status !== "auto_verified_with_evidence" ||
         cert.verification_method !== "pdf_page_text_match" ||
+        (UNIT_MAP[metric] && cert.unit !== UNIT_MAP[metric]) ||
         cert.source_url !== b.source_url ||
         !(Number(cert.source_page) > 0) ||
         ev?.method !== "pdf_page_text_match" || ev?.value_match !== true ||
@@ -140,7 +143,7 @@ Deno.serve(async (req: Request) => {
       db.from("scpi_source_registry").select("automation_enabled").eq("scpi_slug",b.scpi_slug).maybeSingle(),
       db.from("scpi_indicators").select("*").eq("scpi_slug",b.scpi_slug).maybeSingle(),
       db.from("scpi_metric_certifications")
-        .select("metric,value_numeric,source_page,source_url,bulletin_id,verification_status,verification_method")
+        .select("metric,value_numeric,unit,source_page,source_url,bulletin_id,verification_status,verification_method")
         .eq("scpi_slug",b.scpi_slug).eq("source_period",b.period).eq("bulletin_id",b.id).limit(100),
     ]);
     if (!active?.enabled || !connector?.enabled || !registry?.automation_enabled || !current) continue;
