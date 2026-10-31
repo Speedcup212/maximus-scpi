@@ -162,45 +162,41 @@ Deno.serve(async (req: Request) => {
       results.push({scpi_slug:b.scpi_slug,period:b.period,status:"eligible_shadow",fields:Object.keys(decision.patch||{})});
       continue;
     }
-    const sourceDocument = new URL(b.source_url).pathname.split("/").pop() || "official-bulletin.pdf";
-    const meta = {
-      ...decision.patch, source_period:b.period, source_type:"bulletin_edge_automated",
-      qa_status:"auto_verified", source_confidence:b.extraction_confidence, bulletin_id:b.id,
-      source_url:b.source_url, source_document:sourceDocument, updated_at:new Date().toISOString(),
-    };
-    // Compare-and-set prevents a concurrent manual certification from being overwritten.
-    const {data:promoted,error:writeError} = await db.from("scpi_indicators")
-      .update(meta).eq("scpi_slug",b.scpi_slug)
-      .eq("source_period",current.source_period)
-      .eq("updated_at",current.updated_at)
-      .select("scpi_slug,source_period,bulletin_id,tof,capitalisation,prix_souscription");
-    if (writeError || promoted?.length !== 1) {
-      results.push({scpi_slug:b.scpi_slug,period:b.period,status:"held",reason:writeError?.message || "CONCURRENT_UPDATE"});
-      continue;
-    }
-    const after = promoted[0];
-    if (after.source_period !== b.period || after.bulletin_id !== b.id ||
-        Number(after.tof) !== Number(meta.tof) ||
-        Number(after.capitalisation) !== Number(meta.capitalisation)) {
-      results.push({scpi_slug:b.scpi_slug,period:b.period,status:"readback_mismatch"});
-      continue;
-    }
-    const {error:queueError} = await db.from("scpi_publish_queue").upsert({
-      scpi_slug:b.scpi_slug,change_type:"trajectory_data",publish_after:new Date().toISOString().slice(0,10),
-      published_at:null,payload:{
+    // One PostgreSQL transaction: checked live-row update AND publish intent.
+    // Any trigger, consistency or queue error rolls back the entire promotion.
+    const {data:committed,error:commitError} = await db.rpc("scpi_commit_certified_promotion",{
+      p_slug:b.scpi_slug,p_expected_period:current.source_period,
+      p_expected_updated_at:current.updated_at,p_bulletin_id:b.id,
+      p_period:b.period,p_patch:decision.patch,
+      p_payload:{
         source:"scpi-certified-promote",bulletin_id:b.id,source_period:b.period,
         pdf_sha256:b.pdf_sha256,certification:"issuer_pdf_page_evidence_100pct",
         frontend_status:"pending_release_and_ui_parity",
       },
-    },{onConflict:"scpi_slug,change_type,publish_after"});
-    const status = queueError ? "promoted_queue_error" : "promoted_db_pending_frontend";
+    });
+    if (commitError || committed?.status !== "committed_pending_frontend") {
+      results.push({scpi_slug:b.scpi_slug,period:b.period,status:"held",
+        reason:commitError?.message || "ATOMIC_COMMIT_FAILED"});
+      continue;
+    }
+    // Readback is an additional audit; the transaction itself owns atomicity.
+    const {data:after,error:readError} = await db.from("scpi_indicators")
+      .select("source_period,bulletin_id,tof,capitalisation,prix_souscription")
+      .eq("scpi_slug",b.scpi_slug).maybeSingle();
+    const readbackOk = !readError && after?.source_period === b.period &&
+      after?.bulletin_id === b.id &&
+      Number(after?.tof) === Number(committed.tof) &&
+      Number(after?.capitalisation) === Number(committed.capitalisation);
+    const status = readbackOk ? "promoted_db_pending_frontend" : "committed_readback_review";
     await db.from("scpi_ingestion_events").insert({
-      scpi_slug:b.scpi_slug,step:"certified_promotion",status:queueError?"failed":"updated",
-      source_period:b.period,bulletin_url:b.source_url,metrics_count:Object.keys(decision.patch||{}).length-1,
-      message:status+(queueError?": "+queueError.message:"; frontend publish gate retained"),
+      scpi_slug:b.scpi_slug,step:"certified_promotion",
+      status:readbackOk?"updated":"needs_review",
+      source_period:b.period,bulletin_url:b.source_url,
+      metrics_count:Object.keys(decision.patch||{}).length-1,
+      message:status+"; publication front-end séparée",
       ended_at:new Date().toISOString(),
     });
-    if (!queueError) eligible++;
+    if (readbackOk) eligible++;
     results.push({scpi_slug:b.scpi_slug,period:b.period,status});
   }
   return Response.json({ok:true,mode:dryRun?"shadow":"promotion",scanned:candidates.length,inspected:Math.min(inspected,20),eligible,results});
