@@ -86,4 +86,44 @@ values
 'issuer_authored_visual_page_original_hash_not_claimed',0.95)
 on conflict(scpi_slug,source_period,metric) do nothing;
 
+
+-- First of TWO distinct 2024 accounting closings: values approved in
+-- shareholders' December 2024 resolutions as of 30 June 2024.
+-- The fund-authored report copy has SHA256 evidence; its publisher-host
+-- binary is not being conflated with the archive mirror's SHA.
+update public.scpi_indicator_history h
+set qa_status='manual_verified_first_2024_closing_signed_issuer_report_and_legal_AG',
+    source_confidence=0.95,
+    metric_provenance=coalesce(h.metric_provenance,'{}'::jsonb)
+     || jsonb_build_object(
+      'prix_reconstitution',jsonb_build_object(
+       'value',203.85,'reference_date','2024-06-30','source_url',h.source_url,
+       'source_page',5,'mirror_pdf_sha256','a8e8590987611879323ab2975c5b0e8e64e9cb0de8abd7db94b36fb82b1ba35d',
+       'independent_corroboration','EdR Europa AGM 05/12/2024 resolutions: 14 382 326.18 EUR / 203.85 EUR per part'),
+      'valeur_realisation',jsonb_build_object(
+       'value',171.33,'reference_date','2024-06-30','source_url',h.source_url,
+       'source_page',5,'mirror_pdf_sha256','a8e8590987611879323ab2975c5b0e8e64e9cb0de8abd7db94b36fb82b1ba35d',
+       'independent_corroboration','EdR Europa AGM 05/12/2024 resolutions: 12 087 877.24 EUR / 171.33 EUR per part'))
+where h.scpi_slug='edr-europa' and h.source_period='2024-T2'
+  and h.qa_status='mirror_sha256_verified_pending_issuer_crosscheck'
+  and h.prix_reconstitution=203.85 and h.valeur_realisation=171.33
+  and h.source_url='https://access.fortunyconseil.fr/api/v1/SCPI/files/rapport_annuel2024_230ee4f0327011f0ab012dfda4e19bae.pdf'
+  and (h.metric_provenance->>'source_sha256')='a8e8590987611879323ab2975c5b0e8e64e9cb0de8abd7db94b36fb82b1ba35d';
+
+insert into public.scpi_metric_certifications(
+scpi_slug,source_period,metric,value_numeric,unit,source_url,source_page,evidence_text,
+verification_status,verification_method,extraction_confidence)
+values
+('edr-europa','2024-T2','prix_reconstitution',203.85,'EUR/part',
+'https://access.fortunyconseil.fr/api/v1/SCPI/files/rapport_annuel2024_230ee4f0327011f0ab012dfda4e19bae.pdf',5,
+'Rapport EDR REIM signe au 30/06/2024 page 5, reconstitution 14 382 326.18 EUR / 203.85 EUR par part. SHA archive a8e8590987611879323ab2975c5b0e8e64e9cb0de8abd7db94b36fb82b1ba35d; AG 05/12/2024 resolutions independently matched.',
+'manual_verified_issuer_authored_report_and_legal_ag',
+'issuer_signed_pdf_mirror_sha_and_independent_AG_resolutions',0.95),
+('edr-europa','2024-T2','valeur_realisation',171.33,'EUR/part',
+'https://access.fortunyconseil.fr/api/v1/SCPI/files/rapport_annuel2024_230ee4f0327011f0ab012dfda4e19bae.pdf',5,
+'Rapport EDR REIM signe au 30/06/2024 page 5, realisation 12 087 877.24 EUR / 171.33 EUR par part. SHA archive a8e8590987611879323ab2975c5b0e8e64e9cb0de8abd7db94b36fb82b1ba35d; AG 05/12/2024 resolutions independently matched.',
+'manual_verified_issuer_authored_report_and_legal_ag',
+'issuer_signed_pdf_mirror_sha_and_independent_AG_resolutions',0.95)
+on conflict(scpi_slug,source_period,metric) do nothing;
+
 commit;
