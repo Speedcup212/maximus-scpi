@@ -91,6 +91,8 @@ function gate(b: Candidate, allowedHosts: string[], certs: any[], current: any):
     const implied = (nParts * part) / 1e6;
     if (!implied || Math.abs(cap / implied - 1) > 0.08) return {ok:false,reason:"CAPITALISATION_PARTS_MISMATCH"};
   }
+  // A TOF under 50% requires independent review; e.g. OCR may parse 0.07 instead of 87%.
+  if (positive(patch.tof) && Number(patch.tof) < 50) return {ok:false,reason:"MATERIAL_TOF_QA_REQUIRED"};
   if (positive(patch.tof) && (Number(patch.tof) < 0 || Number(patch.tof) > 100))
     return {ok:false,reason:"TOF_OUT_OF_RANGE"};
   if (positive(patch.endettement) && (Number(patch.endettement) < 0 || Number(patch.endettement) > 80))
