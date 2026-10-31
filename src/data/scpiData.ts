@@ -242,7 +242,15 @@ const toCertifiedScpiSlug = (name: string): string =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 
-const certifiedScpiSlugSet = new Set<string>(certifiedScpiCohort.slugs);
+// Branch-specific Netlify Deploy Preview only: exercise candidates without changing
+// the production 66-SCPI certified cohort. Never trust a user-facing query string.
+const bnppPreviewCandidates = import.meta.env?.VITE_BNPP_CANDIDATE_PREVIEW === 'true'
+  ? ['acces-valeur-pierre', 'accimmo-pierre']
+  : [];
+const certifiedScpiSlugSet = new Set<string>([
+  ...certifiedScpiCohort.slugs,
+  ...bnppPreviewCandidates,
+]);
 
 const rawSourceData = Array.isArray(scpiCompletJson) ? scpiCompletJson : (scpiCompleteJson.Sheet1 || scpiCompleteJson);
 const sourceData = rawSourceData.filter((row: any) =>
@@ -444,7 +452,7 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     walbDefinition: typeof scpi['maximus_walb_definition'] === 'string'
       ? scpi['maximus_walb_definition'] : undefined,
     walbSourceUrl: typeof scpi['maximus_walb_source_url'] === 'string'
-      && /^https:\/\/www\.corum\.fr\//.test(scpi['maximus_walb_source_url'])
+      && /^https:\/\/(?:www\.corum\.fr|reim\.bnpparibas-am\.com)\//.test(scpi['maximus_walb_source_url'])
       ? scpi['maximus_walb_source_url'] : undefined,
     distribution: cleanNumericValue(scpi['Distribution (€/part)']),
     nbImmeubles: cleanNumericValue(scpi['Nombre d\'immeubles']),
