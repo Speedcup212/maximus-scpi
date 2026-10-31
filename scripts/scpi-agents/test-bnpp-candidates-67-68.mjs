@@ -15,12 +15,16 @@ test('BNP candidate manifest is unique and backed by official sources', () => {
     assert.match(candidate.quarterly_pdf, /^https:\/\/reim\.bnpparibas-am\.com\//);
     assert.match(candidate.quarterly_sha256, /^[a-f0-9]{64}$/);
     assert.match(candidate.annual_2025_sha256, /^[a-f0-9]{64}$/);
-    assert.equal(candidate.source_period, '2026-T2');
+    assert.equal(candidate.source_period, '2026-T3');
     assert.ok(candidate.observations.length >= 10);
     assert.ok(candidate.observations.some(m => m.key === 'capitalisation' && m.value > 100));
     const value = key => candidate.observations.find(m => m.key === key)?.value;
     assert.ok(Math.abs(value('nombre_parts') * value('prix_souscription') / 1_000_000 -
       value('capitalisation')) < 0.01, candidate.scpi_slug + ': shares × price != capitalization');
+    assert.equal(candidate.previous_quarter.period, '2026-T2');
+    assert.ok(candidate.previous_quarter.pdf.startsWith('https://reim.bnpparibas-am.com/'));
+    assert.ok(candidate.observations.some(m => m.key === 'prix_reconstitution' && m.period === '2026-06-30'));
+    assert.ok(candidate.observations.every(m => m.review !== 'qa_pass'));
     const queueRatio = value('parts_attente_retrait') / value('nombre_parts') * 100;
     assert.ok(queueRatio > 0 && queueRatio < 100, candidate.scpi_slug + ': invalid withdrawal queue');
     assert.ok(candidate.observations.filter(m => m.key.startsWith('tof')).every(m => m.page === 2),
@@ -45,8 +49,8 @@ test('uncertified candidates cannot silently enter the public certified cohort',
   assert.equal(new Set(cohort.slugs).size, cohort.count);
 });
 
-test('repaired T2 shareholder counts cannot inherit the invalid QA_PASS', () => {
-  for (const [slug, expected] of [['acces-valeur-pierre', 25746], ['accimmo-pierre', 59576]]) {
+test('BNP T3 shareholder counts stay unapproved until independent review', () => {
+  for (const [slug, expected] of [['acces-valeur-pierre', 25864], ['accimmo-pierre', 58611]]) {
     const candidate = candidates.candidates.find(c => c.scpi_slug === slug);
     assert.ok(candidate);
     const metric = candidate.observations.find(m => m.key === 'nombre_associes');
