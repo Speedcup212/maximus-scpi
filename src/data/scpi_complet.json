@@ -4963,15 +4963,23 @@
       "total_verified_field_certificates": 70,
       "notice_issuer_pdf_sha256": "abab3708fc0240a16390e55714b0866666e3cc65b3d45bcaf3f59a00a495acea",
       "note_information_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-EdR-Europa-Note-dinformation-06-2026.pdf",
-      "certification_restriction": "Current T2 certified; T1 original primary-host hash and historic source certification pending; EdR release disabled.",
+      "certification_restriction": "Sources courantes T2 2026 et comparaison T1/T2 certifiées. L'historique annuel complet depuis la création reste partiel : deux clôtures différentes en 2024; aucune distribution 2024 annualisée artificiellement.",
       "subscription_fee_special_cases_verified": true,
       "checked_t1_field_values": 13,
       "certification_status": "certified",
       "history_source": "official_publisher_pdf_indexed_and_issuer_authored_mirror_SHA256",
       "history_source_note": "The historical source is issuer-authored; mirror SHA256 is not the original publisher binary SHA256.",
-      "previous_period": "2026-T1"
+      "previous_period": "2026-T1",
+      "annual_2025_core_fully_verified": true,
+      "annual_2024_second_closing_values_verified": true,
+      "annual_2024_full_year_distribution_verified": false
     },
     "Surcote/décote (%)": -5.07,
-    "maximus_recommendation_status": "manual_review_required"
+    "maximus_recommendation_status": "manual_review_required",
+    "maximus_history_years_expected": 2,
+    "maximus_history_years_verified": 1,
+    "maximus_history_status": "PARTIAL_VERIFIED_MULTIPLE_CLOSINGS",
+    "maximus_history_start_year_status": "official_verified",
+    "maximus_history_note": "2025 : distribution brute 17,49 € et valeurs annuelles 179,28 € / 220,66 € certifiées. 2024 : deux clôtures distinctes; valeurs à fin 2024 certifiées, distribution totale annuelle non consolidée."
   }
 ]
