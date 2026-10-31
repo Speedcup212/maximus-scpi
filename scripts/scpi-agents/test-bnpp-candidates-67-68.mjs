@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 const load = path => JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
 const candidates = load('../../src/data/bnpp_candidates_67_68.json');
 const cohort = load('../../src/data/certified_scpi_cohort.json');
+const rawCatalog = load('../../src/data/scpi_complet.json');
 
 test('BNP candidate manifest is unique and backed by official sources', () => {
   assert.equal(candidates.candidates.length, 2);
@@ -56,5 +57,18 @@ test('BNP T3 shareholder counts stay unapproved until independent review', () =>
     const metric = candidate.observations.find(m => m.key === 'nombre_associes');
     assert.equal(metric.value, expected);
     assert.notEqual(metric.review, 'qa_pass');
+  }
+});
+
+test('both BNP T3 entries are staged in canonical raw catalog but are not public', () => {
+  for (const candidate of candidates.candidates) {
+    const rows = rawCatalog.filter(row => row['Nom SCPI'] === candidate.name);
+    assert.equal(rows.length, 1, candidate.scpi_slug + ': missing or duplicate staged entry');
+    const row = rows[0];
+    assert.equal(row.maximus_publication_status, 'pending_certification');
+    assert.equal(row.maximus_recommendation_status, 'manual_review_required');
+    assert.equal(row['Période bulletin trimestriel'], '2026-T3');
+    assert.equal(row.maximus_source_url, candidate.quarterly_pdf);
+    assert.ok(!cohort.slugs.includes(candidate.scpi_slug), candidate.scpi_slug + ': cannot be in public certified cohort yet');
   }
 });
