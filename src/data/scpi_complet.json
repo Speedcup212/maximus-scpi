@@ -3893,8 +3893,8 @@
     "Nom SCPI": "CORUM Eurion",
     "Société de gestion": "CORUM Asset Management",
     "Année de création": 2020,
-    "Capitalisation (M€)": 1560.0,
-    "Prix de souscription (€)": 215.0,
+    "Capitalisation (M€)": 1560,
+    "Prix de souscription (€)": 215,
     "Valeur de reconstitution par part (€)": 224.07,
     "Valeur de réalisation (€)": 177.78,
     "WALB": 6.43,
@@ -4096,8 +4096,8 @@
     "Nom SCPI": "CORUM Origin",
     "Société de gestion": "CORUM Asset Management",
     "Année de création": 2012,
-    "Capitalisation (M€)": 4165.0,
-    "Prix de souscription (€)": 1135.0,
+    "Capitalisation (M€)": 4165,
+    "Prix de souscription (€)": 1135,
     "Valeur de reconstitution par part (€)": 1186.3,
     "Valeur de réalisation (€)": 968.75,
     "WALB": 5.8,
@@ -4306,8 +4306,8 @@
     "Nom SCPI": "CORUM USA",
     "Société de gestion": "CORUM Asset Management",
     "Année de création": 2024,
-    "Capitalisation (M€)": 82.0,
-    "Prix de souscription (€)": 200.0,
+    "Capitalisation (M€)": 82,
+    "Prix de souscription (€)": 200,
     "Valeur de reconstitution par part (€)": 216.34,
     "Valeur de réalisation (€)": 187.67,
     "WALB": 9.41,
@@ -4376,7 +4376,7 @@
       "Exposition au risque de change : les cours des devises peuvent modifier les résultats en euros."
     ],
     "maximus_lifecycle_status": "normal",
-    "Valeur de retrait (€)": 176.0,
+    "Valeur de retrait (€)": 176,
     "maximus_prix_retrait_source_url": "https://content.corum.fr/app/uploads/corum-fr/CORUM-USA-FR1-Note-information-20250124.pdf",
     "maximus_prix_retrait_source_page": 13,
     "maximus_prix_retrait_reference_period": "2026-T2",
@@ -4510,8 +4510,8 @@
     "Nom SCPI": "CORUM XL",
     "Société de gestion": "CORUM Asset Management",
     "Année de création": 2017,
-    "Capitalisation (M€)": 2185.0,
-    "Prix de souscription (€)": 195.0,
+    "Capitalisation (M€)": 2185,
+    "Prix de souscription (€)": 195,
     "Valeur de reconstitution par part (€)": 194.27,
     "Valeur de réalisation (€)": 157.73,
     "WALB": 7.25,
@@ -4722,6 +4722,110 @@
         "unit": "count",
         "document_period": "2026-T3",
         "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf"
+      }
+    }
+  },
+  {
+    "Nom SCPI": "EdR Europa",
+    "Société de gestion": "Edmond de Rothschild REIM (France)",
+    "Année de création": 2024,
+    "Label ISR": "Oui",
+    "SFDR": "Article 8",
+    "Profil_de_risque": {
+      "SRRI": 3,
+      "Echelle": "1-7",
+      "Source": "Bulletin officiel T2 2026 (page 9)",
+      "Verification": "official_document_pending_certification"
+    },
+    "Capitalisation (M€)": 152.923494,
+    "Prix de souscription (€)": 202,
+    "Valeur de retrait (€)": 181.8,
+    "Valeur de reconstitution par part (€)": 212.78,
+    "Valeur de réalisation (€)": 174.23,
+    "Taux de distribution (%)": 8.75,
+    "td_reference_period": "2025",
+    "td_reference_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+    "Distribution (€/part)": 4.69,
+    "Endettement (%)": 0,
+    "debt_reference_period": "2026-T2",
+    "debt_reference_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+    "TOF (%)": 100,
+    "TOP (%)": 100,
+    "Nombre d'immeubles": 19,
+    "Nombre de locataires": 16,
+    "Nombre d’associés": 3293,
+    "Nombre de parts": 757047,
+    "Minimum de souscription €": 5000,
+    "Délai de jouissance (mois)": 6,
+    "Versement des loyers": "Trimestrielle",
+    "Durée de détention recommandée (ans)": 10,
+    "Frais de souscription (TTC/%)": 12,
+    "WALT": 13.4,
+    "WALB": 13.4,
+    "Collecte nette trimestre": 48.427906,
+    "Répartition Géographique JSON": {
+      "Pays-Bas": 50,
+      "Allemagne": 22,
+      "Royaume-Uni": 21,
+      "France": 7
+    },
+    "Répartition Sectorielle JSON": {
+      "Locaux d'activités": 45,
+      "Commerces": 25,
+      "Logistique": 12,
+      "Hôtellerie": 10,
+      "Bureaux": 8
+    },
+    "Période bulletin trimestriel": "2026-T2",
+    "maximus_source_periode": "2026-T2",
+    "maximus_source_document": "Bulletin officiel n°9 T2 2026",
+    "maximus_source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+    "maximus_data_status": "pending_certification",
+    "maximus_publication_status": "pending_certification",
+    "Décote/Surcote QA": "manual_review",
+    "maximus_warnings": [
+      "Taux de distribution 2025 de 8,75% : historique et non objectif 2026 ; objectif indicatif de 6% non garanti.",
+      "Chiffres patrimoniaux T2 2026 en attente de la certification MaximusSCPI ; T3 2026 signalé, document officiel à confirmer.",
+      "Risque de concentration locative : quatre actifs loués au groupe NTS ; ratio de concentration à certifier.",
+      "Exposition au risque de change sur les actifs au Royaume-Uni."
+    ],
+    "maximus_metric_provenance": {
+      "prix_souscription": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 4
+      },
+      "prix_retrait": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 4
+      },
+      "prix_reconstitution": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 4
+      },
+      "valeur_realisation": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 4,
+        "reference_date": "2026-06-30"
+      },
+      "tof": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 2
+      },
+      "walb": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 6,
+        "reference_date": "2026-06-30"
+      },
+      "walt": {
+        "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "source_period": "2026-T2",
+        "source_page": 6
       }
     }
   }
