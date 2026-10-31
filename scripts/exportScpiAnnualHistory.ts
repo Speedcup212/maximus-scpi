@@ -119,19 +119,28 @@ const rows = annualRecords.filter((r: any) => allowed.has(r.scpi_slug) &&
   .sort((a: any,b: any) => a.scpi_slug.localeCompare(b.scpi_slug,'fr') || a.fiscal_year-b.fiscal_year);
 const uniq = new Set(rows.map((r: any) => r.scpi_slug + ':' + r.fiscal_year));
 if (uniq.size !== rows.length) fail('Deux exercices annuels identiques.');
+// A documented issuer exception is not a missing, invented annual amount.
+// Adjust only exceptions proved in the annual metric audit, not arbitrary nulls.
+const documentedCount = (slug: string) =>
+  [...documentedEdR2024].filter(key => key.startsWith(slug + ':')).length;
 const coverage = readinessRecords.filter((r: any) => allowed.has(r.scpi_slug))
-  .map((r: any) => ({
+  .map((r: any) => {
+    const previouslyCertified = Number(r.exceptions_verified || 0);
+    const independentlyDocumented = documentedCount(r.scpi_slug);
+    const newlyDocumented = Math.max(0, independentlyDocumented - previouslyCertified);
+    return {
     scpi_slug: r.scpi_slug,
     launch_year: yearScopeBySlug.get(r.scpi_slug)?.start_year ?? null,
     first_fiscal_year: yearScopeBySlug.get(r.scpi_slug)?.first_fiscal_year ?? null,
     first_fiscal_year_note: yearScopeBySlug.get(r.scpi_slug)?.first_fiscal_year_evidence ?? null,
     years_expected: r.years_expected,
     years_fully_verified: r.years_fully_verified,
-    metrics_missing: r.metrics_missing,
-    exceptions_verified: r.exceptions_verified,
+    metrics_missing: Math.max(0, Number(r.metrics_missing || 0) - newlyDocumented),
+    exceptions_verified: previouslyCertified + newlyDocumented,
     historical_status: r.historical_status,
     core_historical_ready: r.core_historical_ready,
-  }))
+    };
+  })
   .sort((a: any,b: any) => a.scpi_slug.localeCompare(b.scpi_slug,'fr'));
 if (!coverage.length || !rows.length) fail('Aucune ligne certifiée exploitable : snapshot non remplacé.');
 const output = { generated_at: new Date().toISOString(), source: 'Supabase annual fundamentals + evidence audit, service role build only', rows, coverage };
