@@ -30,3 +30,6 @@ This file specifies requirements; it does not claim the runtime pipeline has bee
 
 ## Separate automated certification from publication approval
 Automated evidence verification may produce a machine-readable PASS for official-source identity, numeric reconciliations, financial coverage, historical integrity, private staging and browser acceptance. A machine PASS is not a human signature. Keep independent reviews and accountable release authorization as distinct gates until an authorized policy explicitly changes them. The release controller must not manufacture reviewer identities or promote a candidate merely because automated checks pass. All publication writes remain atomic and fail closed.
+
+## Standing owner delegation (2026-11-01)
+The owner delegates routine per-SCPI release decisions after all technical, financial, documentary, independent QA and browser gates have passed. Do not require a new personal approval from the owner for each candidate. The release service may record the standing delegation as authorization provenance, with its own service identity and immutable audit trail; never impersonate the owner or an independent reviewer. Keep independent financial/technical review and genuine operational release attestations separate. A failed mandatory check prevents publication.
