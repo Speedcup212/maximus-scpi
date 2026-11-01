@@ -55,12 +55,13 @@ Deno.serve(async(req:Request)=>{
     // The API must cover every active pilot exactly. The GitHub release gate
     // additionally verifies this set against the explicit certified cohort file.
     // Do not allow a partial or duplicate snapshot to pass.
-    if(allowed.size<66 || (analyses||[]).length!==allowed.size ||
+    if(allowed.size===0 || (analyses||[]).length!==allowed.size ||
        observed.size!==allowed.size || [...allowed].some(slug=>!observed.has(slug))) {
       return deny(409,'Release coverage mismatch: exact active SCPI analyses required');
     }
     return Response.json({
       ok:true,sha:claim.sha,enabled_scpi:allowed.size,
+      active_slugs:[...allowed].sort(),
       analyses
     },{headers:noStore});
   } catch (error) {
