@@ -27,3 +27,6 @@ Accès Valeur Pierre and Accimmo Pierre remain disabled until T3 2026 independen
 - Evidence and final public URL checks recorded for each release.
 
 This file specifies requirements; it does not claim the runtime pipeline has been migrated or that either BNP candidate is certified.
+
+## Separate automated certification from publication approval
+Automated evidence verification may produce a machine-readable PASS for official-source identity, numeric reconciliations, financial coverage, historical integrity, private staging and browser acceptance. A machine PASS is not a human signature. Keep independent reviews and accountable release authorization as distinct gates until an authorized policy explicitly changes them. The release controller must not manufacture reviewer identities or promote a candidate merely because automated checks pass. All publication writes remain atomic and fail closed.
