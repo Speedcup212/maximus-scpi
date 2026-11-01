@@ -21,7 +21,7 @@ BEGIN
     RAISE EXCEPTION 'Candidate release requires trusted backend role';
   END IF;
   IF p_batch_id IS NULL OR p_batch_id='' OR p_deployed_commit_sha !~ '^[a-f0-9]{40}$'
-     OR p_expected_after<=p_expected_before OR p_expected_before<66 THEN
+     OR p_expected_after<=p_expected_before OR p_expected_before<1 THEN
     RAISE EXCEPTION 'Invalid release parameters or deployed commit SHA';
   END IF;
   PERFORM pg_advisory_xact_lock(hashtext('maximusscpi_candidate_batch_release_v3'));
