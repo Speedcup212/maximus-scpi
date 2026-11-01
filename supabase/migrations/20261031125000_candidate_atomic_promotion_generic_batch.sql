@@ -16,6 +16,7 @@ DECLARE
   v_ready integer;
   v_after integer;
   v_commit text;
+  v_updated integer;
 BEGIN
   IF current_user NOT IN ('postgres','service_role') THEN
     RAISE EXCEPTION 'Candidate release requires trusted backend role';
@@ -74,8 +75,9 @@ BEGIN
   WHERE s.scpi_slug=ANY(v_slugs);
   UPDATE public.scpi_trajectory_pilot p SET enabled=true
   WHERE p.scpi_slug=ANY(v_slugs) AND NOT p.enabled;
-  IF NOT FOUND THEN
-    RAISE EXCEPTION 'No pilot rows updated during candidate publication';
+  GET DIAGNOSTICS v_updated = ROW_COUNT;
+  IF v_updated <> cardinality(v_slugs) THEN
+    RAISE EXCEPTION 'Fail closed: enabled % pilots for % candidates', v_updated, cardinality(v_slugs);
   END IF;
   UPDATE maximus_agents.scpi_universe u
   SET lifecycle='existing',stage='strict_pass',strict_pass=true,
@@ -83,6 +85,10 @@ BEGIN
       updated_at=now(),
       review_note=coalesce(u.review_note,'') || ' | Approved atomic batch: '||p_batch_id
   WHERE u.scpi_slug=ANY(v_slugs) AND u.lifecycle='candidate';
+  GET DIAGNOSTICS v_updated = ROW_COUNT;
+  IF v_updated <> cardinality(v_slugs) THEN
+    RAISE EXCEPTION 'Fail closed: updated % universe rows for % candidates', v_updated, cardinality(v_slugs);
+  END IF;
   SELECT count(*) INTO v_after FROM public.scpi_trajectory_pilot WHERE enabled;
   IF v_after<>p_expected_after THEN
     RAISE EXCEPTION 'Fail closed: active count after publish % != expected %',
