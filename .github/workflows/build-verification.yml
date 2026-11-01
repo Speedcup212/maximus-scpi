@@ -180,6 +180,9 @@ jobs:
       - name: SCPI fiscal simulator regression tests
         run: npx vitest run src/tests/simpleDirectFiscal.test.ts
 
+      - name: Repeatable hero build migration
+        run: node --test scripts/test-patch-home-hero.mjs
+
       - name: Production build
         run: npm run build
 

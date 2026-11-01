@@ -33,3 +33,6 @@ Automated evidence verification may produce a machine-readable PASS for official
 
 ## Standing owner delegation (2026-11-01)
 The owner delegates routine per-SCPI release decisions after all technical, financial, documentary, independent QA and browser gates have passed. Do not require a new personal approval from the owner for each candidate. The release service may record the standing delegation as authorization provenance, with its own service identity and immutable audit trail; never impersonate the owner or an independent reviewer. Keep independent financial/technical review and genuine operational release attestations separate. A failed mandatory check prevents publication.
+
+## Runtime delegation implementation (2026-11-01)
+The private `scpi_publication_delegations` registry authorizes the explicit service identity `codex-automation-delegated-release`. This identity can populate truthful review and batch evidence without impersonating the owner or a human reviewer. Human-only name filters now accept this registered delegated actor. No financial, regulatory, historical, browser, exact-cohort, source-digest or deployed-commit condition is removed. Unknown automation identities remain rejected. Delegation does not create a PASS: both BNP candidates remain blocked until their real complete browser and release evidence exists.
