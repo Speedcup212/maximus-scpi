@@ -6,35 +6,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.join(__dirname, '..');
 
+const operations = [];
 const replaceOrVerify = (filePath, before, after, label) => {
-  let content = fs.readFileSync(filePath, 'utf8');
-
-  if (content.includes(after)) {
-    console.log(`✓ ${label} déjà appliqué`);
-    return;
-  }
-
-  if (!content.includes(before)) {
-    console.error(`❌ ${label}: motif source introuvable dans ${path.relative(projectRoot, filePath)}`);
-    process.exit(1);
-  }
-
-  content = content.replace(before, after);
-  fs.writeFileSync(filePath, content, 'utf8');
-  console.log(`✓ ${label} appliqué`);
+  operations.push({filePath, before, after, label});
 };
 
 const removeOrVerify = (filePath, target, label) => {
-  let content = fs.readFileSync(filePath, 'utf8');
-
-  if (!content.includes(target)) {
-    console.log(`✓ ${label} déjà appliqué`);
-    return;
-  }
-
-  content = content.replace(target, '');
-  fs.writeFileSync(filePath, content, 'utf8');
-  console.log(`✓ ${label} appliqué`);
+  operations.push({filePath, before: target, after: '', label, optional: true});
 };
 
 const homeAppPath = path.join(projectRoot, 'src', 'HomeApp.tsx');
@@ -62,4 +40,20 @@ replaceOrVerify(indexPath,`.initial-lead{max-width:620px;font-size:18px;line-hei
 replaceOrVerify(syncPath,`const desiredBlock = \`<h1>\n                <span class="initial-title-main">Analysez. Comparez.</span>\n                <span class="initial-title-accent">Investissez sur</span>\n                <span class="initial-title-accent">MaximusSCPI.</span>\n              </h1>\`;`,`const desiredBlock = \`<h1>\n                <span class="initial-title-main">Analysez. Comparez.</span>\n                <span class="initial-title-accent">Investissez sur <span class="initial-title-brand">MaximusSCPI.</span></span>\n              </h1>\`;`,'H1 statique regroupé avec accent vert sur la marque');
 replaceOrVerify(syncPath,`  !html.includes('<span class="initial-title-main">Analysez. Comparez.</span>') ||\n  !html.includes('<span class="initial-title-accent">Investissez sur</span>') ||\n  !html.includes('<span class="initial-title-accent">MaximusSCPI.</span>')`,`  !html.includes('<span class="initial-title-main">Analysez. Comparez.</span>') ||\n  !html.includes('<span class="initial-title-accent">Investissez sur <span class="initial-title-brand">MaximusSCPI.</span></span>')`,'Vérification H1 statique adaptée');
 replaceOrVerify(syncPath,`console.log('✅ H1 statique de la home synchronisé avec HomeApp : Analysez. Comparez. / Investissez sur / MaximusSCPI.');`,`console.log('✅ H1 statique de la home synchronisé avec HomeApp : Analysez. Comparez. / Investissez sur (blanc) / MaximusSCPI. (vert)');`,'Journal H1 statique adapté');
+// Validate the complete chain before writing; repeated builds must recognize
+// terminal states instead of demanding an intermediate layout already replaced.
+const contents = new Map();
+for (const [index, op] of operations.entries()) {
+  let content = contents.get(op.filePath) ?? fs.readFileSync(op.filePath, 'utf8');
+  let terminal = op.after;
+  for (const later of operations.slice(index + 1)) {
+    if (later.filePath === op.filePath && terminal === later.before) terminal = later.after;
+  }
+  if (content.includes(op.before)) content = content.replaceAll(op.before, op.after);
+  else if (!op.optional && !content.includes(op.after) && !content.includes(terminal)) {
+    throw new Error(`${op.label}: motif source ou résultat final introuvable dans ${path.relative(projectRoot, op.filePath)}`);
+  }
+  contents.set(op.filePath, content);
+}
+for (const [file, content] of contents) fs.writeFileSync(file, content, 'utf8');
 console.log('✅ Patch visuel du hero de la home appliqué sans modification des textes.');
