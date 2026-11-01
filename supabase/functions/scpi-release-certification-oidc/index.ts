@@ -45,8 +45,14 @@ Deno.serve(async(req:Request)=>{
       .select('scpi_slug').eq('enabled',true);
     if(pilotError)throw pilotError;
     const allowed=new Set((pilot||[]).map(row=>String(row.scpi_slug)));
-    // Inspect only active SCPI. Staged / disabled SCPI must not change
-    // the attested release cohort before their coordinated activation.
+    const activeSlugs=[...allowed].sort();
+    // Only a private, expiring, SHA-bound release registration may add candidates.
+    // This read-only call requires every financial/document/browser gate to pass.
+    const {data:prepared,error:preparedError}=await db.rpc('maximus_prepared_release_slugs',{p_sha:claim.sha});
+    if(preparedError)throw preparedError;
+    for(const row of prepared||[])allowed.add(String(row.scpi_slug));
+    // Include only active SCPI and explicitly authorized prepared candidates.
+    // Preparing a snapshot never grants public database access.
     const {data:analyses,error:analysisError}=await db.from('scpi_bulletin_analysis')
       .select('scpi_slug,current_period,previous_period,risk_level,improvements,deteriorations,alerts,watch_points,analysis_version,certification_status,certification_reasons,current_source_certified,comparison_certified,structural_event_detected,certified_source_url')
       .in('scpi_slug',[...allowed]).limit(5000);
@@ -61,7 +67,9 @@ Deno.serve(async(req:Request)=>{
     }
     return Response.json({
       ok:true,sha:claim.sha,enabled_scpi:allowed.size,
-      active_slugs:[...allowed].sort(),
+      active_slugs:activeSlugs,
+      prepared_slugs:(prepared||[]).map(row=>String(row.scpi_slug)).sort(),
+      release_slugs:[...allowed].sort(),
       analyses
     },{headers:noStore});
   } catch (error) {

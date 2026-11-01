@@ -18,7 +18,9 @@ test('atomic promotion enforces exact updated row counts',()=>{
   assert.match(promotion,/GET DIAGNOSTICS v_updated = ROW_COUNT/g);
 });
 test('OIDC attests exact active identities and full analysis coverage',()=>{
-  assert.match(oidc,/active_slugs:\[\.\.\.allowed\]\.sort\(\)/);
+  assert.match(oidc,/active_slugs:activeSlugs/);
+  assert.match(oidc,/maximus_prepared_release_slugs/);
+  assert.match(oidc,/release_slugs:\[\.\.\.allowed\]\.sort\(\)/);
   assert.match(oidc,/observed\.size!==allowed\.size/);
   assert.doesNotMatch(oidc,/allowed\.size<66/);
 });
