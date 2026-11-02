@@ -95,3 +95,15 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Réconciliation sans écriture des valeurs datées, détection des contradictions interbulletins et preuve numérique exacte ajoutées au preflight, y compris tests des répétitions des dates d'arrêté.
 - Pilote 69e identifié pour la découverte documentaire : Sofidynamic (Sofidy). Fiche de découverte sur source officielle, mais les PDF binaires, empreintes et analyses ne sont pas certifiés. La candidate reste privée.
 - Aucune publication de données ni activation de connecteur ; la preuve de CI et l'état de la PR dédiée doivent être rapprochés avant clôture.
+
+### RECOVERY-070 — Phase 3 : preuve PDF Sofidynamic
+- Nouveau vérificateur générique de PDF d'éditeur en lecture seule, tests d'URL HTTPS exacte, redirections, véritable PDF, SHA-256, identité, période et couches de texte ; aucun champ publié ni attestation inventée.
+- Le manifeste pilote contient les trois URL Sofidy officielles (T1, T2 2026, annuel 2025) et des indices de pages explicitement non certifiés.
+- Workflow CI dédié : téléchargement par GitHub Actions, rapport SHA/pages en artefact ; échec fermé si une source est absente ou non vérifiable. La base MaximusSCPI reste à 68 SCPI et Sofidynamic en candidate privée jusqu'à certification du circuit.
+
+- 02/11 14:19 UTC : GitHub run #41460701277 = vérification des 3 PDF officiels Sofidy PASS (T2=6 pages, T1=6 pages, RA=84 pages, SHA-256 collectés). Les empreintes et pages ont été insérées et relues dans les deux tables privées d'index et validation PDF, statut direct_pdf_checked ; aucune promotion financière.
+- Revue du rendu page 4 du T2 : TOF 97,73 % visible mais absent de la couche texte exacte. La chaîne doit produire une revue visuelle ciblée au lieu de classer la métrique comme absente.
+
+- 02/11/2026: migration Supabase 20261102142947 candidate_verified_issuer_host_registry appliquee. Registry prive et RLS, lecture seule par service_role ; URLs HTTPS officielles CORUM, BNP et Sofidy autorisees. Faux hostname et HTTP refuses. Anciennes deux contraintes statiques remplacees.
+- 11 metriques des pages originales Sofidy enregistrees et relues dans maximus_agents.scpi_candidate_metric_evidence, toutes pending_independent_qa et sans signature independante ; 2025-RA conserve la date d'arrete 2025-12-31 ; graphique TOF T2 97,73 % valide comme indice visuel, en attente du second passage.
+- Aucune mutation de la cohorte publique, de scpi_indicators ni activation ; 68 SCPI actives.
