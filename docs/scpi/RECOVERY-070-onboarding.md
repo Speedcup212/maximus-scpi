@@ -32,3 +32,8 @@ Cette implémentation apporte un préflight réutilisable et une matrice navigat
 - Le workflow `.github/workflows/scpi-official-pdf-proof.yml` produit un artefact de rapport technique (sans binaire PDF, sans signature, sans mise à jour Supabase) ; tout échec HTTP/identité/période fait échouer la CI, au lieu de simuler un document vérifié.
 - Le passage aux tables `maximus_agents.scpi_candidate_document_index`, `scpi_candidate_pdf_validation`, `scpi_candidate_metric_evidence` puis aux vérifications privées n'est possible qu'après lecture et rapprochement réels du binaire et un processus de certification conforme.
 - Aucune création de SCPI publique, aucun déploiement Netlify et aucun contournement OIDC/RLS ou validation financière.
+
+## Revue visuelle ciblée
+- Le bulletin Sofidynamic T2 2026 contient le TOF **97,73 %** page 4 dans un graphique PDF, mais la couche texte ne porte pas exactement la chaîne « 97,73 ». Le test textuel ne doit donc jamais en déduire une absence officielle. La revue de la page rendue est nécessaire et a été exécutée.
+- L'audit source produit désormais les captures des pages pertinentes pour le contrôle secondaire des graphiques, montants et dates (T2 pages 1/2/4/5/6, T1 pages 1/5, RA 2025 pages 3/9). Elles ne valent pas validation indépendante à elles seules.
+- Les métadonnées documentaires officiellement vérifiées sont enregistrées en **staging privé** (index + validation PDF) avec hash et pages ; aucun montant de la base publique n'est touché.

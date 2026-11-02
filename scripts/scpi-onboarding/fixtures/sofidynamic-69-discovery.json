@@ -42,13 +42,24 @@
             "page": 5,
             "token": "305,55"
           }
+        ],
+        "review_pages": [
+          1,
+          2,
+          4,
+          5,
+          6
         ]
       },
       {
         "kind": "quarterly",
         "reference_period": "2026-T1",
         "url": "https://www.sofidy.com/app/uploads/2026/05/SOFIDYNAMIC-BT-1T-2026.pdf",
-        "page_hints": []
+        "page_hints": [],
+        "review_pages": [
+          1,
+          5
+        ]
       },
       {
         "kind": "annual",
@@ -60,6 +71,10 @@
             "page": 3,
             "token": "9,04"
           }
+        ],
+        "review_pages": [
+          3,
+          9
         ]
       }
     ]

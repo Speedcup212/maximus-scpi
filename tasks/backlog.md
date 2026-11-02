@@ -100,3 +100,6 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Nouveau vérificateur générique de PDF d'éditeur en lecture seule, tests d'URL HTTPS exacte, redirections, véritable PDF, SHA-256, identité, période et couches de texte ; aucun champ publié ni attestation inventée.
 - Le manifeste pilote contient les trois URL Sofidy officielles (T1, T2 2026, annuel 2025) et des indices de pages explicitement non certifiés.
 - Workflow CI dédié : téléchargement par GitHub Actions, rapport SHA/pages en artefact ; échec fermé si une source est absente ou non vérifiable. La base MaximusSCPI reste à 68 SCPI et Sofidynamic en candidate privée jusqu'à certification du circuit.
+
+- 02/11 14:19 UTC : GitHub run #41460701277 = vérification des 3 PDF officiels Sofidy PASS (T2=6 pages, T1=6 pages, RA=84 pages, SHA-256 collectés). Les empreintes et pages ont été insérées et relues dans les deux tables privées d'index et validation PDF, statut direct_pdf_checked ; aucune promotion financière.
+- Revue du rendu page 4 du T2 : TOF 97,73 % visible mais absent de la couche texte exacte. La chaîne doit produire une revue visuelle ciblée au lieu de classer la métrique comme absente.

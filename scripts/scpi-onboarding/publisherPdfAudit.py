@@ -103,11 +103,25 @@ def audit_document(d,c,fetcher=download):
                       "token_found_in_page_text":bool(found),
                       "pages_with_same_token":actual_pages,
                       "visual_review_asset":visual_asset,"financially_certified":False})
+    reviewed_assets=[]
+    screenshot_dir=os.environ.get("SCPI_PDF_RENDER_ANOMALIES")
+    requested_pages=d.get("review_pages",[])
+    if screenshot_dir and requested_pages:
+        target=Path(screenshot_dir)
+        target.mkdir(parents=True,exist_ok=True)
+        with fitz.open(stream=raw,filetype="pdf") as pdf:
+            for page_num in sorted(set(requested_pages)):
+                if not isinstance(page_num,int) or page_num<1 or page_num>len(pdf):
+                    raise ValueError("INVALID_REQUESTED_REVIEW_PAGE")
+                filename=kind+"-"+period+"-page-"+str(page_num)+".png"
+                (pdf[page_num-1].get_pixmap(matrix=fitz.Matrix(1.4,1.4))).save(str(target/filename))
+                reviewed_assets.append(filename)
     return {"kind":kind,"reference_period":period,"source_url":final_url,"sha256":sha,
             "page_count":len(pages),"native_text_characters":native_text_characters,
             "identity_location":"cover" if cover_identity else "body_native_text",
             "publisher_binary_pass":True,"fund_and_period_identity_pass":True,
-            "page_hints":hints,"all_hints_found":all(h["token_found_in_page_text"] for h in hints),
+            "page_hints":hints,"review_assets":reviewed_assets,
+            "all_hints_found":all(h["token_found_in_page_text"] for h in hints),
             "financial_metrics_certified":False,"publication_authorized":False}
 
 def audit_manifest(m,fetcher=download):
