@@ -40,6 +40,10 @@ jobs:
           python scripts/scpi-onboarding/publisherPdfAudit.py \
             --manifest scripts/scpi-onboarding/fixtures/sofidynamic-69-discovery.json \
             --output test-results/scpi-source-validation/sofidynamic-69.json
+      - name: Registry 2026 statutes discovery probe (never a regulatory approval)
+        run: |
+          python scripts/scpi-onboarding/inspectRegistryStatutes2026.py \
+            --output test-results/scpi-source-validation/sofidynamic-2026-register-statutes.json
       - name: Store technical SHA evidence only, no PDF binary or approval
         if: always()
         uses: actions/upload-artifact@v4
