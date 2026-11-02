@@ -6,6 +6,8 @@ import json
 import re
 import unicodedata
 import urllib.request
+import subprocess
+import tempfile
 from pathlib import Path
 from urllib.parse import urlsplit
 import fitz
@@ -24,10 +26,20 @@ def official_url(url, hosts):
         return False
 
 def download(url):
-    request=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0","Accept":"application/pdf,*/*"})
-    with urllib.request.urlopen(request,timeout=80) as r:
-        if r.status!=200: raise ValueError("PDF_HTTP_STATUS:"+str(r.status))
-        return r.read(MAX_BYTES+1),r.geturl()
+    # curl uses the OS trust store on the GitHub runner. TLS verification stays ON.
+    # No --insecure, no disabled certificate validation, no untrusted origin.
+    with tempfile.TemporaryDirectory(prefix="scpi-issuer-") as tmp:
+        dest=Path(tmp)/"issuer.pdf"
+        command=["curl","--fail","--silent","--show-error","--location",
+                 "--proto","=https","--proto-redir","=https",
+                 "--max-redirs","3","--max-time","80",
+                 "--max-filesize",str(MAX_BYTES),
+                 "--user-agent","Mozilla/5.0",
+                 "--output",str(dest),"--write-out","%{url_effective}",url]
+        result=subprocess.run(command,capture_output=True,text=True,timeout=90,check=False)
+        if result.returncode!=0:
+            raise ValueError("PUBLISHER_HTTPS_FETCH_FAILED:"+result.stderr.strip()[:240])
+        return dest.read_bytes(),result.stdout.strip()
 
 def audit_document(d,c,fetcher=download):
     kind=d.get("kind")
