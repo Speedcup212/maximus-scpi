@@ -64,6 +64,7 @@ try{
    await page.goto(origin+'/'+slug+'/',{waitUntil:'networkidle0'});
    await page.waitForFunction(n=>document.body.innerText.includes(n),{},name);
    assert.ok((await page.$eval('h1',e=>e.textContent)).includes(name));
+   assert.match(await page.$eval('body',e=>e.innerText),/Taux de distribution 2025/);
    report.cases.push({slug,width,surface:'profile',status:'PASS'});
    await page.goto(origin+'/comparateur-scpi/',{waitUntil:'networkidle0'});
    const search=await page.waitForSelector('input[placeholder*="Rechercher"]');await search.type(name);
@@ -73,6 +74,8 @@ try{
    assert.ok((await page.$eval('body',e=>e.innerText)).includes(name));
    const modalText=await page.$eval('body',e=>e.innerText);
    assert.doesNotMatch(modalText,/Bulletin officiel CORUM|liquidité structurellement plus robuste|approved_official_pdf_delegated_review|source_verified_approved_release/);
+   assert.match(modalText,/Taux de distribution brut 2025/);
+   assert.doesNotMatch(modalText,/principaux pays/);
    assert.ok(await page.$('a[href*="reim.bnpparibas-am.com"]'));
    report.cases.push({slug,width,surface:'comparator_analysis',status:'PASS'});
    await page.goto(origin+'/'+fixture+'?slug='+slug,{waitUntil:'networkidle0'});
