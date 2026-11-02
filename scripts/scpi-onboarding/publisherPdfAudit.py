@@ -6,6 +6,7 @@ import json
 import re
 import unicodedata
 import urllib.request
+import os
 import subprocess
 import tempfile
 from pathlib import Path
@@ -36,6 +37,10 @@ def download(url):
                  "--max-filesize",str(MAX_BYTES),
                  "--user-agent","Mozilla/5.0",
                  "--output",str(dest),"--write-out","%{url_effective}",url]
+        trust_bundle=os.environ.get("SCPI_PUBLISHER_CA_BUNDLE")
+        if trust_bundle:
+            if not Path(trust_bundle).is_file():raise ValueError("VERIFIED_CHAIN_BUNDLE_MISSING")
+            command[1:1]=["--cacert",trust_bundle]
         result=subprocess.run(command,capture_output=True,text=True,timeout=90,check=False)
         if result.returncode!=0:
             raise ValueError("PUBLISHER_HTTPS_FETCH_FAILED:"+result.stderr.strip()[:240])
