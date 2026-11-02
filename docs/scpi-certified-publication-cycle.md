@@ -31,3 +31,12 @@
 Couverture active = 66/66, taux des connecteurs opérationnels, âge de chaque dernier bulletin certifié, anomalies par source, dette de revues, revues résolues, certification au niveau champ, cohérence de l'historique, promotion vérifiée par readback, attente de release Netlify, état et SHA de la dernière publication.
 
 Le taux 100 % **financier** exige le contrôle de chaque métrique déclarée par l'émetteur ; le taux 100 % **documentaire** ne doit pas être revendiqué si des PDF restent en attente de SHA ou d'archivage.
+
+## Publication de la chaîne certifiée — demande explicite du 2 novembre 2026
+
+- Autorisation de publier le code fusionné du cycle financier des **66 SCPI actives**, sous réserve des tests du build Netlify.
+- Les collecteurs conservent les preuves et n'écrivent pas d'indicateurs publics non certifiés.
+- Le promoteur autorise exclusivement les valeurs documentées et l'écriture atomique avec la file de publication.
+- Les SCPI 67 et 68 restent hors du catalogue tant que leur propre circuit de certification et de publication n'est pas terminé.
+- Les données courantes et les archives historiques ont deux niveaux de certification distincts ; ne pas assimiler la publication du code à une certification exhaustive des historiques.
+- Le commit de production doit comporter `[deploy]` pour passer le filtre `scripts/netlify-ignore.mjs`. Le contrôle Netlify READY, la correspondance du commit et les vérifications des interfaces doivent précéder toute clôture d'une entrée de publication.
