@@ -63,7 +63,9 @@ def audit_document(d,c,fetcher=download):
         pages=[normalize(p.get_text(sort=True)) for p in pdf]
     if sum(map(len,pages))<1500:raise ValueError("NATIVE_TEXT_LAYER_INSUFFICIENT")
     opening=" ".join(pages[:2])
-    if normalize(c.get("name")) not in opening:raise ValueError("FUND_IDENTITY_NOT_FOUND")
+    fund_name=normalize(c.get("name"))
+    if fund_name not in opening and fund_name.replace(" ","") not in opening.replace(" ",""):
+        raise ValueError("FUND_IDENTITY_NOT_FOUND:"+str(kind)+":"+str(period)+":"+opening[:350])
     if kind=="quarterly":
         if not re.fullmatch(r"20\d{2}-T[1-4]",period):raise ValueError("INVALID_QUARTER_PERIOD")
         quarter=period[-1]
