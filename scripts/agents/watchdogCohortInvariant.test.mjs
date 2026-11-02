@@ -5,6 +5,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const read=(f)=>fs.readFileSync(new URL('../../'+f,import.meta.url),'utf8');
 const cohort=JSON.parse(read('src/data/certified_scpi_cohort.json'));
+const baseline=JSON.parse(read('src/data/certified_scpi_baseline_68.json'));
 const candidates=JSON.parse(read('data-import/corum_candidates_prepublication_20261015.json'));
 const migration=read('supabase/migrations/20261016_watchdog_scope_and_expired_leases.sql');
 test('Certified cohort remains internally coherent and separated from provisional CORUM',()=>{
@@ -23,7 +24,8 @@ test('Certified cohort remains internally coherent and separated from provisiona
  if(edrIncluded)assert.equal(included.length,4,'EdR cannot replace any of the four CORUM');
  const bnpp=['acces-valeur-pierre','accimmo-pierre'].filter(id=>cohort.slugs.includes(id));
  assert.ok(bnpp.length===0||bnpp.length===2,'BNP publication is atomic');
- assert.equal(cohort.count,61+included.length+(edrIncluded?1:0)+bnpp.length);
+ assert.ok(cohort.count>=baseline.count,'Never shrink last certified public cohort');
+ for(const id of baseline.slugs)assert.ok(cohort.slugs.includes(id),'Published baseline SCPI removed: '+id);
  if(included.length===4){
   const catalog=JSON.parse(read('src/data/scpi_complet.json'));
   const slug=name=>String(name).toLowerCase().normalize('NFD')

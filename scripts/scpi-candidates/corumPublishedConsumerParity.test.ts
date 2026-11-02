@@ -17,7 +17,7 @@ const verified = [
 const enriched=enrichScpiExtendedArray(scpiDataExtended,scpiData);
 
 test('Crash: staged 66-fund cohort retains all four exact source-certified CORUM values',()=>{
-  assert.ok([66,68].includes(cohort.count));
+  assert.ok(cohort.count>=68,'Published cohort must not shrink');
   assert.equal(new Set(cohort.slugs).size,cohort.count);
   for(const id of ['corum-eurion','corum-origin','corum-usa','corum-xl','edr-europa']) assert.ok(cohort.slugs.includes(id),id+' missing');
   for(const item of verified){

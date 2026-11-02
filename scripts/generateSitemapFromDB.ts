@@ -112,18 +112,15 @@ async function generateSitemap() {
   if (scpiSlugs.length !== scpiNames.length) {
     throw new Error(`Catalogue SCPI incohérent: ${scpiNames.length} noms pour ${scpiSlugs.length} slugs uniques.`);
   }
-  // Cohort stage: original 61, atomic four-CORUM to 65, then
-  // explicitly authorized EdR Europa to 66. Never silently replace a CORUM.
-  const corumIds = ['corum-eurion','corum-origin','corum-usa','corum-xl'];
-  const released = corumIds.filter(id=>certifiedScpiSlugSet.has(id)).length;
-  const edrIncluded = certifiedScpiSlugSet.has('edr-europa');
-  const bnppIds = ['acces-valeur-pierre','accimmo-pierre'];
-  const bnppIncluded = bnppIds.filter(id=>certifiedScpiSlugSet.has(id)).length;
-  if (![0,4].includes(released) || (edrIncluded && released!==4) ||
-      ![0,2].includes(bnppIncluded) || (bnppIncluded>0 && !edrIncluded) ||
-      certifiedScpiSlugSet.size !== (61 + released + (edrIncluded ? 1 : 0) + bnppIncluded) ||
-      scpiSlugs.length !== certifiedScpiSlugSet.size) {
-    throw new Error(`Cohorte publique SCPI incohérente: ${scpiSlugs.length}/${certifiedScpiSlugSet.size} slugs certifiés trouvés.`);
+  // Immutable 68-fund baseline: new SCPI may be added, never silently substituted.
+  const baselinePath = join(__dirname, '..', 'src', 'data', 'certified_scpi_baseline_68.json');
+  const baseline = JSON.parse(fs.readFileSync(baselinePath, 'utf-8')) as { count:number; slugs:string[] };
+  if (certifiedScpiCohort.count !== certifiedScpiSlugSet.size ||
+      certifiedScpiCohort.slugs.length !== certifiedScpiSlugSet.size ||
+      scpiSlugs.length !== certifiedScpiSlugSet.size ||
+      baseline.count !== baseline.slugs.length ||
+      baseline.slugs.some(slug => !certifiedScpiSlugSet.has(slug))) {
+    throw new Error('Cohorte publique SCPI incohérente ou fonds historique supprimé.');
   }
 
   // ── 1. Récupérer les slugs locaux depuis articleTemplatesConfig ──
