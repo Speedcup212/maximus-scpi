@@ -195,7 +195,7 @@ try{
         sourced_reconstitution_number:reconstitution.includes(officialVr.toFixed(2)),
         nonempty_source_based_analysis:sourceAnalysis.includes('Répartition publiée')
           &&sourceAnalysis.includes('principaux secteurs')
-          &&sourceAnalysis.includes('principaux pays')
+          &&sourceAnalysis.includes('principales zones géographiques')
           &&sourceAnalysis.includes('risque de perte en capital'),
         missing_locative_indicators_explicit:locativeCoverage.includes('Aucune estimation n’est substituée')
           ||['WALT','WALB','Nombre de locataires'].some(x=>locativeCoverage.includes(x))};

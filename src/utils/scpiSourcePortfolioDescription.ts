@@ -18,7 +18,7 @@ export function sourceBackedPortfolioDescription(input:{
   const period=input.referencePeriod?.trim()||'dernière répartition documentée';
   return 'Répartition publiée ('+period+') : '
    +(sectors?'principaux secteurs : '+sectors+'. ':'')
-   +(geography?'principaux pays : '+geography+'. ':'')
+   +(geography?'principales zones géographiques : '+geography+'. ':'')
    +'Ces répartitions décrivent le patrimoine à la date indiquée et non les acquisitions futures. '
    +'Les parts présentent un risque de perte en capital, les revenus ne sont pas garantis et leur revente peut être différée.';
 }
