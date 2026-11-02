@@ -17,8 +17,10 @@ const PORT=4191,BASE='http://127.0.0.1:'+PORT;
 fs.mkdirSync(OUT,{recursive:true});
 const slugs=new Set(COHORT.slugs);
 const corum=['corum-eurion','corum-origin','corum-usa','corum-xl'];
+const baseline=JSON.parse(fs.readFileSync('src/data/certified_scpi_baseline_68.json','utf8'));
+if(baseline.slugs.some(id=>!slugs.has(id)))throw Error('Published baseline fund removed');
 const edr=slugs.has('edr-europa');
-if((COHORT.count!==65&&!edr)||(edr&&![66,68].includes(COHORT.count))||
+if(COHORT.count<68||!edr||
     slugs.size!==COHORT.count||COHORT.slugs.length!==COHORT.count||
     corum.some(id=>!slugs.has(id)))throw Error('Expected complete approved CORUM/EdR/BNP cohort');
 for(const [slug,name,vr,buildings,investors] of EXPECTED){

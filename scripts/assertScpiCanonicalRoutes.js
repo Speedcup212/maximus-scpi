@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { cohortIntegrityErrors } from './scpi-onboarding/cohortInvariant.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -41,17 +42,7 @@ const slugs = names.map(slugify);
 const unique = new Set(slugs);
 const errors = [];
 
-const requiredCorum=['corum-eurion','corum-origin','corum-usa','corum-xl'];
-const corumCount=requiredCorum.filter(slug=>certifiedScpiSlugSet.has(slug)).length;
-const edrIncluded=certifiedScpiSlugSet.has('edr-europa');
-const bnppCount=['acces-valeur-pierre','accimmo-pierre'].filter(id=>certifiedScpiSlugSet.has(id)).length;
-const requiredSize=61+corumCount+(edrIncluded?1:0)+bnppCount;
-if (![0,4].includes(corumCount) || (edrIncluded && corumCount!==4) ||
-    ![0,2].includes(bnppCount) || (bnppCount>0 && !edrIncluded) ||
-    certifiedScpiCohort.count !== certifiedScpiSlugSet.size ||
-    certifiedScpiSlugSet.size !== requiredSize) {
-  errors.push('Cohorte certifiée invalide: count=' + certifiedScpiCohort.count + ', slugs=' + certifiedScpiSlugSet.size + '.');
-}
+errors.push(...cohortIntegrityErrors(certifiedScpiCohort));
 if (unique.size !== certifiedScpiSlugSet.size) {
   errors.push('Catalogue public incomplet: ' + unique.size + '/' + certifiedScpiSlugSet.size + ' slugs certifiés présents.');
 }

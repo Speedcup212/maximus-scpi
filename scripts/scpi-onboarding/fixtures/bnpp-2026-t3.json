@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "batch_id": "bnpp-2026-t3-regression",
+  "mode": "regression",
+  "snapshot_file": "scripts/scpi-candidates/bnpp-stage-snapshot.json",
+  "candidates": [
+    {
+      "slug": "acces-valeur-pierre",
+      "name": "Accès Valeur Pierre",
+      "source_period": "2026-T3",
+      "annual_period": "2025-RA",
+      "subscription_price": 765,
+      "issuer_hosts": [
+        "reim.bnpparibas-am.com"
+      ]
+    },
+    {
+      "slug": "accimmo-pierre",
+      "name": "Accimmo Pierre",
+      "source_period": "2026-T3",
+      "annual_period": "2025-RA",
+      "subscription_price": 141,
+      "issuer_hosts": [
+        "reim.bnpparibas-am.com"
+      ]
+    }
+  ]
+}

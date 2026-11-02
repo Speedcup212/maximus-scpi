@@ -1,0 +1,47 @@
+name: RECOVERY-070 generic SCPI onboarding preflight
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/scpi-onboarding/**'
+      - '.github/workflows/scpi-onboarding-preflight.yml'
+      - 'src/data/certified_scpi_cohort.json'
+      - 'src/data/scpi_complet.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: scpi-onboarding-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  onboarding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Test generic cohort, provenance, absence and period guards
+        run: node --test scripts/scpi-onboarding/preflight.test.mjs
+      - name: Regression preflight on the two published BNP candidates
+        run: node scripts/scpi-onboarding/preflight.mjs --manifest scripts/scpi-onboarding/fixtures/bnpp-2026-t3.json
+      - name: Install Chromium
+        run: npx puppeteer browsers install chrome
+      - name: Generic desktop/mobile candidate interface matrix
+        run: node scripts/scpi-onboarding/browser.mjs
+      - name: Save candidate browser proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scpi-onboarding-${{ github.run_id }}
+          path: test-results/scpi-onboarding/
+          retention-days: 14
+          if-no-files-found: warn
