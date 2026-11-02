@@ -58,6 +58,9 @@ jobs:
       - name: Dated trajectory summaries and liquidity regime regression
         run: npx vitest run src/tests/trajectoryData.test.ts
 
+      - name: Comparator capitalization, discount QA, debt and enjoyment delay filters
+        run: npx vitest run src/tests/comparatorFinancialFilters.test.ts
+
       - name: Marketing conversion tracking deduplication, consent and GA4 privacy
         run: node --import tsx/esm --test scripts/analytics/funnelConversions.test.mjs
 
@@ -193,6 +196,18 @@ jobs:
 
       - name: Production build
         run: npm run build
+
+      - name: Real comparator financial filters in desktop and mobile Chromium
+        run: node --import tsx/esm scripts/qa/comparator-financial-filters-browser.mjs
+
+      - name: Save financial filter browser results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: comparator-financial-filters-${{ github.run_id }}
+          path: test-results/comparator-financial-filters/
+          retention-days: 14
+          if-no-files-found: warn
 
       - name: Dated trajectory summary in Chromium desktop and mobile
         env:

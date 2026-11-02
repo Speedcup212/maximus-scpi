@@ -9,7 +9,8 @@ import SCPITableRow from './SCPITableRow';
 import ProSelectionSidebar from './ProSelectionSidebar';
 import MobileSelectionBar from './MobileSelectionBar';
 import AnalysisDetailModal from './AnalysisDetailModal';
-import FilterPanel, { FilterState } from './FilterPanel';
+import FilterPanel from './FilterPanel';
+import { createDefaultComparatorFilters, matchesComparatorFinancialFilters, countFinancialFilters, type FilterState, type FilterRange } from '../../utils/comparatorFilters';
 import { sortSCPIByTaxOptimization } from '../../utils/taxOptimization';
 import { matchesSectorFilter, calculateSectorRelevanceScore } from '../../utils/sectorQualification';
 import { enrichScpiExtendedArray } from '../../utils/enrichScpiExtended';
@@ -94,21 +95,12 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   };
   const [onboardingVisible, setOnboardingVisible] = useState(true);
   const [quickFilters, setQuickFilters] = useState<string[]>([]);
-  const [filters, setFilters] = useState<FilterState>({
-    tmi: null,
-    minYield: 0,
-    priceRange: 'all',
-    geographies: [],
-    sectors: [],
-    sectorThreshold: '25', // Par défaut : exposition significative (≥25%)
-    hasISR: null,
-    noEntryFees: false,
-    expertMode: false,
-    discountRange: [-15, 10],
-    minRanDays: 0,
-    maxLtv: 100,
-    noWaitingShares: false
-  });
+  const [filters, setFilters] = useState<FilterState>(createDefaultComparatorFilters);
+
+  const financialDataByName = useMemo(
+    () => new Map(scpiData.map(scpi => [scpi.name.toLowerCase(), scpi])),
+    [],
+  );
 
   // Enrichir les données SCPI avec les informations du fichier Excel
   const enrichedScpiData = useMemo(() => {
@@ -138,8 +130,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
       let geographies: string[] = [];
       let sectors: string[] = [];
       let minYield = 0;
-      let maxLtv = 100;
-      let discountRange: [number, number] = [-15, 10];
+      let maxLtv: number | null = null;
+      let discountRange: FilterRange = [null, null];
 
       if (next.includes('high-yield')) minYield = 5.5;
       if (next.includes('low-debt')) maxLtv = 50;
@@ -150,7 +142,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
       if (next.includes('defensive')) {
         sectors = ['Santé', 'Commerces'];
         geographies = geographies.length > 0 ? geographies : ['France'];
-        maxLtv = Math.min(maxLtv, 60);
+        maxLtv = Math.min(maxLtv ?? 100, 60);
       }
 
       setFilters(prevFilters => ({
@@ -659,6 +651,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   // ── Fin des helpers du pop-up public ──
 
   const applyFilters = (scpi: SCPIExtended): boolean => {
+    if (!matchesComparatorFinancialFilters(financialDataByName.get(scpi.name.toLowerCase()), filters)) return false;
+
     if (scpi.yield < filters.minYield) return false;
 
     if (filters.priceRange !== 'all') {
@@ -698,18 +692,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     }
 
     if (filters.expertMode) {
-      if (scpi.reconstitutionValue) {
-        const discount = ((scpi.price - scpi.reconstitutionValue) / scpi.reconstitutionValue) * 100;
-        if (discount < filters.discountRange[0] || discount > filters.discountRange[1]) {
-          return false;
-        }
-      }
-
       if (scpi.ranDays !== undefined && scpi.ranDays < filters.minRanDays) {
-        return false;
-      }
-
-      if (scpi.ltv !== undefined && scpi.ltv > filters.maxLtv) {
         return false;
       }
 
@@ -804,10 +787,9 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     (filters.sectorThreshold !== '25' ? 1 : 0) + // Compter si le seuil n'est pas le défaut
     (filters.hasISR !== null && filters.hasISR !== undefined ? 1 : 0) +
     (filters.noEntryFees ? 1 : 0) +
+    countFinancialFilters(filters) +
     (filters.expertMode ? (
-      (filters.discountRange[0] !== -15 || filters.discountRange[1] !== 10 ? 1 : 0) +
       (filters.minRanDays > 0 ? 1 : 0) +
-      (filters.maxLtv < 100 ? 1 : 0) +
       (filters.noWaitingShares ? 1 : 0)
     ) : 0);
 
@@ -879,6 +861,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
               )}
               <button
                 onClick={() => setIsFilterOpen(true)}
+                aria-label="Ouvrir les filtres"
                 className="relative px-2.5 sm:px-4 py-1.5 sm:py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 sm:gap-2"
               >
                 <SlidersHorizontal className="w-3.5 h-3.5 sm:w-4 sm:h-4" />

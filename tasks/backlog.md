@@ -118,6 +118,30 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 
 - RECOVERY-071 : contrôle arithmétique multi-trimestriel et unités Sofidynamic : T1 315 € × 672 775 parts = 211 924 125 € ; T2 320 € × 773 714 parts = 247 588 480 € ; 247,58848 M€ en staging. Les deux calculs sont des vérifications techniques **non équivalentes** à une certification financière indépendante. Géographie publiée 99,9 % admise uniquement dans marge d'arrondi de cinq lignes. Statuts du registre 2026 listés mais PDF indisponible via Pappers (HTTP 403) ; ne pas valider le 3/3.
 
+
+## RECOVERY-072 — Filtres financiers du comparateur (autorisé par Eric le 02/11/2026)
+
+- Demande produit explicite : intégrer capitalisation, décote/surcote, endettement et délai de jouissance dans le panneau du comparateur. Branche isolée `feat/comparator-financial-filters` depuis main, sans commit direct sur main.
+- Périmètre : panneau commun `FilterPanel.tsx`, ses consommateurs public et Pro, utilitaire partagé `comparatorFilters.ts`, tests ciblés, gate CI et cette trace. Aucun changement de source financière, cohorte publique, routage, Supabase ou SEO.
+- Capitalisation : minimum/maximum en M€ depuis la valeur numérique en euros du catalogue public, sans parser les anciens libellés formatés. Décote/surcote : minimum/maximum signé via le calcul central avec QA et régime de liquidité comparables. Endettement et jouissance : plafonds % et mois.
+- Ces quatre critères fonctionnent sans mode expert ; les champs vides restent inactifs. Aucune valeur absente, nulle ou non finie ne passe un critère actif. Dette et jouissance de zéro restent des valeurs légitimes. Valeurs par défaut, compteur et réinitialisation partagés.
+- Validation attendue : tests métier des bornes/signes/NULL/QA/régimes/cumul et de la cohorte, panneau rendu et callbacks, suite existante comparée à la base, absence de nouveau diagnostic TypeScript, build Vite production, contrôles navigateur du consommateur réellement monté. État : implémentation et vérifications locales terminées ; publication en attente.
+
+### Preuves RECOVERY-072 — vérifications locales du 02/11/2026
+
+- 31/31 nouveaux tests PASS ; 10/10 tests de liquidité existants PASS. Suite Vitest complète : 240 PASS et les trois échecs antérieurs inchangés de `scpi-bulletin-edge-protection.test.ts` ; base avant modification : 209 PASS et les mêmes trois échecs.
+- TypeScript : 1 020 diagnostics préexistants contre 1 021 sur la base, aucun nouveau diagnostic par comparaison normalisée. Le diagnostic retiré correspond à l'import `useState` inutilisé du panneau.
+- Build Vite production PASS (27,2 s), sans génération financière/SEO hors périmètre et sans artefact de build commité. Le pipeline complet et les contrôles CI distants restent à lancer après publication autorisée de la branche.
+- Navigateur réel sur le bundle compilé, route `/comparateur-scpi/` : 68 SCPI sans filtre ; capitalisation ≥100 M€ = 59 ; décote/surcote ≤0 % = 34 ; dette ≤30 % = 56 ; jouissance ≤3 mois = 9. Cumul des quatre = 3 : Iroko Zen, Crédit Mutuel Pierre 1, Patrimmo Croissance Impact. Noms et comptes rapprochés du catalogue numérique local ; badge 4 critères vérifié et reset à 68. Saisie négative `-10` vérifiée au clavier. Panneau partagé Public/Pro testé ; accès Pro authentifié et véritable viewport mobile non testés localement.
+- Prévisualisation compilée opérationnelle après contournement du seul lancement dev `npx vite` trop lent, sans changement de code applicatif ou de réseau. Capture de contrôle disponible dans le workspace.
+- Commit d'implémentation local : `7923908`. L'envoi GitHub a été refusé par la revue automatique pour absence d'autorisation explicite de publication sur le dépôt public. Aucun nouvel essai d'envoi par un autre canal ; aucun merge ni déploiement. L'autorisation explicite de pousser, fusionner et déployer après CI est à recueillir avant ces étapes.
+
+- Suite autorisée explicitement par Eric le 02/11/2026 (« j’autorise ») : envoi GitHub, fusion après validation CI, puis déploiement et vérification du comparateur public. Autorisation limitée aux quatre filtres et à leurs contrôles ; aucune promotion financière de SCPI.
+
+- Contrôle de livraison ajouté à la CI : navigateur Chromium sur le bundle de production aux largeurs 1 440 et 390 px, quatre critères séparés et cumulés, cartes, compteur, réouverture et reset, absence de débordement des champs. Le contrôle interdit les appels externes et n’écrit aucune donnée financière. Boutons d’ouverture du panneau nommés pour l’accessibilité.
+
+- CI de prépublication : le garde CORUM initial vérifiait encore un emplacement de code ; il vérifie désormais le comportement du helper commun sur les quatre décotes non approuvées. Le premier test navigateur a ensuite détecté le header en z-[9999] au-dessus du panneau z-50 : un clic physique sur la croix atteignait le header. Panneau corrigé en z-[10000], assertion de maintien sur le comparateur ajoutée. Aucun contrôle financier retiré.
+
 ## RECOVERY-072 — Réparer automatiquement après détection (02/11/2026)
 - La boucle `détection > classification > auto-fix admissible > réévaluation > rapport > PR/incident` est versionnée dans `scripts/scpi-onboarding/autoRemediate.mjs`.
 - Catalogue des réparations sans risque de falsification : recalcul de capitalisation **affichée** M€ à partir des valeurs officielles EUR et de l'égalité exacte prix x parts, après SHA et période vérifiés ; ordre chronologique des données trimestrielles sans altérer leurs valeurs ; réessai réseau borné sur erreurs transitoires de téléchargement PDF, TLS toujours activé.
