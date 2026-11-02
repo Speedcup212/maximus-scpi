@@ -23,7 +23,7 @@ test('a 1m euro unit error is rejected before any QA',()=>{
  assert.ok(x.errors.includes('CAPITALISATION_UNIT_CONVERSION_FAILED'));
 });
 test('historic share count or capitalisation contradiction is blocked',()=>{
- const x=check(s=>{s.quarterly_snapshots[0].nombre_parts=672776;});
+ const x=check(s=>{s.quarterly_snapshots[0].nombre_parts=672875;});
  assert.ok(x.errors.includes('2026-T1:CAPITALISATION_PARTS_PRICE_INCONSISTENT'));
 });
 test('allocation category omission is blocked',()=>{
