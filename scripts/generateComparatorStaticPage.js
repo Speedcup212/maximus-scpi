@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { cohortIntegrityErrors } from './scpi-onboarding/cohortInvariant.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,15 +19,8 @@ let html = fs.readFileSync(sourcePath, 'utf-8');
 
 const cohort = JSON.parse(fs.readFileSync(path.join(__dirname,'../src/data/certified_scpi_cohort.json'),'utf8'));
 const scpiCount=cohort.count;
-const ids=new Set(cohort.slugs);
-const corum=['corum-eurion','corum-origin','corum-usa','corum-xl'];
-const corumN=corum.filter(id=>ids.has(id)).length;
-const bnppN=['acces-valeur-pierre','accimmo-pierre'].filter(id=>ids.has(id)).length;
-if(cohort.slugs.length!==scpiCount||ids.size!==scpiCount||
-  ![0,4].includes(corumN)|| (ids.has('edr-europa')&&corumN!==4) ||
-  ![0,2].includes(bnppN)|| (bnppN>0&&!ids.has('edr-europa')) ||
-  scpiCount!==61+corumN+(ids.has('edr-europa')?1:0)+bnppN)
-  throw Error('Invalid published SCPI cohort in comparator HTML');
+const cohortErrors=cohortIntegrityErrors(cohort);
+if(cohortErrors.length)throw Error('Invalid published SCPI cohort: '+cohortErrors.join(', '));
 const title = 'Comparateur SCPI 2026 : rendement et risques | MaximusSCPI';
 const description = 'Comparateur SCPI : confrontez rendement, frais, valeur de reconstitution, TOF, dette et liquidité. Historique, Radar et Trajectoire sourcés.';
 const url = 'https://maximusscpi.com/comparateur-scpi/';
