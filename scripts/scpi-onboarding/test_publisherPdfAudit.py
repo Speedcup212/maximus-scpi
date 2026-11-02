@@ -57,7 +57,7 @@ class PublisherPdfTest(unittest.TestCase):
 
     def test_dated_regulatory_dic_and_note_never_certify_by_themselves(self):
         c=candidate()
-        for kind,label in [("dic","Document d'Informations Clés"),("note","Note d'information")]:
+        for kind,label in [("dic","Document d'Informations Clés"),("note","Note d'information"),("statutes","Statuts")]:
             doc={"kind":kind,"reference_period":"2026-REG","url":URL,"page_hints":[]}
             raw=pdf_bytes("SOFIDYNAMIC "+label+" août 2026")
             result=audit_document(doc,c,lambda _: (raw,URL))

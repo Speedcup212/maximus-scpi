@@ -39,6 +39,8 @@ def valid_pdf_url(url):
 
 def classify(url):
     name = unquote(urlsplit(url).path.rsplit("/",1)[-1]).lower()
+    if re.search(r"(?:^|[-_])(?:st[-_]dy|statuts[-_].*dynamic|stat.*sofidynamic)",name):
+        return "statutes"
     if re.search(r"(?:^|[-_])(?:ni[-_]dyn|note[-_].*dynamic|ni.*sofidynamic)",name):
         return "note"
     if re.search(r"(?:^|[-_])(?:dic[-_]dy|dic[-_]dyn|dic.*sofidynamic)",name):

@@ -8,6 +8,10 @@ class LinkDiscoveryTests(unittest.TestCase):
         docs=discover(source)
         self.assertEqual({d["classification"] for d in docs},{"dic","note"})
         self.assertTrue(all(not d["regulatory_content_certified"] for d in docs))
+    def test_issuer_statutes_not_automatically_current(self):
+        data=discover('<a href="/app/uploads/2024/01/ST-DY-072025-FR-1-2348.pdf">Statuts</a>')
+        self.assertEqual(data[0]["classification"],"statutes")
+        self.assertFalse(data[0]["regulatory_content_certified"])
     def test_subdomain_spoof_is_not_issuer(self):
         bad='''<a href="https://www.sofidy.com.evil.example/uploads/DIC-DY-2026.pdf">Fake</a>
         <a href="http://www.sofidy.com/uploads/NI-DYN-2026.pdf">No TLS</a>'''
