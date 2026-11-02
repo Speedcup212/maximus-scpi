@@ -1,3 +1,6 @@
+import { hasAnalyticsConsent } from './analyticsConsent';
+import { getAttribution, persistAttribution } from './attribution';
+
 export type FunnelEventName =
   | 'quiz_started'
   | 'quiz_step_1_completed'
@@ -19,21 +22,7 @@ export type FunnelEventName =
 
 type FunnelMetadata = Record<string, string | number | boolean | null | undefined>;
 
-const CONSENT_KEY = 'cookie-consent';
 const SESSION_KEY = 'maximus_funnel_session_id';
-
-const hasAnalyticsConsent = () => {
-  if (typeof window === 'undefined') return false;
-
-  try {
-    const raw = localStorage.getItem(CONSENT_KEY);
-    if (!raw) return false;
-    const parsed = JSON.parse(raw) as { analytics?: boolean };
-    return parsed.analytics === true;
-  } catch {
-    return false;
-  }
-};
 
 const getSessionId = () => {
   let sessionId = sessionStorage.getItem(SESSION_KEY);
@@ -59,6 +48,9 @@ const sanitizeMetadata = (metadata: FunnelMetadata) => {
     'origin',
     'horizon',
     'threshold',
+    'utm_source',
+    'utm_medium',
+    'utm_campaign',
   ]);
 
   return Object.fromEntries(
@@ -77,7 +69,8 @@ export const trackFunnelEvent = (
 ) => {
   if (typeof window === 'undefined' || !hasAnalyticsConsent()) return;
 
-  const safeMetadata = sanitizeMetadata(metadata);
+  persistAttribution();
+  const safeMetadata = sanitizeMetadata({ ...metadata, ...getAttribution() });
   const sessionId = getSessionId();
 
   // GTM / GA4 can consume the exact same event names.
