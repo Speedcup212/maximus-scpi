@@ -339,7 +339,7 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
                 </span>
                 {currentScpi.retraitSourceUrl && (
                   <a href={currentScpi.retraitSourceUrl} target="_blank" rel="noopener noreferrer"
-                     className="mt-1 inline-block text-[10px] text-sky-300 underline">Source CORUM</a>
+                     className="mt-1 inline-block text-[10px] text-sky-300 underline">Source officielle du retrait</a>
                 )}
               </div>
             )}
