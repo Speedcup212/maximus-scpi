@@ -61,6 +61,9 @@ jobs:
       - name: Marketing conversion tracking deduplication, consent and GA4 privacy
         run: node --import tsx/esm --test scripts/analytics/funnelConversions.test.mjs
 
+      - name: Rendez-vous Calendly popup and in-memory UTM consent regression
+        run: npx vitest run src/tests/rdvCalendlyOverlay.test.tsx src/tests/funnelAttribution.test.ts
+
       - name: First-party funnel event endpoint, routing and privacy
         run: node --import tsx/esm --test scripts/analytics/funnelEndpoint.test.mjs
 

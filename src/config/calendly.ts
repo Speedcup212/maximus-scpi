@@ -1,3 +1,5 @@
+import { getAttribution } from '../utils/attribution';
+
 // MaximusSCPI — URLs Calendly centralisées
 // VITE_CALENDLY_URL : rendez-vous général MaximusSCPI.
 // VITE_CALENDLY_PORTFOLIO_URL : validation d'une allocation issue du questionnaire.
@@ -40,9 +42,14 @@ export function buildCalendlyUrl(
       ? new URLSearchParams(window.location.search)
       : new URLSearchParams();
 
+    const attribution = browserAvailable ? getAttribution() : {};
     const getTracking = (key: string): string | null => {
       if (!browserAvailable) return null;
-      return sessionStorage.getItem(key) || currentParams.get(key);
+      return sessionStorage.getItem(key) || currentParams.get(key) || (
+        key === 'utm_source' || key === 'utm_medium' || key === 'utm_campaign'
+          ? attribution[key] || null
+          : null
+      );
     };
 
     const pathContext = browserAvailable
