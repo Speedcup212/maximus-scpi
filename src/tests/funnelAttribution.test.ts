@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { FunnelEventName } from '../utils/funnelAnalytics';
-import { buildCalendlyUrl } from '../config/calendly';
 
 let captureAttribution: typeof import('../utils/attribution').captureAttribution;
 let trackFunnelEvent: typeof import('../utils/funnelAnalytics').trackFunnelEvent;
 let submitLead: typeof import('../utils/leadSubmitter').submitLead;
+let buildCalendlyUrl: typeof import('../config/calendly').buildCalendlyUrl;
 
 const database = vi.hoisted(() => ({ insert: vi.fn(), invoke: vi.fn() }));
 vi.mock('../supabaseClient', () => ({
@@ -56,6 +56,7 @@ describe('funnel and existing lead consumers receive session attribution', () =>
     ({ captureAttribution } = await import('../utils/attribution'));
     ({ trackFunnelEvent } = await import('../utils/funnelAnalytics'));
     ({ submitLead } = await import('../utils/leadSubmitter'));
+    ({ buildCalendlyUrl } = await import('../config/calendly'));
   });
 
   afterEach(() => {
@@ -190,7 +191,33 @@ describe('funnel and existing lead consumers receive session attribution', () =>
     }
   });
 
-  it('passes UTM after navigation to the unchanged Calendly builder', () => {
+  it('uses captured UTM in memory for a lead and Calendly after untagged navigation with refused cookies', async () => {
+    consent = JSON.stringify({ analytics: false });
+    arriveThenNavigate();
+    expect(browser.location.search).toBe('');
+    expect(session.size).toBe(0);
+    expect(sessionStorage.setItem).not.toHaveBeenCalled();
+
+    const result = await submitLead({
+      channel: 'contact', form_type: 'lead_rdv',
+      identity: { email: 'fixture@example.test' }, answers: { action: 'calendly' },
+    });
+
+    expect(result.ok).toBe(true);
+    expect(database.insert.mock.calls[0][0][0]).toMatchObject(attribution);
+
+    const calendlyUrl = new URL(buildCalendlyUrl('contact'));
+    for (const [key, value] of Object.entries(attribution)) {
+      expect(calendlyUrl.searchParams.get(key)).toBe(value);
+    }
+    expect(session.size).toBe(0);
+    expect(sessionStorage.setItem).not.toHaveBeenCalled();
+    expect(send).not.toHaveBeenCalled();
+    expect(browser.dataLayer).toEqual([]);
+    expect(browser.gtag).not.toHaveBeenCalled();
+  });
+
+  it('passes UTM after navigation to the Calendly builder', () => {
     arriveThenNavigate();
     const target = new URL(buildCalendlyUrl('simulateur-scpi'));
     for (const [key, value] of Object.entries(attribution)) {

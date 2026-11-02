@@ -8,6 +8,7 @@
  */
 
 import { trackFunnelEvent } from './funnelAnalytics';
+import { getAttribution } from './attribution';
 
 export type LeadChannel =
   | 'scpi_page'
@@ -71,8 +72,13 @@ function sanitizePhone(v: unknown): string | null {
 
 function getTracking() {
   const url = new URLSearchParams(window.location.search);
+  const attribution = getAttribution();
   const get = (key: string) =>
-    sessionStorage.getItem(key) || url.get(key) || null;
+    sessionStorage.getItem(key) || url.get(key) || (
+      key === 'utm_source' || key === 'utm_medium' || key === 'utm_campaign'
+        ? attribution[key] || null
+        : null
+    );
 
   return {
     utm_source: get('utm_source'),
