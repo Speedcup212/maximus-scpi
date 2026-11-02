@@ -1,5 +1,6 @@
 // RECOVERY-071: deterministic coherence checks for private SCPI evidence.
 // Arithmetic success is NOT independent financial QA or publication approval.
+import {quarterEnd, validCalendarDate} from './datedEvidence.mjs';
 const SHA=/^[a-f0-9]{64}$/;
 const PERIOD=/^20\d{2}-T[1-4]$/;
 const ISO=/^20\d{2}-\d{2}-\d{2}$/;
@@ -44,15 +45,16 @@ export function inspectPrivateCandidate(snapshot) {
       else if(Math.abs(total-100)>1e-7)warnings.push(prefix+':PUBLISHER_ROUNDING_NOT_100');
     }
   }
-  if(!ISO.test(snapshot.last_official_valuation_date||'') ||
-     snapshot.last_official_valuation_date>snapshot.source_period.slice(0,4)+'-'+String(Number(snapshot.source_period.slice(-1))*3).padStart(2,'0')+'-31'){
+  const currentQuarterEnd=quarterEnd(snapshot.source_period);
+  if(!currentQuarterEnd || !validCalendarDate(snapshot.last_official_valuation_date) ||
+     snapshot.last_official_valuation_date>currentQuarterEnd){
     errors.push('VALUATION_DATE_MISSING_OR_AFTER_QUARTER');
   }
   if(!Number.isFinite(snapshot.last_official_prix_reconstitution_eur) ||
      !Number.isFinite(snapshot.last_official_valeur_realisation_eur) ||
      snapshot.last_official_prix_reconstitution_eur<=0 ||
      snapshot.last_official_valeur_realisation_eur<=0)errors.push('LAST_OFFICIAL_VALUATION_INVALID');
-  if(snapshot.last_official_valuation_date<'2026-01-01')warnings.push('VALUATION_PRECEDES_CURRENT_QUARTER');
+  if(currentQuarterEnd && snapshot.last_official_valuation_date<currentQuarterEnd)warnings.push('VALUATION_PRECEDES_CURRENT_QUARTER');
   const docs=snapshot.regulatory_documents||{};
   if(!docs.statutes?.verified_current_for_2026)warnings.push('CURRENT_STATUTES_NOT_VERIFIED');
   if(Object.values(docs).some(d=>d.independent_regulatory_review===true))errors.push('UNEXPECTED_AUTOMATED_REGULATORY_APPROVAL');
