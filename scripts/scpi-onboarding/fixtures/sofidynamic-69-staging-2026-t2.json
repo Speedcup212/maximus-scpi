@@ -82,5 +82,23 @@
     "LEGAL_FINANCIAL_FINAL_AUDIT",
     "PRIVATE_BROWSER_PREFLIGHT",
     "ATOMIC_PUBLICATION"
+  ],
+  "quarterly_snapshots": [
+    {
+      "source_period": "2026-T1",
+      "prix_souscription_eur": 315,
+      "nombre_parts": 672775,
+      "capitalisation_eur": 211924125,
+      "pdf_sha256": "059156b1025ec6f2ee0f65bae19574b56de74d71ed933760b7cd5ad7ba65b0d7",
+      "qa_status": "pending_independent_qa"
+    },
+    {
+      "source_period": "2026-T2",
+      "prix_souscription_eur": 320,
+      "nombre_parts": 773714,
+      "capitalisation_eur": 247588480,
+      "pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376",
+      "qa_status": "pending_independent_qa"
+    }
   ]
 }
