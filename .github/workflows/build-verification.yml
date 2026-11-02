@@ -50,6 +50,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Full unit regression suite including issuer host rejection
+        run: npm test
+
       - name: Validate all workflow YAML before SCPI gates
         run: node --test scripts/scpi-onboarding/workflowSyntax.test.mjs
 
