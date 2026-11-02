@@ -21,9 +21,11 @@ const scpiCount=cohort.count;
 const ids=new Set(cohort.slugs);
 const corum=['corum-eurion','corum-origin','corum-usa','corum-xl'];
 const corumN=corum.filter(id=>ids.has(id)).length;
+const bnppN=['acces-valeur-pierre','accimmo-pierre'].filter(id=>ids.has(id)).length;
 if(cohort.slugs.length!==scpiCount||ids.size!==scpiCount||
   ![0,4].includes(corumN)|| (ids.has('edr-europa')&&corumN!==4) ||
-  scpiCount!==61+corumN+(ids.has('edr-europa')?1:0))
+  ![0,2].includes(bnppN)|| (bnppN>0&&!ids.has('edr-europa')) ||
+  scpiCount!==61+corumN+(ids.has('edr-europa')?1:0)+bnppN)
   throw Error('Invalid published SCPI cohort in comparator HTML');
 const title = 'Comparateur SCPI 2026 : rendement et risques | MaximusSCPI';
 const description = 'Comparateur SCPI : confrontez rendement, frais, valeur de reconstitution, TOF, dette et liquidité. Historique, Radar et Trajectoire sourcés.';
