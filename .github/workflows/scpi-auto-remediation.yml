@@ -1,0 +1,102 @@
+name: RECOVERY-072 autonomous SCPI safe remediation
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '33 6 * * *'
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+concurrency:
+  group: scpi-private-safe-remediation
+  cancel-in-progress: false
+jobs:
+  auto-remediate:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout canonical main only
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Test safe repairs, hostile inputs and financial invariants
+        run: node --test scripts/scpi-onboarding/autoRemediate.test.mjs scripts/scpi-onboarding/candidateConsistency.test.mjs
+      - name: Detect, repair strictly derived stage metadata, recheck and write JSON report
+        run: node scripts/scpi-onboarding/autoRemediate.mjs --scan --write --report test-results/scpi-auto-recovery/automatic.json
+      - name: Revalidate after safe repair
+        if: success()
+        run: node --test scripts/scpi-onboarding/autoRemediate.test.mjs scripts/scpi-onboarding/candidateConsistency.test.mjs
+      - name: Maintain one actionable blocker issue, never change QA status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const file = 'test-results/scpi-auto-recovery/automatic.json';
+            if (!fs.existsSync(file)) { core.setFailed('No recovery report (fail closed)'); return; }
+            const audit = JSON.parse(fs.readFileSync(file, 'utf8'));
+            if (audit.publication_authorized !== false) { core.setFailed('Unsafe report'); return; }
+            const pending = audit.candidates.filter(x => x.remaining_technical_errors.length || x.pending_gates.length);
+            const title = '[SCPI AUTO-REPAIR] Blocages nécessitant une preuve ou une revue';
+            const body = [
+              '## Diagnostic et remédiation automatique — RECOVERY-072',
+              '',
+              'Le job corrige **uniquement** les valeurs dérivées justifiées et l’ordre des snapshots. Il ne modifie jamais un chiffre PDF, une certification financière, des droits ou la production.',
+              '',
+              ...pending.flatMap(x => [
+                '### ' + x.candidate_slug,
+                '- Correctifs automatiques : ' + (x.actions.map(a => a.code).join(', ') || 'aucun nécessaire'),
+                '- Erreurs techniques : ' + (x.remaining_technical_errors.join(', ') || 'aucune'),
+                '- Blocages : ' + (x.pending_gates.map(g => g.code + ' → ' + g.action).join('; ') || 'aucun'),
+                '',
+              ]),
+              'Rapport CI : ' + context.serverUrl + '/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId,
+              '',
+              '**Publication interdite tant que les gates obligatoires ne sont pas certifiés.**'
+            ].join('\n');
+            const issues = await github.paginate(github.rest.issues.listForRepo, { ...context.repo, state:'all', per_page:100 });
+            const old = issues.find(x => !x.pull_request && x.title === title);
+            if (pending.length) {
+              if (!old) await github.rest.issues.create({ ...context.repo, title, body });
+              else if (old.state !== 'open' || old.body !== body) await github.rest.issues.update({ ...context.repo, issue_number:old.number, state:'open', body });
+            } else if (old?.state === 'open') {
+              await github.rest.issues.update({ ...context.repo, issue_number:old.number, state:'closed', state_reason:'completed' });
+            }
+      - name: Open a PR for safe reproducible source-backed stage repairs
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- scripts/scpi-onboarding/fixtures; then
+            echo 'No safe derived-value modification required'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          BRANCH="auto/scpi-safe-remediation-${GITHUB_RUN_ID}"
+          git checkout -b "$BRANCH"
+          git add -u -- scripts/scpi-onboarding/fixtures
+          # Only tracked candidate stage snapshots may be changed.
+          if git diff --cached --name-only | grep -Ev '^scripts/scpi-onboarding/fixtures/[a-z0-9-]+-staging-[0-9a-z-]+\.json$'; then
+            echo 'Unexpected modified file: aborting' >&2
+            exit 1
+          fi
+          git commit -m 'fix(scpi): reparer automatiquement les champs derives en staging'
+          git push origin "HEAD:refs/heads/$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title '[auto] SCPI — correction reproductible des données dérivées privées' \
+            --body "RECOVERY-072 : modifications strictement dérivées, vérifiées contre prix x parts, montants source, période et SHA-256. Tests Node PASS. Aucune valeur officielle ni attestation modifiée. Aucun merge ni déploiement automatique. Rapport GitHub Actions : $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+      - name: Archive actionable report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scpi-auto-remediation-${{ github.run_id }}
+          path: test-results/scpi-auto-recovery/
+          if-no-files-found: warn
+          retention-days: 30

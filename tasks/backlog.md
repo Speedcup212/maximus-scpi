@@ -117,3 +117,9 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Critères non satisfaits : statuts actualisés 2026, QA indépendante 29 champs/11 allocations, historique certifié T1/T2, certificat financier & revue réglementaire, browser smoke de la candidate, intégration atomique. Sofidynamic reste privée, cohorte publique à 68.
 
 - RECOVERY-071 : contrôle arithmétique multi-trimestriel et unités Sofidynamic : T1 315 € × 672 775 parts = 211 924 125 € ; T2 320 € × 773 714 parts = 247 588 480 € ; 247,58848 M€ en staging. Les deux calculs sont des vérifications techniques **non équivalentes** à une certification financière indépendante. Géographie publiée 99,9 % admise uniquement dans marge d'arrondi de cinq lignes. Statuts du registre 2026 listés mais PDF indisponible via Pappers (HTTP 403) ; ne pas valider le 3/3.
+
+## RECOVERY-072 — Réparer automatiquement après détection (02/11/2026)
+- La boucle `détection > classification > auto-fix admissible > réévaluation > rapport > PR/incident` est versionnée dans `scripts/scpi-onboarding/autoRemediate.mjs`.
+- Catalogue des réparations sans risque de falsification : recalcul de capitalisation **affichée** M€ à partir des valeurs officielles EUR et de l'égalité exacte prix x parts, après SHA et période vérifiés ; ordre chronologique des données trimestrielles sans altérer leurs valeurs ; réessai réseau borné sur erreurs transitoires de téléchargement PDF, TLS toujours activé.
+- Toutes les autres anomalies (statuts à jour, contre-preuves contradictoires, QA indépendantes, document manquant, fuite de comparaison historique, contraintes de sécurité) sont inscrites comme blocages à preuve et jamais auto-approuvées.
+- Workflow quotidien / à la demande `.github/workflows/scpi-auto-remediation.yml`, ouvertures de PR de correction et issue unique de blocages ; pas de merge, Supabase public, déploiement ni validation fabriquée. Tests de régression dans CI de préflight.
