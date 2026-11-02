@@ -83,7 +83,7 @@ try{
    assert.doesNotMatch(modalText,/Bulletin officiel CORUM|liquidité structurellement plus robuste|approved_official_pdf_delegated_review|source_verified_approved_release/);
    if(annualYear)assert.match(modalText,new RegExp('Taux de distribution brut '+annualYear,'i'));
    assert.doesNotMatch(modalText,/principaux pays/);
-   assert.ok(await page.$eval('a[href]',(links,host)=>links.some(a=>{try{return new URL(a.href).hostname===host;}catch{return false;}}),issuerHost),'Issuer source missing in comparator '+slug);
+   assert.ok(await page.evaluate((host)=>Array.from(document.querySelectorAll('a[href]')).some(a=>{try{return new URL(a.href).hostname===host;}catch{return false;}}),issuerHost),'Issuer source missing in comparator '+slug);
    report.cases.push({slug,width,surface:'comparator_analysis',status:'PASS'});
    await page.goto(origin+'/'+fixture+'?slug='+slug,{waitUntil:'networkidle0'});
    await page.waitForSelector('[data-test="client"]');
