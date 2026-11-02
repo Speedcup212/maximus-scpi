@@ -6,6 +6,21 @@ const load = path => JSON.parse(readFileSync(new URL(path, import.meta.url), 'ut
 const candidates = load('../../src/data/bnpp_candidates_67_68.json');
 const cohort = load('../../src/data/certified_scpi_cohort.json');
 const rawCatalog = load('../../src/data/scpi_complet.json');
+const exportedHistory = load('../../src/data/scpiIndicatorHistory.json');
+
+test('two source-reviewed BNP periods survive the actual public history confidence filter', () => {
+  for (const candidate of candidates.candidates) {
+    const rows = exportedHistory.rows.filter(r => r.scpi_slug === candidate.scpi_slug &&
+      Number(r.source_confidence) >= 0.95 && !String(r.qa_status || '').startsWith('invalid'));
+    assert.deepEqual(rows.map(r => r.source_period).sort(), ['2026-T2','2026-T3']);
+    assert.ok(rows.every(r => r.source_url.startsWith('https://reim.bnpparibas-am.com/')));
+  }
+  const disputed = exportedHistory.rows.find(r => r.scpi_slug === 'acces-valeur-pierre' && r.source_period === '2026-T2');
+  assert.equal(disputed.tof, null);
+  assert.equal(disputed.metric_provenance.tof.qa_status, 'official_source_conflict_suppressed');
+  assert.equal(disputed.metric_provenance.tof.original_t2_value, 87.07);
+  assert.equal(disputed.metric_provenance.tof.retrospective_t3_value, 85.49);
+});
 
 test('BNP candidate manifest is unique and backed by official sources', () => {
   assert.equal(candidates.candidates.length, 2);
