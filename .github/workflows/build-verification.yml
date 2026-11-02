@@ -243,6 +243,9 @@ jobs:
 
       # A source-code build is not an independent remote data certification.
       # Fail closed only when a controlled release is explicitly requested.
+      - name: Current-only history exceptions remain explicit and fail closed
+        run: node --test scripts/scpi-history/certificationHistoryPolicy.test.mjs
+
       - name: Release-only remote SCPI certification (fail closed)
         if: >-
           github.event_name == 'push' && github.ref == 'refs/heads/main' &&

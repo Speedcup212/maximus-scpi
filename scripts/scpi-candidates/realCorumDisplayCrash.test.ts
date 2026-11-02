@@ -37,7 +37,7 @@ test('CRASH: new 2026 CORUM analyses never have a blank published strategy',()=>
   assert.ok(scpi,name);
   assert.ok(scpi.strategy.startsWith('Répartition publiée (2026-T2)'),name);
   assert.ok(scpi.strategy.includes('Risque de perte en capital') || scpi.strategy.includes('risque de perte en capital'),name);
-  assert.ok(scpi.strategy.includes('pays :'),name);
+  assert.ok(scpi.strategy.includes('zones géographiques :'),name);
   assert.ok(scpi.strategy.includes('secteurs :'),name);
  }
 });

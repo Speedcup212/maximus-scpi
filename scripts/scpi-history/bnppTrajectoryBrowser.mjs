@@ -50,6 +50,10 @@ try {
    assert.ok(valuation.includes(money+' €'),spec.slug+' missing reconstruction '+money);
    assert.match(valuation,/30\/06\/2026/,spec.slug+' missing true valuation date');
    assert.match(valuation,/T3 2026/,spec.slug+' wrong quarter');
+   assert.doesNotMatch(valuation,/CORUM/,spec.slug+' withdrawal attributed to another issuer');
+   const withdrawalLink=await page.$eval('[data-testid="trajectory-withdrawal-current"] a',a=>({href:a.href,text:a.textContent}));
+   assert.equal(withdrawalLink.href,spec.url,spec.slug+' withdrawal must link to the BNP issuer bulletin');
+   assert.equal(withdrawalLink.text,'Source officielle du retrait');
    assert.ok((cards[3]||'').includes(new Intl.NumberFormat('fr-FR',{maximumFractionDigits:2}).format(spec.dist)+' €'),spec.slug+' distribution absent');
    if(spec.debt===null)assert.doesNotMatch(cards[4]||'',/Endettement\s+0 %/,spec.slug+' unknown debt shown as zero');
    else assert.ok((cards[4]||'').includes('21,5 %'),spec.slug+' debt not displayed');
