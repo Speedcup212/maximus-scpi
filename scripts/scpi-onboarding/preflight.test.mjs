@@ -127,4 +127,5 @@ test('valuation conflict blocks even if all other source fields match', () => {
     source_period:'2026-T3'}};
   const r=assessBatch(data);
   assert.equal(r.status,'FAIL');
+  assert.equal(r.candidates[0].source_evidence_pass,false);
 });
