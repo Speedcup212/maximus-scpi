@@ -60,8 +60,10 @@ def audit_document(d,c,fetcher=download):
     sha=hashlib.sha256(raw).hexdigest()
     with fitz.open(stream=raw,filetype="pdf") as pdf:
         if not pdf.is_pdf or pdf.needs_pass or len(pdf)==0:raise ValueError("INVALID_PDF_STRUCTURE")
-        pages=[normalize(p.get_text(sort=True)) for p in pdf]
-    if sum(map(len,pages))<1500:raise ValueError("NATIVE_TEXT_LAYER_INSUFFICIENT")
+        native_pages=[p.get_text(sort=True) for p in pdf]
+    pages=[normalize(text) for text in native_pages]
+    native_text_characters=sum(map(len,native_pages))
+    if native_text_characters<1500:raise ValueError("NATIVE_TEXT_LAYER_INSUFFICIENT")
     opening=" ".join(pages[:2])
     fund_name=normalize(c.get("name"))
     cover_identity=fund_name in opening or fund_name.replace(" ","") in opening.replace(" ","")
@@ -87,10 +89,12 @@ def audit_document(d,c,fetcher=download):
         number=hint.get("page")
         token=normalize(hint.get("token",""))
         found=isinstance(number,int) and 1<=number<=len(pages) and bool(token) and token in pages[number-1]
+        actual_pages=[i+1 for i,text in enumerate(pages) if token and token in text]
         hints.append({"field":hint.get("field"),"page":number,"expected_token":hint.get("token"),
-                      "token_found_in_page_text":bool(found),"financially_certified":False})
+                      "token_found_in_page_text":bool(found),
+                      "pages_with_same_token":actual_pages,"financially_certified":False})
     return {"kind":kind,"reference_period":period,"source_url":final_url,"sha256":sha,
-            "page_count":len(pages),"native_text_characters":sum(map(len,pages)),
+            "page_count":len(pages),"native_text_characters":native_text_characters,
             "identity_location":"cover" if cover_identity else "body_native_text",
             "publisher_binary_pass":True,"fund_and_period_identity_pass":True,
             "page_hints":hints,"all_hints_found":all(h["token_found_in_page_text"] for h in hints),
