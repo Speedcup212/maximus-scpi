@@ -15,6 +15,53 @@
     "source_period": "2026-T2",
     "status": "DISCOVERED_ONLY",
     "document_sha256": null,
-    "note": "Public official pages verified; PDF bytes, exact pages and per-metric evidence not verified. No staging finance, no certification, no publication."
+    "note": "Financial values and per-page hints remain unapproved. PDF source verification must precede candidate staging and publication.",
+    "documents": [
+      {
+        "kind": "quarterly",
+        "reference_period": "2026-T2",
+        "url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+        "page_hints": [
+          {
+            "field": "tof",
+            "page": 4,
+            "token": "97,73"
+          },
+          {
+            "field": "prix_souscription",
+            "page": 5,
+            "token": "320"
+          },
+          {
+            "field": "prix_reconstitution",
+            "page": 5,
+            "token": "336,75"
+          },
+          {
+            "field": "valeur_realisation",
+            "page": 5,
+            "token": "305,55"
+          }
+        ]
+      },
+      {
+        "kind": "quarterly",
+        "reference_period": "2026-T1",
+        "url": "https://www.sofidy.com/app/uploads/2026/05/SOFIDYNAMIC-BT-1T-2026.pdf",
+        "page_hints": []
+      },
+      {
+        "kind": "annual",
+        "reference_period": "2025-RA",
+        "url": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+        "page_hints": [
+          {
+            "field": "td",
+            "page": 6,
+            "token": "9,04"
+          }
+        ]
+      }
+    ]
   }
 }

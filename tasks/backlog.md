@@ -95,3 +95,8 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Réconciliation sans écriture des valeurs datées, détection des contradictions interbulletins et preuve numérique exacte ajoutées au preflight, y compris tests des répétitions des dates d'arrêté.
 - Pilote 69e identifié pour la découverte documentaire : Sofidynamic (Sofidy). Fiche de découverte sur source officielle, mais les PDF binaires, empreintes et analyses ne sont pas certifiés. La candidate reste privée.
 - Aucune publication de données ni activation de connecteur ; la preuve de CI et l'état de la PR dédiée doivent être rapprochés avant clôture.
+
+### RECOVERY-070 — Phase 3 : preuve PDF Sofidynamic
+- Nouveau vérificateur générique de PDF d'éditeur en lecture seule, tests d'URL HTTPS exacte, redirections, véritable PDF, SHA-256, identité, période et couches de texte ; aucun champ publié ni attestation inventée.
+- Le manifeste pilote contient les trois URL Sofidy officielles (T1, T2 2026, annuel 2025) et des indices de pages explicitement non certifiés.
+- Workflow CI dédié : téléchargement par GitHub Actions, rapport SHA/pages en artefact ; échec fermé si une source est absente ou non vérifiable. La base MaximusSCPI reste à 68 SCPI et Sofidynamic en candidate privée jusqu'à certification du circuit.
