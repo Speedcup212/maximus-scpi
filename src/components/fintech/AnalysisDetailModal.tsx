@@ -92,6 +92,9 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
     if (status.startsWith('extracted_')) {
       return { label: 'Source officielle intégrée', className: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' };
     }
+    if (['approved_official_pdf_delegated_review','approved_official_pdf_verified_review','source_verified_approved_release'].includes(status)) {
+      return { label: 'Sources officielles contrôlées', className: 'text-slate-300 bg-slate-700/40 border-slate-600' };
+    }
     if (status === 'certified_and_final_reviewed') {
       const partial = [scpi.nombreLocataires,scpi.walt,scpi.walb,scpi.assetsCount,scpi.collecteNetteTrimestre].some(v=>v===undefined) || scpi.historyStatus !== 'CORE_HISTORY_VERIFIED';
       return {
@@ -732,7 +735,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                 </ResponsiveContainer>
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
                   <div className="text-3xl font-bold text-white">{scpi.geography.length}</div>
-                  <div className="text-sm text-slate-400">pays</div>
+                  <div className="text-sm text-slate-400">zones</div>
                 </div>
               </div>
               <div className="mt-4 space-y-2">
