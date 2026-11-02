@@ -56,8 +56,8 @@ test('UI reports actual annual data year or neutral wording, with issuer link bu
 
 test('Historical year labels survive either 61-public or full 65-CORUM official release',()=>{
  assert.equal(cohort.count,cohort.slugs.length);
- assert.ok([61,65,66].includes(cohort.count));
- if(cohort.count===66)assert.ok(cohort.slugs.includes('edr-europa'),'EdR must be the additional 66th fund');
+ assert.ok([61,65,66,68].includes(cohort.count));
+ if(cohort.count>=66)assert.ok(cohort.slugs.includes('edr-europa'),'EdR must be the additional 66th fund');
  const ids=['corum-eurion','corum-origin','corum-usa','corum-xl'];
  const included=ids.filter(slug=>cohort.slugs.includes(slug));
  assert.equal(included.length,cohort.count>=65?4:0);

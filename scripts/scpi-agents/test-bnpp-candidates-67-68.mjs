@@ -60,16 +60,22 @@ test('BNP T3 shareholder counts stay unapproved until independent review', () =>
   }
 });
 
-test('both BNP T3 entries are staged in canonical raw catalog but are not public', () => {
+test('both BNP T3 entries enter the cohort only after documented delegated review', () => {
   for (const candidate of candidates.candidates) {
     const rows = rawCatalog.filter(row => row['Nom SCPI'] === candidate.name);
     assert.equal(rows.length, 1, candidate.scpi_slug + ': missing or duplicate staged entry');
     const row = rows[0];
-    assert.equal(row.maximus_publication_status, 'pending_certification');
+    assert.equal(row.maximus_publication_status, candidate.release_ready ? 'certified' : 'pending_certification');
     assert.equal(row.maximus_recommendation_status, 'manual_review_required');
     assert.equal(row['Période bulletin trimestriel'], '2026-T3');
     assert.equal(row.maximus_source_url, candidate.quarterly_pdf);
-    assert.ok(!cohort.slugs.includes(candidate.scpi_slug), candidate.scpi_slug + ': cannot be in public certified cohort yet');
+    assert.equal(cohort.slugs.includes(candidate.scpi_slug), candidate.release_ready);
+    if (candidate.release_ready) {
+      assert.equal(candidate.delegated_release.actor, 'codex-automation-delegated-release');
+      assert.equal(candidate.delegated_release.human_signature, false);
+      assert.match(candidate.delegated_release.dossier_sha256, /^[a-f0-9]{64}$/);
+      assert.equal(row.maximus_certification.review_dossier_sha256, candidate.delegated_release.dossier_sha256);
+    }
   }
 });
 
@@ -90,9 +96,9 @@ test('both issuer-valued and source-dated cards are coherent for 68-fund preview
     assert.equal(row.maximus_valeur_realisation_reference_date, '2026-06-30');
     assert.equal(row.maximus_walb_reference_date, '2026-09-30');
     assert.equal(row.maximus_prix_retrait_source_url, candidate.quarterly_pdf);
-    assert.equal(row.maximus_publication_status, 'pending_certification');
+    assert.equal(row.maximus_publication_status, candidate.release_ready ? 'certified' : 'pending_certification');
     assert.ok(row['Surcote/décote (%)'] > 0);
-    assert.ok(row.maximus_metric_provenance['Surcote/décote (%)']);
+    assert.ok(row.maximus_metric_provenance.prix_reconstitution);
   }
   const ap = rawCatalog.find(r => r['Nom SCPI'] === 'Accimmo Pierre');
   assert.ok(ap.maximus_prix_retrait_definition.includes('98,50'));

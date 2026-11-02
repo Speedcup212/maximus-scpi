@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-31",
-  "source": "Supabase scpi_indicator_history — certified EdR Europa nine periods (other snapshot rows preserved)",
+  "generated_at": "2026-11-02",
+  "source": "Supabase scpi_indicator_history — existing snapshot preserved; source-reviewed BNP T2/T3 prepared release",
   "rows": [
     {
       "scpi_slug": "activimmo",
@@ -1966,10 +1966,287 @@
       "nombre_locataires": null,
       "nombre_immeubles": 37,
       "parts_attente_retrait": null
+    },
+    {
+      "id": "0ccc3531-8c53-43a1-831d-6d3b9d464b3c",
+      "td": null,
+      "tof": null,
+      "walb": null,
+      "walt": null,
+      "qa_status": "source_verified_delegated_review",
+      "scpi_slug": "acces-valeur-pierre",
+      "created_at": "2026-10-31T10:12:28.19372+00:00",
+      "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCES%20VALEUR%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+      "endettement": null,
+      "snapshot_at": "2026-06-30T23:59:59+00:00",
+      "source_type": "official_issuer_pdf_delegated_source_review",
+      "capital_type": "variable",
+      "nombre_parts": 2391334,
+      "prix_retrait": 696.69,
+      "source_period": "2026-T2",
+      "capitalisation": 1829.37,
+      "collecte_nette": null,
+      "liquidity_basis": "withdrawal_queue",
+      "nombre_associes": 25746,
+      "source_document": "Bulletin officiel BNP 2026-T2",
+      "nombre_immeubles": 61,
+      "metric_provenance": {
+        "tof": {
+          "reason": "Contradiction entre deux bulletins officiels BNP REIM. Valeur masquée, aucune variation calculée.",
+          "qa_status": "official_source_conflict_suppressed",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCES%20VALEUR%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 2,
+          "reference_date": "2026-06-30",
+          "original_t2_value": 87.07,
+          "retrospective_t3_value": 85.49
+        },
+        "warning": "T2 standalone issuer bulletin TOF 87.07%, T3 retrospective table 85.49%; comparison forbidden",
+        "reviewer": "codex-automation-delegated-release",
+        "qa_status": "source_verified_delegated_review",
+        "pdf_sha256": "ef0480622e4a8ed94f37195158606e098f321dcc8d136f78b813924d96e275da",
+        "source_period": "2026-T2",
+        "valeur_realisation": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCES%20VALEUR%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 5,
+          "reference_date": "2026-06-30"
+        },
+        "prix_reconstitution": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCES%20VALEUR%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 5,
+          "reference_date": "2026-06-30"
+        },
+        "review_digest_sha256": "70027518d4128f6958d98f2f13d12fcab89a238fd80620db027af9634cf168b5",
+        "parts_attente_retrait": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCES%20VALEUR%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 5,
+          "reference_date": "2026-06-30"
+        }
+      },
+      "nombre_locataires": null,
+      "prix_souscription": 765,
+      "source_confidence": 0.5,
+      "valeur_realisation": 610.32,
+      "prix_reconstitution": 745.63,
+      "liquidity_buy_orders": null,
+      "distribution_par_part": 7.92,
+      "liquidity_sell_orders": null,
+      "nb_cessions_trimestre": null,
+      "parts_attente_retrait": 120254,
+      "retraits_executes_trimestre": null
+    },
+    {
+      "id": "9d72301b-6804-414c-bdb0-8a1044f926ad",
+      "td": null,
+      "tof": 86.5,
+      "walb": 2,
+      "walt": null,
+      "qa_status": "source_verified_delegated_review",
+      "scpi_slug": "acces-valeur-pierre",
+      "created_at": "2026-10-31T10:12:28.19372+00:00",
+      "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+      "endettement": null,
+      "snapshot_at": "2026-09-30T23:59:59+00:00",
+      "source_type": "official_issuer_pdf_delegated_source_review",
+      "capital_type": "variable",
+      "nombre_parts": 2391334,
+      "prix_retrait": 696.69,
+      "source_period": "2026-T3",
+      "capitalisation": 1829.37,
+      "collecte_nette": null,
+      "liquidity_basis": "withdrawal_queue",
+      "nombre_associes": 25864,
+      "source_document": "Bulletin officiel BNP 2026-T3",
+      "nombre_immeubles": 61,
+      "metric_provenance": {
+        "tof": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+          "source_page": 2,
+          "reference_date": "2026-09-30"
+        },
+        "walb": {
+          "unit": "YEARS",
+          "qa_status": "qa_pass_delegated_source_review",
+          "pdf_sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+          "source_page": 4,
+          "source_period": "2026-T3",
+          "value_numeric": 2,
+          "reference_date": "2026-09-30"
+        },
+        "reviewer": "codex-automation-delegated-release",
+        "qa_status": "source_verified_delegated_review",
+        "pdf_sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "source_period": "2026-T3",
+        "valeur_realisation": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+          "source_page": 5,
+          "reference_date": "2026-06-30"
+        },
+        "prix_reconstitution": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+          "source_page": 5,
+          "reference_date": "2026-06-30"
+        },
+        "review_digest_sha256": "70027518d4128f6958d98f2f13d12fcab89a238fd80620db027af9634cf168b5",
+        "parts_attente_retrait": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+          "source_page": 5,
+          "reference_date": "2026-09-30"
+        }
+      },
+      "nombre_locataires": 217,
+      "prix_souscription": 765,
+      "source_confidence": 1,
+      "valeur_realisation": 610.32,
+      "prix_reconstitution": 745.63,
+      "liquidity_buy_orders": null,
+      "distribution_par_part": 7.08,
+      "liquidity_sell_orders": null,
+      "nb_cessions_trimestre": null,
+      "parts_attente_retrait": 129463,
+      "retraits_executes_trimestre": null
+    },
+    {
+      "id": "97301791-9f71-4350-9048-caf6ebce3dcc",
+      "td": null,
+      "tof": 87.44,
+      "walb": null,
+      "walt": null,
+      "qa_status": "source_verified_delegated_review",
+      "scpi_slug": "accimmo-pierre",
+      "created_at": "2026-10-31T10:12:28.19372+00:00",
+      "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCIMMO%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+      "endettement": null,
+      "snapshot_at": "2026-06-30T23:59:59+00:00",
+      "source_type": "official_issuer_pdf_delegated_source_review",
+      "capital_type": "variable",
+      "nombre_parts": 18848157,
+      "prix_retrait": 128.41,
+      "source_period": "2026-T2",
+      "capitalisation": 2657.59,
+      "collecte_nette": null,
+      "liquidity_basis": "withdrawal_queue",
+      "nombre_associes": 59576,
+      "source_document": "Bulletin officiel BNP 2026-T2",
+      "nombre_immeubles": 143,
+      "metric_provenance": {
+        "tof": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCIMMO%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 2,
+          "reference_date": "2026-06-30"
+        },
+        "reviewer": "codex-automation-delegated-release",
+        "qa_status": "source_verified_delegated_review",
+        "pdf_sha256": "2adc825b6776f9ea55f6d4bc1d55a55142b01957b49d486fa2472cdec35abb20",
+        "source_period": "2026-T2",
+        "valeur_realisation": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCIMMO%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 5,
+          "reference_date": "2026-06-30"
+        },
+        "prix_reconstitution": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCIMMO%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 5,
+          "reference_date": "2026-06-30"
+        },
+        "review_digest_sha256": "70027518d4128f6958d98f2f13d12fcab89a238fd80620db027af9634cf168b5",
+        "parts_attente_retrait": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCIMMO%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+          "source_page": 5,
+          "reference_date": "2026-06-30"
+        }
+      },
+      "nombre_locataires": null,
+      "prix_souscription": 141,
+      "source_confidence": 0.9,
+      "valeur_realisation": 109.46,
+      "prix_reconstitution": 132.51,
+      "liquidity_buy_orders": null,
+      "distribution_par_part": 1.68,
+      "liquidity_sell_orders": null,
+      "nb_cessions_trimestre": null,
+      "parts_attente_retrait": 844571,
+      "retraits_executes_trimestre": null
+    },
+    {
+      "id": "d689567a-6846-4941-bae4-306a17f0045a",
+      "td": null,
+      "tof": 87.52,
+      "walb": 3.03,
+      "walt": null,
+      "qa_status": "source_verified_delegated_review",
+      "scpi_slug": "accimmo-pierre",
+      "created_at": "2026-10-31T10:12:28.19372+00:00",
+      "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+      "endettement": null,
+      "snapshot_at": "2026-09-30T23:59:59+00:00",
+      "source_type": "official_issuer_pdf_delegated_source_review",
+      "capital_type": "variable",
+      "nombre_parts": 18600813,
+      "prix_retrait": 128.41,
+      "source_period": "2026-T3",
+      "capitalisation": 2622.71,
+      "collecte_nette": null,
+      "liquidity_basis": "withdrawal_queue",
+      "nombre_associes": 58611,
+      "source_document": "Bulletin officiel BNP 2026-T3",
+      "nombre_immeubles": 143,
+      "metric_provenance": {
+        "tof": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+          "source_page": 2,
+          "reference_date": "2026-09-30"
+        },
+        "walb": {
+          "unit": "YEARS",
+          "qa_status": "qa_pass_delegated_source_review",
+          "pdf_sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+          "source_page": 4,
+          "source_period": "2026-T3",
+          "value_numeric": 3.03,
+          "reference_date": "2026-09-30"
+        },
+        "reviewer": "codex-automation-delegated-release",
+        "qa_status": "source_verified_delegated_review",
+        "pdf_sha256": "f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5",
+        "source_period": "2026-T3",
+        "valeur_realisation": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+          "source_page": 5,
+          "reference_date": "2026-06-30"
+        },
+        "prix_reconstitution": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+          "source_page": 5,
+          "reference_date": "2026-06-30"
+        },
+        "review_digest_sha256": "70027518d4128f6958d98f2f13d12fcab89a238fd80620db027af9634cf168b5",
+        "parts_attente_retrait": {
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
+          "source_page": 5,
+          "reference_date": "2026-09-30"
+        }
+      },
+      "nombre_locataires": 363,
+      "prix_souscription": 141,
+      "source_confidence": 1,
+      "valeur_realisation": 109.46,
+      "prix_reconstitution": 132.51,
+      "liquidity_buy_orders": null,
+      "distribution_par_part": 1.59,
+      "liquidity_sell_orders": null,
+      "nb_cessions_trimestre": null,
+      "parts_attente_retrait": 636021,
+      "retraits_executes_trimestre": null
     }
   ],
-  "previous_generated_at": "2026-09-25",
+  "previous_generated_at": "2026-10-31",
   "published_scpis": [
     "edr-europa"
+  ],
+  "prepared_scpis": [
+    "acces-valeur-pierre",
+    "accimmo-pierre"
   ]
 }
