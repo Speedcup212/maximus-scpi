@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "scope": "ONBOARDING_ONLY_NOT_PUBLIC",
+  "scope": "SOURCE_REVIEWED_PREPARED_RELEASE",
   "target_cohort_count": 68,
   "issuer": "BNP Paribas REIM France",
-  "source_policy": "Issuer-only BNP Paribas REIM T3 2026 PDFs. Each page, period and SHA-256 traceable; no aggregator figures. Do not publish until independent financial, liquidity, regulatory and frontend QA and exact-cohort attestation.",
+  "source_policy": "Official issuer PDFs only. Delegated source review and authentic browser preflight completed; exact GitHub OIDC build and Netlify production SHA still required before atomic activation.",
   "candidates": [
     {
       "scpi_slug": "acces-valeur-pierre",
       "name": "Accès Valeur Pierre",
-      "release_ready": false,
+      "release_ready": true,
       "source_period": "2026-T3",
       "official_page_url": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/acces-valeur-pierre",
       "quarterly_pdf": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
@@ -148,12 +148,19 @@
         "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-05/ACCES%20VALEUR%20PIERRE_RA_FR_2025_def.pdf",
         "review": "qa_pass"
       },
-      "specific_liquidity_warning": "129,463 parts awaiting withdrawal as of 30 September 2026; 5.41% of 2,391,334 parts. Cash exit is not guaranteed."
+      "specific_liquidity_warning": "129,463 parts awaiting withdrawal as of 30 September 2026; 5.41% of 2,391,334 parts. Cash exit is not guaranteed.",
+      "delegated_release": {
+        "actor": "codex-automation-delegated-release",
+        "human_signature": false,
+        "dossier_sha256": "70027518d4128f6958d98f2f13d12fcab89a238fd80620db027af9634cf168b5",
+        "browser_run_url": "https://github.com/Speedcup212/maximus-scpi/actions/runs/41404875050",
+        "review_evidence_ref": "private_batch:bnpp-2026-t3-67-68"
+      }
     },
     {
       "scpi_slug": "accimmo-pierre",
       "name": "Accimmo Pierre",
-      "release_ready": false,
+      "release_ready": true,
       "source_period": "2026-T3",
       "official_page_url": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/accimmo-pierre",
       "quarterly_pdf": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
@@ -293,7 +300,14 @@
         "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-06/AP_RA2025_web.pdf",
         "review": "qa_pass"
       },
-      "specific_liquidity_warning": "Issuer T3 2026 describes a separate reimbursement-fund price of EUR 98.50 for certain withdrawals; it is NOT the standard EUR 128.41 withdrawal price and not guaranteed."
+      "specific_liquidity_warning": "Issuer T3 2026 describes a separate reimbursement-fund price of EUR 98.50 for certain withdrawals; it is NOT the standard EUR 128.41 withdrawal price and not guaranteed.",
+      "delegated_release": {
+        "actor": "codex-automation-delegated-release",
+        "human_signature": false,
+        "dossier_sha256": "70027518d4128f6958d98f2f13d12fcab89a238fd80620db027af9634cf168b5",
+        "browser_run_url": "https://github.com/Speedcup212/maximus-scpi/actions/runs/41404875050",
+        "review_evidence_ref": "private_batch:bnpp-2026-t3-67-68"
+      }
     }
   ],
   "hard_gates": [

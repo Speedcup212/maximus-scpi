@@ -18,9 +18,9 @@ fs.mkdirSync(OUT,{recursive:true});
 const slugs=new Set(COHORT.slugs);
 const corum=['corum-eurion','corum-origin','corum-usa','corum-xl'];
 const edr=slugs.has('edr-europa');
-if((COHORT.count!==65&&!edr)||(edr&&COHORT.count!==66)||
+if((COHORT.count!==65&&!edr)||(edr&&![66,68].includes(COHORT.count))||
     slugs.size!==COHORT.count||COHORT.slugs.length!==COHORT.count||
-    corum.some(id=>!slugs.has(id)))throw Error('Expected complete 65-CORUM or 66-EdR staged cohort');
+    corum.some(id=>!slugs.has(id)))throw Error('Expected complete approved CORUM/EdR/BNP cohort');
 for(const [slug,name,vr,buildings,investors] of EXPECTED){
  const row=CATALOG.find(x=>x['Nom SCPI']===name);
  if(!COHORT.slugs.includes(slug)||!row)throw Error('Published CORUM absent '+slug);

@@ -6,6 +6,21 @@ const load = path => JSON.parse(readFileSync(new URL(path, import.meta.url), 'ut
 const candidates = load('../../src/data/bnpp_candidates_67_68.json');
 const cohort = load('../../src/data/certified_scpi_cohort.json');
 const rawCatalog = load('../../src/data/scpi_complet.json');
+const exportedHistory = load('../../src/data/scpiIndicatorHistory.json');
+
+test('two source-reviewed BNP periods survive the actual public history confidence filter', () => {
+  for (const candidate of candidates.candidates) {
+    const rows = exportedHistory.rows.filter(r => r.scpi_slug === candidate.scpi_slug &&
+      Number(r.source_confidence) >= 0.95 && !String(r.qa_status || '').startsWith('invalid'));
+    assert.deepEqual(rows.map(r => r.source_period).sort(), ['2026-T2','2026-T3']);
+    assert.ok(rows.every(r => r.source_url.startsWith('https://reim.bnpparibas-am.com/')));
+  }
+  const disputed = exportedHistory.rows.find(r => r.scpi_slug === 'acces-valeur-pierre' && r.source_period === '2026-T2');
+  assert.equal(disputed.tof, null);
+  assert.equal(disputed.metric_provenance.tof.qa_status, 'official_source_conflict_suppressed');
+  assert.equal(disputed.metric_provenance.tof.original_t2_value, 87.07);
+  assert.equal(disputed.metric_provenance.tof.retrospective_t3_value, 85.49);
+});
 
 test('BNP candidate manifest is unique and backed by official sources', () => {
   assert.equal(candidates.candidates.length, 2);
@@ -60,16 +75,22 @@ test('BNP T3 shareholder counts stay unapproved until independent review', () =>
   }
 });
 
-test('both BNP T3 entries are staged in canonical raw catalog but are not public', () => {
+test('both BNP T3 entries enter the cohort only after documented delegated review', () => {
   for (const candidate of candidates.candidates) {
     const rows = rawCatalog.filter(row => row['Nom SCPI'] === candidate.name);
     assert.equal(rows.length, 1, candidate.scpi_slug + ': missing or duplicate staged entry');
     const row = rows[0];
-    assert.equal(row.maximus_publication_status, 'pending_certification');
+    assert.equal(row.maximus_publication_status, candidate.release_ready ? 'certified' : 'pending_certification');
     assert.equal(row.maximus_recommendation_status, 'manual_review_required');
     assert.equal(row['Période bulletin trimestriel'], '2026-T3');
     assert.equal(row.maximus_source_url, candidate.quarterly_pdf);
-    assert.ok(!cohort.slugs.includes(candidate.scpi_slug), candidate.scpi_slug + ': cannot be in public certified cohort yet');
+    assert.equal(cohort.slugs.includes(candidate.scpi_slug), candidate.release_ready);
+    if (candidate.release_ready) {
+      assert.equal(candidate.delegated_release.actor, 'codex-automation-delegated-release');
+      assert.equal(candidate.delegated_release.human_signature, false);
+      assert.match(candidate.delegated_release.dossier_sha256, /^[a-f0-9]{64}$/);
+      assert.equal(row.maximus_certification.review_dossier_sha256, candidate.delegated_release.dossier_sha256);
+    }
   }
 });
 
@@ -90,9 +111,9 @@ test('both issuer-valued and source-dated cards are coherent for 68-fund preview
     assert.equal(row.maximus_valeur_realisation_reference_date, '2026-06-30');
     assert.equal(row.maximus_walb_reference_date, '2026-09-30');
     assert.equal(row.maximus_prix_retrait_source_url, candidate.quarterly_pdf);
-    assert.equal(row.maximus_publication_status, 'pending_certification');
+    assert.equal(row.maximus_publication_status, candidate.release_ready ? 'certified' : 'pending_certification');
     assert.ok(row['Surcote/décote (%)'] > 0);
-    assert.ok(row.maximus_metric_provenance['Surcote/décote (%)']);
+    assert.ok(row.maximus_metric_provenance.prix_reconstitution);
   }
   const ap = rawCatalog.find(r => r['Nom SCPI'] === 'Accimmo Pierre');
   assert.ok(ap.maximus_prix_retrait_definition.includes('98,50'));

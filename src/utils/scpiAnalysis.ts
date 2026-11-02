@@ -55,7 +55,7 @@ export const getCapitalizationCategory = (capitalization: number): Capitalizatio
     return {
       category: 'grande',
       label: 'SCPI de grande taille',
-      liquidityQualification: 'liquidité structurellement plus robuste, sans garantie',
+      liquidityQualification: 'liquidité des parts non garantie',
       liquidityPotential: 'robuste'
     };
   }

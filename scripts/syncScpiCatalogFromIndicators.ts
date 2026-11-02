@@ -42,7 +42,7 @@ const [{ data, error }, { data: analysisData, error: analysisError }, { data: bu
   historyClient
     ? historyClient.from('scpi_metric_certifications')
         .select('scpi_slug,source_period,metric,value_numeric,source_url,source_page,verification_status')
-        .eq('metric','prix_retrait').eq('source_period','2026-T2')
+        .eq('metric','prix_retrait')
         .eq('verification_status','manual_verified_official').limit(5000)
     : Promise.resolve({ data: [], error: null }),
 ]);
@@ -67,7 +67,7 @@ if (retraitError) {
 const bySlug = new Map((data || []).map((row: any) => [row.scpi_slug, row]));
 const certificationBySlug = new Map((analysisData || []).map((row: any) => [row.scpi_slug, row]));
 const bulletinById = new Map((bulletinData || []).map((row: any) => [row.id, row]));
-const retraitBySlug = new Map((retraitProofs || []).map((row: any) => [row.scpi_slug,row]));
+const retraitBySlug = new Map((retraitProofs || []).map((row: any) => [`${row.scpi_slug}|${row.source_period}`,row]));
 // Le registre historique est privé : le consulter uniquement avec la clé serveur.
 // Ne JAMAIS assimiler une QA courante à une certification depuis la création.
 
@@ -91,7 +91,9 @@ const assign = (target: Record<string, any>, key: string, value: unknown) => {
   if (value !== null && value !== undefined && value !== '') target[key] = value;
 };
 
-const isManualVerified = (status: unknown) => /^manual_verified/i.test(String(status || ''));
+const isSourceReviewed = (status: unknown) => /^manual_verified/i.test(String(status || '')) ||
+  status === 'approved_official_pdf_delegated_review' || status === 'approved_official_pdf_verified_review' ||
+  status === 'source_verified_approved_release';
 
 for (const scpi of catalog) {
   const slug = slugify(scpi['Nom SCPI']);
@@ -122,14 +124,29 @@ for (const scpi of catalog) {
   assign(scpi, 'Valeur de retrait (€)', row.prix_retrait);
   // Documentation du prix de retrait, à la source et période qui lui sont propres.
   // La présence de frais de souscription ne suffit pas à certifier une valeur de retrait.
-  const retraitProof: any = retraitBySlug.get(slug);
+  const fieldProof = row.metric_provenance?.prix_retrait;
+  // A still-identical officially certified value retains its actual older date.
+  // Do not erase the last known proof merely because a newer bulletin exists.
+  const lastKnownRetraitProof = row.capital_type === 'variable' &&
+    !String(row.metric_provenance?.liquidity_basis || '').startsWith('secondary_market')
+    ? (retraitProofs || []).filter((p: any) => p.scpi_slug === slug &&
+        /^20\d{2}-T[1-4]$/.test(String(p.source_period)) &&
+        String(p.source_period) <= String(row.source_period) &&
+        Number(p.value_numeric) === Number(row.prix_retrait))
+        .sort((a: any,b: any) => String(b.source_period).localeCompare(String(a.source_period)))[0]
+    : null;
+  const retraitProof: any = retraitBySlug.get(`${slug}|${row.source_period}`) ||
+    (fieldProof && /^qa_pass/.test(String(fieldProof.qa_status || '')) &&
+      /^[a-f0-9]{64}$/.test(String(fieldProof.pdf_sha256 || '')) &&
+      fieldProof.value_numeric !== null && fieldProof.value_numeric !== undefined
+      ? {...fieldProof, source_period: row.source_period} : null) || lastKnownRetraitProof;
   if (row.prix_retrait !== null && row.prix_retrait !== undefined &&
       retraitProof && Number(retraitProof.value_numeric) === Number(row.prix_retrait) &&
       Number(retraitProof.source_page) > 0 && /^https:\/\//.test(String(retraitProof.source_url))) {
     scpi.maximus_prix_retrait_source_url = retraitProof.source_url;
     scpi.maximus_prix_retrait_source_page = retraitProof.source_page;
     scpi.maximus_prix_retrait_reference_period = retraitProof.source_period;
-    scpi.maximus_prix_retrait_definition =
+    scpi.maximus_prix_retrait_definition = retraitProof.definition ||
       'Prix de retrait par compensation, sans garantie de délai ni de remboursement ; valeur susceptible de varier selon les conditions contractuelles.';
   } else {
     delete scpi.maximus_prix_retrait_source_url;
@@ -178,7 +195,7 @@ for (const scpi of catalog) {
   const valuesPresent = Number.isFinite(price) && Number.isFinite(reconstitution) && reconstitution > 0;
   const priceSemanticsCertified =
     valuesPresent &&
-    isManualVerified(row.qa_status) &&
+    isSourceReviewed(row.qa_status) &&
     certification?.current_source_certified === true &&
     certification?.structural_event_detected !== true &&
     String(row.capital_type || '').toLowerCase() === 'variable';

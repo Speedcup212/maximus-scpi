@@ -56,7 +56,7 @@ jobs:
         run: npm ci
       - name: Prepare CORUM browser environment for 61, 65 or 66 exact funds
         run: |
-          if node -e "const c=require('./src/data/certified_scpi_cohort.json');const s=new Set(c.slugs);const corum=['corum-eurion','corum-origin','corum-usa','corum-xl'];process.exit((c.count===65||c.count===66)&&c.slugs.length===c.count&&corum.every(id=>s.has(id))&&(c.count===65||s.has('edr-europa'))?0:1)"; then
+          if node -e "const c=require('./src/data/certified_scpi_cohort.json');const s=new Set(c.slugs);const corum=['corum-eurion','corum-origin','corum-usa','corum-xl'];process.exit([65,66,68].includes(c.count)&&c.slugs.length===c.count&&s.size===c.count&&corum.every(id=>s.has(id))&&(c.count===65||s.has('edr-europa'))?0:1)"; then
             echo "Four approved CORUM already in cohort; preserve existing 65 or staged 66 funds, no staging overlay permitted."
             node -e "const c=require('./src/data/certified_scpi_cohort.json'); const ids=['corum-eurion','corum-origin','corum-usa','corum-xl'];if(!ids.every(id=>c.slugs.includes(id)))process.exit(1)"
           else

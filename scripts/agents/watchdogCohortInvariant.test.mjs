@@ -21,7 +21,9 @@ test('Certified cohort remains internally coherent and separated from provisiona
  // never let this change silently drop any of the four CORUM.
  const edrIncluded=cohort.slugs.includes('edr-europa');
  if(edrIncluded)assert.equal(included.length,4,'EdR cannot replace any of the four CORUM');
- assert.equal(cohort.count,61+included.length+(edrIncluded?1:0));
+ const bnpp=['acces-valeur-pierre','accimmo-pierre'].filter(id=>cohort.slugs.includes(id));
+ assert.ok(bnpp.length===0||bnpp.length===2,'BNP publication is atomic');
+ assert.equal(cohort.count,61+included.length+(edrIncluded?1:0)+bnpp.length);
  if(included.length===4){
   const catalog=JSON.parse(read('src/data/scpi_complet.json'));
   const slug=name=>String(name).toLowerCase().normalize('NFD')

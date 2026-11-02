@@ -22,7 +22,7 @@ def page_text(page):
 
 
 def check(manifest, root):
-    assert manifest["scope"] == "ONBOARDING_ONLY_NOT_PUBLIC"
+    assert manifest["scope"] in ("ONBOARDING_ONLY_NOT_PUBLIC", "SOURCE_REVIEWED_PREPARED_RELEASE")
     assert manifest["target_cohort_count"] == 68
     assert {c["scpi_slug"] for c in manifest["candidates"]} == set(EXPECTED)
     results = []
@@ -30,7 +30,13 @@ def check(manifest, root):
         slug = candidate["scpi_slug"]
         url = candidate["quarterly_pdf"]
         assert url.startswith("https://reim.bnpparibas-am.com/sites/default/files/docs/")
-        assert candidate["release_ready"] is False
+        assert isinstance(candidate["release_ready"], bool)
+        if candidate["release_ready"]:
+            release = candidate["delegated_release"]
+            assert release["actor"] == "codex-automation-delegated-release"
+            assert release["human_signature"] is False
+            assert re.fullmatch(r"[a-f0-9]{64}", release["dossier_sha256"])
+            assert release["review_evidence_ref"] == "private_batch:bnpp-2026-t3-67-68"
         assert candidate["source_period"] == "2026-T3"
         local = root / (slug + "-T3-2026.pdf")
         if local.exists():

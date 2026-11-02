@@ -68,7 +68,7 @@ export const ScpiLeaseDurations: React.FC<ScpiLeaseDurationsProps> = ({
       {source && <div className="mt-3 text-xs text-sky-300">
         <a className="inline-flex items-center gap-1 underline underline-offset-2"
           href={source} target="_blank" rel="noopener noreferrer">
-          Bulletin officiel CORUM <ExternalLink className="h-3 w-3" />
+          {isCorum ? 'Bulletin officiel CORUM' : 'Bulletin officiel de la société de gestion'} <ExternalLink className="h-3 w-3" />
         </a>
       </div>}
     </section>
