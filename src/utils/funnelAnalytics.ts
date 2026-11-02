@@ -1,4 +1,5 @@
-import { getAttribution } from './attribution';
+import { hasAnalyticsConsent } from './analyticsConsent';
+import { getAttribution, persistAttribution } from './attribution';
 
 export type FunnelEventName =
   | 'quiz_started'
@@ -21,21 +22,7 @@ export type FunnelEventName =
 
 type FunnelMetadata = Record<string, string | number | boolean | null | undefined>;
 
-const CONSENT_KEY = 'cookie-consent';
 const SESSION_KEY = 'maximus_funnel_session_id';
-
-const hasAnalyticsConsent = () => {
-  if (typeof window === 'undefined') return false;
-
-  try {
-    const raw = localStorage.getItem(CONSENT_KEY);
-    if (!raw) return false;
-    const parsed = JSON.parse(raw) as { analytics?: boolean };
-    return parsed.analytics === true;
-  } catch {
-    return false;
-  }
-};
 
 const getSessionId = () => {
   let sessionId = sessionStorage.getItem(SESSION_KEY);
@@ -82,6 +69,7 @@ export const trackFunnelEvent = (
 ) => {
   if (typeof window === 'undefined' || !hasAnalyticsConsent()) return;
 
+  persistAttribution();
   const safeMetadata = sanitizeMetadata({ ...metadata, ...getAttribution() });
   const sessionId = getSessionId();
 

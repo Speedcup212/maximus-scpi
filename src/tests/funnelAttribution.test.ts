@@ -1,8 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { captureAttribution } from '../utils/attribution';
-import { trackFunnelEvent, type FunnelEventName } from '../utils/funnelAnalytics';
-import { submitLead } from '../utils/leadSubmitter';
+import type { FunnelEventName } from '../utils/funnelAnalytics';
 import { buildCalendlyUrl } from '../config/calendly';
+
+let captureAttribution: typeof import('../utils/attribution').captureAttribution;
+let trackFunnelEvent: typeof import('../utils/funnelAnalytics').trackFunnelEvent;
+let submitLead: typeof import('../utils/leadSubmitter').submitLead;
 
 const database = vi.hoisted(() => ({ insert: vi.fn(), invoke: vi.fn() }));
 vi.mock('../supabaseClient', () => ({
@@ -26,11 +28,13 @@ const eventNames: FunnelEventName[] = [
 describe('funnel and existing lead consumers receive session attribution', () => {
   let browser: { location: URL; dataLayer: unknown[]; gtag: ReturnType<typeof vi.fn> };
   let consent: string | null;
+  let session: Map<string, string>;
   const send = vi.fn<typeof fetch>();
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    vi.resetModules();
     vi.clearAllMocks();
-    const session = new Map<string, string>();
+    session = new Map<string, string>();
     consent = JSON.stringify({ analytics: true });
     browser = {
       location: new URL('https://maximusscpi.com/simulateur-scpi/'),
@@ -41,7 +45,7 @@ describe('funnel and existing lead consumers receive session attribution', () =>
     vi.stubGlobal('localStorage', { getItem: () => consent });
     vi.stubGlobal('sessionStorage', {
       getItem: (key: string) => session.get(key) ?? null,
-      setItem: (key: string, value: string) => session.set(key, value),
+      setItem: vi.fn((key: string, value: string) => session.set(key, value)),
     });
     send.mockResolvedValue(new Response(null, { status: 204 }));
     vi.stubGlobal('fetch', send);
@@ -49,6 +53,9 @@ describe('funnel and existing lead consumers receive session attribution', () =>
     database.invoke.mockResolvedValue({});
     vi.spyOn(console, 'log').mockImplementation(() => undefined);
     vi.spyOn(console, 'info').mockImplementation(() => undefined);
+    ({ captureAttribution } = await import('../utils/attribution'));
+    ({ trackFunnelEvent } = await import('../utils/funnelAnalytics'));
+    ({ submitLead } = await import('../utils/leadSubmitter'));
   });
 
   afterEach(() => {
@@ -88,8 +95,44 @@ describe('funnel and existing lead consumers receive session attribution', () =>
       expect(send).not.toHaveBeenCalled();
       expect(browser.dataLayer).toEqual([]);
       expect(browser.gtag).not.toHaveBeenCalled();
+      expect(session.size).toBe(0);
+      expect(sessionStorage.setItem).not.toHaveBeenCalled();
     },
   );
+
+  it('persists same-page acquisition at the first event after late acceptance', () => {
+    consent = null;
+    browser.location.search = new URLSearchParams(attribution).toString();
+    captureAttribution();
+    expect(session.size).toBe(0);
+    expect(send).not.toHaveBeenCalled();
+
+    consent = JSON.stringify({ analytics: true });
+    send.mockImplementation(() => {
+      for (const [key, value] of Object.entries(attribution)) {
+        expect(session.get(key)).toBe(value);
+      }
+      return Promise.resolve(new Response(null, { status: 204 }));
+    });
+    trackFunnelEvent('simulation_start');
+    expect(send).toHaveBeenCalledTimes(1);
+    expect(loggedEvent()).toMatchObject({
+      event_name: 'simulation_start', path: '/simulateur-scpi/', metadata: attribution,
+    });
+    expect(browser.dataLayer).toEqual([{ event: 'simulation_start', ...attribution }]);
+  });
+
+  it('retains in-memory UTM during SPA navigation before late acceptance', () => {
+    consent = null;
+    arriveThenNavigate();
+    expect(session.size).toBe(0);
+    consent = JSON.stringify({ analytics: true });
+    trackFunnelEvent('lead_form_opened');
+    expect(loggedEvent().metadata).toEqual(attribution);
+    for (const [key, value] of Object.entries(attribution)) {
+      expect(session.get(key)).toBe(value);
+    }
+  });
 
   it('retains the existing event payload when the session has no UTM', () => {
     trackFunnelEvent('simulation_start', { step: 1, source: 'site', unused: 'discard' });
@@ -123,7 +166,9 @@ describe('funnel and existing lead consumers receive session attribution', () =>
 
   it.each([true, false])('passes UTM to the unchanged submitLead (analytics consent: %s)', async (allowed) => {
     consent = JSON.stringify({ analytics: allowed });
-    arriveThenNavigate();
+    browser.location.search = new URLSearchParams(attribution).toString();
+    captureAttribution();
+    if (allowed) browser.location = new URL('https://maximusscpi.com/contact/');
     const result = await submitLead({
       channel: 'contact', form_type: 'lead_rdv',
       identity: { email: 'fixture@example.test' }, answers: { action: 'calendly' },
@@ -140,6 +185,8 @@ describe('funnel and existing lead consumers receive session attribution', () =>
       expect(send).not.toHaveBeenCalled();
       expect(browser.dataLayer).toEqual([]);
       expect(browser.gtag).not.toHaveBeenCalled();
+      expect(session.size).toBe(0);
+      expect(sessionStorage.setItem).not.toHaveBeenCalled();
     }
   });
 
