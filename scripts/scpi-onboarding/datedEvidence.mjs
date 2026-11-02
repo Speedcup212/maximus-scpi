@@ -41,6 +41,11 @@ export function reconcileDatedValues(indicator, history = [], options = {}) {
         errors.push(field+':INVALID_NUMERIC_VALUE'); continue;
       }
       if(!proofValid(proof)) {
+        if(row!==indicator){
+          // Older public QA history may not carry field-level proof. It cannot
+          // establish a new dated observation or certify a comparison.
+          warnings.push(field+':HISTORY_UNVERIFIED_EXCLUDED');continue;
+        }
         errors.push(field+':UNDATED_OR_UNSOURCED_VALUE');continue;
       }
       const url=new URL(proof.source_url);
