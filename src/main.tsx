@@ -3,6 +3,9 @@ import type { ComponentType, ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import HomeApp from './HomeApp';
+import { captureAttribution } from './utils/attribution';
+
+captureAttribution();
 
 declare global {
   interface Window {

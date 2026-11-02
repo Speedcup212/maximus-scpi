@@ -43,3 +43,20 @@ RECOVERY-027 — Jalons atteints : 65 PASS / 65 readiness, pipeline protégé ap
 
 ## RECOVERY-068 — BNP 67/68 delegated publication (owner authorized 2026-11-01)
 Active scope: remove per-SCPI human-only actor requirements under standing delegation; retain truthful financial, document, browser and security evidence; finalize Accès Valeur Pierre and Accimmo Pierre. Source PDFs: 47 exact page/token/hash checks PASS. 15 onboarding/release tests PASS. Delegation private access and unknown-actor rejection verified in Supabase. Local Chromium fails to launch with socket EPERM; GitHub CI is required for authentic browser evidence. Publication is NOT complete. Repair the non-idempotent hero prebuild patch discovered during validation, with regression test.
+
+## RECOVERY-069 — Hotfix de mesure autorisé par Eric le 02/11/2026 : attribution UTM du funnel
+
+- Autorisation explicite limitée à ce hotfix ; branche dédiée `fix/attribution-utm-funnel` demandée par Eric, en exception à la branche Recovery historique.
+- Périmètre : `src/utils/attribution.ts`, `src/main.tsx`, `src/utils/funnelAnalytics.ts`, `netlify/functions/funnel-event.ts`, tests Vitest dédiés et cette trace de tâche.
+- Capture initiale de `utm_source`, `utm_medium`, `utm_campaign` dans les clés de session existantes ; conservation de la première valeur par clé ; normalisation `[a-z0-9_-]`, minuscules, 80 caractères.
+- Événements soumis au consentement analytics existant ; seules les trois nouvelles clés sont autorisées côté serveur. Aucun champ personnel ajouté aux événements.
+- Vérifier les consommateurs `leadSubmitter.ts` et `src/config/calendly.ts` sans les modifier. `track-funnel-event.mts`, les pages éditoriales interdites, Supabase, les migrations et la home restent hors périmètre.
+- Validation : six scénarios demandés, `npm run test`, puis `npm run typecheck` ; comparer les échecs à la base avant correction. Build Vite de production sans les scripts de génération SCPI/SEO hors périmètre.
+- Limites à signaler : stockage de session avant le choix cookies ; anciens composants pouvant réécrire les UTM ; aucune garantie d'attribution sans URL balisée ni entre sessions.
+- Diagnostic confirmé : les deux listes autorisées excluaient les UTM et la capture n'était pas globale. `captureAttribution()` est appelé une fois avant `createRoot`. Aucune référence à `track-funnel-event.mts` dans `src/` ; le consommateur réel appelle `/api/funnel-event`.
+- Résultats locaux : 47/47 nouveaux tests PASS ; `npm run test` = 188 PASS / 3 échecs préexistants inchangés dans `scpi-bulletin-edge-protection.test.ts` (contrôle de l'hôte émetteur des fixtures). Avant correction : 141 PASS / les mêmes 3 échecs.
+- `npm run typecheck` = échec préexistant : 1 020 diagnostics sur 187 fichiers, identiques avant/après comparaison hors numéros de ligne ; aucun nouveau diagnostic, aucune correction hors périmètre.
+- Non-régression historique : 11/11 tests des conversions et de l'endpoint PASS. Build Vite de production PASS (`npx vite build --outDir /tmp/maximus-utm-vite-build`) ; pipeline complet `npm run build` non lancé car il exécute les générateurs SCPI/SEO hors périmètre. Aucun artefact de build commité.
+- `submitLead` et `buildCalendlyUrl` vérifiés avec les UTM après navigation, sans modification et sans accès à une base réelle. Les événements restent bloqués sans consentement analytics.
+- À arbitrer : la capture globale stocke les UTM avant le choix cookies (comportement déjà présent dans `RdvModal`, désormais généralisé). `RdvModal`, `EmailSimulationModal` et les anciennes landing pages peuvent toujours écraser les clés partagées : l'utilitaire conserve la première valeur, mais ne peut garantir cette règle face à ces écritures hors périmètre. Le getter nettoie aussi ces valeurs lors de l'émission des événements ; il ne réécrit pas les données lues par les leads.
+- État : correctif implémenté et validé sur son périmètre, prêt pour PR. Les gates globaux restent en échec préexistant ; aucune clôture de release, aucun merge ni déploiement autorisé.

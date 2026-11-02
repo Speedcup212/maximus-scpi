@@ -1,3 +1,5 @@
+import { getAttribution } from './attribution';
+
 export type FunnelEventName =
   | 'quiz_started'
   | 'quiz_step_1_completed'
@@ -59,6 +61,9 @@ const sanitizeMetadata = (metadata: FunnelMetadata) => {
     'origin',
     'horizon',
     'threshold',
+    'utm_source',
+    'utm_medium',
+    'utm_campaign',
   ]);
 
   return Object.fromEntries(
@@ -77,7 +82,7 @@ export const trackFunnelEvent = (
 ) => {
   if (typeof window === 'undefined' || !hasAnalyticsConsent()) return;
 
-  const safeMetadata = sanitizeMetadata(metadata);
+  const safeMetadata = sanitizeMetadata({ ...metadata, ...getAttribution() });
   const sessionId = getSessionId();
 
   // GTM / GA4 can consume the exact same event names.
