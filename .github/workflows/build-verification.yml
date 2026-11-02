@@ -50,6 +50,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Validate all workflow YAML before SCPI gates
+        run: node --test scripts/scpi-onboarding/workflowSyntax.test.mjs
+
       - name: Generic SCPI onboarding evidence and baseline retention
         run: |
           node --test scripts/scpi-onboarding/preflight.test.mjs scripts/scpi-onboarding/cohortInvariant.test.mjs scripts/scpi-onboarding/autoRemediate.test.mjs scripts/scpi-onboarding/candidateConsistency.test.mjs

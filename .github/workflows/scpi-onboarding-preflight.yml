@@ -55,5 +55,3 @@ jobs:
           path: test-results/scpi-auto-recovery/
           retention-days: 14
           if-no-files-found: warn
-          retention-days: 14
-          if-no-files-found: warn
