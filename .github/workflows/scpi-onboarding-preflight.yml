@@ -30,11 +30,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Test generic cohort, provenance, absence and period guards
-        run: node --test scripts/scpi-onboarding/preflight.test.mjs scripts/scpi-onboarding/datedEvidence.test.mjs scripts/scpi-onboarding/discovery.test.mjs scripts/scpi-onboarding/roundedAllocationPolicy.test.mjs scripts/scpi-onboarding/candidateConsistency.test.mjs
+        run: node --test scripts/scpi-onboarding/preflight.test.mjs scripts/scpi-onboarding/datedEvidence.test.mjs scripts/scpi-onboarding/discovery.test.mjs scripts/scpi-onboarding/roundedAllocationPolicy.test.mjs scripts/scpi-onboarding/candidateConsistency.test.mjs scripts/scpi-onboarding/autoRemediate.test.mjs
       - name: Regression preflight on the two published BNP candidates
         run: node scripts/scpi-onboarding/preflight.mjs --manifest scripts/scpi-onboarding/fixtures/bnpp-2026-t3.json
       - name: Discovery gate on the prospective 69th SCPI (no financial publication)
         run: node scripts/scpi-onboarding/discovery.mjs --manifest scripts/scpi-onboarding/fixtures/sofidynamic-69-discovery.json
+      - name: Autonomous detector and safe-remediation dry run (never public)
+        run: node scripts/scpi-onboarding/autoRemediate.mjs --scan --report test-results/scpi-auto-recovery/preflight.json
       - name: Install Chromium
         run: npx puppeteer browsers install chrome
       - name: Generic desktop/mobile candidate interface matrix
@@ -45,5 +47,13 @@ jobs:
         with:
           name: scpi-onboarding-${{ github.run_id }}
           path: test-results/scpi-onboarding/
+      - name: Archive automatic issue classification and repair plan
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scpi-auto-recovery-preflight-${{ github.run_id }}
+          path: test-results/scpi-auto-recovery/
+          retention-days: 14
+          if-no-files-found: warn
           retention-days: 14
           if-no-files-found: warn

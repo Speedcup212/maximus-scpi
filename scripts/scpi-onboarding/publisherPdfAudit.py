@@ -34,6 +34,7 @@ def download(url):
         command=["curl","--fail","--silent","--show-error","--location",
                  "--proto","=https","--proto-redir","=https",
                  "--max-redirs","3","--max-time","80",
+                 "--retry","2","--retry-delay","2","--retry-max-time","75",
                  "--max-filesize",str(MAX_BYTES),
                  "--user-agent","Mozilla/5.0",
                  "--output",str(dest),"--write-out","%{url_effective}",url]
