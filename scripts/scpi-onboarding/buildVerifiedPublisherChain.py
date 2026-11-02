@@ -42,9 +42,17 @@ def verified_bundle(output):
             raise ValueError("UNEXPECTED_LEAF_ISSUER")
         if not HTTPS_ISSUER_URI.startswith("https://crt.sectigo.com/"):
             raise ValueError("AIA_CA_DOWNLOAD_NOT_ALLOWED")
-        req=urllib.request.Request(HTTPS_ISSUER_URI,headers={"User-Agent":"Mozilla/5.0"})
-        with urllib.request.urlopen(req,timeout=30) as response:
-            data=response.read(100000)
+        # Only if the HTTPS CA endpoint cannot handshake, use the exact
+        # HTTP AIA URI from the leaf. Its bytes remain UNTRUSTED until
+        # openssl verify proves the chain to the OS root below.
+        try:
+            req=urllib.request.Request(HTTPS_ISSUER_URI,headers={"User-Agent":"Mozilla/5.0"})
+            with urllib.request.urlopen(req,timeout=20) as response:
+                data=response.read(100000)
+        except Exception:
+            req=urllib.request.Request(AIA_URI,headers={"User-Agent":"Mozilla/5.0"})
+            with urllib.request.urlopen(req,timeout=20) as response:
+                data=response.read(100000)
         downloaded.write_bytes(data)
         try:
             normalized=command(["openssl","x509","-inform","DER","-in",str(downloaded),"-outform","PEM"])
