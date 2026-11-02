@@ -78,3 +78,8 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Tranche réalisée sur `fix/recovery-070-scpi-onboarding` : baseline immuable de 68 slugs, contrôle de cohorte extensible sans substitution, manifeste de candidats réutilisable, préflight PDF/page/date/empreinte/période, états d'absence et tests unitaires, navigateur desktop/mobile paramétré, workflow CI autonome.
 - Sécurité : extraction/QA uniquement, pas d'écriture Supabase, pas de promotion automatique, pas d'attestation fictive. Les contrôles OIDC/RLS/commit/build/revue déléguée et publication atomique restent obligatoires.
 - Traçabilité : docs/scpi/RECOVERY-070-onboarding.md. Gate de build ajouté ; résultats de CI et essai 69e SCPI à compléter avant de déclarer le chantier entièrement clos.
+
+### RECOVERY-070 — Phase 2 (02/11/2026)
+- Réconciliation sans écriture des valeurs datées, détection des contradictions interbulletins et preuve numérique exacte ajoutées au preflight, y compris tests des répétitions des dates d'arrêté.
+- Pilote 69e identifié pour la découverte documentaire : Sofidynamic (Sofidy). Fiche de découverte sur source officielle, mais les PDF binaires, empreintes et analyses ne sont pas certifiés. La candidate reste privée.
+- Aucune publication de données ni activation de connecteur ; la preuve de CI et l'état de la PR dédiée doivent être rapprochés avant clôture.

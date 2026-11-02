@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "batch_id": "sofidynamic-69-discovery",
+  "mode": "new",
+  "candidate": {
+    "slug": "sofidynamic",
+    "name": "Sofidynamic",
+    "issuer_hosts": [
+      "www.sofidy.com",
+      "sofidy.com"
+    ],
+    "official_product_page": "https://www.sofidy.com/solutions/sofidynamic/",
+    "official_bulletins_page": "https://www.sofidy.com/actualites/scpi-sofidy-les-bulletins-trimestriels-du-2eme-trimestre-2026/",
+    "official_annual_report": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+    "source_period": "2026-T2",
+    "status": "DISCOVERED_ONLY",
+    "document_sha256": null,
+    "note": "Public official pages verified; PDF bytes, exact pages and per-metric evidence not verified. No staging finance, no certification, no publication."
+  }
+}

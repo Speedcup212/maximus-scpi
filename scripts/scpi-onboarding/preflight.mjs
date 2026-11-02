@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { reconcileDatedValues } from './datedEvidence.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const SHA = /^[a-f0-9]{64}$/;
@@ -129,6 +130,8 @@ export function assessCandidate(spec, snapshot, catalog) {
       warnings.push(field + ':PERIOD_ONLY_REFERENCE');
     const endOfPeriod = new Date(Date.UTC(Number(spec.source_period.slice(0, 4)),
       Number(spec.source_period.slice(-1)) * 3, 0)).toISOString().slice(0, 10);
+    if (typeof proof.value_numeric === 'number' && proof.value_numeric !== value)
+      errors.push(field + ':SOURCE_NUMERIC_VALUE_MISMATCH');
     if (dated && validDate(proof.reference_date) && proof.reference_date > endOfPeriod) {
       errors.push(field + ':FUTURE_VALUATION_DATE');
     }
@@ -167,7 +170,14 @@ export function assessBatch({ manifest, cohort, snapshot, catalog }) {
   const specs = Array.isArray(manifest?.candidates) ? manifest.candidates : [];
   const state = validateCohort(cohort, specs, mode);
   errors.push(...state.errors);
-  const candidates = specs.map(spec => assessCandidate(spec, snapshot, catalog));
+  const candidates = specs.map(spec => {
+    const report=assessCandidate(spec,snapshot,catalog);
+    const indicator=(snapshot.indicators||[]).find(row=>row.scpi_slug===spec.slug);
+    const history=(snapshot.history||[]).filter(row=>row.scpi_slug===spec.slug);
+    const dated=indicator?reconcileDatedValues(indicator,history,{issuer_hosts:spec.issuer_hosts}):null;
+    if(dated?.errors?.length)report.errors.push(...dated.errors.map(s=>'DATED:'+s));
+    return {...report,dated_valuation:dated};
+  });
   if (candidates.some(candidate => candidate.errors.length)) errors.push('CANDIDATE_SOURCE_PROOF_FAILED');
   return { task: 'RECOVERY-070', batch_id: manifest?.batch_id, phase: 'source_preflight_only',
     mode, current_cohort: cohort?.count, expected_after: state.expected_after,
