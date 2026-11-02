@@ -418,7 +418,8 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     // rating: now comes from DB (scpi_bulletins.maximus_score) via getScoreBySlug; set undefined at load time
     rating: undefined,
     isRecommended: recommended,
-    debt: scpi['Endettement (%)'] !== undefined ? scpi['Endettement (%)'] : undefined,
+    // A genuine issuer non-disclosure is undefined, never null or a fabricated 0.
+    debt: cleanNumericValue(scpi['Endettement (%)']),
     debtReferencePeriod: typeof scpi['debt_reference_period'] === 'string' ? scpi['debt_reference_period'] : undefined,
     debtReferenceUrl: typeof scpi['debt_reference_url'] === 'string' ? scpi['debt_reference_url'] : undefined,
     // Champs supplémentaires depuis le fichier Excel
