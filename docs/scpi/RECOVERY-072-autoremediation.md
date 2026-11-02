@@ -29,3 +29,12 @@ Le pipeline ne doit plus se contenter d’émettre des erreurs. Il applique les 
 - Tous les cas non réparables restent ouverts et catégorisés, sans erreur silencieuse.
 - Les tests prouvent l'idempotence, l'absence de mutation des montants primaires et la non-activation de la publication.
 - On n'affirme **pas** que le moteur peut résoudre tous les problèmes futurs : ce catalogue s'étend uniquement avec des correctifs vérifiables et des tests anti-régression.
+
+## Reprise vérifiée — 02/11/2026
+- Le workflow onboarding était invalide : deux clés YAML dupliquées dans upload-artifact. Aucun job exécuté au run 41485559433. Correction ciblée et garde de syntaxe sur les 22 workflows, exécuté depuis build-verification.
+- Tests locaux : 78/78 Node (55 existants + 23 contrôles YAML), 18/18 Python.
+- La sonde Pappers a désormais récupéré un PDF de 22 pages : SHA-256 `dc040db78d22f50ee5470d34b74e7b7149676a153076f762629e946d38e0b1ba`, statuts du 30 avril 2026, dépôt annoncé 08/07/2026. La couverture indique SOFIDYNAMIC, SIREN 983023003 et Tikehau Investment Management. Ce résultat remplace le diagnostic de téléchargement 403 dans cet environnement ; il ne prouve pas à lui seul l'authenticité du registre officiel.
+- Source de la copie : https://www.pappers.fr/entreprise/sofidynamic-983023003/documents/SOFIDYNAMIC%20-%20Copie%20des%20statuts%20mis%20%C3%A0%20jour%2008-07-2026.pdf
+- Lecture réelle Supabase : 29 métriques pending_independent_qa, 2 documents réglementaires validés sur 3, 0 période historique, analyse et certification finale absentes. Publication toujours interdite. Aucun champ de QA ou d'admission modifié.
+
+- Suite complète : correction des fixtures Edge obsolètes (registre d'hôtes absent ; ancienne attente de publication directe). Le handler réel reste inchangé : nouvel extrait en staging, aucune écriture scpi_indicators, rejet explicite d'un hôte non enregistré. Suite npm test intégrée au build obligatoire.

@@ -8,7 +8,7 @@ const source = readFileSync('supabase/functions/scpi-bulletin-watch/index.ts', '
   .replace(/^import .*;\s*$/gm, '');
 const executable = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022 } }).outputText;
 
-async function runFixture(incoming = '2026-T2', rejected: string[] = []) {
+async function runFixture(incoming = '2026-T2', rejected: string[] = [], allowedHosts = ['official.example']) {
   const writes: string[] = [], events: any[] = [];
   const current = { source_period: '2026-T2', source_type: 'bulletin_edge_automated', qa_status: 'manual_verified_official', tof: 89.8 };
   let handler: (request: Request) => Promise<Response>;
@@ -20,6 +20,7 @@ async function runFixture(incoming = '2026-T2', rejected: string[] = []) {
         select: () => query, eq: () => query,
         maybeSingle: async () => ({ data: table === 'scpi_bulletin_runtime_config' ? { value: 'mock-hash' }
           : table === 'scpi_source_registry' ? { scpi_slug: 'novapierre-residentiel', scpi_name: 'Novapierre Residentiel' }
+          : table === 'scpi_source_connectors' ? { allowed_hosts: allowedHosts }
           : table === 'scpi_indicators' ? current : null }),
         upsert: () => { writes.push(table); writing = true; return query; },
         update: () => { writes.push(table); writing = true; return query; },
@@ -46,6 +47,12 @@ async function runFixture(incoming = '2026-T2', rejected: string[] = []) {
 }
 
 describe('same-quarter manual snapshot protection in the real Edge handler', () => {
+  it('rejects an unregistered issuer before extraction or writes', async () => {
+    const result = await runFixture('2026-T2', [], []);
+    expect(result.body.status).toBe('issuer_bulletin_host_rejected');
+    expect(result.writes).toEqual([]);
+    expect(result.events[0].step).toBe('issuer_host_gate');
+  });
   it('preserves both live indicators and the associated bulletin without storage writes', async () => {
     const result = await runFixture();
     expect(result.body.status).toBe('protected_snapshot');
@@ -60,10 +67,13 @@ describe('same-quarter manual snapshot protection in the real Edge handler', () 
     expect(result.body.rejected).toHaveLength(1);
     expect(result.writes).toEqual([]);
   });
-  it('does not freeze a genuinely newer quarter', async () => {
+  it('stages a newer quarter for source-page QA without publishing it', async () => {
     const result = await runFixture('2026-T3');
-    expect(result.body.status).toBe('updated');
-    expect(result.writes).toContain('scpi_indicators');
+    expect(result.body.status).toBe('needs_review');
+    expect(result.body.verification).toBe('verified');
+    expect(result.events[0].step).toBe('edge_staged_independent_qa');
+    expect(result.writes).not.toContain('scpi_indicators');
+    expect(result.writes).toContain('storage');
     expect(result.writes).toContain('scpi_bulletins');
   });
 });
