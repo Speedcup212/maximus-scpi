@@ -54,3 +54,13 @@ test('a quarter end date is current, older report date is last known',()=>{
  const r=reconcileDatedValues(current);
  assert.equal(r.fields.prix_reconstitution.status,'OFFICIAL_AT_QUARTER_END');
 });
+
+test('uncertified old snapshot is excluded, not promoted into valuation evidence',()=>{
+ const current=sample();
+ const old={...sample(),source_period:'2026-T2',metric_provenance:{}};
+ const r=reconcileDatedValues(current,[old],{issuer_hosts:['issuer.example']});
+ assert.equal(r.status,'PASS');
+ assert.ok(r.warnings.includes('prix_reconstitution:HISTORY_UNVERIFIED_EXCLUDED'));
+ assert.equal(r.fields.prix_reconstitution.reference_date,'2026-06-30');
+ assert.equal(r.publication_authorized,false);
+});
