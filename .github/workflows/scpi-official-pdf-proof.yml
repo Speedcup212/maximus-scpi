@@ -28,6 +28,7 @@ jobs:
       - name: Real Sofidy issuer binary, source period and SHA-256 (NO DB write)
         env:
           SCPI_PUBLISHER_CA_BUNDLE: /tmp/verified-sofidy-ca.pem
+          SCPI_PDF_RENDER_ANOMALIES: test-results/scpi-source-validation/
         run: |
           python scripts/scpi-onboarding/publisherPdfAudit.py \
             --manifest scripts/scpi-onboarding/fixtures/sofidynamic-69-discovery.json \

@@ -90,9 +90,19 @@ def audit_document(d,c,fetcher=download):
         token=normalize(hint.get("token",""))
         found=isinstance(number,int) and 1<=number<=len(pages) and bool(token) and token in pages[number-1]
         actual_pages=[i+1 for i,text in enumerate(pages) if token and token in text]
+        visual_asset=None
+        if not found and isinstance(number,int) and 1<=number<=len(pages):
+            screenshot_dir=os.environ.get("SCPI_PDF_RENDER_ANOMALIES")
+            if screenshot_dir:
+                out=Path(screenshot_dir)
+                out.mkdir(parents=True,exist_ok=True)
+                visual_asset=kind+"-"+period+"-page-"+str(number)+".png"
+                with fitz.open(stream=raw,filetype="pdf") as document_to_render:
+                    document_to_render[number-1].get_pixmap(matrix=fitz.Matrix(1.4,1.4)).save(str(out/visual_asset))
         hints.append({"field":hint.get("field"),"page":number,"expected_token":hint.get("token"),
                       "token_found_in_page_text":bool(found),
-                      "pages_with_same_token":actual_pages,"financially_certified":False})
+                      "pages_with_same_token":actual_pages,
+                      "visual_review_asset":visual_asset,"financially_certified":False})
     return {"kind":kind,"reference_period":period,"source_url":final_url,"sha256":sha,
             "page_count":len(pages),"native_text_characters":native_text_characters,
             "identity_location":"cover" if cover_identity else "body_native_text",
