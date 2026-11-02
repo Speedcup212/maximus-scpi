@@ -30,9 +30,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Test generic cohort, provenance, absence and period guards
-        run: node --test scripts/scpi-onboarding/preflight.test.mjs
+        run: node --test scripts/scpi-onboarding/preflight.test.mjs scripts/scpi-onboarding/datedEvidence.test.mjs scripts/scpi-onboarding/discovery.test.mjs
       - name: Regression preflight on the two published BNP candidates
         run: node scripts/scpi-onboarding/preflight.mjs --manifest scripts/scpi-onboarding/fixtures/bnpp-2026-t3.json
+      - name: Discovery gate on the prospective 69th SCPI (no financial publication)
+        run: node scripts/scpi-onboarding/discovery.mjs --manifest scripts/scpi-onboarding/fixtures/sofidynamic-69-discovery.json
       - name: Install Chromium
         run: npx puppeteer browsers install chrome
       - name: Generic desktop/mobile candidate interface matrix

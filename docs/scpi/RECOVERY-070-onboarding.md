@@ -19,3 +19,9 @@ Date : 2026-11-02. Objectif : réutiliser le pipeline certifié existant plutôt
 
 ## Limites de cette tranche
 Cette implémentation apporte un préflight réutilisable et une matrice navigateur paramétrée par manifeste pour les surfaces fiche, comparateur, radar, simulateur et carte client. Les contrôles spécifiques antérieurs, dont trajectoire, restent en place. Elle ne prétend pas avoir automatisé de bout en bout la découverte, les attestations en base, les valorisations datées ni le rollback. L'intégration de la 69e SCPI reste le test d'acceptation final du circuit.
+
+## Phase 2 — Valorisation et découverte SCPI 69 (lecture seule)
+- Le préflight réconcilie désormais les valorisations de reconstitution et de réalisation par date d'arrêté, à travers plusieurs bulletins, et bloque les montants contradictoires pour une même date. Une répétition d'une valeur datée dans deux trimestres n'est jamais une nouvelle expertise.
+- L'identité source, la page, le SHA-256, la période et le montant déclaré dans la preuve sont contrôlés ; le résultat n'écrit aucune valeur financière en production.
+- Sofidynamic est le pilote documentaire potentiel de la 69e SCPI : société de gestion Sofidy, bulletin T2 2026 officiellement annoncé, rapport annuel 2025 lié. Le PDF T2 binaire et ses preuves par page ne sont pas encore archivés/certifiés. Cette candidate conserve son statut privé.
+- Les contrôles de release complets (rôle de service, OIDC distant, données bancaires, QA indépendante déléguée, navigateur, RLS anon, SHA du Netlify READY, atomicité) restent séparés et obligatoires avant activation. Ce livrable ne les simule pas.

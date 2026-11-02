@@ -106,3 +106,26 @@ test('release analysis incompleteness is reported but never auto-approved', () =
   assert.equal(result.candidates[0].release_analysis_ready,false);
   assert.equal(result.publication_authorized,false);
 });
+
+test('source numeric evidence cannot contradict the published indicator', () => {
+  const data=fixture();
+  data.snapshot.indicators[0].metric_provenance.tof.value_numeric=90;
+  assert.ok(assessBatch(data).candidates[0].errors.includes('tof:SOURCE_NUMERIC_VALUE_MISMATCH'));
+});
+test('dated valuation facts are part of the preflight and do not authorize publication', () => {
+  const data=fixture();
+  const r=assessBatch(data);
+  assert.equal(r.candidates[0].dated_valuation.status,'PASS');
+  assert.equal(r.candidates[0].dated_valuation.fields.prix_reconstitution.status,'LAST_OFFICIAL_VALUE');
+  assert.equal(r.publication_authorized,false);
+});
+test('valuation conflict blocks even if all other source fields match', () => {
+  const data=fixture();
+  const history=data.snapshot.history[1];
+  history.prix_reconstitution=120;
+  history.metric_provenance={prix_reconstitution:{...data.snapshot.indicators[0].metric_provenance.prix_reconstitution,
+    source_period:'2026-T3'}};
+  const r=assessBatch(data);
+  assert.equal(r.status,'FAIL');
+  assert.equal(r.candidates[0].source_evidence_pass,false);
+});

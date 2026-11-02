@@ -90,3 +90,8 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Correction UTM : `getAttribution()` ajouté comme dernier repli pour trois clés seulement (`utm_source`, `utm_medium`, `utm_campaign`), sans écriture supplémentaire. Le consentement analytics reste inchangé. Limite : la mémoire ne survit pas à un rechargement complet sans UTM conservés dans l'URL.
 - Tests Vitest dédiés : formulaire masqué et modal monté, réservation unique/redirection, fermeture sans réservation/réouverture, fallback Calendly, cookies refusés avec UTM uniquement en mémoire ; exécution des tests dédiée en CI.
 - Périmètre : `src/components/RdvModal.tsx`, `src/utils/leadSubmitter.ts`, `src/config/calendly.ts`, tests, ajout de gate ciblé dans `.github/workflows/build-verification.yml` et ce backlog. Aucune modification du routage, des pages SEO interdites, de Supabase, du consentement ou de la home.
+
+### RECOVERY-070 — Phase 2 (02/11/2026)
+- Réconciliation sans écriture des valeurs datées, détection des contradictions interbulletins et preuve numérique exacte ajoutées au preflight, y compris tests des répétitions des dates d'arrêté.
+- Pilote 69e identifié pour la découverte documentaire : Sofidynamic (Sofidy). Fiche de découverte sur source officielle, mais les PDF binaires, empreintes et analyses ne sont pas certifiés. La candidate reste privée.
+- Aucune publication de données ni activation de connecteur ; la preuve de CI et l'état de la PR dédiée doivent être rapprochés avant clôture.
