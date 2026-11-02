@@ -7,6 +7,7 @@ import {enrichScpiExtended} from '../../src/utils/enrichScpiExtended.ts';
 import {mapScpiExtendedToInput} from '../../src/utils/computeClientScores.ts';
 import {resolveScpiIndicator} from '../../src/indicators/resolveScpiIndicator.ts';
 import {sourceBackedPortfolioDescription} from '../../src/utils/scpiSourcePortfolioDescription.ts';
+import {createDefaultComparatorFilters,matchesComparatorFinancialFilters} from '../../src/utils/comparatorFilters.ts';
 const catalog=JSON.parse(fs.readFileSync(new URL('../../src/data/scpi_complet.json',import.meta.url),'utf8'));
 const cases=[
  ['CORUM Eurion',224.07],['CORUM Origin',1186.30],
@@ -41,6 +42,16 @@ test('CRASH: new 2026 CORUM analyses never have a blank published strategy',()=>
   assert.ok(scpi.strategy.includes('secteurs :'),name);
  }
 });
+test('CRASH: active comparator discount filters exclude unapproved CORUM instead of treating them as zero',()=>{
+ for(const [name] of cases){
+  const scpi=scpiData.find(x=>x.name===name);
+  assert.ok(scpi,name);
+  assert.equal(matchesComparatorFinancialFilters(scpi,createDefaultComparatorFilters()),true,name+' remains visible without a discount filter');
+  assert.equal(matchesComparatorFinancialFilters(scpi,{
+   ...createDefaultComparatorFilters(),discountRange:[-1000,1000]
+  }),false,name+' cannot pass any active discount filter without approved QA');
+ }
+});
 test('CRASH: no invented sector, country or metric when upstream source absent',()=>{
  assert.equal(sourceBackedPortfolioDescription({sectors:[],countries:[]}), '');
  const s=sourceBackedPortfolioDescription({
@@ -61,5 +72,7 @@ test('CRASH: UI flags missing detailed rental KPIs and marks source dates withou
  assert.match(source,/Distribution\{scpi.metricProvenance/);
  assert.match(source,/Valeur sourcée/);
  assert.match(source,/scpi-reconstitution-value/);
- assert.match(comparator,/scpi\.discountQaStatus === 'publishable'/);
+ assert.match(comparator,/matchesComparatorFinancialFilters\(financialDataByName\.get\(scpi\.name\.toLowerCase\(\)\), filters\)/);
+ const proComparator=fs.readFileSync(new URL('../../src/components/fintech/ProFintechComparator.tsx',import.meta.url),'utf8');
+ assert.match(proComparator,/matchesComparatorFinancialFilters\(financialDataByName\.get\(scpi\.name\.toLowerCase\(\)\), filters\)/);
 });

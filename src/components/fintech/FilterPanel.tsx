@@ -1,25 +1,56 @@
-import React, { useState } from 'react';
-import { X, SlidersHorizontal, MapPin, Building2, Award, TrendingUp, Euro, Crown, Shield, AlertCircle, TrendingDown, Lightbulb, Sparkles } from 'lucide-react';
+import React from 'react';
+import { X, SlidersHorizontal, MapPin, Building2, Award, TrendingUp, Euro, Crown, Shield, AlertCircle, Lightbulb, Sparkles } from 'lucide-react';
+import {
+  createDefaultComparatorFilters,
+  updateFilterRange,
+  type FilterRange,
+  type FilterState,
+  type TMIValue,
+} from '../../utils/comparatorFilters';
 
-export type TMIValue = 0 | 11 | 30 | 41 | 45 | null;
+export type { FilterState, TMIValue, SectorThreshold } from '../../utils/comparatorFilters';
 
-export type SectorThreshold = 'any' | '10' | '25' | '50' | '80'; // any = ≥0%, 10 = ≥10%, 25 = ≥25%, 50 = ≥50%, 80 = Pure player ≥80%
+const readNumber = (value: string): number | null =>
+  value.trim() !== '' && Number.isFinite(Number(value)) ? Number(value) : null;
 
-export interface FilterState {
-  tmi: TMIValue;
-  minYield: number;
-  priceRange: 'all' | 'accessible' | 'standard' | 'premium';
-  geographies: string[];
-  sectors: string[];
-  sectorThreshold: SectorThreshold; // Seuil minimum de pondération sectorielle
-  hasISR: boolean | null;
-  noEntryFees: boolean;
-  expertMode: boolean;
-  discountRange: [number, number];
-  minRanDays: number;
-  maxLtv: number;
-  noWaitingShares: boolean;
-}
+const numericInputClass = 'w-full min-w-0 px-3 py-2.5 rounded-lg bg-slate-900 border border-slate-600 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500';
+
+const RangeInputs: React.FC<{
+  label: string;
+  id: string;
+  value: FilterRange;
+  onChange: (range: FilterRange) => void;
+  min?: number;
+}> = ({ label, id, value, onChange, min }) => (
+  <fieldset>
+    <legend className="text-sm font-semibold text-slate-200 mb-3">{label}</legend>
+    <div className="grid grid-cols-2 gap-3">
+      {(['Minimum', 'Maximum'] as const).map((bound, index) => (
+        <div key={bound}>
+          <label htmlFor={`${id}-${index}`} className="block text-xs text-slate-400 mb-1.5">
+            {bound}
+          </label>
+          <input
+            id={`${id}-${index}`}
+            aria-label={`${label} — ${bound.toLowerCase()}`}
+            type="number"
+            inputMode="decimal"
+            min={min}
+            step="any"
+            value={value[index] ?? ''}
+            placeholder={index === 0 ? 'Sans minimum' : 'Sans maximum'}
+            onChange={e => {
+              const parsed = readNumber(e.target.value);
+              const next = parsed !== null && min !== undefined ? Math.max(min, parsed) : parsed;
+              onChange(updateFilterRange(value, index as 0 | 1, next));
+            }}
+            className={numericInputClass}
+          />
+        </div>
+      ))}
+    </div>
+  </fieldset>
+);
 
 interface FilterPanelProps {
   isOpen: boolean;
@@ -70,21 +101,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   };
 
   const handleReset = () => {
-    onFiltersChange({
-      tmi: null,
-      minYield: 0,
-      priceRange: 'all',
-      geographies: [],
-      sectors: [],
-      sectorThreshold: '25',
-      hasISR: null,
-      noEntryFees: false,
-      expertMode: false,
-      discountRange: [-15, 10],
-      minRanDays: 0,
-      maxLtv: 100,
-      noWaitingShares: false
-    });
+    onFiltersChange(createDefaultComparatorFilters());
   };
 
   const getTMIAdvice = (tmi: TMIValue) => {
@@ -119,14 +136,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 
   const advice = getTMIAdvice(filters.tmi);
 
-  const getDiscountColor = (value: number) => {
-    if (value >= -15 && value <= -5) return 'text-emerald-400';
-    if (value < -5) return 'text-amber-400';
-    return 'text-slate-400';
-  };
-
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
+    <div className="fixed inset-0 z-[10000] overflow-hidden">
       <div
         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
@@ -142,6 +153,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           </div>
           <button
             onClick={onClose}
+            aria-label="Fermer les filtres"
             className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-slate-700 transition-colors"
           >
             <X className="w-5 h-5 text-slate-400" />
@@ -202,6 +214,77 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
               <span className="text-2xl font-bold text-emerald-400">{resultCount}</span>
             </div>
           </div>
+
+          <section aria-labelledby="financial-filters-title" className="rounded-xl border border-slate-600 bg-slate-800/50 p-4 space-y-5">
+            <div className="flex items-center gap-2">
+              <SlidersHorizontal className="w-5 h-5 text-emerald-400" />
+              <h3 id="financial-filters-title" className="text-lg font-bold text-white">Capital, valorisation & revenus</h3>
+            </div>
+
+            <RangeInputs
+              label="Capitalisation (M€)"
+              id="capitalization"
+              min={0}
+              value={filters.capitalizationRange}
+              onChange={capitalizationRange => updateFilters({ capitalizationRange })}
+            />
+
+            <div className="space-y-2">
+              <RangeInputs
+                label="Décote / surcote (%)"
+                id="discount"
+                value={filters.discountRange}
+                onChange={discountRange => updateFilters({ discountRange })}
+              />
+              <p className="text-xs text-slate-400">Écart à la valeur de reconstitution : négatif = décote, positif = surcote.</p>
+            </div>
+
+            <div>
+              <label htmlFor="max-ltv" className="block text-sm font-semibold text-slate-200 mb-3">
+                Endettement maximal (%)
+              </label>
+              <input
+                id="max-ltv"
+                type="number"
+                inputMode="decimal"
+                min="0"
+                max="100"
+                step="any"
+                value={filters.maxLtv ?? ''}
+                placeholder="Sans limite"
+                onChange={e => {
+                  const value = readNumber(e.target.value);
+                  updateFilters({ maxLtv: value === null ? null : Math.max(0, Math.min(100, value)) });
+                }}
+                className={numericInputClass}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="max-jouissance" className="block text-sm font-semibold text-slate-200 mb-3">
+                Délai de jouissance maximal (mois)
+              </label>
+              <input
+                id="max-jouissance"
+                type="number"
+                inputMode="numeric"
+                min="0"
+                step="1"
+                value={filters.maxJouissanceMonths ?? ''}
+                placeholder="Sans limite"
+                onChange={e => {
+                  const value = readNumber(e.target.value);
+                  updateFilters({ maxJouissanceMonths: value === null ? null : Math.max(0, value) });
+                }}
+                className={numericInputClass}
+              />
+              <p className="mt-2 text-xs text-slate-400">Délai avant le début des droits aux revenus.</p>
+            </div>
+
+            <p className="text-xs leading-relaxed text-slate-400">
+              Un champ vide laisse le critère libre. Lorsqu'un critère est renseigné, les SCPI sans donnée exploitable pour ce critère sont exclues des résultats.
+            </p>
+          </section>
 
           <div className="bg-gradient-to-r from-amber-900/30 to-amber-800/30 rounded-xl p-4 border border-amber-700/50">
             <label className="flex items-center justify-between cursor-pointer">
@@ -463,51 +546,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
 
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <TrendingDown className="w-5 h-5 text-amber-400" />
-                  <label className="text-sm font-semibold text-slate-300">
-                    Décote vs Valeur de Reconstitution
-                  </label>
-                </div>
-                <div className="space-y-3">
-                  <div className="relative">
-                    <div className="absolute inset-0 pointer-events-none">
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[40%] h-2 bg-emerald-500/20 rounded-l-lg" />
-                    </div>
-                    <input
-                      type="range"
-                      min="-15"
-                      max="10"
-                      step="0.5"
-                      value={filters.discountRange[0]}
-                      onChange={(e) => updateFilters({
-                        discountRange: [parseFloat(e.target.value), filters.discountRange[1]] as [number, number]
-                      })}
-                      className="relative w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer z-10 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:relative [&::-webkit-slider-thumb]:z-20 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-amber-500 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <div className="flex flex-col items-start">
-                      <span className="text-slate-400">Min</span>
-                      <span className={`px-2 py-1 bg-slate-700 rounded-lg font-bold ${getDiscountColor(filters.discountRange[0])}`}>
-                        {filters.discountRange[0]}%
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1 px-3 py-1 bg-emerald-600/20 rounded-lg border border-emerald-500/30">
-                      <Shield className="w-3 h-3 text-emerald-400" />
-                      <span className="text-emerald-400 font-medium text-[10px]">Zone de décote : -15% à -5%</span>
-                    </div>
-                    <div className="flex flex-col items-end">
-                      <span className="text-slate-400">Max</span>
-                      <span className={`px-2 py-1 bg-slate-700 rounded-lg font-bold ${getDiscountColor(filters.discountRange[1])}`}>
-                        {filters.discountRange[1]}%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex items-center gap-2 mb-3">
                   <Shield className="w-5 h-5 text-amber-400" />
                   <label className="text-sm font-semibold text-slate-300">
                     Réserves de distribution (RAN)
@@ -531,36 +569,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
                     <span className="text-xs text-slate-400">120 jours</span>
                   </div>
                   <p className="text-xs text-slate-400 italic">Report à Nouveau : réserves de distribution</p>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <AlertCircle className="w-5 h-5 text-amber-400" />
-                  <label className="text-sm font-semibold text-slate-300">
-                    Endettement Maximum (LTV)
-                  </label>
-                </div>
-                <div className="space-y-3">
-                  <input
-                    type="range"
-                    min="0"
-                    max="50"
-                    step="5"
-                    value={filters.maxLtv}
-                    onChange={(e) => updateFilters({ maxLtv: parseInt(e.target.value) })}
-                    className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-500 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-lg [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-amber-500 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:cursor-pointer"
-                  />
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-400">0%</span>
-                    <span className={`px-3 py-1 rounded-lg font-bold text-white text-sm ${
-                      filters.maxLtv <= 30 ? 'bg-emerald-600' : filters.maxLtv <= 40 ? 'bg-amber-600' : 'bg-red-600'
-                    }`}>
-                      Max {filters.maxLtv}%
-                    </span>
-                    <span className="text-xs text-slate-400">50%</span>
-                  </div>
-                  <p className="text-xs text-slate-400 italic">Loan-to-Value : ratio d'endettement</p>
                 </div>
               </div>
 
