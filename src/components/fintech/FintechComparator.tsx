@@ -2,13 +2,12 @@ import React, { useState, useEffect, useMemo, lazy, Suspense } from 'react';
 import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, Calculator } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
-import { calculateScpiDiscountPremium } from '../../utils/scpiDiscountPremium';
 import { AllocationProvider } from '../../contexts/AllocationContext';
 import { SubscriptionProvider } from '../../contexts/SubscriptionContext';
 import SCPICardDark from './SCPICardDark';
 import SCPITableRow from './SCPITableRow';
 import MobileSelectionBar from './MobileSelectionBar';
-import type { FilterState } from './FilterPanel';
+import { createDefaultComparatorFilters, matchesComparatorFinancialFilters, countFinancialFilters, type FilterState } from '../../utils/comparatorFilters';
 import { sortSCPIByTaxOptimization, shouldOptimizeForTax, getTaxOptimizationScore } from '../../utils/taxOptimization';
 import { matchesSectorFilter, calculateSectorRelevanceScore } from '../../utils/sectorQualification';
 import { enrichScpiExtendedArray } from '../../utils/enrichScpiExtended';
@@ -54,21 +53,12 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   const [savedScrollPosition, setSavedScrollPosition] = useState<number>(0);
   const [scoresBySlug, setScoresBySlug] = useState<Record<string, number>>({});
   const [liveScpiData, setLiveScpiData] = useState(scpiData);
-  const [filters, setFilters] = useState<FilterState>({
-    tmi: null,
-    minYield: 0,
-    priceRange: 'all',
-    geographies: [],
-    sectors: [],
-    sectorThreshold: '25', // Par défaut : exposition significative (≥25%)
-    hasISR: null,
-    noEntryFees: false,
-    expertMode: false,
-    discountRange: [-15, 10],
-    minRanDays: 0,
-    maxLtv: 100,
-    noWaitingShares: false
-  });
+  const [filters, setFilters] = useState<FilterState>(createDefaultComparatorFilters);
+
+  const financialDataByName = useMemo(
+    () => new Map(liveScpiData.map(scpi => [scpi.name.toLowerCase(), scpi])),
+    [liveScpiData],
+  );
 
   // Les données statiques assurent le rendu instantané ; Supabase les remplace
   // par les derniers indicateurs validés dès qu'ils sont disponibles.
@@ -119,6 +109,8 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   };
 
   const applyFilters = (scpi: SCPIExtended): boolean => {
+    if (!matchesComparatorFinancialFilters(financialDataByName.get(scpi.name.toLowerCase()), filters)) return false;
+
     if (scpi.yield < filters.minYield) return false;
 
     if (filters.priceRange !== 'all') {
@@ -158,20 +150,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     }
 
     if (filters.expertMode) {
-      // A publisher-sourced reconstruction price can be displayed even when
-      // it is NOT approved as a comparable subscription discount.
-      if (scpi.reconstitutionValue && scpi.discountQaStatus === 'publishable') {
-        const discount = calculateScpiDiscountPremium(scpi.price, scpi.reconstitutionValue);
-        if (discount == null || discount < filters.discountRange[0] || discount > filters.discountRange[1]) {
-          return false;
-        }
-      }
-
       if (scpi.ranDays !== undefined && scpi.ranDays < filters.minRanDays) {
-        return false;
-      }
-
-      if (scpi.ltv !== undefined && scpi.ltv > filters.maxLtv) {
         return false;
       }
 
@@ -254,10 +233,9 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     (filters.sectorThreshold !== '25' ? 1 : 0) + // Compter si le seuil n'est pas le défaut
     (filters.hasISR !== null && filters.hasISR !== undefined ? 1 : 0) +
     (filters.noEntryFees ? 1 : 0) +
+    countFinancialFilters(filters) +
     (filters.expertMode ? (
-      (filters.discountRange[0] !== -15 || filters.discountRange[1] !== 10 ? 1 : 0) +
       (filters.minRanDays > 0 ? 1 : 0) +
-      (filters.maxLtv < 100 ? 1 : 0) +
       (filters.noWaitingShares ? 1 : 0)
     ) : 0);
 
@@ -297,6 +275,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
               )}
               <button
                 onClick={() => setIsFilterOpen(true)}
+                aria-label="Ouvrir les filtres"
                 className="hidden md:flex relative px-4 py-2 bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white rounded-lg text-sm font-medium transition-all items-center gap-2"
               >
                 <SlidersHorizontal className="w-4 h-4" />
@@ -333,6 +312,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
               </div>
               <button
                 onClick={() => setIsFilterOpen(true)}
+                aria-label="Ouvrir les filtres"
                 className="md:hidden relative w-12 h-12 bg-slate-700 hover:bg-slate-600 border border-slate-600 rounded-full flex items-center justify-center transition-all shrink-0"
               >
                 <SlidersHorizontal className="w-5 h-5 text-white" />
