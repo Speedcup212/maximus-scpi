@@ -2,12 +2,12 @@ import unittest
 import fitz
 from inspectRegistryStatutes2026 import source_allowed, inspect, probe, REGISTRY_MIRROR_URL
 
-def document(text):
+def document(text, second_page='SOFIDYNAMIC RCS 983 023 003 STATUTS'):
     with fitz.open() as doc:
         page=doc.new_page()
         page.insert_text((36, 54), text, fontsize=10)
         page2=doc.new_page()
-        page2.insert_text((36, 54), "SOFIDYNAMIC RCS 983 023 003 STATUTS", fontsize=10)
+        page2.insert_text((36, 54), second_page, fontsize=10)
         return doc.tobytes()
 
 class RegistryStatutesTests(unittest.TestCase):
@@ -24,7 +24,7 @@ class RegistryStatutesTests(unittest.TestCase):
         self.assertFalse(result["statutes_current_certified"])
         self.assertFalse(result["publication_authorized"])
     def test_old_or_other_company_pdf_rejected(self):
-        raw=document("OTHERCOMPANY STATUTS 2026 999999999")
+        raw=document("OTHERCOMPANY STATUTS 2026 999999999", second_page="OTHERCOMPANY RCS 999 999 999")
         with self.assertRaisesRegex(ValueError, "IDENTITY_UNCONFIRMED"):
             inspect(raw,REGISTRY_MIRROR_URL)
     def test_html_or_untrusted_redirect_rejected(self):
