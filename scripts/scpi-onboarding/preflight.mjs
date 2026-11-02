@@ -176,6 +176,7 @@ export function assessBatch({ manifest, cohort, snapshot, catalog }) {
     const history=(snapshot.history||[]).filter(row=>row.scpi_slug===spec.slug);
     const dated=indicator?reconcileDatedValues(indicator,history,{issuer_hosts:spec.issuer_hosts}):null;
     if(dated?.errors?.length)report.errors.push(...dated.errors.map(s=>'DATED:'+s));
+    report.source_evidence_pass=report.errors.length===0;
     return {...report,dated_valuation:dated};
   });
   if (candidates.some(candidate => candidate.errors.length)) errors.push('CANDIDATE_SOURCE_PROOF_FAILED');
