@@ -88,6 +88,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
   });
   const [status, setStatus] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCalendlyActive, setIsCalendlyActive] = useState(false);
   const [quizContext, setQuizContext] = useState<QuizContext | null>(null);
   const pendingCalendlyLeadIdRef = useRef<string | null>(null);
   const bookingTrackedRef = useRef(false);
@@ -187,6 +188,31 @@ const RdvModal: React.FC<RdvModalProps> = ({
     return () => window.removeEventListener('message', onCalendlyMessage);
   }, [isOpen, isPortfolioFlow]);
 
+  // Keep the component and Calendly message listener mounted while the widget is open.
+  // Dismissal without a booking must close the parent modal as well, so it can reopen.
+  useEffect(() => {
+    if (!isOpen || !isCalendlyActive) return;
+
+    let hasSeenOverlay = Boolean(document.querySelector('.calendly-overlay'));
+    let hasHandledDismissal = false;
+    const observer = new MutationObserver(() => {
+      const overlayPresent = Boolean(document.querySelector('.calendly-overlay'));
+      if (overlayPresent) {
+        hasSeenOverlay = true;
+        return;
+      }
+      if (!hasSeenOverlay || hasHandledDismissal || bookingTrackedRef.current) return;
+
+      hasHandledDismissal = true;
+      observer.disconnect();
+      setIsCalendlyActive(false);
+      onClose();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, [isOpen, isCalendlyActive, onClose]);
+
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) onClose();
   };
@@ -256,6 +282,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
 
         try {
           await openCalendlyPopup(targetUrl);
+          setIsCalendlyActive(true);
         } catch {
           window.location.href = targetUrl;
         }
@@ -274,7 +301,7 @@ const RdvModal: React.FC<RdvModalProps> = ({
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || isCalendlyActive) return null;
 
   return (
     <div

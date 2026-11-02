@@ -79,6 +79,18 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Sécurité : extraction/QA uniquement, pas d'écriture Supabase, pas de promotion automatique, pas d'attestation fictive. Les contrôles OIDC/RLS/commit/build/revue déléguée et publication atomique restent obligatoires.
 - Traçabilité : docs/scpi/RECOVERY-070-onboarding.md. Gate de build ajouté ; résultats de CI et essai 69e SCPI à compléter avant de déclarer le chantier entièrement clos.
 
+
+## RECOVERY-071 — Hotfix conversion autorisé par Eric le 02/11/2026 : superposition du formulaire de rendez-vous et de Calendly
+
+- ID 071 attribué après la fusion de RECOVERY-070 (onboarding SCPI), pour éviter deux tâches RECOVERY portant le même numéro.
+- Branche `fix/rdv-calendly-overlay` issue de `main` ; autorisation ultérieure explicite de merger et déployer donnée le 02/11/2026.
+- Cause visuelle : `RdvModal` en `z-[10001]` reste devant l'overlay Calendly après `openCalendlyPopup()`.
+- Correction : `isCalendlyActive` masque le rendu du formulaire, sans démonter le composant ni interrompre l'écoute de `calendly.event_scheduled`. Un `MutationObserver` surveille la disparition de `.calendly-overlay` et appelle `onClose()` une seule fois seulement si aucune réservation n'a été signalée. Nettoyage au démontage, redirection et repli natif conservés ; aucune modification de `calendlyPopup.ts` ni de la fenêtre cookies Calendly.
+- Cause UTM : `src/App.tsx` (`navigateToView`) remplace la query string avec `history.pushState({}, '', path)` ; `src/HomeApp.tsx` (`go(path)`) recharge une URL sans UTM. La capture initiale conserve les valeurs en mémoire mais les consommateurs lead et Calendly lisaient seulement sessionStorage et URL. Sans consentement analytics, sessionStorage reste vide et la source disparaît après navigation SPA.
+- Correction UTM : `getAttribution()` ajouté comme dernier repli pour trois clés seulement (`utm_source`, `utm_medium`, `utm_campaign`), sans écriture supplémentaire. Le consentement analytics reste inchangé. Limite : la mémoire ne survit pas à un rechargement complet sans UTM conservés dans l'URL.
+- Tests Vitest dédiés : formulaire masqué et modal monté, réservation unique/redirection, fermeture sans réservation/réouverture, fallback Calendly, cookies refusés avec UTM uniquement en mémoire ; exécution des tests dédiée en CI.
+- Périmètre : `src/components/RdvModal.tsx`, `src/utils/leadSubmitter.ts`, `src/config/calendly.ts`, tests, ajout de gate ciblé dans `.github/workflows/build-verification.yml` et ce backlog. Aucune modification du routage, des pages SEO interdites, de Supabase, du consentement ou de la home.
+
 ### RECOVERY-070 — Phase 2 (02/11/2026)
 - Réconciliation sans écriture des valeurs datées, détection des contradictions interbulletins et preuve numérique exacte ajoutées au preflight, y compris tests des répétitions des dates d'arrêté.
 - Pilote 69e identifié pour la découverte documentaire : Sofidynamic (Sofidy). Fiche de découverte sur source officielle, mais les PDF binaires, empreintes et analyses ne sont pas certifiés. La candidate reste privée.
