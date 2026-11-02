@@ -54,6 +54,23 @@ class PublisherPdfTest(unittest.TestCase):
         self.assertEqual(r["status"],"ISSUER_BINARY_QA_PASS")
         self.assertFalse(r["staging_written"])
         self.assertFalse(r["publication_authorized"])
+
+    def test_dated_regulatory_dic_and_note_never_certify_by_themselves(self):
+        c=candidate()
+        for kind,label in [("dic","Document d'Informations Clés"),("note","Note d'information")]:
+            doc={"kind":kind,"reference_period":"2026-REG","url":URL,"page_hints":[]}
+            raw=pdf_bytes("SOFIDYNAMIC "+label+" août 2026")
+            result=audit_document(doc,c,lambda _: (raw,URL))
+            self.assertTrue(result["regulatory_kind_seen"])
+            self.assertFalse(result["regulatory_content_certified"])
+            self.assertFalse(result["publication_authorized"])
+    def test_wrong_regulatory_document_kind_or_year_fails(self):
+        c=candidate()
+        dic={"kind":"dic","reference_period":"2026-REG","url":URL}
+        with self.assertRaisesRegex(ValueError,"REGULATORY_KIND_UNCONFIRMED"):
+            audit_document(dic,c,lambda _: (pdf_bytes("SOFIDYNAMIC Note d'information juillet 2026"),URL))
+        with self.assertRaisesRegex(ValueError,"REGULATORY_EDITION_YEAR_UNCONFIRMED"):
+            audit_document(dic,c,lambda _: (pdf_bytes("SOFIDYNAMIC Document d'Informations Clés 2025"),URL))
     def test_fake_certified_discovery_rejected(self):
         c=candidate()
         c["status"]="CERTIFIED"

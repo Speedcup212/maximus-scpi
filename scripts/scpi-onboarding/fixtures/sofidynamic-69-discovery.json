@@ -76,6 +76,26 @@
           3,
           9
         ]
+      },
+      {
+        "kind": "dic",
+        "reference_period": "2026-REG",
+        "url": "https://www.sofidy.com/app/uploads/2024/01/DIC-DYN-072026-FR-1-3197-1.pdf",
+        "page_hints": [],
+        "review_pages": [
+          1,
+          2
+        ]
+      },
+      {
+        "kind": "note",
+        "reference_period": "2026-REG",
+        "url": "https://www.sofidy.com/app/uploads/2024/01/NI-DYN-072026-FR-2-3146.pdf",
+        "page_hints": [],
+        "review_pages": [
+          1,
+          2
+        ]
       }
     ]
   }
