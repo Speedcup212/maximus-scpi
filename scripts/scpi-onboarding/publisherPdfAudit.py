@@ -64,7 +64,12 @@ def audit_document(d,c,fetcher=download):
     if sum(map(len,pages))<1500:raise ValueError("NATIVE_TEXT_LAYER_INSUFFICIENT")
     opening=" ".join(pages[:2])
     fund_name=normalize(c.get("name"))
-    if fund_name not in opening and fund_name.replace(" ","") not in opening.replace(" ",""):
+    cover_identity=fund_name in opening or fund_name.replace(" ","") in opening.replace(" ","")
+    # On annual reports the cover can be artwork and only read 'Rapport annuel'.
+    # Identity is then required in the native text of later pages.
+    combined=" ".join(pages)
+    body_identity=fund_name in combined or fund_name.replace(" ","") in combined.replace(" ","")
+    if not cover_identity and not body_identity:
         raise ValueError("FUND_IDENTITY_NOT_FOUND:"+str(kind)+":"+str(period)+":"+opening[:350])
     if kind=="quarterly":
         if not re.fullmatch(r"20\d{2}-T[1-4]",period):raise ValueError("INVALID_QUARTER_PERIOD")
@@ -86,6 +91,7 @@ def audit_document(d,c,fetcher=download):
                       "token_found_in_page_text":bool(found),"financially_certified":False})
     return {"kind":kind,"reference_period":period,"source_url":final_url,"sha256":sha,
             "page_count":len(pages),"native_text_characters":sum(map(len,pages)),
+            "identity_location":"cover" if cover_identity else "body_native_text",
             "publisher_binary_pass":True,"fund_and_period_identity_pass":True,
             "page_hints":hints,"all_hints_found":all(h["token_found_in_page_text"] for h in hints),
             "financial_metrics_certified":False,"publication_authorized":False}
