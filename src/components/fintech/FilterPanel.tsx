@@ -137,7 +137,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   const advice = getTMIAdvice(filters.tmi);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
+    <div className="fixed inset-0 z-[10000] overflow-hidden">
       <div
         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}

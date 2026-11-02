@@ -139,3 +139,5 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Suite autorisée explicitement par Eric le 02/11/2026 (« j’autorise ») : envoi GitHub, fusion après validation CI, puis déploiement et vérification du comparateur public. Autorisation limitée aux quatre filtres et à leurs contrôles ; aucune promotion financière de SCPI.
 
 - Contrôle de livraison ajouté à la CI : navigateur Chromium sur le bundle de production aux largeurs 1 440 et 390 px, quatre critères séparés et cumulés, cartes, compteur, réouverture et reset, absence de débordement des champs. Le contrôle interdit les appels externes et n’écrit aucune donnée financière. Boutons d’ouverture du panneau nommés pour l’accessibilité.
+
+- CI de prépublication : le garde CORUM initial vérifiait encore un emplacement de code ; il vérifie désormais le comportement du helper commun sur les quatre décotes non approuvées. Le premier test navigateur a ensuite détecté le header en z-[9999] au-dessus du panneau z-50 : un clic physique sur la croix atteignait le header. Panneau corrigé en z-[10000], assertion de maintien sur le comparateur ajoutée. Aucun contrôle financier retiré.

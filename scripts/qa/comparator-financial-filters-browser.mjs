@@ -87,7 +87,10 @@ try {
     await page.screenshot({ path: path.join(output, `filters-${width}.png`) });
     await page.click('button[aria-label="Fermer les filtres"]');
     await page.waitForSelector('#capitalization-0', { hidden: true });
+    assert.equal(new URL(page.url()).pathname, '/comparateur-scpi/', 'Closing filters must not click the site header behind them');
     const expectedNames = [...cases.at(-1).expected].sort((a, b) => b.yield - a.yield).slice(0, 9).map(scpi => scpi.name);
+    await page.waitForFunction(expected => Array.from(document.querySelectorAll('#scpi-grid h3'))
+      .map(node => node.textContent).join('|') === expected.join('|'), {}, expectedNames);
     assert.deepEqual(await page.$$eval('#scpi-grid h3', nodes => nodes.map(node => node.textContent)), expectedNames);
     assert.equal(await page.$$eval('button[aria-label="Ouvrir les filtres"]', buttons => {
       const visible = buttons.find(button => button.getBoundingClientRect().width > 0);
