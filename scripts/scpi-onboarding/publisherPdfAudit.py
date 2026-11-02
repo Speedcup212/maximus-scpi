@@ -51,7 +51,7 @@ def audit_document(d,c,fetcher=download):
     period=d.get("reference_period")
     url=d.get("url","")
     hosts=c.get("issuer_hosts",[])
-    if kind not in {"quarterly","annual"} or not isinstance(period,str) or not official_url(url,hosts):
+    if kind not in {"quarterly","annual","dic","note","statutes"} or not isinstance(period,str) or not official_url(url,hosts):
         raise ValueError("SOURCE_MANIFEST_INVALID_OR_UNTRUSTED")
     raw,final_url=fetcher(url)
     if not official_url(final_url,hosts):raise ValueError("REDIRECT_OUTSIDE_ISSUER_HOST")
@@ -80,10 +80,19 @@ def audit_document(d,c,fetcher=download):
         rx=r"\b"+quarter+r"(?:e|eme|er)?\s*(?:trimestre|trim)\b[\W\s]{0,15}"+year+r"\b|\b(?:t|q)"+quarter+r"\s*"+year+r"\b"
         if not re.search(rx,opening):
             raise ValueError("QUARTER_TITLE_UNCONFIRMED:"+opening[:160])
-    else:
+    elif kind=="annual":
         if not re.fullmatch(r"20\d{2}-RA",period):raise ValueError("INVALID_ANNUAL_PERIOD")
         if period[:4] not in opening or not re.search(r"rapport annuel|rapport de gestion|exercice",opening):
             raise ValueError("ANNUAL_TITLE_UNCONFIRMED:"+opening[:160])
+    elif kind in ("dic","note","statutes"):
+        if not re.fullmatch(r"20\d{2}-REG",period):
+            raise ValueError("REGULATORY_YEAR_INVALID")
+        name_marker = (r"document d.informations cles" if kind=="dic"
+                       else (r"statuts" if kind=="statutes" else r"note d.information"))
+        if not re.search(name_marker,combined[:18000]):
+            raise ValueError("REGULATORY_KIND_UNCONFIRMED:"+str(kind))
+        if period[:4] not in combined[:18000]:
+            raise ValueError("REGULATORY_EDITION_YEAR_UNCONFIRMED")
     hints=[]
     for hint in d.get("page_hints",[]):
         number=hint.get("page")
@@ -120,6 +129,7 @@ def audit_document(d,c,fetcher=download):
             "page_count":len(pages),"native_text_characters":native_text_characters,
             "identity_location":"cover" if cover_identity else "body_native_text",
             "publisher_binary_pass":True,"fund_and_period_identity_pass":True,
+            "regulatory_content_certified":False,"regulatory_kind_seen":kind in ("dic","note","statutes"),
             "page_hints":hints,"review_assets":reviewed_assets,
             "all_hints_found":all(h["token_found_in_page_text"] for h in hints),
             "financial_metrics_certified":False,"publication_authorized":False}

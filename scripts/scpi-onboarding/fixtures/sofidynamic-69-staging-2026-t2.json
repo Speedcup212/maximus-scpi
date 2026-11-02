@@ -1,0 +1,86 @@
+{
+  "batch_id": "sofidynamic-69-private-staging",
+  "cohort_public": 68,
+  "source_period": "2026-T2",
+  "annual_period": "2025-RA",
+  "stage_status": "pending_independent_qa",
+  "publication_authorized": false,
+  "source_pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376",
+  "annual_pdf_sha256": "b9173e2f54c9f5a8d3f94428a224dc3abd152c4716fad410ea7d700d9be21d57",
+  "metric_evidence_pending": 29,
+  "allocation_evidence_pending": 11,
+  "financial_gate_blocked": true,
+  "geography_values": {
+    "Espagne": 8.2,
+    "Pays-Bas": 36.9,
+    "Région parisienne": 15.5,
+    "Paris": 9.9,
+    "Régions": 29.4
+  },
+  "sector_values": {
+    "Bureaux": 12,
+    "Activité": 1.4,
+    "Galeries et centres commerciaux": 37.2,
+    "Moyennes surfaces commerciales de périphérie": 26.7,
+    "Commerces de centre-ville": 22,
+    "Éducation": 0.7
+  },
+  "capitalisation_million_eur": 247.58848,
+  "source_capitalisation_eur": 247588480,
+  "td_2025_percent": 9.04,
+  "tof_t2_2026_percent": 97.73,
+  "last_official_prix_reconstitution_eur": 336.75,
+  "last_official_valeur_realisation_eur": 305.55,
+  "last_official_valuation_date": "2025-12-31",
+  "warnings": [
+    "Private data only, not independently certified",
+    "Geography rounds to 99.9 percent (five categories)",
+    "DO NOT use last-valuation date as quarterly-valuation event",
+    "No T3 2026 source on Sofidy public docs as checked 2026-11-02"
+  ],
+  "legal_management_company": "Tikehau Investment Management",
+  "commercial_brand": "Sofidy",
+  "regulatory_documents": {
+    "dic": {
+      "period": "2026-REG",
+      "sha256": "1b1e7acf03074e0dec326aa46c39df84c0302b21be337fcd97379c042aeec6e2",
+      "pages": 3,
+      "issuer_binary_verified": true,
+      "identity_verified": true,
+      "kind_verified": true,
+      "independent_regulatory_review": false
+    },
+    "note": {
+      "period": "2026-REG",
+      "sha256": "782f5b2fcdabe3cc5219fe3bb49e7a636760b42b2c5f3afa2b4110fc853e51c3",
+      "pages": 43,
+      "issuer_binary_verified": true,
+      "identity_verified": true,
+      "kind_verified": true,
+      "independent_regulatory_review": false
+    },
+    "statutes": {
+      "period": "2025-REG",
+      "sha256": "d6873340ccb0c8a7eb1db75e238cb26b6ac1c49e2e396bc5207e095cc2295ebe",
+      "pages": 21,
+      "issuer_binary_verified": true,
+      "identity_verified": true,
+      "kind_verified": false,
+      "verified_current_for_2026": false,
+      "independent_regulatory_review": false,
+      "reason": "Publisher links July 2025 statutes; French registry indicates updated statutes filed 2026-07-08. Current official 2026 binary not yet verified."
+    }
+  },
+  "regulatory_documents_ready": 2,
+  "regulatory_documents_required": 3,
+  "remaining_gates": [
+    "2026_STATUTES_VERIFIED",
+    "INDEPENDENT_METRIC_QA",
+    "INDEPENDENT_ALLOCATION_QA",
+    "CERTIFIED_HISTORY_2_PERIODS",
+    "CURRENT_PERIOD_ANALYSIS",
+    "LEGAL_FINANCIAL_FINAL_AUDIT",
+    "PRIVATE_BROWSER_PREFLIGHT",
+    "ATOMIC_PUBLICATION"
+  ]
+}

@@ -20,13 +20,18 @@ jobs:
         with:
           python-version: '3.12'
       - name: Verify issuer registry security and pending provenance
-        run: node --test scripts/scpi-onboarding/issuerRegistryPolicy.test.mjs scripts/scpi-onboarding/pendingCandidateEvidence.test.mjs
+        run: node --test scripts/scpi-onboarding/issuerRegistryPolicy.test.mjs scripts/scpi-onboarding/pendingCandidateEvidence.test.mjs scripts/scpi-onboarding/legalAuthorityGuard.test.mjs
       - name: Install PDF inspection library
         run: python -m pip install --quiet pymupdf==1.26.5
       - name: Source QA unit tests (no external network)
-        run: python -m unittest discover -s scripts/scpi-onboarding -p 'test_publisherPdfAudit.py' -v
+        run: python -m unittest discover -s scripts/scpi-onboarding -p 'test_*.py' -v
       - name: Restore missing issuer intermediate only after system-root verification
         run: python scripts/scpi-onboarding/buildVerifiedPublisherChain.py --output /tmp/verified-sofidy-ca.pem
+      - name: Discover official regulatory PDF links (URL evidence only)
+        run: |
+          python scripts/scpi-onboarding/discoverSofidyRegulatory.py \
+            --ca-bundle /tmp/verified-sofidy-ca.pem \
+            --out test-results/scpi-source-validation/sofidynamic-regulatory-discovery.json
       - name: Real Sofidy issuer binary, source period and SHA-256 (NO DB write)
         env:
           SCPI_PUBLISHER_CA_BUNDLE: /tmp/verified-sofidy-ca.pem
