@@ -1,0 +1,41 @@
+{
+  "batch_id": "sofidynamic-69-private-staging",
+  "cohort_public": 68,
+  "source_period": "2026-T2",
+  "annual_period": "2025-RA",
+  "stage_status": "pending_independent_qa",
+  "publication_authorized": false,
+  "source_pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376",
+  "annual_pdf_sha256": "b9173e2f54c9f5a8d3f94428a224dc3abd152c4716fad410ea7d700d9be21d57",
+  "metric_evidence_pending": 29,
+  "allocation_evidence_pending": 11,
+  "financial_gate_blocked": true,
+  "geography_values": {
+    "Espagne": 8.2,
+    "Pays-Bas": 36.9,
+    "Région parisienne": 15.5,
+    "Paris": 9.9,
+    "Régions": 29.4
+  },
+  "sector_values": {
+    "Bureaux": 12,
+    "Activité": 1.4,
+    "Galeries et centres commerciaux": 37.2,
+    "Moyennes surfaces commerciales de périphérie": 26.7,
+    "Commerces de centre-ville": 22,
+    "Éducation": 0.7
+  },
+  "capitalisation_million_eur": 247.58848,
+  "source_capitalisation_eur": 247588480,
+  "td_2025_percent": 9.04,
+  "tof_t2_2026_percent": 97.73,
+  "last_official_prix_reconstitution_eur": 336.75,
+  "last_official_valeur_realisation_eur": 305.55,
+  "last_official_valuation_date": "2025-12-31",
+  "warnings": [
+    "Private data only, not independently certified",
+    "Geography rounds to 99.9 percent (five categories)",
+    "DO NOT use last-valuation date as quarterly-valuation event",
+    "No T3 2026 source on Sofidy public docs as checked 2026-11-02"
+  ]
+}
