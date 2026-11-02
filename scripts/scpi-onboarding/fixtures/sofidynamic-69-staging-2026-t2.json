@@ -37,5 +37,50 @@
     "Geography rounds to 99.9 percent (five categories)",
     "DO NOT use last-valuation date as quarterly-valuation event",
     "No T3 2026 source on Sofidy public docs as checked 2026-11-02"
+  ],
+  "legal_management_company": "Tikehau Investment Management",
+  "commercial_brand": "Sofidy",
+  "regulatory_documents": {
+    "dic": {
+      "period": "2026-REG",
+      "sha256": "1b1e7acf03074e0dec326aa46c39df84c0302b21be337fcd97379c042aeec6e2",
+      "pages": 3,
+      "issuer_binary_verified": true,
+      "identity_verified": true,
+      "kind_verified": true,
+      "independent_regulatory_review": false
+    },
+    "note": {
+      "period": "2026-REG",
+      "sha256": "782f5b2fcdabe3cc5219fe3bb49e7a636760b42b2c5f3afa2b4110fc853e51c3",
+      "pages": 43,
+      "issuer_binary_verified": true,
+      "identity_verified": true,
+      "kind_verified": true,
+      "independent_regulatory_review": false
+    },
+    "statutes": {
+      "period": "2025-REG",
+      "sha256": "d6873340ccb0c8a7eb1db75e238cb26b6ac1c49e2e396bc5207e095cc2295ebe",
+      "pages": 21,
+      "issuer_binary_verified": true,
+      "identity_verified": true,
+      "kind_verified": false,
+      "verified_current_for_2026": false,
+      "independent_regulatory_review": false,
+      "reason": "Publisher links July 2025 statutes; French registry indicates updated statutes filed 2026-07-08. Current official 2026 binary not yet verified."
+    }
+  },
+  "regulatory_documents_ready": 2,
+  "regulatory_documents_required": 3,
+  "remaining_gates": [
+    "2026_STATUTES_VERIFIED",
+    "INDEPENDENT_METRIC_QA",
+    "INDEPENDENT_ALLOCATION_QA",
+    "CERTIFIED_HISTORY_2_PERIODS",
+    "CURRENT_PERIOD_ANALYSIS",
+    "LEGAL_FINANCIAL_FINAL_AUDIT",
+    "PRIVATE_BROWSER_PREFLIGHT",
+    "ATOMIC_PUBLICATION"
   ]
 }
