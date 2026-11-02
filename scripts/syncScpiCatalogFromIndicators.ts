@@ -92,7 +92,8 @@ const assign = (target: Record<string, any>, key: string, value: unknown) => {
 };
 
 const isSourceReviewed = (status: unknown) => /^manual_verified/i.test(String(status || '')) ||
-  status === 'approved_official_pdf_delegated_review' || status === 'approved_official_pdf_verified_review';
+  status === 'approved_official_pdf_delegated_review' || status === 'approved_official_pdf_verified_review' ||
+  status === 'source_verified_approved_release';
 
 for (const scpi of catalog) {
   const slug = slugify(scpi['Nom SCPI']);

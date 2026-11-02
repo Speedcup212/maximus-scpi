@@ -117,8 +117,11 @@ async function generateSitemap() {
   const corumIds = ['corum-eurion','corum-origin','corum-usa','corum-xl'];
   const released = corumIds.filter(id=>certifiedScpiSlugSet.has(id)).length;
   const edrIncluded = certifiedScpiSlugSet.has('edr-europa');
+  const bnppIds = ['acces-valeur-pierre','accimmo-pierre'];
+  const bnppIncluded = bnppIds.filter(id=>certifiedScpiSlugSet.has(id)).length;
   if (![0,4].includes(released) || (edrIncluded && released!==4) ||
-      certifiedScpiSlugSet.size !== (61 + released + (edrIncluded ? 1 : 0)) ||
+      ![0,2].includes(bnppIncluded) || (bnppIncluded>0 && !edrIncluded) ||
+      certifiedScpiSlugSet.size !== (61 + released + (edrIncluded ? 1 : 0) + bnppIncluded) ||
       scpiSlugs.length !== certifiedScpiSlugSet.size) {
     throw new Error(`Cohorte publique SCPI incohérente: ${scpiSlugs.length}/${certifiedScpiSlugSet.size} slugs certifiés trouvés.`);
   }
