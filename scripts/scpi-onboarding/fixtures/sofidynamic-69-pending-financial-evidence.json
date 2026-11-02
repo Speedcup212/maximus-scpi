@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "batch_id": "sofidynamic-69-evidence-pending",
+  "scpi_slug": "sofidynamic",
+  "qa_status": "pending_independent_qa",
+  "publication_authorized": false,
+  "documents": [
+    {
+      "period": "2026-T2",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+      "pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376",
+      "page_count": 6
+    },
+    {
+      "period": "2025-RA",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+      "pdf_sha256": "b9173e2f54c9f5a8d3f94428a224dc3abd152c4716fad410ea7d700d9be21d57",
+      "page_count": 84
+    }
+  ],
+  "metrics": [
+    {
+      "period": "2026-T2",
+      "metric": "prix_souscription",
+      "value": 320,
+      "unit": "EUR_PER_PART",
+      "page": 5,
+      "qa_status": "pending_independent_qa",
+      "review_mode": "DOCUMENTARY_PAGE"
+    },
+    {
+      "period": "2026-T2",
+      "metric": "prix_retrait",
+      "value": 313.6,
+      "unit": "EUR_PER_PART",
+      "page": 5,
+      "qa_status": "pending_independent_qa",
+      "review_mode": "DOCUMENTARY_PAGE"
+    },
+    {
+      "period": "2026-T2",
+      "metric": "tof",
+      "value": 97.73,
+      "unit": "PERCENT",
+      "page": 4,
+      "qa_status": "pending_independent_qa",
+      "review_mode": "VISUAL_PAGE"
+    },
+    {
+      "period": "2026-T2",
+      "metric": "capitalisation",
+      "value": 247588480,
+      "unit": "EUR",
+      "page": 5,
+      "qa_status": "pending_independent_qa",
+      "review_mode": "DOCUMENTARY_PAGE"
+    },
+    {
+      "period": "2026-T2",
+      "metric": "nombre_parts",
+      "value": 773714,
+      "unit": "PARTS",
+      "page": 5,
+      "qa_status": "pending_independent_qa",
+      "review_mode": "DOCUMENTARY_PAGE"
+    },
+    {
+      "period": "2026-T2",
+      "metric": "parts_attente_retrait",
+      "value": 0,
+      "unit": "PARTS",
+      "page": 5,
+      "qa_status": "pending_independent_qa",
+      "review_mode": "DOCUMENTARY_PAGE"
+    },
+    {
+      "period": "2026-T2",
+      "metric": "distribution_par_part",
+      "value": 5.52,
+      "unit": "EUR_PER_PART",
+      "page": 5,
+      "qa_status": "pending_independent_qa",
+      "review_mode": "DOCUMENTARY_PAGE"
+    },
+    {
+      "period": "2025-RA",
+      "metric": "td",
+      "value": 9.04,
+      "unit": "PERCENT",
+      "page": 9,
+      "qa_status": "pending_independent_qa",
+      "review_mode": "DOCUMENTARY_PAGE"
+    },
+    {
+      "period": "2025-RA",
+      "metric": "valeur_realisation",
+      "value": 305.55,
+      "unit": "EUR_PER_PART",
+      "page": 9,
+      "reference_date": "2025-12-31",
+      "qa_status": "pending_independent_qa",
+      "review_mode": "DOCUMENTARY_PAGE"
+    },
+    {
+      "period": "2025-RA",
+      "metric": "prix_reconstitution",
+      "value": 336.75,
+      "unit": "EUR_PER_PART",
+      "page": 9,
+      "reference_date": "2025-12-31",
+      "qa_status": "pending_independent_qa",
+      "review_mode": "DOCUMENTARY_PAGE"
+    },
+    {
+      "period": "2025-RA",
+      "metric": "capitalisation",
+      "value": 177064020,
+      "unit": "EUR",
+      "page": 9,
+      "qa_status": "pending_independent_qa",
+      "review_mode": "DOCUMENTARY_PAGE"
+    }
+  ]
+}

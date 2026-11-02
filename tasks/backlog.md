@@ -103,3 +103,7 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 
 - 02/11 14:19 UTC : GitHub run #41460701277 = vérification des 3 PDF officiels Sofidy PASS (T2=6 pages, T1=6 pages, RA=84 pages, SHA-256 collectés). Les empreintes et pages ont été insérées et relues dans les deux tables privées d'index et validation PDF, statut direct_pdf_checked ; aucune promotion financière.
 - Revue du rendu page 4 du T2 : TOF 97,73 % visible mais absent de la couche texte exacte. La chaîne doit produire une revue visuelle ciblée au lieu de classer la métrique comme absente.
+
+- 02/11/2026: migration Supabase 20261102142947 candidate_verified_issuer_host_registry appliquee. Registry prive et RLS, lecture seule par service_role ; URLs HTTPS officielles CORUM, BNP et Sofidy autorisees. Faux hostname et HTTP refuses. Anciennes deux contraintes statiques remplacees.
+- 11 metriques des pages originales Sofidy enregistrees et relues dans maximus_agents.scpi_candidate_metric_evidence, toutes pending_independent_qa et sans signature independante ; 2025-RA conserve la date d'arrete 2025-12-31 ; graphique TOF T2 97,73 % valide comme indice visuel, en attente du second passage.
+- Aucune mutation de la cohorte publique, de scpi_indicators ni activation ; 68 SCPI actives.

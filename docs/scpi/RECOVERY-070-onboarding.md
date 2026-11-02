@@ -37,3 +37,8 @@ Cette implémentation apporte un préflight réutilisable et une matrice navigat
 - Le bulletin Sofidynamic T2 2026 contient le TOF **97,73 %** page 4 dans un graphique PDF, mais la couche texte ne porte pas exactement la chaîne « 97,73 ». Le test textuel ne doit donc jamais en déduire une absence officielle. La revue de la page rendue est nécessaire et a été exécutée.
 - L'audit source produit désormais les captures des pages pertinentes pour le contrôle secondaire des graphiques, montants et dates (T2 pages 1/2/4/5/6, T1 pages 1/5, RA 2025 pages 3/9). Elles ne valent pas validation indépendante à elles seules.
 - Les métadonnées documentaires officiellement vérifiées sont enregistrées en **staging privé** (index + validation PDF) avec hash et pages ; aucun montant de la base publique n'est touché.
+
+## Registre de sources et preuves privees
+- Migration appliquee 20261102142947 : maximus_agents.scpi_candidate_issuer_hosts ; source_url admise uniquement si HTTPS et hostname present dans le registre prive (CORUM, BNP Paribas REIM, Sofidy). Aucun role anonyme ni authentifie n'a le droit de modifier ce registre, lecture service_role seule.
+- 11 metriques candidate Sofidynamic dans la table privee maximus_agents.scpi_candidate_metric_evidence, et un manifeste repro de valeurs, pages, unites, empreintes sous scripts/scpi-onboarding/fixtures. Toutes portent pending_independent_qa. Aucun QA-pass ni revue independante n'est auto attribue.
+- Les valeurs realisee/reconstitution 305,55/336,75 EUR concernent le 31/12/2025, non le T2 2026. Le TOF 97,73% T2 est dans le graphique p4 ; lecture du rendu et non extraction textuelle.
