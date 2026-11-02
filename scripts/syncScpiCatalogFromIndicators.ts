@@ -124,11 +124,21 @@ for (const scpi of catalog) {
   // Documentation du prix de retrait, à la source et période qui lui sont propres.
   // La présence de frais de souscription ne suffit pas à certifier une valeur de retrait.
   const fieldProof = row.metric_provenance?.prix_retrait;
+  // A still-identical officially certified value retains its actual older date.
+  // Do not erase the last known proof merely because a newer bulletin exists.
+  const lastKnownRetraitProof = row.capital_type === 'variable' &&
+    !String(row.metric_provenance?.liquidity_basis || '').startsWith('secondary_market')
+    ? (retraitProofs || []).filter((p: any) => p.scpi_slug === slug &&
+        /^20\d{2}-T[1-4]$/.test(String(p.source_period)) &&
+        String(p.source_period) <= String(row.source_period) &&
+        Number(p.value_numeric) === Number(row.prix_retrait))
+        .sort((a: any,b: any) => String(b.source_period).localeCompare(String(a.source_period)))[0]
+    : null;
   const retraitProof: any = retraitBySlug.get(`${slug}|${row.source_period}`) ||
     (fieldProof && /^qa_pass/.test(String(fieldProof.qa_status || '')) &&
       /^[a-f0-9]{64}$/.test(String(fieldProof.pdf_sha256 || '')) &&
       fieldProof.value_numeric !== null && fieldProof.value_numeric !== undefined
-      ? {...fieldProof, source_period: row.source_period} : null);
+      ? {...fieldProof, source_period: row.source_period} : null) || lastKnownRetraitProof;
   if (row.prix_retrait !== null && row.prix_retrait !== undefined &&
       retraitProof && Number(retraitProof.value_numeric) === Number(row.prix_retrait) &&
       Number(retraitProof.source_page) > 0 && /^https:\/\//.test(String(retraitProof.source_url))) {

@@ -13,13 +13,14 @@ const privateSnapshot=read('data-import/corum_candidates_prepublication_20261015
 const currentCohort=read('src/data/certified_scpi_cohort.json');
 const currentCatalog=read('src/data/scpi_complet.json');
 const fundSlugs=privateSnapshot.scpi.map(c=>c.scpi_slug);
+const laterReleaseSlugs=['edr-europa',...read('src/data/bnpp_candidates_67_68.json').candidates.map(c=>c.scpi_slug)];
 const slug=name=>String(name).toLowerCase().normalize('NFD')
   .replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 // The adversarial fixture starts from the immutable 61-fund baseline, even if
 // the real 65-fund owner-approved release is staged in the same checkout.
 const baselineCohort={...currentCohort,count:61,
- slugs:currentCohort.slugs.filter(id=>!fundSlugs.includes(id)&&id!=='edr-europa')};
-const baselineCatalog=currentCatalog.filter(row=>!fundSlugs.includes(slug(row['Nom SCPI']))&&slug(row['Nom SCPI'])!=='edr-europa');
+ slugs:currentCohort.slugs.filter(id=>!fundSlugs.includes(id)&&!laterReleaseSlugs.includes(id))};
+const baselineCatalog=currentCatalog.filter(row=>!fundSlugs.includes(slug(row['Nom SCPI']))&&!laterReleaseSlugs.includes(slug(row['Nom SCPI'])));
 if(baselineCohort.slugs.length!==61)
  throw Error('Crash test cannot extract the original 61-fund cohort');
 const clone=x=>structuredClone(x);
