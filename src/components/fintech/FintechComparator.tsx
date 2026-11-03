@@ -93,6 +93,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   const clientScoresById = clientScoreResults.byId;
 
   const toggleSelect = (scpi: SCPIExtended) => {
+    if (scpi.maximusPublicationStatus === 'published_with_reserves') return;
     setSelectedScpis(prev => {
       const exists = prev.find(s => s.id === scpi.id);
       if (exists) {
@@ -379,7 +380,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                       <SCPICardDark
                         key={scpi.id}
                         scpi={scpi}
-                        score={scoresBySlug[createSlugFromName(scpi.name)] ?? clientScoresBySlug[createSlugFromName(scpi.name)] ?? null}
+                        score={scpi.maximusPublicationStatus === 'published_with_reserves' ? null : scoresBySlug[createSlugFromName(scpi.name)] ?? clientScoresBySlug[createSlugFromName(scpi.name)] ?? null}
                         isSelected={selectedScpis.some(s => s.id === scpi.id)}
                         onToggleSelect={() => toggleSelect(scpi)}
                         onAnalyze={() => handleAnalyze(scpi)}

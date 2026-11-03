@@ -25,6 +25,9 @@ export function enrichScpiExtended(
   return {
     ...scpiExtended,
     metricProvenance: matchingScpi.metricProvenance ?? scpiExtended.metricProvenance,
+    maximusPublicationStatus: matchingScpi.maximusPublicationStatus ?? scpiExtended.maximusPublicationStatus,
+    maximusPublicationReservations: matchingScpi.maximusPublicationReservations ?? scpiExtended.maximusPublicationReservations,
+    maximusDisabledFeatures: matchingScpi.maximusDisabledFeatures ?? scpiExtended.maximusDisabledFeatures,
     sectors: sectorsFromScpiData,
     geography: geographyFromScpiData,
     // The official reconstruction VALUE is not the same indicator as a

@@ -19,6 +19,7 @@ interface SCPICardDarkProps {
 const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelected, onToggleSelect, onAnalyze, userTmi = null, onGuidedJourneyClick, isFavorite = false, onToggleFavorite }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const partial = scpi.maximusPublicationStatus === 'published_with_reserves';
   const isEuropean = isEuropeanSCPI(scpi);
   const showTaxOptimization = shouldOptimizeForTax(userTmi) && isEuropean;
 
@@ -128,6 +129,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
             <div>
               <h3 className="text-base font-bold text-white leading-tight">{scpi.name}</h3>
               <p className="text-xs text-slate-400">{scpi.managementCompany}</p>
+              {partial && <p data-testid="scpi-fintech-pro-caveat" className="text-xs text-amber-300">Données partielles · {scpi.dataPeriod || 'période non renseignée'}</p>}
             </div>
           </div>
           <div className="flex items-center gap-1.5 shrink-0">
@@ -330,7 +332,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
       <div className="p-3 space-y-2 bg-slate-900/30">
         <div className="grid grid-cols-2 gap-2">
           <button
-            onClick={onToggleSelect}
+            onClick={partial ? undefined : onToggleSelect}
             className={`py-2.5 px-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${
               isSelected
                 ? 'bg-amber-500 hover:bg-amber-600 text-white shadow-lg shadow-amber-500/30'

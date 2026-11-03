@@ -14,6 +14,7 @@ interface SCPITableRowProps {
 }
 
 const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelected, onToggleSelect, onAnalyze, userTmi = null, variant = 'public' }) => {
+  const partial = scpi.maximusPublicationStatus === 'published_with_reserves';
   const isEuropean = isEuropeanSCPI(scpi);
   const showTaxOptimization = shouldOptimizeForTax(userTmi) && isEuropean;
   const getCategoryColor = (category: string) => {
@@ -54,6 +55,7 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelec
     >
       <div>
         <div className="font-bold text-white text-sm truncate">{scpi.name}</div>
+        {partial && <div data-testid="scpi-fintech-caveat" className="text-xs text-amber-300">Données partielles · {scpi.dataPeriod || 'période non renseignée'}</div>}
         <div className="text-xs text-slate-400 truncate">{scpi.managementCompany}</div>
       </div>
       <div>
@@ -98,7 +100,7 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelec
       </div>
       <div className="flex items-center justify-end gap-2">
         <button
-          onClick={onToggleSelect}
+          onClick={partial ? undefined : onToggleSelect}
           className={`px-3 py-1.5 rounded-lg font-bold text-xs transition-all flex items-center gap-1.5 whitespace-nowrap ${
             isSelected
               ? variant === 'pro' 
