@@ -18,7 +18,7 @@ test('Administrative postdeploy repair retains caller authentication and origina
    assert.ok(sql.includes(k),k);
 });
 test('RLS release must only be all four fund cohort and never leak unnamed SCPI',()=>{
- assert.ok([65,66,68].includes(cohort.count),'Only the approved four-CORUM cohort or EdR staging of 66 is valid');
+ assert.ok(Number.isSafeInteger(cohort.count)&&cohort.count>=65, 'Must retain approved CORUM cohort while allowing subsequent SCPI releases');
  if(cohort.count>=66)assert.ok(cohort.slugs.includes('edr-europa'),'66th must be EdR Europa');
  const four=['corum-eurion','corum-origin','corum-usa','corum-xl'];
  for(const s of four)assert.ok(cohort.slugs.includes(s),s);

@@ -17,6 +17,8 @@ import { distributionYearLabel } from '../utils/scpiFinancialProvenance';
 import { generateOptimizedScpiSEO, generateFAQSchema, generateFinancialProductSchema, generateBreadcrumbSchema } from '../utils/seoOptimizer';
 import PieChart from './PieChart';
 import SEOHead from './SEOHead';
+import ScpiPublicationQualityNotice from './ScpiPublicationQualityNotice';
+import {isFeatureDisabled,isPublishedWithReserves} from '../utils/scpiPublicationQuality';
 
 interface ScpiDetailPageProps {
   scpi: Scpi;
@@ -42,6 +44,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
 
   useEffect(() => {
     const slug = createSlugFromName(scpi.name);
+    if (isPublishedWithReserves(scpi)) { setQualityScore(null); setScoresLoaded(true); return; }
     getLatestScore(slug).then(score => {
       const resolved = score != null ? score : (clientScoresBySlug[slug] ?? null);
       setQualityScore(resolved != null ? Math.round(resolved) : null);
@@ -91,7 +94,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
     },
     {
       question: `Quelle est la capitalisation de la SCPI ${scpi.name} ?`,
-      answer: `La SCPI ${scpi.name} affiche une capitalisation de ${formatCurrency(scpi.capitalization)}, ce qui témoigne de sa taille et de sa solidité sur le marché.`
+      answer: `La SCPI ${scpi.name} affiche une capitalisation de ${formatCurrency(scpi.capitalization)} selon les documents financiers de référence ; sa taille ne garantit ni liquidité ni performance.`
     },
     {
       question: `La SCPI ${scpi.name} est-elle labellisée ISR ?`,
@@ -164,6 +167,8 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
           </p>
         </div>
       )}
+
+      <ScpiPublicationQualityNotice scpi={scpi}/>
 
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl border border-gray-200 dark:border-gray-600">
@@ -582,7 +587,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
       {/* Actions */}
       {!isParcoursMode && (
         <div className="flex gap-4">
-          {onAddToPortfolio && (
+          {onAddToPortfolio && !isFeatureDisabled(scpi,'suitability_recommendations') && (
             <button
               onClick={() => onAddToPortfolio(scpi)}
               className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-blue-600 dark:bg-blue-500 text-white rounded-xl font-black text-base hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"

@@ -1,3 +1,4 @@
+import {isFeatureDisabled} from '../utils/scpiPublicationQuality';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Activity,
@@ -349,7 +350,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
     };
   }, [slug, localFallbackNews]);
 
-  const gap = valuationGap(scpi);
+  const gap = isFeatureDisabled(scpi,'undated_valuation_comparison') ? null : valuationGap(scpi);
   const tofTier = classifyTofOccupation(scpi.tof);
   const age = scpi.creation ? Math.max(0, new Date().getFullYear() - scpi.creation) : null;
   const topGeo = topEntry(scpi.repartitionGeo);

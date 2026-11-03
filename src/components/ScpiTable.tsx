@@ -2,7 +2,8 @@ import React from 'react';
 import { TrendingUp, Star, Award } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { formatCurrency, formatPercentage, getPerformanceColor, resolveDisplayedDiscount } from '../utils/formatters';
-import { findScpiSlug } from '../utils/scpiSlugMapper';
+import { findScpiSlug, createSlugFromName } from '../utils/scpiSlugMapper';
+import {isPublishedWithReserves} from '../utils/scpiPublicationQuality';
 
 interface ScpiTableProps {
   scpiList: Scpi[];
@@ -26,7 +27,7 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
     e.stopPropagation();
     if (!onScpiClick) return;
 
-    const slug = findScpiSlug(scpi.name);
+    const slug = findScpiSlug(scpi.name) || createSlugFromName(scpi.name);
     if (slug) {
       onScpiClick(slug);
     } else {
@@ -77,7 +78,7 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
                   ? 'bg-green-50 dark:bg-green-900/30 border-l-4 border-green-500 dark:border-green-400'
                   : ''
               }`}
-              onClick={() => onScpiToggle(scpi)}
+              onClick={() => { if (!isPublishedWithReserves(scpi)) onScpiToggle(scpi); }}
             >
               <td className="px-2 sm:px-3 py-2">
                 <div className="flex flex-col">
@@ -89,6 +90,7 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
                       {scpi.name}
                     </div>
                   </div>
+                  {isPublishedWithReserves(scpi) && <p className="mb-1 text-xs font-semibold text-amber-700 dark:text-amber-300" data-testid="scpi-comparator-reserves">Données partielles · {scpi.maximusSourcePeriode || 'période à vérifier'}</p>}
                   {scpi.isRecommended && (
                     <div className="flex items-center gap-1 mb-1">
                       <Award className="w-3 h-3 text-green-600 fill-green-600 dark:text-green-400 dark:fill-green-400" />
@@ -184,9 +186,10 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
                     <span className="text-xs">📊 Analyser</span>
                   </button>
                   <button
+                    disabled={isPublishedWithReserves(scpi)}
                     onClick={(e) => {
                       e.stopPropagation();
-                      onScpiToggle(scpi);
+                      if (!isPublishedWithReserves(scpi)) onScpiToggle(scpi);
                     }}
                     className={`flex items-center justify-center gap-1 px-2 py-1.5 text-white text-xs font-semibold rounded transition-colors min-h-[32px] w-full ${
                       isSelected(scpi)
@@ -194,7 +197,7 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
                         : 'bg-green-600 dark:bg-green-500 hover:bg-green-700 dark:hover:bg-green-600'
                     }`}
                   >
-                    {isSelected(scpi) ? (
+                    {isPublishedWithReserves(scpi) ? <span className="text-xs">Non sélectionnable</span> : isSelected(scpi) ? (
                       <>
                         <span className="text-xs">❌ Retirer</span>
                       </>

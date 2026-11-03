@@ -213,6 +213,17 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: Twelve real progressive SCPI source/disclosure checks at desktop and mobile widths
+        run: node scripts/scpi-onboarding/progressivePublicBrowser.mjs
+      - name: Store exact-SHA provisional publication evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scpi-progressive-public-${{ github.run_id }}
+          path: test-results/scpi-progressive-public/
+          retention-days: 30
+          if-no-files-found: warn
+
       - name: Real comparator financial filters in desktop and mobile Chromium
         run: node --import tsx/esm scripts/qa/comparator-financial-filters-browser.mjs
 

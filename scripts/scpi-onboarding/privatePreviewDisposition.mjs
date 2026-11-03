@@ -19,7 +19,15 @@ export function privatePreviewDisposition(cohort, catalog, candidateSlug) {
     const row=matches[0];
     const certified=row?.maximus_publication_status==='certified' ||
       row?.maximus_certification?.release_ready===true;
-    if (!certified)throw Error('UNVERIFIED_PUBLIC_CANDIDATE');
+    const provisional = row?.maximus_publication_status==='published_with_reserves' &&
+      row.maximus_publication_disclosure?.status==='visible' &&
+      Array.isArray(row.maximus_publication_reservations) &&
+      row.maximus_publication_reservations.length>0 &&
+      Array.isArray(row.maximus_disabled_features) &&
+      row.maximus_disabled_features.includes('suitability_recommendations') &&
+      row.maximus_disabled_features.includes('uncertified_history_comparison') &&
+      row.maximus_source_url?.startsWith('https://');
+    if (!certified && !provisional)throw Error('UNVERIFIED_PUBLIC_CANDIDATE');
     return 'ALREADY_PUBLIC_SKIPPED';
   }
   return 'PRIVATE_BROWSER_REQUIRED';

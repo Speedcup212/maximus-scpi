@@ -20,6 +20,8 @@ import { scpiData } from '../data/scpiData';
 import { CookieConsent } from './CookieConsent';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
 import ScpiPremiumAnalysis from './ScpiPremiumAnalysis';
+import ScpiPublicationQualityNotice from './ScpiPublicationQualityNotice';
+import {isPublishedWithReserves,isFeatureDisabled} from '../utils/scpiPublicationQuality';
 import ScpiIndicatorHistory from './ScpiIndicatorHistory';
 import { submitLead } from '../utils/leadSubmitter';
 import { getLiveScpiData } from '../utils/scpiLiveData';
@@ -315,6 +317,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         onArticlesClick={onArticlesClick}
         currentView="scpi-landing"
       />
+      {realScpiData && <div className="mx-auto max-w-7xl px-4 py-3"><ScpiPublicationQualityNotice scpi={realScpiData}/></div>}
 
       <div className={`bg-gradient-to-br ${colors.primary} text-white`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
@@ -322,7 +325,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
             <div className="space-y-8">
               <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold shadow-lg ${useMaximusBrand ? 'bg-[#00C896] text-[#0D1117] shadow-emerald-950/30' : 'bg-yellow-400 text-gray-900'}`}>
                 <Zap className="w-5 h-5" />
-                {getBadgeText()}
+                {realScpiData && isPublishedWithReserves(realScpiData) ? 'Fiche avec réserves' : getBadgeText()}
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
@@ -331,7 +334,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   {realScpiData ? formatPercentage(realScpiData.yield) : landingData.rendement} {annualDistributionYear !== null ? `· ${displayYieldLabel.toLowerCase()}` : 'de rendement'}
                 </span>
                 <span className="block text-2xl sm:text-3xl lg:text-4xl text-yellow-400 mt-3">
-                  {landingData.frais_souscription === "0%" ? "Sans frais d'entrée" : yieldQualif.label}
+                  {realScpiData && isPublishedWithReserves(realScpiData) ? 'Informations financières datées' : landingData.frais_souscription === "0%" ? "Sans frais d’entrée" : yieldQualif.label}
                 </span>
               </h1>
 
@@ -544,10 +547,9 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         />
       )}
 
-      <ScpiIndicatorHistory
-        scpiSlug={landingSlug}
-        scpiName={landingData.nom}
-      />
+      {realScpiData && isFeatureDisabled(realScpiData,'uncertified_history_comparison') ? (
+        <div data-testid="scpi-history-restricted" className="mx-auto max-w-6xl rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950">Historique de comparaison indisponible : rapprochement des données en cours. Les valeurs officielles isolées restent datées et consultables.</div>
+      ) : <ScpiIndicatorHistory scpiSlug={landingSlug} scpiName={landingData.nom} />}
 
       <div className={useMaximusBrand ? 'bg-[#F8FAFC] pb-12 sm:pb-14' : 'bg-white py-10 sm:py-12'}>
         <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ${useMaximusBrand ? 'relative z-10 -mt-7 sm:-mt-9 pt-2' : ''}`}>
@@ -677,7 +679,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         />
       )}
 
-      {landingData.simulator && (
+      {landingData.simulator && !(realScpiData && isFeatureDisabled(realScpiData,'suitability_recommendations')) && (
         <div className="bg-slate-50 py-8">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <details className="group rounded-2xl border border-slate-200 bg-white shadow-sm">

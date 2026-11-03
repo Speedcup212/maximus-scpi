@@ -43,6 +43,16 @@ jobs:
         run: npx puppeteer browsers install chrome
       - name: Generic desktop/mobile candidate interface matrix
         run: node scripts/scpi-onboarding/browser.mjs
+      - name: Progressive SCPI official-source caveats on six real React surfaces, desktop and mobile
+        run: node scripts/scpi-onboarding/progressivePublicBrowser.mjs
+      - name: Store twelve source-backed provisional browser cases
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scpi-progressive-public-${{ github.run_id }}
+          path: test-results/scpi-progressive-public/
+          retention-days: 30
+          if-no-files-found: warn
       - name: Preserve BNP browser baseline report
         run: cp test-results/scpi-onboarding/report.json test-results/scpi-onboarding/report-bnpp.json
       - name: Sofidynamic 69 private verified financial surfaces only (no publication)

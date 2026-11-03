@@ -4,6 +4,7 @@ import { createSlugFromName } from './scpiSlugMapper';
 import { qualifyYield } from './yieldContext';
 import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from './scpiDiscountPremium';
 import { Scpi } from '../types/scpi';
+import {isFeatureDisabled} from './scpiPublicationQuality';
 
 /**
  * Source unique de la donnée alimentant le template `OptimizedScpiLandingPage`.
@@ -28,6 +29,7 @@ const NA = 'Non disponible';
 // current subscription price. Require an independently publishable comparability
 // verdict for every newly released product.
 function qualifiedDiscount(scpi: Scpi): string {
+  if (isFeatureDisabled(scpi,'undated_valuation_comparison')) return NA;
   if (scpi.maximusDataStatus === 'certified_and_final_reviewed' &&
       scpi.discountQaStatus !== 'publishable') return NA;
   return formatScpiDiscountPremium(calculateScpiDiscountPremium(scpi.price, scpi.valeurReconstitution));

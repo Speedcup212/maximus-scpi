@@ -7,6 +7,9 @@ import type { SurveillanceDashboardRow, SurveillanceSignal } from '../../utils/s
 import ScpiTrajectoryPanel from '../../components/trajectory/ScpiTrajectoryPanel';
 import type { ScpiExposure, ExposureEntry } from '../../utils/clientPortfolioExposure';
 import { formatCapitalizationMillions } from '../../utils/clientPortfolioMath';
+import {scpiData} from '../../data/scpiData';
+import {createSlugFromName} from '../../utils/scpiSlugMapper';
+import {isFeatureDisabled,isPublishedWithReserves} from '../../utils/scpiPublicationQuality';
 
 type Numeric = number | string | null | undefined;
 export type ClientScpiCardIndicator = {
@@ -153,10 +156,12 @@ const ClientScpiCard: React.FC<Props> = ({
   radarLabel, radarClass, surveillanceUnavailable, manageExpanded, expanded, onToggleExpanded, onManage, children,
 }) => {
   const { indicator, trajectory } = holding;
+  const sourceScpi = scpiData.find(row=>createSlugFromName(row.name)===holding.slug);
+  const partial = isPublishedWithReserves(sourceScpi);
   const delta = holding.currentValue - holding.invested;
   const deltaPct = holding.invested > 0 ? delta / holding.invested * 100 : null;
   const tof = num(indicator?.tof);
-  const valuationGap = num(indicator?.prix_souscription) !== null &&
+  const valuationGap = !isFeatureDisabled(sourceScpi,'undated_valuation_comparison') && num(indicator?.prix_souscription) !== null &&
     num(indicator?.prix_reconstitution) !== null && (num(indicator?.prix_reconstitution) || 0) > 0
     ? ((num(indicator?.prix_souscription) as number) / (num(indicator?.prix_reconstitution) as number) - 1) * 100
     : null;
@@ -178,6 +183,7 @@ const ClientScpiCard: React.FC<Props> = ({
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               <h4 className="text-xl font-semibold text-white">{holding.name}</h4>
+              {partial && <span data-testid="scpi-client-reserves" className="rounded border border-amber-400/60 px-2 py-1 text-xs text-amber-200">Données partielles · {sourceScpi?.maximusSourcePeriode}</span>}
               <span className={'rounded-full border px-2.5 py-1 text-[10px] font-semibold ' + radarClass}>
                 {surveillanceUnavailable ? 'Surveillance indisponible' : radarLabel}
               </span>
@@ -224,7 +230,7 @@ const ClientScpiCard: React.FC<Props> = ({
             <h5 className="text-base font-semibold text-white">Trajectoire historique détaillée</h5>
             <p className="mt-1 text-xs text-slate-400">Retrouvez les cinq indicateurs historiques et les sources officielles de cette SCPI.</p>
           </div>
-          <ScpiTrajectoryPanel scpiSlug={holding.slug} />
+          {isFeatureDisabled(sourceScpi,'uncertified_history_comparison') ? <p data-testid="scpi-client-history-restricted" className="px-5 pb-4 text-sm text-amber-200">Comparaison historique indisponible : les flux et les stocks de parts ne sont pas rapprochés.</p> : <ScpiTrajectoryPanel scpiSlug={holding.slug} />}
         </section>
       )}
       <section className="border-b border-white/10 px-5 py-4 lg:px-6" aria-label={'Répartitions de ' + holding.name}>
