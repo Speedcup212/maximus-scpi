@@ -97,7 +97,13 @@ try{
    assert.doesNotMatch(await page.$eval('[data-test="simulator"]',e=>e.innerText),/NaN|Infinity/);
    for(const surface of ['radar','simulator','client_card'])report.cases.push({slug,width,surface,status:'PASS'});
    // The backend gate requires the genuine trajectory component at both widths.
-   await page.waitForSelector('[data-test="trajectory"] #trajectoire-scpi',{timeout:20000});
+   try {
+    await page.waitForSelector('[data-test="trajectory"] #trajectoire-scpi',{timeout:15000});
+   } catch(error) {
+    const debug=await page.$eval('[data-test="trajectory"]',e=>e.innerText.slice(0,3000)).catch(()=>'<trajectory root missing>');
+    console.error('TRAJECTORY_DIAGNOSTIC',JSON.stringify({slug,width,text:debug,errors}));
+    throw error;
+   }
    const trajectoryText=await page.$eval('[data-test="trajectory"] #trajectoire-scpi',e=>e.innerText);
    assert.match(trajectoryText,/TOF|Occupation/i);
    assert.doesNotMatch(trajectoryText,/NaN|Infinity/);
