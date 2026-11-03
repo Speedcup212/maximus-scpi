@@ -109,7 +109,7 @@ async function checkPublishedManifest(sha,deployId){
   headers:{'Cache-Control':'no-cache'},signal:AbortSignal.timeout(30000)});
  if(!page.ok)error('LIVE_CANDIDATE_ROUTE_MISSING');
  const html=await page.text();
- if(!/<title[ >]/i.test(html)||/noindex/i.test(html))error('LIVE_SEO_NOT_VALID');
+ if(!/<title[ >]/i.test(html)||/<meta[^>]+noindex/i.test(html))error('LIVE_SEO_NOT_VALID');
 }
 async function publishPreparedCertified(secret,sha,deployId){
  const prepared=await api('rpc/maximus_prepared_release_slugs',secret,{p_sha:sha});
