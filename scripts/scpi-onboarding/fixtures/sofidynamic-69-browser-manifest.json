@@ -14,5 +14,6 @@
         "www.sofidy.com"
       ]
     }
-  ]
+  ],
+  "catalog_row_file": "scripts/scpi-onboarding/fixtures/sofidynamic-69-browser-catalog-row.json"
 }
