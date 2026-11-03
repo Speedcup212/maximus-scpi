@@ -9,7 +9,7 @@ La synchronisation interroge les SCPI par SIREN (jamais leur société de gestio
 1. Authentification serveur via POST /api/sso/login et jeton Bearer conservé en mémoire.
 2. GET /api/companies/{siren}/attachments pour identifier les actes.
 3. GET /api/actes/{id}/download uniquement pour une pièce publique non supprimée.
-4. Contrôle du PDF, empreinte SHA-256, dépôt dans le bucket privé existant private-docs, dossier inpi/.
+4. Contrôle du PDF, empreinte SHA-256, dépôt dans le bucket privé existant scpi-bulletins, dossier inpi/.
 5. Métadonnées dans public.scpi_inpi_documents, avec RLS activée et accès service_role seulement.
 6. Lorsque INPI signale deleted=true ou une pièce non publique : retrait de l'objet stocké, statut withdrawn/restricted.
 
