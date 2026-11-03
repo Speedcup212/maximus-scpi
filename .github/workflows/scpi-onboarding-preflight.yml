@@ -47,6 +47,8 @@ jobs:
         run: cp test-results/scpi-onboarding/report.json test-results/scpi-onboarding/report-bnpp.json
       - name: Sofidynamic 69 private verified financial surfaces only (no publication)
         run: node scripts/scpi-onboarding/privateSofidynamicBrowser.mjs
+      - name: Private Sofidynamic trajectory desktop/mobile, no fabricated 2026 valuation
+        run: node scripts/scpi-history/sofidynamicPrivateTrajectoryBrowser.mjs
       - name: Preserve Sofidynamic browser proof separately
         if: always()
         run: |
@@ -59,6 +61,13 @@ jobs:
         with:
           name: scpi-onboarding-${{ github.run_id }}
           path: test-results/scpi-onboarding/
+      - name: Save separate Sofidynamic trajectory browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scpi-sofidynamic-trajectory-${{ github.run_id }}
+          path: test-results/scpi-sofidynamic-trajectory/
+          if-no-files-found: warn
       - name: Archive automatic issue classification and repair plan
         if: always()
         uses: actions/upload-artifact@v4
