@@ -25,7 +25,6 @@ test('new Supabase secret APIs use apikey header, never Authorization Bearer sb_
  const headers=normalizeSecretHeaders(key);
  assert.equal(headers.apikey,key);
  assert.equal('Authorization' in headers,false);
- const legacy='aa.bb.cc';
  assert.throws(()=>normalizeSecretHeaders('sb_secret_invalid!'),/NETLIFY_NATIVE_SCPI_RELEASE/);
- assert.equal(normalizeSecretHeaders('ey'.repeat(20)+'.ey'.repeat(20)+'.aa'.repeat(12)).Authorization.startsWith('Bearer '),true);
+ assert.equal(normalizeSecretHeaders(['e'.repeat(40),'y'.repeat(40),'a'.repeat(24)].join('.')).Authorization.startsWith('Bearer '),true);
 });
