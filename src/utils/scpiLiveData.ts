@@ -166,6 +166,7 @@ export function mergeScpiWithLiveIndicators(
     walt: toNumber(row.walt) ?? scpi.walt,
     walb: toNumber(row.walb) ?? scpi.walb,
     nombreLocataires: toNumber(row.nombre_locataires) ?? scpi.nombreLocataires,
+    nombreUnitesLocatives: toNumber(row.metric_provenance?.nombre_unites_locatives?.value_numeric) ?? scpi.nombreUnitesLocatives,
     nombreAssocies: toNumber(row.nombre_associes) ?? scpi.nombreAssocies,
     nbImmeubles: toNumber(row.nombre_immeubles) ?? scpi.nbImmeubles,
     nbPartsTotal: certifiedTotalParts ?? scpi.nbPartsTotal,
