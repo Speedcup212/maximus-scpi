@@ -30,7 +30,7 @@ export function verifyNetlifyState(site, deploy, siteId, expectedSha) {
   if (!HEX40.test(expectedSha) || !deploy?.id || deploy.site_id !== siteId ||
       deploy.state !== 'ready' || !deploy.published_at ||
       (site?.published_deploy?.id !== deploy.id && site?.published_deploy_id !== deploy.id) ||
-      !String(deploy.commit_message || '').includes(expectedSha)) fail('NETLIFY_LIVE_DEPLOY_SHA_NOT_PROVEN');
+      deploy.commit_ref !== expectedSha || deploy.branch !== 'main' || deploy.context !== 'production') fail('NETLIFY_LIVE_DEPLOY_SHA_NOT_PROVEN');
   return deploy.id;
 }
 
@@ -76,7 +76,7 @@ export async function run() {
     const id = site.published_deploy?.id || site.published_deploy_id;
     if (HEX24.test(id || '')) {
       const deploy = await jsonRequest('https://api.netlify.com/api/v1/deploys/' + id, {headers:netlifyAuth});
-      if (deploy.state === 'ready' && deploy.published_at && String(deploy.commit_message || '').includes(sha)) {
+      if (deploy.state === 'ready' && deploy.published_at && deploy.commit_ref === sha && deploy.branch === 'main' && deploy.context === 'production') {
         liveId = verifyNetlifyState(site, deploy, siteId, sha);
         break;
       }
