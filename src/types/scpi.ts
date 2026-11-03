@@ -18,6 +18,9 @@ export interface ScpiRepartition {
 
 export interface Scpi {
   metricProvenance?: Record<string, { reference_date?: string; document_period?: string; source_url?: string; source_page?: number }>;
+  maximusPublicationStatus?: 'certified' | 'published_with_reserves';
+  maximusPublicationReservations?: string[];
+  maximusDisabledFeatures?: string[];
   id: number;
   name: string;
   sector: 'bureaux' | 'commerces' | 'residentiel' | 'sante' | 'logistique' | 'hotellerie' | 'diversifie';
