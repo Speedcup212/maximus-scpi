@@ -41,6 +41,12 @@ jobs:
           python scripts/scpi-onboarding/publisherPdfAudit.py \
             --manifest scripts/scpi-onboarding/fixtures/sofidynamic-69-discovery.json \
             --output test-results/scpi-source-validation/sofidynamic-69.json
+      - name: Reconcile all 29 primary-source financial fields in immutable PDF evidence
+        run: |
+          python scripts/scpi-onboarding/secondPassPdfEvidence.py \
+            --manifest scripts/scpi-onboarding/fixtures/sofidynamic-69-second-pass.json \
+            --archive-dir test-results/scpi-source-validation/sources/ \
+            --report test-results/scpi-source-validation/sofidynamic-69-second-pass-report.json
       - name: Registry 2026 statutes discovery probe (never a regulatory approval)
         run: |
           python scripts/scpi-onboarding/inspectRegistryStatutes2026.py \
