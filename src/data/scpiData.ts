@@ -395,7 +395,10 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
 
   return {
     id: index + 1,
-    metricProvenance: scpi.maximus_metric_provenance || undefined,\n    maximusPublicationStatus: ['certified','published_with_reserves'].includes(scpi.maximus_publication_status) ? scpi.maximus_publication_status : undefined,\n    maximusPublicationReservations: Array.isArray(scpi.maximus_publication_reservations) ? scpi.maximus_publication_reservations.filter((v: unknown): v is string => typeof v === 'string') : undefined,\n    maximusDisabledFeatures: Array.isArray(scpi.maximus_disabled_features) ? scpi.maximus_disabled_features.filter((v: unknown): v is string => typeof v === 'string') : undefined,
+    metricProvenance: scpi.maximus_metric_provenance || undefined,
+    maximusPublicationStatus: ['certified','published_with_reserves'].includes(scpi.maximus_publication_status) ? scpi.maximus_publication_status : undefined,
+    maximusPublicationReservations: Array.isArray(scpi.maximus_publication_reservations) ? scpi.maximus_publication_reservations.filter((v: unknown): v is string => typeof v === 'string') : undefined,
+    maximusDisabledFeatures: Array.isArray(scpi.maximus_disabled_features) ? scpi.maximus_disabled_features.filter((v: unknown): v is string => typeof v === 'string') : undefined,
     name: scpi['Nom SCPI'],
     sector: sector,
     geography: geography,
