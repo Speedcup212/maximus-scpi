@@ -67,7 +67,7 @@ try{
   }
   const details=await page.$eval('[data-case="profile"]',el=>el.textContent||'');
   assert.match(details,/Sources et méthodologie/);
-  assert.match(details,/31\\/12\\/2025/);
+  assert.match(details,/31\/12\/2025/);
   assert.doesNotMatch(details,/Fiche publiée avec réserves|certification complète en cours|Données partielles/);
   const detailsSelector='[data-case="profile"] [data-testid="scpi-source-details"]';
   assert.equal(await page.$eval(detailsSelector,el=>el.open),false,'Methodology must be collapsed by default');
