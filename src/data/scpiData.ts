@@ -4,6 +4,7 @@ import scpiCompletJson from './scpi_complet.json';
 import { getVerifiedScpiNews } from '../utils/scpiNewsRecord.mjs';
 import { filterDocumentedNonLiquidityWarnings } from '../utils/scpiLiquidityText.mjs';
 import certifiedScpiCohort from './certified_scpi_cohort.json';
+import { aggregateCountryGeography } from '../utils/scpiGeography';
 // Force reload: Perial Opportunités Europe prix mis à jour à 44€
 
 // Helper function to parse sectorial distribution from string or JSON
@@ -389,6 +390,11 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     geoDistribution = parseGeoDistribution(scpi['Répartition Géographique'] || '{}');
   }
 
+  // The issuer can publish both regions and countries. For a country-level
+  // portfolio comparison, Paris + Île-de-France + Régions are one France exposure.
+  // Raw issuer buckets remain unchanged in the source catalog and database.
+  geoDistribution = aggregateCountryGeography(geoDistribution);
+
   const sector = determineSector(scpi['Répartition Sectorielle'] || '', sectorDistribution);
   const geography = determineGeography(geoDistribution);
   const recommended = isRecommended(scpi);
@@ -461,7 +467,11 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     distribution: cleanNumericValue(scpi['Distribution (€/part)']),
     nbImmeubles: cleanNumericValue(scpi['Nombre d\'immeubles']),
     nombreLocataires: cleanNumericValue(scpi['Nombre de locataires']),
-    nombreAssocies: cleanNumericValue(scpi['Nombre d’associés']),
+    nombreAssocies: cleanNumericValue(scpi['Nombre d’associés']) ??
+      cleanNumericValue(scpi["Nombre d'associés"]) ??
+      cleanNumericValue(scpi.maximus_metric_provenance?.nombre_associes?.value_numeric),
+    nombreUnitesLocatives: cleanNumericValue(scpi.maximus_metric_provenance?.nombre_unites_locatives?.value_numeric),
+    fraisGestionAssiette: typeof scpi['Frais de gestion - assiette'] === 'string' ? scpi['Frais de gestion - assiette'] : undefined,
     walt: cleanNumericValue(scpi['WALT']),
     walb: cleanNumericValue(scpi['WALB']),
     collecteNetteTrimestre: cleanNumericValue(scpi['Collecte nette trimestre']),
@@ -477,7 +487,8 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     liquidite: undefined,
     partsAttenteRetrait:
       cleanNumericValue(scpi['Parts en attente de retrait']) ??
-      (typeof scpi['liquidite'] === 'number' ? cleanNumericValue(scpi['liquidite']) : undefined),
+      (typeof scpi['liquidite'] === 'number' ? cleanNumericValue(scpi['liquidite']) : undefined) ??
+      cleanNumericValue(scpi.maximus_metric_provenance?.parts_attente_retrait?.value_numeric),
     partsProposeesVente:
       cleanNumericValue(scpi['Parts proposées à la vente']) ??
       cleanNumericValue(scpi['Parts en vente']) ??

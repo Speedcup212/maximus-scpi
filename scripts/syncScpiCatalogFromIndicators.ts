@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
 import { buildScpiEditorialNews } from '../src/utils/scpiNewsRecord.mjs';
+import { aggregateCountryGeography } from '../src/utils/scpiGeography';
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
@@ -187,7 +188,10 @@ for (const scpi of catalog) {
     scpi['Répartition Sectorielle JSON'] = row.repartition_sectorielle;
   }
   if (row.repartition_geographique && typeof row.repartition_geographique === 'object') {
-    scpi['Répartition Géographique JSON'] = row.repartition_geographique;
+    // Preserve official breakdown for audits, present a consistent country
+    // breakdown across public fiche, comparator and portfolio views.
+    scpi['maximus_geo_source_details'] = row.repartition_geographique;
+    scpi['Répartition Géographique JSON'] = aggregateCountryGeography(row.repartition_geographique);
   }
 
   const price = Number(row.prix_souscription);

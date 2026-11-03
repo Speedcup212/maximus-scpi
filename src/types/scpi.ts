@@ -17,7 +17,7 @@ export interface ScpiRepartition {
 }
 
 export interface Scpi {
-  metricProvenance?: Record<string, { reference_date?: string; document_period?: string; source_url?: string; source_page?: number }>;
+  metricProvenance?: Record<string, { reference_date?: string; document_period?: string; source_period?: string; source_url?: string; source_page?: number; pdf_sha256?: string; value_numeric?: number; qa_status?: string }>;
   maximusPublicationStatus?: 'certified' | 'published_with_reserves';
   maximusPublicationReservations?: string[];
   maximusDisabledFeatures?: string[];
@@ -81,6 +81,8 @@ export interface Scpi {
   distribution?: number; // Distribution par part (€/part)
   nbImmeubles?: number; // Nombre d'immeubles
   nombreAssocies?: number; // Associés de la SCPI, distincts des locataires
+  nombreUnitesLocatives?: number; // Unités louables, jamais assimilées aux locataires
+  fraisGestionAssiette?: string; // Texte officiel décrivant l'assiette des frais
   sfdr?: string; // Classification SFDR (ex: "Article 8", "Article 9")
   profilCible?: string; // Profil cible (ex: "Profil équilibré", "Profil prudent")
   profilRisque?: number; // Profil de risque de 1 à 7

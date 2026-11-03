@@ -12,6 +12,12 @@ export const normalizeGeoLabel = (name: string): { key: string; label: string } 
     normalized === 'ile de france' ||
     normalized === 'iledefrance' ||
     normalized === 'paris' ||
+    normalized === 'region parisienne' ||
+    normalized === 'paris et ile de france' ||
+    normalized === 'france' ||
+    normalized === 'province' ||
+    normalized === 'paris intra muros' ||
+    normalized === 'region paris' ||
     normalized === 'regions' ||
     normalized === 'region' ||
     normalized === 'nord' ||

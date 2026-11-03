@@ -1,6 +1,7 @@
 import { Scpi } from '../types/scpi';
 import { ScpiInput, SectorMap, GeoMap } from './scpiScoring';
 import { sanitizeScpiInput } from './scpiSanitize';
+import { aggregateCountryGeography } from './scpiGeography';
 
 /**
  * Transforme les données SCPI du format Maximus vers le format ScpiInput pour le scoring.
@@ -64,6 +65,9 @@ export function transformSupabaseScpiToScoringInput(dbScpi: any): ScpiInput {
   const repartitionGeo = typeof dbScpi.repartition_geographique === 'string'
     ? JSON.parse(dbScpi.repartition_geographique)
     : dbScpi.repartition_geographique;
+  const countryRepartition = repartitionGeo && typeof repartitionGeo === 'object' && !Array.isArray(repartitionGeo)
+    ? aggregateCountryGeography(repartitionGeo)
+    : repartitionGeo;
 
   const raw: ScpiInput = {
     id: dbScpi.id,
@@ -81,7 +85,7 @@ export function transformSupabaseScpiToScoringInput(dbScpi: any): ScpiInput {
     frais_gestion: dbScpi.frais_gestion,
     frais_souscription: dbScpi.frais_souscription || dbScpi.fees,
     repartition_sectorielle: repartitionSector,
-    repartition_geographique: repartitionGeo,
+    repartition_geographique: countryRepartition,
   };
 
   return sanitizeScpiInput(raw);

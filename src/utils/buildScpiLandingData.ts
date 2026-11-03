@@ -5,6 +5,7 @@ import { qualifyYield } from './yieldContext';
 import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from './scpiDiscountPremium';
 import { Scpi } from '../types/scpi';
 import {isFeatureDisabled} from './scpiPublicationQuality';
+import { getScpiDatedDiscount } from './scpiDatedDiscount';
 
 /**
  * Source unique de la donnée alimentant le template `OptimizedScpiLandingPage`.
@@ -29,6 +30,8 @@ const NA = 'Non disponible';
 // current subscription price. Require an independently publishable comparability
 // verdict for every newly released product.
 function qualifiedDiscount(scpi: Scpi): string {
+  const indicative = getScpiDatedDiscount(scpi);
+  if (indicative) return indicative.label + ' ' + indicative.formatted + ' — ' + indicative.comparisonLabel;
   if (isFeatureDisabled(scpi,'undated_valuation_comparison')) return NA;
   if (scpi.maximusDataStatus === 'certified_and_final_reviewed' &&
       scpi.discountQaStatus !== 'publishable') return NA;

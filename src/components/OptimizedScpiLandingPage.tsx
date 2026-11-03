@@ -21,6 +21,8 @@ import { CookieConsent } from './CookieConsent';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
 import ScpiPremiumAnalysis from './ScpiPremiumAnalysis';
 import ScpiPublicationQualityNotice from './ScpiPublicationQualityNotice';
+import ScpiOfficialFacts from './ScpiOfficialFacts';
+import { getScpiDatedDiscount } from '../utils/scpiDatedDiscount';
 import {isPublishedWithReserves,isFeatureDisabled} from '../utils/scpiPublicationQuality';
 import ScpiIndicatorHistory from './ScpiIndicatorHistory';
 import { submitLead } from '../utils/leadSubmitter';
@@ -74,6 +76,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     scpi => createSlugFromName(scpi.name) === landingSlug
   );
   const [realScpiData, setRealScpiData] = useState(staticScpiData);
+  const datedDiscount = realScpiData ? getScpiDatedDiscount(realScpiData) : null;
 
   useEffect(() => {
     let active = true;
@@ -377,11 +380,11 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                         help: 'Prix de souscription'
                       },
                       {
-                        label: realScpiData.discount <= 0 ? 'Décote' : 'Surcote',
-                        value: realScpiData.discountQaStatus === 'publishable'
+                        label: datedDiscount ? datedDiscount.label : (realScpiData.discount <= 0 ? 'Décote' : 'Surcote'),
+                        value: datedDiscount ? datedDiscount.formatted : realScpiData.discountQaStatus === 'publishable'
                           ? `${Math.abs(realScpiData.discount).toFixed(2).replace('.', ',')} %`
                           : 'À vérifier',
-                        help: realScpiData.valeurReconstitution
+                        help: datedDiscount ? datedDiscount.comparisonLabel : realScpiData.valeurReconstitution
                           ? `${formatCurrency(realScpiData.price)} vs ${formatCurrency(realScpiData.valeurReconstitution)}`
                           : 'Vs valeur du patrimoine'
                       },
@@ -550,6 +553,8 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
       {realScpiData && isFeatureDisabled(realScpiData,'uncertified_history_comparison') ? (
         <div data-testid="scpi-history-restricted" className="mx-auto max-w-6xl rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950">Historique de comparaison indisponible : rapprochement des données en cours. Les valeurs officielles isolées restent datées et consultables.</div>
       ) : <ScpiIndicatorHistory scpiSlug={landingSlug} scpiName={landingData.nom} />}
+
+      {realScpiData && isPublishedWithReserves(realScpiData) && <div className="mx-auto max-w-7xl px-4 py-3"><ScpiOfficialFacts scpi={realScpiData}/></div>}
 
       <div className={useMaximusBrand ? 'bg-[#F8FAFC] pb-12 sm:pb-14' : 'bg-white py-10 sm:py-12'}>
         <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ${useMaximusBrand ? 'relative z-10 -mt-7 sm:-mt-9 pt-2' : ''}`}>
