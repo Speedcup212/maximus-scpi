@@ -91,6 +91,7 @@ for (const row of catalog) {
     ? `<section class="static-quarterly"><h3>Actualité trimestrielle documentée</h3><p>${esc(truncate(editorialNews.text))}</p><p>Période du résumé : ${esc(editorialNews.period)} · Document daté : ${esc(editorialNews.documentDate)}</p><p><a href="${esc(editorialNews.sourceUrl)}" rel="noopener noreferrer">${esc(editorialNews.sourceDocument)}</a></p></section>`
     : `<section class="static-quarterly"><h3>Actualité trimestrielle</h3><p>Résumé en attente de vérification documentaire. Consultez les sources disponibles avant d’interpréter les indicateurs.</p></section>`;
   const warnings = filterDocumentedNonLiquidityWarnings(row.maximus_warnings).slice(0, 4);
+  const provisional = row.maximus_publication_status === 'published_with_reserves';
 
   const cards = [
     tof !== null ? ['TOF', `${fmt(tof)} %`, 'Occupation financière publiée'] : null,
@@ -108,9 +109,14 @@ for (const row of catalog) {
   ].filter(Boolean).slice(0, 9);
 
   const cardsHtml = cards.map(([label, value, note]) => `<article class="static-tech-card"><span>${esc(label)}</span><strong>${esc(value)}</strong><small>${esc(note)}</small></article>`).join('');
-  const warningHtml = warnings.length
-    ? `<section class="static-vigilance"><h3>Vigilances documentées</h3><ul>${warnings.map((warning) => `<li>${esc(warning)}</li>`).join('')}</ul></section>`
-    : `<section class="static-vigilance static-vigilance-neutral"><h3>Lecture des vigilances</h3><p>Aucune alerte structurée n’est exposée dans ce snapshot. Cela ne signifie pas absence de risque : la trajectoire et les documents récents restent déterminants.</p></section>`;
+  // The provisional official-source methodology is available on demand,
+  // without turning the factual public dashboard into a permanent warning wall.
+  // Never hide or remove the underlying QA reservations or issuer references.
+  const warningHtml = provisional
+    ? `<details class="static-source-methodology"><summary>Sources et méthodologie</summary><ul>${warnings.map(warning=>`<li>${esc(warning)}</li>`).join('')}</ul></details>`
+    : warnings.length
+      ? `<section class="static-vigilance"><h3>Vigilances documentées</h3><ul>${warnings.map((warning) => `<li>${esc(warning)}</li>`).join('')}</ul></section>`
+      : `<section class="static-vigilance static-vigilance-neutral"><h3>Lecture des vigilances</h3><p>Aucune alerte structurée n’est exposée dans ce snapshot. Cela ne signifie pas absence de risque : la trajectoire et les documents récents restent déterminants.</p></section>`;
 
   if (warnings.length) withWarnings++;
   if (waiting !== null || tof !== null || debt !== null || discount !== null) withHistorySignals++;

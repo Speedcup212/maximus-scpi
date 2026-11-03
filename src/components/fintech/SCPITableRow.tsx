@@ -55,7 +55,7 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelec
     >
       <div>
         <div className="font-bold text-white text-sm truncate">{scpi.name}</div>
-        {partial && <div data-testid="scpi-fintech-caveat" className="text-xs text-amber-300">Données partielles · {scpi.dataPeriod || 'période non renseignée'}</div>}
+        {partial && <div data-testid="scpi-fintech-caveat" className="text-xs text-slate-400">Bulletin {scpi.dataPeriod || 'période non renseignée'}</div>}
         <div className="text-xs text-slate-400 truncate">{scpi.managementCompany}</div>
       </div>
       <div>

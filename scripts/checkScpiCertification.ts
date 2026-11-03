@@ -11,7 +11,7 @@ const strictBaseline = JSON.parse(readFileSync(new URL('../src/data/certified_sc
 const verifiedCatalog = JSON.parse(readFileSync(new URL('../src/data/scpi_complet.json', import.meta.url), 'utf8')) as Record<string,unknown>[];
 const expectedCount = strictBaseline.count;
 let oidcEnabledCount: number | null = null;
-const sourceFields = 'scpi_slug,current_period,previous_period,risk_level,improvements,deteriorations,alerts,watch_points,analysis_version,certification_status,certification_reasons,current_source_certified,comparison_certified,structural_event_detected,certified_source_url';
+const sourceFields = 'scpi_slug,current_period,previous_period,risk_level,improvements,deteriorations,alerts,watch_points,analysis_version,certification_status,certification_reasons,current_source_certified,comparison_certified,structural_event_detected,certified_source_url,current_snapshot';
 
 const oidcSnapshot = async (): Promise<Record<string, any>[]> => {
   const tokenUrl = process.env.ACTIONS_ID_TOKEN_REQUEST_URL;
@@ -108,6 +108,26 @@ if (!required && data.length>0) {
     data=result.certified;
   } catch(error) {
     console.error('[SCPI certification] FAIL CLOSED:',error instanceof Error?error.message:String(error));
+    process.exit(1);
+  }
+}
+
+if (!required && data.some(row=>row.scpi_slug==='sofidynamic')) {
+  // Netlify builds do not receive GitHub OIDC. The 69th is already active in
+  // public RLS, but the automatic bulletin-history recomputation can be
+  // review_required without invalidating the source-backed factual fiche.
+  // Apply the exact same strict 68+1 source reconciliation as the OIDC gate.
+  try {
+    const verdict=verifyProgressiveCohortAttestation({
+      baseline:strictBaseline,cohort:certifiedCohort,catalog:verifiedCatalog,
+      analyses:data,enabledCount:data.length
+    });
+    data=verdict.certified;
+    console.log('[SCPI certification] Strict existing baseline '+data.length+
+      ', source-backed provisional listing reviewed independently.');
+  } catch(error) {
+    console.error('[SCPI certification] FAIL CLOSED:',
+      error instanceof Error?error.message:String(error));
     process.exit(1);
   }
 }

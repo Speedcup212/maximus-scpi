@@ -183,7 +183,7 @@ const ClientScpiCard: React.FC<Props> = ({
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               <h4 className="text-xl font-semibold text-white">{holding.name}</h4>
-              {partial && <span data-testid="scpi-client-reserves" className="rounded border border-amber-400/60 px-2 py-1 text-xs text-amber-200">Données partielles · {sourceScpi?.maximusSourcePeriode}</span>}
+              {partial && <span data-testid="scpi-client-reserves" className="text-xs text-slate-400">Bulletin {sourceScpi?.maximusSourcePeriode || 'période non renseignée'}</span>}
               <span className={'rounded-full border px-2.5 py-1 text-[10px] font-semibold ' + radarClass}>
                 {surveillanceUnavailable ? 'Surveillance indisponible' : radarLabel}
               </span>
@@ -230,7 +230,7 @@ const ClientScpiCard: React.FC<Props> = ({
             <h5 className="text-base font-semibold text-white">Trajectoire historique détaillée</h5>
             <p className="mt-1 text-xs text-slate-400">Retrouvez les cinq indicateurs historiques et les sources officielles de cette SCPI.</p>
           </div>
-          {isFeatureDisabled(sourceScpi,'uncertified_history_comparison') ? <p data-testid="scpi-client-history-restricted" className="px-5 pb-4 text-sm text-amber-200">Comparaison historique indisponible : les flux et les stocks de parts ne sont pas rapprochés.</p> : <ScpiTrajectoryPanel scpiSlug={holding.slug} />}
+          {isFeatureDisabled(sourceScpi,'uncertified_history_comparison') ? <p data-testid="scpi-client-history-restricted" className="px-5 pb-4 text-sm text-slate-400">Évolution historique détaillée non calculée pour cette période.</p> : <ScpiTrajectoryPanel scpiSlug={holding.slug} />}
         </section>
       )}
       <section className="border-b border-white/10 px-5 py-4 lg:px-6" aria-label={'Répartitions de ' + holding.name}>

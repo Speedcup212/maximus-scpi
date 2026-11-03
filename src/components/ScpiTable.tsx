@@ -91,7 +91,7 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
                       {scpi.name}
                     </div>
                   </div>
-                  {isPublishedWithReserves(scpi) && <p className="mb-1 text-xs font-semibold text-amber-700 dark:text-amber-300" data-testid="scpi-comparator-reserves">Données partielles · {scpi.maximusSourcePeriode || 'période à vérifier'}</p>}
+                  {isPublishedWithReserves(scpi) && <p className="mb-1 text-xs text-slate-500 dark:text-slate-400" data-testid="scpi-comparator-reserves">Bulletin {scpi.maximusSourcePeriode || 'période non renseignée'}</p>}
                   {scpi.isRecommended && (
                     <div className="flex items-center gap-1 mb-1">
                       <Award className="w-3 h-3 text-green-600 fill-green-600 dark:text-green-400 dark:fill-green-400" />
