@@ -36,10 +36,10 @@ const child=spawn(process.execPath,['node_modules/vite/bin/vite.js','--host','12
 let browser;const errors=[];
 const report={mode:'real React components / source-backed catalog',candidate:'sofidynamic',source_period:'2026-T2',cases:[],publication_authorized:false,commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim()};
 const cases=[
- ['profile','[data-case="profile"] [data-testid="scpi-publication-reserves"]',/Fiche publiée avec réserves/],
- ['fintech-card','[data-case="fintech-card"] [data-testid="scpi-fintech-caveat"]',/Données partielles/],
- ['fintech-row','[data-case="fintech-row"] [data-testid="scpi-fintech-caveat"]',/Données partielles/],
- ['client','[data-case="client"] [data-testid="scpi-client-history-restricted"]',/Comparaison historique indisponible/],
+ ['profile','[data-case="profile"] [data-testid="scpi-publication-reserves"]',/Références documentaires.*Bulletin : 2026-T2.*Valorisation : 31\/12\/2025/],
+ ['fintech-card','[data-case="fintech-card"] [data-testid="scpi-fintech-caveat"]',/Bulletin/],
+ ['fintech-row','[data-case="fintech-row"] [data-testid="scpi-fintech-caveat"]',/Bulletin/],
+ ['client','[data-case="client"] [data-testid="scpi-client-history-restricted"]',/Évolution historique détaillée non calculée/],
  ['dates','[data-case="dates"]',/2025-12-31.*2026-T2/],
  ['blocked-actions','[data-case="blocked-actions"]',/No unverified recommendation:true, no trend:true/],
 ];
@@ -66,8 +66,20 @@ try{
     report.cases.push({surface,width,status:'PASS',evidence:sel});
   }
   const details=await page.$eval('[data-case="profile"]',el=>el.textContent||'');
-  assert.match(details,/Statuts/);assert.match(details,/Mouvements/);
-  assert.match(details,/31\/12\/2025/);
+  assert.match(details,/Sources et méthodologie/);
+  assert.match(details,/31\\/12\\/2025/);
+  assert.doesNotMatch(details,/Fiche publiée avec réserves|certification complète en cours|Données partielles/);
+  const detailsSelector='[data-case="profile"] [data-testid="scpi-source-details"]';
+  assert.equal(await page.$eval(detailsSelector,el=>el.open),false,'Methodology must be collapsed by default');
+  await page.click(detailsSelector+' summary');
+  assert.equal(await page.$eval(detailsSelector,el=>el.open),true,'Customer must be able to expand sources');
+  const methodology=await page.$eval(detailsSelector,el=>el.textContent||'');
+  assert.match(methodology,/Statuts consultables/);
+  assert.match(methodology,/dépôt plus récent/);
+  assert.match(methodology,/mouvements et stocks de parts/);
+  assert.match(methodology,/DIC et la note d'information/);
+  await page.click(detailsSelector+' summary');
+  assert.equal(await page.$eval(detailsSelector,el=>el.open),false);
   await page.screenshot({path:dir+'/sofidynamic-'+width+'.png',fullPage:true});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth),false,'Horizontal overflow');
  }
