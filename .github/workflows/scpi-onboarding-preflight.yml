@@ -43,6 +43,8 @@ jobs:
         run: npx puppeteer browsers install chrome
       - name: Generic desktop/mobile candidate interface matrix
         run: node scripts/scpi-onboarding/browser.mjs
+      - name: Sofidynamic 69 private verified financial surfaces only (no publication)
+        run: node scripts/scpi-onboarding/privateSofidynamicBrowser.mjs
       - name: Save candidate browser proof
         if: always()
         uses: actions/upload-artifact@v4
