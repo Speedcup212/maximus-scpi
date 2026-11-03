@@ -4,7 +4,7 @@ import { qualifiedHistoryException } from './scpi-history/certificationHistoryPo
 import { verifyProgressiveCohortAttestation } from './scpi-candidates/progressiveCohortCertification.mjs';
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
 const required = process.env.REQUIRE_SUPABASE_CERTIFICATION === 'true';
 const certifiedCohort = JSON.parse(readFileSync(new URL('../src/data/certified_scpi_cohort.json', import.meta.url), 'utf8')) as { count: number; slugs: string[] };
 const strictBaseline = JSON.parse(readFileSync(new URL('../src/data/certified_scpi_baseline_68.json', import.meta.url), 'utf8')) as { count:number; slugs:string[] };
@@ -92,6 +92,24 @@ if (required) {
   // Certified-only downstream trend checks never imply partial candidate
   // historical coherence. Their own UI restrictions remain compulsory.
   data=certified;
+}
+
+if (!required && data.length>0) {
+  // A Netlify build is not a financial certification. Validate the exact
+  // frozen strict baseline while allowing one explicitly constrained, dated
+  // candidate already checked by the independent GitHub CI.
+  // Do not pass a service-role credential under a VITE_-prefixed key.
+  try {
+    const result=verifyProgressiveCohortAttestation({
+      baseline:strictBaseline,cohort:certifiedCohort,catalog:verifiedCatalog,
+      analyses:data,enabledCount:data.length
+    });
+    if(result.extension) console.log('[SCPI certification] PROVISIONAL_LISTING_NOT_FULLY_CERTIFIED:',result.extension);
+    data=result.certified;
+  } catch(error) {
+    console.error('[SCPI certification] FAIL CLOSED:',error instanceof Error?error.message:String(error));
+    process.exit(1);
+  }
 }
 
 const trendMetrics = new Set([
