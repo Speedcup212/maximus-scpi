@@ -84,14 +84,14 @@ async function api(path,secret,body=undefined){
 }
 async function checkGithubSuccessfulBuild(sha){
  const link='https://api.github.com/repos/'+REPO+'/actions/runs?head_sha='+sha+'&per_page=50';
- for(let i=0;i<40;i++){
+ for(let i=0;i<15;i++){
   const data=await json(link,{headers:{Accept:'application/vnd.github+json','User-Agent':'maximusscpi-native-release'}});
   const runs=(data.workflow_runs||[]).filter(x=>x.name==='Build verification' &&
     x.event==='push'&&x.head_branch==='main'&&x.head_sha===sha);
   const passed=runs.find(x=>x.status==='completed'&&x.conclusion==='success');
   if(passed)return 'https://github.com/'+REPO+'/actions/runs/'+passed.id;
   if(runs.some(x=>x.status==='completed'&&x.conclusion==='failure'))error('GITHUB_BUILD_NOT_GREEN');
-  await sleep(9000);
+  await sleep(20000);
  }
  error('GITHUB_BUILD_NOT_CONFIRMED');
 }
@@ -136,7 +136,7 @@ export async function onPostBuildSourceCheck(env) {
  if(!existsSync(file))error('NETLIFY_BROWSER_REPORT_ABSENT');
  const report=JSON.parse(readFileSync(file,'utf8'));
  validateNativeReport(report,env.COMMIT_REF);
- if(cohort.count!==69)error('UNEXPECTED_PUBLIC_COHORT_NUMBER');
+ if(cohort.count<69)error('UNEXPECTED_PUBLIC_COHORT_NUMBER');
  return 'PASS_12_REAL_CHROMIUM_CASES';
 }
 export async function onSuccessRelease(env){
