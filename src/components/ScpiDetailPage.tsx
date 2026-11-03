@@ -171,7 +171,6 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
       )}
 
       <ScpiPublicationQualityNotice scpi={scpi}/>
-      <ScpiOfficialFacts scpi={scpi}/>
 
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl border border-gray-200 dark:border-gray-600">
@@ -212,6 +211,8 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
           </div>
         </div>
       </div>
+
+      <ScpiOfficialFacts scpi={scpi}/>
 
       {/* Navigation Tabs */}
       <div className="flex border-b-2 border-gray-300 dark:border-gray-600 bg-gradient-to-r from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-700/50 rounded-xl overflow-x-auto overflow-y-hidden px-1 sm:px-2 py-1 sm:py-2 gap-1 scrollbar-hide">
