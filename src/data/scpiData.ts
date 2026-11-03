@@ -467,7 +467,9 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     distribution: cleanNumericValue(scpi['Distribution (€/part)']),
     nbImmeubles: cleanNumericValue(scpi['Nombre d\'immeubles']),
     nombreLocataires: cleanNumericValue(scpi['Nombre de locataires']),
-    nombreAssocies: cleanNumericValue(scpi['Nombre d’associés']),
+    nombreAssocies: cleanNumericValue(scpi['Nombre d’associés']) ??
+      cleanNumericValue(scpi["Nombre d'associés"]) ??
+      cleanNumericValue(scpi.maximus_metric_provenance?.nombre_associes?.value_numeric),
     nombreUnitesLocatives: cleanNumericValue(scpi.maximus_metric_provenance?.nombre_unites_locatives?.value_numeric),
     fraisGestionAssiette: typeof scpi['Frais de gestion - assiette'] === 'string' ? scpi['Frais de gestion - assiette'] : undefined,
     walt: cleanNumericValue(scpi['WALT']),
