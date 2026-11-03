@@ -1,0 +1,39 @@
+name: INPI LIVE pilot — authentication + one public PDF
+on:
+  push:
+    branches:
+      - 'feat/inpi-rne-scpi-actes'
+    paths:
+      - '.github/workflows/inpi-live-probe.yml'
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: INPI live API authentication and CORUM Origin SIREN public act probe
+        env:
+          INPI_API_USERNAME: ${{ secrets.INPI_API_USERNAME }}
+          INPI_API_PASSWORD: ${{ secrets.INPI_API_PASSWORD }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { authenticate, listActs, downloadAct } from './scripts/inpi/lib.mjs';
+          const u=process.env.INPI_API_USERNAME,p=process.env.INPI_API_PASSWORD;
+          if(!u || !p){ console.error('BLOCKED: Missing INPI_API_USERNAME or INPI_API_PASSWORD GitHub Actions secret'); process.exit(2); }
+          console.log('Secrets presence: both are present (values never printed)');
+          const token=await authenticate({username:u,password:p});
+          console.log('AUTH_OK: token received from official INPI RNE');
+          const acts=await listActs('749907507',token);
+          const available=acts.filter(a=>a.public&&!a.deleted);
+          console.log('LIST_OK:',JSON.stringify({siren:'749907507',total:acts.length,public_available:available.length,withdrawn:acts.filter(a=>a.deleted).length}));
+          if (!available.length){ console.log('PDF_SKIPPED: no publicly accessible acts for this SIREN');process.exit(0); }
+          const proof=await downloadAct(available[0].inpi_id,token);
+          console.log('PDF_OK:',JSON.stringify({sha256:proof.sha256,bytes:proof.bytes.length}));
+          NODE
