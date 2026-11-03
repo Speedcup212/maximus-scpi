@@ -12,9 +12,8 @@ const runCertification = async (attempt: number): Promise<number> => {
   }
 
   const env = { ...process.env };
-  if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    env.VITE_SUPABASE_ANON_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  }
+  // Keep privileged credentials in their dedicated server-only variable.
+  // Never assign service-role keys to VITE_-prefixed variables.
 
   return await new Promise<number>((resolve) => {
     const child = spawn(process.execPath, ['--import', 'tsx', 'scripts/checkScpiCertification.ts'], {
