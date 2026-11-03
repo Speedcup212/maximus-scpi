@@ -1,4 +1,4 @@
-name: Autonomous certified SCPI postdeploy publication
+name: Legacy certified publisher (retired — Netlify native)
 on:
   workflow_run:
     workflows: [Build verification]
@@ -12,15 +12,9 @@ jobs:
   publish:
     # Never accept a PR's privileged workflow_run context or foreign fork.
     # Independent financial and legal QA must already exist in protected Supabase.
-    if: >-
-      github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.event == 'push' &&
-      github.event.workflow_run.head_branch == 'main' &&
-      github.event.workflow_run.head_repository.full_name == github.repository &&
-      (contains(github.event.workflow_run.head_commit.message, '[deploy]') ||
-       contains(github.event.workflow_run.head_commit.message, '[release]') ||
-       contains(github.event.workflow_run.head_commit.message, '[hotfix]') ||
-       contains(github.event.workflow_run.head_commit.message, 'DEPLOY_NOW'))
+    # The same Netlify-native postdeploy service handles certified prepared
+    # batches. Retire GitHub token dependencies until explicitly restored.
+    if: false
     runs-on: ubuntu-latest
     # Keep the same production-environment protection as the legacy gated release.
     environment: production
