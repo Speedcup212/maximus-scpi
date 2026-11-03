@@ -89,6 +89,10 @@ def validate(manifest, archive_dir):
                     matrix=fitz.Matrix(1.4, 1.4)).tobytes("png")).hexdigest()
                 if render_sha != r.get("reviewed_render_png_sha256") or r.get("manual_graphic_value_checked") is not True:
                     errors.append("VISUAL_EVIDENCE_DIGEST_OR_REVIEW_MISSING")
+            elif r.get("metric") == "delai_jouissance_mois" and r.get("value") == 6:
+                # The legal issuer uses the ordinal word, not the digit 6.
+                if "premier jour du sixieme mois" not in normalized(native):
+                    errors.append("ENJOYMENT_ORDINAL_WORD_NOT_FOUND")
             elif not number_in_text(r.get("value"), native):
                 errors.append("NUMERIC_VALUE_NOT_FOUND_ON_PAGE")
         periods[key[0]] = periods.get(key[0], 0) + 1
