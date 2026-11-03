@@ -50,6 +50,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Native Netlify release environment contract and source-proof tests
+        run: node --test plugins/maximus-scpi-native-release/release.test.mjs
+
       - name: Full unit regression suite including issuer host rejection
         run: npm test
 
@@ -215,6 +218,9 @@ jobs:
 
       - name: Twelve real progressive SCPI source/disclosure checks at desktop and mobile widths
         run: node scripts/scpi-onboarding/progressivePublicBrowser.mjs
+      - name: Validate Netlify-native production proof stamp against exact checked-out SHA
+        run: node scripts/scpi-candidates/stampNetlifyProgressiveEvidence.mjs
+
       - name: Store exact-SHA provisional publication evidence
         if: always()
         uses: actions/upload-artifact@v4

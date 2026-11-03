@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "npm run build && node scripts/scpi-onboarding/progressivePublicBrowser.mjs && node scripts/scpi-candidates/stampNetlifyProgressiveEvidence.mjs"
   publish = "dist"
   ignore = "node ./scripts/netlify-ignore.mjs"
 
@@ -43,3 +43,9 @@
 # Isolated visual QA of SCPI 67-68. Production uses the exact certified cohort.
 [context."feature/scpi-67-68-release-circuit-v3".environment]
   VITE_BNPP_CANDIDATE_PREVIEW = "true"
+
+# RECOVERY-081 — official postdeploy publication owner.
+# Uses SUPABASE_SERVICE_ROLE_KEY stored in Netlify build secret scope,
+# never GitHub Actions credentials or a public frontend variable.
+[[plugins]]
+  package = "./plugins/maximus-scpi-native-release"
