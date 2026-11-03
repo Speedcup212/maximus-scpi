@@ -44,4 +44,4 @@ revoke all on public.scpi_inpi_documents from public, anon, authenticated;
 grant select, insert, update, delete on public.scpi_inpi_entities to service_role;
 grant select, insert, update, delete on public.scpi_inpi_documents to service_role;
 comment on table public.scpi_inpi_entities is 'Verified fund-level SIREN mapping; service-role only, no manager guessing.';
-comment on table public.scpi_inpi_documents is 'Restricted INPI acts catalog. PDFs reside in existing private-docs storage bucket; INPI deletions must revoke the object.';
+comment on table public.scpi_inpi_documents is 'Restricted INPI acts catalog. PDFs reside in existing scpi-bulletins storage bucket; INPI deletions must revoke the object.';
