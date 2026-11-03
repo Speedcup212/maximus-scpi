@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { fileURLToPath } from 'node:url';
-import { authenticate, downloadAct, listActs, validateSiren } from './lib.mjs';
+import { authenticate, downloadAct, listActs, listWithdrawnActIds, validateSiren } from './lib.mjs';
 
 const BUCKET = 'scpi-bulletins';
 const now = () => new Date().toISOString();
@@ -28,7 +28,16 @@ async function removeObject(db, path) {
 export async function syncEntity({ db, entity, token, fetcher = fetch, maxDownloads = 250, counters }) {
   const siren = validateSiren(entity.siren);
   const slug = String(entity.scpi_slug);
-  const acts = await listActs(siren, token, fetcher);
+  const currentActs = await listActs(siren, token, fetcher);
+  const withdrawnIds = await listWithdrawnActIds(siren, token, fetcher);
+  const byId = new Map(currentActs.map(item => [item.inpi_id, item]));
+  for (const id of withdrawnIds) {
+    const item = byId.get(id);
+    if (item) item.deleted = true;
+    else byId.set(id, { inpi_id: id, siren, document_name: null, deposit_date: null,
+      source_updated_at: null, act_types: [], public: false, deleted: true });
+  }
+  const acts = [...byId.values()];
   const previous = assertResult(await db.from('scpi_inpi_documents')
     .select('inpi_id,storage_path,status,sha256,source_updated_at')
     .eq('siren', siren), 'Lecture actes archivés') ?? [];
