@@ -24,3 +24,16 @@ export const aggregateCountryGeography = (
       .sort((a, b) => b[1] - a[1]),
   );
 };
+
+/** Convertit les lignes géographiques d'une carte en pays, sans muter la source. */
+export const aggregateCountryGeographyRows = (
+  rows: Array<{ name: string; value: number }> | null | undefined,
+): Array<{ name: string; value: number }> => {
+  if (!Array.isArray(rows)) return [];
+  const raw: Record<string, number> = {};
+  for (const row of rows) {
+    if (!row || typeof row.name !== 'string' || !Number.isFinite(row.value)) continue;
+    raw[row.name] = (raw[row.name] ?? 0) + row.value;
+  }
+  return Object.entries(aggregateCountryGeography(raw)).map(([name, value]) => ({ name, value }));
+};

@@ -11,6 +11,9 @@ import {
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import ScpiTrajectoryPanel from './ScpiTrajectoryPanel';
+import { scpiData } from '../../data/scpiData';
+import { createSlugFromName } from '../../utils/scpiSlugMapper';
+import { getScpiDatedDiscount } from '../../utils/scpiDatedDiscount';
 import {
   CERTIFIED_HISTORY_SELECT,
   CertifiedLiquiditySnapshot,
@@ -86,6 +89,40 @@ const formatNumber = (value: number | null, suffix = '', digits = 2) =>
     ? 'N.D.'
     : `${value.toLocaleString('fr-FR', { maximumFractionDigits: digits })}${suffix}`;
 
+
+const findPublishedPartialScpi = (slug: string) => scpiData.find(
+  (item) => createSlugFromName(item.name) === slug && item.maximusPublicationStatus === 'published_with_reserves',
+);
+
+/** Une source officielle partielle est visible sans être réinjectée dans les séries certifiées. */
+const PartialCurrentFacts: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
+  const current = findPublishedPartialScpi(scpiSlug);
+  if (!current) return null;
+  const dated = getScpiDatedDiscount(current);
+  const source = current.metricProvenance?.tof?.source_url;
+  const sourceUrl = typeof source === 'string' && source.startsWith('https://') ? source : null;
+  return (
+    <div data-testid="scpi-partial-current-facts" className="mx-4 mt-4 rounded-xl border border-sky-500/20 bg-slate-900/70 p-4 text-slate-200 sm:mx-5">
+      <div className="text-sm font-semibold text-white">
+        Dernier bulletin officiel : {current.maximusSourcePeriode || 'période à préciser'}
+      </div>
+      <p className="mt-1 text-xs leading-5 text-slate-400">
+        Niveaux observés et datés. Ces valeurs ne sont pas assimilées à des points d'une trajectoire certifiée
+        tant que les contrôles de comparaison ne sont pas terminés.
+      </p>
+      <div className="mt-3 grid grid-cols-2 gap-3 text-sm sm:grid-cols-5">
+        <div><span className="block text-xs text-slate-400">TOF</span><strong>{formatNumber(current.tof ?? null, ' %')}</strong></div>
+        <div><span className="block text-xs text-slate-400">Prix de souscription</span><strong>{formatNumber(current.price, ' €')}</strong></div>
+        <div><span className="block text-xs text-slate-400">Reconstitution</span><strong>{formatNumber(current.valeurReconstitution ?? null, ' €')}</strong></div>
+        <div><span className="block text-xs text-slate-400">Endettement</span><strong>{formatNumber(current.debt ?? null, ' %')}</strong></div>
+        <div><span className="block text-xs text-slate-400">{dated?.label ?? 'Décote / surcote'}</span><strong>{dated?.formatted ?? 'Non certifiée'}</strong></div>
+      </div>
+      {dated && <p className="mt-3 text-xs text-slate-400">{dated.comparisonLabel}</p>}
+      {sourceUrl && <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-xs text-sky-300 underline">Bulletin officiel</a>}
+    </div>
+  );
+};
+
 const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
   const [rows, setRows] = useState<ScpiHistoryRow[]>([]);
   const [liquiditySnapshot, setLiquiditySnapshot] = useState<CertifiedLiquiditySnapshot | null>(null);
@@ -142,6 +179,7 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
   }, [scpiSlug]);
 
   const history = useMemo(() => applyCertifiedLiquidity(normalizeAndDedupeHistory(rows), liquiditySnapshot, signalGate), [rows, liquiditySnapshot, signalGate]);
+  const hasRestrictedComparison = findPublishedPartialScpi(scpiSlug)?.maximusDisabledFeatures?.includes('uncertified_history_comparison') === true;
 
   const signals = useMemo<Signal[]>(() => {
     const { value: liquidity, delta: liquidityDelta, basis: liquidityBasis } = currentCertifiedLiquidity(history, liquiditySnapshot, signalGate);
@@ -292,6 +330,18 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
   if (loading) {
     return <div className="h-64 animate-pulse rounded-xl border border-slate-800 bg-slate-900/60" />;
   }
+  if (hasRestrictedComparison) {
+    return (
+      <div data-testid="scpi-market-signals-not-comparable" className="rounded-xl border border-slate-700 bg-slate-900/60 p-5">
+        <h3 className="text-sm font-semibold text-white">Signaux du marché : comparaisons non certifiées</h3>
+        <p className="mt-2 text-xs leading-5 text-slate-300">
+          {history.length} période(s) historique(s) admissible(s). Les derniers niveaux du bulletin officiel figurent ci-dessus,
+          mais ils ne déclenchent ni tendance ni alerte automatique tant que les comparaisons historiques ne sont pas certifiées.
+          Cette absence de signal ne signifie pas une absence de risque.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-5">
@@ -359,6 +409,7 @@ const ScpiTrajectoryTabs: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
   return (
     <section className="px-6 pb-6" data-maximus-analysis-tabs="true">
       <div className="overflow-hidden rounded-xl border border-slate-700 bg-slate-900/45 shadow-lg">
+        <PartialCurrentFacts scpiSlug={scpiSlug} />
         <div className="border-b border-slate-800 px-4 pt-4 sm:px-5">
           <div className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-sky-300">
             <LineChartIcon className="h-4 w-4" />
