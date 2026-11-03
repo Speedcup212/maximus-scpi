@@ -47,15 +47,15 @@
   "maximus_source_document": "Bulletin officiel Sofidynamic T2 2026 (SHA256: 89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376)",
   "maximus_metric_provenance": {
     "capitalisation": {
-      "value_numeric": 177064020,
-      "source_period": "2025-RA",
-      "source_url": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
-      "pdf_sha256": "b9173e2f54c9f5a8d3f94428a224dc3abd152c4716fad410ea7d700d9be21d57",
-      "source_page": 9,
-      "unit": "EUR",
+      "value_numeric": 247.58848,
+      "unit": "MILLION_EUR",
+      "source_period": "2026-T2",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+      "pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376",
+      "source_page": 5,
       "qa_status": "qa_pass",
-      "reviewer": "GPT6_SECOND_PASS_PDF_SHA_PAGE_IMAGE_20261103_NOT_HUMAN",
-      "reference_date": "2025-12-31"
+      "reference_date": "2026-06-30",
+      "reviewer": "GPT6_SECOND_PASS_PDF_SHA_PAGE_IMAGE_20261103_NOT_HUMAN"
     },
     "delai_jouissance_mois": {
       "value_numeric": 6,
@@ -278,5 +278,11 @@
     "Écart de 15 parts entre stock et mouvements T2 non expliqué, ne pas déduire de tendance historique.",
     "Frais de gestion 12 % HT des produits locatifs HT et financiers, pas de l'encours.",
     "La dernière valeur de réalisation et de reconstitution est datée du 31/12/2025."
-  ]
+  ],
+  "td_reference_url": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+  "maximus_prix_retrait_source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+  "maximus_prix_retrait_source_page": 5,
+  "maximus_prix_retrait_reference_period": "2026-T2",
+  "maximus_valeur_realisation_source_url": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+  "maximus_valeur_realisation_source_page": 9
 }
