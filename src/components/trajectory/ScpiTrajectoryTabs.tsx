@@ -335,8 +335,8 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
       <div data-testid="scpi-market-signals-not-comparable" className="rounded-xl border border-slate-700 bg-slate-900/60 p-5">
         <h3 className="text-sm font-semibold text-white">Signaux du marché : comparaisons non certifiées</h3>
         <p className="mt-2 text-xs leading-5 text-slate-300">
-          {history.length} période historique admissible. Les derniers niveaux du bulletin officiel figurent ci-dessus,
-          mais ils ne déclenchent ni tendance ni alerte automatique tant que deux observations comparables ne sont pas certifiées.
+          {history.length} période(s) historique(s) admissible(s). Les derniers niveaux du bulletin officiel figurent ci-dessus,
+          mais ils ne déclenchent ni tendance ni alerte automatique tant que les comparaisons historiques ne sont pas certifiées.
           Cette absence de signal ne signifie pas une absence de risque.
         </p>
       </div>
