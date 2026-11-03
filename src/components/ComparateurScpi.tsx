@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUpDown, Search } from 'lucide-react';
-import { findScpiSlug } from '../utils/scpiSlugMapper';
+import { findScpiSlug, createSlugFromName } from '../utils/scpiSlugMapper';
 
 interface ScpiItem {
   id: number;
@@ -12,6 +12,8 @@ interface ScpiItem {
   price: number;
   fees: number;
   capitalization: number;
+  publicationStatus?: string;
+  sourcePeriod?: string;
 }
 
 interface ComparateurScpiProps {
@@ -39,7 +41,9 @@ export default function ComparateurScpi({ onScpiClick }: ComparateurScpiProps = 
         sector: scpi.sector || 'diversifie',
         price: scpi.price || 0,
         fees: scpi.fees || 0,
-        capitalization: scpi.capitalization || 0
+        capitalization: scpi.capitalization || 0,
+        publicationStatus: scpi.maximusPublicationStatus,
+        sourcePeriod: scpi.maximusSourcePeriode
       }));
       console.log('[DEBUG ComparateurScpi] Data processed, list length:', data.length);
       setScpiList(data);
@@ -53,7 +57,7 @@ export default function ComparateurScpi({ onScpiClick }: ComparateurScpiProps = 
   const handleScpiClick = (scpiName: string) => {
     if (!onScpiClick) return;
 
-    const slug = findScpiSlug(scpiName);
+    const slug = findScpiSlug(scpiName) || createSlugFromName(scpiName);
     if (slug) {
       onScpiClick(slug);
     } else {
@@ -271,6 +275,7 @@ export default function ComparateurScpi({ onScpiClick }: ComparateurScpiProps = 
                     {scpi.name}
                   </div>
                   <div className="text-xs md:text-sm text-gray-500">{scpi.company}</div>
+                  {scpi.publicationStatus === 'published_with_reserves' && <div data-testid="scpi-comparator-reserves" className="mt-1 text-xs font-semibold text-amber-800">Données partielles · {scpi.sourcePeriod || 'date à vérifier'}</div>}
                 </td>
                 <td className="px-4 py-4 text-center">
                   <span className="font-bold text-green-600 text-sm md:text-base">{formatNumber(scpi.yield)}%</span>

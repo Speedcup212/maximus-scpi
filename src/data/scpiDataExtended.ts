@@ -5,6 +5,9 @@ import type { ScpiManagementFeeDetails } from '../types/scpi';
 
 export interface SCPIExtended {
   metricProvenance?: import('../types/scpi').Scpi['metricProvenance'];
+  maximusPublicationStatus?: import('../types/scpi').Scpi['maximusPublicationStatus'];
+  maximusPublicationReservations?: string[];
+  maximusDisabledFeatures?: string[];
   id: number;
   name: string;
   yield: number;
@@ -4091,6 +4094,9 @@ const newlyReleased = scpiData
   .map((scpi, i): SCPIExtended => ({
     id: maxHistoricalId + i + 1,
     metricProvenance: scpi.metricProvenance,
+    maximusPublicationStatus: scpi.maximusPublicationStatus,
+    maximusPublicationReservations: scpi.maximusPublicationReservations,
+    maximusDisabledFeatures: scpi.maximusDisabledFeatures,
     name: scpi.name, yield: scpi.yield, price: scpi.price,
     minInvestment: scpi.minInvest,
     category: categoryLabels[scpi.sector] || 'Diversifié',
