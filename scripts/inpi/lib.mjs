@@ -101,3 +101,40 @@ export async function downloadAct(id, token, fetcher = fetch) {
   if (length && length > MAX_PDF_BYTES * 1.5) throw new Error('Document trop volumineux');
   return decodeInpiPdf(Buffer.from(await response.arrayBuffer()), response.headers.get('content-type') ?? '');
 }
+
+
+/**
+ * INPI's differential endpoint is the authoritative place where withdrawals
+ * (deleted=true) appear, including items no longer in the attachments list.
+ * Fixed start date predates our initial November 2026 ingestion. Pagination is
+ * mandatory: never silently truncate a withdrawal inventory.
+ */
+export async function listWithdrawnActIds(siren, token, fetcher = fetch) {
+  const validated = validateSiren(siren);
+  const ids = new Set();
+  let after = null;
+  const seenCursors = new Set();
+  for (let page = 0; page < 100; page++) {
+    const params = new URLSearchParams();
+    params.append('siren[]', validated);
+    params.set('dateFrom', '2026-10-01');
+    params.set('pageSize', '100');
+    if (after) params.set('searchAfter', after);
+    const response = await inpiRequest('/api/actes?' + params.toString(), { token, fetcher });
+    const rows = await response.json();
+    if (!Array.isArray(rows)) throw new Error('Format différentiel INPI inattendu');
+    for (const row of rows) {
+      if (row.deleted !== true || String(row.siren ?? '') !== validated) continue;
+      if (/^[a-zA-Z0-9_-]{1,120}$/.test(String(row.id ?? ''))) ids.add(String(row.id));
+    }
+    const next = response.headers.get('pagination-search-after');
+    if (!next) {
+      if (rows.length === 100) throw new Error('Pagination différentielle INPI non documentée : risque de troncature');
+      return ids;
+    }
+    if (seenCursors.has(next)) throw new Error('Curseur différentiel INPI répété');
+    seenCursors.add(next);
+    after = next;
+  }
+  throw new Error('Pagination INPI excessive');
+}
