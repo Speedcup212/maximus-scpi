@@ -17,7 +17,7 @@ const cohort=JSON.parse(originalCohort);
 const data=JSON.parse(source);
 if(cohort.count!==68||cohort.slugs.includes('sofidynamic')||
    data.some(x=>x['Nom SCPI']==='Sofidynamic')||
-   newRow.maximus_publication_status!=='private_candidate_unpublished'||
+   newRow.maximus_publication_status!=='pending_certification'||
    fixture.indicators.length!==1||fixture.analysis.length!==1||fixture.history.length!==2||
    fixture.indicators[0].source_period!=='2026-T2'||
    fixture.analysis[0].comparison_certified!==false||
