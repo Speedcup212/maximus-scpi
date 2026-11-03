@@ -1,0 +1,62 @@
+{
+  "scpi_slug": "sofidynamic",
+  "release_ready": false,
+  "source_reconciliation": {
+    "opening_period": "2026-T1",
+    "closing_period": "2026-T2",
+    "opening": 672775,
+    "subscribed": 101076,
+    "withdrawn": 122,
+    "closing": 773714,
+    "explanation_qa_status": "unresolved",
+    "source_t1_sha256": "059156b1025ec6f2ee0f65bae19574b56de74d71ed933760b7cd5ad7ba65b0d7",
+    "source_t2_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376",
+    "source_page": 5
+  },
+  "fees": [
+    {
+      "category": "subscription",
+      "ht_percent": 2,
+      "ttc_percent": 2.4,
+      "basis": "subscription_price_gross",
+      "effective_period": "2026-REG",
+      "source_period": "2026-REG",
+      "source_page": 22,
+      "source_url": "https://www.sofidy.com/app/uploads/2024/01/NI-DYN-072026-FR-2-3146.pdf",
+      "pdf_sha256": "782f5b2fcdabe3cc5219fe3bb49e7a636760b42b2c5f3afa2b4110fc853e51c3"
+    },
+    {
+      "category": "management",
+      "ht_percent": 12,
+      "ttc_percent": 14.4,
+      "basis": "rental_income_ht_plus_financial_income_adjusted",
+      "effective_period": "2026-REG",
+      "source_period": "2026-REG",
+      "source_page": 22,
+      "source_url": "https://www.sofidy.com/app/uploads/2024/01/NI-DYN-072026-FR-2-3146.pdf",
+      "pdf_sha256": "782f5b2fcdabe3cc5219fe3bb49e7a636760b42b2c5f3afa2b4110fc853e51c3"
+    },
+    {
+      "category": "redemption",
+      "ht_percent": 5,
+      "ttc_percent": 6,
+      "basis": "redemption_proceeds",
+      "effective_period": "2026-T1",
+      "source_period": "2026-T1",
+      "source_page": 6,
+      "source_url": "https://www.sofidy.com/app/uploads/2026/05/SOFIDYNAMIC-BT-1T-2026.pdf",
+      "pdf_sha256": "059156b1025ec6f2ee0f65bae19574b56de74d71ed933760b7cd5ad7ba65b0d7"
+    },
+    {
+      "category": "redemption",
+      "ht_percent": 4.17,
+      "ttc_percent": 5,
+      "basis": "redemption_proceeds",
+      "effective_period": "2026-T2",
+      "source_period": "2026-T2",
+      "source_page": 6,
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+      "pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376"
+    }
+  ]
+}

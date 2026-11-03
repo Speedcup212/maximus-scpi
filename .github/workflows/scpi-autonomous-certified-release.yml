@@ -1,0 +1,42 @@
+name: Autonomous certified SCPI postdeploy publication
+on:
+  workflow_run:
+    workflows: [Build verification]
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: scpi-autonomous-approved-publication
+  cancel-in-progress: false
+jobs:
+  publish:
+    # Never accept a PR's privileged workflow_run context or foreign fork.
+    # Independent financial and legal QA must already exist in protected Supabase.
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout immutable, independently tested main SHA
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Re-test generic independent-gate and publication safeguards
+        run: node --test scripts/scpi-candidates/autonomousPreparedRelease.test.mjs
+      - name: Verify certified prepared batch, live Netlify SHA and atomic publication
+        env:
+          EXPECTED_RELEASE_SHA: ${{ github.event.workflow_run.head_sha }}
+          NETLIFY_SITE_ID: e4f16f87-663d-4965-8de8-00f6840f1aa7
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        run: node scripts/scpi-candidates/autonomousPreparedRelease.mjs
