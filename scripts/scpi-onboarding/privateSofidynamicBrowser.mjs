@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
+import {privatePreviewDisposition} from './privatePreviewDisposition.mjs';
 
 const ROOT=path.resolve(fileURLToPath(new URL('../../',import.meta.url)));
 const catalogFile=path.join(ROOT,'src/data/scpi_complet.json');
@@ -15,9 +16,12 @@ const newRow=JSON.parse(fs.readFileSync(path.join(ROOT,'scripts/scpi-onboarding/
 const fixture=JSON.parse(fs.readFileSync(path.join(ROOT,'scripts/scpi-onboarding/fixtures/sofidynamic-69-browser-snapshot.json'),'utf8'));
 const cohort=JSON.parse(originalCohort);
 const data=JSON.parse(source);
-if(cohort.count!==68||cohort.slugs.includes('sofidynamic')||
-   data.some(x=>x['Nom SCPI']==='Sofidynamic')||
-   newRow.maximus_publication_status!=='pending_certification'||
+const disposition=privatePreviewDisposition(cohort,data,'sofidynamic');
+if(disposition==='ALREADY_PUBLIC_SKIPPED'){
+ console.log('SOFIDYNAMIC_PRIVATE_BROWSER_SKIPPED_ALREADY_CERTIFIED_AND_PUBLIC');
+ process.exit(0);
+}
+if(newRow.maximus_publication_status!=='pending_certification'||
    fixture.indicators.length!==1||fixture.analysis.length!==1||fixture.history.length!==2||
    fixture.indicators[0].source_period!=='2026-T2'||
    fixture.analysis[0].comparison_certified!==false||
@@ -41,4 +45,4 @@ try {
  }
 }
 if(fs.readFileSync(catalogFile,'utf8')!==source) throw new Error('PUBLIC_CATALOG_NOT_RESTORED');
-console.log('SOFIDYNAMIC_PRIVATE_BROWSER_69_ONLY_PASS_PUBLIC_COHORT_68_UNCHANGED');
+console.log('SOFIDYNAMIC_PRIVATE_BROWSER_PASS_PUBLIC_COHORT_UNCHANGED');
