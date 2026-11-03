@@ -23,6 +23,18 @@ describe('indicative historical valuation facts without granting certification',
   expect(getScpiDatedDiscount({...sofidynamic,maximusPublicationStatus:'certified'})).toBeNull();
   expect(getScpiDatedDiscount({...sofidynamic,liquidityRegimeChanged:true})).toBeNull();
  });
+ it('country normalization and essential issuer facts remain available in the actual public catalogue',()=>{
+  expect(sofidynamic?.repartitionGeo).toEqual([
+    {name:'France',value:54.8},
+    {name:'Pays-Bas',value:36.9},
+    {name:'Espagne',value:8.2}
+  ]);
+  expect(sofidynamic?.fees).toBe(2.4);
+  expect(sofidynamic?.fraisGestion).toBe(12);
+  expect(sofidynamic?.distribution).toBe(5.52);
+  expect(sofidynamic?.nombreAssocies).toBe(8380);
+  expect(sofidynamic?.nbImmeubles).toBe(37);
+ });
  it('missing WALT, WALB, tenants remain missing; units are distinct',()=>{
   expect(sofidynamic?.nombreUnitesLocatives).toBe(681);
   expect(sofidynamic?.nombreLocataires).toBeUndefined();
