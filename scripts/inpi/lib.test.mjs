@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { authenticate, decodeInpiPdf, downloadAct, listActs, normaliseAct, validateSiren } from './lib.mjs';
+import { authenticate, decodeInpiPdf, downloadAct, listActs, listWithdrawnActIds, normaliseAct, validateSiren } from './lib.mjs';
 
 const pdf = Buffer.from('%PDF-1.7\n1 0 obj\n<<>>\nendobj\n%%EOF');
 const response = (data, headers = {}) => new Response(data, { status: 200, headers });
@@ -67,4 +67,29 @@ test('authentication uses official fixed host and bearer token only in subsequen
 test('unexpected or malformed INPI attachments fail closed', async () => {
   const fetcher = async () => response('{}', {'Content-Type':'application/json'});
   await assert.rejects(() => listActs('123456789', 'token', fetcher), /Format liste/);
+});
+
+
+test('differential withdrawals are collected even if omitted from current attachments', async () => {
+  const fetcher = async (url) => {
+    assert.match(url, /\/api\/actes\?/);
+    assert.match(url, /siren%5B%5D=123456789/);
+    return response(JSON.stringify([
+      { id:'withdrawn-001',siren:'123456789',deleted:true },
+      { id:'other-002',siren:'987654321',deleted:true },
+      { id:'current-003',siren:'123456789',deleted:false },
+    ]), {'Content-Type':'application/json'});
+  };
+  const ids = await listWithdrawnActIds('123456789', 'dummy', fetcher);
+  assert.deepEqual([...ids], ['withdrawn-001']);
+});
+
+test('differential must fail closed on truncated 100-row page', async () => {
+  const rows = Array.from({length:100}, (_,i) => ({
+    id:'id'+i,siren:'123456789',deleted:true,
+  }));
+  await assert.rejects(
+    () => listWithdrawnActIds('123456789','dummy',async () => response(JSON.stringify(rows))),
+    /troncature/,
+  );
 });
