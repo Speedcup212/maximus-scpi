@@ -50,6 +50,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Native Netlify release environment contract and source-proof tests
+        run: node --test plugins/maximus-scpi-native-release/release.test.mjs
+
       - name: Full unit regression suite including issuer host rejection
         run: npm test
 
