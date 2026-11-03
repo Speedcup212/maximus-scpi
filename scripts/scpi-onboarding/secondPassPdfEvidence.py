@@ -91,7 +91,7 @@ def validate(manifest, archive_dir):
                     errors.append("VISUAL_EVIDENCE_DIGEST_OR_REVIEW_MISSING")
             elif r.get("metric") == "delai_jouissance_mois" and r.get("value") == 6:
                 # The legal issuer uses the ordinal word, not the digit 6.
-                if "premier jour du sixieme mois" not in normalized(native):
+                if not ("premier" in normalized(native) and "jour du sixieme mois suivant la date de souscription" in normalized(native)):
                     errors.append("ENJOYMENT_ORDINAL_WORD_NOT_FOUND")
             elif not number_in_text(r.get("value"), native):
                 errors.append("NUMERIC_VALUE_NOT_FOUND_ON_PAGE")
