@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 import { authenticate, downloadAct, listActs, listWithdrawnActIds, validateSiren } from './lib.mjs';
 
 const BUCKET = 'scpi-bulletins';
@@ -125,7 +126,7 @@ export async function run({ db, fetcher = fetch, username, password, limit = Inf
   return counters;
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === fileURLToPath(new URL('file://' + process.argv[1]).toString())) {
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   const db = createClient(required('SUPABASE_URL'), required('SUPABASE_SERVICE_ROLE_KEY'),
     { auth: { persistSession: false, autoRefreshToken: false } });
   const limit = process.env.INPI_SCPI_LIMIT ? Number(process.env.INPI_SCPI_LIMIT) : Infinity;
