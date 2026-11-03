@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "npm run build && node scripts/scpi-onboarding/progressivePublicBrowser.mjs && node scripts/scpi-candidates/stampNetlifyProgressiveEvidence.mjs"
   publish = "dist"
   ignore = "node ./scripts/netlify-ignore.mjs"
 
