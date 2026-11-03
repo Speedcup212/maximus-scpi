@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { fileURLToPath } from 'node:url';
 import { authenticate, downloadAct, listActs, validateSiren } from './lib.mjs';
 
-const BUCKET = 'private-docs';
+const BUCKET = 'scpi-bulletins';
 const now = () => new Date().toISOString();
 
 function required(key) {
