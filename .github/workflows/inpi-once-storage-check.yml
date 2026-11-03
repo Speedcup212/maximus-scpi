@@ -1,0 +1,80 @@
+name: INPI ONE-OFF secure PDF archive smoke test
+on:
+  push:
+    branches: ['feat/inpi-rne-scpi-actes']
+    paths: ['.github/workflows/inpi-once-storage-check.yml']
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --omit=dev --ignore-scripts
+      - name: One SCPI, one public act, verify archive bytes and metadata
+        env:
+          INPI_API_USERNAME: ${{ secrets.INPI_API_USERNAME }}
+          INPI_API_PASSWORD: ${{ secrets.INPI_API_PASSWORD }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto';
+          import { createClient } from '@supabase/supabase-js';
+          import { authenticate, listActs, downloadAct } from './scripts/inpi/lib.mjs';
+          const env = process.env;
+          for (const name of ['INPI_API_USERNAME','INPI_API_PASSWORD','SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY']) {
+            if (!env[name]) { console.error('MISSING_SECRET: '+name); process.exit(2); }
+          }
+          console.log('SECRETS_PRESENT: four required secrets found; no values printed');
+          const db = createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, {
+            auth: { persistSession: false, autoRefreshToken: false }
+          });
+          const identity = await db.from('scpi_inpi_entities').select('scpi_slug,siren,verified').eq('scpi_slug','corum-origin').single();
+          if (identity.error || !identity.data?.verified || identity.data?.siren !== '749907507') {
+            throw new Error('Unverified legal identity in Supabase');
+          }
+          console.log('IDENTITY_OK: CORUM Origin with verified SIREN');
+          const token = await authenticate({username:env.INPI_API_USERNAME,password:env.INPI_API_PASSWORD});
+          console.log('AUTH_OK');
+          const acts = await listActs(identity.data.siren,token);
+          const publicAct = acts.find(act => act.public && !act.deleted);
+          console.log('LIST_OK: '+JSON.stringify({act_count:acts.length,public_count:acts.filter(a=>a.public&&!a.deleted).length}));
+          if (!publicAct) throw new Error('No public act in INPI response');
+          const pdf = await downloadAct(publicAct.inpi_id,token);
+          console.log('PDF_OK: '+JSON.stringify({bytes:pdf.bytes.length,sha256:pdf.sha256}));
+          const path = 'inpi/'+identity.data.siren+'/'+publicAct.inpi_id+'/'+pdf.sha256+'.pdf';
+          const bucket = db.storage.from('scpi-bulletins');
+          const upload = await bucket.upload(path,pdf.bytes,{upsert:false,contentType:'application/pdf'});
+          if (upload.error) {
+            if (String(upload.error.statusCode??upload.error.status)!=='409') throw new Error('STORAGE_WRITE_FAILED: '+upload.error.message);
+          }
+          const archive = await bucket.download(path);
+          if(archive.error) throw new Error('STORAGE_READ_FAILED: '+archive.error.message);
+          const stored = Buffer.from(await archive.data.arrayBuffer());
+          const storedHash=createHash('sha256').update(stored).digest('hex');
+          if (storedHash!==pdf.sha256 || stored.subarray(0,5).toString()!=='%PDF-') throw new Error('STORAGE_HASH_MISMATCH');
+          console.log('STORAGE_OK: private object read back and SHA-256 matched');
+          const row = {
+            inpi_id:publicAct.inpi_id,
+            scpi_slug:identity.data.scpi_slug,
+            siren:identity.data.siren,
+            document_name:publicAct.document_name,
+            deposit_date:publicAct.deposit_date,
+            source_updated_at:publicAct.source_updated_at,
+            act_types:publicAct.act_types,
+            status:'available',storage_path:path,sha256:pdf.sha256,
+            checked_at:new Date().toISOString(),last_error:null
+          };
+          const write=await db.from('scpi_inpi_documents').upsert(row,{onConflict:'inpi_id'}).select('inpi_id,sha256,status,storage_path').single();
+          if(write.error) throw new Error('DB_WRITE_FAILED: '+write.error.message);
+          if(write.data.sha256!==storedHash || write.data.status!=='available'||write.data.storage_path!==path) throw new Error('DB_EVIDENCE_MISMATCH');
+          console.log('END_TO_END_PASS: '+JSON.stringify({slug:identity.data.scpi_slug,act_id:publicAct.inpi_id,sha256:storedHash,bytes:stored.length}));
+          NODE
