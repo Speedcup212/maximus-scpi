@@ -11,6 +11,8 @@ import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
 import { formatScpiDiscountPremium } from '../../utils/scpiDiscountPremium';
 import { buildScpiForAnalysis } from '../../utils/buildScpiForAnalysis';
+import { getScpiDatedDiscount } from '../../utils/scpiDatedDiscount';
+import { aggregateCountryGeographyRows } from '../../utils/scpiGeography';
 import { annualReferenceYear, metricDateLabel } from '../../utils/scpiFinancialProvenance';
 import SriRiskProfileBlock from '../shared/SriRiskProfileBlock';
 import type { ScpiScores } from '../../utils/scpiScoring';
@@ -124,6 +126,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
 
 
   // Annual distribution and debt belong to the source-year, not the current bulletin.
+  const countryGeography = aggregateCountryGeographyRows(scpi.geography);
   const distributionYear=annualReferenceYear(scpiForAnalysis?.distributionReferencePeriod);
   const debtYear=annualReferenceYear(scpiForAnalysis?.debtReferencePeriod);
 
@@ -253,7 +256,14 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                 {(() => {
                   const discountPremium = resolveDisplayedDiscount(scpi).value;
                   if (discountPremium == null) {
-                    return <div className="text-2xl font-bold text-slate-400">À vérifier</div>;
+                    const dated = scpiForAnalysis ? getScpiDatedDiscount(scpiForAnalysis) : null;
+                    if (!dated) return <div className="text-2xl font-bold text-slate-400">À vérifier</div>;
+                    return (
+                      <div data-testid="scpi-comparator-dated-discount">
+                        <div className="text-lg font-bold text-emerald-400">{dated.label} : {dated.formatted}</div>
+                        <p className="mt-2 text-xs leading-5 text-slate-400">{dated.comparisonLabel}</p>
+                      </div>
+                    );
                   }
                   const isDiscount = discountPremium < -0.005;
                   const isPremium = discountPremium > 0.005;
@@ -709,7 +719,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       </linearGradient>
                     </defs>
                     <Pie
-                      data={[...scpi.geography].sort((a, b) => b.value - a.value)}
+                      data={[...countryGeography].sort((a, b) => b.value - a.value)}
                       cx="50%"
                       cy="50%"
                       innerRadius="50%"
@@ -720,7 +730,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                       animationDuration={800}
                       animationEasing="ease-out"
                     >
-                      {scpi.geography.sort((a, b) => b.value - a.value).map((_, index) => (
+                      {[...countryGeography].sort((a, b) => b.value - a.value).map((_, index) => (
                         <Cell
                           key={`cell-geo-${index}`}
                           fill={`url(#${GRADIENT_IDS.geography[index % GRADIENT_IDS.geography.length]})`}
@@ -734,12 +744,12 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   </RechartsPie>
                 </ResponsiveContainer>
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
-                  <div className="text-3xl font-bold text-white">{scpi.geography.length}</div>
+                  <div className="text-3xl font-bold text-white">{countryGeography.length}</div>
                   <div className="text-sm text-slate-400">zones</div>
                 </div>
               </div>
               <div className="mt-4 space-y-2">
-                {scpi.geography.sort((a, b) => b.value - a.value).map((geo, index) => (
+                {[...countryGeography].sort((a, b) => b.value - a.value).map((geo, index) => (
                   <div key={geo.name} className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
                       <div
