@@ -1,4 +1,5 @@
 import {isFeatureDisabled} from '../utils/scpiPublicationQuality';
+import { getMetricDate } from '../utils/scpiPublicationQuality';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Activity,
@@ -385,7 +386,9 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
       label: 'Valorisation',
       value: gap == null ? null : Math.round(clamp(70 - gap * 4)),
       fact: gap == null
-        ? 'Valeur de reconstitution non disponible'
+        ? (isFeatureDisabled(scpi,'undated_valuation_comparison') && scpi.valeurReconstitution
+          ? `Dernière valeur de reconstitution au ${getMetricDate(scpi,'prix_reconstitution') || 'dernier rapport annuel'} — comparaison non intégrée au score`
+          : 'Valeur de reconstitution non disponible')
         : `${gap <= 0 ? 'Décote' : 'Surcote'} ${formatPercent(Math.abs(gap))} vs valeur de reconstitution`,
     },
     {
