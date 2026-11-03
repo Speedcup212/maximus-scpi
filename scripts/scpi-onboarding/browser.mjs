@@ -63,7 +63,7 @@ try{
    if(u.pathname.includes('scpi_trajectory_pilot_history'))rows=snapshot.history;
    if(slug)rows=rows.filter(r=>r.scpi_slug===slug);
    const object=(req.headers().accept||'').includes('object');
-   return req.respond({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(object?(rows[0]||null):rows)});
+   return req.respond({status:200,contentType:'application/json',headers:{'access-control-allow-origin':'*','access-control-allow-methods':'GET,OPTIONS','access-control-allow-headers':'apikey,authorization,content-type,accept-profile,x-client-info,prefer,accept','access-control-expose-headers':'content-range'},body:JSON.stringify(object?(rows[0]||null):rows)});
   }
   return req.abort();
  });
