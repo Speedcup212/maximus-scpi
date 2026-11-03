@@ -69,7 +69,7 @@ try{
   assert.match(details,/Sources et actualisation des données/);
   assert.match(details,/Bulletin de référence/);
   assert.match(details,/2e trimestre 2026/);
-  assert.match(details,/31\\/12\\/2025/);
+  assert.match(details,/31\/12\/2025/);
   assert.match(details,/Chaque indicateur conserve sa date de référence/);
   assert.doesNotMatch(details,/Fiche publiée avec réserves|certification complète en cours|Données partielles|Statuts consultables|mouvements et stocks de parts|revue complémentaire/);
   assert.equal(await page.$('[data-case="profile"] details'),null,'No internal quality methodology in public profile');
