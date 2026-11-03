@@ -16,8 +16,14 @@ jobs:
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.head_branch == 'main' &&
-      github.event.workflow_run.head_repository.full_name == github.repository
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      (contains(github.event.workflow_run.head_commit.message, '[deploy]') ||
+       contains(github.event.workflow_run.head_commit.message, '[release]') ||
+       contains(github.event.workflow_run.head_commit.message, '[hotfix]') ||
+       contains(github.event.workflow_run.head_commit.message, 'DEPLOY_NOW'))
     runs-on: ubuntu-latest
+    # Keep the same production-environment protection as the legacy gated release.
+    environment: production
     timeout-minutes: 12
     steps:
       - name: Checkout immutable, independently tested main SHA
