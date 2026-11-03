@@ -2,6 +2,7 @@ import React from 'react';
 import { TrendingUp, Star, Award } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { formatCurrency, formatPercentage, getPerformanceColor, resolveDisplayedDiscount } from '../utils/formatters';
+import { getScpiDatedDiscount } from '../utils/scpiDatedDiscount';
 import { findScpiSlug, createSlugFromName } from '../utils/scpiSlugMapper';
 import {isPublishedWithReserves} from '../utils/scpiPublicationQuality';
 
@@ -164,8 +165,12 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
               <td className="px-3 py-3 text-center">
                 {(() => {
                   const d = resolveDisplayedDiscount(scpi);
+                  const indicative = d.value == null ? getScpiDatedDiscount(scpi) : null;
                   return (
-                    <span className={`font-bold text-xs whitespace-nowrap ${d.colorClass}`}>{d.formatted}</span>
+                    <span className={`font-bold text-xs ${d.colorClass}`} title={indicative?.comparisonLabel}>
+                      {indicative ? `Indic. ${indicative.formatted}` : d.formatted}
+                      {indicative && <small className="block text-[10px] font-normal">VR {indicative.valuationDate}</small>}
+                    </span>
                   );
                 })()}
               </td>
