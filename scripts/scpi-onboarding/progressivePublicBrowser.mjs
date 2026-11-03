@@ -36,7 +36,7 @@ const child=spawn(process.execPath,['node_modules/vite/bin/vite.js','--host','12
 let browser;const errors=[];
 const report={mode:'real React components / source-backed catalog',candidate:'sofidynamic',source_period:'2026-T2',cases:[],publication_authorized:false,commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim()};
 const cases=[
- ['profile','[data-case="profile"] [data-testid="scpi-publication-reserves"]',/Références documentaires.*Bulletin : 2026-T2.*Valorisation : 31\/12\/2025/],
+ ['profile','[data-case="profile"] [data-testid="scpi-source-references"]',/Sources et actualisation des données.*Bulletin de référence.*2e trimestre 2026.*31\/12\/2025/],
  ['fintech-card','[data-case="fintech-card"] [data-testid="scpi-fintech-caveat"]',/Bulletin/],
  ['fintech-row','[data-case="fintech-row"] [data-testid="scpi-fintech-caveat"]',/Bulletin/],
  ['client','[data-case="client"] [data-testid="scpi-client-history-restricted"]',/Évolution historique détaillée non calculée/],
@@ -58,7 +58,7 @@ try{
  for(const width of [1440,390]){
   await page.setViewport({width,height:1000});
   await page.goto(root+'/'+fixture,{waitUntil:'networkidle0'});
-  await page.waitForSelector('[data-case="profile"] [data-testid="scpi-publication-reserves"]',{timeout:20000});
+  await page.waitForSelector('[data-case="profile"] [data-testid="scpi-source-references"]',{timeout:20000});
   for(const[surface,sel,pattern]of cases){
     const node=await page.$(sel);assert.ok(node,'Missing '+surface);
     const value=await page.$eval(sel,el=>el.textContent||'');
@@ -66,20 +66,15 @@ try{
     report.cases.push({surface,width,status:'PASS',evidence:sel});
   }
   const details=await page.$eval('[data-case="profile"]',el=>el.textContent||'');
-  assert.match(details,/Sources et méthodologie/);
-  assert.match(details,/31\/12\/2025/);
-  assert.doesNotMatch(details,/Fiche publiée avec réserves|certification complète en cours|Données partielles/);
-  const detailsSelector='[data-case="profile"] [data-testid="scpi-source-details"]';
-  assert.equal(await page.$eval(detailsSelector,el=>el.open),false,'Methodology must be collapsed by default');
-  await page.click(detailsSelector+' summary');
-  assert.equal(await page.$eval(detailsSelector,el=>el.open),true,'Customer must be able to expand sources');
-  const methodology=await page.$eval(detailsSelector,el=>el.textContent||'');
-  assert.match(methodology,/Statuts consultables/);
-  assert.match(methodology,/dépôt plus récent/);
-  assert.match(methodology,/mouvements et stocks de parts/);
-  assert.match(methodology,/DIC et la note d'information/);
-  await page.click(detailsSelector+' summary');
-  assert.equal(await page.$eval(detailsSelector,el=>el.open),false);
+  assert.match(details,/Sources et actualisation des données/);
+  assert.match(details,/Bulletin de référence/);
+  assert.match(details,/2e trimestre 2026/);
+  assert.match(details,/31\\/12\\/2025/);
+  assert.match(details,/Chaque indicateur conserve sa date de référence/);
+  assert.doesNotMatch(details,/Fiche publiée avec réserves|certification complète en cours|Données partielles|Statuts consultables|mouvements et stocks de parts|revue complémentaire/);
+  assert.equal(await page.$('[data-case="profile"] details'),null,'No internal quality methodology in public profile');
+  const officialLink=await page.$('[data-case="profile"] a[href^="https://"]');
+  assert.ok(officialLink,'Official reference document must remain accessible');
   await page.screenshot({path:dir+'/sofidynamic-'+width+'.png',fullPage:true});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth),false,'Horizontal overflow');
  }
