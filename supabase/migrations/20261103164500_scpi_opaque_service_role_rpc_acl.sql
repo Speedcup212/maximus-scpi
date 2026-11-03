@@ -116,7 +116,7 @@ begin
  return pg_catalog.jsonb_build_object('prepared',true,'before',v_before,
    'expected_after',v_before+1,'candidate',p_scpi_slug,'release_sha',p_release_sha,
    'certified',false,'source_pdf_sha256',p_expected_source_sha256);
-end $function$
+end $function$;
 
 
 CREATE OR REPLACE FUNCTION public.maximus_publish_verified_progressive_release(p_release_sha text, p_netlify_deploy_id text)
@@ -200,7 +200,7 @@ begin
   'publication_status','published_with_reserves','candidate_slugs',array[v_prepared.scpi_slug],
   'before',v_before,'after',v_after,'netlify_deploy_id',p_netlify_deploy_id,
   'release_sha',p_release_sha);
-end $function$
+end $function$;
 
 revoke all on function public.maximus_prepare_progressive_release(text,text,text,jsonb,text,text) from PUBLIC,anon,authenticated;
 grant execute on function public.maximus_prepare_progressive_release(text,text,text,jsonb,text,text) to service_role;
