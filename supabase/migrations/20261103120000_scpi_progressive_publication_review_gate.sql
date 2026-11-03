@@ -19,6 +19,8 @@ with documents as (
  and coalesce(r.debt_and_leverage_review_passed,false)
  and coalesce(r.liquidity_risk_review_passed,false)
  and coalesce(r.frontend_contract_smoke_passed,false)
+ and r.review_evidence->'progressive_publication'->>'disclosures_verified'='true'
+ and r.review_evidence->'progressive_publication'->>'restricted_features_enforced'='true'
  and r.review_evidence->'browser_smoke'->>'status'='PASS'
  and coalesce((r.review_evidence->'browser_smoke'->>'case_count')::integer,0)>=12
  and coalesce((r.review_evidence->>'material_falsehood')::boolean,false)=false
