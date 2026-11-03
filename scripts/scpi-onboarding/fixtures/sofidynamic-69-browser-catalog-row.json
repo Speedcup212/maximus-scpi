@@ -270,7 +270,7 @@
   "maximus_valeur_realisation_reference_date": "2025-12-31",
   "maximus_prix_reconstitution_reference_date": "2025-12-31",
   "maximus_data_status": "source_verified_candidate_not_published",
-  "maximus_publication_status": "private_candidate_unpublished",
+  "maximus_publication_status": "pending_certification",
   "Décote/Surcote QA": "not_publishable",
   "liquidity_basis": "withdrawal_queue",
   "maximus_warnings": [
