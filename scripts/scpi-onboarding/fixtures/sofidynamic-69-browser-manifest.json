@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "batch_id": "sofidynamic-69-private-ui",
+  "mode": "new",
+  "snapshot_file": "scripts/scpi-onboarding/fixtures/sofidynamic-69-browser-snapshot.json",
+  "candidates": [
+    {
+      "slug": "sofidynamic",
+      "name": "Sofidynamic",
+      "source_period": "2026-T2",
+      "annual_period": "2025-RA",
+      "subscription_price": 320,
+      "issuer_hosts": [
+        "www.sofidy.com"
+      ]
+    }
+  ],
+  "catalog_row_file": "scripts/scpi-onboarding/fixtures/sofidynamic-69-browser-catalog-row.json"
+}

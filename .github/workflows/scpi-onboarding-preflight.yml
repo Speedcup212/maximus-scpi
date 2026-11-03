@@ -43,6 +43,16 @@ jobs:
         run: npx puppeteer browsers install chrome
       - name: Generic desktop/mobile candidate interface matrix
         run: node scripts/scpi-onboarding/browser.mjs
+      - name: Preserve BNP browser baseline report
+        run: cp test-results/scpi-onboarding/report.json test-results/scpi-onboarding/report-bnpp.json
+      - name: Sofidynamic 69 private verified financial surfaces only (no publication)
+        run: node scripts/scpi-onboarding/privateSofidynamicBrowser.mjs
+      - name: Preserve Sofidynamic browser proof separately
+        if: always()
+        run: |
+          if [ -f test-results/scpi-onboarding/report.json ]; then
+            cp test-results/scpi-onboarding/report.json test-results/scpi-onboarding/report-sofidynamic.json
+          fi
       - name: Save candidate browser proof
         if: always()
         uses: actions/upload-artifact@v4
