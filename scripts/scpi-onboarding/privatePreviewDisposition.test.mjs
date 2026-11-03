@@ -22,3 +22,10 @@ test('fail closed on cohort/catalog disagreement or unverified public entry',()=
   [baseline,[...catalog,{'Nom SCPI':'Sofidynamic'},{'Nom SCPI':'Sofidynamic'}]]
  ])assert.throws(()=>privatePreviewDisposition(c,d,'sofidynamic'));
 });
+
+test('already public provisional candidate needs visible reservations and restricted features',()=>{
+ const row={'Nom SCPI':'Sofidynamic',maximus_publication_status:'published_with_reserves',maximus_publication_disclosure:{status:'visible'},maximus_publication_reservations:['LATEST_STATUTES_UNVERIFIED'],maximus_disabled_features:['suitability_recommendations','uncertified_history_comparison'],maximus_source_url:'https://www.sofidy.com/solutions/sofidynamic/'};
+ const c={count:3,slugs:['a','b','sofidynamic']};
+ assert.equal(privatePreviewDisposition(c,[...catalog,row],'sofidynamic'),'ALREADY_PUBLIC_SKIPPED');
+ assert.throws(()=>privatePreviewDisposition(c,[...catalog,{...row,maximus_disabled_features:[]}],'sofidynamic'));
+});

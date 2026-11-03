@@ -1,4 +1,5 @@
 import type { Scpi } from '../types/scpi';
+import {isFeatureDisabled} from './scpiPublicationQuality';
 import { createSlugFromName } from './scpiSlugMapper';
 import { selectSupabaseRest } from './supabaseRest';
 import { isSubscriptionReconstitutionComparable, normalizeLiquidityBasis } from './certifiedLiquidity';
@@ -109,7 +110,7 @@ export function mergeScpiWithLiveIndicators(
   const price = toNumber(row.prix_souscription) ?? scpi.price;
   const reconstitution = toNumber(row.prix_reconstitution) ?? scpi.valeurReconstitution;
   const liquidityBasis = normalizeLiquidityBasis(liquidity?.liquidity_basis, row.capital_type);
-  const comparableDiscount = isSubscriptionReconstitutionComparable({
+  const comparableDiscount = !isFeatureDisabled(scpi,'undated_valuation_comparison') && isSubscriptionReconstitutionComparable({
     capitalType: row.capital_type,
     liquidityBasis,
     liquidityRegimeChanged: liquidity?.regime_changed,
