@@ -35,3 +35,33 @@ test('duplicate, unauthorized extra, or uncontained partial facts reject the att
   {cohort:{...cohort,slugs:cohort.slugs.filter(s=>s!=='strict-15'),count:68}}
  ])assert.throws(()=>verifyProgressiveCohortAttestation({...base,...patch}),/PROGRESSIVE_COHORT_ATTESTATION/);
 });
+
+test('active source-backed Sofidynamic can remain under review without blocking 68 strict certified funds',()=>{
+ const capitalisation={pdf_sha256:'a'.repeat(64),source_url:source,source_period:'2026-T2',
+   reference_date:'2026-06-30',source_page:5,value_numeric:247.58848};
+ const catalogRow={...catalog[0],maximus_source_url:source,
+  maximus_metric_provenance:{capitalisation}};
+ const analysis={...provisional,certification_status:'review_required',
+  current_source_certified:false,certified_source_url:null,
+  analysis_version:'2026-09-30-v5-liquidity',risk_level:'low',alerts:[],
+  watch_points:[{metric:'data_quality_history',quality_issue:true}],
+  certification_reasons:[{code:'current_source_not_certified'},{code:'missing_exact_period_bulletin'}],
+  current_snapshot:{qa_status:'verified_primary_source_with_reserves',
+   source_type:'issuer_official_pdf_provisional',source_period:'2026-T2',
+   source_url:source,capitalisation:247.58848,metric_provenance:{capitalisation}}};
+ const input={baseline,cohort,catalog:[catalogRow],analyses:[...certified,analysis],enabledCount:69};
+ const result=verifyProgressiveCohortAttestation(input);
+ assert.equal(result.certified.length,68);
+ assert.equal(result.partialActive,true);
+ for(const invalid of [
+  {current_snapshot:{...analysis.current_snapshot,source_url:'https://other.invalid/changed.pdf'}},
+  {current_snapshot:{...analysis.current_snapshot,metric_provenance:{capitalisation:{...capitalisation,pdf_sha256:'b'.repeat(64)}}}},
+  {certification_reasons:[{code:'material_financial_mismatch'}]},
+  {alerts:[{metric:'unreviewed_price',severity:'high'}]},
+  {improvements:[{metric:'tof_tendance',value:1}]},
+  {watch_points:[{metric:'unreviewed',quality_issue:false}]},
+  {current_period:'2026-T3'},
+  {risk_level:'high'}
+ ]) assert.throws(()=>verifyProgressiveCohortAttestation({...input,
+   analyses:[...certified,{...analysis,...invalid}]}),/PUBLISHED_PARTIAL_ANALYSIS_CONTRADICTORY/);
+});

@@ -1,5 +1,51 @@
 // Exact certified baseline vs source-backed, clearly labelled provisional listings.
 // Full certified status is never inferred for a publication with reservations.
+
+/** Validated official fact on a *published-with-reservations* fiche.
+ * A later analysis recalculation may correctly return review_required because
+ * no independent certified bulletin-history pair exists. This never turns that
+ * analysis into certified: the already approved issuer PDF must still match SHA,
+ * date, source page, capitalisation and the immutable public catalog.
+ */
+export function sourceBackedProvisionalReview(row, catalogRow){
+ const metric=catalogRow?.maximus_metric_provenance?.capitalisation;
+ const snapshot=row?.current_snapshot;
+ const observed=snapshot?.metric_provenance?.capitalisation;
+ const reasons=row?.certification_reasons;
+ const approvedCodes=new Set([
+  'current_source_not_certified','missing_exact_period_bulletin','history_not_certified'
+ ]);
+ return row?.scpi_slug==='sofidynamic' &&
+  catalogRow?.maximus_publication_status==='published_with_reserves' &&
+  catalogRow?.maximus_publication_disclosure?.status==='visible' &&
+  catalogRow?.maximus_disabled_features?.includes('suitability_recommendations') &&
+  catalogRow?.maximus_disabled_features?.includes('uncertified_history_comparison') &&
+  catalogRow?.maximus_publication_reservations?.includes('UNRECONCILED_SHARE_FLOW') &&
+  row?.certification_status==='review_required' &&
+  row?.current_source_certified===false &&
+  row?.comparison_certified===false &&
+  !row?.certified_source_url &&
+  row?.current_period==='2026-T2' &&
+  row?.analysis_version==='2026-09-30-v5-liquidity' &&
+  row?.structural_event_detected===false &&
+  row?.risk_level!=='high' &&
+  Array.isArray(row?.improvements) && row.improvements.length===0 &&
+  Array.isArray(row?.deteriorations) && row.deteriorations.length===0 &&
+  Array.isArray(row?.alerts) && row.alerts.length===0 &&
+  Array.isArray(row?.watch_points) && row.watch_points.every(x=>x.quality_issue===true) &&
+  Array.isArray(reasons) && reasons.length>0 && reasons.every(x=>approvedCodes.has(x.code)) &&
+  snapshot?.qa_status==='verified_primary_source_with_reserves' &&
+  snapshot?.source_type==='issuer_official_pdf_provisional' &&
+  snapshot?.source_period==='2026-T2' &&
+  snapshot?.source_url===catalogRow?.maximus_source_url &&
+  snapshot?.source_url===metric?.source_url &&
+  metric?.source_period==='2026-T2' &&
+  metric?.reference_date==='2026-06-30' &&
+  Number(metric?.source_page)>=1 &&
+  /^[a-f0-9]{64}$/.test(metric?.pdf_sha256||'') &&
+  observed?.pdf_sha256===metric.pdf_sha256 &&
+  Number(snapshot?.capitalisation)===Number(metric?.value_numeric);
+}
 export function verifyProgressiveCohortAttestation({baseline,cohort,catalog,analyses,enabledCount}){
   const fail=(message)=>{throw Error('PROGRESSIVE_COHORT_ATTESTATION:'+message)};
   const valid=(c)=>Number.isSafeInteger(c?.count)&&Array.isArray(c.slugs)&&c.slugs.length===c.count&&new Set(c.slugs).size===c.count;
@@ -46,12 +92,15 @@ export function verifyProgressiveCohortAttestation({baseline,cohort,catalog,anal
   if(notCertified.length)fail('EXISTING_STRICT_CERTIFICATIONS_INVALID:'+notCertified.map(x=>x.scpi_slug).join(','));
   if(hasExtension){
     const c=bySlug.get(extension);
-    if(c.current_source_certified!==true||c.certification_status!=='current_certified_history_unverified'||
-       c.comparison_certified!==false||
-       !/^https:\/\//.test(String(c.certified_source_url||''))||
-       c.current_period!=='2026-T2'||
-       c.improvements?.length||c.deteriorations?.length||
-       c.structural_event_detected===true)
+    const approvedCurrentOnly=c.current_source_certified===true &&
+      c.certification_status==='current_certified_history_unverified' &&
+      c.comparison_certified===false &&
+      /^https:\/\//.test(String(c.certified_source_url||'')) &&
+      c.current_period==='2026-T2' &&
+      !c.improvements?.length && !c.deteriorations?.length &&
+      c.structural_event_detected!==true;
+    if(!approvedCurrentOnly && !sourceBackedProvisionalReview(c,
+         catalog.find(row=>slug(row['Nom SCPI'])===extension)))
       fail('PUBLISHED_PARTIAL_ANALYSIS_CONTRADICTORY');
   }
   return {certified,extension,partialActive:hasExtension,requiredActive:baseline.count+Number(hasExtension)};

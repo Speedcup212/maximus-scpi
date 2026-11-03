@@ -54,7 +54,7 @@ Deno.serve(async(req:Request)=>{
     // Include only active SCPI and explicitly authorized prepared candidates.
     // Preparing a snapshot never grants public database access.
     const {data:analyses,error:analysisError}=await db.from('scpi_bulletin_analysis')
-      .select('scpi_slug,current_period,previous_period,risk_level,improvements,deteriorations,alerts,watch_points,analysis_version,certification_status,certification_reasons,current_source_certified,comparison_certified,structural_event_detected,certified_source_url')
+      .select('scpi_slug,current_period,previous_period,risk_level,improvements,deteriorations,alerts,watch_points,analysis_version,certification_status,certification_reasons,current_source_certified,comparison_certified,structural_event_detected,certified_source_url,current_snapshot')
       .in('scpi_slug',[...allowed]).limit(5000);
     if(analysisError)throw analysisError;
     const observed=new Set((analyses||[]).map(row=>String(row.scpi_slug)));
