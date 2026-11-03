@@ -1,0 +1,63 @@
+name: INPI RNE - actes juridiques SCPI (private)
+on:
+  pull_request:
+    paths:
+      - 'scripts/inpi/**'
+      - '.github/workflows/inpi-rne-actes.yml'
+      - 'supabase/migrations/20261103104901_scpi_inpi_rne_acts_private_inventory.sql'
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Nombre de SCPI (pilote = 1, vide = toutes)'
+        required: false
+        default: '1'
+      max_downloads:
+        description: 'Nombre maximal de PDF par exécution'
+        required: false
+        default: '50'
+  schedule:
+    - cron: '20 5 * * *'
+
+permissions:
+  contents: read
+concurrency:
+  group: private-inpi-rne-actes
+  cancel-in-progress: false
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test INPI protocol, PDF verification, identity and confidentiality
+        run: node --test scripts/inpi/lib.test.mjs
+
+  ingest:
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' || vars.INPI_RNE_ENABLED == 'true')
+    needs: unit
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install production dependencies without lifecycle scripts
+        run: npm ci --omit=dev --ignore-scripts
+      - name: Ingest official INPI acts into nonpublic Supabase storage only
+        env:
+          INPI_API_USERNAME: ${{ secrets.INPI_API_USERNAME }}
+          INPI_API_PASSWORD: ${{ secrets.INPI_API_PASSWORD }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          INPI_SCPI_LIMIT: ${{ inputs.limit }}
+          INPI_MAX_DOWNLOADS: ${{ inputs.max_downloads }}
+        run: node scripts/inpi/sync.mjs
