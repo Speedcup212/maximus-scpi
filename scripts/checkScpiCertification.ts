@@ -1,12 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
 import { readFileSync } from 'node:fs';
 import { qualifiedHistoryException } from './scpi-history/certificationHistoryPolicy.mjs';
+import { verifyProgressiveCohortAttestation } from './scpi-candidates/progressiveCohortCertification.mjs';
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
 const required = process.env.REQUIRE_SUPABASE_CERTIFICATION === 'true';
 const certifiedCohort = JSON.parse(readFileSync(new URL('../src/data/certified_scpi_cohort.json', import.meta.url), 'utf8')) as { count: number; slugs: string[] };
-const expectedCount = certifiedCohort.count;
+const strictBaseline = JSON.parse(readFileSync(new URL('../src/data/certified_scpi_baseline_68.json', import.meta.url), 'utf8')) as { count:number; slugs:string[] };
+const verifiedCatalog = JSON.parse(readFileSync(new URL('../src/data/scpi_complet.json', import.meta.url), 'utf8')) as Record<string,unknown>[];
+const expectedCount = strictBaseline.count;
+let oidcEnabledCount: number | null = null;
 const sourceFields = 'scpi_slug,current_period,previous_period,risk_level,improvements,deteriorations,alerts,watch_points,analysis_version,certification_status,certification_reasons,current_source_certified,comparison_certified,structural_event_detected,certified_source_url';
 
 const oidcSnapshot = async (): Promise<Record<string, any>[]> => {
@@ -29,9 +33,10 @@ const oidcSnapshot = async (): Promise<Record<string, any>[]> => {
   });
   if (!response.ok) throw new Error(`Supabase OIDC certification HTTP ${response.status}: ${(await response.text()).slice(0,250)}`);
   const snapshot = await response.json() as { ok?: boolean; sha?: string; enabled_scpi?: number; analyses?: Record<string, any>[] };
-  if (!snapshot.ok || snapshot.sha !== sha || snapshot.enabled_scpi !== expectedCount || !Array.isArray(snapshot.analyses)) {
+  if (!snapshot.ok || snapshot.sha !== sha || !Number.isSafeInteger(snapshot.enabled_scpi) || !Array.isArray(snapshot.analyses)) {
     throw new Error('Release attestation invalid or incomplete');
   }
+  oidcEnabledCount=snapshot.enabled_scpi ?? null;
   return snapshot.analyses;
 };
 
@@ -57,30 +62,36 @@ try {
 }
 
 if (required) {
-  // Any release must match the exact declared certified cohort; never infer
-  // the expected members from the live analysis results themselves.
-  const actualSlugs = new Set(data.map(row => String(row.scpi_slug)));
-  const expectedSlugs = new Set(certifiedCohort.slugs);
-  if (!Number.isSafeInteger(expectedCount) || expectedCount < 66 ||
-      expectedSlugs.size !== expectedCount || data.length !== expectedCount ||
-      actualSlugs.size !== expectedCount || [...expectedSlugs].some(slug => !actualSlugs.has(slug))) {
-    console.error('[SCPI certification] FAIL: actual analyses differ from the exact declared certified cohort (' + expectedCount + ').');
+  // An OIDC attestation verifies the 68 already public certified funds.
+  // Sofidynamic is an *optional* 69th provisional listing until its separate
+  // atomic postdeploy activation succeeds. No early full-certification claim.
+  let certified: Record<string, any>[];
+  try {
+    const verdict=verifyProgressiveCohortAttestation({
+      baseline:strictBaseline,cohort:certifiedCohort,catalog:verifiedCatalog,
+      analyses:data,enabledCount:oidcEnabledCount ?? data.length
+    });
+    certified=verdict.certified;
+    console.log('[SCPI certification] exact strict baseline '+strictBaseline.count+
+      '; provisional listing '+(verdict.extension||'none')+
+      (verdict.partialActive?' active (excluded from certified checks)':' not yet activated'));
+  } catch(error) {
+    console.error('[SCPI certification] FAIL CLOSED:',error instanceof Error?error.message:String(error));
     process.exit(1);
   }
-  // Release concerns accurate CURRENT financial sources. A non-comparable
-  // historical period is an allowed, explicitly visible missing value, NOT a
-  // false historical certification. This must never permit review_required.
-  // Structural/cadence exceptions must disable the trend comparison entirely.
-  const notCertified = data.filter(row =>
-    row.current_source_certified !== true ||
-    !/^https:\/\//.test(String(row.certified_source_url || '')) ||
-    (row.certification_status !== 'certified' && !qualifiedHistoryException(row))
+  const notCertified=certified.filter(row=>
+    row.current_source_certified!==true ||
+    !/^https:\/\//.test(String(row.certified_source_url||'')) ||
+    (row.certification_status!=='certified' && !qualifiedHistoryException(row))
   );
-  if (notCertified.length) {
-    console.error('[SCPI certification] FAIL CLOSED: current issuer evidence invalid or a historical exception is not documented: ' +
-      notCertified.map(row => `${row.scpi_slug} (${row.certification_status}, source=${row.current_source_certified})`).join(', '));
+  if(notCertified.length) {
+    console.error('[SCPI certification] FAIL CLOSED: strict existing source invalid: '+
+      notCertified.map(row=>row.scpi_slug).join(','));
     process.exit(1);
   }
+  // Certified-only downstream trend checks never imply partial candidate
+  // historical coherence. Their own UI restrictions remain compulsory.
+  data=certified;
 }
 
 const trendMetrics = new Set([

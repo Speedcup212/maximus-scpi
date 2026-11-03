@@ -296,6 +296,9 @@ jobs:
       - name: Current-only history exceptions remain explicit and fail closed
         run: node --test scripts/scpi-history/certificationHistoryPolicy.test.mjs
 
+      - name: Certified 68 vs provisional 69th OIDC active-cohort regression checks
+        run: node --test scripts/scpi-candidates/progressiveCohortCertification.test.mjs
+
       - name: Release-only remote SCPI certification (fail closed)
         if: >-
           github.event_name == 'push' && github.ref == 'refs/heads/main' &&
