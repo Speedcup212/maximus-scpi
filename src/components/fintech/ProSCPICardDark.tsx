@@ -129,7 +129,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
             <div>
               <h3 className="text-base font-bold text-white leading-tight">{scpi.name}</h3>
               <p className="text-xs text-slate-400">{scpi.managementCompany}</p>
-              {partial && <p data-testid="scpi-fintech-pro-caveat" className="text-xs text-amber-300">Données partielles · {scpi.dataPeriod || 'période non renseignée'}</p>}
+              {partial && <p data-testid="scpi-fintech-pro-caveat" className="text-xs text-slate-400">Bulletin {scpi.dataPeriod || 'période non renseignée'}</p>}
             </div>
           </div>
           <div className="flex items-center gap-1.5 shrink-0">

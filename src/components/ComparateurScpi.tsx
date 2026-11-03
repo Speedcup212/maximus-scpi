@@ -275,7 +275,7 @@ export default function ComparateurScpi({ onScpiClick }: ComparateurScpiProps = 
                     {scpi.name}
                   </div>
                   <div className="text-xs md:text-sm text-gray-500">{scpi.company}</div>
-                  {scpi.publicationStatus === 'published_with_reserves' && <div data-testid="scpi-comparator-reserves" className="mt-1 text-xs font-semibold text-amber-800">Données partielles · {scpi.sourcePeriod || 'date à vérifier'}</div>}
+                  {scpi.publicationStatus === 'published_with_reserves' && <div data-testid="scpi-comparator-reserves" className="mt-1 text-xs text-slate-500">Bulletin {scpi.sourcePeriod || 'période non renseignée'}</div>}
                 </td>
                 <td className="px-4 py-4 text-center">
                   <span className="font-bold text-green-600 text-sm md:text-base">{formatNumber(scpi.yield)}%</span>

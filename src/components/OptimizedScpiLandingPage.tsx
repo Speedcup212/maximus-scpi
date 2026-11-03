@@ -328,7 +328,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
             <div className="space-y-8">
               <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold shadow-lg ${useMaximusBrand ? 'bg-[#00C896] text-[#0D1117] shadow-emerald-950/30' : 'bg-yellow-400 text-gray-900'}`}>
                 <Zap className="w-5 h-5" />
-                {realScpiData && isPublishedWithReserves(realScpiData) ? 'Fiche avec réserves' : getBadgeText()}
+                {realScpiData && isPublishedWithReserves(realScpiData) ? 'Bulletin : ' + (realScpiData.maximusSourcePeriode || 'période non renseignée') : getBadgeText()}
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
@@ -551,7 +551,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
       )}
 
       {realScpiData && isFeatureDisabled(realScpiData,'uncertified_history_comparison') ? (
-        <div data-testid="scpi-history-restricted" className="mx-auto max-w-6xl rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-950">Historique de comparaison indisponible : rapprochement des données en cours. Les valeurs officielles isolées restent datées et consultables.</div>
+        <div data-testid="scpi-history-restricted" className="mx-auto max-w-6xl rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">Évolution historique détaillée : non calculée pour cette période. Les données officielles restent consultables avec leurs dates de référence.</div>
       ) : <ScpiIndicatorHistory scpiSlug={landingSlug} scpiName={landingData.nom} />}
 
       {realScpiData && isPublishedWithReserves(realScpiData) && <div className="mx-auto max-w-7xl px-4 py-3"><ScpiOfficialFacts scpi={realScpiData}/></div>}
