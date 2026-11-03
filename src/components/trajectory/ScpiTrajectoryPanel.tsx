@@ -188,18 +188,19 @@ const ScpiTrajectoryPanel: React.FC<ScpiTrajectoryPanelProps> = ({ scpiSlug }) =
     );
   }
 
-  if (history.length < 2) {
+  const comparisonRestricted = currentScpi?.maximusDisabledFeatures?.includes('uncertified_history_comparison') === true;
+  if (history.length < 2 || comparisonRestricted) {
     return (
       <section id="trajectoire-scpi" data-testid="scpi-trajectory-insufficient-history" className="px-4 py-5 sm:px-5">
         <h3 className="text-sm font-semibold text-white">Trajectoire historique en cours de constitution</h3>
         <p className="mt-2 text-xs leading-5 text-slate-300">
           {history.length} période historique admissible.
-          Une évolution nécessite au moins deux périodes comparables : aucun tracé ni variation n'est inventé.
+          Une évolution nécessite au moins deux périodes comparables et certifiées : aucun tracé ni variation n'est inventé.
           Les derniers niveaux du bulletin sont affichés séparément ci-dessus avec leurs dates.
         </p>
         {history.length === 1 && (
           <p className="mt-2 text-xs text-slate-400">
-            Dernière observation historique certifiée : {formatPeriod(history[0].source_period)}.
+            Dernière observation historique admissible : {formatPeriod(history[0].source_period)}.
           </p>
         )}
         <ScpiLeaseDurations scpiSlug={scpiSlug} className="mt-4" />
