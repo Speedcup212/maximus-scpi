@@ -190,7 +190,7 @@ const cleanRepartition = (repartition: Record<string, number>) => {
 // Critères : TOF ≥ 90%, Décote ≤ 0, Capitalisation ≥ 100M€, Rendement ≥ 5%, Endettement < 30%
 const isRecommended = (scpi: any): boolean => {
   // Une fiche en cours d'onboarding ne peut jamais être recommandée avant certification.
-  if (scpi.maximus_publication_status === 'pending_certification' || scpi.maximus_recommendation_status === 'manual_review_required') return false;
+  if (['pending_certification', 'published_with_reserves'].includes(scpi.maximus_publication_status) || scpi.maximus_recommendation_status === 'manual_review_required') return false;
   const hasTofAbove90 = scpi['TOF (%)'] >= 90;
   const hasDiscountOrPar = scpi['Surcote/décote (%)'] <= 0;
   const hasCapitalizationAbove100M = scpi['Capitalisation (M€)'] >= 100;
@@ -396,6 +396,9 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
   return {
     id: index + 1,
     metricProvenance: scpi.maximus_metric_provenance || undefined,
+    maximusPublicationStatus: ['certified','published_with_reserves'].includes(scpi.maximus_publication_status) ? scpi.maximus_publication_status : undefined,
+    maximusPublicationReservations: Array.isArray(scpi.maximus_publication_reservations) ? scpi.maximus_publication_reservations.filter((v: unknown): v is string => typeof v === 'string') : undefined,
+    maximusDisabledFeatures: Array.isArray(scpi.maximus_disabled_features) ? scpi.maximus_disabled_features.filter((v: unknown): v is string => typeof v === 'string') : undefined,
     name: scpi['Nom SCPI'],
     sector: sector,
     geography: geography,
