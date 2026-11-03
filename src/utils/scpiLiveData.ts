@@ -1,5 +1,6 @@
 import type { Scpi } from '../types/scpi';
 import {isFeatureDisabled} from './scpiPublicationQuality';
+import { aggregateCountryGeography } from './scpiGeography';
 import { createSlugFromName } from './scpiSlugMapper';
 import { selectSupabaseRest } from './supabaseRest';
 import { isSubscriptionReconstitutionComparable, normalizeLiquidityBasis } from './certifiedLiquidity';
@@ -124,7 +125,7 @@ export function mergeScpiWithLiveIndicators(
     ? toNumber(liquidity?.nombre_parts ?? row.nombre_parts)
     : toNumber(row.nombre_parts);
   const sectors = toRepartition(row.repartition_sectorielle);
-  const geography = toRepartition(row.repartition_geographique);
+  const geography = toRepartition(aggregateCountryGeography(row.repartition_geographique));
 
   return {
     ...scpi,
