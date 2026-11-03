@@ -21,5 +21,10 @@ export function assessDiscovery(manifest, cohort) {
 if(process.argv[1]?.endsWith('/discovery.mjs')){
  const m=read(process.argv[process.argv.indexOf('--manifest')+1]||'scripts/scpi-onboarding/fixtures/sofidynamic-69-discovery.json');
  const result=assessDiscovery(m,read('src/data/certified_scpi_cohort.json'));
- console.log(JSON.stringify(result,null,2));if(result.source_discovery==='FAIL')process.exitCode=1;
+ console.log(JSON.stringify(result,null,2));
+ // Discovery is historical evidence: once the candidate is truthfully public,
+ // the stale intake must not fail every subsequent 70+ onboarding run.
+ const alreadyPublicOnly=result.errors.length===1 && result.errors[0]==='CANDIDATE_ALREADY_PUBLISHED';
+ if(alreadyPublicOnly)console.log('DISCOVERY_ALREADY_PUBLIC_SKIPPED');
+ else if(result.source_discovery==='FAIL')process.exitCode=1;
 }

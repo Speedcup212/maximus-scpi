@@ -12,7 +12,7 @@ const candidates=[['acces-valeur-pierre','Accès Valeur Pierre',765],['accimmo-p
 const cohort=JSON.parse(original);
 for(const [slug] of candidates) if(!cohort.slugs.includes(slug))cohort.slugs.push(slug);
 cohort.count=cohort.slugs.length;
-assert.equal(cohort.count,68);
+assert.ok(cohort.count>=68 && candidates.every(([slug])=>cohort.slugs.includes(slug)), 'BNP baseline must survive expansion to SCPI 69+');
 fs.writeFileSync(path,JSON.stringify(cohort));
 const folder='test-results/bnpp-surfaces';fs.mkdirSync(folder,{recursive:true});
 const report={commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),mode:'private-stage-integration-not-production',cases:[]};
