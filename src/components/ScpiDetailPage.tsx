@@ -18,6 +18,8 @@ import { generateOptimizedScpiSEO, generateFAQSchema, generateFinancialProductSc
 import PieChart from './PieChart';
 import SEOHead from './SEOHead';
 import ScpiPublicationQualityNotice from './ScpiPublicationQualityNotice';
+import ScpiOfficialFacts from './ScpiOfficialFacts';
+import { getScpiDatedDiscount } from '../utils/scpiDatedDiscount';
 import {isFeatureDisabled,isPublishedWithReserves} from '../utils/scpiPublicationQuality';
 
 interface ScpiDetailPageProps {
@@ -169,6 +171,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
       )}
 
       <ScpiPublicationQualityNotice scpi={scpi}/>
+      <ScpiOfficialFacts scpi={scpi}/>
 
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-6 rounded-2xl border border-gray-200 dark:border-gray-600">
@@ -318,10 +321,16 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                     <span className="font-black text-gray-900 dark:text-white text-sm">{scpi.price}€</span>
                   </div>
                   <div className="flex justify-between items-center p-1.5 bg-white dark:bg-gray-800 rounded-lg">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Décote</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Décote/surcote</span>
                     {(() => {
                       const d = resolveDisplayedDiscount(scpi);
-                      return <span className={`font-black text-sm ${d.colorClass}`}>{d.formatted}</span>;
+                      const indicative = d.value === null ? getScpiDatedDiscount(scpi) : null;
+                      return <span className={`font-black text-sm ${d.colorClass}`}>
+                        {indicative ? `${indicative.label} ${indicative.formatted}` : d.formatted}
+                        {indicative && <small className="block font-normal text-gray-600 dark:text-gray-300">
+                          {indicative.priceDate} / VR {indicative.valuationDate}
+                        </small>}
+                      </span>;
                     })()}
                   </div>
                   {scpi.fraisGestionDetails?.kind === 'geographic_tiers' && (

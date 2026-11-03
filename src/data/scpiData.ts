@@ -468,6 +468,8 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     nbImmeubles: cleanNumericValue(scpi['Nombre d\'immeubles']),
     nombreLocataires: cleanNumericValue(scpi['Nombre de locataires']),
     nombreAssocies: cleanNumericValue(scpi['Nombre d’associés']),
+    nombreUnitesLocatives: cleanNumericValue(scpi.maximus_metric_provenance?.nombre_unites_locatives?.value_numeric),
+    fraisGestionAssiette: typeof scpi['Frais de gestion - assiette'] === 'string' ? scpi['Frais de gestion - assiette'] : undefined,
     walt: cleanNumericValue(scpi['WALT']),
     walb: cleanNumericValue(scpi['WALB']),
     collecteNetteTrimestre: cleanNumericValue(scpi['Collecte nette trimestre']),
@@ -483,7 +485,8 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     liquidite: undefined,
     partsAttenteRetrait:
       cleanNumericValue(scpi['Parts en attente de retrait']) ??
-      (typeof scpi['liquidite'] === 'number' ? cleanNumericValue(scpi['liquidite']) : undefined),
+      (typeof scpi['liquidite'] === 'number' ? cleanNumericValue(scpi['liquidite']) : undefined) ??
+      cleanNumericValue(scpi.maximus_metric_provenance?.parts_attente_retrait?.value_numeric),
     partsProposeesVente:
       cleanNumericValue(scpi['Parts proposées à la vente']) ??
       cleanNumericValue(scpi['Parts en vente']) ??

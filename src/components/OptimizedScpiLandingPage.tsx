@@ -21,6 +21,8 @@ import { CookieConsent } from './CookieConsent';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
 import ScpiPremiumAnalysis from './ScpiPremiumAnalysis';
 import ScpiPublicationQualityNotice from './ScpiPublicationQualityNotice';
+import ScpiOfficialFacts from './ScpiOfficialFacts';
+import { getScpiDatedDiscount } from '../utils/scpiDatedDiscount';
 import {isPublishedWithReserves,isFeatureDisabled} from '../utils/scpiPublicationQuality';
 import ScpiIndicatorHistory from './ScpiIndicatorHistory';
 import { submitLead } from '../utils/leadSubmitter';
@@ -74,6 +76,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     scpi => createSlugFromName(scpi.name) === landingSlug
   );
   const [realScpiData, setRealScpiData] = useState(staticScpiData);
+  const datedDiscount = realScpiData ? getScpiDatedDiscount(realScpiData) : null;
 
   useEffect(() => {
     let active = true;
@@ -318,6 +321,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         currentView="scpi-landing"
       />
       {realScpiData && <div className="mx-auto max-w-7xl px-4 py-3"><ScpiPublicationQualityNotice scpi={realScpiData}/></div>}
+      {realScpiData && isPublishedWithReserves(realScpiData) && <div className="mx-auto max-w-7xl px-4 py-3"><ScpiOfficialFacts scpi={realScpiData}/></div>}
 
       <div className={`bg-gradient-to-br ${colors.primary} text-white`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
@@ -377,11 +381,11 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                         help: 'Prix de souscription'
                       },
                       {
-                        label: realScpiData.discount <= 0 ? 'Décote' : 'Surcote',
-                        value: realScpiData.discountQaStatus === 'publishable'
+                        label: datedDiscount ? datedDiscount.label : (realScpiData.discount <= 0 ? 'Décote' : 'Surcote'),
+                        value: datedDiscount ? datedDiscount.formatted : realScpiData.discountQaStatus === 'publishable'
                           ? `${Math.abs(realScpiData.discount).toFixed(2).replace('.', ',')} %`
                           : 'À vérifier',
-                        help: realScpiData.valeurReconstitution
+                        help: datedDiscount ? datedDiscount.comparisonLabel : realScpiData.valeurReconstitution
                           ? `${formatCurrency(realScpiData.price)} vs ${formatCurrency(realScpiData.valeurReconstitution)}`
                           : 'Vs valeur du patrimoine'
                       },
