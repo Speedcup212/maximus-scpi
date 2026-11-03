@@ -1,4 +1,9 @@
 import unittest
+import tempfile
+import hashlib
+import json
+from pathlib import Path
+from unittest.mock import patch
 import fitz
 from publisherPdfAudit import audit_document, audit_manifest, official_url
 
@@ -35,6 +40,31 @@ class PublisherPdfTest(unittest.TestCase):
         self.assertTrue(report["fund_and_period_identity_pass"])
         self.assertFalse(report["financial_metrics_certified"])
         self.assertFalse(report["publication_authorized"])
+    def test_archive_preserves_exact_source_and_page_provenance(self):
+        c=candidate()
+        raw=pdf_bytes("SOFIDYNAMIC 2e TRIMESTRE 2026 97,73")
+        with tempfile.TemporaryDirectory() as directory, patch.dict("os.environ",{"SCPI_PDF_ARCHIVE_DIR":directory}):
+            report=audit_document(c["documents"][0],c,lambda _: (raw,URL))
+            assets=report["archive_assets"]
+            self.assertEqual((Path(directory)/assets["pdf"]).read_bytes(),raw)
+            self.assertEqual(assets["pdf"],hashlib.sha256(raw).hexdigest()+".pdf")
+            text_raw=(Path(directory)/assets["pages"]).read_bytes()
+            self.assertEqual(hashlib.sha256(text_raw).hexdigest(),assets["pages_sha256"])
+            pages=json.loads(text_raw)
+            self.assertEqual(pages["pdf_sha256"],report["sha256"])
+            self.assertEqual(pages["source_url"],URL)
+            self.assertEqual(pages["pages"][0]["page"],1)
+            self.assertIn("97,73",pages["pages"][0]["text"])
+            self.assertFalse(report["financial_metrics_certified"])
+            self.assertFalse(report["publication_authorized"])
+
+    def test_rejected_document_does_not_create_archival_proof(self):
+        c=candidate()
+        with tempfile.TemporaryDirectory() as directory, patch.dict("os.environ",{"SCPI_PDF_ARCHIVE_DIR":directory}):
+            with self.assertRaisesRegex(ValueError,"FUND_IDENTITY_NOT_FOUND"):
+                audit_document(c["documents"][0],c,lambda _: (pdf_bytes("OTHER FUND 2026"),URL))
+            self.assertEqual(list(Path(directory).iterdir()),[])
+
     def test_wrong_fund_or_wrong_period_is_rejected(self):
         c=candidate()
         d=c["documents"][0]

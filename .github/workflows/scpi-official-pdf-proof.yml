@@ -36,6 +36,7 @@ jobs:
         env:
           SCPI_PUBLISHER_CA_BUNDLE: /tmp/verified-sofidy-ca.pem
           SCPI_PDF_RENDER_ANOMALIES: test-results/scpi-source-validation/
+          SCPI_PDF_ARCHIVE_DIR: test-results/scpi-source-validation/sources/
         run: |
           python scripts/scpi-onboarding/publisherPdfAudit.py \
             --manifest scripts/scpi-onboarding/fixtures/sofidynamic-69-discovery.json \
@@ -44,7 +45,7 @@ jobs:
         run: |
           python scripts/scpi-onboarding/inspectRegistryStatutes2026.py \
             --output test-results/scpi-source-validation/sofidynamic-2026-register-statutes.json
-      - name: Store technical SHA evidence only, no PDF binary or approval
+      - name: Store verified public source binaries and page evidence (no approval)
         if: always()
         uses: actions/upload-artifact@v4
         with:

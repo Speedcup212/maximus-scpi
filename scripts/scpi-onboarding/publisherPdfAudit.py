@@ -126,7 +126,24 @@ def audit_document(d,c,fetcher=download):
                 filename=kind+"-"+period+"-page-"+str(page_num)+".png"
                 (pdf[page_num-1].get_pixmap(matrix=fitz.Matrix(1.4,1.4))).save(str(target/filename))
                 reviewed_assets.append(filename)
+    # Retain exact verified bytes so later reviewers can inspect every page without
+    # fetching a mutable URL again. Content addressing prevents filename collisions.
+    archive_assets=None
+    archive_dir=os.environ.get("SCPI_PDF_ARCHIVE_DIR")
+    if archive_dir:
+        target=Path(archive_dir)
+        target.mkdir(parents=True,exist_ok=True)
+        binary_name=sha+".pdf"
+        text_name=sha+".pages.json"
+        (target/binary_name).write_bytes(raw)
+        page_record={"source_url":final_url,"pdf_sha256":sha,
+                     "pages":[{"page":i+1,"text":value} for i,value in enumerate(native_pages)]}
+        text_raw=(json.dumps(page_record,ensure_ascii=False,indent=2)+"\n").encode("utf-8")
+        (target/text_name).write_bytes(text_raw)
+        archive_assets={"pdf":binary_name,"pages":text_name,
+                        "pages_sha256":hashlib.sha256(text_raw).hexdigest()}
     return {"kind":kind,"reference_period":period,"source_url":final_url,"sha256":sha,
+            "archive_assets":archive_assets,
             "page_count":len(pages),"native_text_characters":native_text_characters,
             "identity_location":"cover" if cover_identity else "body_native_text",
             "publisher_binary_pass":True,"fund_and_period_identity_pass":True,

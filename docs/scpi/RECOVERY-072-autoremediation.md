@@ -38,3 +38,10 @@ Le pipeline ne doit plus se contenter d’émettre des erreurs. Il applique les 
 - Lecture réelle Supabase : 29 métriques pending_independent_qa, 2 documents réglementaires validés sur 3, 0 période historique, analyse et certification finale absentes. Publication toujours interdite. Aucun champ de QA ou d'admission modifié.
 
 - Suite complète : correction des fixtures Edge obsolètes (registre d'hôtes absent ; ancienne attente de publication directe). Le handler réel reste inchangé : nouvel extrait en staging, aucune écriture scpi_indicators, rejet explicite d'un hôte non enregistré. Suite npm test intégrée au build obligatoire.
+
+## Conservation des preuves — 03/11/2026
+- Le run 41543130099 conserve des captures sélectionnées mais aucun PDF complet : la revue des frais et annexes reste impossible à partir de cet artefact seul.
+- `SCPI_PDF_ARCHIVE_DIR` conserve désormais les octets officiels après validation technique, nommés par SHA-256, et un JSON du texte natif avec pagination, URL et empreinte du PDF. Le rapport porte aussi le SHA-256 du JSON. Une source rejetée ne produit pas de preuve archivée.
+- Le workflow officiel active cette conservation dans son artefact à rétention de 30 jours. Aucun statut financier ni aucune autorisation de publication ne change.
+- Validation locale : 20 tests Python réussis, 23 contrôles YAML réussis, diff sans erreur d'espacement. La CI distante et la revue intégrale restent nécessaires.
+- Point de rapprochement à instruire, sans correction des valeurs officielles : le stock T1 (672775 parts), les souscriptions T2 (101076) et retraits T2 (122) donnent 773729, contre 773714 parts au stock T2, soit 15 parts d'écart. Les mouvements peuvent avoir des périmètres différents ; aucune cause n'est affirmée sans preuve complémentaire.
