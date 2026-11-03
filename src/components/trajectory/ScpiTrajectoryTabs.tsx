@@ -179,7 +179,7 @@ const MarketSignalsPanel: React.FC<{ scpiSlug: string }> = ({ scpiSlug }) => {
   }, [scpiSlug]);
 
   const history = useMemo(() => applyCertifiedLiquidity(normalizeAndDedupeHistory(rows), liquiditySnapshot, signalGate), [rows, liquiditySnapshot, signalGate]);
-  const hasRestrictedComparison = Boolean(findPublishedPartialScpi(scpiSlug)) && history.length < 2;
+  const hasRestrictedComparison = findPublishedPartialScpi(scpiSlug)?.maximusDisabledFeatures?.includes('uncertified_history_comparison') === true;
 
   const signals = useMemo<Signal[]>(() => {
     const { value: liquidity, delta: liquidityDelta, basis: liquidityBasis } = currentCertifiedLiquidity(history, liquiditySnapshot, signalGate);
