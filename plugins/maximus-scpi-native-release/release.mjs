@@ -122,20 +122,26 @@ async function publishPreparedCertified(secret,sha,deployId){
 }
 export async function onPostBuildSourceCheck(env) {
  if(!isProductionDeploy(env))return 'SKIPPED_NONPRODUCTION';
- const {cohort}=validateCandidateCatalog();
+ const {cohort,sourceSha}=validateCandidateCatalog();
  const secret=env.SUPABASE_SERVICE_ROLE_KEY;
  const prior=await api('scpi_indicators?select=scpi_slug&scpi_slug=eq.sofidynamic',secret);
  if(!Array.isArray(prior))error('INVALID_SOURCE_BACKEND_RESPONSE');
  if(prior.length)return 'ALREADY_PUBLIC';
- const testEnv={...env,VITE_SUPABASE_URL:'https://progressive-preview.supabase.co',VITE_SUPABASE_ANON_KEY:'test-only'};
- delete testEnv.SUPABASE_SERVICE_ROLE_KEY;
- delete testEnv.SUPABASE_SECRET_KEYS;
- execFileSync(process.execPath,['scripts/scpi-onboarding/progressivePublicBrowser.mjs'],
-  {cwd:ROOT,env:testEnv,stdio:'inherit',timeout:180000});
  const file=join(ROOT,'test-results/scpi-progressive-public/report.json');
+ // The Netlify build command already produced a real Chromium report; do not
+ // rerun after the production build or replace the hash of the deployed proof.
  if(!existsSync(file))error('NETLIFY_BROWSER_REPORT_ABSENT');
- const report=JSON.parse(readFileSync(file,'utf8'));
+ const bytes=readFileSync(file),report=JSON.parse(bytes.toString('utf8'));
  validateNativeReport(report,env.COMMIT_REF);
+ const stampPath=join(ROOT,'dist/.well-known/scpi-progressive-evidence.json');
+ if(!existsSync(stampPath))error('IMMUTABLE_LIVE_BROWSER_STAMP_ABSENT');
+ const stamp=JSON.parse(readFileSync(stampPath,'utf8'));
+ if(stamp.commit!==env.COMMIT_REF||
+    stamp.source_pdf_sha256!==sourceSha||
+    stamp.browser_report_sha256!==createHash('sha256').update(bytes).digest('hex')||
+    stamp.browser_report?.commit!==env.COMMIT_REF||
+    stamp.browser_report?.cases?.length!==12||
+    stamp.full_certification_claim!==false)error('BUILD_BROWSER_STAMP_MISMATCH');
  if(cohort.count<69)error('UNEXPECTED_PUBLIC_COHORT_NUMBER');
  return 'PASS_12_REAL_CHROMIUM_CASES';
 }
