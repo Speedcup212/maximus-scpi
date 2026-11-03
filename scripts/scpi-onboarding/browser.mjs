@@ -29,6 +29,7 @@ import {scpiData} from '/src/data/scpiData';import {scpiDataExtended} from '/src
 import {ScpiDetailedAnalysis} from '/src/components/ScpiAnalysisDetails';
 import Income from '/src/components/ScpiDirectIncomeSimulator';
 import ClientCard from '/src/app/components/ClientScpiCard';
+import Trajectory from '/src/components/trajectory/ScpiTrajectoryPanel.tsx';
 import {resolveExposure} from '/src/utils/clientPortfolioExposure';
 import snapshot from '/${snapshotPath}';import '/src/index.css';
 const slug=new URLSearchParams(location.search).get('slug');
@@ -42,6 +43,8 @@ createRoot(document.getElementById('root')).render(React.createElement(React.Fra
 React.createElement('section',{'data-test':'radar'},React.createElement(ScpiDetailedAnalysis,{scpi})),
 React.createElement('section',{'data-test':'simulator'},React.createElement(Income,{defaultAmount:50000,defaultYield:scpi.yield,embedded:true})),
 React.createElement('section',{'data-test':'client'},React.createElement(ClientCard,{holding,sector:resolveExposure(i.repartition_sectorielle,scpi.repartitionSector,'sector'),geography:resolveExposure(i.repartition_geographique,scpi.repartitionGeo,'geography'),alerts:[],radarLabel:'Données de test',radarClass:'',surveillanceUnavailable:true,manageExpanded:false,expanded:true,onToggleExpanded:()=>{},onManage:()=>{}}))));
+const trajectory=document.createElement('section');trajectory.setAttribute('data-test','trajectory');document.body.appendChild(trajectory);
+createRoot(trajectory).render(React.createElement(Trajectory,{scpiSlug:slug}));
 </script>`);
 const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','--host','127.0.0.1','--port','4189','--strictPort'],{env:{...process.env,VITE_SUPABASE_URL:'https://scpi-onboarding-test.supabase.co',VITE_SUPABASE_ANON_KEY:'test-only'},stdio:'pipe'});
 let browser;const errors=[];
@@ -93,6 +96,12 @@ try{
    assert.ok((await page.$eval('[data-test="client"]',e=>e.innerText)).includes(name));
    assert.doesNotMatch(await page.$eval('[data-test="simulator"]',e=>e.innerText),/NaN|Infinity/);
    for(const surface of ['radar','simulator','client_card'])report.cases.push({slug,width,surface,status:'PASS'});
+   // The backend gate requires the genuine trajectory component at both widths.
+   await page.waitForSelector('[data-test="trajectory"] #trajectoire-scpi',{timeout:20000});
+   const trajectoryText=await page.$eval('[data-test="trajectory"] #trajectoire-scpi',e=>e.innerText);
+   assert.match(trajectoryText,/TOF|Occupation/i);
+   assert.doesNotMatch(trajectoryText,/NaN|Infinity/);
+   report.cases.push({slug,width,surface:'trajectory',status:'PASS'});
    await page.screenshot({path:folder+'/'+slug+'-'+width+'.png',fullPage:true});
   }
  }
