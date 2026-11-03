@@ -354,12 +354,18 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                 <div className="w-20 h-20 rounded-full bg-slate-800 mx-auto mb-4 flex items-center justify-center">
                   <Search className="w-10 h-10 text-slate-600" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">Aucun résultat</h3>
+                <h3 className="text-xl font-bold text-white mb-2">Aucune SCPI ne correspond à ces critères</h3>
                 <p className="text-slate-400 mb-4">
-                  Essayez de modifier votre recherche
+                  {filters.capitalizationRange[0] !== null
+                    ? 'La capitalisation est saisie en millions d’euros (100 = 100 millions €). Essayez de réduire le minimum ou de réinitialiser les filtres.'
+                    : 'Modifiez votre recherche ou réinitialisez les filtres.'}
                 </p>
                 <button
-                  onClick={() => setSearchQuery('')}
+                  onClick={() => {
+                    setSearchQuery('');
+                    setFilters(createDefaultComparatorFilters());
+                    setCurrentPage(1);
+                  }}
                   className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition-colors"
                 >
                   Réinitialiser

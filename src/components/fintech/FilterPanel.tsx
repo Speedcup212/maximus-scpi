@@ -21,7 +21,8 @@ const RangeInputs: React.FC<{
   value: FilterRange;
   onChange: (range: FilterRange) => void;
   min?: number;
-}> = ({ label, id, value, onChange, min }) => (
+  helperText?: string;
+}> = ({ label, id, value, onChange, min, helperText }) => (
   <fieldset>
     <legend className="text-sm font-semibold text-slate-200 mb-3">{label}</legend>
     <div className="grid grid-cols-2 gap-3">
@@ -33,6 +34,7 @@ const RangeInputs: React.FC<{
           <input
             id={`${id}-${index}`}
             aria-label={`${label} — ${bound.toLowerCase()}`}
+            aria-describedby={helperText ? `${id}-helper` : undefined}
             type="number"
             inputMode="decimal"
             min={min}
@@ -49,6 +51,7 @@ const RangeInputs: React.FC<{
         </div>
       ))}
     </div>
+    {helperText && <p id={`${id}-helper`} className="mt-2 text-xs leading-relaxed text-slate-400">{helperText}</p>}
   </fieldset>
 );
 
@@ -213,6 +216,11 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
               <span className="text-sm font-medium text-slate-300">Résultats trouvés</span>
               <span className="text-2xl font-bold text-emerald-400">{resultCount}</span>
             </div>
+            {resultCount === 0 && (
+              <p role="status" className="mt-3 text-xs leading-relaxed text-amber-200">
+                Aucune SCPI ne correspond à ces critères. Réduisez le seuil de capitalisation ou réinitialisez les filtres.
+              </p>
+            )}
           </div>
 
           <section aria-labelledby="financial-filters-title" className="rounded-xl border border-slate-600 bg-slate-800/50 p-4 space-y-5">
@@ -224,6 +232,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
             <RangeInputs
               label="Capitalisation (M€)"
               id="capitalization"
+              helperText="Valeurs en millions d’euros : 100 = 100 millions € ; 1 000 = 1 milliard € ; 10 000 = 10 milliards €."
               min={0}
               value={filters.capitalizationRange}
               onChange={capitalizationRange => updateFilters({ capitalizationRange })}

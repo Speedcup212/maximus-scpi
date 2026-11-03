@@ -35,6 +35,8 @@ describe('comparator financial filters', () => {
 
   it('converts the canonical capitalization in euros to M€ with inclusive bounds', () => {
     expect(matchesComparatorFinancialFilters(fund, filters({ capitalizationRange: [100, 100] }))).toBe(true);
+    expect(matchesComparatorFinancialFilters({ ...fund, capitalization: 450_000_000 }, filters({ capitalizationRange: [100, null] }))).toBe(true);
+    expect(matchesComparatorFinancialFilters({ ...fund, capitalization: 450_000_000 }, filters({ capitalizationRange: [10000, null] }))).toBe(false);
     expect(matchesComparatorFinancialFilters(fund, filters({ capitalizationRange: [100.1, null] }))).toBe(false);
     expect(matchesComparatorFinancialFilters(fund, filters({ capitalizationRange: [null, 99.9] }))).toBe(false);
     expect(matchesComparatorFinancialFilters({ ...fund, capitalization: 1_500_000_000 }, filters({ capitalizationRange: [1500, 1500] }))).toBe(true);
@@ -143,6 +145,13 @@ describe('shared public and Pro filter panel', () => {
     expect(markup).not.toContain('Réserves de distribution (RAN)');
     expect(markup.match(/type="number"/g)).toHaveLength(6);
     expect(markup).toContain('Voir les 68 SCPI');
+    expect(markup).toContain('100 = 100 millions €');
+    expect(markup).toContain('10 000 = 10 milliards €');
+    expect(markup).toContain('aria-describedby="capitalization-helper"');
+    const emptyMarkup = renderToStaticMarkup(React.createElement(FilterPanel, {
+      isOpen: true, onClose: vi.fn(), filters: filters({ capitalizationRange: [10000, null] }), onFiltersChange: vi.fn(), resultCount: 0,
+    }));
+    expect(emptyMarkup).toContain('Aucune SCPI ne correspond à ces critères');
   });
 
   it('applies numeric edits, clears bounds and resets all four criteria', () => {
