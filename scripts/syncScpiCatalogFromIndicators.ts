@@ -3,6 +3,7 @@ import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
 import { buildScpiEditorialNews } from '../src/utils/scpiNewsRecord.mjs';
 import { aggregateCountryGeography } from '../src/utils/scpiGeography';
+import { certifiedScpiCatalogDiscount } from '../src/utils/certifiedScpiCatalogDiscount';
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
@@ -204,9 +205,14 @@ for (const scpi of catalog) {
     certification?.structural_event_detected !== true &&
     String(row.capital_type || '').toLowerCase() === 'variable';
 
-  if (valuesPresent) {
-    scpi['Surcote/décote (%)'] = ((price - reconstitution) / reconstitution) * 100;
-  }
+  // Never overwrite a provisional/null catalog discount with an uncertified
+  // cross-date calculation. The public dated indicative fact is derived
+  // separately from verified price and valuation provenance.
+  scpi['Surcote/décote (%)'] = certifiedScpiCatalogDiscount(
+    price,
+    reconstitution,
+    priceSemanticsCertified,
+  );
   scpi['Décote/Surcote QA'] = priceSemanticsCertified ? 'publishable' : 'manual_review';
 }
 
