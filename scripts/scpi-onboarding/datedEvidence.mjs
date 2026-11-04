@@ -1,5 +1,5 @@
 // RECOVERY-070 phase 2: read-only, issuer-dated value reconciliation.
-// No publication or database writes. A quarter is NOT a valuation date.
+// No publication or database writes. A reporting period is NOT a valuation date.
 const FIELDS = ['prix_reconstitution','valeur_realisation'];
 const SHA = /^[0-9a-f]{64}$/;
 const PERIOD = /^20\d{2}-T[1-4]$/;
@@ -35,7 +35,7 @@ function proofValid(proof) {
 export function reconcileDatedValues(indicator, history = [], options = {}) {
   const errors=[], warnings=[], fields={};
   const period=indicator?.source_period;
-  const end=quarterEnd(period);
+  const end=reportingPeriodEnd(period);
   if (!end) errors.push('INVALID_CURRENT_PERIOD');
   const rows=[...(Array.isArray(history)?history:[]), indicator].filter(Boolean);
   const sources=new Set((options.issuer_hosts||[]).map(h=>String(h).toLowerCase()));
@@ -59,7 +59,7 @@ export function reconcileDatedValues(indicator, history = [], options = {}) {
       if(sources.size && !sources.has(url.hostname.toLowerCase())) {
         errors.push(field+':UNTRUSTED_ISSUER_HOST');continue;
       }
-      const rowEnd=quarterEnd(row.source_period);
+      const rowEnd=reportingPeriodEnd(row.source_period);
       if(!rowEnd || proof.reference_date>rowEnd || (end && proof.reference_date>end)) {
         errors.push(field+':FUTURE_REFERENCE_DATE');continue;
       }
@@ -85,7 +85,9 @@ export function reconcileDatedValues(indicator, history = [], options = {}) {
     if(current && current.reference_date<latest.reference_date){
       errors.push(field+':CURRENT_OLDER_THAN_ARCHIVE');
     }
-    fields[field]={status:latest.reference_date===end?'OFFICIAL_AT_QUARTER_END':'LAST_OFFICIAL_VALUE',
+    fields[field]={status:latest.reference_date===end
+      ? (/-S[12]$/.test(period) ? 'OFFICIAL_AT_SEMESTER_END' : 'OFFICIAL_AT_QUARTER_END')
+      : 'LAST_OFFICIAL_VALUE',
       display_value:latest.value,reference_date:latest.reference_date,
       source_url:latest.source_url,pdf_sha256:latest.pdf_sha256,source_page:latest.source_page,
       trend_certified:false};
