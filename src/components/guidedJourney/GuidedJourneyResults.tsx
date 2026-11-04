@@ -62,7 +62,7 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({
       const targetAmount = (investmentAmount * item.allocation) / 100;
       const shares = Math.floor(targetAmount / item.scpi.price);
       return {
-        id: item.id,
+        id: item.scpi.id,
         allocation: item.allocation,
         price: item.scpi.price,
         targetAmount,
@@ -152,7 +152,7 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({
 
   // Trouver le prix minimum pour le step
   const minPrice = Math.min(...portfolioScpis.map(item => item.scpi.price));
-  const minInvestment = Math.max(...portfolioScpis.map(item => item.scpi.minInvestment || item.scpi.price));
+  const minInvestment = Math.max(...portfolioScpis.map(item => item.scpi.minInvest || item.scpi.price));
 
   return (
     <div className="bg-slate-900/80 border border-slate-700 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 mb-4 sm:mb-6">
@@ -471,13 +471,13 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
             }
           : null;
       })
-      .filter((item): item is { scpi: Scpi; allocation: number; qualityScore?: number; maximusIndex?: number } => item !== null);
+      .filter((item): item is NonNullable<typeof item> => item !== null);
     
     return result;
   }, [portfolio.scpis]);
 
   // Adapter le portefeuille au montant investi
-  const { adaptedScpis: portfolioScpis, maxScpiCount } = useMemo(() => 
+  const { adaptedScpis: portfolioScpis } = useMemo(() => 
     adaptPortfolioToAmount(originalPortfolioScpis, portfolio.id, investmentAmount),
     [originalPortfolioScpis, portfolio.id, investmentAmount]
   );
