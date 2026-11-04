@@ -101,7 +101,6 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({
   }, [investmentAmount, portfolioScpis]);
 
   const annualRevenue = (actualInvestment * analysis.averageYield) / 100;
-  const monthlyRevenue = annualRevenue / 12;
 
   const projectionData = Array.from({ length: investmentYears + 1 }, (_, year) => {
     const totalRevenue = annualRevenue * year;
@@ -200,7 +199,7 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({
                     animationDuration={800}
                     animationEasing="ease-out"
                   >
-                    {sectorData.map((entry, index) => (
+                    {sectorData.map((_, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={`url(#${GRADIENT_IDS.sectors[index % GRADIENT_IDS.sectors.length]})`}
@@ -219,7 +218,7 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({
               </div>
             </div>
             <div className="mt-3 sm:mt-4 space-y-1.5 sm:space-y-2">
-              {sectorData.map((sector, index) => (
+              {sectorData.map((sector) => (
                 <div key={sector.name} className="flex items-center justify-between text-xs sm:text-sm">
                   <div className="flex items-center gap-2 min-w-0 flex-1">
                     <div
@@ -267,7 +266,7 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({
                     animationDuration={800}
                     animationEasing="ease-out"
                   >
-                    {geoData.map((entry, index) => (
+                    {geoData.map((_, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={`url(#${GRADIENT_IDS.geography[index % GRADIENT_IDS.geography.length]})`}
@@ -286,7 +285,7 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({
               </div>
             </div>
             <div className="mt-3 sm:mt-4 space-y-1.5 sm:space-y-2">
-              {geoData.map((geo, index) => (
+              {geoData.map((geo) => (
                 <div key={geo.name} className="flex items-center justify-between text-xs sm:text-sm">
                   <div className="flex items-center gap-2 min-w-0 flex-1">
                     <div
@@ -416,7 +415,9 @@ const PortfolioAnalysisModule: React.FC<PortfolioAnalysisModuleProps> = ({
               <Tooltip
                 contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #475569', borderRadius: '8px' }}
                 labelStyle={{ color: '#fff' }}
-                formatter={(value: number) => `${value.toLocaleString('fr-FR')}€`}
+                formatter={(value) => typeof value === 'number' && Number.isFinite(value)
+                  ? `${value.toLocaleString('fr-FR')}€`
+                  : '—'}
               />
               <Legend />
               <Bar dataKey="capital" name="Capital investi" stackId="a" fill="#3b82f6" />
@@ -444,7 +445,7 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
   onStartSubscription,
   onCalendlyClick,
 }) => {
-  const { portfolio, explanation } = recommendation;
+  const { portfolio } = recommendation;
 
   // État pour le montant d'investissement (utilise la valeur du questionnaire ou 50000 par défaut)
   const [investmentAmount, setInvestmentAmount] = useState<number>(answers.investmentAmount || 50000);
@@ -714,11 +715,6 @@ const GuidedJourneyResults: React.FC<GuidedJourneyResultsProps> = ({
       sessionStorage.removeItem('parcours_restore_scroll');
     }
   }, []);
-
-  const handleValidate = () => {
-    // Lancer directement le tunnel de souscription
-    handleStartSubscription();
-  };
 
   const handleCalendlyClick = (e?: React.MouseEvent<HTMLButtonElement>) => {
     if (e) {
