@@ -3149,6 +3149,7 @@ const App: React.FC = () => {
           onContactClick={() => setIsRdvModalOpen(true)}
           onSimulateurClick={handleSimulateurClick}
           onComparateurClick={handleComparateurClick}
+          onAnalyseActuClick={handleActualitesClick}
         />
       </Suspense>
     );

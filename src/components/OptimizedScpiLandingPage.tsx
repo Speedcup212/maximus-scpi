@@ -33,6 +33,7 @@ interface OptimizedScpiLandingPageProps {
   onNavigateToScpi?: (slug: string) => void;
   onContactClick?: () => void;
   onArticlesClick?: () => void;
+  onActualitesClick?: () => void;
   onComparateurClick?: () => void;
   onSimulateurClick?: (simulateurId: string) => void;
   isDarkMode?: boolean;
@@ -48,6 +49,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   onNavigateToScpi,
   onContactClick,
   onArticlesClick,
+  onActualitesClick,
   onComparateurClick,
   onSimulateurClick,
   isDarkMode = false,
@@ -313,6 +315,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         onComparateurClick={onComparateurClick}
         onSimulateurClick={onSimulateurClick}
         onArticlesClick={onArticlesClick}
+        onActualitesClick={onActualitesClick}
         currentView="scpi-landing"
       />
       {realScpiData && <div className="mx-auto max-w-7xl px-4 py-3"><ScpiPublicationQualityNotice scpi={realScpiData}/></div>}

@@ -33,6 +33,7 @@ interface LandingPageProps {
   onUnderstandingClick?: () => void;
   onAboutSectionClick?: () => void;
   onArticlesClick?: () => void;
+  onActualitesClick?: () => void;
   onComparateurClick?: () => void;
   onSimulateurClick?: (simulateurId: string) => void;
 }
@@ -50,6 +51,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
   onUnderstandingClick,
   onAboutSectionClick,
   onArticlesClick,
+  onActualitesClick,
   onComparateurClick,
   onSimulateurClick
 }) => {
@@ -162,6 +164,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
         onUnderstandingClick={onUnderstandingClick}
         onAboutSectionClick={onAboutSectionClick || onAboutClick}
         onArticlesClick={onArticlesClick}
+        onActualitesClick={onActualitesClick}
         onComparateurClick={onComparateurClick}
         onSimulateurClick={onSimulateurClick}
         currentView="landing"

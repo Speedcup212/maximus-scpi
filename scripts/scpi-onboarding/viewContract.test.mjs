@@ -46,3 +46,14 @@ test('portfolio selection passes the Scpi object, PDF uses the required fields a
   assert.ok(app.includes('await generatePortfolioPDF(portfolio, null, investmentAmount)'));
   assert.ok(!app.includes('<Footer isDarkMode='));
 });
+
+test('news navigation callback is typed and forwarded through each SCPI landing header', () => {
+  for(const file of ['OptimizedScpiLandingPage.tsx','ScpiLandingPage.tsx','LandingPage.tsx']){
+    const source = fs.readFileSync(new URL('../../src/components/' + file, import.meta.url), 'utf8');
+    assert.ok(source.includes('onActualitesClick?: () => void;'), file + ' optional contract missing');
+    assert.ok(source.includes('onActualitesClick={onActualitesClick}'), file + ' forwarding missing');
+  }
+  const generator = fs.readFileSync(new URL('../../src/components/ArticleGeneratorPage.tsx', import.meta.url), 'utf8');
+  assert.ok(generator.includes('onActualitesClick={onAnalyseActuClick}'));
+  assert.ok(app.includes('onAnalyseActuClick={handleActualitesClick}'));
+});

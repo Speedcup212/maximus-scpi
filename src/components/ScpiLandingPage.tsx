@@ -22,6 +22,7 @@ interface ScpiLandingPageProps {
   onNavigateToScpi?: (slug: string) => void;
   onContactClick?: () => void;
   onArticlesClick?: () => void;
+  onActualitesClick?: () => void;
   onComparateurClick?: () => void;
   onSimulateurClick?: (simulateurId: string) => void;
   isDarkMode?: boolean;
@@ -37,6 +38,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
   onNavigateToScpi,
   onContactClick,
   onArticlesClick,
+  onActualitesClick,
   onComparateurClick,
   onSimulateurClick,
   isDarkMode = false,
@@ -182,6 +184,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
         onAboutSectionClick={onNavigateToAbout || (() => window.location.href = '/qui-sommes-nous')}
         onFaqClick={onNavigateToFaq || (() => window.location.href = '/faq')}
         onArticlesClick={onArticlesClick}
+        onActualitesClick={onActualitesClick}
         onComparateurClick={onComparateurClick}
         onSimulateurClick={onSimulateurClick}
         currentView="scpi-landing"
