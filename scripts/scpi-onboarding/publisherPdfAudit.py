@@ -78,7 +78,7 @@ def audit_document(d,c,fetcher=download):
         if not re.fullmatch(r"20\d{2}-T[1-4]",period):raise ValueError("INVALID_QUARTER_PERIOD")
         quarter=period[-1]
         year=period[:4]
-        rx=r"\b"+quarter+r"(?:e|eme|er)?\s*(?:trimestre|trim)\b[\W\s]{0,15}"+year+r"\b|\b(?:t|q)"+quarter+r"\s*"+year+r"\b"
+        rx=r"\b"+quarter+r"\s*(?:eme|ieme|er|e)?\s*(?:trimestre|trim)\b[\W\s]{0,15}"+year+r"\b|\b(?:t|q)"+quarter+r"\s*"+year+r"\b"
         if not re.search(rx,opening):
             raise ValueError("QUARTER_TITLE_UNCONFIRMED:"+opening[:160])
     elif kind=="semiannual":

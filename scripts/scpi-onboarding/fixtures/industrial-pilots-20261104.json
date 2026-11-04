@@ -157,7 +157,7 @@
         "reim.bnpparibas.com"
       ],
       "product_page": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
-      "source_period": "2026-T2",
+      "source_period": "2026-T3",
       "annual_period": "2025-RA",
       "regulatory_period": "2026-REG",
       "profile": "capital_variability_suspended_secondary_market",
@@ -197,6 +197,36 @@
           "previous_publisher_page": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
           "previous_publisher_page_sha256": "ab07e1efdf517f8e8edb6106eff055c4b88d09387c35e452ee35bd74473aef4d",
           "previous_pdf_sha256": "ef9192613c9befd1b7b55f73beb77c2704a67edadb233395c60f01a7bee13e99"
+        },
+        {
+          "kind": "quarterly",
+          "reference_period": "2026-T3",
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-11/BT_OR_3T2026_def.pdf",
+          "discovery_basis": "OFFICIAL_PUBLISHER_PRODUCT_PAGE_LINK_PENDING_BINARY_QA",
+          "publisher_page": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
+          "page_hints": [
+            {
+              "field": "tof",
+              "page": 4,
+              "token": "91,30"
+            }
+          ],
+          "review_pages": [
+            1,
+            4,
+            5
+          ]
+        },
+        {
+          "kind": "dic",
+          "reference_period": "2026-REG",
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-03/OPUS%20REAL_DIC_FR_05032026-%20vdef.pdf",
+          "discovery_basis": "OFFICIAL_PUBLISHER_PRODUCT_PAGE_LINK_PENDING_BINARY_QA",
+          "publisher_page": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
+          "review_pages": [
+            1,
+            2
+          ]
         }
       ]
     },

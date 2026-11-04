@@ -40,6 +40,19 @@ class PublisherPdfTest(unittest.TestCase):
         self.assertTrue(report["fund_and_period_identity_pass"])
         self.assertFalse(report["financial_metrics_certified"])
         self.assertFalse(report["publication_authorized"])
+    def test_publisher_quarter_title_with_separated_ordinal_is_verified_without_financial_promotion(self):
+        c=candidate()
+        c["name"]="Opus Real"
+        c["issuer_hosts"]=["reim.bnpparibas-am.com"]
+        doc={"kind":"quarterly","reference_period":"2026-T3","url":"https://reim.bnpparibas-am.com/test.pdf"}
+        raw=pdf_bytes("OPUS REAL 3 eme trimestre 2026")
+        report=audit_document(doc,c,lambda _: (raw,doc["url"]))
+        self.assertTrue(report["publisher_binary_pass"])
+        self.assertFalse(report["financial_metrics_certified"])
+        self.assertFalse(report["publication_authorized"])
+        with self.assertRaisesRegex(ValueError,"QUARTER_TITLE_UNCONFIRMED"):
+            audit_document({**doc,"reference_period":"2026-T2"},c,lambda _: (raw,doc["url"]))
+
     def test_archive_preserves_exact_source_and_page_provenance(self):
         c=candidate()
         raw=pdf_bytes("SOFIDYNAMIC 2e TRIMESTRE 2026 97,73")
