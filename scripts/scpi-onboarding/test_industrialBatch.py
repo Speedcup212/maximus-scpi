@@ -73,3 +73,8 @@ class SemiannualPeriodRegression(unittest.TestCase):
  def test_document_budget_retains_both_semiannual_and_quarterly(self):
   docs=[{'kind':'semiannual','url':str(i)} for i in range(20)]+[{'kind':k,'url':k} for k in ['quarterly','dic','note','statutes','annual']]
   self.assertEqual({d['kind'] for d in batch.select_documents(docs)},{'semiannual','quarterly','dic','note','statutes','annual'})
+
+class ScalabilityRegression(unittest.TestCase):
+ def test_registry_accepts_one_hundred_without_enforcing_three_pilot_contract(self):
+  candidates=[{'slug':'candidate-'+str(i),'name':'Candidate '+str(i),'management_company':'Issuer','issuer_hosts':['issuer.test'],'product_page':'https://issuer.test/fund/'+str(i)} for i in range(100)]
+  self.assertTrue(batch.validate_registry({'schema_version':1,'candidates':candidates},{'slugs':[]}))

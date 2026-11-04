@@ -137,7 +137,7 @@ def validate_registry(registry,cohort):
     candidates=registry['candidates'];slugs=[c['slug'] for c in candidates]
     if len(slugs)!=len(set(slugs)):raise ValueError('DUPLICATE_CANDIDATE')
     pilots=[c for c in candidates if c.get('role')=='additional_pilot']
-    if len(pilots)!=3 or len({c['management_company'] for c in pilots})!=3:raise ValueError('THREE_DISTINCT_ISSUERS_REQUIRED')
+    if registry.get('pilot_contract') is True and (len(pilots)!=3 or len({c['management_company'] for c in pilots})!=3):raise ValueError('THREE_DISTINCT_ISSUERS_REQUIRED')
     if any(c['slug'] in cohort['slugs'] for c in pilots):raise ValueError('PILOT_ALREADY_PUBLIC')
     for c in candidates:
         if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*',c['slug']):raise ValueError('INVALID_SLUG')

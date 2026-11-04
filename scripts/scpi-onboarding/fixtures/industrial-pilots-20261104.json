@@ -212,5 +212,6 @@
       ]
     }
   ],
-  "publication_authorized": false
+  "publication_authorized": false,
+  "pilot_contract": true
 }
