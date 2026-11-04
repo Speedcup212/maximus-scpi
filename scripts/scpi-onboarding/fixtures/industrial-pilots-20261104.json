@@ -114,15 +114,6 @@
           "previous_publisher_page": "https://www.sofidy.com/solutions/sofidynamic/",
           "previous_publisher_page_sha256": "5a3e26ff940ba4439d414e44560d04c01e544dab1c8a2a4d35455829799e304f",
           "previous_pdf_sha256": "1898d414b5195c8e0f675ef9041e3142e2e53f720f238fd6ca6cdcf2f8992c38"
-        },
-        {
-          "kind": "annual",
-          "reference_period": "2025-RA",
-          "url": "https://www.sofidy.com/app/uploads/2026/09/Sofidy_ISR_SOFIDYNAMIC_2025_OPTI.pdf",
-          "discovery_basis": "PREVIOUS_VERIFIED_OFFICIAL_LINK_NOT_CURRENTNESS",
-          "previous_publisher_page": "https://www.sofidy.com/solutions/sofidynamic/",
-          "previous_publisher_page_sha256": "5a3e26ff940ba4439d414e44560d04c01e544dab1c8a2a4d35455829799e304f",
-          "previous_pdf_sha256": "1ef4dd4ff9d1de4366209d259ee1cc356f78be743b59d817df6c5a0a74748573"
         }
       ],
       "role": "reference_pilot",

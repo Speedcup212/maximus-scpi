@@ -89,6 +89,8 @@ def audit_document(d,c,fetcher=download):
             raise ValueError("SEMIANNUAL_ANALYSIS_PERIOD_UNCONFIRMED")
     elif kind=="annual":
         if not re.fullmatch(r"20\d{2}-RA",period):raise ValueError("INVALID_ANNUAL_PERIOD")
+        if re.search(r"\brapport\s+(?:annuel\s+)?(?:isr|esg)\b|\b(?:isr|esg)\s+report\b",opening):
+            raise ValueError("ESG_REPORT_IS_NOT_FINANCIAL_ANNUAL_REPORT")
         if period[:4] not in opening or not re.search(r"rapport annuel|rapport de gestion|exercice",opening):
             raise ValueError("ANNUAL_TITLE_UNCONFIRMED:"+opening[:160])
     elif kind in ("dic","note","statutes"):

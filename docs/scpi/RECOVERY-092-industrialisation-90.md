@@ -73,7 +73,7 @@ Les [preuves des passages réels](evidence/recovery-092-industrial-trial.json) r
 
 - Suite applicative avec les propositions de décote : **270/270 PASS**, 35 fichiers.
 - Onboarding/plugin/maturité et corpus financier adversarial : **114 PASS**, validation YAML du workflow d'admission incluse.
-- PDF/collecte industrielle : **39 PASS** ; parseurs financiers/transport historiques : **55 PASS** ; résolveur ciblé : **18 PASS**.
+- PDF/collecte industrielle : **40 PASS** ; parseurs financiers/transport historiques : **55 PASS** ; résolveur ciblé : **18 PASS**.
 - SQL éphémère : PASS sur la migration d'arrondi de RECOVERY-091, sans application distante. SHA, période, page, QA, doublons et droits restent bloquants.
 - Six surfaces Sofidynamic : **10 cas PASS** sur fiche, comparateur, radar, simulateur et espace client, complétés par **2 cas PASS** de trajectoire. Données sourcées interceptées en local, jamais déclarées test de production. Restrictions de comparaison/recommandation maintenues.
 - TypeScript global : **FAIL, 1 023 diagnostics préexistants**, dont 606 TS6133. Même résultat normalisé avant/après, zéro message ajouté ou retiré y compris après le test de proposition sourcée. Ces erreurs ne sont pas retirées des exigences ni neutralisées dans `tsconfig`.

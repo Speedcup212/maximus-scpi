@@ -165,6 +165,7 @@ def retain_official_links(registry,reports):
         retained={d['url']:d for d in c.get('documents',[])}
         primary_host=urllib.parse.urlsplit(c['product_page']).hostname
         for d in by_slug.get(c['slug'],{}).get('documents',[]):
+            if d.get('kind')=='annual' and re.search(r'(?:^|[^a-z])(?:isr|esg)(?:[^a-z]|$)',norm(d.get('url',''))):continue
             if (d.get('status')!='BINARY_IDENTITY_PERIOD_VERIFIED_ONLY' or
                 not allowed(d.get('url'),c['issuer_hosts']) or
                 urllib.parse.urlsplit(d.get('publisher_page','')).hostname!=primary_host or
