@@ -158,7 +158,8 @@ def validate_registry(registry,cohort):
 def run_candidate(c,out,fetcher=None):
     out.mkdir(parents=True,exist_ok=True)
     transport=Transport(c['issuer_hosts']) if fetcher is None else fetcher
-    result={'slug':c['slug'],'management_company':c['management_company'],'source_period_requested':c.get('source_period'),
+    result={'execution_contract':'SOURCE_PROPOSALS_ONLY_NOT_RELEASE_ADMISSION',
+        'slug':c['slug'],'management_company':c['management_company'],'source_period_requested':c.get('source_period'),
         'stages':{stage:{'status':'NOT_RUN'} for stage in STAGES},'pages':[],'documents':[],
         'source_claim_occurrences':[],'blockers':[],'publication_authorized':False,'complete_certification':False}
     queue=[c['product_page']]+c.get('documentation_pages',[])

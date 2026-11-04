@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "name": "application",
+      "sha256": "c07fdd8d463657eafe1b723841645794e0be450737135bbcdfda2e3c354ef436",
+      "tail": [
+        " ✓ src/tests/clientFuturePurchaseDateUx.test.ts (4 tests) 3ms",
+        " ✓ src/tests/simpleDirectFiscal.test.ts (4 tests) 4ms",
+        " ✓ src/tests/scpiPreparedValuation.test.ts (2 tests) 3ms",
+        "",
+        " Test Files  35 passed (35)",
+        "      Tests  270 passed (270)",
+        "   Start at  10:32:35",
+        "   Duration  7.48s (transform 950ms, setup 0ms, import 2.76s, tests 685ms, environment 4ms)",
+        ""
+      ],
+      "expected_status": "PASS"
+    },
+    {
+      "name": "node_controls",
+      "sha256": "8a3bee26eae61646cf1f14193ab89706bf001dd034714a3c0f0fc322565e738c",
+      "tail": [
+        "✔ workflow parses without duplicate keys: scpi-remaining-issuer-audit.yml (0.136151ms)",
+        "ℹ tests 114",
+        "ℹ suites 0",
+        "ℹ pass 114",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 1265.207785"
+      ],
+      "expected_status": "PASS"
+    },
+    {
+      "name": "pdf_and_industrial",
+      "sha256": "7932aa0c678f868a177b321155820852c1061077e1b1a3305129be995ad071e9",
+      "tail": [
+        "test_valid_quarter_and_no_financial_certification (test_publisherPdfAudit.PublisherPdfTest.test_valid_quarter_and_no_financial_certification) ... ok",
+        "test_wrong_fund_or_wrong_period_is_rejected (test_publisherPdfAudit.PublisherPdfTest.test_wrong_fund_or_wrong_period_is_rejected) ... ok",
+        "test_wrong_regulatory_document_kind_or_year_fails (test_publisherPdfAudit.PublisherPdfTest.test_wrong_regulatory_document_kind_or_year_fails) ... ok",
+        "test_semester_analysis_is_not_validity_or_quarter (test_publisherPdfAudit.SemiannualAuditTests.test_semester_analysis_is_not_validity_or_quarter) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 37 tests in 0.939s",
+        "",
+        "OK"
+      ],
+      "expected_status": "PASS"
+    },
+    {
+      "name": "legacy_financial_readers",
+      "sha256": "9a80d314948a0e9010ef42c6d956c67c008ad8a7deb1ad48b1350bececc43dff",
+      "tail": [
+        "test_independent_client_never_follows_a_private_redirect (bulletin_source_transport_test.SourceTransportTests.test_independent_client_never_follows_a_private_redirect) ... ok",
+        "test_intermediate_never_enables_partial_chain_trust (bulletin_source_transport_test.SourceTransportTests.test_intermediate_never_enables_partial_chain_trust) ... ok",
+        "test_modified_intermediate_is_rejected (bulletin_source_transport_test.SourceTransportTests.test_modified_intermediate_is_rejected) ... ok",
+        "test_url_semantics_preserve_raw_plus_and_existing_escapes (bulletin_source_transport_test.SourceTransportTests.test_url_semantics_preserve_raw_plus_and_existing_escapes) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 55 tests in 0.055s",
+        "",
+        "OK"
+      ],
+      "expected_status": "PASS"
+    },
+    {
+      "name": "sql",
+      "sha256": "d5af5e19cf8c0ebc590fdcf540fa126d929c1e4f0442c767097bfb5a803b587f",
+      "tail": [
+        "✔ real PostgreSQL allocation gates: rounding, completeness, source integrity and private grants (1531.038336ms)",
+        "ℹ tests 1",
+        "ℹ suites 0",
+        "ℹ pass 1",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 1637.849523"
+      ],
+      "expected_status": "PASS"
+    },
+    {
+      "name": "typescript",
+      "sha256": "5d4346a6a6c0be7ad363f2c0a96b3461a737564494cd8cb126ad29db7d4d948d",
+      "tail": [
+        "src/utils/richArticleContentGenerator.tsx(6,1): error TS6133: 'React' is declared but its value is never read.",
+        "src/utils/scpiScoringExample.ts(7,1): error TS6133: 'Scpi' is declared but its value is never read.",
+        "src/utils/scpiScoringService.ts(4,53): error TS6133: 'ScpiInput' is declared but its value is never read.",
+        "src/utils/scpiScoringService.ts(245,26): error TS2339: Property 'slug' does not exist on type 'Scpi'.",
+        "src/utils/yieldDisplay.ts(34,34): error TS2339: Property 'european' does not exist on type 'never'.",
+        "src/utils/yieldDisplay.ts(39,40): error TS2339: Property 'repartitionGeo' does not exist on type 'never'.",
+        "src/utils/yieldDisplay.ts(39,63): error TS2339: Property 'repartitionGeo' does not exist on type 'never'.",
+        "src/utils/yieldDisplay.ts(40,30): error TS2339: Property 'repartitionGeo' does not exist on type 'never'.",
+        "src/utils/yieldDisplay.ts(40,50): error TS7006: Parameter 'g' implicitly has an 'any' type."
+      ],
+      "expected_status": "FAIL_PREEXISTING_1023"
+    }
+  ],
+  "six_surfaces": {
+    "five_surface_browser": {
+      "commit": "c8789c853363bebd333329748b453c1ce315b483",
+      "mode": "generic-private-stage-integration-not-production",
+      "cases": [
+        {
+          "slug": "sofidynamic",
+          "width": 1440,
+          "surface": "profile",
+          "status": "PASS"
+        },
+        {
+          "slug": "sofidynamic",
+          "width": 1440,
+          "surface": "comparator_analysis",
+          "status": "PASS"
+        },
+        {
+          "slug": "sofidynamic",
+          "width": 1440,
+          "surface": "radar",
+          "status": "PASS"
+        },
+        {
+          "slug": "sofidynamic",
+          "width": 1440,
+          "surface": "simulator",
+          "status": "PASS"
+        },
+        {
+          "slug": "sofidynamic",
+          "width": 1440,
+          "surface": "client_card",
+          "status": "PASS"
+        },
+        {
+          "slug": "sofidynamic",
+          "width": 390,
+          "surface": "profile",
+          "status": "PASS"
+        },
+        {
+          "slug": "sofidynamic",
+          "width": 390,
+          "surface": "comparator_analysis",
+          "status": "PASS"
+        },
+        {
+          "slug": "sofidynamic",
+          "width": 390,
+          "surface": "radar",
+          "status": "PASS"
+        },
+        {
+          "slug": "sofidynamic",
+          "width": 390,
+          "surface": "simulator",
+          "status": "PASS"
+        },
+        {
+          "slug": "sofidynamic",
+          "width": 390,
+          "surface": "client_card",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    },
+    "trajectory": {
+      "candidate": "sofidynamic",
+      "mode": "source_backed_history_restriction_regression",
+      "commit": "7803ad4d6d45c9b705e36d0e8734b3c16cae87db",
+      "cases": [
+        {
+          "slug": "sofidynamic",
+          "width": 1440,
+          "surface": "trajectory",
+          "status": "PASS",
+          "valuation": "NOT_BACKDATED",
+          "comparisons": "BLOCKED_UNCERTIFIED",
+          "fixture_history_periods": 2,
+          "production_history_certified": false
+        },
+        {
+          "slug": "sofidynamic",
+          "width": 390,
+          "surface": "trajectory",
+          "status": "PASS",
+          "valuation": "NOT_BACKDATED",
+          "comparisons": "BLOCKED_UNCERTIFIED",
+          "fixture_history_periods": 2,
+          "production_history_certified": false
+        }
+      ],
+      "publication_authorized": false,
+      "status": "PASS"
+    }
+  },
+  "typecheck_diagnostics": 1023,
+  "added_normalized_typecheck_messages": 0,
+  "public_catalog_modified": false,
+  "production_data_written": false,
+  "deployed": false,
+  "publication_authorized": false
+}

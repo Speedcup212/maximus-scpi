@@ -1,0 +1,66 @@
+name: SCPI industrial admission - mandatory evidence and TypeScript
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/scpi-onboarding/**'
+      - 'scripts/agents/bulletin_fields.py'
+      - 'docs/scpi/evidence/recovery-092-*.json'
+      - '.github/workflows/scpi-industrial-readiness.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: scpi-industrial-admission-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  admission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Calculate demonstrated maturity without manufacturing release permission
+        run: |
+          mkdir -p test-results/scpi-industrial-admission
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          import {evaluateMaturity} from './scripts/scpi-onboarding/industrialMaturity.mjs';
+          const input=JSON.parse(fs.readFileSync('docs/scpi/evidence/recovery-092-maturity-input.json','utf8'));
+          const report=evaluateMaturity(input.after);
+          fs.writeFileSync('test-results/scpi-industrial-admission/maturity.json',JSON.stringify(report,null,2));
+          console.log(JSON.stringify(report));
+          JS
+      - name: Mandatory full TypeScript check (preexisting failures remain failures)
+        run: |
+          if npm run typecheck > test-results/scpi-industrial-admission/typescript.log 2>&1; then
+            cat test-results/scpi-industrial-admission/typescript.log
+          else
+            cat test-results/scpi-industrial-admission/typescript.log
+            exit 1
+          fi
+      - name: Refuse industrial GO below 90 or with unmet critical conditions
+        if: always()
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          const path='test-results/scpi-industrial-admission/maturity.json';
+          if(!fs.existsSync(path))throw Error('No admission evidence');
+          const report=JSON.parse(fs.readFileSync(path,'utf8'));
+          if(report.score<90||report.decision!=='GO'||report.publication_authorized!==false)
+            throw Error('INDUSTRIAL_NO_GO: score='+report.score+'; unmet controls='+JSON.stringify(report.constraints));
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scpi-industrial-admission-${{ github.run_id }}
+          path: test-results/scpi-industrial-admission/
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "baseline_sha": "9c406ab",
+  "measurement": "CAPABILITIES_DEMONSTRATED_NOT_FINANCIAL_CERTIFICATION",
+  "before": {
+    "criteria": {
+      "bounded_execution": {
+        "status": "PASS",
+        "proofs": [
+          "scripts/agents/bulletin_source_resolver_test.py",
+          "scripts/scpi-onboarding/autoRemediate.test.mjs"
+        ]
+      },
+      "trusted_sources": {
+        "status": "PASS",
+        "proofs": [
+          "https://github.com/Speedcup212/maximus-scpi/actions/runs/41807017570"
+        ]
+      },
+      "immutable_page_evidence": {
+        "status": "PASS",
+        "proofs": [
+          "docs/scpi/evidence/recovery-091-sofidynamic-readonly.json"
+        ]
+      },
+      "mandatory_gates": {
+        "status": "PASS",
+        "proofs": [
+          "https://github.com/Speedcup212/maximus-scpi/actions/runs/41807017797"
+        ]
+      },
+      "uncertified_recommendation_exclusion": {
+        "status": "PASS",
+        "proofs": [
+          "src/tests/scpiProgressivePublication.test.ts"
+        ]
+      },
+      "derived_repairs_only": {
+        "status": "PASS",
+        "proofs": [
+          "scripts/scpi-onboarding/autoRemediate.test.mjs"
+        ]
+      },
+      "exact_sha_and_private_rights": {
+        "status": "PASS",
+        "proofs": [
+          "plugins/maximus-scpi-native-release/release.test.mjs"
+        ]
+      },
+      "hashed_reports": {
+        "status": "PASS",
+        "proofs": [
+          "docs/scpi/evidence/recovery-091-local-validation.json"
+        ]
+      }
+    },
+    "critical_integrity_pass": true,
+    "no_existing_regression": true,
+    "typecheck_pass": false
+  },
+  "after": {
+    "criteria": {
+      "bounded_execution": {
+        "status": "PASS",
+        "proofs": [
+          "scripts/agents/bulletin_source_resolver_test.py",
+          "scripts/scpi-onboarding/autoRemediate.test.mjs"
+        ]
+      },
+      "trusted_sources": {
+        "status": "PASS",
+        "proofs": [
+          "https://github.com/Speedcup212/maximus-scpi/actions/runs/41807017570"
+        ]
+      },
+      "immutable_page_evidence": {
+        "status": "PASS",
+        "proofs": [
+          "docs/scpi/evidence/recovery-091-sofidynamic-readonly.json"
+        ]
+      },
+      "mandatory_gates": {
+        "status": "PASS",
+        "proofs": [
+          "https://github.com/Speedcup212/maximus-scpi/actions/runs/41807017797"
+        ]
+      },
+      "uncertified_recommendation_exclusion": {
+        "status": "PASS",
+        "proofs": [
+          "src/tests/scpiProgressivePublication.test.ts"
+        ]
+      },
+      "derived_repairs_only": {
+        "status": "PASS",
+        "proofs": [
+          "scripts/scpi-onboarding/autoRemediate.test.mjs"
+        ]
+      },
+      "exact_sha_and_private_rights": {
+        "status": "PASS",
+        "proofs": [
+          "plugins/maximus-scpi-native-release/release.test.mjs"
+        ]
+      },
+      "hashed_reports": {
+        "status": "PASS",
+        "proofs": [
+          "docs/scpi/evidence/recovery-091-local-validation.json"
+        ]
+      },
+      "registry": {
+        "status": "PASS",
+        "proofs": [
+          "scripts/scpi-onboarding/test_industrialBatch.py#test_three_issuers_and_no_already_public_pilot"
+        ]
+      },
+      "targeted_retests": {
+        "status": "PASS",
+        "proofs": [
+          "docs/scpi/evidence/recovery-092-targeted-repair.json"
+        ]
+      },
+      "three_issuer_binaries": {
+        "status": "PASS",
+        "proofs": [
+          "https://github.com/Speedcup212/maximus-scpi/actions/runs/41813129155/artifacts/13313417233"
+        ]
+      },
+      "units_and_periods": {
+        "status": "PASS",
+        "proofs": [
+          "scripts/scpi-onboarding/industrialIntegrity.test.mjs",
+          "scripts/scpi-onboarding/test_publisherPdfAudit.py#SemiannualAuditTests"
+        ]
+      },
+      "permanent_adversarial_tests": {
+        "status": "PASS",
+        "proofs": [
+          "scripts/scpi-onboarding/industrialIntegrity.test.mjs"
+        ]
+      },
+      "affected_controls_executed": {
+        "status": "PASS",
+        "proofs": [
+          "docs/scpi/evidence/recovery-092-targeted-repair.json"
+        ]
+      },
+      "hundred_identity_scalability": {
+        "status": "PASS",
+        "proofs": [
+          "scripts/scpi-onboarding/test_industrialBatch.py#ScalabilityRegression",
+          "scripts/scpi-onboarding/industrialIntegrity.test.mjs"
+        ]
+      },
+      "current_regulatory_documents": {
+        "status": "BLOCKED",
+        "proofs": [
+          "docs/scpi/evidence/recovery-092-industrial-trial.json"
+        ]
+      },
+      "all_financial_fields_reviewed": {
+        "status": "BLOCKED",
+        "proofs": [
+          "docs/scpi/evidence/recovery-092-industrial-trial.json"
+        ]
+      },
+      "independent_review": {
+        "status": "BLOCKED",
+        "proofs": [
+          "docs/scpi/evidence/recovery-092-industrial-trial.json"
+        ]
+      },
+      "three_pilots_eligible": {
+        "status": "BLOCKED",
+        "proofs": [
+          "docs/scpi/evidence/recovery-092-industrial-trial.json"
+        ]
+      },
+      "authorized_production_readback": {
+        "status": "BLOCKED",
+        "proofs": [
+          "docs/scpi/evidence/recovery-092-industrial-trial.json"
+        ]
+      }
+    },
+    "critical_integrity_pass": true,
+    "no_existing_regression": true,
+    "typecheck_pass": false
+  },
+  "typecheck": {
+    "baseline_diagnostics": 1023,
+    "final_diagnostics": 1023,
+    "added_normalized_messages": 0,
+    "removed_normalized_messages": 0
+  },
+  "limitations": [
+    "100 identities tested structurally, not 100 real issuer downloads",
+    "Three additional candidates are source-audited, none is release-eligible",
+    "No new production deployment or financial DB mutation"
+  ],
+  "publication_authorized": false
+}
