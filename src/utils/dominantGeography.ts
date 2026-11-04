@@ -92,10 +92,11 @@ export function getDominantGeography(scpi: SCPIExtended): DominantGeographyInfo 
  * Groupe les SCPI par géographie dominante
  * Note: "Diversifiée géographiquement" est regroupée avec "Europe"
  */
-export function groupScpisByDominantGeography(
-  scpis: Array<{ scpi: SCPIExtended; slug?: string; scpiName?: string }>
-): Record<string, Array<{ scpi: SCPIExtended; slug?: string; scpiName?: string }>> {
-  const grouped: Record<string, Array<{ scpi: SCPIExtended; slug?: string; scpiName?: string }>> = {};
+export function groupScpisByDominantGeography<T extends { scpi: SCPIExtended }>(
+  scpis: T[]
+): Record<string, T[]> {
+  // Preserve each caller's full metadata (including required slug/name) when grouping.
+  const grouped: Record<string, T[]> = {};
 
   scpis.forEach(item => {
     const dominantGeography = getDominantGeography(item.scpi);
