@@ -39,10 +39,10 @@ test('App named-only educational article imports do not access absent default ex
 });
 
 test('portfolio selection passes the Scpi object, PDF uses the required fields and footer props remain valid', () => {
-  assert.match(app, /onAddToPortfolio=\\{isParcoursLocked \\? undefined : \\(scpi\\) => toggleScpiSelection\\(scpi\\)\\}/);
-  assert.doesNotMatch(app, /toggleScpiSelection\\(scpi\\.name\\)/);
-  assert.match(app, /percentage: scpi\\.allocation \\?\\? 0/);
-  assert.match(app, /investedAmount: investmentAmount \\* \\(scpi\\.allocation \\?\\? 0\\) \\/ 100/);
-  assert.match(app, /await generatePortfolioPDF\\(portfolio, null, investmentAmount\\)/);
-  assert.doesNotMatch(app, /<Footer isDarkMode=/);
+  assert.ok(app.includes('onAddToPortfolio={isParcoursLocked ? undefined : (scpi) => toggleScpiSelection(scpi)}'));
+  assert.ok(!app.includes('toggleScpiSelection(scpi.name)'));
+  assert.ok(app.includes('percentage: scpi.allocation ?? 0'));
+  assert.ok(app.includes('investedAmount: investmentAmount * (scpi.allocation ?? 0) / 100'));
+  assert.ok(app.includes('await generatePortfolioPDF(portfolio, null, investmentAmount)'));
+  assert.ok(!app.includes('<Footer isDarkMode='));
 });
