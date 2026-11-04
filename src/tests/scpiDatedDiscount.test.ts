@@ -15,6 +15,35 @@ describe('indicative historical valuation facts without granting certification',
   expect(sofidynamic?.discountQaStatus).toBe('manual_review');
   expect(sofidynamic?.isRecommended).toBe(false);
  });
+ it('keeps an equally dated indicative value visible without promoting financial QA (synthetic fixture)',()=>{
+  if(!sofidynamic)throw Error('Missing Sofidynamic');
+  // Synthetic dates and values exercise only the UI formatter; they are not source certification.
+  const provenance=sofidynamic.metricProvenance||{};
+  const base={
+    ...sofidynamic,
+    valeurReconstitution:340.38,
+    metricProvenance:{
+      ...provenance,
+      prix_reconstitution:{
+        ...provenance.prix_reconstitution,
+        value_numeric:340.38,
+        reference_date:'2026-06-30',
+      },
+    },
+  };
+  const result=getScpiDatedDiscount(base);
+  expect(result?.formatted).toBe('5,99 %');
+  expect(result?.label).toBe('Décote indicative');
+  expect(result?.comparisonLabel).toContain('valeur de reconstitution au 30/06/2026');
+  expect(base.discountQaStatus).toBe('manual_review');
+  expect(base.isRecommended).toBe(false);
+  // A valuation from after the observed subscription price must not be compared.
+  const future={...base,metricProvenance:{
+    ...base.metricProvenance,
+    prix_reconstitution:{...base.metricProvenance.prix_reconstitution,reference_date:'2026-12-31'}
+  }};
+  expect(getScpiDatedDiscount(future)).toBeNull();
+ });
  it('requires original source SHA, date and numeric agreement',()=>{
   if(!sofidynamic)throw Error('Missing Sofidynamic');
   expect(getScpiDatedDiscount({...sofidynamic,metricProvenance:undefined})).toBeNull();
