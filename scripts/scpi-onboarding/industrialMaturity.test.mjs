@@ -14,3 +14,7 @@ test('even 100 points can never compensate a critical integrity failure',()=>{
  const assessment=evaluateMaturity({criteria,no_existing_regression:true,critical_integrity_pass:false});
  assert.equal(assessment.score,100);assert.equal(assessment.decision,'NO_GO');assert.equal(assessment.publication_authorized,false);
 });
+test('mandatory TypeScript failure blocks GO even with high capability score',()=>{
+ const criteria=Object.fromEntries(maturityRubric.flatMap(x=>x[2].map(([id])=>[id,{status:'PASS',proofs:['test-proof']}])));
+ assert.equal(evaluateMaturity({criteria,no_existing_regression:true,critical_integrity_pass:true,typecheck_pass:false}).decision,'NO_GO');
+});

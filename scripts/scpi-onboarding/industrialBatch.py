@@ -82,7 +82,9 @@ def document_kind(url,label):
     text=norm(label+' '+urllib.parse.unquote(url))
     if re.search(r'bulletin.*semestr|\bbs[_ -]|[12]s[_ -]?20\d{2}',text):return 'semiannual'
     for kind,pattern in [('dic',r'\bdic\b|informations?.?cles|key.information'),('statutes',r'statuts|statutes|st[-_]dy'),('note',r'note.*information|ni[-_]dyn'),('annual',r'rapport.*annuel|annual.*report|rapport.*202[0-9]'),('quarterly',r'bulletin|trimestr|\bbti?\b|[tq][1-4].*202[0-9]')]:
-        if re.search(pattern,text):return kind
+        if re.search(pattern,text):
+            if kind=='annual' and re.search(r'(?:^|[^a-z])(?:isr|esg)(?:[^a-z]|$)',text):return None
+            return kind
     return None
 
 
@@ -125,8 +127,13 @@ def inspect_numeric_contexts(raw,source,claims):
                     for match in re.finditer(r'(?<!\d)'+re.escape(token)+r'(?!\d)',text):
                         start=max(0,match.start()-220);end=min(len(text),match.end()+350)
                         excerpt=text[start:end]
+                        date_contexts=[]
+                        dates=r'\b(?:\d{1,2}[/.-]\d{1,2}[/.-]20\d{2}|\d{1,2}\s+(?:juin|decembre|décembre|septembre|mars)\s+20\d{2})\b'
+                        for date in re.finditer(dates,text,re.I):
+                            date_contexts.append(text[max(0,date.start()-100):min(len(text),date.end()+180)])
                         hits.append({'claim':claim['id'],'token':token,'page':p+1,'source_url':source,
                             'pdf_sha256':hashlib.sha256(raw).hexdigest(),'excerpt':excerpt,
+                            'same_page_date_contexts':date_contexts,
                             'page_text_sha256':hashlib.sha256(text.encode()).hexdigest(),
                             'financially_certified':False})
     return hits
@@ -198,6 +205,17 @@ def run_candidate(c,out,fetcher=None):
             verified=audit_document({'kind':link['kind'],'reference_period':period,'url':link['url']},
                 {'name':c['name'],'issuer_hosts':c['issuer_hosts']},lambda _: (raw,final))
             record.update(verified);record['status']='BINARY_IDENTITY_PERIOD_VERIFIED_ONLY'
+            # Combined legal PDFs must satisfy the existing verifier separately
+            # for each document type; a link label alone cannot grant either.
+            record['additional_regulatory_kinds']=[]
+            label=norm(link.get('label','')+' '+link['url'])
+            other='note' if link['kind']=='statutes' and re.search('note.*info',label) else 'statutes' if link['kind']=='note' and 'statut' in label else None
+            if other:
+                try:
+                    audit_document({'kind':other,'reference_period':period,'url':link['url']},
+                        {'name':c['name'],'issuer_hosts':c['issuer_hosts']},lambda _:(raw,final))
+                    record['additional_regulatory_kinds'].append(other)
+                except ValueError as error:record['additional_kind_error']=str(error)
             result['source_claim_occurrences']+=inspect_numeric_contexts(raw,final,c.get('claims',[]))
         except Exception as error:record['error']=str(error)[:240]
         result['documents'].append(record)
@@ -205,7 +223,7 @@ def run_candidate(c,out,fetcher=None):
     for stage in ['download','extraction']:
         result['stages'][stage]={'status':'TECHNICAL_PASS_ONLY' if good else 'BLOCKED','documents_verified':len(good)}
     result['stages']['normalization']={'status':'CANDIDATE_TEXT_ONLY_NO_FINANCIAL_PROMOTION','numeric_candidates':len(result['source_claim_occurrences'])}
-    kinds={d['kind'] for d in good}
+    kinds={kind for d in good for kind in [d['kind']]+d.get('additional_regulatory_kinds',[])}
     for kind in ['quarterly','dic','note','statutes','annual']:
         if kind=='quarterly' and 'semiannual' in kinds:continue
         if kind not in kinds:result['blockers'].append('MISSING_VERIFIED_'+kind.upper())

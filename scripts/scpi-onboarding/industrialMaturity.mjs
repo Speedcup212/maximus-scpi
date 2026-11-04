@@ -17,6 +17,7 @@ export function evaluateMaturity(evidence) {
   criteria:criteria.map(([id,points])=>({id,points,awarded:demonstrated(id)?points:0,status:evidence?.criteria?.[id]?.status||'NOT_DEMONSTRATED'}))}));
  const score=domains.reduce((s,x)=>s+x.score,0);
  const constraints={critical_integrity_pass:evidence?.critical_integrity_pass===true,
+  typecheck_pass:evidence?.typecheck_pass===true,
   three_pilots_eligible:demonstrated('three_pilots_eligible'),
   no_existing_regression:evidence?.no_existing_regression===true,
   production_readback:demonstrated('authorized_production_readback')};

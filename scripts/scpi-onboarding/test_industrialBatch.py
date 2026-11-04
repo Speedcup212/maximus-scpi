@@ -78,3 +78,22 @@ class ScalabilityRegression(unittest.TestCase):
  def test_registry_accepts_one_hundred_without_enforcing_three_pilot_contract(self):
   candidates=[{'slug':'candidate-'+str(i),'name':'Candidate '+str(i),'management_company':'Issuer','issuer_hosts':['issuer.test'],'product_page':'https://issuer.test/fund/'+str(i)} for i in range(100)]
   self.assertTrue(batch.validate_registry({'schema_version':1,'candidates':candidates},{'slugs':[]}))
+
+class DocumentaryMeaningRegression(unittest.TestCase):
+ def test_esg_annual_report_cannot_replace_financial_annual_report(self):
+  self.assertIsNone(batch.document_kind('https://issuer.test/Sofidy_ISR_SOFIDYNAMIC_2025.pdf','Rapport annuel ISR 2025'))
+  self.assertEqual(batch.document_kind('https://issuer.test/fund-rapport-annuel-2025.pdf','Rapport annuel 2025'),'annual')
+ def test_generic_data_attributes_are_discovered_without_issuer_specific_code(self):
+  page=batch.parse_html(b'<button data-document-url="https://issuer.test/DIC-fund.pdf" title="DIC Fund">Download</button>','https://issuer.test/fund')
+  self.assertEqual(page['links'][0]['url'],'https://issuer.test/DIC-fund.pdf')
+
+class RetryBudgetRegression(unittest.TestCase):
+ def test_forbidden_source_does_not_retry_and_transient_error_stops_at_two(self):
+  import urllib.error
+  from unittest.mock import Mock
+  for status,expected in [(403,1),(503,2)]:
+   t=batch.Transport.__new__(batch.Transport);t.hosts=['issuer.test'];t.attempts=[]
+   t.opener=Mock();t.opener.open.side_effect=urllib.error.HTTPError('https://issuer.test/a',status,'error',{},None)
+   with patch('industrialBatch.time.sleep'):
+    with self.assertRaises(urllib.error.HTTPError):t('https://issuer.test/a')
+   self.assertEqual(len(t.attempts),expected)
