@@ -166,3 +166,8 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Reprise explicite de #292 : conserver les correctifs validés, diagnostiquer les 1 023 erreurs TypeScript, corriger prioritairement les contrats SCPI partagés, poursuivre les quatre pilotes et la résolution générique des anomalies.
 - Périmètre : code partagé des consommateurs SCPI, remédiateur/gates/collecteur existants, tests, CI et preuves. Aucun changement financier non prouvé, aucune mutation de production, aucun merge ni déploiement.
 - Livrable : maturité calculée, résultats par pilote, corrections automatiques comptées, blocages dénombrés et causes, CI au SHA exact, verdict et limites pour 200 SCPI.
+
+## RECOVERY-094 — Intégration complète en préproduction (04/11/2026)
+
+- Reprise propriétaire au HEAD b3ddf64 et #292. Objectif : une cinquième SCPI non publiée dans la chaîne commune de préproduction, résolution des seuls défauts empêchant les contrôles critiques, TypeScript complet exigé par la consigne jointe.
+- Réutiliser les artefacts existants et les workflows GitHub Actions ; pas de nouvelle PR, de mission parallèle, de donnée financière de production, de merge ou de déploiement.

@@ -59,6 +59,11 @@ jobs:
           python scripts/scpi-onboarding/industrialBatch.py \
             --registry scripts/scpi-onboarding/fixtures/industrial-pilots-20261104.json \
             --out test-results/scpi-source-validation/industrial
+      - name: Fifth standard SCPI through the same documentary engine (private only)
+        run: |
+          python scripts/scpi-onboarding/industrialBatch.py \
+            --registry scripts/scpi-onboarding/fixtures/industrial-standard-pilot.json \
+            --out test-results/scpi-source-validation/standard-pilot
       - name: Store verified public source binaries and page evidence (no approval)
         if: always()
         uses: actions/upload-artifact@v4

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "pilot_contract": false,
+  "candidates": [
+    {
+      "slug": "mistral-selection",
+      "name": "Mistral Sélection",
+      "management_company": "Swiss Life Asset Managers France",
+      "role": "standard_preproduction_pilot",
+      "issuer_hosts": [
+        "fr.swisslife-am.com"
+      ],
+      "product_page": "https://fr.swisslife-am.com/fr/particuliers/documentation/scpi-mistral-selection.html",
+      "source_period": "2026-T2",
+      "annual_period": "2025-RA",
+      "regulatory_period": "2026-REG",
+      "documents": [
+        {
+          "kind": "dic",
+          "reference_period": "2025-REG",
+          "url": "https://fr.swisslife-am.com/content/dam/slamfr/internet/particuliers/documentation---retail/scpi-mistral-s%C3%A9lection/documentation-l%C3%A9gale/Document-informations-cl%C3%A9-scpi-mistral-selection-novembre-2025.pdf"
+        }
+      ]
+    }
+  ]
+}
