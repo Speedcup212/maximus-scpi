@@ -122,6 +122,8 @@ export function safeRepairCandidate(input) {
           : 'COMPLETE_REQUIRED_GUARD_WITH_VERIFIED_EVIDENCE'),
       })),
       changed,
+      evidence_scope: 'COMMITTED_PRIVATE_SNAPSHOT_NOT_LIVE_DATABASE',
+      live_certification_verified: false,
       publication_authorized: false,
       financial_qa_automatically_approved: false,
       note: 'Only derived quantities and record ordering can be repaired. No DB write, no fake QA, no production deployment.',
@@ -157,6 +159,8 @@ export function runCli(args = process.argv.slice(2)) {
     results.push({ file: name, ...report, write_applied: write && report.changed });
   }
   const out = { task: 'RECOVERY-072', mode: write ? 'SAFE_WRITE_ONLY' : 'DRY_RUN',
+    evidence_scope: 'COMMITTED_PRIVATE_SNAPSHOT_NOT_LIVE_DATABASE',
+    live_certification_verified: false,
     candidates: results, auto_repaired_count: results.filter(r => r.changed).length,
     candidates_with_pending_gates: results.filter(r => r.pending_gates.length).length,
     publication_authorized: false };

@@ -147,3 +147,10 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Catalogue des réparations sans risque de falsification : recalcul de capitalisation **affichée** M€ à partir des valeurs officielles EUR et de l'égalité exacte prix x parts, après SHA et période vérifiés ; ordre chronologique des données trimestrielles sans altérer leurs valeurs ; réessai réseau borné sur erreurs transitoires de téléchargement PDF, TLS toujours activé.
 - Toutes les autres anomalies (statuts à jour, contre-preuves contradictoires, QA indépendantes, document manquant, fuite de comparaison historique, contraintes de sécurité) sont inscrites comme blocages à preuve et jamais auto-approuvées.
 - Workflow quotidien / à la demande `.github/workflows/scpi-auto-remediation.yml`, ouvertures de PR de correction et issue unique de blocages ; pas de merge, Supabase public, déploiement ni validation fabriquée. Tests de régression dans CI de préflight.
+
+## RECOVERY-091 — Industrialisation vérifiable de la certification SCPI (04/11/2026)
+
+- Mission propriétaire : reprendre RECOVERY-070 à 090 et #283 sur branche dédiée, préserver les SCPI existantes, ouvrir une PR testée, aucune donnée de production ni déploiement.
+- Périmètre : scripts et CI d'onboarding, preuve navigateur de trajectoire, plugin Netlify, utilitaire navigateur de build, migration d'alignement du gate d'allocation préparée sans application, audit et preuves de lecture seule.
+- Livrable : `docs/scpi/RECOVERY-091-industrialisation.md`. Sofidynamic publiée avec réserves, certification complète bloquée. Les statuts récents, l'écart de 15 parts, les revues et le read-back courant restent explicitement non résolus.
+- Branche : `recovery/091-scpi-certification-industrialisation`. La branche dédiée demandée par le propriétaire prime sur l'ancienne consigne de branche Recovery unique. Aucun changement de composant produit.

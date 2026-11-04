@@ -54,3 +54,10 @@ test('official decimal rounding is preserved; no fabricated percentage adjustmen
  assert.ok(report.pending_gates.some(g=>g.code==='CURRENT_STATUTES_NOT_VERIFIED'));
  assert.ok(report.pending_gates.some(g=>g.code==='INDEPENDENT_METRIC_QA'));
 });
+test('snapshot repair never claims live certification',()=>{
+ const input=JSON.parse(fs.readFileSync(new URL('./fixtures/sofidynamic-69-staging-2026-t2.json',import.meta.url),'utf8'));
+ const {report}=safeRepairCandidate(input);
+ assert.equal(report.evidence_scope,'COMMITTED_PRIVATE_SNAPSHOT_NOT_LIVE_DATABASE');
+ assert.equal(report.live_certification_verified,false);
+ assert.equal(report.publication_authorized,false);
+});

@@ -48,6 +48,7 @@ jobs:
               '## Diagnostic et remédiation automatique — RECOVERY-072',
               '',
               'Le job corrige **uniquement** les valeurs dérivées justifiées et l’ordre des snapshots. Il ne modifie jamais un chiffre PDF, une certification financière, des droits ou la production.',
+              'Périmètre : snapshots privés versionnés au commit ' + context.sha + '. Ce rapport ne lit pas la certification courante de Supabase ; les blocages doivent être rapprochés d’un export récent avant décision.',
               '',
               ...pending.flatMap(x => [
                 '### ' + x.candidate_slug,
@@ -58,7 +59,7 @@ jobs:
               ]),
               'Rapport CI : ' + context.serverUrl + '/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId,
               '',
-              '**Publication interdite tant que les gates obligatoires ne sont pas certifiés.**'
+              '**Ce constat de staging ne décide ni du statut public courant ni de la certification complète. Les gates de publication restent obligatoires.**'
             ].join('\n');
             const issues = await github.paginate(github.rest.issues.listForRepo, { ...context.repo, state:'all', per_page:100 });
             const old = issues.find(x => !x.pull_request && x.title === title);

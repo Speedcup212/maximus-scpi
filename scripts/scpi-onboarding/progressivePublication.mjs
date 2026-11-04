@@ -3,9 +3,9 @@
  * All candidate facts must be source-backed; only strictly contained defects
  * may be disclosed without blocking a factual public fiche.
  */
+import {validCalendarDate, quarterEnd} from './datedEvidence.mjs';
 const SHA = /^[a-f0-9]{64}$/;
 const QUARTER = /^20\d{2}-T[1-4]$/;
-const ISO = /^20\d{2}-\d{2}-\d{2}$/;
 
 export function evaluateProgressivePublication(input) {
   const d = input || {};
@@ -15,6 +15,20 @@ export function evaluateProgressivePublication(input) {
     if (!reservations.includes(code)) reservations.push(code);
     for (const feature of features) if (!disabledFeatures.includes(feature)) disabledFeatures.push(feature);
   };
+  // JSON strings such as "false" are truthy: never accept them as QA flags.
+  const flags=['identityVerified','legalManagementVerified','issuerPdfVerified',
+    'dicVerified','noteVerified','essentialMetricsQaPassed','verifiedFieldDisplayPassed',
+    'feesAndWithdrawalReviewed','liquidityReviewed','leverageReviewed','allocationsVerified',
+    'browserSurfacesPassed','securityPassed','disclosureCanRender','materialFalsehood',
+    'uncontainedFinancialContradiction','latestStatutesVerified','shareFlowOfficialSourcesVerified',
+    'lastOfficialValuationVerified','dicRiskSfdrReviewed','quarterReconciliationPassed','fullCertificationReady'];
+  if(flags.some(key=>typeof d[key]!=='boolean')) block('INVALID_OR_MISSING_QA_FLAGS');
+  if(!validCalendarDate(d.currentReferenceDate)||d.currentReferenceDate!==quarterEnd(d.currentPeriod))
+    block('INVALID_CURRENT_REFERENCE_DATE');
+  if(!validCalendarDate(d.lastOfficialValuationDate)||
+     (validCalendarDate(d.currentReferenceDate)&&d.lastOfficialValuationDate>d.currentReferenceDate))
+    block('INVALID_OR_FUTURE_VALUATION_DATE');
+  if(!Number.isSafeInteger(d.shareFlowDelta)) block('UNVERIFIED_SHARE_FLOW_DISCREPANCY');
   if (!d.identityVerified || !d.legalManagementVerified) block('UNVERIFIED_ISSUER_IDENTITY');
   if (!d.issuerPdfVerified || !SHA.test(d.currentPdfSha256 || '') ||
       !QUARTER.test(d.currentPeriod || '') || !d.sourceUrl?.startsWith('https://')) block('NO_VERIFIED_CURRENT_ISSUER_BULLETIN');
@@ -33,7 +47,7 @@ export function evaluateProgressivePublication(input) {
     else reserve('UNRECONCILED_SHARE_FLOW',['share_movement_trend','derived_capital_flow']);
   }
   if (d.lastOfficialValuationDate) {
-    if (!ISO.test(d.lastOfficialValuationDate) || !d.lastOfficialValuationVerified)
+    if (!validCalendarDate(d.lastOfficialValuationDate) || !d.lastOfficialValuationVerified)
       block('UNVERIFIED_HISTORICAL_VALUATION');
     else if (d.lastOfficialValuationDate < d.currentReferenceDate)
       reserve('LAST_OFFICIAL_VALUATION_HISTORICAL',['undated_valuation_comparison']);

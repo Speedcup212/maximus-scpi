@@ -8,10 +8,13 @@ const categories={subscription:'subscription_price_gross',management:'rental_inc
 
 export function reconcilePartsFlow(input){
   const {opening,subscribed,withdrawn,closing,opening_period,closing_period}=input||{};
-  if(![opening,subscribed,withdrawn,closing].every(validParts)||opening_period===closing_period||
+  if(![opening,subscribed,withdrawn,closing].every(validParts)||opening_period>=closing_period||
      !/^20\d{2}-T[1-4]$/.test(opening_period||'')||!/^20\d{2}-T[1-4]$/.test(closing_period||'')){
     return {status:'INVALID_SOURCE_FACTS',publication_authorized:false};
   }
+  const quarterIndex=p=>Number(p.slice(0,4))*4+Number(p.slice(-1));
+  if(quarterIndex(closing_period)-quarterIndex(opening_period)!==1)
+    return {status:'INVALID_SOURCE_FACTS',publication_authorized:false};
   const expected=opening+subscribed-withdrawn;
   if(!Number.isSafeInteger(expected)||expected<0)return {status:'INVALID_SOURCE_FACTS',publication_authorized:false};
   const difference=closing-expected;

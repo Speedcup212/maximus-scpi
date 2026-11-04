@@ -4,6 +4,15 @@ on:
     branches: [main]
     paths:
       - 'scripts/scpi-onboarding/**'
+      - 'scripts/scpi-history/**'
+      - 'scripts/scpi-candidates/**'
+      - 'supabase/migrations/**'
+      - 'src/components/**'
+      - 'src/utils/**'
+      - 'src/app/**'
+      - 'src/data/**'
+      - 'plugins/maximus-scpi-native-release/**'
+      - 'docs/scpi/evidence/**'
       - '.github/workflows/scpi-onboarding-preflight.yml'
       - 'src/data/certified_scpi_cohort.json'
       - 'src/data/scpi_complet.json'
@@ -30,7 +39,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Test generic cohort, provenance, absence and period guards
-        run: node --test scripts/scpi-onboarding/preflight.test.mjs scripts/scpi-onboarding/datedEvidence.test.mjs scripts/scpi-onboarding/discovery.test.mjs scripts/scpi-onboarding/roundedAllocationPolicy.test.mjs scripts/scpi-onboarding/candidateConsistency.test.mjs scripts/scpi-onboarding/autoRemediate.test.mjs scripts/scpi-onboarding/privatePreviewDisposition.test.mjs
+        run: node --test scripts/scpi-onboarding/*.test.mjs
       - name: Verify independent-review boundaries, 15-part discrepancy and period-correct fee bases
         run: node --test scripts/scpi-onboarding/sourceFinancialSemantics.test.mjs scripts/scpi-candidates/autonomousPreparedRelease.test.mjs
       - name: Regression preflight on the two published BNP candidates
