@@ -97,3 +97,10 @@ class RetryBudgetRegression(unittest.TestCase):
    with patch('industrialBatch.time.sleep'):
     with self.assertRaises(urllib.error.HTTPError):t('https://issuer.test/a')
    self.assertEqual(len(t.attempts),expected)
+
+class SharedFinancialParserRegression(unittest.TestCase):
+ def test_same_existing_geometry_parser_supports_semester_without_faking_quarter(self):
+  self.assertEqual(batch.bulletin_fields.end_date('2026-S1'),'2026-06-30')
+  self.assertEqual(batch.bulletin_fields.end_date('2026-S2'),'2026-12-31')
+  self.assertEqual(batch.bulletin_fields.end_date('2026-T3'),'2026-09-30')
+  self.assertIsNone(batch.bulletin_fields.end_date('2026-S3'))

@@ -58,6 +58,10 @@ def number(s):
     return float(s)
 
 def end_date(period):
+    semester=re.fullmatch(r'(20\d{2})-S([12])',period)
+    if semester:
+        year,month=int(semester[1]),int(semester[2])*6
+        return datetime.date(year,month,calendar.monthrange(year,month)[1]).isoformat()
     m=re.fullmatch(r'(20\d{2})-T([1-4])',period)
     if not m:return None
     year,month=int(m[1]),int(m[2])*3

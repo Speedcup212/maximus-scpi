@@ -20,6 +20,8 @@ HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parent/'agents'))
 from bulletin_source_resolver import parse_html, document_link, norm, issue_hints
 from bulletin_source_transport import ssl_context
+import bulletin_fields
+from corum_document_pipeline import mupdf, poppler
 from publisherPdfAudit import audit_document, normalize, MAX_BYTES
 import fitz
 
@@ -205,6 +207,18 @@ def run_candidate(c,out,fetcher=None):
             verified=audit_document({'kind':link['kind'],'reference_period':period,'url':link['url']},
                 {'name':c['name'],'issuer_hosts':c['issuer_hosts']},lambda _: (raw,final))
             record.update(verified);record['status']='BINARY_IDENTITY_PERIOD_VERIFIED_ONLY'
+            if link['kind'] in ('quarterly','semiannual'):
+                try:
+                    metrics,proofs,coverage,alternatives=bulletin_fields.reconcile(
+                        bulletin_fields.extract(*mupdf(raw),period),
+                        bulletin_fields.extract(*poppler(out/(digest+'.pdf')),period))
+                    record['financial_extraction']={'independent_readers_pass':True,
+                        'metrics':metrics,'evidence':proofs,'technical_field_coverage':coverage,
+                        'candidates_requiring_review':alternatives,
+                        'parser_sha256':hashlib.sha256(Path(bulletin_fields.__file__).read_bytes()).hexdigest(),
+                        'financially_certified':False}
+                except Exception as error:
+                    record['financial_extraction']={'independent_readers_pass':False,'error':str(error)[:200],'financially_certified':False}
             # Combined legal PDFs must satisfy the existing verifier separately
             # for each document type; a link label alone cannot grant either.
             record['additional_regulatory_kinds']=[]
@@ -220,9 +234,11 @@ def run_candidate(c,out,fetcher=None):
         except Exception as error:record['error']=str(error)[:240]
         result['documents'].append(record)
     good=[d for d in result['documents'] if d['status']=='BINARY_IDENTITY_PERIOD_VERIFIED_ONLY']
-    for stage in ['download','extraction']:
-        result['stages'][stage]={'status':'TECHNICAL_PASS_ONLY' if good else 'BLOCKED','documents_verified':len(good)}
-    result['stages']['normalization']={'status':'CANDIDATE_TEXT_ONLY_NO_FINANCIAL_PROMOTION','numeric_candidates':len(result['source_claim_occurrences'])}
+    result['stages']['download']={'status':'TECHNICAL_PASS_ONLY' if good else 'BLOCKED','documents_verified':len(good)}
+    parsed=[d for d in good if d.get('financial_extraction',{}).get('independent_readers_pass') is True]
+    matched=sum(len(d['financial_extraction']['metrics']) for d in parsed)
+    result['stages']['extraction']={'status':'DUAL_READER_PROPOSALS_ONLY' if parsed else 'NATIVE_TEXT_ONLY_FIELD_QA_REQUIRED','financial_documents_parsed':len(parsed)}
+    result['stages']['normalization']={'status':'NORMALIZED_PROPOSALS_ONLY' if matched else 'BLOCKED_NO_NORMALIZED_FIELDS','matched_field_proposals':matched,'financially_certified':False}
     kinds={kind for d in good for kind in [d['kind']]+d.get('additional_regulatory_kinds',[])}
     for kind in ['quarterly','dic','note','statutes','annual']:
         if kind=='quarterly' and 'semiannual' in kinds:continue

@@ -22,7 +22,10 @@ jobs:
       - name: Verify issuer registry security and pending provenance
         run: node --test scripts/scpi-onboarding/issuerRegistryPolicy.test.mjs scripts/scpi-onboarding/pendingCandidateEvidence.test.mjs scripts/scpi-onboarding/legalAuthorityGuard.test.mjs
       - name: Install PDF inspection library
-        run: python -m pip install --quiet pymupdf==1.26.5
+        run: |
+          python -m pip install --quiet pymupdf==1.26.5
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
       - name: Source QA unit tests (no external network)
         run: python -m unittest discover -s scripts/scpi-onboarding -p 'test_*.py' -v
       - name: Restore missing issuer intermediate only after system-root verification
