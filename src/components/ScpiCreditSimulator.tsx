@@ -1,3 +1,4 @@
+import { formatFiniteTooltipValue } from '../utils/formatters';
 import React, { useState, useMemo } from 'react';
 import { TrendingUp, DollarSign, Calendar, ChevronDown, ChevronUp, AlertCircle } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -950,7 +951,7 @@ const ScpiCreditSimulator: React.FC<ScpiCreditSimulatorProps> = ({
                       borderRadius: '8px',
                       color: '#fff'
                     }}
-                    formatter={(value: number) => formatEuro(value)}
+                    formatter={(value) => formatFiniteTooltipValue(value, formatEuro)}
                   />
                   <Legend />
                   <Line
@@ -995,7 +996,7 @@ const ScpiCreditSimulator: React.FC<ScpiCreditSimulatorProps> = ({
                       borderRadius: '8px',
                       color: '#fff'
                     }}
-                    formatter={(value: number) => formatEuro(value)}
+                    formatter={(value) => formatFiniteTooltipValue(value, formatEuro)}
                   />
                   <Bar
                     dataKey="cashflow"

@@ -34,3 +34,16 @@ test('unverified statues cannot be used to claim publication',()=>{
  const x=check(s=>{s.publication_authorized=true;});
  assert.ok(x.errors.includes('PREMATURE_PUBLICATION_CLAIM'));
 });
+import {reconcileSourceShareFlow} from './candidateConsistency.mjs';
+test('source-backed stock and flow discrepancy is recomputed, never repaired or called certified',()=>{
+ const rows=JSON.parse(fs.readFileSync(new URL('./fixtures/sofidynamic-69-second-pass.json',import.meta.url),'utf8')).rows;
+ const original=JSON.stringify(rows);
+ const r=reconcileSourceShareFlow(rows,'2026-T1','2026-T2',['www.sofidy.com']);
+ assert.equal(r.delta_parts,-15);assert.equal(r.expected_closing_parts,773729);
+ assert.equal(r.reported_closing_parts,773714);assert.equal(r.source_values_changed,false);
+ assert.equal(r.publication_authorized,false);assert.equal(JSON.stringify(rows),original);
+ assert.equal(reconcileSourceShareFlow(rows,'2025-T4','2026-T2',['www.sofidy.com']).delta_parts,null);
+ assert.equal(reconcileSourceShareFlow(rows,'2026-T1','2026-T2',['evil.test']).delta_parts,null);
+ const wrong=structuredClone(rows);wrong.find(x=>x.metric==='nombre_parts_retires'&&x.period==='2026-T2').unit='EUR';
+ assert.equal(reconcileSourceShareFlow(wrong,'2026-T1','2026-T2',['www.sofidy.com']).delta_parts,null);
+});

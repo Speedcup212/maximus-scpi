@@ -75,8 +75,8 @@ class SemiannualPeriodRegression(unittest.TestCase):
   self.assertEqual({d['kind'] for d in batch.select_documents(docs)},{'semiannual','quarterly','dic','note','statutes','annual'})
 
 class ScalabilityRegression(unittest.TestCase):
- def test_registry_accepts_one_hundred_without_enforcing_three_pilot_contract(self):
-  candidates=[{'slug':'candidate-'+str(i),'name':'Candidate '+str(i),'management_company':'Issuer','issuer_hosts':['issuer.test'],'product_page':'https://issuer.test/fund/'+str(i)} for i in range(100)]
+ def test_registry_accepts_two_hundred_without_enforcing_three_pilot_contract(self):
+  candidates=[{'slug':'candidate-'+str(i),'name':'Candidate '+str(i),'management_company':'Issuer','issuer_hosts':['issuer.test'],'product_page':'https://issuer.test/fund/'+str(i)} for i in range(200)]
   self.assertTrue(batch.validate_registry({'schema_version':1,'candidates':candidates},{'slugs':[]}))
 
 class DocumentaryMeaningRegression(unittest.TestCase):
@@ -99,6 +99,32 @@ class RetryBudgetRegression(unittest.TestCase):
    self.assertEqual(len(t.attempts),expected)
 
 class SharedFinancialParserRegression(unittest.TestCase):
+ def test_resume_uses_only_cursor_and_rejects_changed_registry_or_fabricated_cursor(self):
+  raw=b'{"candidates":[]}'
+  checkpoint={'registry_sha256':hashlib.sha256(raw).hexdigest(),'next_offset':5}
+  self.assertEqual(batch.resume_offset(raw,checkpoint,200),5)
+  with self.assertRaises(ValueError):batch.resume_offset(raw+b' ',checkpoint,200)
+  for cursor in [None,-1,201,True]:
+   with self.assertRaises(ValueError):batch.resume_offset(raw,{**checkpoint,'next_offset':cursor},200)
+ def test_200_identities_are_sliced_without_loss_or_duplicate_and_invalid_bounds_fail(self):
+  candidates=[{'slug':'fund-'+str(i)} for i in range(200)]
+  slices=[batch.select_candidates(candidates,offset,5) for offset in range(0,200,5)]
+  self.assertEqual([x for part in slices for x in part],candidates)
+  self.assertEqual(len(slices),40)
+  for offset,limit in [(-1,5),(200,5),(0,0),(0,21),(False,5)]:
+   with self.assertRaises(ValueError):batch.select_candidates(candidates,offset,limit)
+ def test_anomalies_are_classified_without_claiming_official_unavailability_or_fixing_numbers(self):
+  r={'slug':'fund','blockers':['MISSING_VERIFIED_STATUTES','MISSING_VERIFIED_DIC','FIELD_LEVEL_FINANCIAL_QA_REQUIRED','AUTHENTICATED_SIX_SURFACE_PREFLIGHT_REQUIRED'],'documents':[],
+   'attempts':[{'url':'https://issuer.test/a','status':503},{'url':'https://issuer.test/a','status':200}]}
+  ledger=batch.anomaly_ledger(r)
+  self.assertEqual([x['category'] for x in ledger['anomalies']],['DOCUMENTARY','DOCUMENTARY','FINANCIAL','TECHNICAL'])
+  self.assertEqual(ledger['anomalies'][0]['availability'],'NOT_OBTAINED_NOT_OFFICIALLY_UNAVAILABLE')
+  self.assertEqual(ledger['anomalies'][0]['factual_publication_effect'],'ASSESS_EXISTING_PROGRESSIVE_POLICY_WITH_DISCLOSURE')
+  self.assertEqual(ledger['anomalies'][1]['factual_publication_effect'],'BLOCK_UNTIL_VERIFIED')
+  self.assertEqual(ledger['automatic_recovery_count'],1)
+  self.assertFalse(ledger['automatic_recoveries'][0]['financial_values_changed'])
+  self.assertFalse(ledger['publication_authorized'])
+  self.assertEqual(batch.anomaly_ledger({'slug':'fund','attempts':[]})['automatic_recovery_count'],0)
  def test_withdrawal_explanation_cannot_label_subscription_price_even_with_two_readers(self):
   f=batch.bulletin_fields
   words=[(10,10,120,20,'PRIX DE RETRAIT'),(10,25,100,35,'313,6 €'),(10,40,130,50,'au prix de souscription,')]

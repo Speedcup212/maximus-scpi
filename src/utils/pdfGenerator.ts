@@ -4,6 +4,8 @@ import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from './formatters';
 
+type PdfColors = Record<'primary' | 'secondary' | 'dark' | 'light' | 'success' | 'warning' | 'white' | 'gray', [number, number, number]>;
+
 interface PortfolioItem extends Scpi {
   investedAmount: number;
   percentage: number;
@@ -19,7 +21,7 @@ export const generatePortfolioPDF = async (
   const pageHeight = pdf.internal.pageSize.getHeight();
   
   // Couleurs MaximusSCPI
-  const colors = {
+  const colors: PdfColors = {
     primary: [0, 86, 179],      // #0056b3
     secondary: [0, 204, 255],   // #00ccff
     dark: [33, 37, 41],         // #21252d
@@ -42,7 +44,6 @@ export const generatePortfolioPDF = async (
   const averageTof = portfolio.length > 0 
     ? portfolio.reduce((sum, item) => sum + (item.tof * item.percentage / 100), 0)
     : 0;
-  const totalCapitalization = portfolio.reduce((sum, item) => sum + item.capitalization, 0);
 
   // Page 1 - Page de garde
   createCoverPage(pdf, clientProfile, portfolio, pageWidth, pageHeight, colors);
@@ -82,7 +83,7 @@ const createCoverPage = (
   portfolio: PortfolioItem[],
   pageWidth: number, 
   pageHeight: number, 
-  colors: any
+  colors: PdfColors
 ) => {
   // Fond dégradé simulé
   pdf.setFillColor(...colors.primary);
@@ -142,7 +143,7 @@ const createProfilePage = (
   clientProfile: ClientProfile | null,
   pageWidth: number,
   pageHeight: number,
-  colors: any
+  colors: PdfColors
 ) => {
   // Header avec style
   addPageHeader(pdf, 'Votre Profil Investisseur', pageWidth, colors);
@@ -258,7 +259,7 @@ const createSummaryPage = (
   isrCount: number,
   averageTof: number,
   pageWidth: number,
-  colors: any
+  colors: PdfColors
 ) => {
   // Header
   addPageHeader(pdf, 'Résumé de Votre Portefeuille', pageWidth, colors);
@@ -303,6 +304,8 @@ const createSummaryPage = (
   pdf.text(`📅 Revenus mensuels : ${formatCurrency(monthlyIncome)}`, 30, revenueY + 40);
   pdf.text(`📊 Revenus annuels : ${formatCurrency(annualIncome)}`, 30, revenueY + 55);
 
+  const totalCapitalization = portfolio.reduce((sum, item) => sum + item.capitalization, 0);
+
   // Caractéristiques du portefeuille
   const charY = revenueY + 80;
   pdf.setTextColor(...colors.primary);
@@ -332,7 +335,7 @@ const createDetailedTable = (
   portfolio: PortfolioItem[],
   totalInvested: number,
   pageWidth: number,
-  colors: any
+  colors: PdfColors
 ) => {
   // Header
   addPageHeader(pdf, 'Composition Détaillée du Portefeuille', pageWidth, colors);
@@ -448,7 +451,7 @@ const createSimulationPage = (
   clientProfile: ClientProfile | null,
   pageWidth: number,
   pageHeight: number,
-  colors: any
+  colors: PdfColors
 ) => {
   // Header
   addPageHeader(pdf, 'Simulation Personnalisée', pageWidth, colors);
@@ -568,7 +571,7 @@ const createChartsPage = (
   portfolio: PortfolioItem[],
   pageWidth: number,
   pageHeight: number,
-  colors: any
+  colors: PdfColors
 ) => {
   // Header
   addPageHeader(pdf, 'Analyse Graphique du Portefeuille', pageWidth, colors);
@@ -601,7 +604,7 @@ const createCallToActionPage = (
   pdf: jsPDF,
   pageWidth: number,
   pageHeight: number,
-  colors: any
+  colors: PdfColors
 ) => {
   // Fond élégant
   pdf.setFillColor(248, 250, 252);
@@ -682,7 +685,7 @@ const createCallToActionPage = (
 
 // Fonctions utilitaires améliorées
 
-const addPageHeader = (pdf: jsPDF, title: string, pageWidth: number, colors: any) => {
+const addPageHeader = (pdf: jsPDF, title: string, pageWidth: number, colors: PdfColors) => {
   // Ligne décorative en haut
   pdf.setFillColor(...colors.primary);
   pdf.rect(0, 0, pageWidth, 8, 'F');
@@ -707,8 +710,8 @@ const createMetricBox = (
   y: number,
   width: number,
   height: number,
-  color: number[],
-  colors: any
+  color: [number, number, number],
+  colors: PdfColors
 ) => {
   // Fond de la boîte
   pdf.setFillColor(color[0], color[1], color[2], 0.1);
@@ -737,7 +740,7 @@ const createSimplePieChart = (
   x: number,
   y: number,
   size: number,
-  colors: any
+  colors: PdfColors
 ) => {
   // Titre
   pdf.setTextColor(...colors.dark);
@@ -794,7 +797,7 @@ const createYieldBarChart = (
   y: number,
   width: number,
   height: number,
-  colors: any
+  colors: PdfColors
 ) => {
   // Titre
   pdf.setTextColor(...colors.dark);

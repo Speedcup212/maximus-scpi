@@ -192,3 +192,6 @@ export const formatDisplayName = (value: string): string => {
     })
     .join(' ');
 };
+/** Recharts may pass absent/non-numeric payloads; never format them as zero. */
+export const formatFiniteTooltipValue = (value: unknown, format: (value: number) => string): string =>
+  typeof value === 'number' && Number.isFinite(value) ? format(value) : 'Non disponible';

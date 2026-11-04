@@ -4,8 +4,12 @@ on:
     branches: [main]
     paths:
       - 'scripts/scpi-onboarding/**'
+      - 'src/**'
+      - 'tsconfig*.json'
+      - 'package*.json'
       - 'scripts/agents/bulletin_fields.py'
       - 'docs/scpi/evidence/recovery-092-*.json'
+      - 'docs/scpi/evidence/recovery-093-*.json'
       - '.github/workflows/scpi-industrial-readiness.yml'
   workflow_dispatch:
 permissions:
@@ -27,25 +31,46 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Calculate demonstrated maturity without manufacturing release permission
+      - name: Mandatory full TypeScript check (preexisting failures remain failures)
+        id: typecheck
         run: |
           mkdir -p test-results/scpi-industrial-admission
-          node --input-type=module - <<'JS'
-          import fs from 'node:fs';
-          import {evaluateMaturity} from './scripts/scpi-onboarding/industrialMaturity.mjs';
-          const input=JSON.parse(fs.readFileSync('docs/scpi/evidence/recovery-092-maturity-input.json','utf8'));
-          const report=evaluateMaturity(input.after);
-          fs.writeFileSync('test-results/scpi-industrial-admission/maturity.json',JSON.stringify(report,null,2));
-          console.log(JSON.stringify(report));
-          JS
-      - name: Mandatory full TypeScript check (preexisting failures remain failures)
-        run: |
           if npm run typecheck > test-results/scpi-industrial-admission/typescript.log 2>&1; then
             cat test-results/scpi-industrial-admission/typescript.log
           else
             cat test-results/scpi-industrial-admission/typescript.log
             exit 1
           fi
+      - name: Calculate demonstrated maturity without manufacturing release permission
+        if: always()
+        env:
+          TYPECHECK_OUTCOME: ${{ steps.typecheck.outcome }}
+        run: |
+          mkdir -p test-results/scpi-industrial-admission
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          import {evaluateMaturity} from './scripts/scpi-onboarding/industrialMaturity.mjs';
+          const input=JSON.parse(fs.readFileSync('docs/scpi/evidence/recovery-092-maturity-input.json','utf8'));
+          const observed={...input.after,typecheck_pass:process.env.TYPECHECK_OUTCOME==='success'};
+          const report=evaluateMaturity(observed);
+          fs.writeFileSync('test-results/scpi-industrial-admission/maturity.json',JSON.stringify(report,null,2));
+          console.log(JSON.stringify(report));
+          JS
+      - name: Record actual diagnostic causes and reject new regressions
+        if: always()
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          import {parseTypeScriptDiagnostics,diagnosticDelta} from './scripts/scpi-onboarding/technicalDiagnostics.mjs';
+          const baseline=JSON.parse(fs.readFileSync('docs/scpi/evidence/recovery-093-typescript-baseline.json','utf8'));
+          const current=parseTypeScriptDiagnostics(fs.readFileSync('test-results/scpi-industrial-admission/typescript.log','utf8'));
+          const delta=diagnosticDelta(baseline.diagnostics,current);
+          const byCause={};for(const d of current)byCause[d.cause]=(byCause[d.cause]||0)+1;
+          const report={...delta,byCause,baseline_commit:baseline.commit,publication_authorized:false};
+          fs.writeFileSync('test-results/scpi-industrial-admission/diagnostic-causes.json',JSON.stringify(report,null,2));
+          console.log(JSON.stringify(report));
+          if(delta.introduced)throw Error('NEW_TYPESCRIPT_DIAGNOSTICS:'+delta.introduced);
+          JS
       - name: Refuse industrial GO below 90 or with unmet critical conditions
         if: always()
         run: |

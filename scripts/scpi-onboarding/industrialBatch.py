@@ -180,6 +180,61 @@ def retain_official_links(registry,reports):
     return updated
 
 
+def anomaly_ledger(report):
+    """Deterministic diagnosis, never source QA or a release permission."""
+    rows=[]
+    for code in report.get('blockers',[]):
+        documentary=code.startswith('MISSING_VERIFIED_')
+        category='DOCUMENTARY' if documentary else 'TECHNICAL' if 'PREFLIGHT' in code else 'FINANCIAL'
+        # Missing collection is not an official declaration of unavailability.
+        contained=code in ('MISSING_VERIFIED_STATUTES','MISSING_VERIFIED_ANNUAL')
+        rows.append({'id':report['slug']+':'+code,'code':code,'category':category,
+            'cause':'OFFICIAL_BINARY_NOT_VERIFIED' if documentary else 'REQUIRED_CONTROL_NOT_DEMONSTRATED',
+            'availability':'NOT_OBTAINED_NOT_OFFICIALLY_UNAVAILABLE' if documentary else None,
+            'full_certification_blocked':True,
+            'factual_publication_effect':'ASSESS_EXISTING_PROGRESSIVE_POLICY_WITH_DISCLOSURE' if contained else 'BLOCK_UNTIL_VERIFIED',
+            'automatic_correction_applied':False,'publication_authorized':False})
+    for doc in report.get('documents',[]):
+        if doc.get('error'):
+            rows.append({'id':report['slug']+':'+hashlib.sha256(doc['url'].encode()).hexdigest()[:16],
+                'code':'SOURCE_AUDIT_REJECTED','category':'DOCUMENTARY','cause':doc['error'],
+                'source_url':doc['url'],'automatic_correction_applied':False,'publication_authorized':False})
+        for metric,status in doc.get('financial_extraction',{}).get('technical_field_coverage',{}).items():
+            if status!='needs_review':continue
+            rows.append({'id':report['slug']+':'+doc.get('sha256','')+':'+metric,
+                'code':'AMBIGUOUS_OR_UNREVIEWED_METRIC','category':'FINANCIAL',
+                'cause':'DUAL_READER_AGREEMENT_OR_UNIQUE_VALUE_NOT_ESTABLISHED','metric':metric,
+                'source_url':doc['url'],'pdf_sha256':doc.get('sha256'),
+                'automatic_correction_applied':False,'publication_authorized':False})
+    # Only a failed request followed by a successful real request counts as
+    # an automatic recovery. Merely having retry logic earns no repaired count.
+    failures={};recoveries=[]
+    for attempt in report.get('attempts',[]):
+        url=attempt['url'];status=attempt.get('status')
+        if status==200 and url in failures:
+            recoveries.append({'url':url,'cause':failures.pop(url),'correction':'BOUNDED_REDOWNLOAD',
+                'category':'TECHNICAL','financial_values_changed':False})
+        elif status in (429,500,502,503,504) or attempt.get('error'):
+            failures[url]=status or attempt['error']
+    return {'schema_version':1,'slug':report['slug'],'anomalies':rows,
+        'unresolved_count':len(rows),'automatic_recoveries':recoveries,
+        'automatic_recovery_count':len(recoveries),'publication_authorized':False}
+
+
+def select_candidates(candidates,offset=0,limit=20):
+    if type(offset) is not int or offset<0 or offset>=len(candidates):raise ValueError('INVALID_BATCH_OFFSET')
+    if type(limit) is not int or not 1<=limit<=20:raise ValueError('BATCH_LIMIT_1_TO_20_REQUIRED')
+    return candidates[offset:offset+limit]
+
+
+def resume_offset(registry_bytes,checkpoint,total):
+    if checkpoint.get('registry_sha256')!=hashlib.sha256(registry_bytes).hexdigest():
+        raise ValueError('REGISTRY_CHANGED_RESTART_REQUIRED')
+    offset=checkpoint.get('next_offset')
+    if type(offset) is not int or not 0<=offset<=total:raise ValueError('INVALID_RESUME_CURSOR')
+    return offset
+
+
 def run_candidate(c,out,fetcher=None):
     out.mkdir(parents=True,exist_ok=True)
     transport=Transport(c['issuer_hosts']) if fetcher is None else fetcher
@@ -275,17 +330,35 @@ def run_candidate(c,out,fetcher=None):
     result['stages']['prepublication']={'status':'BLOCKED','reason':'NO_CERTIFIED_PRIVATE_SNAPSHOT'}
     result['stages']['publication_control']={'status':'DENIED','reason':'UNMET_GATES_NO_RELEASE_CALL'}
     result['status']='BLOCKED';result['attempts']=getattr(transport,'attempts',[])
+    result['anomaly_ledger']=anomaly_ledger(result)
     (out/'report.json').write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n')
     return result
 
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--registry',required=True);ap.add_argument('--out',required=True);args=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--registry',required=True);ap.add_argument('--out',required=True)
+    ap.add_argument('--offset',type=int,default=0);ap.add_argument('--limit',type=int,default=20)
+    ap.add_argument('--resume',action='store_true');args=ap.parse_args()
     registry=json.loads(Path(args.registry).read_text());cohort=json.loads((HERE.parent.parent/'src/data/certified_scpi_cohort.json').read_text())
     validate_registry(registry,cohort)
-    results=[run_candidate(c,Path(args.out)/c['slug']) for c in registry['candidates']]
-    report={'schema_version':1,'captured_at':datetime.now(timezone.utc).isoformat(),'mode':'READ_ONLY_INDUSTRIAL_TRIAL','candidates':results,'publication_authorized':False,'go_for_industrial_publication':False}
-    Path(args.out,'batch.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+    if args.resume:
+        if args.offset:raise ValueError('CHOOSE_RESUME_OR_OFFSET')
+        checkpoint=json.loads(Path(args.out,'batch.json').read_text())
+        args.offset=resume_offset(Path(args.registry).read_bytes(),checkpoint,len(registry['candidates']))
+        if args.offset==len(registry['candidates']):
+            print('INDUSTRIAL_BATCH_ALREADY_PROCESSED_NO_NEW_SOURCE_OR_QA_VERIFICATION');return
+    selected=select_candidates(registry['candidates'],args.offset,args.limit)
+    results=[]
+    for c in selected:
+        results.append(run_candidate(c,Path(args.out)/c['slug']))
+        report={'schema_version':1,'captured_at':datetime.now(timezone.utc).isoformat(),
+            'registry_sha256':hashlib.sha256(Path(args.registry).read_bytes()).hexdigest(),
+            'offset':args.offset,'next_offset':args.offset+len(results),'total_registered':len(registry['candidates']),
+            'selected_batch_complete':len(results)==len(selected),
+            'mode':'READ_ONLY_INDUSTRIAL_TRIAL','candidates':results,'publication_authorized':False,'go_for_industrial_publication':False}
+        checkpoint=Path(args.out,'batch.json.tmp');checkpoint.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+        checkpoint.replace(Path(args.out,'batch.json'))
+    Path(args.out,f'batch-{args.offset:06d}.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
     retained=retain_official_links(registry,results)
     Path(args.out,'retained-official-links.json').write_text(json.dumps(retained,indent=2,ensure_ascii=False)+'\n')
     for r in results:print('INDUSTRIAL_CANDIDATE '+json.dumps(r,ensure_ascii=False))

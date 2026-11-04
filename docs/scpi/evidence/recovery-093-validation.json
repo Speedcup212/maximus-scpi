@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "scope": "LOCAL_WORKTREE_RECOVERY093_NOT_PRODUCTION_OR_FINANCIAL_CERTIFICATION",
+  "baseline_commit": "3ccc0b423325f827991118ac7e86817e9d9df4ef",
+  "checks": [
+    {
+      "name": "application_275",
+      "status": "PASS",
+      "log_sha256": "35e03c59f23bf6cb609ffe3bf80a1fd1a117a5a392b06c614332a46b0bdbd50a",
+      "tail": [
+        " ✓ src/tests/scpiPublicationFreshness.test.ts (4 tests) 4ms",
+        " ✓ src/tests/scpiPreparedValuation.test.ts (2 tests) 4ms",
+        "",
+        " Test Files  37 passed (37)",
+        "      Tests  275 passed (275)",
+        "   Start at  11:49:14",
+        "   Duration  7.38s (transform 917ms, setup 0ms, import 2.65s, tests 685ms, environment 5ms)",
+        ""
+      ]
+    },
+    {
+      "name": "onboarding_and_plugin_122",
+      "status": "PASS",
+      "log_sha256": "6454d7f13e6c48b677a8cc634ceb9e54a7c880e921ac0b62fcb71ee00130e665",
+      "tail": [
+        "ℹ tests 122",
+        "ℹ suites 0",
+        "ℹ pass 122",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 2070.63455"
+      ]
+    },
+    {
+      "name": "publisher_pdf_44",
+      "status": "PASS",
+      "log_sha256": "a1855d6f99aa2ca8e4eba8ae48165c76bfe6c4e2b6f22f5ffbb2b36b84f9b2e5",
+      "tail": [
+        "............................................",
+        "----------------------------------------------------------------------",
+        "Ran 44 tests in 0.565s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "name": "legacy_agents_80",
+      "status": "PASS",
+      "log_sha256": "ac5e9c363ed6681f106487f46f556825612a5a389adede0596565163edeab908",
+      "tail": [
+        "................................................................................",
+        "----------------------------------------------------------------------",
+        "Ran 80 tests in 0.893s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "name": "build_109_articles_302_urls",
+      "status": "PASS",
+      "log_sha256": "d494b4d883ebe260bd81670a4c7ee72615205ba18a31608ffd8c5afd4e54ab5f",
+      "tail": [
+        "✅ Hub Articles : passerelle sémantique vers /comparateur-scpi/ ajoutée",
+        "✅ Comparateur : lien méthodologie canonicalisé",
+        "[seo-sanitize] 4 HTML file(s) sanitized; unsupported hard-coded ratings removed from 0 file(s).",
+        "✅ Parité React ↔ HTML certifiée : 109/109 articles · minimum 5841 caractères · minimum 8 H2.",
+        "✅ Couverture SEO statique certifiée : 302/302 URLs avec HTML dédié, canonical propre, title et H1.",
+        "✅ DIST SITEMAP FINAL OK : 302 URLs uniques et politique canonique respectée.",
+        "[seo-fiscal-claims] PASS — no forbidden legacy fiscal claims in generated HTML.",
+        "✅ Build public contrôlé : aucune trace de SCPI retirée."
+      ]
+    },
+    {
+      "name": "sofidynamic_five_surfaces_10_cases",
+      "status": "PASS",
+      "log_sha256": "8cf44c16d41f9f40d3000e7f7c3757f862a4f2d95b8246a5466e431d19269a3d",
+      "tail": [
+        "{\"commit\":\"3ccc0b423325f827991118ac7e86817e9d9df4ef\",\"mode\":\"generic-private-stage-integration-not-production\",\"cases\":[{\"slug\":\"sofidynamic\",\"width\":1440,\"surface\":\"profile\",\"status\":\"PASS\"},{\"slug\":\"sofidynamic\",\"width\":1440,\"surface\":\"comparator_analysis\",\"status\":\"PASS\"},{\"slug\":\"sofidynamic\",\"width\":1440,\"surface\":\"radar\",\"status\":\"PASS\"},{\"slug\":\"sofidynamic\",\"width\":1440,\"surface\":\"simulator\",\"status\":\"PASS\"},{\"slug\":\"sofidynamic\",\"width\":1440,\"surface\":\"client_card\",\"status\":\"PASS\"},{\"slug\":\"sofidynamic\",\"width\":390,\"surface\":\"profile\",\"status\":\"PASS\"},{\"slug\":\"sofidynamic\",\"width\":390,\"surface\":\"comparator_analysis\",\"status\":\"PASS\"},{\"slug\":\"sofidynamic\",\"width\":390,\"surface\":\"radar\",\"status\":\"PASS\"},{\"slug\":\"sofidynamic\",\"width\":390,\"surface\":\"simulator\",\"status\":\"PASS\"},{\"slug\":\"sofidynamic\",\"width\":390,\"surface\":\"client_card\",\"status\":\"PASS\"}],\"status\":\"PASS\"}"
+      ]
+    },
+    {
+      "name": "sofidynamic_trajectory_2_cases",
+      "status": "PASS",
+      "log_sha256": "1c06fbc3e51cfeafadeb9e4db3685a8459e8b38dce6d8a2cb8cb0a9cc1edad22",
+      "tail": [
+        "{\"candidate\":\"sofidynamic\",\"mode\":\"source_backed_history_restriction_regression\",\"commit\":\"3ccc0b423325f827991118ac7e86817e9d9df4ef\",\"cases\":[{\"slug\":\"sofidynamic\",\"width\":1440,\"surface\":\"trajectory\",\"status\":\"PASS\",\"valuation\":\"NOT_BACKDATED\",\"comparisons\":\"BLOCKED_UNCERTIFIED\",\"fixture_history_periods\":2,\"production_history_certified\":false},{\"slug\":\"sofidynamic\",\"width\":390,\"surface\":\"trajectory\",\"status\":\"PASS\",\"valuation\":\"NOT_BACKDATED\",\"comparisons\":\"BLOCKED_UNCERTIFIED\",\"fixture_history_periods\":2,\"production_history_certified\":false}],\"publication_authorized\":false,\"status\":\"PASS\"}"
+      ]
+    },
+    {
+      "name": "progressive_browser_12_cases",
+      "status": "PASS",
+      "log_sha256": "09d958174e9c1676b88be898348da8a5cc20371498448d1cd8f978b6e313ced5",
+      "tail": [
+        "PROGRESSIVE_PUBLIC_BROWSER {\"status\":\"PASS\",\"cases\":12,\"error\":null}"
+      ]
+    },
+    {
+      "name": "full_typescript_601",
+      "status": "FAIL",
+      "log_sha256": "1d512e2f7076f146b9bcdcdc38f7f7e883206e162dcbb580f94d47b9c66fdae8",
+      "tail": [
+        "src/utils/pdfGenerator.ts(573,3): error TS6133: 'pageHeight' is declared but its value is never read.",
+        "src/utils/pdfGenerator.ts(714,3): error TS6133: 'colors' is declared but its value is never read.",
+        "src/utils/pdfGenerator.ts(761,23): error TS6133: 'index' is declared but its value is never read.",
+        "src/utils/portfolioDiversificationScore.ts(210,24): error TS6133: 'i' is declared but its value is never read.",
+        "src/utils/portfolioRecommendations.ts(2,44): error TS2307: Cannot find module '../types/riskProfile' or its corresponding type declarations.",
+        "src/utils/portfolioRecommendations.ts(250,3): error TS6133: 'investmentAmount' is declared but its value is never read.",
+        "src/utils/richArticleContentGenerator.tsx(6,1): error TS6133: 'React' is declared but its value is never read.",
+        "src/utils/scpiScoringExample.ts(7,1): error TS6133: 'Scpi' is declared but its value is never read."
+      ]
+    }
+  ],
+  "public_sources_unchanged": {
+    "src/data/scpi_complet.json": "e838419a8a37cba992cff9f40a60cdec530cb8e38edea87d866017f12961ba85",
+    "src/data/certified_scpi_cohort.json": "15f42b2c9b906391c8bb682b9b3216ea1856a7eb3755f982d041f7f486de599c"
+  },
+  "publication_authorized": false,
+  "score": 75,
+  "verdict": "NO_GO"
+}

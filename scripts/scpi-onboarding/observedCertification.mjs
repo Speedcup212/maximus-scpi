@@ -4,6 +4,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {validOfficialUrl} from './preflight.mjs';
 import {cohortIntegrityErrors} from './cohortInvariant.mjs';
+import {reconcileSourceShareFlow} from './candidateConsistency.mjs';
 const ROOT=path.resolve(fileURLToPath(new URL('../../',import.meta.url)));
 const SHA=/^[a-f0-9]{64}$/;
 export function inspectObservedCertification({observation,manifest,cohort,catalog,issuerHosts}) {
@@ -73,6 +74,9 @@ export function inspectObservedCertification({observation,manifest,cohort,catalo
  const entries=(catalog||[]).filter(x=>normalize(x['Nom SCPI'])===slug);
  if(entries.length!==1||!cohort?.slugs?.includes(slug))errors.push('CATALOG_COHORT_IDENTITY_MISMATCH');
  const summary=o.summary?.[0]||{};
+ const periods=[...new Set((manifest?.rows||[]).map(r=>r.period).filter(p=>/^20\d{2}-T[1-4]$/.test(p)))].sort();
+ const interdocumentShareFlow=reconcileSourceShareFlow(manifest?.rows,periods.at(-2),periods.at(-1),issuerHosts);
+ if(interdocumentShareFlow.status!=='RECONCILED_ARITHMETIC_ONLY')blockers.push('SHARE_FLOW_NOT_RECONCILED_FOR_FULL_CERTIFICATION');
  return {
   candidate:slug,captured_at:o.captured_at,mode:'EXPORTED_OBSERVATION_NOT_LIVE_CERTIFICATE',
   status:errors.length?'FAIL':blockers.length?'BLOCKED':'REVIEW_REQUIRED',errors,blockers,metrics:rows,allocations,
@@ -81,7 +85,7 @@ export function inspectObservedCertification({observation,manifest,cohort,catalo
   counts:{public_indicator_rows:(o.public_counts||[]).reduce((sum,x)=>sum+Number(x.count),0),catalog_identities:cohort?.count,
    universe_existing:summary.live_catalog,strict_checks_pass:summary.strict_checks_pass,analysis_certified:summary.full_analysis_certified,
    fully_certified_total:null,reason:'Strict checks and analysis QA are separate gates, not a complete certification census'},
-  publication_authorized:false,
+  interdocument_share_flow:interdocumentShareFlow,publication_authorized:false,
  };
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)) {

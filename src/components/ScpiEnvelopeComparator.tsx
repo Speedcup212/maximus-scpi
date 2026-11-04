@@ -1,18 +1,12 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import { formatFiniteTooltipValue } from '../utils/formatters';
+import React, { useState, useMemo } from 'react';
 import { TrendingUp, Building2, Shield, Briefcase, ChevronDown, ChevronUp, Info, ArrowRight } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import ScpiPortfolioBuilder, { PortfolioLine, ScpiDataForPortfolio } from './ScpiPortfolioBuilder';
 import { PortfolioAggregates, computePortfolioAggregates, createManualAggregates } from '../utils/portfolioAggregator';
 import { scpiData } from '../data/scpiData';
 import { SliderNumberField, TMISelector, NumberField } from './simulators';
-import {
-  GeoScenarioId,
-  GEO_SCENARIOS,
-  getGeoScenarioById,
-  computeYieldAndReval,
-  GROSS_YIELD_FRANCE_DEFAULT,
-  GROSS_YIELD_EUROPE_DEFAULT
-} from '../utils/scpiYield';
+import { GeoScenarioId, GEO_SCENARIOS, getGeoScenarioById, computeYieldAndReval, GROSS_YIELD_FRANCE_DEFAULT, GROSS_YIELD_EUROPE_DEFAULT } from '../utils/scpiYield';
 
 interface ScpiEnvelopeComparatorProps {
   defaultAmount?: number;
@@ -1867,7 +1861,7 @@ const ScpiEnvelopeComparator: React.FC<ScpiEnvelopeComparatorProps> = ({
                     <XAxis dataKey="name" stroke="#6b7280" />
                     <YAxis stroke="#6b7280" />
                     <Tooltip
-                      formatter={(value: number) => `${value.toFixed(2)} %`}
+                      formatter={(value) => formatFiniteTooltipValue(value, n => `${n.toFixed(2)} %`)}
                       contentStyle={{
                         backgroundColor: 'rgba(255, 255, 255, 0.95)',
                         border: '1px solid #e5e7eb',
@@ -1895,7 +1889,7 @@ const ScpiEnvelopeComparator: React.FC<ScpiEnvelopeComparatorProps> = ({
                     <XAxis dataKey="name" stroke="#6b7280" />
                     <YAxis stroke="#6b7280" />
                     <Tooltip
-                      formatter={(value: number) => formatEuro(value)}
+                      formatter={(value) => formatFiniteTooltipValue(value, formatEuro)}
                       contentStyle={{
                         backgroundColor: 'rgba(255, 255, 255, 0.95)',
                         border: '1px solid #e5e7eb',

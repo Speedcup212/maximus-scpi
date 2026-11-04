@@ -16,6 +16,13 @@ export function quarterEnd(period) {
   const month=Number(period.slice(-1))*3;
   return new Date(Date.UTC(year,month,0)).toISOString().slice(0,10);
 }
+export function reportingPeriodEnd(period) {
+  if(/^20\d{2}-S[12]$/.test(period||'')) {
+    const year=Number(period.slice(0,4)),month=Number(period.slice(-1))*6;
+    return new Date(Date.UTC(year,month,0)).toISOString().slice(0,10);
+  }
+  return quarterEnd(period);
+}
 function proofValid(proof) {
   if (!proof || !validCalendarDate(proof.reference_date) ||
       !Number.isSafeInteger(proof.source_page) || proof.source_page<1 ||

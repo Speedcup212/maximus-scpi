@@ -1,3 +1,4 @@
+import { formatFiniteTooltipValue } from '../../utils/formatters';
 import { useState, useEffect, useMemo } from 'react';
 import {
   Star, TrendingUp, Building2, X, BarChart3,
@@ -860,7 +861,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                                   <Pie data={comparisonSectorData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={35} outerRadius={55} paddingAngle={2} stroke="none">
                                     {comparisonSectorData.map((_e, i) => (<Cell key={i} fill={PRO_PIE_COLORS[i % PRO_PIE_COLORS.length]} />))}
                                   </Pie>
-                                  <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '6px', fontSize: '11px', color: '#e2e8f0' }} formatter={(v: number) => `${v} %`} />
+                                  <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '6px', fontSize: '11px', color: '#e2e8f0' }} formatter={(value) => formatFiniteTooltipValue(value, n => `${n} %`)} />
                                 </RechartsPie>
                               </ResponsiveContainer>
                               <div className="flex flex-wrap justify-center gap-x-2 gap-y-0.5 mt-1">
@@ -880,7 +881,7 @@ export default function ScpiFavorites({ onNavigateToComparator, onAnalyzeScpi }:
                                   <Pie data={comparisonGeoData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={35} outerRadius={55} paddingAngle={2} stroke="none">
                                     {comparisonGeoData.map((_e, i) => (<Cell key={i} fill={PRO_PIE_COLORS[i % PRO_PIE_COLORS.length]} />))}
                                   </Pie>
-                                  <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '6px', fontSize: '11px', color: '#e2e8f0' }} formatter={(v: number) => `${v} %`} />
+                                  <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '6px', fontSize: '11px', color: '#e2e8f0' }} formatter={(value) => formatFiniteTooltipValue(value, n => `${n} %`)} />
                                 </RechartsPie>
                               </ResponsiveContainer>
                               <div className="flex flex-wrap justify-center gap-x-2 gap-y-0.5 mt-1">

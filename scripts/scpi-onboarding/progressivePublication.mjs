@@ -3,9 +3,9 @@
  * All candidate facts must be source-backed; only strictly contained defects
  * may be disclosed without blocking a factual public fiche.
  */
-import {validCalendarDate, quarterEnd} from './datedEvidence.mjs';
+import {validCalendarDate, reportingPeriodEnd} from './datedEvidence.mjs';
 const SHA = /^[a-f0-9]{64}$/;
-const QUARTER = /^20\d{2}-T[1-4]$/;
+const REPORTING_PERIOD = /^20\d{2}-(?:T[1-4]|S[12])$/;
 
 export function evaluateProgressivePublication(input) {
   const d = input || {};
@@ -23,7 +23,7 @@ export function evaluateProgressivePublication(input) {
     'uncontainedFinancialContradiction','latestStatutesVerified','shareFlowOfficialSourcesVerified',
     'lastOfficialValuationVerified','dicRiskSfdrReviewed','quarterReconciliationPassed','fullCertificationReady'];
   if(flags.some(key=>typeof d[key]!=='boolean')) block('INVALID_OR_MISSING_QA_FLAGS');
-  if(!validCalendarDate(d.currentReferenceDate)||d.currentReferenceDate!==quarterEnd(d.currentPeriod))
+  if(!validCalendarDate(d.currentReferenceDate)||d.currentReferenceDate!==reportingPeriodEnd(d.currentPeriod))
     block('INVALID_CURRENT_REFERENCE_DATE');
   if(!validCalendarDate(d.lastOfficialValuationDate)||
      (validCalendarDate(d.currentReferenceDate)&&d.lastOfficialValuationDate>d.currentReferenceDate))
@@ -31,7 +31,7 @@ export function evaluateProgressivePublication(input) {
   if(!Number.isSafeInteger(d.shareFlowDelta)) block('UNVERIFIED_SHARE_FLOW_DISCREPANCY');
   if (!d.identityVerified || !d.legalManagementVerified) block('UNVERIFIED_ISSUER_IDENTITY');
   if (!d.issuerPdfVerified || !SHA.test(d.currentPdfSha256 || '') ||
-      !QUARTER.test(d.currentPeriod || '') || !d.sourceUrl?.startsWith('https://')) block('NO_VERIFIED_CURRENT_ISSUER_BULLETIN');
+      !REPORTING_PERIOD.test(d.currentPeriod || '') || !d.sourceUrl?.startsWith('https://')) block('NO_VERIFIED_CURRENT_ISSUER_BULLETIN');
   if (!d.dicVerified || !d.noteVerified) block('MISSING_ESSENTIAL_INVESTOR_DOCUMENTS');
   if (!d.essentialMetricsQaPassed || !d.verifiedFieldDisplayPassed) block('UNVERIFIED_ESSENTIAL_NUMERIC_DATA');
   if (!d.feesAndWithdrawalReviewed || !d.liquidityReviewed || !d.leverageReviewed) block('UNREVIEWED_MATERIAL_FINANCIAL_RISK');
