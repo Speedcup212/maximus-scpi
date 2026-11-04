@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "mission": "RECOVERY-092",
+  "candidates": [
+    {
+      "slug": "sofidynamic",
+      "name": "Sofidynamic",
+      "issuer_hosts": [
+        "www.sofidy.com",
+        "sofidy.com"
+      ],
+      "official_product_page": "https://www.sofidy.com/solutions/sofidynamic/",
+      "official_bulletins_page": "https://www.sofidy.com/actualites/scpi-sofidy-les-bulletins-trimestriels-du-2eme-trimestre-2026/",
+      "official_annual_report": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+      "source_period": "2026-T2",
+      "status": "DISCOVERED_ONLY",
+      "note": "Financial values and per-page hints remain unapproved. PDF source verification must precede candidate staging and publication.",
+      "documents": [
+        {
+          "kind": "quarterly",
+          "reference_period": "2026-T2",
+          "url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+          "page_hints": [
+            {
+              "field": "tof",
+              "page": 4,
+              "token": "97,73"
+            },
+            {
+              "field": "prix_souscription",
+              "page": 5,
+              "token": "320"
+            },
+            {
+              "field": "prix_reconstitution",
+              "page": 5,
+              "token": "336,75"
+            },
+            {
+              "field": "valeur_realisation",
+              "page": 5,
+              "token": "305,55"
+            }
+          ],
+          "review_pages": [
+            1,
+            2,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "kind": "quarterly",
+          "reference_period": "2026-T1",
+          "url": "https://www.sofidy.com/app/uploads/2026/05/SOFIDYNAMIC-BT-1T-2026.pdf",
+          "page_hints": [],
+          "review_pages": [
+            1,
+            5
+          ]
+        },
+        {
+          "kind": "annual",
+          "reference_period": "2025-RA",
+          "url": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+          "page_hints": [
+            {
+              "field": "td",
+              "page": 3,
+              "token": "9,04"
+            }
+          ],
+          "review_pages": [
+            3,
+            9
+          ]
+        },
+        {
+          "kind": "dic",
+          "reference_period": "2026-REG",
+          "url": "https://www.sofidy.com/app/uploads/2024/01/DIC-DYN-072026-FR-1-3197-1.pdf",
+          "page_hints": [],
+          "review_pages": [
+            1,
+            2
+          ]
+        },
+        {
+          "kind": "note",
+          "reference_period": "2026-REG",
+          "url": "https://www.sofidy.com/app/uploads/2024/01/NI-DYN-072026-FR-2-3146.pdf",
+          "page_hints": [],
+          "review_pages": [
+            1,
+            2
+          ]
+        },
+        {
+          "kind": "statutes",
+          "reference_period": "2025-REG",
+          "url": "https://www.sofidy.com/app/uploads/2024/01/ST-DY-072025-FR-1-2348.pdf",
+          "page_hints": [],
+          "review_pages": [
+            1,
+            2
+          ]
+        }
+      ],
+      "role": "reference_pilot",
+      "management_company": "Tikehau Investment Management",
+      "product_page": "https://www.sofidy.com/solutions/sofidynamic/",
+      "annual_period": "2025-RA",
+      "regulatory_period": "2026-REG",
+      "claims": [
+        {
+          "id": "valuation_340_38",
+          "tokens": [
+            "340,38",
+            "340.38"
+          ]
+        },
+        {
+          "id": "historical_336_75",
+          "tokens": [
+            "336,75",
+            "336.75"
+          ]
+        },
+        {
+          "id": "flow_stock_delta",
+          "tokens": [
+            "773 714",
+            "773714",
+            "101 076",
+            "101076"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "opus-real",
+      "name": "Opus Real",
+      "role": "additional_pilot",
+      "management_company": "BNP Paribas REIM France",
+      "issuer_hosts": [
+        "reim.bnpparibas-am.com",
+        "reim.bnpparibas.com"
+      ],
+      "product_page": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
+      "source_period": "2026-T2",
+      "annual_period": "2025-RA",
+      "regulatory_period": "2026-REG",
+      "profile": "capital_variability_suspended_secondary_market",
+      "claims": [
+        {
+          "id": "liquidity_regime",
+          "tokens": [
+            "5 mars 2026",
+            "marché secondaire"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "aew-opportunites-europe",
+      "name": "AEW Opportunités Europe",
+      "role": "additional_pilot",
+      "management_company": "AEW Patrimoine",
+      "issuer_hosts": [
+        "www.aewpatrimoine.com",
+        "aewpatrimoine.com"
+      ],
+      "product_page": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
+      "source_period": "2026-T3",
+      "annual_period": "2025-RA",
+      "regulatory_period": "2026-REG",
+      "profile": "renamed_existing_fund_document_history",
+      "claims": [
+        {
+          "id": "historical_identity",
+          "tokens": [
+            "FRUCTIREGIONS EUROPE",
+            "FRUCTIRÉGIONS EUROPE"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cristal-care",
+      "name": "CRISTAL Care",
+      "role": "additional_pilot",
+      "management_company": "Inter Gestion REIM",
+      "issuer_hosts": [
+        "www.inter-gestion.com",
+        "inter-gestion.com",
+        "corpocdn.blob.core.windows.net"
+      ],
+      "product_page": "https://www.inter-gestion.com/corpo/cristal-care",
+      "source_period": "2026-T3",
+      "annual_period": "2025-RA",
+      "regulatory_period": "2026-REG",
+      "profile": "launch_2026_no_assumed_annual_history",
+      "claims": [
+        {
+          "id": "launch_price_not_performance",
+          "tokens": [
+            "176",
+            "200"
+          ]
+        }
+      ]
+    }
+  ],
+  "publication_authorized": false
+}

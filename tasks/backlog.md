@@ -154,3 +154,9 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Périmètre : scripts et CI d'onboarding, preuve navigateur de trajectoire, plugin Netlify, utilitaire navigateur de build, migration d'alignement du gate d'allocation préparée sans application, audit et preuves de lecture seule.
 - Livrable : `docs/scpi/RECOVERY-091-industrialisation.md`. Sofidynamic publiée avec réserves, certification complète bloquée. Les statuts récents, l'écart de 15 parts, les revues et le read-back courant restent explicitement non résolus.
 - Branche : `recovery/091-scpi-certification-industrialisation`. La branche dédiée demandée par le propriétaire prime sur l'ancienne consigne de branche Recovery unique. Aucun changement de composant produit.
+
+## RECOVERY-092 — Démonstration industrielle multi-émetteurs (04/11/2026)
+
+- Mission utilisateur jointe : reprendre #292 et ses deux commits d'indication datée, mesurer la maturité avec grille 15/15/15/20/15/10/10, vérifier Sofidynamic puis exécuter trois pilotes non publics de gestionnaires distincts.
+- Périmètre autorisé : réutilisation du résolveur documentaire, auditeur PDF et gates existants, orchestration bornée et reprise par contenu, contrôles adverses, preuves de CI, tests TypeScript/navigateur, rapport mesuré ; aucun composant UI recréé.
+- Aucune promotion financière, migration distante ou livraison sans chaîne de validation complète. La valeur 340,38 EUR reste une revendication à prouver, jamais une donnée de production déduite d'une fixture.
