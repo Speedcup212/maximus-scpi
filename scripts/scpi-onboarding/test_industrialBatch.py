@@ -47,3 +47,29 @@ class IndustrialBatchTests(unittest.TestCase):
    with self.assertRaisesRegex(ValueError,'UNREGISTERED_DECLARED_DOCUMENT'):batch.run_candidate(c,Path(d),lambda u:(b'<html></html>',u))
 
 if __name__=='__main__':unittest.main()
+
+class SourceBudgetRegression(unittest.TestCase):
+ def test_archived_bulletins_cannot_starve_regulatory_documents(self):
+  links=[{'kind':'quarterly','url':str(i)} for i in range(50)]
+  links += [{'kind':k,'url':k} for k in ['dic','note','statutes','annual']]
+  selected=batch.select_documents(links)
+  self.assertEqual({d['kind'] for d in selected},{'quarterly','dic','note','statutes','annual'})
+  self.assertLessEqual(len(selected),batch.MAX_DOCUMENTS)
+ def test_new_quarter_is_detected_from_document_not_forced_to_stale_manifest(self):
+  pdf=fitz.open();pdf.new_page().insert_text((50,50),'Fund - Bulletin T3 2026')
+  raw=pdf.tobytes();pdf.close()
+  self.assertEqual(batch.detected_period(raw,'quarterly','2026-T2'),'2026-T3')
+ def test_numeric_substring_is_not_a_financial_fact(self):
+  pdf=fitz.open();pdf.new_page().insert_text((50,50),'Directive 2006. Price 200 EUR')
+  raw=pdf.tobytes();pdf.close()
+  hits=batch.inspect_numeric_contexts(raw,'https://issuer.test/a.pdf',[{'id':'price','tokens':['200']}])
+  self.assertEqual(len(hits),1)
+
+class SemiannualPeriodRegression(unittest.TestCase):
+ def test_analysis_period_is_not_validity_period(self):
+  pdf=fitz.open();pdf.new_page().insert_text((40,40),'Bulletin semestriel - Analyse : 1er janvier au 30 juin 2026 - Validite : 2eme semestre 2026')
+  raw=pdf.tobytes();pdf.close()
+  self.assertEqual(batch.detected_period(raw,'semiannual','2026-T3'),'2026-S1')
+ def test_document_budget_retains_both_semiannual_and_quarterly(self):
+  docs=[{'kind':'semiannual','url':str(i)} for i in range(20)]+[{'kind':k,'url':k} for k in ['quarterly','dic','note','statutes','annual']]
+  self.assertEqual({d['kind'] for d in batch.select_documents(docs)},{'semiannual','quarterly','dic','note','statutes','annual'})

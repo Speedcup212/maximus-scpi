@@ -18,7 +18,7 @@ import urllib.request
 
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parent/'agents'))
-from bulletin_source_resolver import parse_html, document_link, norm
+from bulletin_source_resolver import parse_html, document_link, norm, issue_hints
 from bulletin_source_transport import ssl_context
 from publisherPdfAudit import audit_document, normalize, MAX_BYTES
 import fitz
@@ -80,9 +80,36 @@ class Transport:
 
 def document_kind(url,label):
     text=norm(label+' '+urllib.parse.unquote(url))
+    if re.search(r'bulletin.*semestr|\bbs[_ -]|[12]s[_ -]?20\d{2}',text):return 'semiannual'
     for kind,pattern in [('dic',r'\bdic\b|informations?.?cles|key.information'),('statutes',r'statuts|statutes|st[-_]dy'),('note',r'note.*information|ni[-_]dyn'),('annual',r'rapport.*annuel|annual.*report|rapport.*202[0-9]'),('quarterly',r'bulletin|trimestr|\bbti?\b|[tq][1-4].*202[0-9]')]:
         if re.search(pattern,text):return kind
     return None
+
+
+def select_documents(links):
+    # Historical bulletins must not exhaust the budget before DIC/legal/RA.
+    # Preserve discovery order within each kind (issuers generally list newest first).
+    groups={kind:[] for kind in ['quarterly','semiannual','dic','note','statutes','annual']}
+    for link in links:
+        if link['kind'] in groups:groups[link['kind']].append(link)
+    return [item for round_ in range(2) for kind,items in groups.items() for item in items[round_:round_+1]][:MAX_DOCUMENTS]
+
+
+def detected_period(raw,kind,fallback):
+    if kind not in ('quarterly','semiannual'):return fallback
+    with fitz.open(stream=raw,filetype='pdf') as pdf:
+        opening=pdf[0].get_text(sort=True)
+    if kind=='semiannual':
+        text=normalize(opening)
+        for sem,interval in [('1',r'(?:1er|1)\s+janvier\s+au\s+30\s+juin'),('2',r'(?:1er|1)\s+juillet\s+au\s+31\s+decembre')]:
+            m=re.search(r'analyse\s*:\s*'+interval+r'\s+(20\d{2})',text)
+            if m:return m.group(1)+'-S'+sem
+        raise ValueError('SEMIANNUAL_ANALYSIS_DATE_NOT_FOUND')
+    hints=issue_hints(opening)
+    if len(hints)==1:return next(iter(hints))
+    # A filename/upload month is never an effective financial reference date.
+    if not hints:raise ValueError('QUARTER_TITLE_PERIOD_NOT_DETECTED')
+    raise ValueError('AMBIGUOUS_QUARTER_TITLE_PERIOD')
 
 
 def inspect_numeric_contexts(raw,source,claims):
@@ -95,7 +122,7 @@ def inspect_numeric_contexts(raw,source,claims):
             text=page.get_text(sort=True)
             for claim in claims:
                 for token in claim['tokens']:
-                    for match in re.finditer(re.escape(token),text):
+                    for match in re.finditer(r'(?<!\d)'+re.escape(token)+r'(?!\d)',text):
                         start=max(0,match.start()-220);end=min(len(text),match.end()+350)
                         excerpt=text[start:end]
                         hits.append({'claim':claim['id'],'token':token,'page':p+1,'source_url':source,
@@ -143,9 +170,9 @@ def run_candidate(c,out,fetcher=None):
                 target=link['url']
                 if not allowed(target,c['issuer_hosts']):continue
                 kind=document_kind(target,link['text'])
-                if document_link(target,link['text']) and kind:
+                if kind and (document_link(target,link['text']) or re.search(r'/documents?/|/download',urllib.parse.urlsplit(target).path)):
                     links[target]={'url':target,'kind':kind,'label':link['text'],'publisher_page':url,'publisher_page_sha256':page['sha256']}
-                elif len(queue)<MAX_PAGES and re.search('document|telecharg|download',norm(link['text'])) and urllib.parse.urlsplit(target).hostname==urllib.parse.urlsplit(url).hostname:
+                elif not document_link(target,link['text']) and len(queue)<MAX_PAGES and re.search('document|telecharg|download',norm(link['text'])) and urllib.parse.urlsplit(target).hostname==urllib.parse.urlsplit(url).hostname:
                     queue.append(target)
         except Exception as error:
             result['pages'].append({'url':url,'status':'UNVERIFIED','error':str(error)[:200]})
@@ -154,8 +181,7 @@ def run_candidate(c,out,fetcher=None):
         if not allowed(doc['url'],c['issuer_hosts']):raise ValueError('UNREGISTERED_DECLARED_DOCUMENT')
         links.setdefault(doc['url'],{**doc,'publisher_page':c['product_page'],'discovery_basis':'DECLARED_OFFICIAL_SOURCE_REQUIRES_BINARY_CHECK'})
     result['stages']['discovery']={'status':'SOURCE_LINKS_FOUND' if links else 'BLOCKED','links_found':len(links)}
-    priority={'quarterly':0,'dic':1,'note':2,'statutes':3,'annual':4}
-    for link in sorted(links.values(),key=lambda d:priority[d['kind']])[:MAX_DOCUMENTS]:
+    for link in select_documents(list(links.values())):
         record={**link,'status':'UNVERIFIED'}
         try:
             raw,final=transport(link['url'])
@@ -166,7 +192,8 @@ def run_candidate(c,out,fetcher=None):
                 if pdf.needs_pass:raise ValueError('ENCRYPTED_PDF')
                 pages=[{'page':i+1,'text':p.get_text(sort=True)} for i,p in enumerate(pdf)]
             (out/(digest+'.pages.json')).write_text(json.dumps(pages,ensure_ascii=False))
-            period=link.get('reference_period') or (c.get('source_period') if link['kind']=='quarterly' else c.get('annual_period') if link['kind']=='annual' else c.get('regulatory_period'))
+            period=link.get('reference_period') or detected_period(raw,link['kind'],
+                c.get('source_period') if link['kind'] in ('quarterly','semiannual') else c.get('annual_period') if link['kind']=='annual' else c.get('regulatory_period'))
             if not period:raise ValueError('DOCUMENT_PERIOD_NOT_ESTABLISHED')
             verified=audit_document({'kind':link['kind'],'reference_period':period,'url':link['url']},
                 {'name':c['name'],'issuer_hosts':c['issuer_hosts']},lambda _: (raw,final))
@@ -180,6 +207,7 @@ def run_candidate(c,out,fetcher=None):
     result['stages']['normalization']={'status':'CANDIDATE_TEXT_ONLY_NO_FINANCIAL_PROMOTION','numeric_candidates':len(result['source_claim_occurrences'])}
     kinds={d['kind'] for d in good}
     for kind in ['quarterly','dic','note','statutes','annual']:
+        if kind=='quarterly' and 'semiannual' in kinds:continue
         if kind not in kinds:result['blockers'].append('MISSING_VERIFIED_'+kind.upper())
     result['blockers']+=['FIELD_LEVEL_FINANCIAL_QA_REQUIRED','ALLOCATION_QA_REQUIRED','ACCOUNTABLE_RELEASE_REVIEW_REQUIRED','AUTHENTICATED_SIX_SURFACE_PREFLIGHT_REQUIRED']
     result['stages']['certification']={'status':'BLOCKED','reason':'SOURCE_VERIFICATION_IS_NOT_FINANCIAL_OR_REGULATORY_SIGNOFF'}

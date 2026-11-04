@@ -61,3 +61,8 @@ test('snapshot repair never claims live certification',()=>{
  assert.equal(report.live_certification_verified,false);
  assert.equal(report.publication_authorized,false);
 });
+test('safe repair reports exactly the affected controls plus baseline preservation',()=>{
+ const {report}=check(x=>{x.capitalisation_million_eur=247588480});
+ assert.deepEqual(report.affected_controls,['scripts/scpi-onboarding/candidateConsistency.test.mjs','scripts/scpi-onboarding/cohortInvariant.test.mjs']);
+ assert.deepEqual(safeRepairCandidate(original).report.affected_controls,[]);
+});

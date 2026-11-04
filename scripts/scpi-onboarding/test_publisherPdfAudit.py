@@ -108,3 +108,12 @@ class PublisherPdfTest(unittest.TestCase):
             audit_manifest({"schema_version":1,"mode":"new","candidate":c})
 
 if __name__=="__main__":unittest.main()
+
+class SemiannualAuditTests(unittest.TestCase):
+ def test_semester_analysis_is_not_validity_or_quarter(self):
+  c=candidate();raw=pdf_bytes('SOFIDYNAMIC Bulletin semestriel Analyse : 1er janvier au 30 juin 2026 Validite : 2eme semestre 2026')
+  doc={'kind':'semiannual','reference_period':'2026-S1','url':URL}
+  result=audit_document(doc,c,lambda _:(raw,URL))
+  self.assertTrue(result['fund_and_period_identity_pass']);self.assertFalse(result['financial_metrics_certified'])
+  with self.assertRaisesRegex(ValueError,'SEMIANNUAL_ANALYSIS_PERIOD_UNCONFIRMED'):audit_document({**doc,'reference_period':'2026-S2'},c,lambda _:(raw,URL))
+  with self.assertRaisesRegex(ValueError,'QUARTER_TITLE_UNCONFIRMED'):audit_document({**doc,'kind':'quarterly','reference_period':'2026-T2'},c,lambda _:(raw,URL))

@@ -33,6 +33,23 @@ export function validDate(value) {
   const parsed = new Date(value + 'T00:00:00Z');
   return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
 }
+export function financialSemanticsErrors(indicator) {
+  const errors=[];
+  const units={prix_souscription:'EUR_PER_PART',prix_reconstitution:'EUR_PER_PART',
+    valeur_realisation:'EUR_PER_PART',prix_retrait:'EUR_PER_PART',capitalisation:'MILLION_EUR',
+    td:'PERCENT',tof:'PERCENT',endettement:'PERCENT',walt:'YEARS',walb:'YEARS'};
+  for(const [field,unit] of Object.entries(units)) {
+    if(indicator?.[field]==null)continue;
+    const proof=indicator.metric_provenance?.[field];
+    // Older structural snapshots can omit units; never silently approve a
+    // contradictory unit or a proof explicitly attached to another metric.
+    if(proof?.unit && proof.unit!==unit)errors.push(field+':UNIT_SEMANTICS_MISMATCH');
+    if(proof?.metric && proof.metric!==field)errors.push(field+':METRIC_IDENTITY_MISMATCH');
+  }
+  if(Number.isFinite(indicator?.walt)&&Number.isFinite(indicator?.walb)&&indicator.walb>indicator.walt)
+    errors.push('WALT_WALB_ORDER_INCONSISTENT');
+  return errors;
+}
 export function validateCohort(cohort, specs, mode = 'new') {
   const errors = [];
   const slugs = cohort?.slugs;
@@ -66,6 +83,7 @@ export function assessCandidate(spec, snapshot, catalog) {
   if (!Array.isArray(hosts) || !hosts.length || hosts.some(host => !/^[a-z0-9.-]+$/.test(host)))
     errors.push('ISSUER_HOSTS_INVALID');
   const indicator = i[0] || {};
+  errors.push(...financialSemanticsErrors(indicator));
   const analysis = a[0] || {};
   if (indicator.source_period !== spec.source_period || analysis.current_period !== spec.source_period)
     errors.push('PERIOD_MISMATCH');

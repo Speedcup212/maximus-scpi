@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inspectPrivateCandidate } from './candidateConsistency.mjs';
+import {spawnSync} from 'node:child_process';
 
 const ROOT = path.resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const FIXTURES = path.join(ROOT, 'scripts/scpi-onboarding/fixtures');
@@ -11,6 +12,16 @@ const STAGE_NAME = /^[a-z0-9]+(?:-[a-z0-9]+)*-staging-[0-9a-z-]+\.json$/;
 const SHA = /^[a-f0-9]{64}$/;
 const PERIOD = /^20\d{2}-T[1-4]$/;
 const MAX_PASSES = 2;
+export function affectedRepairControls(actions) {
+  const controls=new Set();
+  for(const action of actions) {
+    if(action.code==='RECALCULATE_DERIVED_CAPITALISATION_MEUR')controls.add('scripts/scpi-onboarding/candidateConsistency.test.mjs');
+    else if(action.code==='ORDER_SOURCE_QUARTERS_ASC')controls.add('scripts/scpi-onboarding/datedEvidence.test.mjs');
+    else throw Error('UNREGISTERED_REPAIR_CONTROL:'+action.code);
+  }
+  if(controls.size)controls.add('scripts/scpi-onboarding/cohortInvariant.test.mjs');
+  return [...controls].sort();
+}
 
 const BLOCKER_ACTIONS = Object.freeze({
   CURRENT_STATUTES_NOT_VERIFIED: 'RECOVER_CURRENT_OFFICIAL_STATUTES_AND_VERIFY_BINARY',
@@ -114,6 +125,7 @@ export function safeRepairCandidate(input) {
       before: { status: before.status, errors: before.errors },
       after: { status: after.status, errors: after.errors },
       actions, rejected,
+      affected_controls: affectedRepairControls(actions),
       remaining_technical_errors: remainingTechnical,
       pending_gates: pendingGates.map(code => ({
         code, action: BLOCKER_ACTIONS[code] || (
@@ -164,6 +176,15 @@ export function runCli(args = process.argv.slice(2)) {
     candidates: results, auto_repaired_count: results.filter(r => r.changed).length,
     candidates_with_pending_gates: results.filter(r => r.pending_gates.length).length,
     publication_authorized: false };
+  if(args.includes('--retest')) {
+    const controls=[...new Set(results.flatMap(r=>r.affected_controls))].sort();
+    if(controls.length) {
+      const check=spawnSync(process.execPath,['--test',...controls],{cwd:ROOT,encoding:'utf8',timeout:120000});
+      out.targeted_retest={status:check.status===0&&!check.error?'PASS':'FAIL',controls,exit_code:check.status};
+      process.stdout.write(check.stdout||'');process.stderr.write(check.stderr||'');
+      if(out.targeted_retest.status==='FAIL')process.exitCode=1;
+    } else out.targeted_retest={status:'NOT_NEEDED_NO_SAFE_CORRECTION',controls:[]};
+  }
   const dest = path.resolve(ROOT, args[reportAt + 1]);
   if (!dest.startsWith(ROOT + path.sep) ||
       !dest.includes('/test-results/scpi-auto-recovery/'))

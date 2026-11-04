@@ -28,7 +28,7 @@ jobs:
       - name: Test safe repairs, hostile inputs and financial invariants
         run: node --test scripts/scpi-onboarding/autoRemediate.test.mjs scripts/scpi-onboarding/candidateConsistency.test.mjs
       - name: Detect, repair strictly derived stage metadata, recheck and write JSON report
-        run: node scripts/scpi-onboarding/autoRemediate.mjs --scan --write --report test-results/scpi-auto-recovery/automatic.json
+        run: node scripts/scpi-onboarding/autoRemediate.mjs --scan --write --retest --report test-results/scpi-auto-recovery/automatic.json
       - name: Revalidate after safe repair
         if: success()
         run: node --test scripts/scpi-onboarding/autoRemediate.test.mjs scripts/scpi-onboarding/candidateConsistency.test.mjs
