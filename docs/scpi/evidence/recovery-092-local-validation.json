@@ -96,6 +96,30 @@
         "src/utils/yieldDisplay.ts(40,50): error TS7006: Parameter 'g' implicitly has an 'any' type."
       ],
       "expected_status": "FAIL_PREEXISTING_1023"
+    },
+    {
+      "name": "pdf_caption_regression_41",
+      "sha256": "2ffcfc80cf8a76fb94f4ffdf42b7e300978fa7a260a4135beabf2753641584db",
+      "tail": [
+        ".........................................",
+        "----------------------------------------------------------------------",
+        "Ran 41 tests in 0.686s",
+        "",
+        "OK"
+      ],
+      "expected_status": "PASS"
+    },
+    {
+      "name": "all_legacy_agents_after_caption_fix_80",
+      "sha256": "0082aa0a67904197ed6de616fa4d17d234828c1cd4db22034dff485c626279a9",
+      "tail": [
+        "................................................................................",
+        "----------------------------------------------------------------------",
+        "Ran 80 tests in 0.754s",
+        "",
+        "OK"
+      ],
+      "expected_status": "PASS"
     }
   ],
   "six_surfaces": {

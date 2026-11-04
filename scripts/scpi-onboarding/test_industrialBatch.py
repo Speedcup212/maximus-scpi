@@ -99,6 +99,18 @@ class RetryBudgetRegression(unittest.TestCase):
    self.assertEqual(len(t.attempts),expected)
 
 class SharedFinancialParserRegression(unittest.TestCase):
+ def test_withdrawal_explanation_cannot_label_subscription_price_even_with_two_readers(self):
+  f=batch.bulletin_fields
+  words=[(10,10,120,20,'PRIX DE RETRAIT'),(10,25,100,35,'313,6 €'),(10,40,130,50,'au prix de souscription,')]
+  extracted=f.extract(['PRIX DE RETRAIT 313,6 € au prix de souscription,'],[words],[400],'2026-T3')
+  metrics,proofs,coverage,_=f.reconcile(extracted,extracted)
+  self.assertNotIn('prix_souscription',metrics)
+  self.assertEqual(coverage['prix_souscription'],'needs_review')
+  self.assertEqual(metrics['prix_retrait'],313.6)
+  # The genuine labelled subscription figure is still accepted.
+  real=[(10,10,150,20,'PRIX DE SOUSCRIPTION 320 €')]
+  parsed=f.extract(['PRIX DE SOUSCRIPTION 320 €'],[real],[400],'2026-T3')
+  self.assertEqual(f.reconcile(parsed,parsed)[0]['prix_souscription'],320)
  def test_same_existing_geometry_parser_supports_semester_without_faking_quarter(self):
   self.assertEqual(batch.bulletin_fields.end_date('2026-S1'),'2026-06-30')
   self.assertEqual(batch.bulletin_fields.end_date('2026-S2'),'2026-12-31')

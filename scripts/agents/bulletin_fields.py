@@ -101,6 +101,9 @@ def text(ws):return ' '.join(w[4] for w in sorted(ws,key=lambda w:w[0]))
 def caption_only(label,patterns,unit):
     """Editorial prose, examples and definitions cannot act as a chart caption."""
     n=norm(label)
+    # Explanatory prose below a withdrawal price is not a subscription
+    # caption, even when both PDF engines reproduce the same geometry.
+    if re.match(r'^au prix (?:de )?souscription\b',n):return False
     if len(n)>140 or re.search(r'comprendre|exemple|objectif|maxim|autorise|limite|nets? de frais|mais brut|est defini|correspond|promesse|malgre',n):return False
     n=DATE.sub(' ',n)
     n=AMOUNT.sub(' ',n);n=PERCENT.sub(' ',n)

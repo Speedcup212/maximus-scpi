@@ -67,13 +67,14 @@ Les [preuves des passages réels](evidence/recovery-092-industrial-trial.json) r
 8. **WALT/WALB, identités de métriques et unités non contrôlés explicitement.** Préflight enrichi : inversion incompatible, preuve attachée à l'autre métrique et EUR/M€ contradictoires refusés. Les snapshots historiques sans unité ne sont pas rétroactivement proclamés certifiés.
 9. **Retests globaux sans lien avec la correction.** Le remédiateur expose les seuls contrôles touchés et les exécute avec `--retest`, plus la préservation de cohorte. Un essai isolé d'erreur EUR/M€ l'a exécuté : 10 tests PASS, aucune écriture de source ni approbation.
 10. **Perte de collecte lors d’une indisponibilité ultérieure.** Les liens officiels déjà observés sont conservés avec URL/empreinte de la page émetteur et ancien SHA PDF ; tout document est retéléchargé et vérifié au passage suivant. La conservation ne certifie ni sa fraîcheur ni son contenu financier. Deux tests couvrent le rejet de provenance externe et la reprise quand la page produit répond 403.
-11. **Score industriel pouvant masquer un échec.** Grille calculée, preuves obligatoires et veto critiques ; le test à 100 points avec un contrôle critique faux reste NO GO. Le nouveau workflow d'admission exécute réellement TypeScript et refuse le seuil insuffisant.
+11. **Deux lecteurs reproduisant une même mauvaise association.** Le passage réel `7772130` associait la phrase « au prix de souscription, » au prix de retrait 313,60 €. Le parseur partagé rejette cette prose comme légende de souscription ; le test permanent vérifie aussi que le vrai libellé 320 € reste accepté. Aucun montant source ni catalogue modifié. Les propositions du passage antérieur ne deviennent pas des valeurs certifiées.
+12. **Score industriel pouvant masquer un échec.** Grille calculée, preuves obligatoires et veto critiques ; le test à 100 points avec un contrôle critique faux reste NO GO. Le nouveau workflow d'admission exécute réellement TypeScript et refuse le seuil insuffisant.
 
 ## Tests et sécurité
 
 - Suite applicative avec les propositions de décote : **270/270 PASS**, 35 fichiers.
 - Onboarding/plugin/maturité et corpus financier adversarial : **114 PASS**, validation YAML du workflow d'admission incluse.
-- PDF/collecte industrielle : **40 PASS** ; parseurs financiers/transport historiques : **55 PASS** ; résolveur ciblé : **18 PASS**.
+- PDF/collecte industrielle : **41 PASS** ; parseurs financiers/transport historiques : **55 PASS** ; résolveur ciblé : **18 PASS**. Après le correctif de légende, l’ensemble des tests historiques des agents a été relancé : **80 PASS**.
 - SQL éphémère : PASS sur la migration d'arrondi de RECOVERY-091, sans application distante. SHA, période, page, QA, doublons et droits restent bloquants.
 - Six surfaces Sofidynamic : **10 cas PASS** sur fiche, comparateur, radar, simulateur et espace client, complétés par **2 cas PASS** de trajectoire. Données sourcées interceptées en local, jamais déclarées test de production. Restrictions de comparaison/recommandation maintenues.
 - TypeScript global : **FAIL, 1 023 diagnostics préexistants**, dont 606 TS6133. Même résultat normalisé avant/après, zéro message ajouté ou retiré y compris après le test de proposition sourcée. Ces erreurs ne sont pas retirées des exigences ni neutralisées dans `tsconfig`.
