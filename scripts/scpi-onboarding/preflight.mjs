@@ -3,11 +3,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { reconcileDatedValues } from './datedEvidence.mjs';
+import { reconcileDatedValues, reportingPeriodEnd } from './datedEvidence.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const SHA = /^[a-f0-9]{64}$/;
-const PERIOD = /^20\d{2}-T[1-4]$/;
+const PERIOD = /^20\d{2}-(?:T[1-4]|S[12])$/;
 const ANNUAL = /^20\d{2}-RA$/;
 const DAY = /^20\d{2}-\d\d-\d\d$/;
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -146,11 +146,10 @@ export function assessCandidate(spec, snapshot, catalog) {
     }
     if (proof.reference_date === period && period === spec.source_period && !dated)
       warnings.push(field + ':PERIOD_ONLY_REFERENCE');
-    const endOfPeriod = new Date(Date.UTC(Number(spec.source_period.slice(0, 4)),
-      Number(spec.source_period.slice(-1)) * 3, 0)).toISOString().slice(0, 10);
+    const endOfPeriod = reportingPeriodEnd(spec.source_period);
     if (typeof proof.value_numeric === 'number' && proof.value_numeric !== value)
       errors.push(field + ':SOURCE_NUMERIC_VALUE_MISMATCH');
-    if (dated && validDate(proof.reference_date) && proof.reference_date > endOfPeriod) {
+    if (dated && endOfPeriod && validDate(proof.reference_date) && proof.reference_date > endOfPeriod) {
       errors.push(field + ':FUTURE_VALUATION_DATE');
     }
     if (period === spec.source_period && proof.source_url !== indicator.source_url)
