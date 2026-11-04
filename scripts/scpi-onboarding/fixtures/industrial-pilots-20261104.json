@@ -12,7 +12,7 @@
       "official_product_page": "https://www.sofidy.com/solutions/sofidynamic/",
       "official_bulletins_page": "https://www.sofidy.com/actualites/scpi-sofidy-les-bulletins-trimestriels-du-2eme-trimestre-2026/",
       "official_annual_report": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
-      "source_period": "2026-T2",
+      "source_period": "2026-T3",
       "status": "DISCOVERED_ONLY",
       "note": "Financial values and per-page hints remain unapproved. PDF source verification must precede candidate staging and publication.",
       "documents": [
@@ -240,7 +240,7 @@
         "aewpatrimoine.com"
       ],
       "product_page": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
-      "source_period": "2026-T3",
+      "source_period": "2026-S1",
       "annual_period": "2025-RA",
       "regulatory_period": "2026-REG",
       "profile": "renamed_existing_fund_document_history",

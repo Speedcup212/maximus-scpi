@@ -221,6 +221,23 @@ def anomaly_ledger(report):
         'automatic_recovery_count':len(recoveries),'publication_authorized':False}
 
 
+
+def latest_verified_reporting_period(documents):
+    """Use only issuer-binary-verified financial periods; never infer one from filenames."""
+    pairs=[]
+    for d in documents:
+        if d.get('status')!='BINARY_IDENTITY_PERIOD_VERIFIED_ONLY' or d.get('kind') not in ('quarterly','semiannual'):
+            continue
+        period=d.get('reference_period')
+        end=bulletin_fields.end_date(period)
+        if end:pairs.append((end,period))
+    if not pairs:return None
+    recent=max(date for date,_ in pairs)
+    kinds={period for date,period in pairs if date==recent}
+    # Conflicting cadence labels on the same end date require an explicit review.
+    return next(iter(kinds)) if len(kinds)==1 else None
+
+
 def select_candidates(candidates,offset=0,limit=20):
     if type(offset) is not int or offset<0 or offset>=len(candidates):raise ValueError('INVALID_BATCH_OFFSET')
     if type(limit) is not int or not 1<=limit<=20:raise ValueError('BATCH_LIMIT_1_TO_20_REQUIRED')
@@ -315,7 +332,12 @@ def run_candidate(c,out,fetcher=None):
         except Exception as error:record['error']=str(error)[:240]
         result['documents'].append(record)
     good=[d for d in result['documents'] if d['status']=='BINARY_IDENTITY_PERIOD_VERIFIED_ONLY']
-    result['stages']['download']={'status':'TECHNICAL_PASS_ONLY' if good else 'BLOCKED','documents_verified':len(good)}
+    newest=latest_verified_reporting_period(good)
+    result['latest_verified_reporting_period']=newest
+    if newest and c.get('source_period')!=newest:
+        result['blockers'].append('SOURCE_PERIOD_MISMATCH_WITH_LATEST_VERIFIED_BULLETIN')
+    result['stages']['download']={'status':'TECHNICAL_PASS_ONLY' if good else 'BLOCKED','documents_verified':len(good),
+                                  'latest_verified_reporting_period':newest}
     parsed=[d for d in good if d.get('financial_extraction',{}).get('independent_readers_pass') is True]
     matched=sum(len(d['financial_extraction']['metrics']) for d in parsed)
     result['stages']['extraction']={'status':'DUAL_READER_PROPOSALS_ONLY' if parsed else 'NATIVE_TEXT_ONLY_FIELD_QA_REQUIRED','financial_documents_parsed':len(parsed)}

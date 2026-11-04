@@ -54,6 +54,18 @@ class IndustrialBatchTests(unittest.TestCase):
 
 if __name__=='__main__':unittest.main()
 
+class LatestOfficialPeriodRegression(unittest.TestCase):
+ def test_only_verified_financial_bulletins_establish_the_latest_period(self):
+  v=lambda kind,period,ok=True:{'kind':kind,'reference_period':period,
+    'status':'BINARY_IDENTITY_PERIOD_VERIFIED_ONLY' if ok else 'UNVERIFIED'}
+  self.assertIsNone(batch.latest_verified_reporting_period([v('dic','2026-REG')]))
+  self.assertEqual(batch.latest_verified_reporting_period([
+   v('quarterly','2026-T1'),v('quarterly','2026-T3',False),v('semiannual','2026-S1')]),'2026-S1')
+  self.assertEqual(batch.latest_verified_reporting_period([
+   v('quarterly','2026-T2'),v('quarterly','2026-T3')]),'2026-T3')
+  self.assertIsNone(batch.latest_verified_reporting_period([
+   v('quarterly','2026-T2'),v('semiannual','2026-S1')]))
+
 class SourceBudgetRegression(unittest.TestCase):
  def test_archived_bulletins_cannot_starve_regulatory_documents(self):
   links=[{'kind':'quarterly','url':str(i)} for i in range(50)]
