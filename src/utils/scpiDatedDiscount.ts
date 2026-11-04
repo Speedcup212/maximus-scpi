@@ -22,7 +22,7 @@ export function getScpiDatedDiscount(scpi: Scpi): DatedDiscount | null {
   if (!purchase || !valuation ||
       !purchase.reference_date || !valuation.reference_date ||
       !iso.test(purchase.reference_date) || !iso.test(valuation.reference_date) ||
-      !(valuation.reference_date < purchase.reference_date) ||
+      !(valuation.reference_date <= purchase.reference_date) ||
       !sha.test(purchase.pdf_sha256 || '') || !sha.test(valuation.pdf_sha256 || '') ||
       !/^https:\/\//.test(purchase.source_url || '') ||
       !/^https:\/\//.test(valuation.source_url || '') ||
@@ -43,7 +43,9 @@ export function getScpiDatedDiscount(scpi: Scpi): DatedDiscount | null {
     priceDate,
     valuationDate,
     comparisonLabel: 'Prix de souscription au ' + priceDate +
-      ' / dernière valeur de reconstitution disponible au ' + valuationDate +
-      '. Calcul historique indicatif, non utilisé pour une recommandation.'
+      ' / valeur de reconstitution au ' + valuationDate +
+      (valuation.reference_date === purchase.reference_date
+        ? '. Calcul daté indicatif, sans certification financière ni recommandation.'
+        : '. Calcul historique indicatif, non utilisé pour une recommandation.')
   };
 }
