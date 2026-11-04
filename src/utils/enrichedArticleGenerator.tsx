@@ -5,11 +5,7 @@
  */
 
 import React from 'react';
-import {
-  TrendingUp, Shield, CheckCircle, Euro, ArrowRight, Award,
-  Star, Building2, Globe, BarChart3, Target, Calculator,
-  PieChart, AlertTriangle, Clock, FileText, Users, Zap
-} from 'lucide-react';
+import { TrendingUp, CheckCircle, Euro, ArrowRight, Award, BarChart3, Target, PieChart, AlertTriangle, FileText, Zap } from 'lucide-react';
 import type { ArticleTemplate } from '../data/articleTemplatesConfig';
 import PieChart3DInteractive from '../components/PieChart3DInteractive';
 import GrowthChart from '../components/GrowthChart';

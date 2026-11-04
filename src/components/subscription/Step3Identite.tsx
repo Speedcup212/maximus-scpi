@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, ArrowRight, User, Mail, Phone, MapPin } from 'lucide-react';
+import { ArrowLeft, ArrowRight, User, Mail, Phone } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
 import { countries } from '../../utils/subscriptionLists';
 import { validateEmail, validatePhone, validatePostalCode } from '../../utils/subscriptionValidation';

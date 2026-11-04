@@ -6,7 +6,7 @@ import React from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { SCPIExtended } from '../data/scpiDataExtended';
-import { getComparisonWarning, needsComparisonWarning } from '../utils/yieldDisplay';
+import { needsComparisonWarning } from '../utils/yieldDisplay';
 
 interface ComparisonWarningProps {
   scpiList: (Scpi | SCPIExtended)[];

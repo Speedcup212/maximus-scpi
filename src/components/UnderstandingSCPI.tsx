@@ -1,9 +1,5 @@
 ﻿import React, { useState } from 'react';
-import {
-  Building2, TrendingUp, Euro, Users, FileText, CheckCircle, ChevronDown, ChevronUp,
-  Clock, Shield, Calculator, Briefcase, Home, Store, Cross, Warehouse,
-  BadgeCheck, AlertCircle, LineChart, PiggyBank, Receipt, Scale
-} from 'lucide-react';
+import { Building2, TrendingUp, Euro, Users, CheckCircle, ChevronDown, Clock, Shield, Calculator, Briefcase, Home, Store, Cross, Warehouse, BadgeCheck, AlertCircle, LineChart, PiggyBank, Receipt, Scale } from 'lucide-react';
 
 const UnderstandingSCPI: React.FC = () => {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);

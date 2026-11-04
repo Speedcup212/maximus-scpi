@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, ArrowRight, X, TrendingUp, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, TrendingUp, AlertTriangle } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
-import { validateAllocation, calculateAverageYield, calculateMinInvestment } from '../../utils/subscriptionValidation';
+import { calculateAverageYield, calculateMinInvestment } from '../../utils/subscriptionValidation';
 import { formatCurrency } from '../../utils/formatters';
 
 interface Step1ValidationProps {

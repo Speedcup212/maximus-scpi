@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, CheckCircle, AlertTriangle, FileCheck, UserCheck } from 'lucide-react';
+import { ArrowLeft, CheckCircle, AlertTriangle, FileCheck } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
 import EricAvatar from '../EricAvatar';
 import { DossierPdfDownload } from '../pdf/DossierPdf';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TrendingUp, AlertTriangle, Lightbulb, Target, Shield, BarChart3 } from 'lucide-react';
+import { AlertTriangle, Lightbulb, Target, Shield, BarChart3 } from 'lucide-react';
 import { ClientProfile } from '../types/riskProfile';
 import { Scpi } from '../types/scpi';
 import { generatePortfolioRecommendations, RecommendationResult } from '../utils/portfolioRecommendations';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, TrendingUp, Euro, Calculator, Clock, ChevronDown, ChevronRight, Shield, Loader2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, TrendingUp, Calculator, ChevronDown, ChevronRight, Shield, Loader2, AlertCircle } from 'lucide-react';
 import { getExpertSimulationById } from '../../utils/expertDossiersSupabase';
 import type { ExpertSimulationSnapshot } from '../../types/expertDossier';
 

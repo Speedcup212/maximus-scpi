@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, BookOpen, Scale, Lightbulb, Eye, Calculator, Home, Wrench, DollarSign, TrendingDown, Lock } from 'lucide-react';
+import { Building2, CheckCircle2, Users, User, Calendar, Clock, Scale, Lightbulb, Calculator, Home } from 'lucide-react';
 import ArticleCtaBlock from '../ArticleCtaBlock';
 
 export const ScpiOuImmobilierLocatifComparatif20AnsArticle: React.FC = () => {

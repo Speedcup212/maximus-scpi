@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inspectPrivateCandidate } from './candidateConsistency.mjs';
 import {spawnSync} from 'node:child_process';
+import {parseTypeScriptDiagnostics,repairUnusedImports} from './technicalDiagnostics.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const FIXTURES = path.join(ROOT, 'scripts/scpi-onboarding/fixtures');
@@ -150,6 +151,7 @@ function safeFixture(file) {
   return resolved;
 }
 export function runCli(args = process.argv.slice(2)) {
+  if(args.includes('--typescript-log'))return runTechnicalRepair(args);
   const scan = args.includes('--scan');
   const write = args.includes('--write');
   const fileAt = args.indexOf('--file');
@@ -196,6 +198,38 @@ export function runCli(args = process.argv.slice(2)) {
   // Unresolved SOURCE inconsistencies fail the workflow, while regulatory/QA
   // blockers are explicitly reported and leave the existing 68 published funds intact.
   if (results.some(r => r.remaining_technical_errors.length)) process.exitCode = 1;
+  return out;
+}
+
+export function runTechnicalRepair(args) {
+  const value=flag=>args[args.indexOf(flag)+1];
+  if(!args.includes('--report')||!args.includes('--typescript-log'))throw Error('TECHNICAL_REPORT_AND_LOG_REQUIRED');
+  const diagnostics=parseTypeScriptDiagnostics(fs.readFileSync(path.resolve(ROOT,value('--typescript-log')),'utf8'));
+  const prefix=value('--technical-scope');
+  if(!args.includes('--technical-scope')||!prefix?.startsWith('src/'))throw Error('EXPLICIT_SOURCE_SCOPE_REQUIRED');
+  const dest=path.resolve(ROOT,value('--report'));
+  if(!dest.startsWith(path.join(ROOT,'test-results/scpi-auto-recovery')+path.sep))throw Error('REPORT_OUTSIDE_SAFE_ARTIFACT_DIR');
+  fs.mkdirSync(path.dirname(dest),{recursive:true});
+  const write=args.includes('--write');const repairs=[];
+  const out={task:'RECOVERY-093',mode:write?'EMIT_EQUIVALENT_TECHNICAL_WRITE':'DRY_RUN',
+    diagnostic_count:diagnostics.length,repairs,auto_repaired_files:0,
+    full_typecheck_required:true,financial_qa_automatically_approved:false,publication_authorized:false};
+  const checkpoint=()=>{
+    out.auto_repaired_files=repairs.filter(r=>r.write_applied).length;
+    fs.writeFileSync(dest+'.tmp',JSON.stringify(out,null,2)+'\n');fs.renameSync(dest+'.tmp',dest);
+  };
+  checkpoint();
+  for(const file of [...new Set(diagnostics.map(d=>d.file))].sort()) {
+    if(!file.startsWith(prefix)||!/^src\/[\w/.-]+\.tsx?$/.test(file))continue;
+    const full=path.resolve(ROOT,file);
+    if(!full.startsWith(path.join(ROOT,'src')+path.sep))throw Error('UNTRUSTED_TECHNICAL_PATH');
+    if(!fs.realpathSync(full).startsWith(path.join(ROOT,'src')+path.sep))throw Error('UNTRUSTED_TECHNICAL_SYMLINK');
+    const original=fs.readFileSync(full,'utf8');const result=repairUnusedImports(original,file,diagnostics);
+    if(write&&result.report.applied)fs.writeFileSync(full,result.output);
+    if(result.report.applied){repairs.push({...result.report,write_applied:write});checkpoint();}
+  }
+  checkpoint();
+  console.log(JSON.stringify({mode:out.mode,auto_repaired_files:out.auto_repaired_files,proposed:repairs.length}));
   return out;
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

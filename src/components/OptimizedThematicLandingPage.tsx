@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  TrendingUp, Shield, CheckCircle, Phone, Mail, User, Euro,
-  ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf,
-  Target, Calculator, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck,
-  ChevronRight, ChevronLeft, Zap, MapPin, Recycle, Users, AlertCircle, Info
-} from 'lucide-react';
+import { Shield, CheckCircle, ArrowRight, Star, Building2, Globe, Target, Clock, ChevronRight, Zap } from 'lucide-react';
 import { thematicLandingPages, ThematicLandingPageData } from '../data/thematicLandingPages';
 import { getSemanticLinks } from '../data/semanticCocon';
 import MaximusLogoFooter from './MaximusLogoFooter';

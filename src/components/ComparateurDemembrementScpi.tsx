@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { TrendingUp, Building2, PieChart as PieChartIcon, Info, ArrowRight } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { TrendingUp, Building2, PieChart as PieChartIcon, Info } from 'lucide-react';
+
 
 // ============================================================================
 // TYPES

@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { X, TrendingUp, DollarSign, Calendar, BarChart3, FileText } from 'lucide-react';
+import React, { useEffect, useMemo } from 'react';
+import { X, TrendingUp, DollarSign, Calendar, FileText } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { useAllocation } from '../../contexts/AllocationContext';
 import PortfolioSummaryHeader from './PortfolioSummaryHeader';

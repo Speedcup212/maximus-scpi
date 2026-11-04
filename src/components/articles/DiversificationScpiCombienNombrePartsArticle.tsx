@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Building2, Shield, TrendingUp, AlertTriangle, CheckCircle2, Euro, Users, Target, User, Calendar, Clock, BarChart3, PieChart, Scale, Lightbulb, Eye, Calculator, Layers } from 'lucide-react';
+import { Shield, AlertTriangle, CheckCircle2, Target, User, Calendar, Clock, PieChart, Lightbulb, Layers } from 'lucide-react';
 import ArticleCtaBlock from '../ArticleCtaBlock';
 
 export const DiversificationScpiCombienNombrePartsArticle: React.FC = () => {

@@ -1,10 +1,10 @@
 import React from 'react';
-import { TrendingUp, Star, Award } from 'lucide-react';
+import { Star, Award } from 'lucide-react';
 import { Scpi } from '../types/scpi';
-import { formatCurrency, formatPercentage, getPerformanceColor, resolveDisplayedDiscount } from '../utils/formatters';
+import { getPerformanceColor, resolveDisplayedDiscount } from '../utils/formatters';
 import { getScpiDatedDiscount } from '../utils/scpiDatedDiscount';
 import { findScpiSlug, createSlugFromName } from '../utils/scpiSlugMapper';
-import {isPublishedWithReserves} from '../utils/scpiPublicationQuality';
+import { isPublishedWithReserves } from '../utils/scpiPublicationQuality';
 
 interface ScpiTableProps {
   scpiList: Scpi[];

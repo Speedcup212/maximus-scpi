@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calculator, CheckCircle2, Clock, PieChart, Target, User } from 'lucide-react';
+import { Calculator, Clock, PieChart, Target, User } from 'lucide-react';
 import SEOHead from './SEOHead';
 import SemanticLinks from './SemanticLinks';
 import { getSemanticLinks } from '../data/semanticCocon';

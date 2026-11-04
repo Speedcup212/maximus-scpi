@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import {
-  TrendingUp, Shield, CheckCircle, Phone, Mail, User, Euro,
-  ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf,
-  Target, Calculator, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck
-} from 'lucide-react';
+import { TrendingUp, Shield, CheckCircle, Phone, ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf, Target, MessageCircle, Clock, FileText, Lock, Eye, BadgeCheck } from 'lucide-react';
 import Logo from './Logo';
 import Header from './Header';
 import { submitLead } from '../utils/leadSubmitter';

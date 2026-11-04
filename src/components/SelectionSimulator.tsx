@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, DollarSign, Calculator, TrendingUp, PieChart as PieChartIcon, BarChart3, Download, Calendar, Phone, Building, MapPin, Target, Award } from 'lucide-react';
+import { X, DollarSign, Calculator, PieChart as PieChartIcon, BarChart3, Download, Phone, Building, MapPin, Target, Award } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { formatCurrency } from '../utils/formatters';
 import PieChart from './PieChart';

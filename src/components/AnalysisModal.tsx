@@ -5,8 +5,8 @@ import {
   Shield, Target, Calculator, ChevronDown
 } from 'lucide-react';
 import { Scpi } from '../types/scpi';
-import { formatCurrency, getPerformanceColor, resolveDisplayedDiscount } from '../utils/formatters';
-import { getScpiPresentation, getScpiAnalysis, getScpiNews, getScpiAdvantages, getScpiPointsAttention } from '../utils/scpiAnalysis';
+import { formatCurrency, resolveDisplayedDiscount } from '../utils/formatters';
+import { getScpiPresentation, getScpiAnalysis, getScpiAdvantages, getScpiPointsAttention } from '../utils/scpiAnalysis';
 import PieChart from './PieChart';
 import { getLatestScore } from '../utils/scpiScoreService';
 import { scoreToStars } from '../utils/scoreToStars';

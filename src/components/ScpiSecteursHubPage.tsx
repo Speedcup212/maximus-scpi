@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Building2, ShoppingCart, HeartPulse, Warehouse, Home, Hotel, TrendingUp, Users, Award, ExternalLink } from 'lucide-react';
+import { Building2, ShoppingCart, HeartPulse, Warehouse, Home, Hotel, TrendingUp, Award } from 'lucide-react';
 import SEOHead from './SEOHead';
 import SemanticLinks from './SemanticLinks';
 import { getSemanticLinks } from '../data/semanticCocon';

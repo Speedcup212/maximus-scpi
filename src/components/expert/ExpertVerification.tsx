@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, ShieldCheck, ExternalLink, CheckCircle2, AlertTriangle, XCircle, Building2, Mail, MapPin, Briefcase, Loader2 } from 'lucide-react';
+import { Search, ShieldCheck, ExternalLink, CheckCircle2, AlertTriangle, XCircle, Building2, Mail, Loader2 } from 'lucide-react';
 import {
   verifyExpertFirmSiret,
   getVerificationProfile,

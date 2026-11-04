@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, TrendingUp, Calculator, Edit3, Download, Target, PieChart, Award, DollarSign, Calendar, AlertTriangle } from 'lucide-react';
+import { X, Plus, TrendingUp, Calculator, Edit3, Target, PieChart, AlertTriangle } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from '../utils/formatters';

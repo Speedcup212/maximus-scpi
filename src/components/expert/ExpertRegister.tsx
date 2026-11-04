@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Building2, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Building2, Eye, EyeOff } from 'lucide-react';
 
 interface ExpertRegisterProps {
 }

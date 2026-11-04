@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { SubscriptionState, SubscriptionContextType, SubscriptionStep, CoSubscriberState } from '../types/subscription';
-import { validateEmail, validatePhone, validatePostalCode, validateNif } from '../utils/subscriptionValidation';
+import { validateEmail, validatePhone, validatePostalCode } from '../utils/subscriptionValidation';
 import { submitLead } from '../utils/leadSubmitter';
 
 const initialState: SubscriptionState = {

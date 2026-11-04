@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin, User, BarChart2, Eye } from 'lucide-react';
+import { Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, Calculator, FileText, ArrowRight, MapPin, User, BarChart2, Eye } from 'lucide-react';
 import { getDominantSector, groupScpisByDominantSector, SECTOR_DISPLAY_ORDER } from '../utils/dominantSector';
 import { getDominantGeography, groupScpisByDominantGeography, GEOGRAPHY_DISPLAY_ORDER } from '../utils/dominantGeography';
 import { createSlugFromName, findScpiSlug } from '../utils/scpiSlugMapper';

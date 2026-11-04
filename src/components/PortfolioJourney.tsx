@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TrendingUp, PieChart as PieChartIcon, BarChart3, Target, Award, Building, MapPin, Calendar, Download, Phone, Calculator, DollarSign, Shield, Info, CheckCircle, AlertTriangle, CreditCard as Edit3, X, Plus, ArrowRight, Star, Zap } from 'lucide-react';
+import { TrendingUp, PieChart as PieChartIcon, BarChart3, Target, Award, Building, MapPin, Download, Phone, Calculator, DollarSign, Shield, X, ArrowRight } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from '../utils/formatters';

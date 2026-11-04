@@ -2,13 +2,7 @@ import { Scpi } from '../types/scpi';
 import { getMaxScpiCount } from './portfolioAdaptation';
 import { normalizeGeoLabel } from './labelNormalization';
 import { calculateScpiDiscountPremium } from './scpiDiscountPremium';
-import { 
-  GuidedJourneyAnswers, 
-  PortfolioType, 
-  RiskLevel,
-  Portfolio,
-  PortfolioRecommendation 
-} from '../types/guidedJourney';
+import { GuidedJourneyAnswers, PortfolioType, Portfolio, PortfolioRecommendation } from '../types/guidedJourney';
 
 /**
  * Mappe le montant d'impôt annuel vers une TMI estimée

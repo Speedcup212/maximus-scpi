@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, CheckCircle, Shield, TrendingUp, Info, BarChart3, Building, PieChart as PieChartIcon, DollarSign, Calendar, MessageCircle, ArrowRight, Phone } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Info, BarChart3, PieChart as PieChartIcon, DollarSign, Calendar, ArrowRight, Phone } from 'lucide-react';
 import { CALENDLY_URL } from '../../config/calendly';
 import { PortfolioRecommendation, GuidedJourneyAnswers } from '../../types/guidedJourney';
 import { Scpi } from '../../types/scpi';
 import { scpiData } from '../../data/scpiData';
 import { analyzePortfolio } from '../../utils/portfolioAnalysis';
 import { normalizeGeoLabel, normalizeSectorLabel } from '../../utils/labelNormalization';
-import { adaptPortfolioToAmount, getMaxScpiCount } from '../../utils/portfolioAdaptation';
+import { adaptPortfolioToAmount } from '../../utils/portfolioAdaptation';
 import { createSlugFromName } from '../../utils/scpiSlugMapper';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import SectionRepliable from './SectionRepliable';

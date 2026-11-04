@@ -4,7 +4,7 @@ import SEOHead from './SEOHead';
 import Header from './Header';
 import Footer from './Footer';
 import { CookieConsent } from './CookieConsent';
-import { articleTemplates, getTemplateById, ArticleTemplate } from '../data/articleTemplatesConfig';
+import { articleTemplates, getTemplateById } from '../data/articleTemplatesConfig';
 import { generateArticleContent } from '../utils/articleGenerator';
 import { supabase } from '../supabaseClient';
 

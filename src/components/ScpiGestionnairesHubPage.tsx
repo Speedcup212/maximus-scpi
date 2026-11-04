@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, Award, TrendingUp, Users, Shield, Star, Globe, Target } from 'lucide-react';
+import { Building2, Award, TrendingUp, Users, Shield, Globe, Target } from 'lucide-react';
 import SEOHead from './SEOHead';
 import SemanticLinks from './SemanticLinks';
 import { getSemanticLinks } from '../data/semanticCocon';

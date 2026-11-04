@@ -4,14 +4,7 @@ import SEOHead from './SEOHead';
 import Header from './Header';
 import Footer from './Footer';
 import { CookieConsent } from './CookieConsent';
-import {
-  articles,
-  articleCategories,
-  getFeaturedArticles,
-  getLatestArticles,
-  getArticlesByCategory,
-  type Article
-} from '../data/articlesData';
+import { articles, articleCategories, getFeaturedArticles, getLatestArticles, getArticlesByCategory } from '../data/articlesData';
 
 interface AnalyseActuPageProps {
   onNavigateHome: () => void;

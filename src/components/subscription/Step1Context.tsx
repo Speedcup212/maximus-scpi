@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Shield, AlertTriangle, FileText, UserCheck } from 'lucide-react';
+import { ArrowRight, AlertTriangle, FileText, UserCheck } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
 import EricAvatar from '../EricAvatar';
 

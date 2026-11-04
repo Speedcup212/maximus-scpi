@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { ArrowLeft, TrendingUp, Shield, Users, CheckCircle, BarChart3, Target, Calendar, Star, Award } from 'lucide-react';
+import { ArrowLeft, Shield, Users, CheckCircle, Target, Calendar, Star, Award } from 'lucide-react';
 import Header from './Header';
 import Logo from './Logo';
 import SEOHead from './SEOHead';

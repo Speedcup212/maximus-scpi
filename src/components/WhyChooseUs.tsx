@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Shield, Zap, Award, BarChart3, TrendingUp, Users, Check, Star, Heart, Target, Lightbulb, Phone, Mail, Clock, Calendar, BadgeCheck, BookOpen, Headphones as HeadphonesIcon, FileCheck, Sparkles, Globe, Lock, Briefcase } from 'lucide-react';
+import { Shield, Zap, Award, BarChart3, TrendingUp, Users, Check, Star, Heart, Target, Lightbulb, Phone, Mail, Clock, BadgeCheck, BookOpen, Headphones as HeadphonesIcon, FileCheck, Sparkles, Globe, Lock, Briefcase } from 'lucide-react';
 import ResponsiveImage from './ResponsiveImage';
 
 const WhyChooseUs: React.FC = () => {

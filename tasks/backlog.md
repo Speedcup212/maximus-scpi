@@ -160,3 +160,9 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Mission utilisateur jointe : reprendre #292 et ses deux commits d'indication datée, mesurer la maturité avec grille 15/15/15/20/15/10/10, vérifier Sofidynamic puis exécuter trois pilotes non publics de gestionnaires distincts.
 - Périmètre autorisé : réutilisation du résolveur documentaire, auditeur PDF et gates existants, orchestration bornée et reprise par contenu, contrôles adverses, preuves de CI, tests TypeScript/navigateur, rapport mesuré ; aucun composant UI recréé.
 - Aucune promotion financière, migration distante ou livraison sans chaîne de validation complète. La valeur 340,38 EUR reste une revendication à prouver, jamais une donnée de production déduite d'une fixture.
+
+## RECOVERY-093 — Finalisation industrielle et résorption des diagnostics (04/11/2026)
+
+- Reprise explicite de #292 : conserver les correctifs validés, diagnostiquer les 1 023 erreurs TypeScript, corriger prioritairement les contrats SCPI partagés, poursuivre les quatre pilotes et la résolution générique des anomalies.
+- Périmètre : code partagé des consommateurs SCPI, remédiateur/gates/collecteur existants, tests, CI et preuves. Aucun changement financier non prouvé, aucune mutation de production, aucun merge ni déploiement.
+- Livrable : maturité calculée, résultats par pilote, corrections automatiques comptées, blocages dénombrés et causes, CI au SHA exact, verdict et limites pour 200 SCPI.

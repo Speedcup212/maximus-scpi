@@ -1,5 +1,5 @@
 import React from 'react'
-import { ArrowRight, BookOpen, Target, AlertTriangle, Building2, Scale, Lightbulb, TrendingUp, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, BookOpen, Target, AlertTriangle, Scale, Lightbulb } from 'lucide-react';
 import SEOHead from './SEOHead'
 import SchemaOrg from './SchemaOrg'
 
