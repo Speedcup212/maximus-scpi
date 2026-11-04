@@ -178,6 +178,19 @@ def extract(pages,wordpages,widths,period):
     if not end:return {},set()
     for index,words in enumerate(wordpages):
         groups=line_groups(words)
+        # Publisher infographic captions commonly wrap over two or three
+        # aligned lines. Merge only known caption fragments, never figures.
+        original=list(groups)
+        for i,group in enumerate(original):
+            combined=list(group)
+            for previous in reversed(original[max(0,i-2):i]):
+                x0,y0,x1,y1=rect(combined);px0,py0,px1,py1=rect(previous)
+                if min(abs(px0-x0),abs((px0+px1-x0-x1)/2))>20 or not 0<=y0-py1<=14:break
+                if re.search(r'\d|[%€]',text(previous)):break
+                combined=list(previous)+combined
+                label=' '.join(w[4] for w in sorted(combined,key=lambda w:(w[1],w[0])))
+                if any(caption_only(label,patterns,unit) and any(re.search(p,norm(label)) for p in patterns)
+                       for unit,patterns in FIELDS.values()):groups.append([(*rect(combined),label)])
         for group in groups:
             label=text(group);n=norm(label);r=rect(group)
             for metric,(unit,patterns) in FIELDS.items():
@@ -247,10 +260,10 @@ def reconcile(a,b):
                 return bool(re.search(r'integres? au tof sous conditions',caption))
             av=[v for v in av if not is_occupancy_breakdown(v)]
             bv=[v for v in bv if not is_occupancy_breakdown(v)]
-        def signature(v):return v['value'],v['page'],v['reference_date'],v['definition']
+        def signature(v):return v['value'],v['page'],v['reference_date'],v['definition'],v['unit']
         same={signature(v):v for v in av if any(signature(v)==signature(w) for w in bv)}
-        if len(same)==1 and len({(v['value'],v['reference_date']) for v in av+bv})==1:
-            sig,v=next(iter(same.items()));other=next(w for w in bv if signature(w)==sig)
+        if same and len({(v['value'],v['reference_date'],v['definition'],v['unit']) for v in av+bv})==1:
+            sig,v=min(same.items(),key=lambda item:item[1]['page']);other=next(w for w in bv if signature(w)==sig)
             results[metric]=v['value'];proofs[metric]={**v,'poppler_text':other['text'],'independent_engines':['MuPDF','Poppler'],'method':'dual_pdf_geometry','value_match':True};coverage[metric]='verified'
         else:
             coverage[metric]='needs_review' if metric in aseen|bseen else 'not_found_after_full_read'

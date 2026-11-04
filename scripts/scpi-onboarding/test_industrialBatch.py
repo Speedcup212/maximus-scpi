@@ -187,3 +187,19 @@ class RetainedOfficialSourceRegression(unittest.TestCase):
   self.assertEqual(calls,[c['product_page'],'https://issuer.test/note.pdf'])
   self.assertEqual(r['documents'][0]['status'],'BINARY_IDENTITY_PERIOD_VERIFIED_ONLY')
   self.assertFalse(r['publication_authorized']);self.assertEqual(r['status'],'BLOCKED')
+
+class SharedCaptionRegression(unittest.TestCase):
+ def test_identical_observations_on_multiple_pages_are_corroboration_not_contradiction(self):
+  f=batch.bulletin_fields
+  v={'value':180,'page':3,'reference_date':'2026-06-30','unit':'EUR_PER_PART','definition':'reported_metric','text':'Prix de souscription 180 EUR'}
+  both=({'prix_souscription':[v,{**v,'page':6}]},{'prix_souscription'})
+  self.assertEqual(f.reconcile(both,both)[0]['prix_souscription'],180)
+  wrong=({'prix_souscription':[v,{**v,'page':6,'value':181}]},{'prix_souscription'})
+  self.assertNotIn('prix_souscription',f.reconcile(wrong,wrong)[0])
+  wrong_unit=({'prix_souscription':[{**v,'unit':'MEUR'}]},{'prix_souscription'})
+  self.assertNotIn('prix_souscription',f.reconcile(both,wrong_unit)[0])
+ def test_wrapped_occupancy_caption_keeps_the_actual_percentage(self):
+  words=[(10,10,35,20,'Taux'),(10,22,100,32,"d'occupation"),(10,34,100,44,'financier (TOF)'),(10,49,90,59,'98,78 %')]
+  f=batch.bulletin_fields
+  parsed=f.extract(['Taux occupation financier 98,78 %'],[words],[400],'2026-T2')
+  self.assertEqual(f.reconcile(parsed,parsed)[0]['tof'],98.78)
