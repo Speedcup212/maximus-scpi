@@ -66,13 +66,14 @@ Les [preuves des passages réels](evidence/recovery-092-industrial-trial.json) r
 7. **Occurrence numérique partielle.** « 200 » dans « 2006 » n'est plus retenu comme candidat à un montant ; tous les résultats restent contextualisés par page/SHA.
 8. **WALT/WALB, identités de métriques et unités non contrôlés explicitement.** Préflight enrichi : inversion incompatible, preuve attachée à l'autre métrique et EUR/M€ contradictoires refusés. Les snapshots historiques sans unité ne sont pas rétroactivement proclamés certifiés.
 9. **Retests globaux sans lien avec la correction.** Le remédiateur expose les seuls contrôles touchés et les exécute avec `--retest`, plus la préservation de cohorte. Un essai isolé d'erreur EUR/M€ l'a exécuté : 10 tests PASS, aucune écriture de source ni approbation.
-10. **Score industriel pouvant masquer un échec.** Grille calculée, preuves obligatoires et veto critiques ; le test à 100 points avec un contrôle critique faux reste NO GO. Le nouveau workflow d'admission exécute réellement TypeScript et refuse le seuil insuffisant.
+10. **Perte de collecte lors d’une indisponibilité ultérieure.** Les liens officiels déjà observés sont conservés avec URL/empreinte de la page émetteur et ancien SHA PDF ; tout document est retéléchargé et vérifié au passage suivant. La conservation ne certifie ni sa fraîcheur ni son contenu financier. Deux tests couvrent le rejet de provenance externe et la reprise quand la page produit répond 403.
+11. **Score industriel pouvant masquer un échec.** Grille calculée, preuves obligatoires et veto critiques ; le test à 100 points avec un contrôle critique faux reste NO GO. Le nouveau workflow d'admission exécute réellement TypeScript et refuse le seuil insuffisant.
 
 ## Tests et sécurité
 
 - Suite applicative avec les propositions de décote : **270/270 PASS**, 35 fichiers.
 - Onboarding/plugin/maturité et corpus financier adversarial : **114 PASS**, validation YAML du workflow d'admission incluse.
-- PDF/collecte industrielle : **37 PASS** ; parseurs financiers/transport historiques : **55 PASS** ; résolveur ciblé : **18 PASS**.
+- PDF/collecte industrielle : **39 PASS** ; parseurs financiers/transport historiques : **55 PASS** ; résolveur ciblé : **18 PASS**.
 - SQL éphémère : PASS sur la migration d'arrondi de RECOVERY-091, sans application distante. SHA, période, page, QA, doublons et droits restent bloquants.
 - Six surfaces Sofidynamic : **10 cas PASS** sur fiche, comparateur, radar, simulateur et espace client, complétés par **2 cas PASS** de trajectoire. Données sourcées interceptées en local, jamais déclarées test de production. Restrictions de comparaison/recommandation maintenues.
 - TypeScript global : **FAIL, 1 023 diagnostics préexistants**, dont 606 TS6133. Même résultat normalisé avant/après, zéro message ajouté ou retiré y compris après le test de proposition sourcée. Ces erreurs ne sont pas retirées des exigences ni neutralisées dans `tsconfig`.
@@ -82,7 +83,7 @@ Les [preuves des passages réels](evidence/recovery-092-industrial-trial.json) r
 ## Réutilisation pour les cent prochaines identités
 
 1. Déclarer les identités canoniques et domaines officiels dans le registre privé. Le contrat « exactement trois gestionnaires » est propre à l'essai, pas une limite du moteur. Vérifier aussi les anciennes dénominations afin d'éviter les doublons.
-2. Exécuter `industrialBatch.py --registry <registre> --out <artefacts>`. Le moteur réutilise le résolveur/auditeur existants, borne pages/documents/réessais, archive les octets par SHA, cherche les sources liées autorisées et extrait les propositions avec deux lecteurs.
+2. Exécuter `industrialBatch.py --registry <registre> --out <artefacts>`. Le moteur réutilise le résolveur/auditeur existants, borne pages/documents/réessais, archive les octets par SHA, cherche les sources liées autorisées et extrait les propositions avec deux lecteurs. L’artefact `retained-official-links.json` prépare les sources officielles à conserver au registre pour le prochain passage, sans approbation financière.
 3. Examiner tous les candidats contradictoires, unités, définitions et dates ; établir les absences officiellement prouvées. Une donnée optionnelle absente doit neutraliser les fonctions dépendantes, pas créer un faux zéro. Une donnée essentielle manquante bloque le niveau de publication concerné.
 4. Alimenter après revue les registres privés existants ; exécuter `preflight.mjs`, contrôles d'allocations, analyse/historique et audits proportionnés. Ne pas convertir le statut technique `verified` d'un parseur en QA financière.
 5. Corriger uniquement les dérivés démontrables via le remédiateur existant ; `--retest` relance les contrôles concernés. Repasser ensuite les non-régressions communes et le contrôle d'admission avant le lot.

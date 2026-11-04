@@ -104,3 +104,30 @@ class SharedFinancialParserRegression(unittest.TestCase):
   self.assertEqual(batch.bulletin_fields.end_date('2026-S2'),'2026-12-31')
   self.assertEqual(batch.bulletin_fields.end_date('2026-T3'),'2026-09-30')
   self.assertIsNone(batch.bulletin_fields.end_date('2026-S3'))
+
+class RetainedOfficialSourceRegression(unittest.TestCase):
+ def test_only_primary_link_provenance_is_retained_and_never_becomes_certification(self):
+  c={'slug':'fund','name':'Fund','management_company':'Issuer','issuer_hosts':['issuer.test'],'product_page':'https://issuer.test/fund'}
+  d={'kind':'note','reference_period':'2026-REG','url':'https://issuer.test/ni.pdf','status':'BINARY_IDENTITY_PERIOD_VERIFIED_ONLY','publisher_page':c['product_page'],'publisher_page_sha256':'a'*64,'sha256':'b'*64}
+  registry={'schema_version':1,'candidates':[c]}
+  retained=batch.retain_official_links(registry,[{'slug':'fund','documents':[d]}])
+  self.assertEqual(len(retained['candidates'][0]['documents']),1)
+  self.assertNotIn('certification',retained['candidates'][0]['documents'][0])
+  self.assertNotIn('documents',registry['candidates'][0])
+  for patch_ in [{'url':'https://evil.test/doc.pdf'},{'publisher_page':'https://evil.test/fund'},{'publisher_page_sha256':'bad'},{'status':'UNVERIFIED'}]:
+   self.assertEqual(batch.retain_official_links(registry,[{'slug':'fund','documents':[{**d,**patch_}]}])['candidates'][0]['documents'],[])
+ def test_retained_pdf_is_redownloaded_when_product_page_fails(self):
+  import urllib.error
+  from test_publisherPdfAudit import pdf_bytes
+  c={'slug':'fund','name':'Fund','management_company':'Issuer','issuer_hosts':['issuer.test'],'product_page':'https://issuer.test/fund','regulatory_period':'2026-REG','documents':[{'kind':'note','reference_period':'2026-REG','url':'https://issuer.test/note.pdf'}]}
+  calls=[]
+  raw=pdf_bytes("FUND Note d'information 2026")
+  def fetch(url):
+   calls.append(url)
+   if url==c['product_page']:raise urllib.error.HTTPError(url,403,'Forbidden',{},None)
+   return raw,url
+  with TemporaryDirectory() as tmp:
+   r=batch.run_candidate(c,Path(tmp),fetch)
+  self.assertEqual(calls,[c['product_page'],'https://issuer.test/note.pdf'])
+  self.assertEqual(r['documents'][0]['status'],'BINARY_IDENTITY_PERIOD_VERIFIED_ONLY')
+  self.assertFalse(r['publication_authorized']);self.assertEqual(r['status'],'BLOCKED')

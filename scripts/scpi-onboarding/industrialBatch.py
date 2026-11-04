@@ -155,6 +155,30 @@ def validate_registry(registry,cohort):
     return True
 
 
+def retain_official_links(registry,reports):
+    """Keep verified discovery provenance, not an assertion of currentness.
+    Every retained URL is downloaded and audited again on the next execution.
+    """
+    updated=json.loads(json.dumps(registry))
+    by_slug={r['slug']:r for r in reports}
+    for c in updated['candidates']:
+        retained={d['url']:d for d in c.get('documents',[])}
+        primary_host=urllib.parse.urlsplit(c['product_page']).hostname
+        for d in by_slug.get(c['slug'],{}).get('documents',[]):
+            if (d.get('status')!='BINARY_IDENTITY_PERIOD_VERIFIED_ONLY' or
+                not allowed(d.get('url'),c['issuer_hosts']) or
+                urllib.parse.urlsplit(d.get('publisher_page','')).hostname!=primary_host or
+                not re.fullmatch('[a-f0-9]{64}',d.get('publisher_page_sha256','')) or
+                not re.fullmatch('[a-f0-9]{64}',d.get('sha256',''))):continue
+            retained.setdefault(d['url'],{'kind':d['kind'],'reference_period':d['reference_period'],'url':d['url'],
+                'discovery_basis':'PREVIOUS_VERIFIED_OFFICIAL_LINK_NOT_CURRENTNESS',
+                'previous_publisher_page':d['publisher_page'],
+                'previous_publisher_page_sha256':d['publisher_page_sha256'],
+                'previous_pdf_sha256':d['sha256']})
+        c['documents']=list(retained.values())
+    return updated
+
+
 def run_candidate(c,out,fetcher=None):
     out.mkdir(parents=True,exist_ok=True)
     transport=Transport(c['issuer_hosts']) if fetcher is None else fetcher
@@ -261,6 +285,8 @@ def main():
     results=[run_candidate(c,Path(args.out)/c['slug']) for c in registry['candidates']]
     report={'schema_version':1,'captured_at':datetime.now(timezone.utc).isoformat(),'mode':'READ_ONLY_INDUSTRIAL_TRIAL','candidates':results,'publication_authorized':False,'go_for_industrial_publication':False}
     Path(args.out,'batch.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+    retained=retain_official_links(registry,results)
+    Path(args.out,'retained-official-links.json').write_text(json.dumps(retained,indent=2,ensure_ascii=False)+'\n')
     for r in results:print('INDUSTRIAL_CANDIDATE '+json.dumps(r,ensure_ascii=False))
     print('INDUSTRIAL_BATCH '+json.dumps({'processed':len(results),'published':0,'certified':0,'decision':'NO_GO_PENDING_EVIDENCE'}))
     # Execution succeeds if it truthfully reports blocked candidates; not a certification gate.
