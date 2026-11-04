@@ -3,7 +3,6 @@ import { TrendingUp, ArrowRight, X, PieChart, Star, Award, DollarSign, BarChart3
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { getScpiDiscountPremium, getScpiDiscountPremiumClass } from '../../utils/scpiDiscountPremium';
 import { normalizeGeoLabel } from '../../utils/geoNormalization';
-import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import ZScoreBar from '../ZScoreBar';
 import { getInvestorProfile } from '../../utils/investorProfile';
@@ -33,10 +32,6 @@ const getCategoryColor = (category: string) => {
   return colors[category] || 'bg-slate-500/20 text-slate-400 border-slate-500/30';
 };
 
-const GRADIENT_IDS = {
-  sectors: ['gradBlue', 'gradTeal', 'gradOrange', 'gradPink', 'gradPurple', 'gradCyan', 'gradLime', 'gradRed'],
-  geography: ['gradBlue2', 'gradTeal2', 'gradOrange2', 'gradPink2', 'gradPurple2', 'gradCyan2', 'gradLime2', 'gradRed2']
-};
 
 const LEGEND_COLORS = {
   sectors: ['#2563eb', '#059669', '#d97706', '#db2777', '#7c3aed', '#0891b2', '#65a30d', '#ea580c'],
@@ -63,7 +58,6 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   selectedScpis,
   onRemove,
   onClear,
-  onVisualize,
   zScoreVariant = 'full'
 }) => {
   const [isResultOpen, setIsResultOpen] = useState(false);
@@ -1207,7 +1201,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                             animationDuration={800}
                             animationEasing="ease-out"
                           >
-                            {aggregatedSectors.map((entry, index) => (
+                            {aggregatedSectors.map((_, index) => (
                               <Cell
                                 key={`cell-sector-portfolio-${index}`}
                                 fill={`url(#${['gradBlue', 'gradTeal', 'gradOrange', 'gradPink', 'gradPurple', 'gradCyan', 'gradLime', 'gradRed'][index % 8]}-portfolio)`}
@@ -1298,7 +1292,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                             animationDuration={800}
                             animationEasing="ease-out"
                           >
-                            {aggregatedGeography.map((entry, index) => (
+                            {aggregatedGeography.map((_, index) => (
                               <Cell
                                 key={`cell-geo-portfolio-${index}`}
                                 fill={`url(#${['gradBlue2', 'gradTeal2', 'gradOrange2', 'gradPink2', 'gradPurple2', 'gradCyan2', 'gradLime2', 'gradRed2'][index % 8]}-portfolio)`}
@@ -1892,7 +1886,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                           />
                           <Tooltip
                             contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
-                            formatter={(value: number) => [`${value.toLocaleString('fr-FR')}€`, 'Revenus annuels']}
+                            formatter={(value) => [typeof value === 'number' && Number.isFinite(value) ? `${value.toLocaleString('fr-FR')}€` : '—', 'Revenus annuels'] as [string, string]}
                           />
                           <Bar dataKey="annualIncome" fill="#10b981" radius={[4, 4, 0, 0]} />
                         </BarChart>
@@ -1915,7 +1909,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                       </button>
                     </div>
                     <div className="space-y-2 sm:space-y-3">
-                      {portfolioAnalysis.scpiData.map((item, index) => {
+                      {portfolioAnalysis.scpiData.map((item) => {
                         const scpi = selectedScpis.find(s => s.id === item.id);
                         if (!scpi) return null;
                         
@@ -1944,7 +1938,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                                 value={item.percentage}
                                 onChange={(e) => {
                                   const newValue = parseFloat(e.target.value);
-                                  updatePercentage(item.id, newValue);
+                                  updatePercentage(String(item.id), newValue);
                                 }}
                                 className="flex-1 h-1.5 sm:h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                               />
@@ -1953,7 +1947,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                                 value={item.percentage.toFixed(1)}
                                 onChange={(e) => {
                                   const newValue = parseFloat(e.target.value) || 0;
-                                  updatePercentage(item.id, newValue);
+                                  updatePercentage(String(item.id), newValue);
                                 }}
                                 className="w-16 sm:w-20 px-1.5 sm:px-2 py-0.5 sm:py-1 bg-slate-800 border border-slate-600 rounded text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                 min="0"

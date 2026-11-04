@@ -6,7 +6,6 @@ import { AllocationProvider } from '../../contexts/AllocationContext';
 import { SubscriptionProvider } from '../../contexts/SubscriptionContext';
 import ProSCPICardDark from './ProSCPICardDark';
 import SCPITableRow from './SCPITableRow';
-import ProSelectionSidebar from './ProSelectionSidebar';
 import MobileSelectionBar from './MobileSelectionBar';
 import AnalysisDetailModal from './AnalysisDetailModal';
 import FilterPanel from './FilterPanel';
@@ -25,7 +24,6 @@ import Toast from '../Toast';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, CartesianGrid, XAxis, YAxis, Bar, Label } from 'recharts';
 import { getInvestorProfile } from '../../utils/investorProfile';
 import { getZScoreAttention } from '../../utils/zScoreAttention';
-import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
 import { computePortfolioDiversificationScore } from '../../utils/portfolioDiversificationScore';
 import { resolveDisplayedDiscount } from '../../utils/formatters';
 import { getScpiDiscountPremium, getScpiDiscountPremiumClass } from '../../utils/scpiDiscountPremium';
@@ -54,9 +52,6 @@ interface ProFintechComparatorContentProps {
 
 const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = ({
   onCloseAnalysis,
-  onGuidedJourneyClick,
-  hideTitle = false,
-  zScoreVariant = 'full',
   initialAnalysisScpi = null,
   initialCompareScpi = null
 }) => {
@@ -66,7 +61,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
   const [allocations, setAllocations] = useState<Record<string, number>>({});
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [sortBy, setSortBy] = useState<'yield' | 'price'>('yield');
+  const [sortBy] = useState<'yield' | 'price'>('yield');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [currentPage, setCurrentPage] = useState(1);
   const [analysisScpi, setAnalysisScpi] = useState<SCPIExtended | null>(null);
@@ -125,7 +120,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
     setQuickFilters(prev => {
       const next = prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id];
       // Appliquer les filtres rapides via le state filters existant
-      const updates: Partial<FilterState> = {};
       // Réinitialiser les filtres avant d'appliquer les quick filters
       let geographies: string[] = [];
       let sectors: string[] = [];
@@ -208,28 +202,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
       mainContainer.scrollTop = 0;
     }
   }, [currentStep]);
-
-  const handleAllocationChange = (scpiId: string, newValue: number) => {
-    setAllocations(prev => {
-      const next = { ...prev, [scpiId]: Math.min(100, Math.max(0, newValue)) };
-      // Ajuster les autres SCPI proportionnellement pour maintenir 100%
-      const otherIds = Object.keys(next).filter(id => id !== scpiId);
-      const totalOthers = otherIds.reduce((sum, id) => sum + next[id], 0);
-      const newTotal = next[scpiId] + totalOthers;
-      if (newTotal !== 100 && otherIds.length > 0 && totalOthers > 0) {
-        const diff = 100 - next[scpiId];
-        otherIds.forEach(id => {
-          next[id] = Math.round((next[id] / totalOthers) * diff);
-        });
-        // Corriger l'arrondi
-        const adjustedTotal = Object.values(next).reduce((sum, v) => sum + v, 0);
-        if (adjustedTotal !== 100 && otherIds.length > 0) {
-          next[otherIds[0]] += 100 - adjustedTotal;
-        }
-      }
-      return next;
-    });
-  };
 
   // ── Pop-up public de résultats : helpers & calculs (injectés dans Step 2) ──
   const LEGEND_COLORS = {
@@ -1397,7 +1369,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                             ))}
                           </defs>
                           <Pie data={aggregatedSectors} cx="50%" cy="50%" innerRadius="50%" outerRadius="85%" paddingAngle={0} dataKey="value" animationBegin={0} animationDuration={800} animationEasing="ease-out">
-                            {aggregatedSectors.map((entry, index) => (
+                            {aggregatedSectors.map((_, index) => (
                               <Cell key={`cell-sector-${index}`} fill={`url(#${GRADIENT_IDS.sectors[index % 8]}-pro)`} stroke="#1e293b" strokeWidth={2} style={{ outline: 'none' }} />
                             ))}
                           </Pie>
@@ -1439,7 +1411,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                             ))}
                           </defs>
                           <Pie data={aggregatedGeography} cx="50%" cy="50%" innerRadius="50%" outerRadius="85%" paddingAngle={0} dataKey="value" animationBegin={0} animationDuration={800} animationEasing="ease-out">
-                            {aggregatedGeography.map((entry, index) => (
+                            {aggregatedGeography.map((_, index) => (
                               <Cell key={`cell-geo-${index}`} fill={`url(#${GRADIENT_IDS.geography[index % 8]}-pro)`} stroke="#1e293b" strokeWidth={2} style={{ outline: 'none' }} />
                             ))}
                           </Pie>
@@ -1747,7 +1719,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                           />
                           <Tooltip
                             contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
-                            formatter={(value: number) => [`${value.toLocaleString('fr-FR')}€`, 'Revenus annuels']}
+                            formatter={(value) => [typeof value === 'number' && Number.isFinite(value) ? `${value.toLocaleString('fr-FR')}€` : '—', 'Revenus annuels'] as [string, string]}
                           />
                           <Bar dataKey="annualIncome" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
                         </BarChart>
@@ -1801,7 +1773,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                                 value={item.percentage}
                                 onChange={(e) => {
                                   const newValue = parseFloat(e.target.value);
-                                  updatePercentage(item.id, newValue);
+                                  updatePercentage(String(item.id), newValue);
                                 }}
                                 className="flex-1 h-1.5 sm:h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-violet-500"
                               />
@@ -1810,7 +1782,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                                 value={item.percentage.toFixed(1)}
                                 onChange={(e) => {
                                   const newValue = parseFloat(e.target.value) || 0;
-                                  updatePercentage(item.id, newValue);
+                                  updatePercentage(String(item.id), newValue);
                                 }}
                                 className="w-16 sm:w-20 px-1.5 sm:px-2 py-0.5 sm:py-1 bg-slate-800 border border-slate-600 rounded text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
                                 min="0"
@@ -1882,7 +1854,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                               }}
                               onMouseLeave={() => setHoveredSlice(null)}
                             >
-                              {portfolioAnalysis.scpiData.map((entry, index) => (
+                              {portfolioAnalysis.scpiData.map((_, index) => (
                                 <Cell key={`cell-pro-${index}`} fill={`url(#gradScpiPro-${index})`} stroke="transparent" />
                               ))}
                               <Label
@@ -2187,7 +2159,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     <span className="text-sm font-semibold text-slate-300">Z-score du portefeuille</span>
                     <span className="text-[11px] text-slate-400" title="Z-score de cohérence MaximusSCPI®">ⓘ</span>
                   </div>
-                  <ZScoreBar zScore={coherenceZScore} profileLabel="CGP" variant="full"
+                  <ZScoreBar zScore={coherenceZScore} profileLabel={null} variant="full"
                     customZoneLabel="Lecture professionnelle indicative, fondée sur les données disponibles de la sélection."
                     customContextLine="Lecture professionnelle indicative, fondée sur les données disponibles de la sélection. Cette lecture peut être contextualisée selon les paramètres du dossier client, sans constituer une recommandation personnalisée."
                     customCtaText="Paramétrer le dossier client"
@@ -2284,7 +2256,6 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
             <h3 className="text-lg font-bold text-white mb-4">Vidéos de présentation</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {selectedScpis.map((scpi) => {
-                const primaryGeo = scpi.geography && scpi.geography.length > 0 ? scpi.geography[0].name : 'France';
                 const geoNames = scpi.geography?.map(g => g.name).slice(0, 2).join(' · ') || 'France';
                 return (
                 <div key={scpi.id} className="bg-slate-900 rounded-xl border border-slate-700 overflow-hidden hover:border-emerald-500/40 transition-colors">
