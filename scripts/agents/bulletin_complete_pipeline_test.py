@@ -36,7 +36,7 @@ class FinancialAssociationTests(unittest.TestCase):
         m,p,c,_=fields.reconcile(a,b);self.assertNotIn('tof',m);self.assertEqual(c['tof'],'needs_review')
     def test_fiducial_tof_breakdown_never_becomes_official_tof(self):
         breakdown={'value':1.77,'page':4,'reference_date':'2026-06-30',
-                   'definition':'reported_metric','text':
+                   'definition':'reported_metric','unit':'%','text':
                    '(intégrés au TOF sous conditions) : - | 1,77 %'}
         proposals=({'tof':[breakdown]},{'tof'})
         values,proofs,coverage,candidates=fields.reconcile(proposals,proposals)
@@ -46,7 +46,7 @@ class FinancialAssociationTests(unittest.TestCase):
 
     def test_valid_tof_can_survive_a_bad_breakdown_candidate(self):
         breakdown={'value':1.77,'page':4,'reference_date':'2026-06-30',
-                   'definition':'reported_metric','text':
+                   'definition':'reported_metric','unit':'%','text':
                    '(intégrés au TOF sous conditions) : - | 1,77 %'}
         real={**breakdown,'value':91.56,'text':'TOF | 91,56 %'}
         proposals=({'tof':[breakdown,real]},{'tof'})
@@ -54,6 +54,22 @@ class FinancialAssociationTests(unittest.TestCase):
         self.assertEqual(values['tof'],91.56)
         self.assertEqual(coverage['tof'],'verified')
         self.assertIn('91,56',proofs['tof']['text'])
+
+    def test_absent_or_wrong_unit_never_certifies_even_when_readers_agree(self):
+        base={'value':91.56,'page':4,'reference_date':'2026-06-30',
+              'definition':'reported_metric','text':'TOF | 91,56 %'}
+        for invalid in (base,{**base,'unit':'EUR_PER_PART'}):
+            proposals=({'tof':[invalid]},{'tof'})
+            values,proofs,coverage,candidates=fields.reconcile(proposals,proposals)
+            self.assertNotIn('tof',values)
+            self.assertNotIn('tof',proofs)
+            self.assertEqual(coverage['tof'],'needs_review')
+            self.assertIn('tof',candidates)
+        valid=({'tof':[{**base,'unit':'%'}]},{'tof'})
+        values,proofs,coverage,_=fields.reconcile(valid,valid)
+        self.assertEqual(values['tof'],91.56)
+        self.assertEqual(proofs['tof']['unit'],'%')
+        self.assertEqual(coverage['tof'],'verified')
 
     def test_neighboring_table_counts_must_not_be_concatenated(self):
         a=self.parse([(20,'TOF 90,20 %'),(40,'Parts en attente de retrait 2 703 162 957 003 057 800')])

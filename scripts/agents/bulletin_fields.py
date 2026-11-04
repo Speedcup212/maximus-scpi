@@ -248,7 +248,13 @@ def extract(pages,wordpages,widths,period):
 def reconcile(a,b):
     ah,aseen=a;bh,bseen=b;results={};proofs={};coverage={};candidates={}
     for metric in FIELDS:
-        av=ah.get(metric,[]);bv=bh.get(metric,[])
+        raw_av=ah.get(metric,[]);raw_bv=bh.get(metric,[])
+        # A numeric fact without a matching explicit unit is not evidence.
+        # Reject malformed/legacy proposals without crashing an entire batch.
+        expected_unit=FIELDS[metric][0]
+        invalid_unit=any(v.get('unit')!=expected_unit for v in raw_av+raw_bv)
+        av=[v for v in raw_av if v.get('unit')==expected_unit]
+        bv=[v for v in raw_bv if v.get('unit')==expected_unit]
         if metric=='tof':
             # Fiducial's occupancy breakdown has a small line such as
             # "Locaux vacants en restructuration (intégrés au TOF sous
@@ -262,10 +268,10 @@ def reconcile(a,b):
             bv=[v for v in bv if not is_occupancy_breakdown(v)]
         def signature(v):return v['value'],v['page'],v['reference_date'],v['definition'],v['unit']
         same={signature(v):v for v in av if any(signature(v)==signature(w) for w in bv)}
-        if same and len({(v['value'],v['reference_date'],v['definition'],v['unit']) for v in av+bv})==1:
+        if not invalid_unit and same and len({(v['value'],v['reference_date'],v['definition'],v['unit']) for v in av+bv})==1:
             sig,v=min(same.items(),key=lambda item:item[1]['page']);other=next(w for w in bv if signature(w)==sig)
             results[metric]=v['value'];proofs[metric]={**v,'poppler_text':other['text'],'independent_engines':['MuPDF','Poppler'],'method':'dual_pdf_geometry','value_match':True};coverage[metric]='verified'
         else:
-            coverage[metric]='needs_review' if metric in aseen|bseen else 'not_found_after_full_read'
-            if av or bv:candidates[metric]={'MuPDF':av,'Poppler':bv}
+            coverage[metric]='needs_review' if metric in aseen|bseen or raw_av or raw_bv else 'not_found_after_full_read'
+            if raw_av or raw_bv:candidates[metric]={'MuPDF':raw_av,'Poppler':raw_bv}
     return results,proofs,coverage,candidates
