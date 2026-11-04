@@ -1968,16 +1968,19 @@ const App: React.FC = () => {
       return;
     }
 
-    const { generatePortfolioPDF } = await import('./utils/pdfGenerator');
-    const success = await generatePortfolioPDF(
-      selectedScpi,
-      investmentAmount,
-      portfolioStats
-    );
-
-    if (success) {
+    try {
+      const { generatePortfolioPDF } = await import('./utils/pdfGenerator');
+      // PortfolioItem expects investedAmount and percentage, not raw Scpi[].
+      const portfolio = selectedScpi.map(scpi => ({
+        ...scpi,
+        percentage: scpi.allocation ?? 0,
+        investedAmount: investmentAmount * (scpi.allocation ?? 0) / 100,
+      }));
+      // The PDF generator saves the document and returns void, never a success flag.
+      await generatePortfolioPDF(portfolio, null, investmentAmount);
       alert('PDF généré avec succès !');
-    } else {
+    } catch (error) {
+      console.error('Échec de la génération du PDF portefeuille', error);
       alert('Erreur lors de la génération du PDF');
     }
   };
@@ -4668,11 +4671,11 @@ const App: React.FC = () => {
           <Suspense fallback={<LoadingSpinner />}>
             <ScpiDetailPage
               scpi={selectedScpiData}
-              onAddToPortfolio={isParcoursLocked ? undefined : (scpi) => toggleScpiSelection(scpi.name)}
+              onAddToPortfolio={isParcoursLocked ? undefined : (scpi) => toggleScpiSelection(scpi)}
               onTakeAppointment={isParcoursLocked ? undefined : () => setIsRdvModalOpen(true)}
             />
           </Suspense>
-          <Footer isDarkMode={isDarkMode} />
+          <Footer />
 
           {renderGlobalModals()}
         </div>

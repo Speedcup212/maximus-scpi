@@ -11,6 +11,12 @@ class IndustrialBatchTests(unittest.TestCase):
   self.assertEqual(batch.decimal_value('247,58848'),'247.58848')
   for raw in ['1.234,56','NaN','1e3','12 %','']:
    with self.assertRaises(ValueError):batch.decimal_value(raw)
+ def test_dic_underscore_filename_on_issuer_page_is_recovered(self):
+  name='https://corpocdn.blob.core.windows.net/blobfiles/2026_09_22_DIC_CRISTAL_CARE.pdf'
+  self.assertEqual(batch.document_kind(name,''),'dic')
+  self.assertEqual(batch.document_kind(name,'Document d’informations clés'),'dic')
+  self.assertIsNone(batch.document_kind('https://issuer.test/undocumented.pdf',''))
+  self.assertTrue(batch.allowed(name,['corpocdn.blob.core.windows.net']))
  def test_no_private_or_unregistered_redirect(self):
   hosts=['issuer.test']
   for url in ['http://issuer.test/a','https://issuer.test.evil/a','https://u:p@issuer.test/a','https://127.0.0.1/a','https://issuer.test:8443/a']:

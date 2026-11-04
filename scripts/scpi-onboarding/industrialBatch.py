@@ -83,7 +83,7 @@ class Transport:
 def document_kind(url,label):
     text=norm(label+' '+urllib.parse.unquote(url))
     if re.search(r'bulletin.*semestr|\bbs[_ -]|[12]s[_ -]?20\d{2}',text):return 'semiannual'
-    for kind,pattern in [('dic',r'\bdic\b|informations?.?cles|key.information'),('statutes',r'statuts|statutes|st[-_]dy'),('note',r'note.*information|ni[-_]dyn'),('annual',r'rapport.*annuel|annual.*report|rapport.*202[0-9]'),('quarterly',r'bulletin|trimestr|\bbti?\b|[tq][1-4].*202[0-9]')]:
+    for kind,pattern in [('dic',r'(?:^|[_\W])dic(?=$|[_\W])|informations?.?cles|key.information'),('statutes',r'statuts|statutes|st[-_]dy'),('note',r'note.*information|ni[-_]dyn'),('annual',r'rapport.*annuel|annual.*report|rapport.*202[0-9]'),('quarterly',r'bulletin|trimestr|\bbti?\b|[tq][1-4].*202[0-9]')]:
         if re.search(pattern,text):
             if kind=='annual' and re.search(r'(?:^|[^a-z])(?:isr|esg)(?:[^a-z]|$)',text):return None
             return kind

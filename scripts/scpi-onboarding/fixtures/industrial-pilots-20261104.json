@@ -334,6 +334,18 @@
           "previous_publisher_page": "https://www.inter-gestion.com/corpo/cristal-care",
           "previous_publisher_page_sha256": "874340577f789a093f58027815e23d0c0b34f3cf0597b08d8225646385d9bc51",
           "previous_pdf_sha256": "eea6f515b69f1fdb0469c6f01942b1858cc78bc0fea84307826cb97dc6469fc2"
+        },
+        {
+          "kind": "dic",
+          "reference_period": "2026-REG",
+          "url": "https://corpocdn.blob.core.windows.net/blobfiles/2026_09_22_DIC_CRISTAL_CARE.pdf",
+          "discovery_basis": "ISSUER_PRODUCT_PAGE_HTML_HREF_PENDING_BINARY_QA",
+          "publisher_page": "https://www.inter-gestion.com/corpo/cristal-care",
+          "publisher_page_sha256": "e655e6c7eb75b391cb3af233a884b6b5e94262336c82d54caf2dc4f1ae859877",
+          "review_pages": [
+            1,
+            2
+          ]
         }
       ]
     }

@@ -37,3 +37,12 @@ test('App named-only educational article imports do not access absent default ex
     assert.ok(!line.includes('m.default'), 'named-only module using default fallback: ' + moduleName);
   }
 });
+
+test('portfolio selection passes the Scpi object, PDF uses the required fields and footer props remain valid', () => {
+  assert.match(app, /onAddToPortfolio=\\{isParcoursLocked \\? undefined : \\(scpi\\) => toggleScpiSelection\\(scpi\\)\\}/);
+  assert.doesNotMatch(app, /toggleScpiSelection\\(scpi\\.name\\)/);
+  assert.match(app, /percentage: scpi\\.allocation \\?\\? 0/);
+  assert.match(app, /investedAmount: investmentAmount \\* \\(scpi\\.allocation \\?\\? 0\\) \\/ 100/);
+  assert.match(app, /await generatePortfolioPDF\\(portfolio, null, investmentAmount\\)/);
+  assert.doesNotMatch(app, /<Footer isDarkMode=/);
+});
