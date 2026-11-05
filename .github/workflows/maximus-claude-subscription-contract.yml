@@ -6,6 +6,8 @@ on:
     paths:
       - "scripts/agents/subscriptionCliRunner.mjs"
       - "scripts/agents/subscriptionCliRunner.test.mjs"
+      - "scripts/agents/claudeSubscriptionPreflight.mjs"
+      - "scripts/agents/claudeSubscriptionPreflight.test.mjs"
       - "agents/autonomous/claude-code-subscription.md"
       - ".github/workflows/maximus-claude-subscription-contract.yml"
   workflow_dispatch:
@@ -28,6 +30,8 @@ jobs:
       - name: Static syntax — no Claude subscription required
         run: |
           node --check scripts/agents/subscriptionCliRunner.mjs
+          node --check scripts/agents/claudeSubscriptionPreflight.mjs
+          node --test scripts/agents/claudeSubscriptionPreflight.test.mjs
           node --test scripts/agents/subscriptionCliRunner.test.mjs
           node --test scripts/agents/deepseekCorrectiveRunner.test.mjs
           node --test scripts/agents/deepseekWorkflowContract.test.mjs
