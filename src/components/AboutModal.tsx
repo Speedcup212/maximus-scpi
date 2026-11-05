@@ -1,6 +1,5 @@
 import React from 'react';
 import { X, Shield, Award, ExternalLink, User, Building } from 'lucide-react';
-import ResponsiveImage from './ResponsiveImage';
 
 interface AboutModalProps {
   isOpen: boolean;

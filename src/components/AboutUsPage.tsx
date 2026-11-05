@@ -1,6 +1,5 @@
 ﻿import React from 'react';
 import { Target, Users, Award, Shield, Lightbulb, Heart, Zap, Sparkles, Brain, UserCircle } from 'lucide-react';
-import ResponsiveImage from './ResponsiveImage';
 
 const AboutUsPage: React.FC = () => {
   return (

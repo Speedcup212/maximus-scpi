@@ -83,7 +83,6 @@ const RichArticlePage: React.FC<RichArticlePageProps> = ({
         onAboutSectionClick={onNavigateToAbout}
         onComparateurClick={onComparateurClick}
         onSimulateurClick={onSimulateurClick}
-        onAnalyseActuClick={onAnalyseActuClick}
       />
 
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -125,7 +124,7 @@ const RichArticlePage: React.FC<RichArticlePageProps> = ({
         </div>
 
         {/* Article Sections */}
-        {sections.map((section, idx) => {
+        {sections.map((section) => {
           const Icon = section.icon;
           return (
             <section key={section.id} className="mb-16">
