@@ -40,6 +40,8 @@ jobs:
         run: npm ci
       - name: Test generic cohort, provenance, absence and period guards
         run: node --test scripts/scpi-onboarding/*.test.mjs
+      - name: Verify private screenshot ZIP integrity and 12-case content
+        run: python3 -m unittest discover -s scripts/scpi-onboarding -p 'test_verify_browser_artifact.py' -v
       - name: Verify independent-review boundaries, 15-part discrepancy and period-correct fee bases
         run: node --test scripts/scpi-onboarding/sourceFinancialSemantics.test.mjs scripts/scpi-candidates/autonomousPreparedRelease.test.mjs
       - name: Regression preflight on the two published BNP candidates
