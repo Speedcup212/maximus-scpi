@@ -76,7 +76,7 @@ def _decode_inpi_pdf(raw):
     except UnicodeDecodeError:
         raise ValueError("INPI_PDF_ENCODING_UNSUPPORTED") from None
     if envelope.startswith("{"):
-        result = _json(raw)
+        result = _json(raw, max_bytes=MAX_PDF_WIRE_BYTES)
         value = result.get("binaryFile")
         if not isinstance(value, str):
             raise ValueError("INPI_PDF_JSON_MISSING_BINARY_FILE")
@@ -98,8 +98,8 @@ def _decode_inpi_pdf(raw):
     return decoded
 
 
-def _json(raw):
-    if len(raw) > MAX_JSON_BYTES:
+def _json(raw, max_bytes=MAX_JSON_BYTES):
+    if len(raw) > max_bytes:
         raise ValueError("INPI_JSON_TOO_LARGE")
     try:
         obj = json.loads(raw)
