@@ -74,6 +74,13 @@ jobs:
           if [ -f test-results/scpi-onboarding/report.json ]; then
             cp test-results/scpi-onboarding/report.json test-results/scpi-onboarding/report-sofidynamic.json
           fi
+      - name: Bind private 10+2 browser screenshots to one hashed case manifest
+        run: |
+          if test -f test-results/scpi-onboarding/report-sofidynamic.json; then
+            node scripts/scpi-onboarding/combinePrivateBrowserEvidence.mjs
+          else
+            echo "NO_SOFIDYNAMIC_PRIVATE_REPORT: no 12-case bundle certified"
+          fi
       - name: Save candidate browser proof
         if: always()
         uses: actions/upload-artifact@v4
