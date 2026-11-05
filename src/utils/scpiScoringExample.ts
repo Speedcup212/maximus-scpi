@@ -4,7 +4,6 @@
  * Ce fichier contient des exemples pratiques d'utilisation du système de scoring
  */
 
-import { Scpi } from '../types/scpi';
 import { calculateScpiScores, calculateAndSaveScpiScores, getLatestScpiScores } from './scpiScoringService';
 import { scoreScpiBatch, defaultParams, ScpiInput } from './scpiScoring';
 
