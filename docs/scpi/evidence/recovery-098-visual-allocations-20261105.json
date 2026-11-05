@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-11-05",
+  "review_mode": "AI_VISUAL_SECOND_PASS_NOT_HUMAN_NEVER_LEGAL_OR_SUITABILITY_APPROVAL",
+  "publication_authorized": false,
+  "funds": [
+    {
+      "slug": "sofidynamic",
+      "period": "2026-T3",
+      "sha": "1898d414b5195c8e0f675ef9041e3142e2e53f720f238fd6ca6cdcf2f8992c38",
+      "url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+      "page": 2,
+      "render_sha": "2a6778332cbbb16eac665b36b287ddba598d06201798f3a27f01c73aca4f7e2b",
+      "effective_date": "2026-09-30",
+      "geo": {
+        "France": 48.3,
+        "Pays-Bas": 31.9,
+        "Espagne": 7.1,
+        "Royaume-Uni": 12.7
+      },
+      "geo_source": "French sub-regions on issuer chart: Région parisienne 13.4 + Régions 26.4 + Paris 8.5 = France 48.3, exact aggregation without invented exposure.",
+      "sector": {
+        "Bureaux": 10.4,
+        "Activité": 1.2,
+        "Galeries et centres commerciaux": 32.1,
+        "Moyennes surfaces commerciales de périphérie": 36.7,
+        "Commerces de centre-ville": 19,
+        "Éducation": 0.6
+      }
+    },
+    {
+      "slug": "opus-real",
+      "period": "2026-T3",
+      "sha": "4268caf8eac2f4c98906dd1d1d6fd3af7be0c1e47a8d24c04450cd79e3516eb9",
+      "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-11/BT_OR_3T2026_def.pdf",
+      "page": 4,
+      "render_sha": "33ad5021096724efd4283dbebfb8b6d9a9804c321c3a894033b4f226e3aff51e",
+      "effective_date": "2026-06-30",
+      "geo": {
+        "Allemagne": 100
+      },
+      "geo_source": "Publisher geographical breakdown is seven Germany-only cities; 18.4+18.1+18.1+14.0+13.3+10.6+7.5=100.0. Aggregate Germany 100%, not T3 fresh expert values.",
+      "sector": {
+        "Bureaux": 79.2,
+        "Commerces": 13.3,
+        "Hôtellerie": 7.5
+      }
+    },
+    {
+      "slug": "aew-opportunites-europe",
+      "period": "2026-S1",
+      "sha": "7dee4e015b33a15b36a51fc1eaf8686eba50ad3291560a4150b64b37c34e19fe",
+      "url": "https://www.aewpatrimoine.com/sites/default/files/2026-08/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%201er%20semestre%202026.pdf",
+      "page": 1,
+      "render_sha": "c2ddb0c399fca756d9a344c6f0267e53c167e61fe6a651a6c49369191b4a764b",
+      "effective_date": "2026-06-30",
+      "geo": {
+        "France": 64,
+        "Espagne": 23,
+        "Allemagne": 13
+      },
+      "geo_source": "Source chart splits France into Province 47% and Ile-de-France 17%; France 64% is exact country consolidation.",
+      "sector": {
+        "Bureaux": 67,
+        "Commerces": 28,
+        "Industriel": 5
+      }
+    }
+  ]
+}
