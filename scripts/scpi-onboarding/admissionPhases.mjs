@@ -5,7 +5,7 @@ import { createPublicKey, verify } from 'node:crypto';
 const SHA = /^[0-9a-f]{40}$/;
 const BASE64URL = /^[A-Za-z0-9_-]+$/;
 const PILOTS = Object.freeze(['aew-opportunites-europe','opus-real','sofidynamic']);
-const SURFACES = Object.freeze(['fiche','comparateur','simulateurs','radar','trajectoire','espace-client']);
+const SURFACES = Object.freeze(['profile','comparator_analysis','radar','simulator','client_card','trajectory']);
 const REQUIRED = Object.freeze([
  'current_regulatory_documents','financial_review_complete','legal_review_complete',
  'history_reconciled_or_approved_exception','private_browser_12_cases',
