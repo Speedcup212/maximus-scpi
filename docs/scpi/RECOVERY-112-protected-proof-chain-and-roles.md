@@ -75,3 +75,16 @@ La présence d'un SHA-256 formel ou d'un nom d'approbateur dans une table ne con
 - **100/100** : seulement après toutes ces preuves. Aucun score PR statique, `trustedProtectedReadback:true` ou fiche avec réserves ne suffit.
 
 Le déploiement Netlify observé était `6aec97d02a61623a0240031f` (commit `cdd65b06846054cfa2a9f949c491e5c2c2010534`), distinct de la branche PR. **Aucun merge ou déploiement effectué.**
+
+## 7. Vérification du dernier cycle GitHub (constat, pas autorisation)
+
+Exécution [admission #42096159139](https://github.com/Speedcup212/maximus-scpi/actions/runs/42096159139), SHA de code `d901b67447dfae74c8bc942e5a76c801c210999e` :
+- **20 tests Node intégrés PASS / 0 FAIL** : protocole deux phases, rôles indépendants, vrais documents réglementaires, historique, navigateur 12 cas et exact SHA Netlify.
+- **TypeScript PASS : zéro diagnostic restant** sur 1 023 initialement ; 0 diagnostic nouveau.
+- **Prépublication : BLOCKED**. La dernière photographie PR ne remplace pas une lecture protégée courante.
+- **Admission : 75/100 NO GO** ; l'étape finale refuse explicitement l'absence d'habilitations et de lecture post-déploiement.
+- Le workflow `scpi-protected-postdeploy-admission.yml` a été créé dans la PR, mais **non exécuté sur `main`**, car il n'est pas encore fusionné et ses secrets/environnement protégés ne sont pas configurés.
+
+Vérification directe Supabase (05/11/2026) : `scpi_candidate_batch_decisions`, `scpi_candidate_final_audit`, `scpi_candidate_final_review`, `scpi_candidate_regulatory_documents`, `scpi_publication_delegations` ont la RLS activée et aucun droit SELECT/INSERT/UPDATE `anon` ou `authenticated` dans les droits interrogés. La vue d'admission privée n'accorde pas SELECT à ces rôles ; c'est une vue, sa protection repose sur les privilèges et `security_invoker`.
+
+**Condition réseau de l'exécuteur protégé** : pour GitHub-hosted runners, utiliser si nécessaire la chaîne de connexion IPv4 du **session pooler** Supabase plutôt qu'un endpoint de connexion directe IPv6. Vérifier l'accès sans afficher la chaîne, et privilégier un rôle PostgreSQL dédié en lecture seule avec `statement_timeout` et TLS.
