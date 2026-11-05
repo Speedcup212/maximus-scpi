@@ -25,6 +25,7 @@ export interface ProReportSimulation {
   tmi: number;
   duration: number;
   mode: 'comptant' | 'credit' | 'demembrement';
+  montantTotal?: number; // Montant de départ conservé pour les nouveaux rapports, rétrocompatible
   results: SimulationResult[];
 }
 
