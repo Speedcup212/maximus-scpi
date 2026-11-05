@@ -10,9 +10,14 @@ const auditGates=['historical_consistency_pass','financial_coverage_pass','liqui
 const dbGates=['current_pdf_identity_verified','source_financial_gate','allocation_gate','candidate_indicator_gate',
  'analysis_gate','independent_review_gate','independent_audit_gate','responsible_batch_gate',
  'six_surface_browser_gate','final_release_gate','registry_links_verified',
- 'regulatory_legal_review_gate','prepublication_history_consistency_ready'];
+ 'regulatory_legal_review_gate','prepublication_history_consistency_ready',
+ 'technical_financial_minimum_met','regulatory_pdf_identity_minimum_met','liquidity_disclosure_gate'];
 function fixture(){return {
- pilot_rows:PILOTS.map(scpi_slug=>({scpi_slug,source_period:'2026-T3',regulatory_binary_count:3,
+ regulatory_documents:PILOTS.flatMap(scpi_slug=>['dic','note','statutes'].map(document_kind=>({
+  scpi_slug,document_kind,identity_verified:true,kind_verified:true,pdf_sha256:digest,
+  page_count:10,checked_at:'2026-11-05T16:00:00Z',source_url:'https://official.example/validated.pdf'
+ }))),
+ pilot_rows:PILOTS.map(scpi_slug=>({scpi_slug,source_period:'2026-T3',regulatory_binary_count:3,prepublication_verified_history_periods:2,
   ...Object.fromEntries(dbGates.map(key=>[key,true]))})),
  reviews:PILOTS.map(scpi_slug=>({scpi_slug,reviewed_by:'financial-reviewer',
   reviewed_at:'2026-11-05T17:00:00Z',...Object.fromEntries(reviewGates.map(key=>[key,true])),
@@ -52,6 +57,20 @@ test('duplicate, incomplete and swapped pilot groups fail',()=>{
  }
  const f=fixture(); f.batch.candidate_slugs.pop();
  assert.ok(evaluate(f).blockers.includes('BATCH_IDENTITY_MISMATCH'));
+});
+test('missing, stale or unverifiable legal PDFs block even a 3/3 numeric count',()=>{
+ for(const mutation of [
+  f=>f.regulatory_documents.pop(),
+  f=>f.regulatory_documents[0].kind_verified=false,
+  f=>f.regulatory_documents[0].pdf_sha256='not-valid',
+  f=>f.regulatory_documents[0].source_url='http://not-https.invalid/doc',
+  f=>f.regulatory_documents[0].checked_at=null
+ ]){
+  const f=fixture();mutation(f);
+  assert.ok(evaluate(f).blockers.some(x=>x.includes('REGULATORY_PDF_PROVENANCE_INVALID')));
+ }
+ const f=fixture();f.pilot_rows[0].prepublication_verified_history_periods=1;
+ assert.ok(evaluate(f).blockers.some(x=>x.includes('TWO_SOURCE_VERIFIED_HISTORY')));
 });
 test('actor separation, delegation existence and chronology are mandatory',()=>{
  const a=fixture();a.reviews[0].reviewed_by=a.audits[0].approved_by;
