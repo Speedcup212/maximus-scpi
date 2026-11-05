@@ -422,3 +422,54 @@ class RegisteredQuarterSourceSelectionRegression(unittest.TestCase):
   docs=[{'kind':'quarterly','url':f'https://issuer.test/old-{n}.pdf'} for n in range(3)]
   self.assertEqual([x['url'] for x in batch.select_documents(docs)],
                    [x['url'] for x in docs[:2]])
+
+
+class DicDocumentarySemanticsRegression(unittest.TestCase):
+ """Source captions only. Passing a parser is never an independent DIC review."""
+ def pdf(self,*pages):
+  pdf=fitz.open()
+  for lines in pages:
+   page=pdf.new_page()
+   for idx,line in enumerate(lines):
+    page.insert_text((35,70+idx*30),line,fontsize=10)
+  raw=pdf.tobytes();pdf.close()
+  return raw
+ def test_precise_dated_risk_article_horizon_and_suspension_are_only_proposals(self):
+  raw=self.pdf([
+   'Ce produit a ete categorise dans la classe de risque 3 sur 7.',
+   'La duree de placement recommandee est fixee a 10 ans.',
+   'La societe de gestion a decide une suspension temporaire de la variabilite du capital.',
+  ],[
+   'La SCPI releve de l article 8 du reglement (UE) 2019/2088 dit SFDR.',
+  ])
+  result=batch.dic_source_disclosures(raw)
+  self.assertEqual(result['fields']['sri']['value'],3)
+  self.assertEqual(result['fields']['recommended_holding_years']['value'],10)
+  self.assertEqual(result['fields']['sfdr_article']['value'],8)
+  self.assertTrue(result['suspended_capital_mentioned_in_pdf'])
+  self.assertEqual(result['suspension_mention_pages'],[1])
+  self.assertEqual(result['pdf_sha256'],hashlib.sha256(raw).hexdigest())
+  self.assertFalse(result['legal_review_passed'])
+  self.assertFalse(result['financially_certified'])
+  self.assertFalse(result['publication_authorized'])
+ def test_incorrectly_inferred_risk_from_number_slider_or_random_sfdr_article_is_not_allowed(self):
+  raw=self.pdf(['Indicateur de risque 1 2 3 4 5 6 7',
+                'La SCPI investit dans l article 8 du code civil.',
+                'Les pertes potentielles sont elevees.'])
+  result=batch.dic_source_disclosures(raw)
+  self.assertNotIn('sri',result['fields'])
+  self.assertNotIn('sfdr_article',result['fields'])
+  self.assertEqual(result['status'],'SOURCE_PROPOSALS_WITH_RESERVES')
+  self.assertIn('sri:NOT_UNAMBIGUOUSLY_FOUND',result['issues'])
+ def test_conflicting_risk_source_pages_are_not_reduced_to_one_fake_qa_pass(self):
+  raw=self.pdf(['La classe de risques 3 sur 7 est indiquee.'],
+               ['La classe de risque 4 sur 7 est indiquee.'])
+  result=batch.dic_source_disclosures(raw)
+  self.assertNotIn('sri',result['fields'])
+  self.assertIn('sri:CONFLICTING_EXPLICIT_SOURCE_VALUES',result['issues'])
+  self.assertFalse(result['sfdr_classification_certified'])
+ def test_reject_nonpdf_and_too_short_pdf_without_source_proposals(self):
+  with self.assertRaisesRegex(ValueError,'INVALID_DIC_BINARY'):
+   batch.dic_source_disclosures(b'<html>login required</html>')
+  with self.assertRaisesRegex(ValueError,'INVALID_DIC_BINARY'):
+   batch.dic_source_disclosures(b'%PDF'+b'X'*(batch.MAX_BYTES+1))
