@@ -8,7 +8,6 @@ import KPICards from './KPICards';
 import ProjectionChart from './ProjectionChart';
 import SectorAllocation from './SectorAllocation';
 import GeographyAllocation from './GeographyAllocation';
-import LoadingSpinner from '../LoadingSpinner';
 import { normalizeGeoLabel, normalizeSectorLabel } from '../../utils/labelNormalization';
 import ZScoreBar from '../ZScoreBar';
 import SriRiskProfileBlock from '../shared/SriRiskProfileBlock';

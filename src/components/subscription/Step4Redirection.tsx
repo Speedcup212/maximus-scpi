@@ -7,7 +7,7 @@ interface Step4RedirectionProps {
   onClose?: () => void;
 }
 
-const Step4Redirection: React.FC<Step4RedirectionProps> = ({ onClose }) => {
+const Step4Redirection: React.FC<Step4RedirectionProps> = () => {
   const { state } = useSubscription();
 
   const getDetentionModeLabel = () => {

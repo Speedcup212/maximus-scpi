@@ -6,7 +6,7 @@ interface Step8JustificatifsProps {
   onClose?: () => void;
 }
 
-const Step8Justificatifs: React.FC<Step8JustificatifsProps> = ({ onClose }) => {
+const Step8Justificatifs: React.FC<Step8JustificatifsProps> = () => {
   const { goToStep } = useSubscription();
 
   const handleContinue = () => {

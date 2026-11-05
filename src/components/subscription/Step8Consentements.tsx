@@ -6,7 +6,7 @@ interface Step8ConsentementsProps {
   onClose?: () => void;
 }
 
-const Step8Consentements: React.FC<Step8ConsentementsProps> = ({ onClose }) => {
+const Step8Consentements: React.FC<Step8ConsentementsProps> = () => {
   const { state, updateState, goToStep } = useSubscription();
 
   const handleContinue = () => {

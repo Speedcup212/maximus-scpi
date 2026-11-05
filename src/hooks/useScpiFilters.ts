@@ -26,13 +26,16 @@ const updateUrl = (quickFilter: QuickFilterType, filters: Filters) => {
 };
 
 export const useScpiFilters = (scpiData: Scpi[]) => {
-  const urlParams = getUrlParams();
-  const [activeQuickFilter, setActiveQuickFilter] = useState<QuickFilterType>('tous');
+  // Respecter les filtres transmis dans un lien profond, sans relire l'URL
+  // à chaque re-render (et sans provoquer une remise à zéro silencieuse).
+  const [urlParams] = useState(getUrlParams);
+  const [activeQuickFilter, setActiveQuickFilter] = useState<QuickFilterType>(urlParams.quickFilter);
   const [filters, setFilters] = useState<Filters>({
-    sector: '',
-    geography: '',
-    minYield: 0,
-    minCapitalization: 0
+    sector: urlParams.sector,
+    geography: urlParams.geography,
+    minYield: Number.isFinite(urlParams.minYield) && urlParams.minYield > 0 ? urlParams.minYield : 0,
+    minCapitalization: Number.isFinite(urlParams.minCapitalization) && urlParams.minCapitalization > 0
+      ? urlParams.minCapitalization : 0,
   });
 
   useEffect(() => {
