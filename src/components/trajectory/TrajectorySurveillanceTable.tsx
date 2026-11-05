@@ -197,7 +197,7 @@ const TrajectorySurveillanceTable: React.FC = () => {
         console.warn('[TrajectorySurveillanceTable] Historique indisponible.', historyResult.error);
       } else {
         setHistoryRows(
-          (Array.isArray(historyResult.data) ? historyResult.data.filter(isHistoryRow) : []).filter((row) =>
+          (Array.isArray(historyResult.data as unknown) ? (historyResult.data as unknown[]).filter(isHistoryRow) : []).filter((row) =>
             certifiedSlugSet.has(row.scpi_slug),
           ),
         );
