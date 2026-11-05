@@ -33,7 +33,7 @@ export function subscriptionCommand(provider,prompt){
  if(provider==='codex'){
   return {file:'codex',args:['exec','--sandbox','read-only','--skip-git-repo-check',prompt]};
  }
- return {file:'claude',args:['-p','--output-format','json','--max-turns','1','--permission-mode','plan',prompt]};
+ return {file:'claude',args:['-p','--bare','--restricted','--tools','','--disallowedTools','mcp__*', '--permission-mode','plan','--permission-prompts','none','--no-session-persistence','--output-format','json','--max-turns','1',prompt]};
 }
 export function parseSubscriptionReply(provider,raw,file){
  if(!SUPPORTED.has(provider))throw Error('SUBSCRIPTION_PROVIDER_UNSUPPORTED');
@@ -57,11 +57,11 @@ export function buildSubscriptionPrompt({issue,filepath,source}){
   'Do not remove tests, financial gates, independent QA or publication restrictions.',
   'Return ONLY the exact JSON object described below, without commentary.',
   messages[0].content,messages[1].content
- ].join('\\n\\n');
+ ].join('\n\n');
 }
 function changedFiles(){
  const text=execFileSync('git',['status','--porcelain','--untracked-files=all'],{cwd:ROOT,encoding:'utf8',timeout:10000}).trim();
- return text?text.split('\\n'):[];
+ return text?text.split('\n'):[];
 }
 export function runSubscriptionCandidate({provider,taskPath,runner=spawnSync}){
  if(!SUPPORTED.has(provider))throw Error('SUBSCRIPTION_PROVIDER_UNSUPPORTED');
@@ -71,7 +71,7 @@ export function runSubscriptionCandidate({provider,taskPath,runner=spawnSync}){
  const candidateBranch=String(execFileSync('git',['branch','--show-current'],{
   cwd:ROOT,encoding:'utf8',timeout:10000
  })).trim();
- if(!/^agents\\/(?:autonomous|execution)(?:[-/][a-zA-Z0-9._-]+)*$/.test(candidateBranch))
+ if(!/^agents\/(?:autonomous|execution)(?:[-/][a-zA-Z0-9._-]+)*$/.test(candidateBranch))
   throw Error('ISOLATED_AGENTS_BRANCH_REQUIRED');
  if(changedFiles().length!==0)throw Error('DIRTY_WORKTREE_REFUSED');
  const target=path.join(ROOT,filepath);
@@ -82,6 +82,16 @@ export function runSubscriptionCandidate({provider,taskPath,runner=spawnSync}){
  const source=fs.readFileSync(target,'utf8');
  if(source.length>MAX_SOURCE)throw Error('SOURCE_TOO_LARGE');
  const prompt=buildSubscriptionPrompt({issue,filepath,source});
+ if(provider==='claude'){
+  const auth=runner('claude',['auth','status'],{
+   cwd:ROOT,env:subscriptionOnlyEnv(process.env),
+   encoding:'utf8',timeout:15000,maxBuffer:8192,shell:false,windowsHide:true
+  });
+  if(auth.error||auth.status!==0)throw Error('CLAUDE_SUBSCRIPTION_LOGIN_REQUIRED');
+  let status;
+  try{status=JSON.parse(auth.stdout);}catch{throw Error('CLAUDE_AUTH_STATUS_NOT_JSON');}
+  if(status.authMethod!=='claude.ai')throw Error('CLAUDE_SUBSCRIPTION_AUTH_ONLY_NO_API_BILLING');
+ }
  const command=subscriptionCommand(provider,prompt);
  const result=runner(command.file,command.args,{
   cwd:ROOT,env:subscriptionOnlyEnv(process.env),
