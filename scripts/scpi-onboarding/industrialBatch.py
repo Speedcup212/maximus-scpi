@@ -392,7 +392,7 @@ def main():
     ap.add_argument('--offset',type=int,default=0);ap.add_argument('--limit',type=int,default=20)
     ap.add_argument('--observed-sources',help='Optional READ-ONLY Supabase binary observation export; not current QA')
     ap.add_argument('--resume',action='store_true');args=ap.parse_args()
-    observed=json.loads(Path(args.observed_sources).read_text()) if args.observed_sources else {'documents':[]}
+    observed=json.loads(Path(args.observed_sources).read_text()) if args.observed_sources else {'schema_version':1,'documents':[]}
     if observed.get('schema_version')!=1 or not isinstance(observed.get('documents'),list):raise ValueError('INVALID_OBSERVED_BINARY_EVIDENCE')
     registry=json.loads(Path(args.registry).read_text());cohort=json.loads((HERE.parent.parent/'src/data/certified_scpi_cohort.json').read_text())
     validate_registry(registry,cohort)

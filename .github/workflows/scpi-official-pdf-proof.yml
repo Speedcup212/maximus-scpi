@@ -58,7 +58,8 @@ jobs:
         run: |
           python scripts/scpi-onboarding/industrialBatch.py \
             --registry scripts/scpi-onboarding/fixtures/industrial-pilots-20261104.json \
-            --out test-results/scpi-source-validation/industrial
+            --out test-results/scpi-source-validation/industrial \
+            --observed-sources docs/scpi/evidence/recovery-093-readonly-db-reconciliation-20261105.json
       - name: Fifth standard SCPI through the same documentary engine (private only)
         run: |
           python scripts/scpi-onboarding/industrialBatch.py \
