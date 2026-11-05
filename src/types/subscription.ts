@@ -116,12 +116,13 @@ export interface PatrimoineSepare {
   ifi: number;
   otherCharges: number;
   
-  // Étape 7: Origine des fonds
-  primaryFundOrigin: FundOrigin;
-  fundAmount: number;
-  multipleOrigins: boolean;
+  // Étape 7: origine des fonds — collectée séparément, jamais déduite des actifs.
+  // Ces champs restent absents tant que le souscripteur ne les a pas déclarés.
+  primaryFundOrigin?: FundOrigin;
+  fundAmount?: number;
+  multipleOrigins?: boolean;
   secondaryOrigins?: Array<{ origin: FundOrigin; amount: number }>;
-  fundOriginCountry: string;
+  fundOriginCountry?: string;
 }
 
 export interface SubscriptionState {
