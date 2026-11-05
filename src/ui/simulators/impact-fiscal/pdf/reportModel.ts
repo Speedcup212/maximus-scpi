@@ -115,7 +115,7 @@ export const buildImpactFiscalReportModel = (
       : hasAnnualDistributions
         ? 'PFU sur distributions (hors sortie)'
         : 'Impôt perso (hors sortie)';
-    const rows = item.years.filter((row, idx, arr) =>
+    const rows = item.years.filter((_, idx, arr) =>
       arr.length <= 15 ? true : idx % 2 === 0 || idx === arr.length - 1
     );
     return {

@@ -788,7 +788,6 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
       };
     }
 
-    const fileName = filenameFromUrl(candidate.pdfUrl);
     const storagePath = `${source.scpi_slug}/${period}/${sha256}.pdf`;
 
     const rawPatch = buildIndicatorPatch(extraction);

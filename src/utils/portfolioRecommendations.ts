@@ -85,7 +85,7 @@ export const generatePortfolioRecommendations = (
   const selectedScpi = selectDiversifiedPortfolio(scoredScpi, riskProfile);
 
   // Calculer les allocations
-  const recommendations = calculateAllocations(selectedScpi, riskProfile, investmentAmount);
+  const recommendations = calculateAllocations(selectedScpi, riskProfile);
 
   // Analyser le portefeuille
   const riskAnalysis = analyzePortfolioRisk(recommendations, riskProfile);
@@ -246,8 +246,7 @@ const selectDiversifiedPortfolio = (
 
 const calculateAllocations = (
   selectedScpi: { scpi: Scpi; score: number; reason: string }[],
-  riskProfile: RiskProfile,
-  investmentAmount: number
+  riskProfile: RiskProfile
 ): PortfolioRecommendation[] => {
   const totalScore = selectedScpi.reduce((sum, item) => sum + item.score, 0);
   

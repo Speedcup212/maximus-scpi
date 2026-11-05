@@ -1,7 +1,6 @@
 import { scpiLandingPages, ScpiLandingData } from '../data/landingPagesData';
 import { scpiData } from '../data/scpiData';
 import { createSlugFromName } from './scpiSlugMapper';
-import { qualifyYield } from './yieldContext';
 import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from './scpiDiscountPremium';
 import { Scpi } from '../types/scpi';
 import {isFeatureDisabled} from './scpiPublicationQuality';

@@ -136,7 +136,7 @@ export function getSimulatorSchemaData(view: keyof typeof simulatorSeoConfig) {
     i === 0 ? `${SITE}/` : i === 1 ? `${SITE}/simulateurs/` : c.canonical
   );
   parts.push(generateBreadcrumbSchema(c.breadcrumb.map((name, i) => ({ name, url: bcUrls[i] || SITE }))));
-  if (c.faq?.length) parts.push(generateFAQSchema(c.faq));
+  if (c.faq?.length) parts.push(generateFAQSchema(c.faq.map(({ question, answer }) => ({ question, answer }))));
   if ('app' in c && c.app) {
     parts.push(generateSoftwareApplicationSchema(c.app));
   }
