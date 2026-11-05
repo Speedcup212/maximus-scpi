@@ -8,12 +8,12 @@ from inpiRegistryStatutes import (
 )
 
 
-def pdf_bytes(text="SOFIDYNAMIC STATUTS MIS A JOUR 08 JUILLET 2026"):
+def pdf_bytes(text="SOFIDYNAMIC STATUTS MIS A JOUR 08 JUILLET 2026", second="Sofidynamic - capital et regles statutaires"):
     with fitz.open() as document:
         p = document.new_page()
         p.insert_text((50, 75), text)
-        second = document.new_page()
-        second.insert_text((50, 75), "Sofidynamic — capital et regles statutaires")
+        second_page = document.new_page()
+        second_page.insert_text((50, 75), second)
         return document.tobytes()
 
 
@@ -75,7 +75,7 @@ class InpiOfficialStatutesTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "NOT_PDF"):
             inspect_official_pdf(b"<html>captcha</html>", act())
         with self.assertRaisesRegex(ValueError, "IDENTITY_NOT_CONFIRMED"):
-            inspect_official_pdf(pdf_bytes("OTHER COMPANY STATUTS"), act())
+            inspect_official_pdf(pdf_bytes("OTHER COMPANY STATUTS", second="OTHER COMPANY capital"), act())
         with self.assertRaisesRegex(ValueError, "METADATA_NOT_ELIGIBLE"):
             inspect_official_pdf(pdf_bytes(), act(date="2025-07-08"))
 
