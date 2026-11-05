@@ -38,6 +38,56 @@ def allowed(url, hosts):
     except (ValueError,TypeError):return False
 
 
+def block_verified_share_counts(raw):
+    """Independent page-block cross-check for similarly captioned share numbers.
+
+    Never transfer 'parts en attente' into 'parts retirees'. The leading number
+    must belong to the *same native PDF text block* as the explicit caption.
+    Multiple conflicting blocks are not accepted as definitive.
+    """
+    patterns={
+        'retraits_executes_trimestre':r'^([0-9][0-9 \u00a0\u202f]*)\s+parts retirees\b',
+        'parts_attente_retrait':r'^([0-9][0-9 \u00a0\u202f]*)\s+parts en attente\b',
+    }
+    candidates={k:[] for k in patterns}
+    with fitz.open(stream=raw,filetype='pdf') as pdf:
+        for page_index,page in enumerate(pdf):
+            for block in page.get_text('blocks'):
+                content=bulletin_fields.norm(block[4])
+                for metric,regex in patterns.items():
+                    match=re.search(regex,content)
+                    if not match:continue
+                    value=int(re.sub(r'\s','',match.group(1)))
+                    candidates[metric].append({'value':value,'page':page_index+1,
+                        'caption':match.group(0)})
+    return {metric:rows for metric,rows in candidates.items() if rows}
+
+
+def guard_share_caption_meaning(raw,metrics,proofs,coverage,alternatives):
+    """Reject dual-reader agreement that contradicts an explicit PDF text block.
+
+    This is a defensive semantic check, not certification or a new authoritative
+    parser. Keep rejected observations in alternatives for independent review.
+    """
+    blocks=block_verified_share_counts(raw)
+    for metric,observations in blocks.items():
+        values={v['value'] for v in observations}
+        if len(values)!=1:
+            if metric in metrics:
+                alternatives[metric]={'source_block_conflicts':observations,
+                    'rejected_dual_reader_value':metrics.pop(metric)}
+                proofs.pop(metric,None)
+                coverage[metric]='needs_review'
+            continue
+        if metric in metrics and metrics[metric]!=next(iter(values)):
+            alternatives[metric]={'explicit_source_block':observations,
+                'rejected_dual_reader_value':metrics.pop(metric),
+                'reason':'COUNT_FROM_ADJACENT_DIFFERENT_CAPTION'}
+            proofs.pop(metric,None)
+            coverage[metric]='needs_review'
+    return metrics,proofs,coverage,alternatives
+
+
 def decimal_value(raw):
     """French publisher notation only. Never infer percent/EUR/millions."""
     raw=str(raw).strip().replace('\u202f','').replace('\xa0','').replace(' ','')
@@ -346,6 +396,8 @@ def run_candidate(c,out,fetcher=None,observed_sources=None):
                     metrics,proofs,coverage,alternatives=bulletin_fields.reconcile(
                         bulletin_fields.extract(*mupdf(raw),period),
                         bulletin_fields.extract(*poppler(out/(digest+'.pdf')),period))
+                    metrics,proofs,coverage,alternatives=guard_share_caption_meaning(
+                        raw,metrics,proofs,coverage,alternatives)
                     record['financial_extraction']={'independent_readers_pass':True,
                         'metrics':metrics,'evidence':proofs,'technical_field_coverage':coverage,
                         'candidates_requiring_review':alternatives,
