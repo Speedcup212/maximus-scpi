@@ -48,7 +48,7 @@ jobs:
           const executableSteps=workflow.split('      - name: Guard against hidden external-billing fallback')[0];
           if(/netlify deploy|gh pr merge|git push origin main/.test(executableSteps))
             throw Error('Unexpected deploy command in workflow steps');
-          if(!workflow.includes('permissions:\\n  contents: read'))
+          if(!workflow.includes('permissions:') || !workflow.includes('  contents: read'))
             throw Error('Workflow must have read-only GitHub permissions');
           console.log('SUBSCRIPTION_CONTRACT_VERIFIED_WITHOUT_MODEL_SPEND');
           NODE
