@@ -79,7 +79,7 @@ Le déploiement Netlify observé était `6aec97d02a61623a0240031f` (commit `cdd6
 ## 7. Vérification du dernier cycle GitHub (constat, pas autorisation)
 
 Exécution [admission #42096159139](https://github.com/Speedcup212/maximus-scpi/actions/runs/42096159139), SHA de code `d901b67447dfae74c8bc942e5a76c801c210999e` :
-- **20 tests Node intégrés PASS / 0 FAIL** : protocole deux phases, rôles indépendants, vrais documents réglementaires, historique, navigateur 12 cas et exact SHA Netlify.
+- **20 tests Node intégrés PASS / 0 FAIL** : protocole deux phases, séparation des rôles, vérifications de provenance documentaire, historique, couverture navigateur 12 cas et exact SHA Netlify **sur des fixtures synthétiques**.
 - **TypeScript PASS : zéro diagnostic restant** sur 1 023 initialement ; 0 diagnostic nouveau.
 - **Prépublication : BLOCKED**. La dernière photographie PR ne remplace pas une lecture protégée courante.
 - **Admission : 75/100 NO GO** ; l'étape finale refuse explicitement l'absence d'habilitations et de lecture post-déploiement.
