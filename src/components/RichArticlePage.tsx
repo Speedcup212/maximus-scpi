@@ -32,8 +32,7 @@ const RichArticlePage: React.FC<RichArticlePageProps> = ({
   onNavigateToUnderstanding,
   onContactClick,
   onSimulateurClick,
-  onComparateurClick,
-  onAnalyseActuClick
+  onComparateurClick
 }) => {
   // Générer le contenu riche
   const sections = generateRichArticleContent(template);
