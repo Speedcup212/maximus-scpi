@@ -24,12 +24,7 @@ interface OptimizedThematicLandingPageProps {
 
 const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> = ({
   pageKey,
-  onNavigateHome,
-  onNavigateToFaq,
-  onNavigateToAbout,
-  onNavigateToUnderstanding,
-  onNavigateToScpi,
-  onContactClick
+  onNavigateHome
 }) => {
   console.log('[DEBUG OptimizedThematicLandingPage] Rendering with pageKey:', pageKey);
   const pageData: ThematicLandingPageData = thematicLandingPages[pageKey];
@@ -56,7 +51,6 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Capturer et stocker les paramètres UTM/gclid dès l'arrivée sur la page
   useEffect(() => {
@@ -212,14 +206,6 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
       onNavigateHome();
     } else {
       window.location.href = '/';
-    }
-  };
-
-  const handleContactClick = () => {
-    if (onContactClick) {
-      onContactClick();
-    } else {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
   };
 
@@ -639,7 +625,7 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
             <div className="flex flex-col md:flex-row items-center gap-8">
               {/* Photo Éric */}
               <div className="flex-shrink-0">
-                <EricAvatar size="xl" className="shadow-xl" />
+                <EricAvatar size={120} className="shadow-xl" />
               </div>
 
               {/* Contenu */}

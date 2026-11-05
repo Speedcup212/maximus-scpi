@@ -35,16 +35,13 @@ interface FintechComparatorContentProps {
 }
 
 const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
-  onCloseAnalysis,
-  onGuidedJourneyClick,
-  hideTitle = false,
   zScoreVariant = 'full'
 }) => {
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSimulationOpen, setIsSimulationOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [sortBy, setSortBy] = useState<'yield' | 'price'>('yield');
+  const [sortBy] = useState<'yield' | 'price'>('yield');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
   const [currentPage, setCurrentPage] = useState(1);
   const [analysisScpi, setAnalysisScpi] = useState<SCPIExtended | null>(null);
