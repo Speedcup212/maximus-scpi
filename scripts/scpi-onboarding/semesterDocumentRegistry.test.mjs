@@ -146,3 +146,25 @@ test('private source trajectory is never mistaken for published or legally certi
  assert.doesNotMatch(latest,/\bGRANT\b/i);
  assert.ok(latest.includes('verified_source_periods >= 2')||latest.includes('verified_source_periods >= 2::bigint'));
 });
+
+
+test('private verified history breaks first-release cycle without inventing public trajectory',()=>{
+ const sql=migrationText('20261105164922_scpi_prepublication_reconciled_history_v3_20261105.sql');
+ assert.ok(sql.includes('scpi_candidate_private_trajectory_v1'));
+ assert.ok(sql.includes('scpi_candidate_verified_share_flow_v1'));
+ assert.ok(sql.includes('prepublication_verified_history_periods'));
+ assert.ok(sql.includes('prepublication_history_consistency_ready'));
+ assert.ok(sql.includes("qa_reconciliation_status='SOURCE_FLOW_ARITHMETIC_RECONCILED'"));
+ assert.ok(sql.includes("bad.qa_reconciliation_status<>'SOURCE_FLOW_ARITHMETIC_RECONCILED'"));
+ assert.ok(sql.includes('bad.opening_period IS NOT NULL'));
+ assert.ok(sql.includes("COALESCE(ap.live_trajectory_points, 0::bigint) >= 2"));
+ assert.ok(sql.includes('NOT t.publication_authorized'));
+ assert.ok(sql.includes('NOT t.comparison_signoff'));
+ // This is just an alternative for source history: full independent audit
+ // and accountable batch remain mandatory.
+ assert.ok(sql.includes('COALESCE(rv.independent_review_ready, false)'));
+ assert.ok(sql.includes('COALESCE(rv.independent_audit_ready, false)'));
+ assert.ok(sql.includes('COALESCE(rv.responsible_batch_ready, false)'));
+ assert.doesNotMatch(sql,/\b(?:insert|update|delete|truncate)\s+(?:into\s+|from\s+)?public\./i);
+ assert.doesNotMatch(sql,/\bGRANT\s+(?:ALL|SELECT|UPDATE|INSERT)\b/i);
+});
