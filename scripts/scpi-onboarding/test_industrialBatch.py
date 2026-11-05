@@ -390,3 +390,35 @@ class WithdrawalQueueSemanticRegression(unittest.TestCase):
   m={'retraits_executes_trimestre':822}
   batch.guard_share_caption_meaning(raw,m,{}, {}, {})
   self.assertNotIn('retraits_executes_trimestre',m)
+
+
+class RegisteredQuarterSourceSelectionRegression(unittest.TestCase):
+ def test_pinned_current_and_prior_quarters_beat_undated_legacy_link(self):
+  docs=[
+   {'kind':'quarterly','url':'https://issuer.test/march-undated.pdf'},
+   {'kind':'dic','url':'https://issuer.test/dic.pdf'},
+   {'kind':'note','url':'https://issuer.test/note.pdf'},
+   {'kind':'statutes','url':'https://issuer.test/statutes.pdf'},
+   {'kind':'annual','url':'https://issuer.test/annual.pdf'},
+   {'kind':'quarterly','reference_period':'2026-T3','url':'https://issuer.test/t3.pdf','previous_pdf_sha256':'a'*64},
+   {'kind':'quarterly','reference_period':'2026-T2','url':'https://issuer.test/t2.pdf','previous_pdf_sha256':'b'*64}
+  ]
+  selected=batch.select_documents(docs)
+  quarters=[d['url'] for d in selected if d['kind']=='quarterly']
+  self.assertEqual(quarters,['https://issuer.test/t3.pdf','https://issuer.test/t2.pdf'])
+  self.assertNotIn('https://issuer.test/march-undated.pdf',quarters)
+  for k in ['dic','note','statutes','annual']:
+   self.assertIn(k,[d['kind'] for d in selected])
+ def test_semester_period_order_never_confuses_previous_and_current(self):
+  docs=[
+   {'kind':'semiannual','url':'https://issuer.test/undated.pdf'},
+   {'kind':'semiannual','url':'https://issuer.test/s2-2025.pdf','reference_period':'2025-S2'},
+   {'kind':'semiannual','url':'https://issuer.test/s1-2026.pdf','reference_period':'2026-S1'},
+   {'kind':'semiannual','url':'https://issuer.test/s2-2026.pdf','reference_period':'2026-S2'},
+  ]
+  expected=['https://issuer.test/s2-2026.pdf','https://issuer.test/s1-2026.pdf']
+  self.assertEqual([x['url'] for x in batch.select_documents(docs)],expected)
+ def test_unknown_only_preserves_discovery_order_and_does_not_certify(self):
+  docs=[{'kind':'quarterly','url':f'https://issuer.test/old-{n}.pdf'} for n in range(3)]
+  self.assertEqual([x['url'] for x in batch.select_documents(docs)],
+                   [x['url'] for x in docs[:2]])
