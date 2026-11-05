@@ -235,8 +235,9 @@ export interface SubscriptionState {
   
   // Étape 8: Communication & Consentements
   electronicDocuments: boolean; // Documents électroniques
-  emailConsent: boolean; // Informations par email
+  emailConsent: boolean; // Consentement facultatif aux communications par email
   smsConsent: boolean; // Informations par SMS
+  wantsAccompaniment: boolean; // Demande explicite de contact, distincte du consentement marketing
   
   // Étape 9: Validation client
   informationAccuracy: boolean; // Exactitude des informations *

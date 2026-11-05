@@ -100,6 +100,7 @@ const initialState: SubscriptionState = {
   electronicDocuments: false,
   emailConsent: false,
   smsConsent: false,
+  wantsAccompaniment: false,
   
   // Étape 10
   informationAccuracy: false,
@@ -344,6 +345,9 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
     try {
       if (!state.email || !state.phone) {
         throw new Error('L\'email et le téléphone sont obligatoires pour la soumission.');
+      }
+      if (!state.primaryFundOrigin || !state.fundOriginCountry.trim()) {
+        throw new Error('L’origine et le pays de provenance des fonds doivent être renseignés avant l’envoi du pré-dossier.');
       }
 
       const { email, phone, ...restOfState } = state;

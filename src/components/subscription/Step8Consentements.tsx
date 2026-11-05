@@ -75,6 +75,24 @@ const Step8Consentements: React.FC<Step8ConsentementsProps> = ({ onClose }) => {
           </div>
         </div>
 
+        {/* Demande de contact indépendante des communications commerciales */}
+        <div className="bg-slate-800 rounded-2xl p-6 mb-6 border border-slate-700">
+          <label className="flex items-start gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={state.wantsAccompaniment}
+              onChange={(event) => updateState({ wantsAccompaniment: event.target.checked })}
+              className="mt-1 w-5 h-5 accent-emerald-500"
+            />
+            <div>
+              <span className="text-sm font-medium text-white">Je souhaite être accompagné(e) par un conseiller</span>
+              <p className="text-xs text-slate-400 mt-1">
+                Cette demande est facultative et indépendante de l'autorisation de recevoir des informations par email.
+              </p>
+            </div>
+          </label>
+        </div>
+
         {/* Note */}
         <div className="bg-slate-800/50 rounded-xl p-4 mb-6 border border-slate-700">
           <p className="text-xs text-slate-400 leading-relaxed">
