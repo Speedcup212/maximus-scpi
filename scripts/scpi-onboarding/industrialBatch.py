@@ -15,6 +15,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import unicodedata
 
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parent/'agents'))
@@ -86,6 +87,84 @@ def guard_share_caption_meaning(raw,metrics,proofs,coverage,alternatives):
             proofs.pop(metric,None)
             coverage[metric]='needs_review'
     return metrics,proofs,coverage,alternatives
+
+
+
+def dic_source_disclosures(raw):
+    """Native-PDF source extraction only. No legal suitability/QA approval.
+
+    Constrain every observation to a relevant caption/context in the SAME
+    page. A numeric risk slider or an unrelated 'article 8' is not proof.
+    Conflicting disclosures are explicitly withheld from the result.
+    """
+    if not isinstance(raw,bytes) or not raw.startswith(b'%PDF') or len(raw)>MAX_BYTES:
+        raise ValueError('INVALID_DIC_BINARY')
+    def canonical(text):
+        normal=unicodedata.normalize('NFKD',str(text).lower())
+        return ' '.join(''.join(c for c in normal if not unicodedata.combining(c)).split())
+    patterns={
+      'sri':[
+        r'classe de risques?\s+([1-7])\s+sur\s+7',
+      ],
+      'sfdr_article':[
+        r'classification sfdr\s*:\s*article\s+([0-9]{1,2})',
+        r'releve de l.article\s+([0-9]{1,2})\s+du reglement.{0,100}sfdr',
+      ],
+      'recommended_holding_years':[
+        r'duree de placement recommandee\s*:?\s*([0-9]{1,2})\s+ans',
+        r'duree de placement recommandee est fixee a\s+([0-9]{1,2})\s+ans',
+        r'conservez le produit\s+(?:pendant\s+)?([0-9]{1,2})\s+ans',
+        r'conserver leurs parts pendant une periode.{0,100}?moins\s+([0-9]{1,2})\s+ans',
+      ],
+      'borrowing_authorization_million_eur_in_dic':[
+        r'assemblee generale.{0,100}?a fixe a\s+(\d{2,4})\s*m(?:illion(?:s)?)?\s*€',
+      ],
+    }
+    candidates={key:[] for key in patterns}
+    suspension=[]
+    with fitz.open(stream=raw,filetype='pdf') as pdf:
+        if pdf.needs_pass or not pdf.is_pdf or not 1<=len(pdf)<=50:
+            raise ValueError('INVALID_DIC_PAGES')
+        for n,page in enumerate(pdf):
+            native=page.get_text(sort=True)
+            text=canonical(native)
+            for field,regexes in patterns.items():
+                for regex in regexes:
+                    for match in re.finditer(regex,text,flags=re.I):
+                        candidates[field].append({'value':int(match.group(1)),
+                            'source_page':n+1,
+                            'context_excerpt':text[max(0,match.start()-80):min(len(text),match.end()+140)],
+                            'native_page_text_sha256':hashlib.sha256(native.encode()).hexdigest()})
+            if (re.search(r'suspension (?:temporaire )?de la variabilite du capital',text) or
+                re.search(r'variabilite du capital.{0,100}?suspendu',text)):
+                suspension.append(n+1)
+        count=len(pdf)
+    fields={}
+    issues=[]
+    for field,rows in candidates.items():
+        uniq={r['value'] for r in rows}
+        if len(uniq)>1:
+            issues.append(field+':CONFLICTING_EXPLICIT_SOURCE_VALUES')
+        elif len(uniq)==1:
+            fields[field]={'value':next(iter(uniq)),
+                          'evidence':rows[:8],
+                          'technical_source_only':True,'independently_certified':False}
+    for needed in ('sri','sfdr_article','recommended_holding_years'):
+        if needed not in fields:
+            issues.append(needed+':NOT_UNAMBIGUOUSLY_FOUND')
+    return {
+      'status':'SOURCE_PROPOSALS_WITH_RESERVES' if issues else 'SOURCE_PROPOSALS_ONLY',
+      'pdf_sha256':hashlib.sha256(raw).hexdigest(),
+      'page_count':count,
+      'fields':fields,
+      'suspended_capital_mentioned_in_pdf':bool(suspension),
+      'suspension_mention_pages':suspension,
+      'issues':issues,
+      'legal_review_passed':False,
+      'sfdr_classification_certified':False,
+      'financially_certified':False,
+      'publication_authorized':False,
+    }
 
 
 def decimal_value(raw):
@@ -412,6 +491,8 @@ def run_candidate(c,out,fetcher=None,observed_sources=None):
             verified=audit_document({'kind':link['kind'],'reference_period':period,'url':link['url']},
                 {'name':c['name'],'issuer_hosts':c['issuer_hosts']},lambda _: (raw,final))
             record.update(verified);record['status']='BINARY_IDENTITY_PERIOD_VERIFIED_ONLY'
+            if link['kind']=='dic':
+                record['dic_source_disclosures']=dic_source_disclosures(raw)
             if link['kind'] in ('quarterly','semiannual'):
                 try:
                     metrics,proofs,coverage,alternatives=bulletin_fields.reconcile(
