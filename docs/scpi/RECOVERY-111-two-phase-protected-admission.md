@@ -18,7 +18,9 @@ Le workflow de PR exige `score === 100` alors qu'il calcule `evaluateMaturity(ob
 
 ## Vérifications
 
-Tests locaux `node --test scripts/scpi-onboarding/admissionPhases.test.mjs` : **9/9 PASS** sur la version consolidée avec URL de production et identifiant de déploiement. La fixture Ed25519 est **entièrement synthétique**, limitée au test du protocole, et ne doit jamais être utilisée comme certification réelle. Le statut de GitHub Actions est à contrôler sur le nouveau HEAD : les anciennes exécutions ne valident pas les derniers commits.
+Tests locaux `node --test scripts/scpi-onboarding/admissionPhases.test.mjs` : **9/9 PASS** sur la version consolidée avec URL de production et identifiant de déploiement. La fixture Ed25519 est **entièrement synthétique**, limitée au test du protocole, et ne doit jamais être utilisée comme certification réelle.
+
+**Contrôle GitHub vérifié**, exécution [#42091429113](https://github.com/Speedcup212/maximus-scpi/actions/runs/42091429113), SHA `a0608364f73cafa3820a18ca1eff79eca4abd19b` : étape de test d'attestation **9/9 PASS**, TypeScript **0 diagnostic**, delta **1023 résolus / 0 introduit**, diagnostic prépublication **BLOCKED** avec 19 constats, admission `INDUSTRIAL_NO_GO: score=75`. L'échec final est intentionnel et indépendant de ces tests techniques. Le commit documentaire ultérieur ne modifie pas ces sources.
 
 ## Lecture Supabase en direct du 05/11/2026 (sans mutation)
 
