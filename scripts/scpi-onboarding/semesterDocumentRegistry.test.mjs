@@ -70,3 +70,13 @@ test('suspended capital has no fabricated primary price or capitalization',()=>{
  assert.ok(sql.includes("i.metric_provenance->>'pdf_sha256' = c_1.pdf_sha256"));
  assert.doesNotMatch(sql,/update\s+public\.scpi_indicators/i);
 });
+
+
+test('protected live admission reads three fixed pilots and never self-proves release',()=>{
+ const sql=migrationText('20261105153141_scpi_protected_readonly_three_pilot_admission_live_20261105.sql');
+ for(const claim of ['security_invoker=true','sofidynamic','opus-real','aew-opportunites-europe',
+  'scpi_candidate_final_release_v1','admission_100_proven','publication_authorized_by_observation','service_role']){
+  assert.ok(sql.includes(claim),claim);
+ }
+ assert.ok(sql.includes('false::boolean AS admission_100_proven'));
+});
