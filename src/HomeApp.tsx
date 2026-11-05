@@ -4,6 +4,7 @@ import SEOHead from './components/SEOHead';
 import InvestorQuiz from './components/InvestorQuiz';
 import { CookieConsent } from './components/CookieConsent';
 import { scpiDataExtended } from './data/scpiDataExtended';
+import certifiedScpiCohort from './data/certified_scpi_cohort.json';
 import { trackFunnelEvent } from './utils/funnelAnalytics';
 import type { QuizData } from './types/quiz';
 
@@ -279,7 +280,21 @@ const HomeApp: React.FC = () => {
                   Au-delà du rendement, découvrez les forces, la trajectoire et les fondamentaux de chaque SCPI.
                 </p>
 
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                <a
+                  href="/comparateur-scpi/"
+                  aria-label={`Voir les ${certifiedScpiCohort.count} SCPI référencées dans le comparateur`}
+                  className="mt-6 inline-flex max-w-full items-center gap-3 rounded-xl border border-emerald-400/25 bg-slate-900/50 px-4 py-3 text-left transition-colors hover:border-emerald-400/60 hover:bg-slate-900/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400"
+                >
+                  <span className="text-3xl font-extrabold tabular-nums text-emerald-400">
+                    {certifiedScpiCohort.count}
+                  </span>
+                  <span className="flex flex-col">
+                    <span className="text-sm font-semibold text-slate-100">SCPI référencées</span>
+                    <span className="text-xs text-slate-400">À explorer dans le comparateur</span>
+                  </span>
+                </a>
+
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
                   <button
                     type="button"
                     onClick={scrollToPortfolioBuilder}
