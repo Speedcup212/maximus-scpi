@@ -31,6 +31,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Test two-phase admission trust boundary (PR cannot certify production)
+        run: node --test scripts/scpi-onboarding/admissionPhases.test.mjs
       - name: Mandatory full TypeScript check (preexisting failures remain failures)
         id: typecheck
         run: |
@@ -55,6 +57,21 @@ jobs:
           const report=evaluateMaturity(observed);
           fs.writeFileSync('test-results/scpi-industrial-admission/maturity.json',JSON.stringify(report,null,2));
           console.log(JSON.stringify(report));
+          JS
+      - name: Record indicative prepublication blockers from untrusted repository snapshot
+        if: always()
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          import {evaluatePrepublication} from './scripts/scpi-onboarding/admissionPhases.mjs';
+          const snapshot=JSON.parse(fs.readFileSync('docs/scpi/evidence/recovery-100-live-protected-admission-20261105.json','utf8'));
+          const report=evaluatePrepublication(snapshot);
+          const out='test-results/scpi-industrial-admission/prepublication-indicative.json';
+          fs.mkdirSync('test-results/scpi-industrial-admission',{recursive:true});
+          fs.writeFileSync(out,JSON.stringify({...report,source:'PR_LOCAL_SNAPSHOT_NOT_LIVE'},null,2));
+          console.log(JSON.stringify(report));
+          if(report.publication_authorized!==false || report.postdeploy_100_proven!==false)
+            throw Error('UNTRUSTED_PR_ATTEMPTED_RELEASE_AUTHORITY');
           JS
       - name: Record actual diagnostic causes and reject new regressions
         if: always()
