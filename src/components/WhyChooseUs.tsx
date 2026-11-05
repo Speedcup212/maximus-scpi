@@ -1,13 +1,12 @@
 ﻿import React from 'react';
 import { Shield, Zap, Award, BarChart3, TrendingUp, Users, Check, Star, Heart, Target, Lightbulb, Phone, Mail, Clock, BadgeCheck, BookOpen, Headphones as HeadphonesIcon, FileCheck, Sparkles, Globe, Lock, Briefcase } from 'lucide-react';
-import ResponsiveImage from './ResponsiveImage';
 
 const WhyChooseUs: React.FC = () => {
   const mainFeatures = [
     {
       icon: <BarChart3 className="w-8 h-8" />,
       title: "Outils d'analyse avancés",
-      description: "Comparez les 63 SCPI du marché avec nos tableaux interactifs, filtres intelligents et analyses détaillées. Simulez votre investissement en temps réel.",
+      description: "Comparez les SCPI référencées avec nos tableaux interactifs, filtres intelligents et analyses détaillées. Simulez votre investissement en temps réel.",
       color: "from-blue-600 to-cyan-600",
       details: ["Comparateur en temps réel", "Filtres intelligents", "Simulateur IA", "Rapports détaillés"]
     },

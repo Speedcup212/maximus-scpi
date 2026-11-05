@@ -10,7 +10,6 @@ import {
   Info,
   Search,
   ShieldCheck,
-  TrendingDown,
   WalletCards,
 } from 'lucide-react';
 import { scpiData } from '../data/scpiData';

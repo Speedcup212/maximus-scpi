@@ -1,6 +1,5 @@
 ﻿import React from 'react';
 import { Building, Calendar, Shield, Award, CheckCircle, Zap, TrendingUp, BarChart3 } from 'lucide-react';
-import ResponsiveImage from './ResponsiveImage';
 
 interface DynamicHeroProps {
   onCalendlyClick: () => void;

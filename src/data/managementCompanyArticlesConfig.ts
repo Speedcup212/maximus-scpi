@@ -4,7 +4,6 @@
  * Les SCPI associées viennent de data-import/scpi_management_companies_master_2026.json
  */
 
-import type { ArticleTemplate } from './articleTemplatesConfig';
 
 export interface ManagementCompanyConfig {
   slug: string;
