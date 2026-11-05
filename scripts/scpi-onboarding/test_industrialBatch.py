@@ -226,3 +226,89 @@ class PreviousBinaryEvidenceIsNotCertification(unittest.TestCase):
   self.assertFalse(result['complete_certification'])
   self.assertFalse(result['publication_authorized'])
 
+
+class CrashTestRECOVERY094(unittest.TestCase):
+ """Adversarial cases on the ACTUAL documentary engine; zero network access."""
+ def test_prior_annual_2025_real_source_is_not_lost_to_invalid_regex(self):
+  candidate={'slug':'opus-real','issuer_hosts':['issuer.test']}
+  base={'scpi_slug':'opus-real','origin_table':'pdf_validation','document_kind':'annual_report',
+        'source_url':'https://issuer.test/ra-2025.pdf','pdf_sha256':'a'*64,
+        'identity_verified':True,'kind_verified':True,'reference_period':'2025-RA'}
+  hits=batch.prior_binary_evidence(candidate,[base])
+  self.assertEqual(len(hits),1)
+  self.assertFalse(hits[0]['financially_certified'])
+  for period in ['2025-T4','2026-S1','2025-RAX','garbage']:
+   self.assertEqual(batch.prior_binary_evidence(candidate,[{**base,'reference_period':period}]),[])
+
+ def test_latest_second_statutes_does_not_starve_under_ten_document_budget(self):
+  kinds=['quarterly','semiannual','dic','note','statutes','annual']
+  docs=[{'kind':kind,'url':f'https://issuer.test/{kind}-old.pdf'} for kind in kinds]
+  docs += [{'kind':kind,'url':f'https://issuer.test/{kind}-current.pdf'} for kind in kinds]
+  picked=batch.select_documents(docs)
+  self.assertEqual(len(picked),batch.MAX_DOCUMENTS)
+  self.assertIn('https://issuer.test/statutes-current.pdf',[d['url'] for d in picked])
+  self.assertIn('https://issuer.test/quarterly-current.pdf',[d['url'] for d in picked])
+  self.assertEqual(set(kinds),{d['kind'] for d in picked})
+
+ def test_observed_database_certificate_is_only_a_lead_never_an_approval(self):
+  candidate={'slug':'fund','name':'Fund','management_company':'Issuer',
+    'issuer_hosts':['issuer.test'],'product_page':'https://issuer.test/fund'}
+  forged={'scpi_slug':'fund','origin_table':'regulatory_documents','document_kind':'statutes',
+    'source_url':'https://issuer.test/statutes.pdf','pdf_sha256':'a'*64,
+    'identity_verified':True,'kind_verified':True,'verified_at':'2026-11-05'}
+  with TemporaryDirectory() as tmp:
+   report=batch.run_candidate(candidate,Path(tmp),lambda _: (b'<html><h1>Fund</h1></html>','https://issuer.test/fund'),
+                              observed_sources=[forged])
+  self.assertIn('MISSING_VERIFIED_STATUTES',report['blockers'])
+  self.assertEqual(report['anomaly_ledger']['unresolved_count'],len(report['blockers']))
+  self.assertEqual(report['stages']['publication_control']['status'],'DENIED')
+  self.assertFalse(report['complete_certification'])
+  self.assertFalse(report['publication_authorized'])
+
+ def test_corrupt_pdf_does_not_trigger_source_validation_or_financial_certification(self):
+  candidate={'slug':'fund','name':'Fund','management_company':'Issuer',
+    'issuer_hosts':['issuer.test'],'product_page':'https://issuer.test/fund',
+    'documents':[{'kind':'quarterly','reference_period':'2026-T3',
+                  'url':'https://issuer.test/Bulletin-Fund-2026-T3.pdf'}]}
+  def respond(url):
+   if url.endswith('.pdf'):return b'%PDF-1.7\\nnot a valid PDF binary',url
+   return b'<html><h1>Fund</h1></html>',url
+  with TemporaryDirectory() as tmp: report=batch.run_candidate(candidate,Path(tmp),respond)
+  self.assertEqual(report['stages']['download']['status'],'BLOCKED')
+  self.assertIn('MISSING_VERIFIED_QUARTERLY',report['blockers'])
+  self.assertFalse(report['publication_authorized'])
+  self.assertFalse(report['complete_certification'])
+
+ def test_conflicting_quarters_on_cover_do_not_pick_the_more_profitable_period(self):
+  pdf=fitz.open();pdf.new_page().insert_text((40,40),'SCPI Fund Bulletin T2 2026 et T3 2026')
+  raw=pdf.tobytes();pdf.close()
+  with self.assertRaises(ValueError):batch.detected_period(raw,'quarterly','2026-T3')
+
+ def test_source_host_and_redirect_attacks_never_leave_allowlist(self):
+  hosts=['issuer.test']
+  for url in ['https://issuer.test.evil.test/doc.pdf','https://evil.test@issuer.test/doc.pdf',
+              'https://issuer.test:444/doc.pdf','file:///etc/passwd',
+              'http://issuer.test/doc.pdf','https://127.0.0.1/doc.pdf']:
+   self.assertFalse(batch.allowed(url,hosts),msg=url)
+  for host in ['https://evil.test/doc.pdf','http://issuer.test/doc.pdf']:
+   with self.assertRaises(ValueError):
+    batch.CheckedRedirect(hosts).redirect_request(None,None,302,'',{},host)
+
+ def test_checkpoint_rejects_tampered_hash_and_cursor_after_crash(self):
+  registry=b'{"schema_version":1,"candidates":[{"slug":"fund"}]}'
+  valid={'registry_sha256':hashlib.sha256(registry).hexdigest(),'next_offset':1}
+  self.assertEqual(batch.resume_offset(registry,valid,2),1)
+  for modified in [registry+b' ',registry.replace(b'fund',b'evil')]:
+   with self.assertRaises(ValueError):batch.resume_offset(modified,valid,2)
+  for cursor in [3,-1,'1',None,True]:
+   with self.assertRaises(ValueError):batch.resume_offset(registry,{**valid,'next_offset':cursor},2)
+
+ def test_missing_document_remains_unknown_not_officially_unavailable(self):
+  ledger=batch.anomaly_ledger({'slug':'fund','blockers':['MISSING_VERIFIED_DIC',
+    'MISSING_VERIFIED_STATUTES','ACCOUNTABLE_RELEASE_REVIEW_REQUIRED']})
+  for item in ledger['anomalies'][:2]:
+   self.assertEqual(item['availability'],'NOT_OBTAINED_NOT_OFFICIALLY_UNAVAILABLE')
+   self.assertFalse(item['automatic_correction_applied'])
+   self.assertFalse(item['publication_authorized'])
+  self.assertFalse(ledger['publication_authorized'])
+

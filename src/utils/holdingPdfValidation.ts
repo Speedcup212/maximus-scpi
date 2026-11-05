@@ -1,3 +1,4 @@
+import { calculateHoldingISProjection } from './holdingSimulation';
 import type { HoldingISInputs, HoldingISResult } from './holdingSimulation';
 
 export type HoldingPdfSnapshot = { inputs: HoldingISInputs; results: HoldingISResult };
@@ -82,8 +83,41 @@ export const isHoldingPdfSnapshot = (value: unknown): value is HoldingPdfSnapsho
   if (!record(value) || !isHoldingISInputs(value.inputs) || !isHoldingISResult(value.results)) return false;
   const inputs = value.inputs;
   const resultInputs = value.results.inputs;
-  // Compare the stored calculation inputs, not just the two types.
-  const savedResultEntries = new Map(Object.entries(resultInputs));
-  return Object.entries(inputs).every(([key, value]) =>
-    savedResultEntries.has(key) && Object.is(value, savedResultEntries.get(key)));
+  // Require symmetry: a financial assumption present in the engine result
+  // cannot be missing from the assumptions displayed in the PDF.
+  const savedInputs = new Map(Object.entries(inputs));
+  const resultInputEntries = Object.entries(resultInputs);
+  if (savedInputs.size !== resultInputEntries.length ||
+      !resultInputEntries.every(([key, value]) =>
+        savedInputs.has(key) && Object.is(savedInputs.get(key), value))) return false;
+
+  // A structurally well-formed JSON can still contain fabricated finite figures.
+  // Recompute with the existing financial engine: never silently "correct" the
+  // stored result or render a document from unverified historical assumptions.
+  let computed: HoldingISResult;
+  try {
+    computed = calculateHoldingISProjection(inputs);
+  } catch {
+    return false;
+  }
+  if (!computed.isValid) return false;
+  const stored = value.results;
+  if (!resultNumbers.every((key) => Object.is(stored[key], computed[key]))) return false;
+  if (!Object.is(stored.indicativeIrr, computed.indicativeIrr) ||
+      stored.irrMethod !== computed.irrMethod ||
+      stored.irrCashFlows.length !== computed.irrCashFlows.length ||
+      !stored.irrCashFlows.every((n, i) => Object.is(n, computed.irrCashFlows[i]))) return false;
+  if (stored.projections.length !== computed.projections.length ||
+      !stored.projections.every((row, i) =>
+        projectionNumbers.every((key) => Object.is(row[key], computed.projections[i][key])))) return false;
+  if (stored.warnings.length !== computed.warnings.length ||
+      !stored.warnings.every((warning, i) => warning === computed.warnings[i])) return false;
+  if (stored.cabinetChecks.length !== computed.cabinetChecks.length ||
+      !stored.cabinetChecks.every((check, i) => {
+        const expectedCheck = computed.cabinetChecks[i];
+        return check.id === expectedCheck.id && check.level === expectedCheck.level &&
+          check.title === expectedCheck.title && check.message === expectedCheck.message &&
+          check.category === expectedCheck.category;
+      })) return false;
+  return true;
 };

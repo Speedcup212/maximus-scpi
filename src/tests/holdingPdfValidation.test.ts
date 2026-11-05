@@ -32,6 +32,50 @@ describe('Holding IS PDF snapshot structural admission', () => {
     expect(isHoldingPdfSnapshot({ inputs, results })).toBe(true);
   });
 
+  it('rejects a finite but manipulated output, not only NaN or missing fields', () => {
+    const result = calculateHoldingISProjection(inputs);
+    expect(isHoldingPdfSnapshot({
+      inputs,
+      results: { ...result, annualGrossIncome: result.annualGrossIncome + 500_000 },
+    })).toBe(false);
+    expect(isHoldingPdfSnapshot({
+      inputs,
+      results: { ...result, feesHT: result.feesHT + 100 },
+    })).toBe(false);
+    expect(isHoldingPdfSnapshot({
+      inputs,
+      results: {
+        ...result,
+        projections: result.projections.map((year, i) =>
+          i === 0 ? { ...year, grossIncome: year.grossIncome + 1 } : year),
+      },
+    })).toBe(false);
+    expect(isHoldingPdfSnapshot({
+      inputs,
+      results: { ...result, indicativeIrr: 95 },
+    })).toBe(false);
+  });
+
+  it('rejects a hidden extra assumption in results.inputs, even when visible inputs match', () => {
+    const result = calculateHoldingISProjection(inputs);
+    expect(isHoldingPdfSnapshot({
+      inputs,
+      results: { ...result, inputs: { ...result.inputs, standardTaxRate: 17 } },
+    })).toBe(false);
+  });
+
+  it('rejects simulated cabinet controls and nonmatching warnings', () => {
+    const result = calculateHoldingISProjection(inputs);
+    expect(isHoldingPdfSnapshot({
+      inputs,
+      results: { ...result, warnings: ['All financial information is verified'] },
+    })).toBe(false);
+    expect(isHoldingPdfSnapshot({
+      inputs,
+      results: { ...result, cabinetChecks: [] },
+    })).toBe(false);
+  });
+
   it('refuses malformed financial fields and mismatched snapshot assumptions', () => {
     const results = calculateHoldingISProjection(inputs);
     expect(isHoldingPdfSnapshot({ inputs, results: { ...results, annualISBeforeOperation: undefined } })).toBe(false);

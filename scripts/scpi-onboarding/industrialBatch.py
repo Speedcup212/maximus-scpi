@@ -96,7 +96,13 @@ def select_documents(links):
     groups={kind:[] for kind in ['quarterly','semiannual','dic','note','statutes','annual']}
     for link in links:
         if link['kind'] in groups:groups[link['kind']].append(link)
-    return [item for round_ in range(2) for kind,items in groups.items() for item in items[round_:round_+1]][:MAX_DOCUMENTS]
+    first=[items[0] for items in groups.values() if items]
+    # After one of each document class, make room for updated statutes AND
+    # one earlier financial period. An obsolete first statute must not starve
+    # the current second one when six classes fill the ten-document budget.
+    second_priority=['statutes','quarterly','semiannual','dic','note','annual']
+    second=[groups[kind][1] for kind in second_priority if len(groups[kind])>1]
+    return (first+second)[:MAX_DOCUMENTS]
 
 
 def detected_period(raw,kind,fallback):
@@ -258,7 +264,7 @@ def prior_binary_evidence(candidate, observations):
         period=entry.get('reference_period')
         if kind in ('quarterly','semiannual','annual'):
             if not isinstance(period,str) or not bulletin_fields.end_date(period) and kind!='annual':continue
-            if kind=='annual' and not re.fullmatch(r'20\\d{2}-RA',period):continue
+            if kind=='annual' and not re.fullmatch(r'20\d{2}-RA',period):continue
         matches.append({'kind':kind,'reference_period':period,'source_url':url,'pdf_sha256':digest,
             'origin_table':entry['origin_table'],'verified_at':entry.get('verified_at'),
             'status':'PRIOR_READONLY_DB_BINARY_IDENTITY_ONLY_NOT_CURRENT_REVALIDATION',
