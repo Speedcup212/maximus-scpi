@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 import { CookieConsent } from './components/CookieConsent';
 import FintechComparator from './components/fintech/FintechComparator';
 import { observeComparatorRadarUx } from './utils/comparatorRadarUx';
-import { scpiDataExtended } from './data/scpiDataExtended';
+import certifiedScpiCohort from './data/certified_scpi_cohort.json';
 
 const RdvModal = lazy(() => import('./components/RdvModal'));
 
@@ -104,7 +104,7 @@ const ComparatorApp: React.FC = () => {
         <div id="comparator" data-comparator className="pt-6 sm:pt-8 pb-16 sm:pb-20">
           <div className="max-w-[1560px] mx-auto px-4 sm:px-6 lg:px-8 mb-5">
             <h1 className="text-xl sm:text-2xl font-bold text-white">
-              Comparateur SCPI 2026 : comparez {scpiDataExtended.length} SCPI
+              Comparateur SCPI 2026 : comparez {certifiedScpiCohort.count} SCPI
             </h1>
             <p className="mt-1 text-sm text-slate-400 max-w-3xl">
               Comparez les SCPI sur des indicateurs documentés : distribution, frais, TOF, valorisation, dette et liquidité. Approfondissez chaque fiche avec l’Historique, le Radar, la Trajectoire et la Surveillance.
