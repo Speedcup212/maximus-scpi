@@ -18,12 +18,24 @@ import {
   type SurveillanceDashboardRow,
   type SurveillanceSignalKind,
   type SurveillanceSignalLevel,
+  type SurveillanceSignal,
 } from '../utils/surveillanceSignals';
 
 type SignalLevel = SurveillanceSignalLevel;
 type SignalKind = SurveillanceSignalKind;
 type FilterKey = 'all' | 'priority' | 'watching' | 'information' | SignalKind;
 type DashboardRow = SurveillanceDashboardRow;
+
+// Fail closed on incomplete dashboard results. A source with missing columns
+// cannot be turned into a 'clear' surveillance signal by a TypeScript cast.
+const requiredDashboardColumns = SURVEILLANCE_DASHBOARD_SELECT.split(',');
+const isDashboardRow = (value: unknown): value is DashboardRow => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const row = value as Record<string, unknown>;
+  return typeof row.scpi_slug === 'string' && row.scpi_slug.length > 0 &&
+    requiredDashboardColumns.every((column) =>
+      Object.prototype.hasOwnProperty.call(row, column));
+};
 
 type IndicatorRow = {
   scpi_slug: string;
@@ -35,7 +47,7 @@ type SurveillanceRow = {
   name: string;
   latestPeriod: string | null;
   level: SignalLevel;
-  signals: Signal[];
+  signals: SurveillanceSignal[];
 };
 
 const certifiedSlugSet = new Set<string>(certifiedScpiCohort.slugs);
@@ -99,9 +111,13 @@ const SurveillancePage: React.FC = () => {
       if (dashboardResult.error) {
         console.warn('[Surveillance] Dashboard indisponible.', dashboardResult.error);
       } else {
-        setDashboardRows(
-          ((dashboardResult.data || []) as DashboardRow[]).filter((row) => certifiedSlugSet.has(row.scpi_slug)),
-        );
+        const sourceRows: unknown[] = Array.isArray(dashboardResult.data) ? dashboardResult.data : [];
+        const validatedRows = sourceRows.filter(isDashboardRow);
+        if (validatedRows.length !== sourceRows.length) {
+          console.warn('[Surveillance] Lignes incomplètes exclues du tableau de bord :',
+            sourceRows.length - validatedRows.length);
+        }
+        setDashboardRows(validatedRows.filter((row) => certifiedSlugSet.has(row.scpi_slug)));
       }
 
       if (indicatorResult.error) {
