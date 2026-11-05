@@ -138,9 +138,11 @@ test('private source trajectory is never mistaken for published or legally certi
   assert.ok(sql.includes('comparison_signoff'));
   assert.ok(sql.includes('publication_authorized'));
   assert.match(sql,/WITH \(security_invoker=true\)/i);
-  assert.doesNotMatch(sql,/\bGRANT\s+(?:ALL|SELECT|INSERT|UPDATE)\b/i);
+  assert.doesNotMatch(sql,/GRANT\s+(?:ALL|SELECT|INSERT|UPDATE)\s+ON\s+TABLE\s+[^;]+\s+TO\s+(?:anon|authenticated)\b/i);
   assert.doesNotMatch(sql,/\b(?:insert|update|delete)\s+(?:into\s+|from\s+)?public\./i);
  }
  assert.match(old,/REVOKE ALL.*anon,authenticated/i);
+ assert.match(old,/GRANT SELECT.*TO service_role/i);
+ assert.doesNotMatch(latest,/\bGRANT\b/i);
  assert.ok(latest.includes('verified_source_periods >= 2')||latest.includes('verified_source_periods >= 2::bigint'));
 });
