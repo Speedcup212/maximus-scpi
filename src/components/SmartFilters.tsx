@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import InvestorProfileQuestionnaire from './InvestorProfileQuestionnaire';
 import SelectionSimulator from './SelectionSimulator';
 import { Scpi } from '../types/scpi';
 
@@ -50,11 +49,20 @@ const SmartFilters: React.FC<SmartFiltersProps> = ({ availableScpi, selectedScpi
       )}
 
       {mode === 'ia' && (
-        <InvestorProfileQuestionnaire
-          onClose={() => setMode('default')}
-          availableScpi={availableScpi}
-          selectedScpi={selectedScpi}
-        />
+        <div className="p-6 bg-white dark:bg-gray-800 rounded-xl space-y-4">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white">Parcours investisseur</h3>
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            Le questionnaire historique n'est plus disponible. Le parcours guidé actuel
+            recueille les informations nécessaires avant toute recommandation personnalisée.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <a href="/parcours-guide" className="px-4 py-2 rounded bg-blue-600 text-white">
+              Accéder au parcours guidé
+            </a>
+            <button type="button" onClick={() => setMode('default')}
+              className="px-4 py-2 rounded bg-gray-200 text-gray-900">Retour</button>
+          </div>
+        </div>
       )}
 
       {mode === 'selection' && (
