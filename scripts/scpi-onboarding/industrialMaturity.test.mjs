@@ -119,3 +119,13 @@ test('CRASH: PR workflow is structurally unable to award any of its five protect
  assert.ok(workflow.includes("report.score!==100"));
  assert.ok(workflow.includes("INDUSTRIAL_NO_GO"));
 });
+
+
+test('CRASH: a self-declared 75 points can be filled with nonexistent evidence strings; it is NOT audited 75 percent source completeness',()=>{
+ const fakeCriteria=Object.fromEntries(maturityRubric.flatMap(x=>x[2].map(([id])=>[id,{status:'PASS',proofs:['fake://no-document-no-run-no-real-evidence']}])));
+ const report=evaluateMaturity({criteria:fakeCriteria,typecheck_pass:true,no_existing_regression:true,critical_integrity_pass:true});
+ assert.equal(report.score,75);
+ assert.equal(report.decision,'NO_GO');
+ assert.equal(report.publication_authorized,false);
+ assert.ok(report.domains.flatMap(x=>x.criteria).filter(x=>x.awarded>0).every(x=>!protectedAdmissionCriteria.includes(x.id)));
+});
