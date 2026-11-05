@@ -32,7 +32,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Test two-phase admission trust boundary (PR cannot certify production)
-        run: node --test scripts/scpi-onboarding/admissionPhases.test.mjs scripts/scpi-onboarding/protectedReleaseEvidence.test.mjs scripts/scpi-onboarding/protectedProductionReadback.test.mjs scripts/scpi-onboarding/githubArtifactProvenance.test.mjs
+        run: node --test scripts/scpi-onboarding/admissionPhases.test.mjs scripts/scpi-onboarding/protectedReleaseEvidence.test.mjs scripts/scpi-onboarding/protectedProductionReadback.test.mjs scripts/scpi-onboarding/githubArtifactProvenance.test.mjs scripts/scpi-onboarding/protectedCandidateIdentity.test.mjs
       - name: Mandatory full TypeScript check (preexisting failures remain failures)
         id: typecheck
         run: |
