@@ -8,7 +8,7 @@ interface Step1ContextProps {
 }
 
 const Step1Context: React.FC<Step1ContextProps> = ({ onClose }) => {
-  const { state, updateState, goToStep, validateStep } = useSubscription();
+  const { updateState, goToStep } = useSubscription();
 
   const handleAccept = () => {
     updateState({ contextAccepted: true });

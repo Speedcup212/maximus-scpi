@@ -2,7 +2,6 @@ import React from 'react';
 import { ArrowLeft, ArrowRight, Coins, Globe } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
 import { FundOrigin } from '../../types/subscription';
-import { formatCurrency } from '../../utils/formatters';
 import { countries } from '../../utils/subscriptionLists';
 
 interface Step7OrigineFondsProps {
@@ -19,7 +18,7 @@ const FUND_ORIGIN_OPTIONS: { value: FundOrigin; label: string }[] = [
   { value: 'autre', label: 'Autre' },
 ];
 
-const Step7OrigineFonds: React.FC<Step7OrigineFondsProps> = ({ onClose }) => {
+const Step7OrigineFonds: React.FC<Step7OrigineFondsProps> = () => {
   const { state, updateState, goToStep, validateStep } = useSubscription();
   const [hasAttemptedValidation, setHasAttemptedValidation] = React.useState(false);
 

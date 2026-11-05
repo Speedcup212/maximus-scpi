@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
+import { requireSupabase } from '../../lib/supabase';
 
 export default function AnonVideoView({ videoUuid }: { videoUuid: string }) {
   const [loading, setLoading] = useState(true);
@@ -8,7 +8,8 @@ export default function AnonVideoView({ videoUuid }: { videoUuid: string }) {
   useEffect(() => {
     async function fetchVideoData() {
       try {
-        const { data, error } = await supabase
+        const client = requireSupabase();
+        const { data, error } = await client
           .from('shared_links')
           .select('*, scpi_catalog(name)')
           .eq('id', videoUuid)
@@ -24,7 +25,7 @@ export default function AnonVideoView({ videoUuid }: { videoUuid: string }) {
           }
 
           // Incrémenter immédiatement le compteur de vues dans Supabase
-          await supabase
+          await client
             .from('shared_links')
             .update({ view_count: (data.view_count || 0) + 1 })
             .eq('id', videoUuid);
