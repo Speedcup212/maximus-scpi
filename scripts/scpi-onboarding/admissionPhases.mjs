@@ -43,6 +43,11 @@ export function evaluatePrepublication(observed) {
 // deploy SHA, live protected Supabase readback, and 12 browser cases per pilot.
 // The protected signer must verify these claims independently before signing.
 // Do not use this verifier as an automatic publication authorizer.
+function isProductionUrl(url) {
+ try { const u=new URL(url); return u.origin==='https://maximusscpi.com' && !u.username && !u.password; }
+ catch { return false; }
+}
+
 export function verifyPostdeployAttestation({attestation, trustedPublicKeyPem, expectedSha, now=Date.now()}) {
  const fail = reason => ({phase:'POSTDEPLOY',status:'NO_GO',reason,
    publication_authorized:false,postdeploy_100_proven:false});
@@ -69,14 +74,16 @@ export function verifyPostdeployAttestation({attestation, trustedPublicKeyPem, e
  if(payload.commit_sha!==expectedSha || payload?.deployment?.commit_sha!==expectedSha ||
     payload?.supabase_readback?.commit_sha!==expectedSha)
    return fail('DEPLOY_SUPABASE_SHA_MISMATCH');
- if(payload?.deployment?.state!=='ready' ||
+ if(payload?.deployment?.state!=='ready' || payload.deployment.published!==true ||
+     payload.deployment.context!=='production' || payload.deployment.hostname!=='maximusscpi.com' ||
      typeof payload?.deployment?.id!=='string' || !payload.deployment.id.trim())
    return fail('PRODUCTION_DEPLOY_NOT_VERIFIED');
  const issued=Date.parse(payload.issued_at),expires=Date.parse(payload.expires_at);
  const dbTime=Date.parse(payload?.supabase_readback?.observed_at);
- if(![issued,expires,dbTime].every(Number.isFinite) || issued>now+30000 ||
+ const deployedAt=Date.parse(payload?.deployment?.published_at);
+ if(![issued,expires,dbTime,deployedAt].every(Number.isFinite) || deployedAt>issued || issued>now+30000 ||
      issued<now-600000 || expires<=issued || expires>issued+600000 || now>expires ||
-     dbTime>issued || dbTime<issued-600000)
+     dbTime>issued || dbTime<deployedAt || dbTime<issued-600000)
    return fail('ATTESTATION_STALE_OR_TIME_INVALID');
  if(payload?.supabase_readback?.protected_access!==true ||
      payload?.supabase_readback?.release_authorized!==true ||
@@ -100,7 +107,9 @@ export function verifyPostdeployAttestation({attestation, trustedPublicKeyPem, e
      return fail('BROWSER_CASE_COVERAGE_INVALID:'+pilot.slug);
    for(const device of ['desktop','mobile'])for(const surface of SURFACES)
      if(!checks.some(c=>c?.device===device&&c?.surface===surface&&c?.status==='PASS'&&
-          c?.commit_sha===expectedSha&&typeof c?.proof_sha256==='string'&&/^[0-9a-f]{64}$/.test(c.proof_sha256)))
+          c?.commit_sha===expectedSha&&c?.deployment_id===payload.deployment.id&&
+          isProductionUrl(c?.url)&&Date.parse(c?.observed_at)>=deployedAt&&
+          Date.parse(c?.observed_at)<=issued&&typeof c?.proof_sha256==='string'&&/^[0-9a-f]{64}$/.test(c.proof_sha256)))
        return fail('BROWSER_CASE_PROOF_MISSING:'+pilot.slug+':'+device+':'+surface);
  }
  return {phase:'POSTDEPLOY',status:'PROTECTED_ATTESTATION_VERIFIED',
