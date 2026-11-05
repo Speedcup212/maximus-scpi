@@ -123,3 +123,22 @@ test('share-flow reconcilation works only with verified issuer periods and disti
  assert.match(sql,/REVOKE ALL.*anon,authenticated/i);
  assert.doesNotMatch(sql,/\b(?:update|delete|truncate)\s+public\./i);
 });
+
+
+test('private source trajectory is never mistaken for published or legally certified history',()=>{
+ const old=migrationText('20261105162332_scpi_candidate_private_source_backed_trajectory_20261105.sql');
+ const latest=migrationText('20261105162422_scpi_trajectory_legacy_source_basis_allowance_20261105.sql');
+ for(const sql of [old,latest]){
+  assert.ok(sql.includes('scpi_candidate_private_trajectory_v1'));
+  assert.ok(sql.includes('document_identity_verified'));
+  assert.ok(sql.includes('is_verified_candidate_issuer_source'));
+  assert.ok(sql.includes("e.qa_status='qa_pass'")||sql.includes("e.qa_status = 'qa_pass'"));
+  assert.ok(sql.includes('independently_reviewed_at IS NOT NULL'));
+  assert.ok(sql.includes("tof_records"));
+  assert.ok(sql.includes('comparison_signoff'));
+  assert.ok(sql.includes('publication_authorized'));
+  assert.match(sql,/REVOKE ALL.*anon,authenticated/i);
+  assert.doesNotMatch(sql,/\b(?:insert|update|delete)\s+(?:into\s+|from\s+)?public\./i);
+ }
+ assert.ok(latest.includes('verified_source_periods >= 2')||latest.includes('verified_source_periods >= 2::bigint'));
+});
