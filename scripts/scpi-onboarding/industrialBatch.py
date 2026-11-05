@@ -141,11 +141,20 @@ def document_kind(url,label):
 
 
 def select_documents(links):
-    # Historical bulletins must not exhaust the budget before DIC/legal/RA.
-    # Preserve discovery order within each kind (issuers generally list newest first).
+    # Preserve the legal/annual source budget, but prefer issuer financial
+    # periods explicitly pinned by a previously verified original PDF.
+    # An old live-page link without a period must not outrank T3 and T2.
+    # This is document SELECTION only; full PDF/period/SHA checks still follow.
     groups={kind:[] for kind in ['quarterly','semiannual','dic','note','statutes','annual']}
     for link in links:
         if link['kind'] in groups:groups[link['kind']].append(link)
+    def period_rank(doc,kind):
+        period=doc.get('reference_period','')
+        if not isinstance(period,str):return (-1,-1)
+        match=re.fullmatch(r'(20[0-9]{2})-'+('T([1-4])' if kind=='quarterly' else 'S([12])'),period)
+        return (int(match.group(1)),int(match.group(2))) if match else (-1,-1)
+    for kind in ('quarterly','semiannual'):
+        groups[kind].sort(key=lambda d:period_rank(d,kind),reverse=True)
     first=[items[0] for items in groups.values() if items]
     # After one of each document class, make room for updated statutes AND
     # one earlier financial period. An obsolete first statute must not starve
@@ -372,7 +381,19 @@ def run_candidate(c,out,fetcher=None,observed_sources=None):
     # Explicit known sources still retain their original official index, not a silent mirror.
     for doc in c.get('documents',[]):
         if not allowed(doc['url'],c['issuer_hosts']):raise ValueError('UNREGISTERED_DECLARED_DOCUMENT')
-        links.setdefault(doc['url'],{**doc,'publisher_page':c['product_page'],'discovery_basis':'DECLARED_OFFICIAL_SOURCE_REQUIRES_BINARY_CHECK'})
+        prior=links.get(doc['url'])
+        if prior is None:
+            links[doc['url']]={**doc,'publisher_page':c['product_page'],
+                'discovery_basis':'DECLARED_OFFICIAL_SOURCE_REQUIRES_BINARY_CHECK'}
+        else:
+            if prior['kind']!=doc['kind']:raise ValueError('DECLARED_DOCUMENT_KIND_CONFLICT')
+            # Keep the actual issuer HTML publisher reference, but associate
+            # the previously SHA-verified financial period with the link.
+            # audit_document still checks the binary and PDF identity itself.
+            if doc.get('reference_period'):
+                prior['reference_period']=doc['reference_period']
+            if doc.get('previous_pdf_sha256'):
+                prior['previous_pdf_sha256']=doc['previous_pdf_sha256']
     result['stages']['discovery']={'status':'SOURCE_LINKS_FOUND' if links else 'BLOCKED','links_found':len(links)}
     for link in select_documents(list(links.values())):
         record={**link,'status':'UNVERIFIED'}
