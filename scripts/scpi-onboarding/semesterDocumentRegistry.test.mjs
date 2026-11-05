@@ -80,3 +80,25 @@ test('protected live admission reads three fixed pilots and never self-proves re
  }
  assert.ok(sql.includes('false::boolean AS admission_100_proven'));
 });
+
+
+test('prepublication browser smoke can use exact private issuer PDF, never a fabricated deployed bulletin',()=>{
+ const migration=migrationText('20261105160810_scpi_private_prepublish_six_surface_browser_evidence_20261105.sql');
+ assert.ok(migration.includes("LEFT JOIN public.scpi_bulletins b"));
+ assert.ok(migration.includes("semiannual_bulletin"));
+ assert.ok(migration.includes("p.pdf_sha256 = (s.metric_provenance ->> 'pdf_sha256'::text)"));
+ assert.ok(migration.includes("maximus_agents.is_verified_candidate_issuer_source(p.source_url)"));
+ assert.ok(migration.includes("e.qa_status='qa_pass'"));
+ assert.ok(migration.includes("e.independently_reviewed_at IS NOT NULL"));
+ assert.ok(migration.includes("e.source_page BETWEEN 1 AND p.page_count"));
+ assert.ok(migration.includes(">=12"));
+ for(const field of ['source_period','source_url','source_pdf_sha256']){
+  assert.ok(migration.includes("r.review_evidence->'approved_analysis_snapshot'->>'"+field+"'"));
+ }
+ assert.ok(migration.includes("c.value ->> 'surface'"));
+ assert.ok(migration.includes("1440"));
+ assert.ok(migration.includes("390"));
+ assert.ok(migration.includes("scpi_is_strong_qa(b.qa_status)"),'Existing published BNP baseline must remain checked');
+ assert.doesNotMatch(migration,/\b(?:update|delete|truncate)\s+public\./i);
+ assert.doesNotMatch(migration,/\bgrant\s+(?:all|select|insert|update)\b/i);
+});
