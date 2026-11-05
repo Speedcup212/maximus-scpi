@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useProReport } from '../../contexts/ProReportContext';
-import { supabase } from '../../lib/supabase';
+import { requireSupabase } from '../../lib/supabase';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { Play, Star, Filter, Plus, Check, X, Search, ChevronDown, ChevronUp } from 'lucide-react';
 import FintechComparator from '../fintech/FintechComparator';
@@ -24,7 +24,7 @@ async function loadPremiumMeta(): Promise<SCPIPremiumMeta[]> {
   if (premiumMetaCache) return premiumMetaCache;
   try {
     // Depuis Supabase scpi_catalog pour les données enrichies
-    const { data } = await supabase
+    const { data } = await requireSupabase()
       .from('scpi_catalog')
       .select('id, name, updated_at');
     if (data) {
@@ -78,7 +78,7 @@ export default function ProComparator() {
   const loadAllowedScpi = useCallback(async () => {
     if (!user || allowedLoaded) return;
     try {
-      const { data } = await supabase
+      const { data } = await requireSupabase()
         .from('cgp_profiles')
         .select('allowed_scpi')
         .eq('id', user.id)
