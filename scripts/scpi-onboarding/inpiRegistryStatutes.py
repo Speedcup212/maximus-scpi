@@ -137,6 +137,37 @@ def _eligible(act):
             and re.fullmatch(r"[A-Za-z0-9_-]{8,64}", act["id"]) is not None)
 
 
+def public_act_candidates(response):
+    """Act list may omit typeRdd; retrieve each candidate's official detail.
+
+    The INPI v4 example includes records without typeRdd in the initial
+    attachments response. Never discard them solely for missing type metadata.
+    Bound the candidate set so absence of pagination never implies that the
+    latest filed statutes were inspected.
+    """
+    acts = response.get("actes")
+    if not isinstance(acts, list):
+        raise ValueError("INPI_ACTS_LIST_MISSING")
+    potential = []
+    for act in acts:
+        if not isinstance(act, dict):
+            continue
+        if act.get("siren") != SIREN or act.get("confidentiality") != "Public":
+            continue
+        if act.get("deleted") is not False or not isinstance(act.get("dateDepot"), str):
+            continue
+        if not re.fullmatch(r"20\d{2}-\d{2}-\d{2}", act["dateDepot"]) or act["dateDepot"] < MIN_FILING_DATE:
+            continue
+        if not isinstance(act.get("id"), str) or not re.fullmatch(r"[A-Za-z0-9_-]{8,64}", act["id"]):
+            continue
+        potential.append(act)
+    if len(potential) > 50:
+        raise ValueError("INPI_ACTS_LIST_REQUIRES_PAGINATION_REVIEW")
+    if not potential:
+        raise ValueError("INPI_PUBLIC_STATUTES_2026_NOT_FOUND")
+    return sorted(potential, key=lambda act: (act["dateDepot"], act["id"]), reverse=True)
+
+
 def choose_filed_statutes(response):
     acts = response.get("actes")
     if not isinstance(acts, list):
@@ -204,11 +235,19 @@ def probe_inpi(username=None, password=None, fetcher=_official_read):
         if not isinstance(token, str) or not token or len(token) > 4096:
             raise ValueError("INPI_BEARER_TOKEN_MISSING")
         listed = _json(fetcher(API_ROOT + "/api/companies/" + SIREN + "/attachments", token=token))
-        chosen = choose_filed_statutes(listed)
-        act_id = chosen["id"]
-        detailed = _json(fetcher(API_ROOT + "/api/actes/" + act_id, token=token))
-        if not _eligible(detailed) or detailed["id"] != act_id or detailed["dateDepot"] != chosen["dateDepot"]:
-            raise ValueError("INPI_METADATA_MISMATCH")
+        detailed = None
+        for entry in public_act_candidates(listed):
+            if isinstance(entry.get("typeRdd"), list) and not _statutes(entry):
+                continue
+            candidate = _json(fetcher(API_ROOT + "/api/actes/" + entry["id"], token=token))
+            if not isinstance(candidate, dict) or candidate.get("id") != entry["id"] or candidate.get("dateDepot") != entry["dateDepot"] or candidate.get("siren") != SIREN:
+                raise ValueError("INPI_METADATA_MISMATCH")
+            if _eligible(candidate):
+                detailed = candidate
+                break
+        if detailed is None:
+            raise ValueError("INPI_PUBLIC_STATUTES_2026_NOT_FOUND")
+        act_id = detailed["id"]
         raw = fetcher(API_ROOT + "/api/actes/" + act_id + "/download", token=token, limit=MAX_PDF_WIRE_BYTES)
         return inspect_official_pdf(_decode_inpi_pdf(raw), detailed)
     except Exception as error:
