@@ -98,6 +98,29 @@ const ExpertSimulationView: React.FC<ExpertSimulationViewProps> = ({ simulationI
   const r = sim.results as Record<string, unknown>;
   const s = sim.summary;
 
+  // Les snapshots historiques sont des JSON non fiables. Ne pas afficher
+  // des projections ou comparatifs si leurs colonnes sont incomplètes.
+  const comparisonRows: ComparatifRow[] = Array.isArray(r.comparatif)
+    ? r.comparatif.filter((row: unknown): row is ComparatifRow => {
+        if (!row || typeof row !== 'object' || Array.isArray(row)) return false;
+        const item = row as Record<string, unknown>;
+        return ['label', 'avant', 'apres', 'impact'].every(key => typeof item[key] === 'string');
+      })
+    : [];
+
+  const projectionColumns: Array<keyof ProjectionRow> = [
+    'year', 'grossIncome', 'amortization', 'isBeforeOperation',
+    'isAfterOperation', 'isImpact', 'netCashFlow', 'cumulativeNetCashFlow',
+  ];
+  const projectionRows: ProjectionRow[] = Array.isArray(r.projections)
+    ? r.projections.filter((row: unknown): row is ProjectionRow => {
+        if (!row || typeof row !== 'object' || Array.isArray(row)) return false;
+        const item = row as Record<string, unknown>;
+        return projectionColumns.every(key =>
+          typeof item[key] === 'number' && Number.isFinite(item[key]));
+      })
+    : [];
+
   return (
     <div className="p-6 lg:p-10 max-w-6xl mx-auto">
       <button onClick={onBack} className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-colors mb-6">
@@ -140,17 +163,17 @@ const ExpertSimulationView: React.FC<ExpertSimulationViewProps> = ({ simulationI
       </div>
 
       {/* Comparatif avant / après */}
-      {r.comparatif && (
+      {comparisonRows.length > 0 && (
         <div className="mb-8">
           <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
             <Calculator className="w-4 h-4 text-blue-400" /> Comparatif avant / après
           </h2>
-          <ComparatifTable data={r.comparatif as ComparatifRow[]} />
+          <ComparatifTable data={comparisonRows} />
         </div>
       )}
 
       {/* Projection annuelle */}
-      {r.projections && (
+      {projectionRows.length > 0 && (
         <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden mb-8">
           <button
             onClick={() => setShowProjections(!showProjections)}
@@ -163,7 +186,7 @@ const ExpertSimulationView: React.FC<ExpertSimulationViewProps> = ({ simulationI
           </button>
           {showProjections && (
             <div className="px-4 pb-4 overflow-x-auto">
-              <ProjectionsTable projections={r.projections as ProjectionRow[]} />
+              <ProjectionsTable projections={projectionRows} />
             </div>
           )}
         </div>
@@ -296,7 +319,7 @@ const ProjectionsTable: React.FC<{ projections: ProjectionRow[] }> = ({ projecti
   </table>
 );
 
-const HypothesesBlock: React.FC<{ inputs: Record<string, unknown> }> = ({ inputs }) => {
+const HypothesesBlock: React.FC<{ inputs: object }> = ({ inputs }) => {
   const entries = Object.entries(inputs);
   if (entries.length === 0) return <p className="text-xs text-slate-500 py-4">Aucune hypothèse enregistrée.</p>;
   return (
