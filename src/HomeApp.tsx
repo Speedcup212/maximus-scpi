@@ -290,7 +290,7 @@ const HomeApp: React.FC = () => {
                   </span>
                   <span className="flex flex-col">
                     <span className="text-sm font-semibold text-slate-100 sm:text-base">SCPI analysées</span>
-                    <span className="text-xs leading-relaxed text-slate-300 sm:text-sm">Rendements • Frais • Risques • Trajectoires</span>
+                    <span className="text-xs leading-relaxed text-slate-300 sm:text-sm">Rendements • Frais • Risques • Radar</span>
                   </span>
                 </a>
 
