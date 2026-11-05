@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowUpDown, Search } from 'lucide-react';
 import { findScpiSlug, createSlugFromName } from '../utils/scpiSlugMapper';
 
