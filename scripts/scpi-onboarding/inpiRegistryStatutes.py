@@ -6,6 +6,8 @@ pull-request workflow; never log credentials, bearer token, or response bodies.
 The returned PDF SHA and filed-act metadata are documentary evidence, not
 proof of full legal currentness or authorization to publish.
 """
+import base64
+import binascii
 import hashlib
 import json
 import os
@@ -21,6 +23,7 @@ SIREN = "983023003"
 MIN_FILING_DATE = "2026-07-08"
 MAX_PDF_BYTES = 12_000_000
 MAX_JSON_BYTES = 1_000_000
+MAX_PDF_WIRE_BYTES = (MAX_PDF_BYTES * 4 // 3) + 131_072
 
 
 class NoRedirect(HTTPRedirectHandler):
@@ -55,6 +58,44 @@ def _official_read(url, token=None, payload=None, limit=MAX_JSON_BYTES):
     if len(raw) > limit:
         raise ValueError("INPI_RESPONSE_TOO_LARGE")
     return raw
+
+
+def _decode_inpi_pdf(raw):
+    """Decode the documented INPI download envelope; reject HTML/oversize payloads.
+
+    The official documentation shows data:application/pdf;base64,...; a future
+    backend may instead return the raw PDF or a JSON binaryFile field.
+    Any other document/content type is rejected.
+    """
+    if len(raw) > MAX_PDF_WIRE_BYTES:
+        raise ValueError("INPI_PDF_WIRE_TOO_LARGE")
+    if raw.startswith(b"%PDF"):
+        return raw
+    try:
+        envelope = raw.decode("ascii").strip()
+    except UnicodeDecodeError:
+        raise ValueError("INPI_PDF_ENCODING_UNSUPPORTED") from None
+    if envelope.startswith("{"):
+        result = _json(raw)
+        value = result.get("binaryFile")
+        if not isinstance(value, str):
+            raise ValueError("INPI_PDF_JSON_MISSING_BINARY_FILE")
+        envelope = value.strip()
+    elif envelope.startswith('"') and envelope.endswith('"'):
+        envelope = _json(json.dumps({"binaryFile": json.loads(envelope)}).encode())["binaryFile"]
+    if envelope.startswith("data:application/pdf;base64,"):
+        envelope = envelope[len("data:application/pdf;base64,"):]
+    elif not envelope.startswith("JVBERi0"):
+        raise ValueError("INPI_PDF_EXPECTED_BASE64_PDF")
+    if len(envelope) > MAX_PDF_WIRE_BYTES or not envelope:
+        raise ValueError("INPI_PDF_ENCODING_TOO_LARGE")
+    try:
+        decoded = base64.b64decode(envelope, validate=True)
+    except (binascii.Error, ValueError):
+        raise ValueError("INPI_PDF_INVALID_BASE64") from None
+    if not decoded.startswith(b"%PDF") or len(decoded) > MAX_PDF_BYTES:
+        raise ValueError("INPI_DOCUMENT_NOT_PDF")
+    return decoded
 
 
 def _json(raw):
@@ -168,8 +209,8 @@ def probe_inpi(username=None, password=None, fetcher=_official_read):
         detailed = _json(fetcher(API_ROOT + "/api/actes/" + act_id, token=token))
         if not _eligible(detailed) or detailed["id"] != act_id or detailed["dateDepot"] != chosen["dateDepot"]:
             raise ValueError("INPI_METADATA_MISMATCH")
-        raw = fetcher(API_ROOT + "/api/actes/" + act_id + "/download", token=token, limit=MAX_PDF_BYTES)
-        return inspect_official_pdf(raw, detailed)
+        raw = fetcher(API_ROOT + "/api/actes/" + act_id + "/download", token=token, limit=MAX_PDF_WIRE_BYTES)
+        return inspect_official_pdf(_decode_inpi_pdf(raw), detailed)
     except Exception as error:
         # Do not copy exceptions/URLs/passwords/tokens into CI output or Supabase.
         return {
