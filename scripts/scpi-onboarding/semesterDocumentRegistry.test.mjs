@@ -219,3 +219,18 @@ test('industrial live readback separates private issuer histories from actual pu
  assert.doesNotMatch(sql,/\b(?:insert|update|delete|truncate)\s+(?:into\s+|from\s+)?public\./i);
  assert.doesNotMatch(sql,/GRANT\s+(?:ALL|SELECT|INSERT|UPDATE)\s+ON\s+TABLE\s+[^;]+\s+TO\s+(?:anon|authenticated)\b/i);
 });
+
+
+test('readback does not conflate financial field coverage with regulatory PDF identity or legal approval',()=>{
+ const sql=migrationText('20261105170023_scpi_live_readback_distinguish_technical_financial_vs_legal_pdf_20261105.sql');
+ assert.ok(sql.includes('technical_financial_minimum_met'));
+ assert.ok(sql.includes('regulatory_pdf_identity_minimum_met'));
+ assert.ok(sql.includes('v.regulatory_documents_verified'));
+ assert.ok(sql.includes('v.current_qa_fields'));
+ assert.ok(sql.includes('v.annual_qa_fields'));
+ assert.ok(sql.includes('v.core_qa_fields'));
+ assert.ok(sql.includes('independent_review_gate'));
+ assert.ok(sql.includes('admission_100_proven'));
+ assert.ok(sql.includes('security_invoker=true'));
+ assert.doesNotMatch(sql,/\b(?:insert|update|delete|truncate)\s+(?:into\s+|from\s+)?public\./i);
+});
