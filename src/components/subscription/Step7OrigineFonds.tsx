@@ -70,7 +70,7 @@ const Step7OrigineFonds: React.FC<Step7OrigineFondsProps> = () => {
                 className={`p-4 rounded-lg border-2 text-left transition-colors ${
                   state.primaryFundOrigin === option.value
                     ? 'border-emerald-500 bg-emerald-500/10'
-                    : !isStepValid && state.primaryFundOrigin === undefined
+                    : !isStepValid && !state.primaryFundOrigin
                     ? 'border-orange-500 hover:border-orange-600'
                     : 'border-slate-700 hover:border-slate-600'
                 }`}

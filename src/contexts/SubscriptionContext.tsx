@@ -88,18 +88,13 @@ const initialState: SubscriptionState = {
   ifi: 0,
   otherCharges: 0,
   
-  // Étape 7
-  primaryFundOrigin: 'epargne',
-  fundAmount: 0,
+  // Étape 7 : aucune provenance des fonds ne doit être présumée.
+  primaryFundOrigin: undefined,
+  fundAmount: undefined,
   multipleOrigins: false,
-  fundOriginCountry: 'France',
+  fundOriginCountry: '',
   
-  // Étape 8
-  cniRecto: null,
-  cniVerso: null,
-  proofOfResidence: null,
-  proofOfFundOrigin: null,
-  rib: null,
+  // Justificatifs non collectés dans les 9 étapes actuelles.
   
   // Étape 9
   electronicDocuments: false,
@@ -181,10 +176,7 @@ const getInitialCoSubscriberState = (): CoSubscriberState => ({
   incomeTax: 0,
   ifi: 0,
   otherCharges: 0,
-  primaryFundOrigin: 'epargne',
-  fundAmount: 0,
-  multipleOrigins: false,
-  fundOriginCountry: 'France',
+  // Aucun financement n'est présumé pour le co-souscripteur.
 });
 
 export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

@@ -227,8 +227,8 @@ export interface SubscriptionState {
   patrimoineCommuns?: PatrimoineSepare; // Patrimoine commun
   
   // Étape 7: Origine des fonds (LCB-FT)
-  primaryFundOrigin: FundOrigin;
-  fundAmount: number; // Montant de l'origine principale
+  primaryFundOrigin?: FundOrigin; // Choix explicite du souscripteur
+  fundAmount?: number; // Indisponible tant que le montant n'est pas renseigné
   multipleOrigins: boolean;
   secondaryOrigins?: Array<{ origin: FundOrigin; amount: number }>;
   fundOriginCountry: string; // Pays de provenance des fonds
