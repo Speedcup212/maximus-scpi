@@ -7,6 +7,7 @@ import {evaluateProtectedReleaseEvidence,hashEvidenceSnapshot} from './protected
 import {evaluatePublishedDeploy} from './protectedProductionReadback.mjs';
 import {verifyGitHubBrowserArtifact} from './githubArtifactProvenance.mjs';
 import {PILOTS} from './admissionPhases.mjs';
+import {verifyCurrentCandidatePr} from './protectedCandidateIdentity.mjs';
 
 const siteId='e4f16f87-663d-4965-8de8-00f6840f1aa7';
 const batchId='RECOVERY-100-THREE-PILOTS-20261105';
@@ -33,7 +34,8 @@ function readDatabase() {
  let output;
  try {
   output=execFileSync('psql',['-X','-A','-t','-v','ON_ERROR_STOP=1','-c',SQL],{
-   env:{...process.env,PGDATABASE:db,PGOPTIONS:'-c default_transaction_read_only=on -c statement_timeout=15000'},
+   env:{...process.env,PGDATABASE:db,PGCONNECT_TIMEOUT:'10',
+    PGSSLMODE:'require',PGOPTIONS:'-c default_transaction_read_only=on -c statement_timeout=15000'},
    encoding:'utf8',timeout:30000,maxBuffer:512*1024,stdio:['ignore','pipe','pipe']
   }).trim();
  }catch{throw Error('PROTECTED_READ_ONLY_DATABASE_QUERY_FAILED');}
@@ -62,9 +64,23 @@ function outputReport(report){
   postdeploy_100_proven:false}));
 }
 export async function runProtectedReadback(){
- const expectedSha=process.env.GITHUB_SHA;
- if(process.env.GITHUB_REF!=='refs/heads/main'||!(/^[a-f0-9]{40}$/.test(expectedSha||'')))
+ const trustedMainSha=process.env.GITHUB_SHA;
+ const phase=process.env.SCPI_ADMISSION_PHASE||'postdeploy';
+ if(process.env.GITHUB_REF!=='refs/heads/main'||!(/^[a-f0-9]{40}$/.test(trustedMainSha||'')))
   throw Error('PROTECTED_RUN_MUST_USE_MAIN_COMMIT');
+ if(!['prepublication','postdeploy'].includes(phase))
+  throw Error('INVALID_PROTECTED_ADMISSION_PHASE');
+ const expectedSha=phase==='prepublication'?process.env.SCPI_CANDIDATE_SHA:trustedMainSha;
+ if(!(/^[a-f0-9]{40}$/.test(expectedSha||'')))
+  throw Error('INVALID_CANDIDATE_SHA');
+ if(phase==='prepublication'){
+  // Protected runner executes ONLY main code; candidate SHA is data, never checkout.
+  const identity=await verifyCurrentCandidatePr({
+   candidateSha:expectedSha,token:process.env.GITHUB_TOKEN
+  });
+  if(identity.pr_identity_verified!==true)
+   throw Error('CANDIDATE_PR_CURRENT_HEAD_VERIFICATION_FAILED:'+identity.reason);
+ }
  const snapshot=readDatabase();
  const evidence=evaluateProtectedReleaseEvidence(snapshot,{expectedSha});
  // A claimed artifact reference is not a verified GitHub artifact.
@@ -82,6 +98,20 @@ export async function runProtectedReadback(){
  }));
  const artifactBlockers=artifactChecks.filter(x=>!x.artifact_provenance_verified)
    .map(x=>x.scpi_slug+':'+x.reason);
+ if(phase==='prepublication'){
+  const report={
+   phase:'PROTECTED_PREPUBLICATION',status:'NO_GO',
+   reason:evidence.status!=='CANDIDATE_FOR_PROTECTED_PUBLISH_APPROVAL'?
+     'LIVE_PREPUBLICATION_PROOFS_INCOMPLETE':artifactBlockers.length?
+     'LIVE_GITHUB_BROWSER_ARTIFACT_PROVENANCE_FAILED':'AWAIT_INDEPENDENT_FINAL_APPROVAL',
+   candidate_sha:expectedSha,db_snapshot_digest_sha256:hashEvidenceSnapshot(snapshot),
+   evidence_status:evidence.status,blocker_count:evidence.blocker_count,blockers:evidence.blockers,
+   github_artifact_checks:artifactChecks,github_artifact_blockers:artifactBlockers,
+   production_sha_verified:false,publication_authorized:false,postdeploy_100_proven:false
+  };
+  outputReport(report);
+  process.exitCode=1;return report;
+ }
  const site=await fetchNetlify('https://api.netlify.com/api/v1/sites/'+siteId);
  const deployId=site.published_deploy?.id||site.published_deploy_id;
  if(typeof deployId!=='string'||!/^[a-zA-Z0-9_-]+$/.test(deployId))
