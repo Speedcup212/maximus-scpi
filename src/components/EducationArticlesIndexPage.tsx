@@ -440,7 +440,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
           onAboutSectionClick={onAboutSectionClick}
           onComparateurClick={onComparateurClick}
           onSimulateurClick={onSimulateurClick}
-          onEducationClick={onEducationClick || ((category, slug) => {
+          onEducationClick={onEducationClick || ((_category, slug) => {
             onArticleClick(slug);
           })}
           onArticlesClick={onArticlesClick || (() => {
@@ -584,9 +584,8 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
               </p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {rankedResults.map(({ article, score, family }) => {
+              {rankedResults.map(({ article, family }) => {
                 const config = FAMILY_CONFIG[family];
-                const Icon = config.icon;
                 const styles = config;
 
                 return (
@@ -872,11 +871,7 @@ const EducationArticlesIndexPage: React.FC<EducationArticlesIndexPageProps> = ({
         </div>
       </div>
 
-      <LegalFooter
-        isDarkMode={isDarkMode}
-        onContactClick={onContactClick}
-        onAboutClick={onAboutClick}
-      />
+      <LegalFooter />
       </div>
     </>
   );

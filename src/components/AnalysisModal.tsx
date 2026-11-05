@@ -21,9 +21,10 @@ interface AnalysisModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAddToPortfolio?: (scpi: Scpi) => void;
+  onTakeAppointment?: () => void;
 }
 
-const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, onAddToPortfolio }) => {
+const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, onAddToPortfolio, onTakeAppointment }) => {
   const [openSection, setOpenSection] = useState<'overview' | 'charts' | 'analysis' | null>(null);
   const [qualityScore, setQualityScore] = useState<number | null>(null);
   const [scoreLoaded, setScoreLoaded] = useState(false);
@@ -480,7 +481,9 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, on
 
           <button 
             onClick={() => {
-              if (window.openRdvModal) {
+              if (onTakeAppointment) {
+                onTakeAppointment();
+              } else if (window.openRdvModal) {
                 window.openRdvModal();
               }
             }}

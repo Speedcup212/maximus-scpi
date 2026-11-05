@@ -9,7 +9,6 @@ import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
 import PieChart from './PieChart';
 import ThematicSimulator from './ThematicSimulator';
-import Logo from './Logo';
 import Header from './Header';
 import { scpiData } from '../data/scpiData';
 import { CookieConsent } from './CookieConsent';
@@ -66,7 +65,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   }
 
   const landingData: ScpiLandingData = built.data;
-  const isEditorial = built.isEditorial;
 
   const landingSlug = createSlugFromName(landingData.nom);
   const staticScpiData = scpiData.find(
@@ -243,22 +241,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
       ...formData,
       [e.target.name]: e.target.value
     });
-  };
-
-  const handleBackToHome = () => {
-    if (onNavigateHome) {
-      onNavigateHome();
-    } else {
-      window.location.href = '/';
-    }
-  };
-
-  const handleContactClick = () => {
-    if (onContactClick) {
-      onContactClick();
-    } else {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
   };
 
   const scrollToLeadForm = () => {
