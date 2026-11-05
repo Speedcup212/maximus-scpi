@@ -1,0 +1,48 @@
+name: SCPI protected production admission - read-only diagnostic
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: scpi-protected-production-admission
+  cancel-in-progress: false
+jobs:
+  protected-readback:
+    # A PR or a non-main branch can never obtain this environment's credentials.
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    environment:
+      name: scpi-industrial-production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Reject a non-main or substituted checkout
+        run: |
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - name: Test release evidence, roles and production readback
+        run: |
+          node --test scripts/scpi-onboarding/protectedReleaseEvidence.test.mjs scripts/scpi-onboarding/protectedProductionReadback.test.mjs scripts/scpi-onboarding/admissionPhases.test.mjs
+      - name: Install PostgreSQL read-only client
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+      - name: Live Supabase and Netlify readback (cannot authorize publishing)
+        env:
+          SCPI_SUPABASE_READONLY_DATABASE_URL: ${{ secrets.SCPI_SUPABASE_READONLY_DATABASE_URL }}
+          SCPI_NETLIFY_READ_TOKEN: ${{ secrets.SCPI_NETLIFY_READ_TOKEN }}
+        run: node scripts/scpi-onboarding/protectedAdmissionReadback.mjs
+      - name: Archive sanitized, non-authoritative diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scpi-protected-readback-${{ github.run_id }}
+          path: test-results/scpi-protected-readback/report.json
+          if-no-files-found: ignore
+          retention-days: 14
