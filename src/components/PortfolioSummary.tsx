@@ -4,7 +4,6 @@ import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from '../utils/formatters';
 import { normalizeGeoLabel, normalizeSectorLabel } from '../utils/labelNormalization';
-import ChartWidget from './ChartWidget';
 
 interface PortfolioItem extends Scpi {
   investedAmount: number;
@@ -53,8 +52,6 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
   const annualIncome = (totalInvested * averageYield) / 100;
   const monthlyIncome = annualIncome / 12;
   
-  const sectors = [...new Set(portfolio.map(item => item.sector))];
-  const geographies = [...new Set(portfolio.map(item => item.geography))];
   
   const isrCount = portfolio.filter(item => item.isr).length;
   const isrPercentage = (isrCount / portfolio.length) * 100;
@@ -547,7 +544,7 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
             Composition détaillée
           </h4>
           <div className="space-y-3">
-            {portfolio.map((item, index) => (
+            {portfolio.map((item) => (
               <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/30 rounded-xl border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors">
                 <div className="flex-1">
                   <div className="font-medium text-gray-900 dark:text-white text-sm">

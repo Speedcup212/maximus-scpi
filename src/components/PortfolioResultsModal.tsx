@@ -38,9 +38,6 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
   selectedScpi,
   investmentAmount,
   clientProfile,
-  onExportPDF,
-  onScheduleCall,
-  onOpenSimulator,
   onLogoClick
 }) => {
   // 🎯 VERSION ACCORDEONS v2.0 - Console log pour debug
@@ -69,8 +66,6 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
     }
   };
 
-  if (!isOpen) return null;
-
   // Créer le portefeuille avec répartition personnalisée ou égale
   const portfolio: PortfolioItem[] = selectedScpi.map(scpi => {
     const customPercentage = customAllocations[scpi.id];
@@ -85,15 +80,6 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
   // Calculer le total des allocations personnalisées
   const totalAllocation = portfolio.reduce((sum, item) => sum + item.percentage, 0);
   const allocationError = Math.abs(totalAllocation - 100) > 0.1;
-
-  // Fonction pour mettre à jour l'allocation d'une SCPI
-  const handleAllocationChange = (scpiId: string, newPercentage: number) => {
-    const clampedPercentage = Math.max(0, Math.min(100, newPercentage));
-    setCustomAllocations(prev => ({
-      ...prev,
-      [scpiId]: clampedPercentage
-    }));
-  };
 
   // Fonction pour répartir équitablement
   const handleEqualDistribution = () => {
@@ -129,10 +115,6 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
   const annualIncome = (totalInvested * averageYield) / 100;
   const monthlyIncome = annualIncome / 12;
   
-  const sectors = [...new Set(portfolio.map(item => item.sector))];
-  const geographies = [...new Set(portfolio.map(item => item.geography))];
-  const isrCount = portfolio.filter(item => item.isr).length;
-  const noFeesCount = portfolio.filter(item => item.fees === 0).length;
   const averageTof = portfolio.length > 0
     ? portfolio.reduce((sum, item) => sum + (item.tof * item.percentage / 100), 0)
     : 0;
@@ -253,7 +235,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
 
   // Score de diversification structurelle
   const diversificationScore = useMemo(() => {
-    const mgmtCompanies = new Set(portfolio.map(s => s.managementCompany).filter(Boolean));
+    const mgmtCompanies = new Set(portfolio.map(s => s.company).filter(Boolean));
     return computePortfolioDiversificationScore({
       scpiCount: portfolio.length,
       sectorCount: sectorData.length,
@@ -265,11 +247,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
   }, [portfolio, sectorData, geoData]);
 
 
-  const sections = [
-    { key: 'overview', label: 'Vue d\'ensemble', icon: <PieChartIcon className="w-5 h-5" /> },
-    { key: 'analysis', label: 'Analyse détaillée', icon: <BarChart3 className="w-5 h-5" /> },
-    { key: 'simulation', label: 'Simulation', icon: <Calculator className="w-5 h-5" /> }
-  ];
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={handleBackdropClick}>
@@ -758,7 +736,6 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
                     const yearlyIncome = (projectedValue * averageYield) / 100;
                     const monthlyIncomeProjected = yearlyIncome / 12;
 
-                    const borderColorClass = `border-${period.borderColor}-300 dark:border-${period.borderColor}-600 hover:border-${period.borderColor}-400 dark:hover:border-${period.borderColor}-500`;
 
                     return (
                       <div key={period.years} className="relative group">
