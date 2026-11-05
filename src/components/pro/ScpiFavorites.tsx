@@ -242,7 +242,7 @@ function renderDistributionFull(data: Array<{ name: string; value: number }>) {
    Sous-composant : carte d'une favorite
    ────────────────────────────────────────── */
 
-function FavoriteCard({ scpi, onRemove, onNavigateToComparator, onOpenDetail, onToggleCompare, isInComparison }: {
+function FavoriteCard({ scpi, onRemove, onOpenDetail, onToggleCompare, isInComparison }: {
   scpi: SCPIExtended;
   onRemove: (id: number) => void;
   onNavigateToComparator?: () => void;

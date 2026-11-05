@@ -1507,11 +1507,6 @@ const App: React.FC = () => {
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
-  const handleScpiAnalysis = (scpi: Scpi) => {
-    setSelectedScpiForAnalysis(scpi);
-    setIsAnalysisModalOpen(true);
-  };
-
   const handleObjectiveSelect = (objective: ObjectiveType, tmi: number) => {
     const result = applyObjective(objective, tmi, scpiData);
 
@@ -1716,12 +1711,6 @@ const App: React.FC = () => {
     navigateToView('actualites', '/actualites');
   };
 
-  const handleDynamicArticleClick = (slug: string) => {
-    navigateToView('dynamic-article', `/${slug}`, {
-      currentArticleSlug: slug
-    });
-  };
-
   const handleArticleFromListClick = (slug: string) => {
 
     // Rediriger la page hub sociétés de gestion
@@ -1849,10 +1838,6 @@ const App: React.FC = () => {
   };
 
 
-  const handleAnalyseArticleClick = (slug: string) => {
-    navigateToView('fonds-euros-ou-scpi', `/${slug}`);
-  };
-
   const handleScpiClick = (slug: string) => {
     // Vérifier si la SCPI existe dans scpiLandingPages (OptimizedScpiLandingPage)
     const scpiKey = Object.keys(scpiLandingPages).find(key => 
@@ -1879,12 +1864,6 @@ const App: React.FC = () => {
     setSelectedThematicPage(null);
     window.history.pushState({}, '', `/${slug}/`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleThematicPageClick = (slug: string) => {
-    navigateToView('thematic-optimized', `/${slug}`, {
-      selectedThematicPage: slug
-    });
   };
 
   const handleUnderstandingClick = () => {
@@ -2151,7 +2130,6 @@ const App: React.FC = () => {
               currentView === 'pro-dashboard' ? '/pro/dashboard' :
               currentView === 'pro-rapports' ? '/pro/rapports' :
               currentView === 'pro-settings' ? '/pro/settings' :
-              currentView === 'pro-signup' ? '/pro/signup' :
               '/pro/login'
             }
           >

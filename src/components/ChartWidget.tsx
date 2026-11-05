@@ -49,7 +49,7 @@ const ChartWidget: React.FC<ChartWidgetProps> = ({
       
       {chartData.length > 0 ? (
         <div className="space-y-3">
-          {chartData.map((item, index) => {
+          {chartData.map((item) => {
             const percentage = showPercentages 
               ? (item.value / total) * 100 
               : item.value;

@@ -70,13 +70,6 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, on
     ][index % 10]
   })) || [];
 
-  // Données pour les graphiques de performance
-  const performanceData = [
-    { name: 'Rendement', value: scpi.yield, max: 12, color: '#10b981' },
-    { name: 'TOF', value: scpi.tof, max: 100, color: '#3b82f6' },
-    { name: 'Ancienneté', value: new Date().getFullYear() - scpi.creation, max: 50, color: '#f59e0b' }
-  ];
-
   const getQualityColor = (score: number | null) => {
     const stars = scoreToStars(score);
     if (stars === null) return 'text-gray-400 dark:text-gray-500';
