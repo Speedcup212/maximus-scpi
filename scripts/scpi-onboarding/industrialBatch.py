@@ -188,7 +188,10 @@ def anomaly_ledger(report):
         category='DOCUMENTARY' if documentary else 'TECHNICAL' if 'PREFLIGHT' in code else 'FINANCIAL'
         # Missing collection is not an official declaration of unavailability.
         contained=code in ('MISSING_VERIFIED_STATUTES','MISSING_VERIFIED_ANNUAL')
+        prior=[item for item in report.get('previously_verified_source_binaries',[])
+               if item['kind']==code.removeprefix('MISSING_VERIFIED_').lower()] if documentary else []
         rows.append({'id':report['slug']+':'+code,'code':code,'category':category,
+            'prior_binary_evidence':prior,'prior_is_current_certification':False,
             'cause':'OFFICIAL_BINARY_NOT_VERIFIED' if documentary else 'REQUIRED_CONTROL_NOT_DEMONSTRATED',
             'availability':'NOT_OBTAINED_NOT_OFFICIALLY_UNAVAILABLE' if documentary else None,
             'full_certification_blocked':True,
@@ -238,6 +241,31 @@ def latest_verified_reporting_period(documents):
     return next(iter(kinds)) if len(kinds)==1 else None
 
 
+def prior_binary_evidence(candidate, observations):
+    """A read-only prior observation is a recovery lead, NEVER current source QA."""
+    kinds={'quarterly_bulletin':'quarterly','annual_report':'annual','semiannual_bulletin':'semiannual',
+           'quarterly':'quarterly','semiannual':'semiannual','annual':'annual',
+           'dic':'dic','note':'note','statutes':'statutes'}
+    matches=[]
+    for entry in observations or []:
+        if not isinstance(entry,dict) or entry.get('scpi_slug')!=candidate['slug']:continue
+        if entry.get('origin_table') not in ('pdf_validation','regulatory_documents'):continue
+        if entry.get('identity_verified') is not True or entry.get('kind_verified') is not True:continue
+        kind=kinds.get(entry.get('document_kind'))
+        url=entry.get('source_url');digest=entry.get('pdf_sha256')
+        if not kind or not isinstance(url,str) or not allowed(url,candidate['issuer_hosts']):continue
+        if not isinstance(digest,str) or not re.fullmatch(r'[a-f0-9]{64}',digest):continue
+        period=entry.get('reference_period')
+        if kind in ('quarterly','semiannual','annual'):
+            if not isinstance(period,str) or not bulletin_fields.end_date(period) and kind!='annual':continue
+            if kind=='annual' and not re.fullmatch(r'20\\d{2}-RA',period):continue
+        matches.append({'kind':kind,'reference_period':period,'source_url':url,'pdf_sha256':digest,
+            'origin_table':entry['origin_table'],'verified_at':entry.get('verified_at'),
+            'status':'PRIOR_READONLY_DB_BINARY_IDENTITY_ONLY_NOT_CURRENT_REVALIDATION',
+            'financially_certified':False,'publication_authorized':False})
+    return matches
+
+
 def select_candidates(candidates,offset=0,limit=20):
     if type(offset) is not int or offset<0 or offset>=len(candidates):raise ValueError('INVALID_BATCH_OFFSET')
     if type(limit) is not int or not 1<=limit<=20:raise ValueError('BATCH_LIMIT_1_TO_20_REQUIRED')
@@ -252,13 +280,15 @@ def resume_offset(registry_bytes,checkpoint,total):
     return offset
 
 
-def run_candidate(c,out,fetcher=None):
+def run_candidate(c,out,fetcher=None,observed_sources=None):
     out.mkdir(parents=True,exist_ok=True)
     transport=Transport(c['issuer_hosts']) if fetcher is None else fetcher
     result={'execution_contract':'SOURCE_PROPOSALS_ONLY_NOT_RELEASE_ADMISSION',
         'slug':c['slug'],'management_company':c['management_company'],'source_period_requested':c.get('source_period'),
         'stages':{stage:{'status':'NOT_RUN'} for stage in STAGES},'pages':[],'documents':[],
-        'source_claim_occurrences':[],'blockers':[],'publication_authorized':False,'complete_certification':False}
+        'source_claim_occurrences':[],'blockers':[],
+        'previously_verified_source_binaries':prior_binary_evidence(c,observed_sources),
+        'publication_authorized':False,'complete_certification':False}
     queue=[c['product_page']]+c.get('documentation_pages',[])
     visited=set();links={};binaries={}
     for url in queue:
@@ -360,7 +390,10 @@ def run_candidate(c,out,fetcher=None):
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--registry',required=True);ap.add_argument('--out',required=True)
     ap.add_argument('--offset',type=int,default=0);ap.add_argument('--limit',type=int,default=20)
+    ap.add_argument('--observed-sources',help='Optional READ-ONLY Supabase binary observation export; not current QA')
     ap.add_argument('--resume',action='store_true');args=ap.parse_args()
+    observed=json.loads(Path(args.observed_sources).read_text()) if args.observed_sources else {'documents':[]}
+    if observed.get('schema_version')!=1 or not isinstance(observed.get('documents'),list):raise ValueError('INVALID_OBSERVED_BINARY_EVIDENCE')
     registry=json.loads(Path(args.registry).read_text());cohort=json.loads((HERE.parent.parent/'src/data/certified_scpi_cohort.json').read_text())
     validate_registry(registry,cohort)
     if args.resume:
@@ -372,7 +405,7 @@ def main():
     selected=select_candidates(registry['candidates'],args.offset,args.limit)
     results=[]
     for c in selected:
-        results.append(run_candidate(c,Path(args.out)/c['slug']))
+        results.append(run_candidate(c,Path(args.out)/c['slug'],observed_sources=observed['documents']))
         report={'schema_version':1,'captured_at':datetime.now(timezone.utc).isoformat(),
             'registry_sha256':hashlib.sha256(Path(args.registry).read_bytes()).hexdigest(),
             'offset':args.offset,'next_offset':args.offset+len(results),'total_registered':len(registry['candidates']),

@@ -203,3 +203,26 @@ class SharedCaptionRegression(unittest.TestCase):
   f=batch.bulletin_fields
   parsed=f.extract(['Taux occupation financier 98,78 %'],[words],[400],'2026-T2')
   self.assertEqual(f.reconcile(parsed,parsed)[0]['tof'],98.78)
+
+
+class PreviousBinaryEvidenceIsNotCertification(unittest.TestCase):
+ def test_prior_supabase_dic_proof_does_not_remove_current_download_blocker(self):
+  candidate={'slug':'opus-real','name':'Opus Real','management_company':'BNP Paribas REIM France',
+      'issuer_hosts':['reim.bnpparibas-am.com'],'product_page':'https://reim.bnpparibas-am.com/fund'}
+  old={'scpi_slug':'opus-real','origin_table':'regulatory_documents','document_kind':'dic',
+      'source_url':'https://reim.bnpparibas-am.com/docs/opus-dic.pdf','pdf_sha256':'a'*64,
+      'identity_verified':True,'kind_verified':True,'verified_at':'2026-10-15'}
+  self.assertEqual(len(batch.prior_binary_evidence(candidate,[old])),1)
+  for change in [{'source_url':'https://evil.example/false.pdf'},{'kind_verified':False},
+                 {'pdf_sha256':'bad'},{'scpi_slug':'other'}]:
+   self.assertEqual(batch.prior_binary_evidence(candidate,[{**old,**change}]),[])
+  with TemporaryDirectory() as d:
+   result=batch.run_candidate(candidate,Path(d),lambda u:(b'<html><h1>Opus Real</h1></html>',u),
+                              observed_sources=[old])
+  self.assertIn('MISSING_VERIFIED_DIC',result['blockers'])
+  entry=next(x for x in result['anomaly_ledger']['anomalies'] if x['code']=='MISSING_VERIFIED_DIC')
+  self.assertEqual(len(entry['prior_binary_evidence']),1)
+  self.assertFalse(entry['prior_is_current_certification'])
+  self.assertFalse(result['complete_certification'])
+  self.assertFalse(result['publication_authorized'])
+

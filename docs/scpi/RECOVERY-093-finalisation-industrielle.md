@@ -4,6 +4,24 @@
 
 **Verdict : NO GO. Score conservateur : 75/100, objectif 90 non atteint.** Les capacités progressent sans attribuer de points à des certifications ou à un débit non démontrés. Aucun nouveau pilote n'a encore franchi toutes les étapes jusqu'à une publication autorisée. Le critère de réussite de la mission reste donc non satisfait.
 
+## Actualisation du 5 novembre 2026 — TypeScript résolu et preuves antérieures réconciliées
+
+Les mesures initiales de ce rapport (`601` diagnostics) sont historiques au 4 novembre. La [CI d'admission du commit `463ce90`](https://github.com/Speedcup212/maximus-scpi/actions/runs/42014045754) constate désormais **zéro diagnostic TypeScript**, contre 1 023 au départ, sans régression. Le [build complet](https://github.com/Speedcup212/maximus-scpi/actions/runs/42014045915) est PASS. Le score reste **75/100, NO GO** : trois pilotes éligibles et lecture-retour production non démontrés.
+
+La lecture **seule** du schéma Supabase a identifié des preuves d'identité binaire préexistantes non reflétées par les échecs de collecte du passage précédent. Le DIC 2026, la note, les statuts et le bulletin T2 2026 d'**Opus Real** sont déjà contrôlés en base (SHA et identité), mais cela **ne certifie pas** le bulletin T3, les valeurs financières, les allocations ni la publication. **Sofidynamic** dispose de DIC/note et de bulletins T1/T2 contrôlés ; les statuts du site enregistrés en base restent la version de juillet 2025, avec vérification de type refusée.
+
+Un document privé transmis auparavant par l'utilisateur porte la mention **« Statuts Sofidynamic en date du 30 avril 2026 »**, signé/certifié conforme par **Tikehau Investment Management** ; SHA-256 du fichier : `dc040db78d22f50ee5470d34b74e7b7149676a153076f762629e946d38e0b1ba` (22 pages). **Document-candidat seulement** : le raccordement à une source émetteur ou à un dépôt légal opposable et la vérification de l'éventuelle version postérieure restent à réaliser. Aucune certification statutaire en production n'est modifiée. Tikehau Investment Management est bien l'identité de gestion à conserver.
+
+L'export immuable [source antérieure](evidence/recovery-093-readonly-db-reconciliation-20261105.json) distingue les binaires déjà contrôlés d'une nouvelle collecte, sans transformer une observation Supabase en attestation ou en autorisation. `industrialBatch.py` réutilise ce contexte en mode **read-only** optionnel pour qualifier les causes documentaires, mais conserve intégralement ses blockers et sa décision `publication_authorized=false`. La réexécution de la collecte n'est pas une preuve d'examen financier.
+
+Commande optionnelle (sources antérieurement contrôlées uniquement) :
+
+```bash
+python scripts/scpi-onboarding/industrialBatch.py --registry scripts/scpi-onboarding/fixtures/industrial-pilots-20261104.json --out test-results/recovery-093-live-crosscheck --limit 4 --observed-sources docs/scpi/evidence/recovery-093-readonly-db-reconciliation-20261105.json
+```
+
+L'absence de ligne pour AEW Opportunités Europe ou CRISTAL Care dans cet export n'est **pas** la preuve de l'absence de document chez les émetteurs : c'est simplement l'absence de preuve dans ces tables au moment du contrôle. **Aucune écriture Supabase, aucun merge, aucun déploiement.**
+
 ## Pourquoi les tests verts ne donnaient pas une admission verte
 
 Le build Vite transpile TypeScript sans exécuter `tsc -b`. Vitest vérifie des comportements couverts, pas tous les contrats de types. Le workflow d'admission exige le contrôle complet, les preuves financières et les conditions de publication. Son échec était réel et ne devait pas être neutralisé.
