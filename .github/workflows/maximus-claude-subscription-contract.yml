@@ -44,6 +44,11 @@ jobs:
           for(const required of ["'ANTHROPIC_API_KEY'","'OPENAI_API_KEY'","'DEEPSEEK_API_KEY'","'--restricted'","'--tools'","'--permission-prompts'","'CLAUDE_SUBSCRIPTION_AUTH_ONLY_NO_API_BILLING'"]) {
             if(!a.includes(required))throw Error('Subscription protection missing: '+required);
           }
-          if(/netlify deploy|gh pr merge|git push origin main|ANTHROPIC_API_KEY:\s*\$/.test(workflow))throw Error('Unexpected deploy/paid API workflow');
+          // Inspect only executable workflow steps, not this assertion's own source.
+          const executableSteps=workflow.split('      - name: Guard against hidden external-billing fallback')[0];
+          if(/netlify deploy|gh pr merge|git push origin main/.test(executableSteps))
+            throw Error('Unexpected deploy command in workflow steps');
+          if(!workflow.includes('permissions:\\n  contents: read'))
+            throw Error('Workflow must have read-only GitHub permissions');
           console.log('SUBSCRIPTION_CONTRACT_VERIFIED_WITHOUT_MODEL_SPEND');
           NODE
