@@ -119,7 +119,7 @@ function getComparisonIntro(template: ArticleTemplate): string {
   return `Pour bien comprendre ${template.mainKeyword}, il est essentiel de comparer objectivement les caractéristiques, avantages et inconvénients de chaque solution. Voici une analyse détaillée basée sur des critères concrets.`;
 }
 
-function generateComparisonCards(template: ArticleTemplate): string {
+function generateComparisonCards(_template: ArticleTemplate): string {
   return `
     <div class="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
       <h3 class="text-xl font-bold text-blue-900 dark:text-blue-200 mb-4">Option 1</h3>
@@ -184,7 +184,7 @@ function generateComparisonTable(template: ArticleTemplate): string {
 `;
 }
 
-function generateComparisonRows(template: ArticleTemplate): string {
+function generateComparisonRows(_template: ArticleTemplate): string {
   const criteria = [
     { name: 'Rendement moyen', col1: '2%', col2: '5-6,5%' },
     { name: 'Garantie capital', col1: '✅ Oui', col2: '❌ Non' },
@@ -202,7 +202,7 @@ function generateComparisonRows(template: ArticleTemplate): string {
   `).join('');
 }
 
-function generateConcreteCaseStudy(template: ArticleTemplate): string {
+function generateConcreteCaseStudy(_template: ArticleTemplate): string {
   return `
 <section class="mb-16">
   <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
@@ -280,7 +280,7 @@ function generateFiscalitySections(template: ArticleTemplate): string[] {
   ];
 }
 
-function generateFiscalityCalculations(template: ArticleTemplate): string {
+function generateFiscalityCalculations(_template: ArticleTemplate): string {
   return `
     <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-700">
       <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
@@ -322,7 +322,7 @@ function generateFiscalityCalculations(template: ArticleTemplate): string {
   `;
 }
 
-function generateOptimizationStrategies(template: ArticleTemplate): string {
+function generateOptimizationStrategies(_template: ArticleTemplate): string {
   return `
 <section class="mb-16">
   <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
@@ -384,7 +384,7 @@ function generateStrategySections(template: ArticleTemplate): string[] {
   ];
 }
 
-function generateProfileStrategies(template: ArticleTemplate): string {
+function generateProfileStrategies(_template: ArticleTemplate): string {
   const profiles = [
     {
       name: 'Profil prudent (aversion au risque forte)',
@@ -505,7 +505,7 @@ function generateGuideSections(template: ArticleTemplate): string[] {
 /**
  * Génère la section figures/graphiques
  */
-function generateFiguresSection(template: ArticleTemplate): string {
+function generateFiguresSection(_template: ArticleTemplate): string {
   return `
 <section class="mb-16">
   <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
@@ -680,19 +680,6 @@ function generateCTA(): string {
   </p>
 </div>
 `;
-}
-
-/**
- * Échappe les caractères HTML spéciaux dans le texte
- * IMPORTANT: Utiliser cette fonction pour tout texte contenant <, >, &, etc.
- */
-function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
 }
 
 /**

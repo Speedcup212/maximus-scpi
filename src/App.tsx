@@ -1,10 +1,4 @@
 import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
-import {
-  Building, TrendingUp, PieChart, MapPin, Calendar,
-  Download, User, Target, Award, Phone,
-  Info, Star, Moon, Sun, ExternalLink, AlertTriangle
-} from 'lucide-react';
-
 // Force reload timestamp: 2024-12-19 10:13:00 - Table padding fix fintech comparator
 
 // Core components loaded immediately for faster initial render
@@ -15,7 +9,6 @@ import LoadingSpinner from './components/LoadingSpinner';
 // MOVED_TO_PAGE — UnderstandingSCPI n'est plus monté sur la homepage (cf. <main>).
 // Le composant reste utilisé par ComprendreSCPIPage (route /comprendre-les-scpi).
 // import UnderstandingSCPI from './components/UnderstandingSCPI';
-import DisclaimerBox from './components/DisclaimerBox';
 import ExpertBanner from './components/ExpertBanner';
 import { CookieConsent } from './components/CookieConsent';
 import SemanticLinks from './components/SemanticLinks';
@@ -27,9 +20,6 @@ import InvestorQuiz from './components/InvestorQuiz';
 import PreuveSociale from './components/PreuveSociale';
 import TeaserComparateur from './components/TeaserComparateur';
 import type { QuizData } from './types/quiz';
-import ScpiTable from './components/ScpiTable';
-import QuickFilters from './components/QuickFilters';
-import SearchBar from './components/SearchBar';
 
 // Lazy loaded components (loaded on demand)
 const AppAuthBoundary = lazy(() => import('./app/components/AppAuthBoundary'));
@@ -38,7 +28,6 @@ const RoleGuard = lazy(() => import('./app/components/RoleGuard'));
 const PartnerProRedirect = lazy(() => import('./app/components/PartnerProRedirect'));
 const DynamicHero = lazy(() => import('./components/DynamicHero'));
 const Testimonials = lazy(() => import('./components/Testimonials'));
-const AdvancedFilters = lazy(() => import('./components/AdvancedFilters'));
 const FloatingButton = lazy(() => import('./components/FloatingButton'));
 const CategoryPage = lazy(() => import('./components/CategoryPage'));
 const ArticlePage = lazy(() => import('./components/ArticlePage'));
@@ -49,11 +38,6 @@ const RdvModal = lazy(() => import('./components/RdvModal'));
 const AboutModal = lazy(() => import('./components/AboutModal'));
 const ReviewsModal = lazy(() => import('./components/ReviewsModal'));
 const ObjectiveModal = lazy(() => import('./components/ObjectiveModal'));
-const PortfolioWidget = lazy(() => import('./components/PortfolioWidget'));
-const ChartWidget = lazy(() => import('./components/ChartWidget'));
-const UnifiedPortfolio = lazy(() => import('./components/UnifiedPortfolio'));
-const PortfolioAnalytics = lazy(() => import('./components/PortfolioAnalytics'));
-const RecommendationWidget = lazy(() => import('./components/RecommendationWidget'));
 const PortfolioResultsModal = lazy(() => import('./components/PortfolioResultsModal'));
 const FAQPage = lazy(() => import('./components/FAQPage'));
 const ComprendreSCPIPage = lazy(() => import('./components/ComprendreSCPIPage'));
@@ -90,7 +74,6 @@ const FondsEurosScpiArticle = lazy(() => import('./components/FondsEurosScpiArti
 const ArticleGeneratorPage = lazy(() => import('./components/ArticleGeneratorPage'));
 const EducationArticlesIndexPage = lazy(() => import('./components/EducationArticlesIndexPage'));
 const ActualitesPage = lazy(() => import('./components/ActualitesPage'));
-const DynamicArticlePage = lazy(() => import('./components/DynamicArticlePage'));
 const OptimizedArticlePage = lazy(() => import('./components/OptimizedArticlePage'));
 const PartenaireCabinet = lazy(() => import('./pages/PartenaireCabinet'));
 const AdminPartners = lazy(() => import('./pages/admin/AdminPartners'));
@@ -104,7 +87,6 @@ const SetupPage = lazy(() => import('./app/pages/SetupPage'));
 const ClientDashboard = lazy(() => import('./app/pages/ClientDashboard'));
 const ClientCases = lazy(() => import('./app/pages/ClientCases'));
 const ClientCaseDetail = lazy(() => import('./app/pages/ClientCaseDetail'));
-const PartnerDashboard = lazy(() => import('./app/pages/PartnerDashboard'));
 const PartnerClients = lazy(() => import('./app/pages/PartnerClients'));
 const PartnerClientDetail = lazy(() => import('./app/pages/PartnerClientDetail'));
 const PartnerCaseDetail = lazy(() => import('./app/pages/PartnerCaseDetail'));
@@ -124,16 +106,16 @@ const ProfessionnelsPortal = lazy(() => import('./components/expert/Professionne
 const AnonVideoView = lazy(() => import('./components/anon/AnonVideoView'));
 
 // 30 Articles Éducation SCPI
-const FondsEurosOuScpiArticle = lazy(() => import('./components/articles/FondsEurosOuScpiArticle').then(m => ({ default: m.FondsEurosOuScpiArticle || m.default })));
-const ScpiDirectOuAssuranceVie = lazy(() => import('./components/articles/ScpiDirectOuAssuranceVie').then(m => ({ default: m.ScpiDirectOuAssuranceVieArticle || m.default })));
+const FondsEurosOuScpiArticle = lazy(() => import('./components/articles/FondsEurosOuScpiArticle').then(m => ({ default: m.FondsEurosOuScpiArticle })));
+const ScpiDirectOuAssuranceVie = lazy(() => import('./components/articles/ScpiDirectOuAssuranceVie').then(m => ({ default: m.ScpiDirectOuAssuranceVieArticle })));
 const CoutOpportunite100kEuros = lazy(() => import('./components/articles/100000EurosFondsEurosCoutOpportuniteArticle').then(module => ({ default: module.Cent000EurosFondsEurosCoutOpportuniteArticle || module.default })));
 const Portfolio200kEurosScpi = lazy(() => import('./components/articles/Investir200000EurosScpiPortefeuilleDiversifieArticle').then(m => ({ default: m.Investir200000EurosScpiPortefeuilleDiversifieArticle || m.default })));
 const ScpiOuImmobilierLocatif = lazy(() => import('./components/articles/ScpiOuImmobilierLocatifComparatif20AnsArticle').then(m => ({ default: m.ScpiOuImmobilierLocatifComparatif20AnsArticle || m.default })));
 const ScpiACredit = lazy(() => import('./components/articles/AchatScpiCreditEffetLevierFiscaliteArticle').then(m => ({ default: m.AchatScpiCreditEffetLevierFiscaliteArticle || m.default })));
 const DemembrementScpi = lazy(() => import('./components/articles/DemembrementScpiNueProprieteUsufruitArticle').then(m => ({ default: m.DemembrementScpiNueProprieteUsufruitArticle || m.default })));
-const ScpiTmi11 = lazy(() => import('./components/articles/InvestirScpiTmi11PourcentFiscaliteOptimaleArticle').then(m => ({ default: m.InvestirScpiTmi11PourcentFiscaliteOptimaleArticle || m.default })));
-const ScpiTmi30 = lazy(() => import('./components/articles/ScpiTmi30PourcentArbitrageAvDirectArticle').then(m => ({ default: m.ScpiTmi30PourcentArbitrageAvDirectArticle || m.default })));
-const ScpiTmi41 = lazy(() => import('./components/articles/ForteImpositionTmi41ScpiAssuranceVieArticle').then(m => ({ default: m.ForteImpositionTmi41ScpiAssuranceVieArticle || m.default })));
+const ScpiTmi11 = lazy(() => import('./components/articles/InvestirScpiTmi11PourcentFiscaliteOptimaleArticle').then(m => ({ default: m.InvestirScpiTmi11PourcentFiscaliteOptimaleArticle })));
+const ScpiTmi30 = lazy(() => import('./components/articles/ScpiTmi30PourcentArbitrageAvDirectArticle').then(m => ({ default: m.ScpiTmi30PourcentArbitrageAvDirectArticle })));
+const ScpiTmi41 = lazy(() => import('./components/articles/ForteImpositionTmi41ScpiAssuranceVieArticle').then(m => ({ default: m.ForteImpositionTmi41ScpiAssuranceVieArticle })));
 const ScpiEuropeennes = lazy(() => import('./components/articles/ScpiEuropeennesAvantagesPs0RendementArticle').then(m => ({ default: m.ScpiEuropeennesAvantagesPs0RendementArticle || m.default })));
 const ScpiFiscales = lazy(() => import('./components/articles/ScpiFiscalesMalrauxDeficitFoncier2025Article').then(m => ({ default: m.ScpiFiscalesMalrauxDeficitFoncier2025Article || m.default })));
 const ScpiSante = lazy(() => import('./components/articles/ScpiSanteSeniorsEhpadCliniquesInvestissementArticle').then(m => ({ default: m.ScpiSanteSeniorsEhpadCliniquesInvestissementArticle || m.default })));
@@ -143,7 +125,7 @@ const ScpiLogistique = lazy(() => import('./components/articles/ScpiLogistiqueEn
 const ScpiResidentielles = lazy(() => import('./components/articles/ScpiResidentiellesLogementLocatifScpiHabitationArticle').then(m => ({ default: m.ScpiResidentiellesLogementLocatifScpiHabitationArticle || m.default })));
 const PerScpi = lazy(() => import('./components/articles/PerScpiRetraiteDeductionFiscaleArticle').then(m => ({ default: m.PerScpiRetraiteDeductionFiscaleArticle || m.default })));
 const SciScpi = lazy(() => import('./components/articles/SciScpiSocieteCivileImmobilierePartsArticle').then(m => ({ default: m.SciScpiSocieteCivileImmobilierePartsArticle || m.default })));
-const IfiScpi = lazy(() => import('./components/articles/IfiScpiImpotFortuneImmobiliereStrategiesArticle').then(m => ({ default: m.IfiScpiImpotFortuneImmobiliereStrategiesArticle || m.default })));
+const IfiScpi = lazy(() => import('./components/articles/IfiScpiImpotFortuneImmobiliereStrategiesArticle').then(m => ({ default: m.IfiScpiImpotFortuneImmobiliereStrategiesArticle })));
 const SuccessionScpi = lazy(() => import('./components/articles/SuccessionScpiTransmissionDroitsHeritageArticle').then(m => ({ default: m.SuccessionScpiTransmissionDroitsHeritageArticle || m.default })));
 const DiversificationScpi = lazy(() => import('./components/articles/DiversificationScpiCombienNombrePartsArticle').then(m => ({ default: m.DiversificationScpiCombienNombrePartsArticle || m.default })));
 const RendementScpi2025 = lazy(() => import('./components/articles/RendementScpi2025TdvmTauxDistributionArticle').then(m => ({ default: m.RendementScpi2025TdvmTauxDistributionArticle || m.default })));
@@ -223,9 +205,9 @@ const ScpiInternationalesDiversificationPage = lazy(() => import('./components/S
 const ConstruirePortefeuilleScpiPage = lazy(() => import('./components/ConstruirePortefeuilleScpiPage'));
 
 // Types and Data
-import { Scpi, QuickFilterType, ObjectiveType } from './types/scpi';
+import { Scpi, ObjectiveType } from './types/scpi';
 // scpiData lazy loaded on demand (275 Ko)
-import { educationArticles, getArticlesByCategory, getAllCategories, getArticleBySlug } from './data/educationArticles';
+import { getArticlesByCategory, getAllCategories, getArticleBySlug } from './data/educationArticles';
 import { getTemplateBySlug } from './data/articleTemplatesConfig';
 import { managementCompanyConfigs } from './data/managementCompanyArticlesConfig';
 import type { Article } from './components/ArticlePage';
@@ -235,10 +217,10 @@ import { buildScpiLandingData } from './utils/buildScpiLandingData';
 // Hooks and Utils
 import { useScpiFilters } from './hooks/useScpiFilters';
 import { usePortfolio } from './hooks/usePortfolio';
-import { formatCurrency, normalizeString } from './utils/formatters';
+import { normalizeString } from './utils/formatters';
 import { applyObjective } from './utils/objectiveSelector';
 import { landingPages } from './utils/landingPageConfig';
-import { getLandingPageBySlug, allLandingPages } from './utils/landingPagesContent';
+import { getLandingPageBySlug } from './utils/landingPagesContent';
 
 const App: React.FC = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -279,12 +261,11 @@ const App: React.FC = () => {
   // Data states
   const [selectedScpiForAnalysis, setSelectedScpiForAnalysis] = useState<Scpi | null>(null);
   const [showFloatingButton, setShowFloatingButton] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
-  const itemsPerPage = 10;
+  const [, setCurrentPage] = useState(1);
+  const [searchQuery] = useState('');
 
   // Education/Article/Landing states
-  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-scpi' | 'simulateur-revenus-nets' | 'simulateur-marche-secondaire' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'app-account' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article' | 'societes-de-gestion-scpi' | 'gestionnaires-acteurs-scpi' | 'scpi-expatrie-fiscalite' | 'declaration-revenus-scpi-erreurs' | 'scpi-investir-en-couple' | 'scpi-hotellerie-tourisme' | 'investir-scpi-une-fois-ou-progressivement' | 'scpi-internationales-diversification' | 'construire-portefeuille-scpi' | 'pro-login' | 'pro-cgp-login' | 'pro-dashboard' | 'pro-rapports' | 'pro-settings' | 'pro-signup' | 'anon-video' | 'expert-dashboard' | 'expert-holding-simulator' | 'expert-dossiers' | 'expert-dossier-detail' | 'expert-dossier-simulation' | 'expert-rapports' | 'expert-parametres' | 'expert-login' | 'expert-post-login' | 'expert-access-refused' | 'expert-register' | 'professionnels'>(() => {
+  const [currentView, setCurrentView] = useState<'home' | 'category' | 'article' | 'landing' | 'faq' | 'comprendre' | 'about-us' | 'reclamation' | 'conditions' | 'scpi-example' | 'scpi-landing' | 'scpi-detail' | 'thematic' | 'scpi-optimized' | 'thematic-optimized' | 'scpi-static' | 'comparateur' | 'test-sender-react' | 'life-to-scpi' | 'simulateur-scpi' | 'simulateur-revenus-nets' | 'simulateur-marche-secondaire' | 'simulateur-credit' | 'simulateur-demembrement' | 'simulateur-enveloppes' | 'simulateur-profil-investisseur' | 'simulateur-tresorerie-is' | 'simulateur-impact-fiscal' | 'simulateurs' | 'comparateur-demembrement' | 'fonds-euros-ou-scpi' | 'article-generator' | 'articles-list' | 'actualites' | 'dynamic-article' | 'expertise-orias' | 'methodologie-donnees' | 'avertissements-risques' | 'investir-scpi' | 'rendement-scpi' | 'fiscalite-scpi' | 'tof-scpi' | 'capitalisation-scpi' | 'decote-valeur-reconstitution-scpi' | 'endettement-scpi' | 'rendement-net-scpi' | 'scpi-demembrement' | 'scpi-assurance-vie' | 'scpi-tmi-11' | 'scpi-tmi-30' | 'frais-scpi' | 'risques-scpi' | 'liquidite-scpi' | 'baisse-prix-part-scpi' | 'delai-jouissance-scpi' | 'report-a-nouveau-scpi' | 'choisir-scpi' | 'meilleures-scpi-attention' | 'comparateur-scpi-fiable' | 'allocation-scpi' | 'combien-investir-scpi' | 'scpi-sante' | 'scpi-logistique' | 'scpi-bureaux' | 'scpi-commerce' | 'scpi-diversifiees' | 'societe-gestion-scpi' | 'gestionnaire-scpi' | 'cgp-cif-scpi' | 'psi-scpi' | 'retrocommissions-scpi' | 'acheter-scpi' | 'guided-journey' | 'partenaire-cabinet' | 'admin-partners' | 'app-entry' | 'app-login' | 'app-request-access' | 'app-onboarding' | 'app-claim' | 'app-set-password' | 'app-setup' | 'app-client' | 'app-client-cases' | 'app-client-case' | 'app-partner' | 'app-partner-clients' | 'app-partner-client' | 'app-partner-case' | 'app-admin' | 'app-admin-requests' | 'app-account' | 'scpi-fiscalite' | 'scpi-tmi-41' | 'scpi-tmi-45' | 'scpi-revenus-etrangers' | 'scpi-revenus-fonciers' | 'scpi-prelevements-sociaux' | 'scpi-credit-impot' | 'scpi-taux-effectif' | 'scpi-ifi' | 'scpi-sci-is-fiscalite' | 'amf-scpi' | 'orias-scpi' | 'documents-reglementaires-scpi' | 'dic-scpi' | 'note-information-scpi' | 'scpi-credit' | 'scpi-comptant' | 'scpi-retraite' | 'scpi-revenus-complementaires' | 'scpi-transmission' | 'scpi-france' | 'societe-gestion-article' | 'societes-de-gestion-scpi' | 'gestionnaires-acteurs-scpi' | 'scpi-expatrie-fiscalite' | 'declaration-revenus-scpi-erreurs' | 'scpi-investir-en-couple' | 'scpi-hotellerie-tourisme' | 'investir-scpi-une-fois-ou-progressivement' | 'scpi-internationales-diversification' | 'construire-portefeuille-scpi' | 'pro-login' | 'pro-cgp-login' | 'pro-dashboard' | 'pro-rapports' | 'pro-settings' | 'pro-signup' | 'anon-video' | 'expert-dashboard' | 'expert-holding-simulator' | 'expert-dossiers' | 'expert-dossier-detail' | 'expert-dossier-simulation' | 'expert-rapports' | 'expert-parametres' | 'expert-login' | 'expert-post-login' | 'expert-access-refused' | 'expert-register' | 'article-construire-portefeuille' | 'article-cout-opportunite-100k' | 'article-demembrement' | 'article-diversification-scpi' | 'article-fonds-euros-ou-scpi' | 'article-frais-scpi' | 'article-ifi-scpi' | 'article-per-scpi' | 'article-portfolio-200k' | 'article-premier-investissement' | 'article-rendement-scpi-2025' | 'article-risques-scpi' | 'article-sci-scpi' | 'article-scpi-bureaux' | 'article-scpi-commerces' | 'article-scpi-credit' | 'article-scpi-direct-av' | 'article-scpi-europeennes' | 'article-scpi-fiscales' | 'article-scpi-jeune-actif' | 'article-scpi-logistique' | 'article-scpi-residentielles' | 'article-scpi-sante' | 'article-scpi-tmi-11' | 'article-scpi-tmi-30' | 'article-scpi-tmi-41' | 'article-scpi-vs-etf' | 'article-scpi-vs-locatif' | 'article-scpi-vs-opci' | 'article-succession-scpi' | 'expert-verification' | 'scpi-europeennes-hub' | 'scpi-gestionnaires-hub' | 'scpi-objectifs-hub' | 'scpi-secteurs-hub' | 'professionnels'>(() => {
     const initialPath = window.location.pathname.replace(/^\/|\/$/g, '');
     return initialPath.startsWith('app') || initialPath.startsWith('espace')
       ? 'app-entry'
@@ -1091,8 +1072,8 @@ const App: React.FC = () => {
   }, [location.pathname, location.state]);
 
   // Hooks - DOIT être appelé AVANT tous les retours conditionnels
-  const { filteredScpi: filteredByFilters, activeQuickFilter, setQuickFilter, filters, updateFilter } = useScpiFilters(scpiData);
-  const { selectedScpi, investmentAmount, setInvestmentAmount, toggleScpiSelection, removeScpi, portfolioStats } = usePortfolio();
+  const { filteredScpi: filteredByFilters, activeQuickFilter } = useScpiFilters(scpiData);
+  const { selectedScpi, investmentAmount, toggleScpiSelection } = usePortfolio();
 
   // Apply search filter on top of existing filters
   const filteredScpi = React.useMemo(() => {
@@ -1112,12 +1093,6 @@ const App: React.FC = () => {
              normalizedSector.includes(normalizedQuery);
     });
   }, [filteredByFilters, searchQuery]);
-
-  // Pagination calculations
-  const totalPages = Math.ceil(filteredScpi.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const paginatedScpi = filteredScpi.slice(startIndex, endIndex);
 
   // Reset to page 1 when filters or search change
   useEffect(() => {
@@ -1532,11 +1507,6 @@ const App: React.FC = () => {
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
-  const handleScpiAnalysis = (scpi: Scpi) => {
-    setSelectedScpiForAnalysis(scpi);
-    setIsAnalysisModalOpen(true);
-  };
-
   const handleObjectiveSelect = (objective: ObjectiveType, tmi: number) => {
     const result = applyObjective(objective, tmi, scpiData);
 
@@ -1741,12 +1711,6 @@ const App: React.FC = () => {
     navigateToView('actualites', '/actualites');
   };
 
-  const handleDynamicArticleClick = (slug: string) => {
-    navigateToView('dynamic-article', `/${slug}`, {
-      currentArticleSlug: slug
-    });
-  };
-
   const handleArticleFromListClick = (slug: string) => {
 
     // Rediriger la page hub sociétés de gestion
@@ -1874,10 +1838,6 @@ const App: React.FC = () => {
   };
 
 
-  const handleAnalyseArticleClick = (slug: string) => {
-    navigateToView('fonds-euros-ou-scpi', `/${slug}`);
-  };
-
   const handleScpiClick = (slug: string) => {
     // Vérifier si la SCPI existe dans scpiLandingPages (OptimizedScpiLandingPage)
     const scpiKey = Object.keys(scpiLandingPages).find(key => 
@@ -1904,12 +1864,6 @@ const App: React.FC = () => {
     setSelectedThematicPage(null);
     window.history.pushState({}, '', `/${slug}/`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleThematicPageClick = (slug: string) => {
-    navigateToView('thematic-optimized', `/${slug}`, {
-      selectedThematicPage: slug
-    });
   };
 
   const handleUnderstandingClick = () => {
@@ -1968,16 +1922,19 @@ const App: React.FC = () => {
       return;
     }
 
-    const { generatePortfolioPDF } = await import('./utils/pdfGenerator');
-    const success = await generatePortfolioPDF(
-      selectedScpi,
-      investmentAmount,
-      portfolioStats
-    );
-
-    if (success) {
+    try {
+      const { generatePortfolioPDF } = await import('./utils/pdfGenerator');
+      // PortfolioItem expects investedAmount and percentage, not raw Scpi[].
+      const portfolio = selectedScpi.map(scpi => ({
+        ...scpi,
+        percentage: scpi.allocation ?? 0,
+        investedAmount: investmentAmount * (scpi.allocation ?? 0) / 100,
+      }));
+      // The PDF generator saves the document and returns void, never a success flag.
+      await generatePortfolioPDF(portfolio, null, investmentAmount);
       alert('PDF généré avec succès !');
-    } else {
+    } catch (error) {
+      console.error('Échec de la génération du PDF portefeuille', error);
       alert('Erreur lors de la génération du PDF');
     }
   };
@@ -2173,7 +2130,6 @@ const App: React.FC = () => {
               currentView === 'pro-dashboard' ? '/pro/dashboard' :
               currentView === 'pro-rapports' ? '/pro/rapports' :
               currentView === 'pro-settings' ? '/pro/settings' :
-              currentView === 'pro-signup' ? '/pro/signup' :
               '/pro/login'
             }
           >
@@ -3146,6 +3102,7 @@ const App: React.FC = () => {
           onContactClick={() => setIsRdvModalOpen(true)}
           onSimulateurClick={handleSimulateurClick}
           onComparateurClick={handleComparateurClick}
+          onAnalyseActuClick={handleActualitesClick}
         />
       </Suspense>
     );
@@ -4668,11 +4625,11 @@ const App: React.FC = () => {
           <Suspense fallback={<LoadingSpinner />}>
             <ScpiDetailPage
               scpi={selectedScpiData}
-              onAddToPortfolio={isParcoursLocked ? undefined : (scpi) => toggleScpiSelection(scpi.name)}
+              onAddToPortfolio={isParcoursLocked ? undefined : (scpi) => toggleScpiSelection(scpi)}
               onTakeAppointment={isParcoursLocked ? undefined : () => setIsRdvModalOpen(true)}
             />
           </Suspense>
-          <Footer isDarkMode={isDarkMode} />
+          <Footer />
 
           {renderGlobalModals()}
         </div>
@@ -4751,41 +4708,6 @@ const App: React.FC = () => {
       </div>
     );
   }
-
-  // Prepare chart data
-  const sectorChartData = Object.entries(portfolioStats.sectorDistribution)
-    .map(([name, value], index) => ({
-      name,
-      value: Math.round(value * 10) / 10,
-      color: [
-        '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', 
-        '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#6366f1'
-      ][index % 10]
-    }))
-    .filter(item => item.value > 0)
-    .sort((a, b) => b.value - a.value);
-
-  const geoChartData = Object.entries(portfolioStats.geoDistribution)
-    .map(([name, value], index) => ({
-      name,
-      value: Math.round(value * 10) / 10,
-      color: [
-        '#1e40af', '#059669', '#d97706', '#dc2626', '#7c3aed',
-        '#0891b2', '#65a30d', '#ea580c', '#be185d', '#4f46e5'
-      ][index % 10]
-    }))
-    .filter(item => item.value > 0)
-    .sort((a, b) => b.value - a.value);
-
-  const performanceChartData = Object.entries(portfolioStats.performanceDistribution)
-    .map(([name, value], index) => ({
-      name,
-      value,
-      color: [
-        '#10b981', '#3b82f6', '#f59e0b', '#ef4444'
-      ][index % 4]
-    }))
-    .filter(item => item.value > 0);
 
   // Render landing page view
   if (currentView === 'landing' && selectedLandingPage) {

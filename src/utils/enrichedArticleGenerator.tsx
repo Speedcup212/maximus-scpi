@@ -4,15 +4,9 @@
  * Structure identique aux pages gestionnaires
  */
 
-import React from 'react';
-import {
-  TrendingUp, Shield, CheckCircle, Euro, ArrowRight, Award,
-  Star, Building2, Globe, BarChart3, Target, Calculator,
-  PieChart, AlertTriangle, Clock, FileText, Users, Zap
-} from 'lucide-react';
+import { TrendingUp, CheckCircle, Euro, ArrowRight, Award, BarChart3, Target, PieChart, AlertTriangle, FileText, Zap } from 'lucide-react';
 import type { ArticleTemplate } from '../data/articleTemplatesConfig';
 import PieChart3DInteractive from '../components/PieChart3DInteractive';
-import GrowthChart from '../components/GrowthChart';
 
 export interface EnrichedArticleContent {
   sections: ArticleSection[];
@@ -49,6 +43,31 @@ export interface StatBlock {
   icon: any;
   color: string;
 }
+
+type DetailedIntro = { paragraph1: string; paragraph2: string; paragraph3: string; keyPoints: string[] };
+type ComparisonData = {
+  optionA: { name: string }; optionB: { name: string };
+  rows: { criterion: string; valueA: string; valueB: string }[]; explanation: string;
+};
+type PieSectionData = {
+  title: string; subtitle: string;
+  data: { name: string; value: number; color: string }[];
+  insights: string[];
+};
+type DeepAnalysisData = {
+  title: string; subsections: {
+    title: string; paragraphs: string[]; bulletPoints?: string[]; example?: string;
+  }[];
+};
+type FiscalityData = {
+  tmiExamples: { tmi: number; netReturn: string; annualNet: number }[];
+  explanations: { title: string; content: string; calculation?: string }[];
+};
+type ArticleStrategy = { profile: string; description: string; action: string; example?: string };
+type ArticleProsCons = { pros: string[]; cons: string[] };
+type ExpertRecommendations = { mainAdvice: string; keyPoints: string[] };
+type ArticleMistake = { title: string; description: string; solution: string };
+type ArticleConclusion = { summary: string; finalThought: string; keyTakeaways: string[] };
 
 /**
  * Génère un article enrichi complet avec graphiques et contenu long-form
@@ -186,24 +205,22 @@ function generateIntroductionSection(template: ArticleTemplate): ArticleSection 
 /**
  * Section graphique principal (Growth Chart)
  */
-function generateMainChartSection(template: ArticleTemplate): ArticleSection {
+function generateMainChartSection(_template: ArticleTemplate): ArticleSection {
+  // The article configuration provides no authenticated historical financial
+  // series. Never show a synthetic 2015–2025 growth chart as issuer evidence.
   return {
     id: 'main-chart',
-    title: 'Évolution des rendements sur 10 ans',
-    hasChart: true,
+    title: 'Historique des rendements',
+    hasChart: false,
     content: (
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-12">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
           <BarChart3 className="w-8 h-8 text-blue-600" />
-          Évolution des rendements comparés (2015-2025)
+          Historique des rendements
         </h2>
-        <GrowthChart
-          data={getChartDataForTemplate(template)}
-          height={400}
-        />
-        <p className="text-gray-600 dark:text-gray-400 mt-6 leading-relaxed">
-          Ce graphique compare l'évolution des rendements annuels sur une décennie.
-          Les données sont issues des bulletins trimestriels officiels et actualisées en janvier 2025.
+        <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+          Aucune série historique financière vérifiée n'est disponible pour cet article.
+          Les performances ne sont pas estimées ou reconstituées sans source officielle.
         </p>
       </div>
     )
@@ -284,10 +301,14 @@ function generatePieChartSection(template: ArticleTemplate): ArticleSection {
           <PieChart className="w-8 h-8 text-green-600" />
           {pieData.title}
         </h2>
-        <PieChart3DInteractive
-          data={pieData.data}
-          title={pieData.subtitle}
-        />
+        {pieData.data.length > 0 ? (
+          <PieChart3DInteractive data={pieData.data} />
+        ) : (
+          <p className="text-sm text-gray-500">
+            Aucune donnée de répartition officielle vérifiée disponible.
+          </p>
+        )}
+        {pieData.subtitle && <p className="text-sm text-gray-500">{pieData.subtitle}</p>}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           {pieData.insights.map((insight, idx) => (
             <div key={idx} className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
@@ -534,7 +555,7 @@ function generateExpertRecommendationsSection(template: ArticleTemplate): Articl
               L'avis d'Éric Bellaiche, CGP ORIAS
             </h2>
             <p className="text-blue-100 dark:text-blue-200">
-              15 ans d'expérience, 500+ clients accompagnés
+              Analyse pédagogique et présentation des risques, sans recommandation personnalisée
             </p>
           </div>
         </div>
@@ -671,12 +692,12 @@ function estimateWordCount(sections: ArticleSection[]): number {
 }
 
 // Fonctions helpers (à implémenter avec les données réelles)
-function getKeyStatsForTemplate(template: ArticleTemplate): StatBlock[] {
+function getKeyStatsForTemplate(_template: ArticleTemplate): StatBlock[] {
   // Retourne les stats clés selon l'article
   return [];
 }
 
-function getDetailedIntro(template: ArticleTemplate): any {
+function getDetailedIntro(_template: ArticleTemplate): DetailedIntro {
   // Retourne l'introduction détaillée
   return {
     paragraph1: '',
@@ -686,11 +707,8 @@ function getDetailedIntro(template: ArticleTemplate): any {
   };
 }
 
-function getChartDataForTemplate(template: ArticleTemplate): any {
-  return [];
-}
 
-function getComparisonData(template: ArticleTemplate): any {
+function getComparisonData(_template: ArticleTemplate): ComparisonData {
   return {
     optionA: { name: '' },
     optionB: { name: '' },
@@ -699,7 +717,7 @@ function getComparisonData(template: ArticleTemplate): any {
   };
 }
 
-function getPieChartData(template: ArticleTemplate): any {
+function getPieChartData(_template: ArticleTemplate): PieSectionData {
   return {
     title: '',
     subtitle: '',
@@ -708,43 +726,43 @@ function getPieChartData(template: ArticleTemplate): any {
   };
 }
 
-function getDeepAnalysis(template: ArticleTemplate): any {
+function getDeepAnalysis(_template: ArticleTemplate): DeepAnalysisData {
   return {
     title: '',
     subsections: []
   };
 }
 
-function getFiscalityData(template: ArticleTemplate): any {
+function getFiscalityData(_template: ArticleTemplate): FiscalityData {
   return {
     tmiExamples: [],
     explanations: []
   };
 }
 
-function getStrategiesForTemplate(template: ArticleTemplate): any[] {
+function getStrategiesForTemplate(_template: ArticleTemplate): ArticleStrategy[] {
   return [];
 }
 
-function getProsConsForTemplate(template: ArticleTemplate): any {
+function getProsConsForTemplate(_template: ArticleTemplate): ArticleProsCons {
   return {
     pros: [],
     cons: []
   };
 }
 
-function getExpertRecommendations(template: ArticleTemplate): any {
+function getExpertRecommendations(_template: ArticleTemplate): ExpertRecommendations {
   return {
     mainAdvice: '',
     keyPoints: []
   };
 }
 
-function getCommonMistakes(template: ArticleTemplate): any[] {
+function getCommonMistakes(_template: ArticleTemplate): ArticleMistake[] {
   return [];
 }
 
-function getConclusionForTemplate(template: ArticleTemplate): any {
+function getConclusionForTemplate(_template: ArticleTemplate): ArticleConclusion {
   return {
     summary: '',
     finalThought: '',
@@ -752,6 +770,6 @@ function getConclusionForTemplate(template: ArticleTemplate): any {
   };
 }
 
-function generateFAQForTemplate(template: ArticleTemplate): FAQItem[] {
+function generateFAQForTemplate(_template: ArticleTemplate): FAQItem[] {
   return [];
 }

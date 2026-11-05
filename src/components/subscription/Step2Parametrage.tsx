@@ -9,20 +9,20 @@ interface Step2ParametrageProps {
   onClose?: () => void;
 }
 
-const Step2Parametrage: React.FC<Step2ParametrageProps> = ({ onClose }) => {
+const Step2Parametrage: React.FC<Step2ParametrageProps> = () => {
   const { state, updateState, goToStep, validateStep } = useSubscription();
   const [amountError, setAmountError] = useState<string>('');
 
   const minInvestment = state.selectedScpis.reduce((sum, s) => sum + s.minInvestment, 0);
   const avgYield = calculateAverageYield(state.selectedScpis);
-  const allocationAmounts = calculateAllocationAmounts(state.totalAmount, state.allocation, state.selectedScpis);
+  const allocationAmounts = calculateAllocationAmounts(state.amount, state.allocation, state.selectedScpis);
 
   // Projection indicative (non-promissive)
   const calculateProjection = () => {
-    const annualRevenue = (state.totalAmount * avgYield) / 100;
+    const annualRevenue = (state.amount * avgYield) / 100;
     const years = state.horizon;
     const totalRevenue = annualRevenue * years;
-    const totalValue = state.totalAmount + totalRevenue;
+    const totalValue = state.amount + totalRevenue;
     return { totalRevenue, totalValue, annualRevenue };
   };
 
@@ -35,7 +35,7 @@ const Step2Parametrage: React.FC<Step2ParametrageProps> = ({ onClose }) => {
     } else {
       setAmountError('');
     }
-    updateState({ totalAmount: newAmount, confirmedAmount: newAmount });
+    updateState({ amount: newAmount, confirmedAmount: newAmount });
   };
 
   const handleAllocationChange = (scpiId: number, newPercentage: number) => {
@@ -55,7 +55,7 @@ const Step2Parametrage: React.FC<Step2ParametrageProps> = ({ onClose }) => {
 
   const handleContinue = () => {
     if (!validateStep(2)) {
-      if (state.totalAmount < minInvestment) {
+      if (state.amount < minInvestment) {
         setAmountError(`Le montant minimum est de ${minInvestment.toLocaleString('fr-FR')}€`);
       }
       return;
@@ -96,7 +96,7 @@ const Step2Parametrage: React.FC<Step2ParametrageProps> = ({ onClose }) => {
           <div className="relative mb-4">
             <input
               type="number"
-              value={state.totalAmount}
+              value={state.amount}
               onChange={(e) => handleAmountChange(Math.max(0, Number(e.target.value)))}
               min={minInvestment}
               step={1000}
@@ -117,7 +117,7 @@ const Step2Parametrage: React.FC<Step2ParametrageProps> = ({ onClose }) => {
                 key={amount}
                 onClick={() => handleAmountChange(amount)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  state.totalAmount === amount
+                  state.amount === amount
                     ? 'bg-emerald-600 text-white'
                     : 'bg-slate-700 hover:bg-slate-600 text-slate-300'
                 }`}
@@ -270,7 +270,7 @@ const Step2Parametrage: React.FC<Step2ParametrageProps> = ({ onClose }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div className="bg-slate-700/50 rounded-lg p-4">
               <p className="text-xs text-slate-400 mb-1">Capital initial</p>
-              <p className="text-2xl font-bold text-white">{formatCurrency(state.totalAmount)}</p>
+              <p className="text-2xl font-bold text-white">{formatCurrency(state.amount)}</p>
             </div>
             <div className="bg-slate-700/50 rounded-lg p-4">
               <p className="text-xs text-slate-400 mb-1">Revenus cumulés estimés</p>

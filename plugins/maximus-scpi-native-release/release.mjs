@@ -7,6 +7,7 @@ import {execFileSync} from 'node:child_process';
 import {readFileSync,existsSync,writeFileSync,mkdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {join} from 'node:path';
+import {cohortIntegrityErrors} from '../../scripts/scpi-onboarding/cohortInvariant.mjs';
 const SLUG='sofidynamic';
 const ROOT=process.cwd();
 const HEX40=/^[a-f0-9]{40}$/;
@@ -46,11 +47,20 @@ export function normalizeSecretHeaders(key) {
  if(key.split('.').length===3)return {apikey:key,Authorization:'Bearer '+key};
  error('UNRECOGNIZED_SUPABASE_BACKEND_CREDENTIAL');
 }
-export function validateCandidateCatalog(){
- const cohort=JSON.parse(readFileSync(join(ROOT,'src/data/certified_scpi_cohort.json'),'utf8'));
- const catalog=JSON.parse(readFileSync(join(ROOT,'src/data/scpi_complet.json'),'utf8'));
+export function verifyBrowserBuildProof({sha,sourceSha,bytes,stamp}) {
+ const report=JSON.parse(bytes.toString('utf8'));
+ validateNativeReport(report,sha);
+ if(stamp?.commit!==sha||stamp?.source_pdf_sha256!==sourceSha||
+    stamp?.browser_report_sha256!==createHash('sha256').update(bytes).digest('hex')||
+    stamp?.full_certification_claim!==false)error('BUILD_BROWSER_STAMP_MISMATCH');
+ validateNativeReport(stamp.browser_report,sha);
+ return true;
+}
+export function validateCandidateCatalog(
+ cohort=JSON.parse(readFileSync(join(ROOT,'src/data/certified_scpi_cohort.json'),'utf8')),
+ catalog=JSON.parse(readFileSync(join(ROOT,'src/data/scpi_complet.json'),'utf8'))){
  const slug=name=>String(name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
- if(cohort.count!==cohort.slugs?.length||!cohort.slugs.includes(SLUG))error('PUBLIC_COHORT_NOT_STAGED');
+ if(cohortIntegrityErrors(cohort).length||!cohort.slugs.includes(SLUG))error('PUBLIC_COHORT_NOT_STAGED');
  const rows=catalog.filter(row=>slug(row['Nom SCPI'])===SLUG);
  if(rows.length!==1)error('AMBIGUOUS_PROVISIONAL_CATALOG');
  const row=rows[0];
@@ -122,28 +132,20 @@ async function publishPreparedCertified(secret,sha,deployId){
 }
 export async function onPostBuildSourceCheck(env) {
  if(!isProductionDeploy(env))return 'SKIPPED_NONPRODUCTION';
- const {cohort,sourceSha}=validateCandidateCatalog();
+ const {sourceSha}=validateCandidateCatalog();
  const secret=env.SUPABASE_SERVICE_ROLE_KEY;
  const prior=await api('scpi_indicators?select=scpi_slug&scpi_slug=eq.sofidynamic',secret);
  if(!Array.isArray(prior))error('INVALID_SOURCE_BACKEND_RESPONSE');
- if(prior.length)return 'ALREADY_PUBLIC';
  const file=join(ROOT,'test-results/scpi-progressive-public/report.json');
  // The Netlify build command already produced a real Chromium report; do not
  // rerun after the production build or replace the hash of the deployed proof.
  if(!existsSync(file))error('NETLIFY_BROWSER_REPORT_ABSENT');
- const bytes=readFileSync(file),report=JSON.parse(bytes.toString('utf8'));
- validateNativeReport(report,env.COMMIT_REF);
+ const bytes=readFileSync(file);
  const stampPath=join(ROOT,'dist/.well-known/scpi-progressive-evidence.json');
  if(!existsSync(stampPath))error('IMMUTABLE_LIVE_BROWSER_STAMP_ABSENT');
  const stamp=JSON.parse(readFileSync(stampPath,'utf8'));
- if(stamp.commit!==env.COMMIT_REF||
-    stamp.source_pdf_sha256!==sourceSha||
-    stamp.browser_report_sha256!==createHash('sha256').update(bytes).digest('hex')||
-    stamp.browser_report?.commit!==env.COMMIT_REF||
-    stamp.browser_report?.cases?.length!==12||
-    stamp.full_certification_claim!==false)error('BUILD_BROWSER_STAMP_MISMATCH');
- if(cohort.count<69)error('UNEXPECTED_PUBLIC_COHORT_NUMBER');
- return 'PASS_12_REAL_CHROMIUM_CASES';
+ verifyBrowserBuildProof({sha:env.COMMIT_REF,sourceSha,bytes,stamp});
+ return prior.length?'ALREADY_PUBLIC_BROWSER_REVERIFIED':'PASS_12_REAL_CHROMIUM_CASES';
 }
 export async function onSuccessRelease(env){
  if(!isProductionDeploy(env))return {status:'SKIPPED_NONPRODUCTION'};

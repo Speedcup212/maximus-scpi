@@ -22,6 +22,8 @@ export interface Scpi {
   maximusPublicationReservations?: string[];
   maximusDisabledFeatures?: string[];
   id: number;
+  /** Canonical identifier when supplied by the catalog; absent in legacy rows. */
+  slug?: string;
   name: string;
   sector: 'bureaux' | 'commerces' | 'residentiel' | 'sante' | 'logistique' | 'hotellerie' | 'diversifie';
   geography: 'france' | 'europe' | 'international';

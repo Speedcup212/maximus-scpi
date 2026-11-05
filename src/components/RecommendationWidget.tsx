@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TrendingUp, AlertTriangle, Lightbulb, Target, Shield, BarChart3 } from 'lucide-react';
+import { AlertTriangle, Lightbulb, Target, Shield, BarChart3 } from 'lucide-react';
 import { ClientProfile } from '../types/riskProfile';
 import { Scpi } from '../types/scpi';
 import { generatePortfolioRecommendations, RecommendationResult } from '../utils/portfolioRecommendations';
@@ -136,7 +136,7 @@ const RecommendationWidget: React.FC<RecommendationWidgetProps> = ({
               Pré-liste de SCPI à comparer
             </h4>
             <div className="space-y-2">
-              {recommendations.recommendations.map((rec, index) => (
+              {recommendations.recommendations.map((rec) => (
                 <div
                   key={rec.scpi.id}
                   className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600"

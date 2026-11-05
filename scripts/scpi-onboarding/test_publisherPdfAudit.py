@@ -40,6 +40,19 @@ class PublisherPdfTest(unittest.TestCase):
         self.assertTrue(report["fund_and_period_identity_pass"])
         self.assertFalse(report["financial_metrics_certified"])
         self.assertFalse(report["publication_authorized"])
+    def test_publisher_quarter_title_with_separated_ordinal_is_verified_without_financial_promotion(self):
+        c=candidate()
+        c["name"]="Opus Real"
+        c["issuer_hosts"]=["reim.bnpparibas-am.com"]
+        doc={"kind":"quarterly","reference_period":"2026-T3","url":"https://reim.bnpparibas-am.com/test.pdf"}
+        raw=pdf_bytes("OPUS REAL 3 eme trimestre 2026")
+        report=audit_document(doc,c,lambda _: (raw,doc["url"]))
+        self.assertTrue(report["publisher_binary_pass"])
+        self.assertFalse(report["financial_metrics_certified"])
+        self.assertFalse(report["publication_authorized"])
+        with self.assertRaisesRegex(ValueError,"QUARTER_TITLE_UNCONFIRMED"):
+            audit_document({**doc,"reference_period":"2026-T2"},c,lambda _: (raw,doc["url"]))
+
     def test_archive_preserves_exact_source_and_page_provenance(self):
         c=candidate()
         raw=pdf_bytes("SOFIDYNAMIC 2e TRIMESTRE 2026 97,73")
@@ -108,3 +121,18 @@ class PublisherPdfTest(unittest.TestCase):
             audit_manifest({"schema_version":1,"mode":"new","candidate":c})
 
 if __name__=="__main__":unittest.main()
+
+class SemiannualAuditTests(unittest.TestCase):
+ def test_semester_analysis_is_not_validity_or_quarter(self):
+  c=candidate();raw=pdf_bytes('SOFIDYNAMIC Bulletin semestriel Analyse : 1er janvier au 30 juin 2026 Validite : 2eme semestre 2026')
+  doc={'kind':'semiannual','reference_period':'2026-S1','url':URL}
+  result=audit_document(doc,c,lambda _:(raw,URL))
+  self.assertTrue(result['fund_and_period_identity_pass']);self.assertFalse(result['financial_metrics_certified'])
+  with self.assertRaisesRegex(ValueError,'SEMIANNUAL_ANALYSIS_PERIOD_UNCONFIRMED'):audit_document({**doc,'reference_period':'2026-S2'},c,lambda _:(raw,URL))
+  with self.assertRaisesRegex(ValueError,'QUARTER_TITLE_UNCONFIRMED'):audit_document({**doc,'kind':'quarterly','reference_period':'2026-T2'},c,lambda _:(raw,URL))
+
+class FinancialReportKindRegression(unittest.TestCase):
+ def test_forcing_annual_kind_cannot_certify_an_isr_report(self):
+  c=candidate();raw=pdf_bytes('SOFIDYNAMIC Rapport annuel ISR 2025')
+  with self.assertRaisesRegex(ValueError,'ESG_REPORT_IS_NOT_FINANCIAL_ANNUAL_REPORT'):
+   audit_document({'kind':'annual','reference_period':'2025-RA','url':URL},c,lambda _:(raw,URL))

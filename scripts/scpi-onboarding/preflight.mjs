@@ -3,11 +3,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { reconcileDatedValues } from './datedEvidence.mjs';
+import { reconcileDatedValues, reportingPeriodEnd } from './datedEvidence.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const SHA = /^[a-f0-9]{64}$/;
-const PERIOD = /^20\d{2}-T[1-4]$/;
+const PERIOD = /^20\d{2}-(?:T[1-4]|S[12])$/;
 const ANNUAL = /^20\d{2}-RA$/;
 const DAY = /^20\d{2}-\d\d-\d\d$/;
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -32,6 +32,23 @@ export function validDate(value) {
   if (typeof value !== 'string' || !DAY.test(value)) return false;
   const parsed = new Date(value + 'T00:00:00Z');
   return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
+}
+export function financialSemanticsErrors(indicator) {
+  const errors=[];
+  const units={prix_souscription:'EUR_PER_PART',prix_reconstitution:'EUR_PER_PART',
+    valeur_realisation:'EUR_PER_PART',prix_retrait:'EUR_PER_PART',capitalisation:'MILLION_EUR',
+    td:'PERCENT',tof:'PERCENT',endettement:'PERCENT',walt:'YEARS',walb:'YEARS'};
+  for(const [field,unit] of Object.entries(units)) {
+    if(indicator?.[field]==null)continue;
+    const proof=indicator.metric_provenance?.[field];
+    // Older structural snapshots can omit units; never silently approve a
+    // contradictory unit or a proof explicitly attached to another metric.
+    if(proof?.unit && proof.unit!==unit)errors.push(field+':UNIT_SEMANTICS_MISMATCH');
+    if(proof?.metric && proof.metric!==field)errors.push(field+':METRIC_IDENTITY_MISMATCH');
+  }
+  if(Number.isFinite(indicator?.walt)&&Number.isFinite(indicator?.walb)&&indicator.walb>indicator.walt)
+    errors.push('WALT_WALB_ORDER_INCONSISTENT');
+  return errors;
 }
 export function validateCohort(cohort, specs, mode = 'new') {
   const errors = [];
@@ -66,6 +83,7 @@ export function assessCandidate(spec, snapshot, catalog) {
   if (!Array.isArray(hosts) || !hosts.length || hosts.some(host => !/^[a-z0-9.-]+$/.test(host)))
     errors.push('ISSUER_HOSTS_INVALID');
   const indicator = i[0] || {};
+  errors.push(...financialSemanticsErrors(indicator));
   const analysis = a[0] || {};
   if (indicator.source_period !== spec.source_period || analysis.current_period !== spec.source_period)
     errors.push('PERIOD_MISMATCH');
@@ -128,11 +146,10 @@ export function assessCandidate(spec, snapshot, catalog) {
     }
     if (proof.reference_date === period && period === spec.source_period && !dated)
       warnings.push(field + ':PERIOD_ONLY_REFERENCE');
-    const endOfPeriod = new Date(Date.UTC(Number(spec.source_period.slice(0, 4)),
-      Number(spec.source_period.slice(-1)) * 3, 0)).toISOString().slice(0, 10);
+    const endOfPeriod = reportingPeriodEnd(spec.source_period);
     if (typeof proof.value_numeric === 'number' && proof.value_numeric !== value)
       errors.push(field + ':SOURCE_NUMERIC_VALUE_MISMATCH');
-    if (dated && validDate(proof.reference_date) && proof.reference_date > endOfPeriod) {
+    if (dated && endOfPeriod && validDate(proof.reference_date) && proof.reference_date > endOfPeriod) {
       errors.push(field + ':FUTURE_VALUATION_DATE');
     }
     if (period === spec.source_period && proof.source_url !== indicator.source_url)

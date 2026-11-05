@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { useAuth } from './AuthContext';
-import { supabase } from '../lib/supabase';
+import { supabase, requireSupabase } from '../lib/supabase';
 
 export interface SimulationResult {
   scpiId: number;
@@ -25,6 +25,7 @@ export interface ProReportSimulation {
   tmi: number;
   duration: number;
   mode: 'comptant' | 'credit' | 'demembrement';
+  montantTotal?: number; // Montant de départ conservé pour les nouveaux rapports, rétrocompatible
   results: SimulationResult[];
 }
 
@@ -85,7 +86,7 @@ export const ProReportProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     if (!user) return;
     const fetchCabinetName = async () => {
       try {
-        const { data } = await supabase
+        const { data } = await requireSupabase()
           .from('cgp_profiles')
           .select('company_name')
           .eq('id', user.id)

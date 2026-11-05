@@ -1,0 +1,3973 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "3ccc0b423325f827991118ac7e86817e9d9df4ef",
+  "delta": {
+    "before": 1023,
+    "after": 601,
+    "removed": 422,
+    "introduced": 0
+  },
+  "automatic_import_repair_files": 77,
+  "automatic_binding_removals": 340,
+  "automatically_resolved_diagnostics": 330,
+  "after_by_cause": {
+    "UNUSED_SYMBOL": 278,
+    "TYPE_CONTRACT": 251,
+    "NULLABILITY_CONTRACT": 57,
+    "MISSING_MODULE": 15
+  },
+  "after_by_code": {
+    "1345": 1,
+    "2304": 2,
+    "2307": 15,
+    "2322": 47,
+    "2339": 36,
+    "2345": 83,
+    "2352": 10,
+    "2353": 8,
+    "2367": 9,
+    "2551": 1,
+    "2552": 1,
+    "2677": 1,
+    "2739": 5,
+    "2741": 1,
+    "2769": 9,
+    "6133": 276,
+    "6192": 1,
+    "6196": 1,
+    "6198": 1,
+    "7006": 35,
+    "7053": 1,
+    "18047": 51,
+    "18048": 6
+  },
+  "full_typecheck_status": "FAIL",
+  "publication_authorized": false,
+  "actions": [
+    {
+      "file": "src/components/AboutUsPage.tsx",
+      "removed_bindings": [
+        "TrendingUp"
+      ],
+      "source_initial_sha256": "1e6c4080d4c2b96e1f9044714d61f57d889b0364abe00dfe6520e96c20841084",
+      "source_final_sha256": "65ac95296d355cec94bfacbcad5af0c060fb8aa5bb5057289ce367b18678061f",
+      "automatic_import_plan": {
+        "file": "src/components/AboutUsPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "81666171e4257c1e0e66b7f457d4599d094ac8927163519aefcd7e7155276f29",
+        "source_before_sha256": "1e6c4080d4c2b96e1f9044714d61f57d889b0364abe00dfe6520e96c20841084",
+        "source_after_sha256": "65ac95296d355cec94bfacbcad5af0c060fb8aa5bb5057289ce367b18678061f",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/AnalyseActuPage.tsx",
+      "removed_bindings": [
+        "Article"
+      ],
+      "source_initial_sha256": "be924744ed964b9997755e3cc8e05a6919e8fef604e5954d70209276364e6851",
+      "source_final_sha256": "93e960f66a5896326bced06d9dc1a9b8b4fc29b53f223c7a3e56d20206c374cc",
+      "automatic_import_plan": {
+        "file": "src/components/AnalyseActuPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "4b6701fdca27c1063f3112068a5f8224d462bc9770fe41ee3d07000e31bd90ee",
+        "source_before_sha256": "be924744ed964b9997755e3cc8e05a6919e8fef604e5954d70209276364e6851",
+        "source_after_sha256": "93e960f66a5896326bced06d9dc1a9b8b4fc29b53f223c7a3e56d20206c374cc",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 13,
+          "message": "'Article' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/AnalysisModal.tsx",
+      "removed_bindings": [
+        "getPerformanceColor",
+        "getScpiNews"
+      ],
+      "source_initial_sha256": "520d57949ab62a6c015c0c7da037ff4390f911e5075ae6442e57b2159e5fa8f3",
+      "source_final_sha256": "ba08a150cb389596650f8718d55d98fd684f7f782df8b47f780969ea5c77f734",
+      "automatic_import_plan": {
+        "file": "src/components/AnalysisModal.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 2,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "15ef022c6d44a0d0e29baef3c5a2f2672de1b35b3a9a65fcea6556e7b361df73",
+        "source_before_sha256": "520d57949ab62a6c015c0c7da037ff4390f911e5075ae6442e57b2159e5fa8f3",
+        "source_after_sha256": "ba08a150cb389596650f8718d55d98fd684f7f782df8b47f780969ea5c77f734",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 8,
+          "message": "'getPerformanceColor' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 9,
+          "message": "'getScpiNews' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ArticleGeneratorPage.tsx",
+      "removed_bindings": [
+        "ArticleTemplate"
+      ],
+      "source_initial_sha256": "72ae2d3e1caac72309ab5d2f79d77c5a5fc3001856e9d5bb96e08a7157139c4c",
+      "source_final_sha256": "fc379ed0da6f58b3eb87f98ebdc04e10d36a9bcdc98357dd5be6b00e693eaf16",
+      "automatic_import_plan": {
+        "file": "src/components/ArticleGeneratorPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "44aefdcf289811d3c8fcb5486e8de4440243ee6bef11174858af3726b2c86d51",
+        "source_before_sha256": "72ae2d3e1caac72309ab5d2f79d77c5a5fc3001856e9d5bb96e08a7157139c4c",
+        "source_after_sha256": "fc379ed0da6f58b3eb87f98ebdc04e10d36a9bcdc98357dd5be6b00e693eaf16",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 7,
+          "message": "'ArticleTemplate' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ComparateurDemembrementScpi.tsx",
+      "removed_bindings": [
+        "ArrowRight",
+        "LineChart",
+        "Line",
+        "XAxis",
+        "YAxis",
+        "CartesianGrid",
+        "Tooltip",
+        "Legend",
+        "ResponsiveContainer",
+        "PieChart",
+        "Pie",
+        "Cell"
+      ],
+      "source_initial_sha256": "27d0c55324da3f54071493c05dc64dc6c903796acce84a43b0228d0e642d22ae",
+      "source_final_sha256": "2587531e5bb394348b7e979ba601aa3d46d48944d9ad8f4a0bd7ecdd44cd7314",
+      "automatic_import_plan": {
+        "file": "src/components/ComparateurDemembrementScpi.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 2,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "e7e6398fbfb2dc3d59353e28b949c70ddfef1136e08e5174833a5983e431de64",
+        "source_before_sha256": "27d0c55324da3f54071493c05dc64dc6c903796acce84a43b0228d0e642d22ae",
+        "source_after_sha256": "2587531e5bb394348b7e979ba601aa3d46d48944d9ad8f4a0bd7ecdd44cd7314",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'ArrowRight' is declared but its value is never read."
+        },
+        {
+          "code": 6192,
+          "line": 3,
+          "message": "All imports in import declaration are unused."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ComparisonWarning.tsx",
+      "removed_bindings": [
+        "getComparisonWarning"
+      ],
+      "source_initial_sha256": "f70a5244ccb82b571deaf33c100a1ba28e687bb3e3bb68c9b5ac1d290c948ee2",
+      "source_final_sha256": "5d77d166222d383c54b1ce0fc744990035a794b2f72b84e2335b66b78a689ac3",
+      "automatic_import_plan": {
+        "file": "src/components/ComparisonWarning.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "3197ad48b8e401d411f9727d2e58191b6edffc5b21de0fb3f190ddca3ec2f2b7",
+        "source_before_sha256": "f70a5244ccb82b571deaf33c100a1ba28e687bb3e3bb68c9b5ac1d290c948ee2",
+        "source_after_sha256": "5d77d166222d383c54b1ce0fc744990035a794b2f72b84e2335b66b78a689ac3",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 9,
+          "message": "'getComparisonWarning' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ConstruirePortefeuilleScpiPage.tsx",
+      "removed_bindings": [
+        "Building2",
+        "TrendingUp",
+        "CheckCircle2"
+      ],
+      "source_initial_sha256": "82a90d01f693eba7d6b75a9f72835541b416b33b60f84242748e65d38624e931",
+      "source_final_sha256": "430c7f9a881111cd1f07632e1051daadcb94ae3a82a0bbcd2a59a241509cb4db",
+      "automatic_import_plan": {
+        "file": "src/components/ConstruirePortefeuilleScpiPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "5d070da99241a0a51554e8cd8eab3513da8b300166ce24b1a565c7760ef5b0bd",
+        "source_before_sha256": "82a90d01f693eba7d6b75a9f72835541b416b33b60f84242748e65d38624e931",
+        "source_after_sha256": "430c7f9a881111cd1f07632e1051daadcb94ae3a82a0bbcd2a59a241509cb4db",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'CheckCircle2' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/DynamicArticlePage.tsx",
+      "removed_bindings": [
+        "CheckCircle2"
+      ],
+      "source_initial_sha256": "9a789a8071c4da56a88870c8ab191d4542afba206b42341348bfc07f7c6b3ee0",
+      "source_final_sha256": "28d2d8341fc54742dc6643ce2d009aa66ce06d6ccc35c485ce6b4d3a9abfe223",
+      "automatic_import_plan": {
+        "file": "src/components/DynamicArticlePage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "956ea27ec7801daa1b124af298e87b737584a6f2c90169c5ed38bed6ced7229d",
+        "source_before_sha256": "9a789a8071c4da56a88870c8ab191d4542afba206b42341348bfc07f7c6b3ee0",
+        "source_after_sha256": "28d2d8341fc54742dc6643ce2d009aa66ce06d6ccc35c485ce6b4d3a9abfe223",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'CheckCircle2' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/Footer.tsx",
+      "removed_bindings": [
+        "ExternalLink",
+        "Leaf"
+      ],
+      "source_initial_sha256": "20b04c14c36f981086b4256cffbbd46673fe31a02449c4b2808f5f4f3270068b",
+      "source_final_sha256": "7b2df9658369f3dc9840838f04bac46022b7becd85ef6d24340ff7bba3239682",
+      "automatic_import_plan": {
+        "file": "src/components/Footer.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "1fffacd155a2103d0a4b0380f388d9dcfa9f38549ab52ee8e5763a9370f03ce1",
+        "source_before_sha256": "20b04c14c36f981086b4256cffbbd46673fe31a02449c4b2808f5f4f3270068b",
+        "source_after_sha256": "7b2df9658369f3dc9840838f04bac46022b7becd85ef6d24340ff7bba3239682",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'ExternalLink' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Leaf' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/GestionnairesActeursScpiPage.tsx",
+      "removed_bindings": [
+        "Scale",
+        "Target",
+        "PieChart",
+        "Globe",
+        "Lightbulb",
+        "HelpCircle"
+      ],
+      "source_initial_sha256": "be2cb991b678f2c7ecb6fe7dce8788c55d4f4e1cda8ec064a5a15cc136ca4002",
+      "source_final_sha256": "7e84ae53cededa0bd1f621b7bf704520913984f22eb27f2a8f1fb7f072838bbf",
+      "automatic_import_plan": {
+        "file": "src/components/GestionnairesActeursScpiPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "76f5f076f58ff24658682a25e043ef9a91fddd6a805862ba246a62c97eaba45a",
+        "source_before_sha256": "be2cb991b678f2c7ecb6fe7dce8788c55d4f4e1cda8ec064a5a15cc136ca4002",
+        "source_after_sha256": "7e84ae53cededa0bd1f621b7bf704520913984f22eb27f2a8f1fb7f072838bbf",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 16,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 18,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 19,
+          "message": "'PieChart' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 20,
+          "message": "'Globe' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 21,
+          "message": "'Lightbulb' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 22,
+          "message": "'HelpCircle' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/Header.tsx",
+      "removed_bindings": [
+        "HelpCircle"
+      ],
+      "source_initial_sha256": "77b61107fe52690d4c80aa1fc004ecfe0eb8556c693879fee64c14a4a9bcea5b",
+      "source_final_sha256": "8d18c8d3fa88c98b70f9082184c9b67ef4ca51f311559f562b12463bcc32c3da",
+      "automatic_import_plan": {
+        "file": "src/components/Header.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "91aa8d8f562a3b7c56f1478243a71801fe0c9f2c567dbb6eeb827c9566eea176",
+        "source_before_sha256": "77b61107fe52690d4c80aa1fc004ecfe0eb8556c693879fee64c14a4a9bcea5b",
+        "source_after_sha256": "8d18c8d3fa88c98b70f9082184c9b67ef4ca51f311559f562b12463bcc32c3da",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'HelpCircle' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/IrokoZenLandingPage.tsx",
+      "removed_bindings": [
+        "Mail",
+        "User",
+        "Award",
+        "BarChart3",
+        "Target",
+        "Calculator",
+        "MessageCircle",
+        "FileText",
+        "Lock",
+        "Eye",
+        "BadgeCheck"
+      ],
+      "source_initial_sha256": "0a0295f85ad7f3c292945479bad6d385bac0a417645a458fb60b4b01152257b7",
+      "source_final_sha256": "fb61f020b10b5ed6ac7e5c173dd31cb04639b57403cf0f8f44f459c7b66c9705",
+      "automatic_import_plan": {
+        "file": "src/components/IrokoZenLandingPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "f7b1b176cc59789ff4e329e930b4f9f8b1b604eff611510631392cb34add8362",
+        "source_before_sha256": "0a0295f85ad7f3c292945479bad6d385bac0a417645a458fb60b4b01152257b7",
+        "source_after_sha256": "fb61f020b10b5ed6ac7e5c173dd31cb04639b57403cf0f8f44f459c7b66c9705",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Mail' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'User' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 4,
+          "message": "'Award' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 4,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'Calculator' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'MessageCircle' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'FileText' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'Lock' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'BadgeCheck' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/LandingPage.tsx",
+      "removed_bindings": [
+        "TrendingUp",
+        "BarChart3"
+      ],
+      "source_initial_sha256": "310650172c6292a9c459ad1f666b0c60afd0710b7b2a2bafa20afe80eef2269c",
+      "source_final_sha256": "16775681309ca884c0ac932ded05e7b32182c333dabfa689e4e45b10b420e6a3",
+      "automatic_import_plan": {
+        "file": "src/components/LandingPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "4f6abe5a3c5d1bb06eaa04b73aecc4f1a1ddf5471d681655e94dd2452c18d94a",
+        "source_before_sha256": "310650172c6292a9c459ad1f666b0c60afd0710b7b2a2bafa20afe80eef2269c",
+        "source_after_sha256": "16775681309ca884c0ac932ded05e7b32182c333dabfa689e4e45b10b420e6a3",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ObjectiveModal.tsx",
+      "removed_bindings": [
+        "TrendingUp",
+        "Shield",
+        "Target",
+        "DollarSign"
+      ],
+      "source_initial_sha256": "4baff5c3643abe40b8ea6bbaa6caac599820f214da060f5d11b2ccf18514920c",
+      "source_final_sha256": "2d1d51b7cd0471d4e0d2c2d1c0f241bb342856e042efee078bbd0a18f925068b",
+      "automatic_import_plan": {
+        "file": "src/components/ObjectiveModal.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "50db9c9e502b6dfaa9a77a28c60a03e86e04e10b705781efa9320abc8d78b927",
+        "source_before_sha256": "4baff5c3643abe40b8ea6bbaa6caac599820f214da060f5d11b2ccf18514920c",
+        "source_after_sha256": "2d1d51b7cd0471d4e0d2c2d1c0f241bb342856e042efee078bbd0a18f925068b",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'DollarSign' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/OptimizedScpiLandingPage.tsx",
+      "removed_bindings": [
+        "TrendingUp",
+        "Phone",
+        "User",
+        "Euro",
+        "Award",
+        "BarChart3",
+        "Leaf",
+        "Target",
+        "MessageCircle",
+        "FileText",
+        "Lock",
+        "ChevronLeft"
+      ],
+      "source_initial_sha256": "45f520a7fa1aa6e2d2b5156fd089649f432c78cf2589161d99f1357ac5ffcc26",
+      "source_final_sha256": "5f828a3ffdd6e13dc0b141e7eff2f1c607f526b5d9ec0d1c0ee1fa23cad8ffcb",
+      "automatic_import_plan": {
+        "file": "src/components/OptimizedScpiLandingPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "3a9cd567df173557c88c8cb4607e0f0a67d0ac135502f9155fdc6aab9f90574b",
+        "source_before_sha256": "45f520a7fa1aa6e2d2b5156fd089649f432c78cf2589161d99f1357ac5ffcc26",
+        "source_after_sha256": "52121af5e25b7bdef0a27383e3857ba2d9279cf292194f832a18bf789e2dc7c5",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": true,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Phone' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'User' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 4,
+          "message": "'Award' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 4,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 4,
+          "message": "'Leaf' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'MessageCircle' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'FileText' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'Lock' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 6,
+          "message": "'ChevronLeft' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": false
+    },
+    {
+      "file": "src/components/OptimizedThematicLandingPage.tsx",
+      "removed_bindings": [
+        "TrendingUp",
+        "Phone",
+        "Mail",
+        "User",
+        "Euro",
+        "Award",
+        "BarChart3",
+        "Leaf",
+        "Calculator",
+        "MessageCircle",
+        "FileText",
+        "Lock",
+        "Eye",
+        "BadgeCheck",
+        "ChevronLeft",
+        "MapPin",
+        "Recycle",
+        "Users",
+        "AlertCircle",
+        "Info"
+      ],
+      "source_initial_sha256": "2cbf8a81fec8cb517c492ee9d03e6936728df93e35416fa38d4da4e912945f0a",
+      "source_final_sha256": "39cc9fabf88cad7e21f97cc5c0d6c3b4f8128793744ffe2d7d24b5d8fd9752a8",
+      "automatic_import_plan": {
+        "file": "src/components/OptimizedThematicLandingPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "15d4414fc3e6211683641313a4b93ff8cebd5f2aea2b6b817de39683d0f4c7be",
+        "source_before_sha256": "2cbf8a81fec8cb517c492ee9d03e6936728df93e35416fa38d4da4e912945f0a",
+        "source_after_sha256": "39cc9fabf88cad7e21f97cc5c0d6c3b4f8128793744ffe2d7d24b5d8fd9752a8",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Phone' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Mail' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'User' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 4,
+          "message": "'Award' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 4,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 4,
+          "message": "'Leaf' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'Calculator' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'MessageCircle' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'FileText' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'Lock' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'BadgeCheck' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 6,
+          "message": "'ChevronLeft' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 6,
+          "message": "'MapPin' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 6,
+          "message": "'Recycle' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 6,
+          "message": "'Users' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 6,
+          "message": "'AlertCircle' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 6,
+          "message": "'Info' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/PortfolioJourney.tsx",
+      "removed_bindings": [
+        "Calendar",
+        "Info",
+        "CheckCircle",
+        "AlertTriangle",
+        "Edit3",
+        "Plus",
+        "Star",
+        "Zap"
+      ],
+      "source_initial_sha256": "317959712a98cb8e35827b74aabf1cfb49acbfa24743db23fa223bcd23a22fee",
+      "source_final_sha256": "5ba04df1798ba1de212f083a52f7b968b343b7e20b73ca08790273c51b72b0d1",
+      "automatic_import_plan": {
+        "file": "src/components/PortfolioJourney.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "5b30355fae1cb1107f37d24f4a55933980e39230945a469c745144419f532fdc",
+        "source_before_sha256": "317959712a98cb8e35827b74aabf1cfb49acbfa24743db23fa223bcd23a22fee",
+        "source_after_sha256": "5ba04df1798ba1de212f083a52f7b968b343b7e20b73ca08790273c51b72b0d1",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calendar' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Info' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'CheckCircle' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'AlertTriangle' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Edit3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Plus' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Star' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Zap' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/PortfolioSidebar.tsx",
+      "removed_bindings": [
+        "Building",
+        "MapPin",
+        "Award"
+      ],
+      "source_initial_sha256": "5de8da996288aea5f753b9377e9db72bd40c51b6afdcd29b71742575cb492912",
+      "source_final_sha256": "8856938a3ae7f0d3d8e0560e85603c8096de518f36408740c1eb42695963741a",
+      "automatic_import_plan": {
+        "file": "src/components/PortfolioSidebar.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "2a407d619dddf3183ee1d1c9819ea46981b2c5d98019fe4584e355d58b6bc4b8",
+        "source_before_sha256": "5de8da996288aea5f753b9377e9db72bd40c51b6afdcd29b71742575cb492912",
+        "source_after_sha256": "8856938a3ae7f0d3d8e0560e85603c8096de518f36408740c1eb42695963741a",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'MapPin' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Award' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ProfileBadge.tsx",
+      "removed_bindings": [
+        "RiskProfile"
+      ],
+      "source_initial_sha256": "4b15bf032eb07e0eab885a2d7f96446dd3d54b045672a45f1f55b095de08b21b",
+      "source_final_sha256": "c9dc20d307d9c7341173475e076e5a35f0ca482f4676064514660e8d9aacef2c",
+      "automatic_import_plan": {
+        "file": "src/components/ProfileBadge.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "282212882f050dc54eeadb7d699a1f6212ad1ac8e1f96fc190ec745b35d2be21",
+        "source_before_sha256": "4b15bf032eb07e0eab885a2d7f96446dd3d54b045672a45f1f55b095de08b21b",
+        "source_after_sha256": "c9dc20d307d9c7341173475e076e5a35f0ca482f4676064514660e8d9aacef2c",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'RiskProfile' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/PurchaseMethodSelector.tsx",
+      "removed_bindings": [
+        "Landmark"
+      ],
+      "source_initial_sha256": "4ce8950d08977efb9d9d3217a49297c70d98be495d3305ea8e19cb1ffea23f6d",
+      "source_final_sha256": "2d94a1962b45a90442c1bba8eb60192b3c2048758c7e9b55ff34cd5eda4f2ca1",
+      "automatic_import_plan": {
+        "file": "src/components/PurchaseMethodSelector.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "32e880d18a26d860e6f0c3e9fa244f8c639de6979e9e0c2207b58e70e39a0337",
+        "source_before_sha256": "4ce8950d08977efb9d9d3217a49297c70d98be495d3305ea8e19cb1ffea23f6d",
+        "source_after_sha256": "2d94a1962b45a90442c1bba8eb60192b3c2048758c7e9b55ff34cd5eda4f2ca1",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Landmark' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/RecommendationWidget.tsx",
+      "removed_bindings": [
+        "TrendingUp"
+      ],
+      "source_initial_sha256": "981afc92c807258170d0832b32957a51c7a5308e3d51df82174684909a8be475",
+      "source_final_sha256": "47b7338dbe2d4566443d764a6622fb1b943dee4cdbad7fc469ab031228679399",
+      "automatic_import_plan": {
+        "file": "src/components/RecommendationWidget.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "422fb734b14f0fa898519fb1848c2482cde525dd2eb72f53a17774f5c942b65e",
+        "source_before_sha256": "981afc92c807258170d0832b32957a51c7a5308e3d51df82174684909a8be475",
+        "source_after_sha256": "47b7338dbe2d4566443d764a6622fb1b943dee4cdbad7fc469ab031228679399",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ScpiDemembrementSimulator.tsx",
+      "removed_bindings": [
+        "Calendar",
+        "LineChart",
+        "Line",
+        "BarChart",
+        "Bar"
+      ],
+      "source_initial_sha256": "636ace38d3dac0a8169b9987b5b29819bcfa762032c6943f35ef1f9ce9b54ccb",
+      "source_final_sha256": "d7d4eb8b9ee7aad13dee69ac0be9b7c5fdb7742abbf4a9061d291eadecbff7e4",
+      "automatic_import_plan": {
+        "file": "src/components/ScpiDemembrementSimulator.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 2,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "36881219951cfa6dbb25614c9385bcfd219cbc3ad1d2f826c09df68be0bd93f6",
+        "source_before_sha256": "636ace38d3dac0a8169b9987b5b29819bcfa762032c6943f35ef1f9ce9b54ccb",
+        "source_after_sha256": "ad2b89d5f6bfff2900633cd032a2623c4f99a5556f0a9875ba65d7341cd2394b",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": true,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calendar' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'LineChart' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Line' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'BarChart' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Bar' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": false
+    },
+    {
+      "file": "src/components/ScpiEnvelopeComparator.tsx",
+      "removed_bindings": [
+        "useEffect",
+        "Legend"
+      ],
+      "source_initial_sha256": "35692b0b84536a4a493daf3c5174f654a854e175e9cf07feb8316fd0aca6321e",
+      "source_final_sha256": "d9d070e317e2f8b4990fc05f5c55092689704cfe57d1cca6683f93f52aafd35b",
+      "automatic_import_plan": {
+        "file": "src/components/ScpiEnvelopeComparator.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 2,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "90eb7eb586b1df95b5c5bf461d562c6f6e4eac3ffd40df9f96affe02442262b8",
+        "source_before_sha256": "35692b0b84536a4a493daf3c5174f654a854e175e9cf07feb8316fd0aca6321e",
+        "source_after_sha256": "97af0de658d94dd2d528e69fb47891b75ed5e432d834c737153dd3bdef970c21",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": true,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 1,
+          "message": "'useEffect' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Legend' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": false
+    },
+    {
+      "file": "src/components/ScpiEuropeennesHubPage.tsx",
+      "removed_bindings": [
+        "ExternalLink"
+      ],
+      "source_initial_sha256": "341254295279c9f4e32116849087038d4f27b000422aa719db09d532c25edbce",
+      "source_final_sha256": "025134b052a726c198db069a919d4f62c50b4153b8ab3569931e2970bc8504e6",
+      "automatic_import_plan": {
+        "file": "src/components/ScpiEuropeennesHubPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "789aa69687bb14227d3a0bfb811dd8e729f2240385f78ad7985e78c320eb0c6a",
+        "source_before_sha256": "341254295279c9f4e32116849087038d4f27b000422aa719db09d532c25edbce",
+        "source_after_sha256": "025134b052a726c198db069a919d4f62c50b4153b8ab3569931e2970bc8504e6",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'ExternalLink' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ScpiExamplePage.tsx",
+      "removed_bindings": [
+        "Mail",
+        "User",
+        "Euro",
+        "Calculator"
+      ],
+      "source_initial_sha256": "7edb03ebb5c707e029694f9d11f86344160c6bb3fd17b0c68e4604fde20779d3",
+      "source_final_sha256": "cd3a9289b4e27b7430294418af455878bf560c28ca0f611b3864751ff56f65c2",
+      "automatic_import_plan": {
+        "file": "src/components/ScpiExamplePage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "14e1863ecae7c1b2b66fe8f4d1c3e64aad4e90cc5588f1b2c496ba3046d7ba1a",
+        "source_before_sha256": "7edb03ebb5c707e029694f9d11f86344160c6bb3fd17b0c68e4604fde20779d3",
+        "source_after_sha256": "cd3a9289b4e27b7430294418af455878bf560c28ca0f611b3864751ff56f65c2",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Mail' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'User' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 5,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ScpiGestionnairesHubPage.tsx",
+      "removed_bindings": [
+        "Star"
+      ],
+      "source_initial_sha256": "4ef1123a34d4b1ba2226d82ea4640c9715cd0a8e25bbc7c27ef68d864d825c0e",
+      "source_final_sha256": "f6a04616214c2d730b6e757bc5ec8948e9b1ed13e1c39f1879cd6a8b1e3e715c",
+      "automatic_import_plan": {
+        "file": "src/components/ScpiGestionnairesHubPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "96462bac05515d5f0ce1d089b7212a0ef08fe261729ebf0c66ff8f258fde4cf8",
+        "source_before_sha256": "4ef1123a34d4b1ba2226d82ea4640c9715cd0a8e25bbc7c27ef68d864d825c0e",
+        "source_after_sha256": "f6a04616214c2d730b6e757bc5ec8948e9b1ed13e1c39f1879cd6a8b1e3e715c",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Star' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ScpiObjectifsHubPage.tsx",
+      "removed_bindings": [
+        "Heart",
+        "Home"
+      ],
+      "source_initial_sha256": "9fa8c28167d57faf8e9f44309ab7c9cbccd889d37b129b741a36d4b30549f23e",
+      "source_final_sha256": "090b0c3831c77504392ef3f1c54016c47b8f18aacdf804b82f63a998b52bd9f3",
+      "automatic_import_plan": {
+        "file": "src/components/ScpiObjectifsHubPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "6061b905d846f3b52e6429614ecffbb723efe55dd965e599356af068688827be",
+        "source_before_sha256": "9fa8c28167d57faf8e9f44309ab7c9cbccd889d37b129b741a36d4b30549f23e",
+        "source_after_sha256": "090b0c3831c77504392ef3f1c54016c47b8f18aacdf804b82f63a998b52bd9f3",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Heart' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Home' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ScpiSecteursHubPage.tsx",
+      "removed_bindings": [
+        "Users",
+        "ExternalLink"
+      ],
+      "source_initial_sha256": "2ed6b3d9154c47da214d28fce82b42a08297e7b3cbd3a4f74be3caa2145d7f0e",
+      "source_final_sha256": "2665761d872144b26291325b79940da63d332c077ba91255e373325bfb211106",
+      "automatic_import_plan": {
+        "file": "src/components/ScpiSecteursHubPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "8866bed8284fcc5666a1fa4f20d9c7759ba70468d4e8646c627ebb480d0454e1",
+        "source_before_sha256": "2ed6b3d9154c47da214d28fce82b42a08297e7b3cbd3a4f74be3caa2145d7f0e",
+        "source_after_sha256": "2665761d872144b26291325b79940da63d332c077ba91255e373325bfb211106",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Users' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'ExternalLink' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ScpiTable.tsx",
+      "removed_bindings": [
+        "TrendingUp",
+        "formatCurrency",
+        "formatPercentage"
+      ],
+      "source_initial_sha256": "04310ffabf8cb365bd712f9a54b80ac43a2785f0a2e829c21e23a7eaaa27d19e",
+      "source_final_sha256": "13b464b04f5acfffd0b6387eb7ad6cb1fa1f934bbaf9d69b1114462eefd13007",
+      "automatic_import_plan": {
+        "file": "src/components/ScpiTable.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 2,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "3d5753fca3339ce81d23a27853ac8093d5987ac0ae1cf6627f642c63b80d15f9",
+        "source_before_sha256": "04310ffabf8cb365bd712f9a54b80ac43a2785f0a2e829c21e23a7eaaa27d19e",
+        "source_after_sha256": "01f36eb01b22863b12bbd64721b76d6f391ba4471a8cc152159d69ecf5fe8dd3",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": true,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 4,
+          "message": "'formatCurrency' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 4,
+          "message": "'formatPercentage' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/SelectionSimulator.tsx",
+      "removed_bindings": [
+        "TrendingUp",
+        "Calendar"
+      ],
+      "source_initial_sha256": "089a7a70060f7d3e72afdc3182d4f4a982b9a72e68a2578cce262af5e9eb5354",
+      "source_final_sha256": "babc26b6baee0b0bf4c8cd2e38c833a0e0fb9ac865339df57ab5ceb25cc36e68",
+      "automatic_import_plan": {
+        "file": "src/components/SelectionSimulator.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "4d5f845b0413863d2dbd5dfead9e2b511466132329535a4f6c73658ee80ed09f",
+        "source_before_sha256": "089a7a70060f7d3e72afdc3182d4f4a982b9a72e68a2578cce262af5e9eb5354",
+        "source_after_sha256": "babc26b6baee0b0bf4c8cd2e38c833a0e0fb9ac865339df57ab5ceb25cc36e68",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calendar' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/SocietesDeGestionScpiPage.tsx",
+      "removed_bindings": [
+        "ExternalLink"
+      ],
+      "source_initial_sha256": "0c7c02827e1576562e7d562969057fb47f4ef7af155c638138c393da4a4c111f",
+      "source_final_sha256": "c0f76b7fdbabdf233299e9eac4d8b4013f3ddc5cd114d9cc729d15bdc439cf55",
+      "automatic_import_plan": {
+        "file": "src/components/SocietesDeGestionScpiPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "fdbc06d0b1ca946003642bf29a203793752b85b8d61317ab6efcf8e06adae978",
+        "source_before_sha256": "0c7c02827e1576562e7d562969057fb47f4ef7af155c638138c393da4a4c111f",
+        "source_after_sha256": "c0f76b7fdbabdf233299e9eac4d8b4013f3ddc5cd114d9cc729d15bdc439cf55",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'ExternalLink' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ThematicLandingPage.tsx",
+      "removed_bindings": [
+        "Phone",
+        "Mail",
+        "User",
+        "Euro",
+        "Grid"
+      ],
+      "source_initial_sha256": "4fc52d79d0aae94017f03000a6addf5f9257c645d5598a2e789496890c109d05",
+      "source_final_sha256": "22a3c5a4f2772e2294eae6e14afb9c570f66aa6c5d9e065ed1cd6cc39bd0aec7",
+      "automatic_import_plan": {
+        "file": "src/components/ThematicLandingPage.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "331691a958900e5afaa12679810c7bcb9c83ebab4436df4916ee2981beba289f",
+        "source_before_sha256": "4fc52d79d0aae94017f03000a6addf5f9257c645d5598a2e789496890c109d05",
+        "source_after_sha256": "22a3c5a4f2772e2294eae6e14afb9c570f66aa6c5d9e065ed1cd6cc39bd0aec7",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Phone' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Mail' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'User' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 7,
+          "message": "'Grid' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/ThematicSimulator.tsx",
+      "removed_bindings": [
+        "Euro",
+        "ArrowRight"
+      ],
+      "source_initial_sha256": "ca0755f8d39b4ebb8fa7b790a7e9234a0c2e337ca9c909e4a24ab980cb94c4b0",
+      "source_final_sha256": "a59bdd783f20a7c7a328c940d410ff5576088714674d2001b8895c57be3dcb03",
+      "automatic_import_plan": {
+        "file": "src/components/ThematicSimulator.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "0666d692919fa7e75f71b78af36cc10db232f4abb1c43de8afc2e430aa053bd3",
+        "source_before_sha256": "ca0755f8d39b4ebb8fa7b790a7e9234a0c2e337ca9c909e4a24ab980cb94c4b0",
+        "source_after_sha256": "a59bdd783f20a7c7a328c940d410ff5576088714674d2001b8895c57be3dcb03",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'ArrowRight' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/UnderstandingSCPI.tsx",
+      "removed_bindings": [
+        "FileText",
+        "ChevronUp"
+      ],
+      "source_initial_sha256": "5c11028058427a6cc08da2ec8a9451152eb6429a3ef98e3c276ea3c88c19d4c2",
+      "source_final_sha256": "2186986ece10ae58502545b46783c7c569c6f5bf9ca2edc4d6b72b4705a4a220",
+      "automatic_import_plan": {
+        "file": "src/components/UnderstandingSCPI.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "f9cd08071eeaf21fa7b8e6f75a83ec737666bf7ea79bfb351d3badfe800f620a",
+        "source_before_sha256": "5c11028058427a6cc08da2ec8a9451152eb6429a3ef98e3c276ea3c88c19d4c2",
+        "source_after_sha256": "2186986ece10ae58502545b46783c7c569c6f5bf9ca2edc4d6b72b4705a4a220",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'FileText' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'ChevronUp' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/UnifiedPortfolio.tsx",
+      "removed_bindings": [
+        "Download",
+        "Award",
+        "DollarSign",
+        "Calendar"
+      ],
+      "source_initial_sha256": "db31f0286064b433e5b7f6a2e9ffa9db7d01a90d9390e5cc0ba5014591cf6b54",
+      "source_final_sha256": "3c733b9d5f17ef96d3d575ff0097f088a47a4596abec43e7abed965a3c4c31f1",
+      "automatic_import_plan": {
+        "file": "src/components/UnifiedPortfolio.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "b0bda0e1e8b3ce10f32f42cb3e26e97a7ac42ae7ffcbe64e96abdd08eb0af797",
+        "source_before_sha256": "db31f0286064b433e5b7f6a2e9ffa9db7d01a90d9390e5cc0ba5014591cf6b54",
+        "source_after_sha256": "3c733b9d5f17ef96d3d575ff0097f088a47a4596abec43e7abed965a3c4c31f1",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Download' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Award' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'DollarSign' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calendar' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/WhyChooseUs.tsx",
+      "removed_bindings": [
+        "Calendar"
+      ],
+      "source_initial_sha256": "ea8592c2f24d5835b454f11ad6d813ddf4a388f738bb44cb5e7c9686f6841d58",
+      "source_final_sha256": "19f13af3ebf604378a26a6d5d5d9f15319956fc95d0c1137c25899dbdf532da1",
+      "automatic_import_plan": {
+        "file": "src/components/WhyChooseUs.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "c5f56fb0048f541f5d232e60c4945e9ee91430cb816ed8de54fdc2f1d6e377ef",
+        "source_before_sha256": "ea8592c2f24d5835b454f11ad6d813ddf4a388f738bb44cb5e7c9686f6841d58",
+        "source_after_sha256": "19f13af3ebf604378a26a6d5d5d9f15319956fc95d0c1137c25899dbdf532da1",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calendar' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/100000EurosFondsEurosCoutOpportuniteArticle.tsx",
+      "removed_bindings": [
+        "Shield",
+        "TrendingUp",
+        "Euro",
+        "Target",
+        "BookOpen",
+        "Scale",
+        "Lightbulb",
+        "Eye",
+        "Calculator"
+      ],
+      "source_initial_sha256": "b16999492ae866463bb77bffb297350a427be76c152de163fbd18eb5a06fd99b",
+      "source_final_sha256": "1e7e7b2386e351e82459d8113780e1d490076e83648debabcd0e65914c56fd7b",
+      "automatic_import_plan": {
+        "file": "src/components/articles/100000EurosFondsEurosCoutOpportuniteArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "1cacc8095d3a170c7e389ad9295a5c019ac238264e449844f42f62d722cadc14",
+        "source_before_sha256": "b16999492ae866463bb77bffb297350a427be76c152de163fbd18eb5a06fd99b",
+        "source_after_sha256": "1e7e7b2386e351e82459d8113780e1d490076e83648debabcd0e65914c56fd7b",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Lightbulb' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/AchatScpiCreditEffetLevierFiscaliteArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "Euro",
+        "BarChart3",
+        "BookOpen",
+        "Scale",
+        "Lightbulb",
+        "Eye",
+        "Calculator"
+      ],
+      "source_initial_sha256": "b2c2ef707a44343137eabafec91b10efa5ce84e06cb83c2c8d2ad639ab67e94f",
+      "source_final_sha256": "9d4c8d3c5b9e66f9287a0428f150fff73d13f98206b1911c58ccbf2aaa67a2a8",
+      "automatic_import_plan": {
+        "file": "src/components/articles/AchatScpiCreditEffetLevierFiscaliteArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "d985d2ddfdf68b5ae5fec4145560e79b116fed0cd65ac517d9098857675b3fac",
+        "source_before_sha256": "b2c2ef707a44343137eabafec91b10efa5ce84e06cb83c2c8d2ad639ab67e94f",
+        "source_after_sha256": "9d4c8d3c5b9e66f9287a0428f150fff73d13f98206b1911c58ccbf2aaa67a2a8",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Lightbulb' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/DemembrementScpiNueProprieteUsufruitArticle.tsx",
+      "removed_bindings": [
+        "BookOpen",
+        "Eye",
+        "Calculator",
+        "Percent"
+      ],
+      "source_initial_sha256": "1b22151d6090d5d56d75ba8ffe91add5d6cc391c5f9776802fa96256a6afa866",
+      "source_final_sha256": "db21216a6ae40dfb0254a605ffbc176853fe5f120fc38520278f897021b5738c",
+      "automatic_import_plan": {
+        "file": "src/components/articles/DemembrementScpiNueProprieteUsufruitArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "0b001ae6de20328d7f11c11dcf036e60a3abb44d7b2b590580be56f38227acec",
+        "source_before_sha256": "1b22151d6090d5d56d75ba8ffe91add5d6cc391c5f9776802fa96256a6afa866",
+        "source_after_sha256": "db21216a6ae40dfb0254a605ffbc176853fe5f120fc38520278f897021b5738c",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Percent' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/DiversificationScpiCombienNombrePartsArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "TrendingUp",
+        "Euro",
+        "Users",
+        "BarChart3",
+        "Scale",
+        "Eye",
+        "Calculator"
+      ],
+      "source_initial_sha256": "dc06dbb8156cb46ecb334a35603c10939123dd972c54531e8b3fe700fde1c28c",
+      "source_final_sha256": "9d12394b52d99cff29dfda2f595440eff378896516c169149bd07accd0f6648e",
+      "automatic_import_plan": {
+        "file": "src/components/articles/DiversificationScpiCombienNombrePartsArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "a6d53ee24c05da9505150ff3bfdf0a8a5650135c27ac359328ac51988f068b01",
+        "source_before_sha256": "dc06dbb8156cb46ecb334a35603c10939123dd972c54531e8b3fe700fde1c28c",
+        "source_after_sha256": "9d12394b52d99cff29dfda2f595440eff378896516c169149bd07accd0f6648e",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Users' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/FraisScpiSouscriptionGestionPerformanceArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "Target",
+        "BarChart3",
+        "Eye"
+      ],
+      "source_initial_sha256": "4363194e4c01a3d8feeb3f5b333d0aae8b361106c5492bc9ce904ae327990f0e",
+      "source_final_sha256": "717fec1bc59574cfccd390a2b6d519a36c774da45b332be0b74045080c3cb3c7",
+      "automatic_import_plan": {
+        "file": "src/components/articles/FraisScpiSouscriptionGestionPerformanceArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "18b105c7fd835a78bf7a75b9ffa36160e52c7e709c29b087e27bac6f5b0e2c24",
+        "source_before_sha256": "4363194e4c01a3d8feeb3f5b333d0aae8b361106c5492bc9ce904ae327990f0e",
+        "source_after_sha256": "717fec1bc59574cfccd390a2b6d519a36c774da45b332be0b74045080c3cb3c7",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/Investir200000EurosScpiPortefeuilleDiversifieArticle.tsx",
+      "removed_bindings": [
+        "Shield",
+        "TrendingUp",
+        "Euro",
+        "Target",
+        "BookOpen",
+        "Scale",
+        "Lightbulb",
+        "Eye",
+        "Calculator"
+      ],
+      "source_initial_sha256": "3cd3f0aecef62bfec02b68d0db536938ef7dbd979c783d3a1eb536f0c00c76bd",
+      "source_final_sha256": "7d18c3eb0a61d0da8fa562c05a886001a0ceda5a7793df35d5fa914e790381ed",
+      "automatic_import_plan": {
+        "file": "src/components/articles/Investir200000EurosScpiPortefeuilleDiversifieArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "146173ef0cac031f7b294ee6a7d8a91d12f2083e2dad04895e560227384abefb",
+        "source_before_sha256": "3cd3f0aecef62bfec02b68d0db536938ef7dbd979c783d3a1eb536f0c00c76bd",
+        "source_after_sha256": "7d18c3eb0a61d0da8fa562c05a886001a0ceda5a7793df35d5fa914e790381ed",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Lightbulb' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/InvestirScpiJeuneActif2535AnsArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "BarChart3",
+        "BookOpen",
+        "Scale",
+        "Eye"
+      ],
+      "source_initial_sha256": "63bfafbacaef742f8c4cdd398544f52bb32527339d0ff69988e0cdedad4c6bf0",
+      "source_final_sha256": "320ea128ed98e697cc1a413f559f6fe7789f98cdbf486369e0184fb078471144",
+      "automatic_import_plan": {
+        "file": "src/components/articles/InvestirScpiJeuneActif2535AnsArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "9fbc0329ba2e80f00ec4d53c8c1ee67b98de091e4a3559a66414ed7def8affaf",
+        "source_before_sha256": "63bfafbacaef742f8c4cdd398544f52bb32527339d0ff69988e0cdedad4c6bf0",
+        "source_after_sha256": "320ea128ed98e697cc1a413f559f6fe7789f98cdbf486369e0184fb078471144",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/PerScpiRetraiteDeductionFiscaleArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "Euro",
+        "BarChart3",
+        "BookOpen",
+        "Scale",
+        "Lightbulb",
+        "Eye",
+        "Calculator"
+      ],
+      "source_initial_sha256": "f7aa0f54349e554cedfcb8ca2e9098a1083ab711cbcd0d2ca5d5c0e84e096819",
+      "source_final_sha256": "37a565232d0c4ebac31914910f3917a9c0835a8fb7ea51f662141030f0b883f3",
+      "automatic_import_plan": {
+        "file": "src/components/articles/PerScpiRetraiteDeductionFiscaleArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "d64bba5a2d5f5a1687300c92488caa335c394de60005a0360e6c65f0a6e754f9",
+        "source_before_sha256": "f7aa0f54349e554cedfcb8ca2e9098a1083ab711cbcd0d2ca5d5c0e84e096819",
+        "source_after_sha256": "37a565232d0c4ebac31914910f3917a9c0835a8fb7ea51f662141030f0b883f3",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Lightbulb' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/PremierInvestissementScpiDebutantGuideArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "Euro",
+        "BarChart3",
+        "BookOpen",
+        "Scale",
+        "Lightbulb",
+        "Eye",
+        "Calculator"
+      ],
+      "source_initial_sha256": "83d01bc5191090d6a8a9ba8cadf25073ebd8260570c52cf598b6025cb21f5786",
+      "source_final_sha256": "bb0430914821644d6bc149f297408d9947d01de1caa059fee53be646b1ae39e1",
+      "automatic_import_plan": {
+        "file": "src/components/articles/PremierInvestissementScpiDebutantGuideArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "f4616cb66c1e41d52c972d71f3ce5251ea516cc1a762b4bbe7d2c21dd1c0713c",
+        "source_before_sha256": "83d01bc5191090d6a8a9ba8cadf25073ebd8260570c52cf598b6025cb21f5786",
+        "source_after_sha256": "bb0430914821644d6bc149f297408d9947d01de1caa059fee53be646b1ae39e1",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Lightbulb' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/RevendrePartsScpiDelaisMarcheSecondaireArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "Euro",
+        "Target",
+        "BarChart3",
+        "Lightbulb",
+        "Eye",
+        "Calculator"
+      ],
+      "source_initial_sha256": "13747a45d9197e09875812a85afcd9455d650ddc9c785ab7b555aa0d6b52c7bd",
+      "source_final_sha256": "f0f48a87d30aa2686fdef3bd811bd845d8645fe43872d8f5f421bb443f5e29e4",
+      "automatic_import_plan": {
+        "file": "src/components/articles/RevendrePartsScpiDelaisMarcheSecondaireArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "b6694b6542c651dc71ac7e1136f7ebae76f256d2d9e2038e2061cbbee3349f9d",
+        "source_before_sha256": "13747a45d9197e09875812a85afcd9455d650ddc9c785ab7b555aa0d6b52c7bd",
+        "source_after_sha256": "f0f48a87d30aa2686fdef3bd811bd845d8645fe43872d8f5f421bb443f5e29e4",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Lightbulb' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/RisquesScpiVacanceLocativeLiquiditeArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "TrendingUp",
+        "Euro",
+        "Users",
+        "BarChart3",
+        "BookOpen",
+        "Scale",
+        "Calculator",
+        "DollarSign",
+        "FileText"
+      ],
+      "source_initial_sha256": "21297aea2c672cfbd855b103fb7dc94d26e6d15e136fc061601a2f01533418c8",
+      "source_final_sha256": "80eb27cedca36afe19e387d50958b9a9cf7c9a6516d8303ff67e76fc21ba28eb",
+      "automatic_import_plan": {
+        "file": "src/components/articles/RisquesScpiVacanceLocativeLiquiditeArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "05efec5e1195dc479a3fab566e39806cdd9b9269711c9d6cbec0420de75928ba",
+        "source_before_sha256": "21297aea2c672cfbd855b103fb7dc94d26e6d15e136fc061601a2f01533418c8",
+        "source_after_sha256": "80eb27cedca36afe19e387d50958b9a9cf7c9a6516d8303ff67e76fc21ba28eb",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Users' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'DollarSign' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'FileText' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/SciScpiSocieteCivileImmobilierePartsArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "Euro",
+        "BarChart3",
+        "BookOpen",
+        "Scale",
+        "Lightbulb",
+        "Eye",
+        "Calculator"
+      ],
+      "source_initial_sha256": "eeabcb16afd64c6ae57aad8b294a00b85e4d3e34d42c2034dc1691a4afd492d3",
+      "source_final_sha256": "57959bca4ce0c45ee8ba8b7744ff10505c7375ac88b6b7b762fec5581ae3ff80",
+      "automatic_import_plan": {
+        "file": "src/components/articles/SciScpiSocieteCivileImmobilierePartsArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "a023f0331c2dfb79f1fa8160c049fb9e0838cb9a6b6c744f845e70601fb644e0",
+        "source_before_sha256": "eeabcb16afd64c6ae57aad8b294a00b85e4d3e34d42c2034dc1691a4afd492d3",
+        "source_after_sha256": "57959bca4ce0c45ee8ba8b7744ff10505c7375ac88b6b7b762fec5581ae3ff80",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Lightbulb' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/ScpiBureauxTertiaireTeletravail2025Article.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "Euro",
+        "Target",
+        "BarChart3",
+        "Eye",
+        "Calculator"
+      ],
+      "source_initial_sha256": "fb09e5580428a4fe098d86e909d10e5977fb9751725a14914398b445e728d292",
+      "source_final_sha256": "3890b7257a24fe48269cca14665d2948b0a05c888c695731d0fbf7ee37764e2a",
+      "automatic_import_plan": {
+        "file": "src/components/articles/ScpiBureauxTertiaireTeletravail2025Article.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "6555aa8598706207b189a2f132dbe7fc5ffced4c940adaaac6cccfd01f828b48",
+        "source_before_sha256": "fb09e5580428a4fe098d86e909d10e5977fb9751725a14914398b445e728d292",
+        "source_after_sha256": "3890b7257a24fe48269cca14665d2948b0a05c888c695731d0fbf7ee37764e2a",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/ScpiCommercesRetailECommerceOpportunitesArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "Euro",
+        "Target",
+        "BarChart3",
+        "Eye",
+        "Calculator"
+      ],
+      "source_initial_sha256": "4ba7cd36658af3c3cdbe5a8cd38657aeba478d1d59f28581231f611015a67488",
+      "source_final_sha256": "fd889f750d4693dd394505eabd43d1b6a10fc849fd123d6922c7be30b96dae85",
+      "automatic_import_plan": {
+        "file": "src/components/articles/ScpiCommercesRetailECommerceOpportunitesArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "717a072f31f201678a81ffcd3190ae22aff159131f5505ee994ee4bc500bd9b5",
+        "source_before_sha256": "4ba7cd36658af3c3cdbe5a8cd38657aeba478d1d59f28581231f611015a67488",
+        "source_after_sha256": "fd889f750d4693dd394505eabd43d1b6a10fc849fd123d6922c7be30b96dae85",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/ScpiFiscalesMalrauxDeficitFoncier2025Article.tsx",
+      "removed_bindings": [
+        "Building2",
+        "TrendingUp",
+        "Target",
+        "BarChart3",
+        "BookOpen",
+        "Scale",
+        "Lightbulb",
+        "Eye"
+      ],
+      "source_initial_sha256": "3a7cef71822e7da710b2ba29033d9f8473d0135bbc2e782e485a1ff018bf9ef0",
+      "source_final_sha256": "d9f2d9a91580d956c9b576a84cb1301489d418172581f1b3bd3834caaa3fb7d8",
+      "automatic_import_plan": {
+        "file": "src/components/articles/ScpiFiscalesMalrauxDeficitFoncier2025Article.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "71a1622ab2f7373f1438db0045dbde59803b66e8c09b097e6c34daf760415d9f",
+        "source_before_sha256": "3a7cef71822e7da710b2ba29033d9f8473d0135bbc2e782e485a1ff018bf9ef0",
+        "source_after_sha256": "d9f2d9a91580d956c9b576a84cb1301489d418172581f1b3bd3834caaa3fb7d8",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Lightbulb' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/ScpiLogistiqueEntrepotsECommerce2025Article.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "Euro",
+        "Target",
+        "BarChart3",
+        "Eye",
+        "Calculator"
+      ],
+      "source_initial_sha256": "e929cabd4721634c9b513b59ed231d59cf3759ff7357766275dd9c7bae7f8075",
+      "source_final_sha256": "a84c0f79c9cdac3f0b695ec5b6c6b516810f218298224c7abe97ab525a6a5c81",
+      "automatic_import_plan": {
+        "file": "src/components/articles/ScpiLogistiqueEntrepotsECommerce2025Article.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "b626610d03320f9e17743b45b057c8fede33e8cf3cc38643dea5661dc4560d1d",
+        "source_before_sha256": "e929cabd4721634c9b513b59ed231d59cf3759ff7357766275dd9c7bae7f8075",
+        "source_after_sha256": "a84c0f79c9cdac3f0b695ec5b6c6b516810f218298224c7abe97ab525a6a5c81",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/ScpiOuEtfImmobilierReitComparatifArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "Euro",
+        "Target",
+        "BarChart3",
+        "BookOpen",
+        "Scale",
+        "Lightbulb",
+        "Calculator"
+      ],
+      "source_initial_sha256": "3ab7adf72abe1f529dbc7988d8b72bb3e2df8e43b447b31af6dbea74746f7aed",
+      "source_final_sha256": "c65706c08d3f27887b6b4e0fef17c31040c80cf60006e4d615e93e3e28a2beff",
+      "automatic_import_plan": {
+        "file": "src/components/articles/ScpiOuEtfImmobilierReitComparatifArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "a019ea56daa261cd229a182142d7cec72e9923747340fe543d9e2fda3a59e687",
+        "source_before_sha256": "3ab7adf72abe1f529dbc7988d8b72bb3e2df8e43b447b31af6dbea74746f7aed",
+        "source_after_sha256": "c65706c08d3f27887b6b4e0fef17c31040c80cf60006e4d615e93e3e28a2beff",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Lightbulb' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/ScpiOuImmobilierLocatifComparatif20AnsArticle.tsx",
+      "removed_bindings": [
+        "Shield",
+        "TrendingUp",
+        "AlertTriangle",
+        "Euro",
+        "Target",
+        "BarChart3",
+        "BookOpen",
+        "Eye",
+        "Wrench",
+        "DollarSign",
+        "TrendingDown",
+        "Lock"
+      ],
+      "source_initial_sha256": "aeec334c7394189d0cd54ab27310d543fa71930cadfe1066661d2d736c073665",
+      "source_final_sha256": "6c0f1a8960fb0d1f7fbd2263310cda050cf6abc28f5491df360ff74a38febe06",
+      "automatic_import_plan": {
+        "file": "src/components/articles/ScpiOuImmobilierLocatifComparatif20AnsArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "d2ae4960aa6ac6f1873a91bb39bfb4443e059406e49e3573981777b5577487b2",
+        "source_before_sha256": "aeec334c7394189d0cd54ab27310d543fa71930cadfe1066661d2d736c073665",
+        "source_after_sha256": "6c0f1a8960fb0d1f7fbd2263310cda050cf6abc28f5491df360ff74a38febe06",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'AlertTriangle' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Wrench' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'DollarSign' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingDown' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Lock' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/ScpiOuOpciDifferencesAvantagesArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "Euro",
+        "Target",
+        "BarChart3",
+        "BookOpen",
+        "Scale",
+        "Lightbulb",
+        "Calculator"
+      ],
+      "source_initial_sha256": "85502c86bc45f0209d1b7bbff89f8bbd62f995c0b6072a5cce967442819708a5",
+      "source_final_sha256": "160f1acf49035cb0182c15ea7d8ed1e3aa163de946679085ac4e009c2ffaf4c9",
+      "automatic_import_plan": {
+        "file": "src/components/articles/ScpiOuOpciDifferencesAvantagesArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "ad33071c2f7b2a94b60465490f9a5b983a2754e48461c3f3df88d0fd4cefe631",
+        "source_before_sha256": "85502c86bc45f0209d1b7bbff89f8bbd62f995c0b6072a5cce967442819708a5",
+        "source_after_sha256": "160f1acf49035cb0182c15ea7d8ed1e3aa163de946679085ac4e009c2ffaf4c9",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Lightbulb' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/ScpiResidentiellesLogementLocatifScpiHabitationArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "Shield",
+        "Euro",
+        "Target",
+        "BarChart3",
+        "Eye",
+        "Calculator"
+      ],
+      "source_initial_sha256": "be9083f62030eede52693b76e25a7ecc23d65fd4ba1055ca64f61a40c3e4b1c6",
+      "source_final_sha256": "8b96469cc80739366a4e1919c4d43b637b90055a91d0961726b2300a0ef3d274",
+      "automatic_import_plan": {
+        "file": "src/components/articles/ScpiResidentiellesLogementLocatifScpiHabitationArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "aaaaf7c3c9d928d6b4eaac3a7c54e881ab3506f7a8c1d37e3bf72fa9ec22eeb6",
+        "source_before_sha256": "be9083f62030eede52693b76e25a7ecc23d65fd4ba1055ca64f61a40c3e4b1c6",
+        "source_after_sha256": "8b96469cc80739366a4e1919c4d43b637b90055a91d0961726b2300a0ef3d274",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Calculator' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/ScpiSanteSeniorsEhpadCliniquesInvestissementArticle.tsx",
+      "removed_bindings": [
+        "BarChart3"
+      ],
+      "source_initial_sha256": "f71bfc24991106619391a9f38cc27ae904d9adcba6aa5a61298c39e0ff226305",
+      "source_final_sha256": "a6a50cd53c1f4faf7b452000b54d5d99f01077666246cdf6916f404b7a8dcfa4",
+      "automatic_import_plan": {
+        "file": "src/components/articles/ScpiSanteSeniorsEhpadCliniquesInvestissementArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "77f00609e5e9711b4b86dd217ccdc2d925108a407e34ebdfa7ebda812b2c7d6f",
+        "source_before_sha256": "f71bfc24991106619391a9f38cc27ae904d9adcba6aa5a61298c39e0ff226305",
+        "source_after_sha256": "a6a50cd53c1f4faf7b452000b54d5d99f01077666246cdf6916f404b7a8dcfa4",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/articles/SuccessionScpiTransmissionDroitsHeritageArticle.tsx",
+      "removed_bindings": [
+        "Building2",
+        "TrendingUp",
+        "Target",
+        "BarChart3",
+        "BookOpen",
+        "Scale",
+        "Lightbulb",
+        "Eye"
+      ],
+      "source_initial_sha256": "7aef49437e4d9c4aa2fb8469aee06492c8565f4500838bef3f489b78153c554c",
+      "source_final_sha256": "23526028b45a89c85ea80ea2f15a040ba53b6c97171f3d4830da7e76772a05b4",
+      "automatic_import_plan": {
+        "file": "src/components/articles/SuccessionScpiTransmissionDroitsHeritageArticle.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "5fdcaecf88a5eba5b1bfa14b34898e2f3410ee8ba1a635a8d5676ec09cbbab28",
+        "source_before_sha256": "7aef49437e4d9c4aa2fb8469aee06492c8565f4500838bef3f489b78153c554c",
+        "source_after_sha256": "23526028b45a89c85ea80ea2f15a040ba53b6c97171f3d4830da7e76772a05b4",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Target' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BookOpen' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Scale' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Lightbulb' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/expert/ExpertRegister.tsx",
+      "removed_bindings": [
+        "Loader2"
+      ],
+      "source_initial_sha256": "299af25c3477cfbc6728d51959d61024055502565adf01a305f0a6b9202d688d",
+      "source_final_sha256": "9023fbbb94c9c666d74bc275bee95e8c3bb99bedd7134046e8f0777b368ec212",
+      "automatic_import_plan": {
+        "file": "src/components/expert/ExpertRegister.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "80f1a4a776b5d9a883eb8779848fa698fb4b9b2105f76adea3da2c23935b93a3",
+        "source_before_sha256": "299af25c3477cfbc6728d51959d61024055502565adf01a305f0a6b9202d688d",
+        "source_after_sha256": "9023fbbb94c9c666d74bc275bee95e8c3bb99bedd7134046e8f0777b368ec212",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'Loader2' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/expert/ExpertSimulationView.tsx",
+      "removed_bindings": [
+        "Euro",
+        "Clock"
+      ],
+      "source_initial_sha256": "2296c2dee6edadd98e385d32c6c63ddeb0d08929d94b8967788c92adb78840bc",
+      "source_final_sha256": "d97ccddf3994f68defb583f4d4321c9ab02dd26054a753d95bbbe89b307578d6",
+      "automatic_import_plan": {
+        "file": "src/components/expert/ExpertSimulationView.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "47707c99768ba5564ecc2d2df41a4d6d3a055fd340eacdb9a34ef3643b747766",
+        "source_before_sha256": "2296c2dee6edadd98e385d32c6c63ddeb0d08929d94b8967788c92adb78840bc",
+        "source_after_sha256": "d97ccddf3994f68defb583f4d4321c9ab02dd26054a753d95bbbe89b307578d6",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Euro' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Clock' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/expert/ExpertVerification.tsx",
+      "removed_bindings": [
+        "MapPin",
+        "Briefcase"
+      ],
+      "source_initial_sha256": "74368f89bb4d6cc09ead397bb99846d74b6107d7f7e89e81b09c798cf62610c8",
+      "source_final_sha256": "1c5560de6d3d43ddf1b702590e94071f1219e2b8f5d969ddc9f2977d700b924a",
+      "automatic_import_plan": {
+        "file": "src/components/expert/ExpertVerification.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "2dfdec41fba81c6a65f8d136924db976bd9043b9cf387b751fcc374652a9f747",
+        "source_before_sha256": "74368f89bb4d6cc09ead397bb99846d74b6107d7f7e89e81b09c798cf62610c8",
+        "source_after_sha256": "1c5560de6d3d43ddf1b702590e94071f1219e2b8f5d969ddc9f2977d700b924a",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'MapPin' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Briefcase' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/fintech/ProFintechComparator.tsx",
+      "removed_bindings": [
+        "Link",
+        "RotateCcw",
+        "Download",
+        "User"
+      ],
+      "source_initial_sha256": "a5b07581b6b0a952fb94bb0ba218028e8e7ca0426020128e577a0e9d41f74046",
+      "source_final_sha256": "ad34407a97d5a4c711a620b33f0a896bd2853a6e4938cbf1d1bf389f7bb67fda",
+      "automatic_import_plan": {
+        "file": "src/components/fintech/ProFintechComparator.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "315fac962f0029eb079e5f6fad6f40ffa6ce7d7fb0d0c467377ca23cec1fbeb8",
+        "source_before_sha256": "a5b07581b6b0a952fb94bb0ba218028e8e7ca0426020128e577a0e9d41f74046",
+        "source_after_sha256": "ad34407a97d5a4c711a620b33f0a896bd2853a6e4938cbf1d1bf389f7bb67fda",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Link' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'RotateCcw' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Download' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'User' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/fintech/ProSelectionSidebar.tsx",
+      "removed_bindings": [
+        "Trash2",
+        "Info",
+        "Legend"
+      ],
+      "source_initial_sha256": "d176134ec82394b7cbe3f99d5a786f58fa459c7ef6981dd41de16dc7c2cd74b5",
+      "source_final_sha256": "0e9ee153bf5a4ab293eab28975a7a4332da1aa777dac6f2ffa59e4838aa3cfc4",
+      "automatic_import_plan": {
+        "file": "src/components/fintech/ProSelectionSidebar.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 2,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "b551ccacb000f23f7482c964268b1b7e2a4337e2e7521cc64755fadd1d3d9fb2",
+        "source_before_sha256": "d176134ec82394b7cbe3f99d5a786f58fa459c7ef6981dd41de16dc7c2cd74b5",
+        "source_after_sha256": "0e9ee153bf5a4ab293eab28975a7a4332da1aa777dac6f2ffa59e4838aa3cfc4",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Trash2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Info' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 7,
+          "message": "'Legend' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/fintech/SelectionSidebar.tsx",
+      "removed_bindings": [
+        "Info",
+        "Legend"
+      ],
+      "source_initial_sha256": "a1b9063cfdfc17c7ab55e654cd16c459a823aaee5405e2375327e610b59fa196",
+      "source_final_sha256": "3dab3bbb8da02332dca29c1c6c23adc0e16bf9f4083a1704da97a4f0363d23f1",
+      "automatic_import_plan": {
+        "file": "src/components/fintech/SelectionSidebar.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 2,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "52039a2e7d12b67ffdbe83d5ceb9fc4f1871d9066d039b66e4a6e6a33aba805f",
+        "source_before_sha256": "a1b9063cfdfc17c7ab55e654cd16c459a823aaee5405e2375327e610b59fa196",
+        "source_after_sha256": "3dab3bbb8da02332dca29c1c6c23adc0e16bf9f4083a1704da97a4f0363d23f1",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Info' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 7,
+          "message": "'Legend' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/guidedJourney/GuidedJourneyResults.tsx",
+      "removed_bindings": [
+        "Shield",
+        "TrendingUp",
+        "Building",
+        "MessageCircle",
+        "getMaxScpiCount"
+      ],
+      "source_initial_sha256": "1f6d99e240ecb88aecab9ce486fcbb46280c134c40740d7015a72ba83f20a316",
+      "source_final_sha256": "40f0ece87302947351b2a867af44e00d78dcb682c837533adaf8dda4a5e498b4",
+      "automatic_import_plan": {
+        "file": "src/components/guidedJourney/GuidedJourneyResults.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 2,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "194b4e3bed437248628ee45991cf5c964de04177c3a8df08e5331dc194ecbc96",
+        "source_before_sha256": "1f6d99e240ecb88aecab9ce486fcbb46280c134c40740d7015a72ba83f20a316",
+        "source_after_sha256": "40f0ece87302947351b2a867af44e00d78dcb682c837533adaf8dda4a5e498b4",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'TrendingUp' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Building' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'MessageCircle' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 9,
+          "message": "'getMaxScpiCount' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/mobile-comparator/StickySelectionFooter.tsx",
+      "removed_bindings": [
+        "Eye"
+      ],
+      "source_initial_sha256": "d30370474521623c0cdb4134a0e041e624429691be105ab9d4c916d019f4e393",
+      "source_final_sha256": "2aaf991b14527b8dd14f6f80657e8c9b818cd0131094692084d35ed94562442d",
+      "automatic_import_plan": {
+        "file": "src/components/mobile-comparator/StickySelectionFooter.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "377a7375762f42121f3046a1ab8def539ba3359895eccc1580cfa7266319d1ca",
+        "source_before_sha256": "d30370474521623c0cdb4134a0e041e624429691be105ab9d4c916d019f4e393",
+        "source_after_sha256": "2aaf991b14527b8dd14f6f80657e8c9b818cd0131094692084d35ed94562442d",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Eye' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/simulation/SimulationModal.tsx",
+      "removed_bindings": [
+        "useState",
+        "BarChart3"
+      ],
+      "source_initial_sha256": "d5da8ab76d5bc7f10067ab84b5959d16cfad331d27ddfa38f67d0f2613af12e7",
+      "source_final_sha256": "7034b96a2993781861bbd7da2f3b27933cd53aa670f0afe8cf9ecb553aae37f4",
+      "automatic_import_plan": {
+        "file": "src/components/simulation/SimulationModal.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 2,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "58e03b7c785be513a6165bd4fa0d0591825a482789e46a36a23a6e86b0049be4",
+        "source_before_sha256": "d5da8ab76d5bc7f10067ab84b5959d16cfad331d27ddfa38f67d0f2613af12e7",
+        "source_after_sha256": "7034b96a2993781861bbd7da2f3b27933cd53aa670f0afe8cf9ecb553aae37f4",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 1,
+          "message": "'useState' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'BarChart3' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/subscription/Step1Context.tsx",
+      "removed_bindings": [
+        "Shield"
+      ],
+      "source_initial_sha256": "f9a627f18038e4b56a4b6b864ee4005414c141fe633dc70e61e53da0d23c3474",
+      "source_final_sha256": "7ccbfbeaa38ac8e9497546ce88a29cb0ce5fc07314e3a776010de83facbb26aa",
+      "automatic_import_plan": {
+        "file": "src/components/subscription/Step1Context.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "ae932e74f77da6d7ed826e12bde2e0e593668173259cae62f72b935905f75219",
+        "source_before_sha256": "f9a627f18038e4b56a4b6b864ee4005414c141fe633dc70e61e53da0d23c3474",
+        "source_after_sha256": "7ccbfbeaa38ac8e9497546ce88a29cb0ce5fc07314e3a776010de83facbb26aa",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'Shield' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/subscription/Step1Validation.tsx",
+      "removed_bindings": [
+        "X",
+        "validateAllocation"
+      ],
+      "source_initial_sha256": "1165cb87cc92fb8d0659216bdac357c82bd3632b131b49c5e4887bb62510ef70",
+      "source_final_sha256": "89c73bc2115fa1729f3e41b3f8fc58feacfa91d0d1096033decea216fbc4cba0",
+      "automatic_import_plan": {
+        "file": "src/components/subscription/Step1Validation.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 2,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "8c8fcfaec80af7c298398b45190279ac124af4efce87a77e6d65779ae9025500",
+        "source_before_sha256": "1165cb87cc92fb8d0659216bdac357c82bd3632b131b49c5e4887bb62510ef70",
+        "source_after_sha256": "89c73bc2115fa1729f3e41b3f8fc58feacfa91d0d1096033decea216fbc4cba0",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'X' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 4,
+          "message": "'validateAllocation' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/subscription/Step3Identite.tsx",
+      "removed_bindings": [
+        "MapPin"
+      ],
+      "source_initial_sha256": "396b6b02e9838d85500e596b9acd672cfb18964d1d9efba0b4141fadfb9dc040",
+      "source_final_sha256": "8497dcfa39eb68384581da59858e6c3b231486b728106ef050e86804c45d20df",
+      "automatic_import_plan": {
+        "file": "src/components/subscription/Step3Identite.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "686ba10c9b284cdcf6e37842c9f5b06268ade91bb03c5ae23e38cca796517d51",
+        "source_before_sha256": "396b6b02e9838d85500e596b9acd672cfb18964d1d9efba0b4141fadfb9dc040",
+        "source_after_sha256": "8497dcfa39eb68384581da59858e6c3b231486b728106ef050e86804c45d20df",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'MapPin' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/subscription/Step3Recueil.tsx",
+      "removed_bindings": [
+        "AlertCircle"
+      ],
+      "source_initial_sha256": "617d231a533a01ad6d9b9394e6ed3099a894bdfa75f2d2b60338460244733f2a",
+      "source_final_sha256": "02409bc1c45da979f68ed243fb865d6b7c7bb1812088e4b4681fee3148a5ba0b",
+      "automatic_import_plan": {
+        "file": "src/components/subscription/Step3Recueil.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "da9ec7f8c5929e12ad7258e5b8f97bf358e3db3ae1daa854b6356bafa9f6a183",
+        "source_before_sha256": "617d231a533a01ad6d9b9394e6ed3099a894bdfa75f2d2b60338460244733f2a",
+        "source_after_sha256": "02409bc1c45da979f68ed243fb865d6b7c7bb1812088e4b4681fee3148a5ba0b",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'AlertCircle' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/components/subscription/Step9Validation.tsx",
+      "removed_bindings": [
+        "UserCheck"
+      ],
+      "source_initial_sha256": "4d9a1c1601fad39a17aa027381c2eec75c08855536ceb974c9b2cd64ac1a3e8d",
+      "source_final_sha256": "9209894cc3ba2007abf0fd62a880c6f11e29639ac0104bb96aefb12cbf01021d",
+      "automatic_import_plan": {
+        "file": "src/components/subscription/Step9Validation.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "23da7797fe21ee54342adbcbc3e9d049f6fe4bdfa2fe0a3836fdeaf3e4c4eae0",
+        "source_before_sha256": "4d9a1c1601fad39a17aa027381c2eec75c08855536ceb974c9b2cd64ac1a3e8d",
+        "source_after_sha256": "9209894cc3ba2007abf0fd62a880c6f11e29639ac0104bb96aefb12cbf01021d",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 2,
+          "message": "'UserCheck' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/contexts/SubscriptionContext.tsx",
+      "removed_bindings": [
+        "validateNif"
+      ],
+      "source_initial_sha256": "e0fb25f068ca791b315fa40be12011d973bd86fb08ddb0ed9953cd9d407d74a1",
+      "source_final_sha256": "2aa267fbefcb51d931ed3575b114a6162e55a0482ce7663a15ec4e7b71a9657d",
+      "automatic_import_plan": {
+        "file": "src/contexts/SubscriptionContext.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "8a467eae9294ff62f7bccae41bac906228d68f6ca778787ff73b88056f24cfab",
+        "source_before_sha256": "e0fb25f068ca791b315fa40be12011d973bd86fb08ddb0ed9953cd9d407d74a1",
+        "source_after_sha256": "2aa267fbefcb51d931ed3575b114a6162e55a0482ce7663a15ec4e7b71a9657d",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'validateNif' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/ui/simulators/impact-fiscal/pdf/ImpactFiscalReport.tsx",
+      "removed_bindings": [
+        "buildImpactFiscalReportModel"
+      ],
+      "source_initial_sha256": "866fb0e23875a8a3790f425b90996cb64484a4620336a8f8f30a889796fc61e0",
+      "source_final_sha256": "bfb9377c13f41cfe326b7fcf6fa2060e772463137f44a62d3ba202214ed15e44",
+      "automatic_import_plan": {
+        "file": "src/ui/simulators/impact-fiscal/pdf/ImpactFiscalReport.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "0d9c33fe510d43506ce695715c3238d6f26c016da87d0c6129cd8193df37f1d8",
+        "source_before_sha256": "866fb0e23875a8a3790f425b90996cb64484a4620336a8f8f30a889796fc61e0",
+        "source_after_sha256": "bfb9377c13f41cfe326b7fcf6fa2060e772463137f44a62d3ba202214ed15e44",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 3,
+          "message": "'buildImpactFiscalReportModel' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/utils/enrichedArticleGenerator.tsx",
+      "removed_bindings": [
+        "Shield",
+        "Star",
+        "Building2",
+        "Globe",
+        "Calculator",
+        "Clock",
+        "Users"
+      ],
+      "source_initial_sha256": "c377187cd9d555ed1dd93000678b98ae850ce0e189bbbb043ec2d91fb7501a1c",
+      "source_final_sha256": "5e8eed5daea64affb7e7fb3c1984cdbdb053ff0db83645969c7259a8dcf9a5d9",
+      "automatic_import_plan": {
+        "file": "src/utils/enrichedArticleGenerator.tsx",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "1927365e2858f7d9b45deb87f82ad6062504e842925fb524455e7053ac698da1",
+        "source_before_sha256": "c377187cd9d555ed1dd93000678b98ae850ce0e189bbbb043ec2d91fb7501a1c",
+        "source_after_sha256": "5e8eed5daea64affb7e7fb3c1984cdbdb053ff0db83645969c7259a8dcf9a5d9",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 9,
+          "message": "'Shield' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 10,
+          "message": "'Star' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 10,
+          "message": "'Building2' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 10,
+          "message": "'Globe' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 10,
+          "message": "'Calculator' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 11,
+          "message": "'Clock' is declared but its value is never read."
+        },
+        {
+          "code": 6133,
+          "line": 11,
+          "message": "'Users' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/utils/guidedJourneyLogic.ts",
+      "removed_bindings": [
+        "RiskLevel"
+      ],
+      "source_initial_sha256": "626b6ade52f566b75cb6991d73999090fe1e3c183f6a39da38573b6261cae75b",
+      "source_final_sha256": "702d608313e1e7120ad7a39f89afe4f9a90891d8d7ba4d077c24652680854e10",
+      "automatic_import_plan": {
+        "file": "src/utils/guidedJourneyLogic.ts",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "dde451beffa9aa7d8138025bea8b8f44e18ea238ac56504c9fc8eaa5a5798fd7",
+        "source_before_sha256": "626b6ade52f566b75cb6991d73999090fe1e3c183f6a39da38573b6261cae75b",
+        "source_after_sha256": "702d608313e1e7120ad7a39f89afe4f9a90891d8d7ba4d077c24652680854e10",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 8,
+          "message": "'RiskLevel' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    },
+    {
+      "file": "src/utils/scpiScoringService.ts",
+      "removed_bindings": [
+        "ScpiInput"
+      ],
+      "source_initial_sha256": "e48229f0fe66b01542ee09af500a95ea1cdd8276c5c262ab9f8f9f04171ab396",
+      "source_final_sha256": "c6be974a89c8bc06a87413d15aafed00ad52d331f0985b3c0afd18b8f53ea9dd",
+      "automatic_import_plan": {
+        "file": "src/utils/scpiScoringService.ts",
+        "category": "TECHNICAL",
+        "cause": "UNUSED_IMPORT_BINDING",
+        "correction": "REMOVE_COMPILER_PROVEN_UNUSED_IMPORT",
+        "applied": true,
+        "imports_rewritten": 1,
+        "emitted_javascript_identical": true,
+        "javascript_sha256": "1700cda63b84d5d782114453d95feb694226734c503f9b55b1c259dd40f5e4bd",
+        "source_before_sha256": "e48229f0fe66b01542ee09af500a95ea1cdd8276c5c262ab9f8f9f04171ab396",
+        "source_after_sha256": "c6be974a89c8bc06a87413d15aafed00ad52d331f0985b3c0afd18b8f53ea9dd",
+        "publication_authorized": false
+      },
+      "mixed_with_reviewed_contract_fix": false,
+      "resolved_diagnostics": [
+        {
+          "code": 6133,
+          "line": 4,
+          "message": "'ScpiInput' is declared but its value is never read."
+        }
+      ],
+      "financial_records_changed": false,
+      "final_emitted_javascript_identical": true
+    }
+  ],
+  "preexisting_evidence": {
+    "base_commit": "88755a0fb6b674048f49a1976c243e7169a31642",
+    "base_log_sha256": "5d4346a6a6c0be7ad363f2c0a96b3461a737564494cd8cb126ad29db7d4d948d",
+    "pr_start_delta": {
+      "before": 1023,
+      "after": 1023,
+      "removed": 0,
+      "introduced": 0
+    }
+  }
+}

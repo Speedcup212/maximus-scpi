@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "checked_date": "2026-11-05",
+  "project": "MaximusSCPI",
+  "reference_pr": 292,
+  "source_commit": "552e102b0cd2b9f8f08b54fd7c083f923daee07c",
+  "upstream_github_run": 42024494906,
+  "upstream_artifact": 13413157369,
+  "migrations_applied": [
+    {
+      "version": "20261105135939",
+      "name": "scpi_candidate_semester_evidence_contract_20261105"
+    },
+    {
+      "version": "20261105140854",
+      "name": "scpi_candidate_semiannual_work_queue_20261105"
+    },
+    {
+      "version": "20261105141124",
+      "name": "scpi_candidate_aew_verified_official_hostname_20261105"
+    }
+  ],
+  "synchronized_previous_pdf_identities": 5,
+  "synchronized_regulatory_identities": 3,
+  "official_issuer_allowlist_added": "www.aewpatrimoine.com",
+  "mode": "READBACK_ONLY_NO_FINANCIAL_CERTIFICATION_OR_RELEASE",
+  "pilots": [
+    {
+      "slug": "aew-opportunites-europe",
+      "binary_documents": 3,
+      "regulatory_documents": 3,
+      "independently_reviewed_metrics": 0,
+      "allocation_records_with_qa": 0,
+      "current_next_action": "COMPLETE_PAGINATED_METRIC_QA",
+      "final_release_ready": false
+    },
+    {
+      "slug": "opus-real",
+      "binary_documents": 3,
+      "regulatory_documents": 3,
+      "independently_reviewed_metrics": 4,
+      "allocation_records_with_qa": 0,
+      "current_next_action": "COMPLETE_PAGINATED_METRIC_QA",
+      "final_release_ready": false
+    },
+    {
+      "slug": "sofidynamic",
+      "binary_documents": 4,
+      "regulatory_documents": 2,
+      "independently_reviewed_metrics": 29,
+      "allocation_records_with_qa": 11,
+      "current_next_action": null,
+      "final_release_ready": false
+    }
+  ],
+  "remaining_systematic_restriction": "Legacy full-release gate requires the named 2026-T2 quarterly path; AEW 2026-S1 semester must not be falsely reclassified as a T2 quarter.",
+  "rights": "No new public rights, no publication authorization, no independent financial review fabricated."
+}

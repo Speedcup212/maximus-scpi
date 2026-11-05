@@ -4,6 +4,36 @@ import {quarterEnd, validCalendarDate} from './datedEvidence.mjs';
 const SHA=/^[a-f0-9]{64}$/;
 const PERIOD=/^20\d{2}-T[1-4]$/;
 const ISO=/^20\d{2}-\d{2}-\d{2}$/;
+export function reconcileSourceShareFlow(rows,previousPeriod,currentPeriod,issuerHosts) {
+  const blocked=reason=>({status:'UNVERIFIED',reason,delta_parts:null,publication_authorized:false});
+  const index=p=>PERIOD.test(p||'')?Number(p.slice(0,4))*4+Number(p.slice(-1)):NaN;
+  if(index(currentPeriod)-index(previousPeriod)!==1)return blocked('NON_CONSECUTIVE_PERIODS');
+  const required=[['nombre_parts',previousPeriod],['nombre_parts',currentPeriod],
+    ['nombre_parts_nouvelles_souscrites',currentPeriod],['nombre_parts_retires',currentPeriod]];
+  const selected=[];
+  for(const [metric,period] of required) {
+    const found=(rows||[]).filter(r=>r.metric===metric&&r.period===period);
+    if(found.length!==1)return blocked('MISSING_OR_DUPLICATE_SOURCE:'+period+':'+metric);
+    const r=found[0];let u;try{u=new URL(r.source_url);}catch{return blocked('INVALID_SOURCE_URL');}
+    const date=quarterEnd(period).replaceAll('-','_');
+    const bases=metric==='nombre_parts'?['STOCK_'+date,'STOCK_AT_'+date]:['FLOW_'+period.replace('-','_')];
+    if(r.unit!=='PARTS'||!Number.isSafeInteger(r.value)||r.value<0||!SHA.test(r.pdf_sha256||'')||
+      !Number.isSafeInteger(r.source_page)||r.source_page<1||u.protocol!=='https:'||u.username||u.password||
+      !issuerHosts?.includes(u.hostname)||!bases.includes(r.basis))return blocked('INVALID_FIELD_PROVENANCE:'+metric);
+    selected.push(r);
+  }
+  if(new Set(selected.slice(1).map(r=>r.pdf_sha256)).size!==1)return blocked('MIXED_CURRENT_SOURCE_DOCUMENTS');
+  const [opening,closing,subscriptions,withdrawals]=selected.map(r=>r.value);
+  const exact=BigInt(opening)+BigInt(subscriptions)-BigInt(withdrawals);
+  if(exact<0n||exact>BigInt(Number.MAX_SAFE_INTEGER))return blocked('UNSAFE_SOURCE_ARITHMETIC');
+  const expected=Number(exact);
+  const delta=closing-expected;
+  return {status:delta===0?'RECONCILED_ARITHMETIC_ONLY':'UNRECONCILED',delta_parts:delta,
+    expected_closing_parts:expected,reported_closing_parts:closing,
+    evidence:selected.map(({metric,period,value,source_url,source_page,pdf_sha256})=>({metric,period,value,source_url,source_page,pdf_sha256})),
+    automatic_correction_applied:false,source_values_changed:false,independent_financial_qa:false,
+    disabled_features:delta?['share_movement_trend','derived_capital_flow']:[],publication_authorized:false};
+}
 export function inspectPrivateCandidate(snapshot) {
   const errors=[], warnings=[], calculations={};
   if(!snapshot||typeof snapshot!=='object')return {status:'FAIL',errors:['MISSING_SNAPSHOT'],warnings:[],publication_authorized:false};

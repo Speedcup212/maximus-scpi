@@ -1,6 +1,7 @@
+import { formatFiniteTooltipValue } from '../utils/formatters';
 import React, { useState, useMemo, useDeferredValue, useCallback } from 'react';
-import { TrendingUp, DollarSign, Calendar, ChevronDown, ChevronUp, AlertCircle, Info, PieChart as PieChartIcon, BarChart3 } from 'lucide-react';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
+import { TrendingUp, DollarSign, ChevronDown, ChevronUp, AlertCircle, Info, PieChart as PieChartIcon, BarChart3 } from 'lucide-react';
+import { XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import PieChart from './PieChart';
 
 interface ScpiDemembrementSimulatorProps {
@@ -24,12 +25,10 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
   const [montantPPInput, setMontantPPInput] = useState(String(defaultMontant));
   const [dureeInput, setDureeInput] = useState(String(defaultDuree));
   const [rendementBrutInput, setRendementBrutInput] = useState(String(defaultRendement));
-  const [age, setAge] = useState(60);
+  const [age] = useState(60);
   const [tmiInput, setTmiInput] = useState('30');
   const [psFiscalesInput, setPsFiscalesInput] = useState('17.2');
   const [tauxActuInput, setTauxActuInput] = useState('3.5');
-  const [cleNuePropriete, setCleNuePropriete] = useState<number | null>(null);
-  const [cleUsufruit, setCleUsufruit] = useState<number | null>(null);
   const [cleMode, setCleMode] = useState<'auto' | 'manuel'>('auto');
   const [valeurNueProManuellePourcentInput, setValeurNueProManuellePourcentInput] = useState('65');
   const [revaloPrixPartInput, setRevaloPrixPartInput] = useState('0');
@@ -658,7 +657,7 @@ const ScpiDemembrementSimulator: React.FC<ScpiDemembrementSimulatorProps> = ({
               tickFormatter={(value) => `${(value / 1000).toFixed(0)}k€`}
             />
             <Tooltip
-              formatter={(value: number) => formatEuro(value)}
+              formatter={(value) => formatFiniteTooltipValue(value, formatEuro)}
               labelFormatter={(label) => `Année ${label}`}
             />
             <Legend />

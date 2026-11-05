@@ -57,7 +57,8 @@ class SourceHTML(html.parser.HTMLParser):
         if tag == 'a':
             self.anchor = {'url': absolute_url(self.base, values.get('href', '')),
                            'text': values.get('aria-label', '') + ' ' + values.get('title', '')}
-        for name in ('src', 'data-src', 'data-download-url-value', 'data-href'):
+        for name in ('src', 'data-src', 'data-download-url-value', 'data-href',
+                     'data-url', 'data-document-url', 'data-file-url'):
             if name in values:
                 url = absolute_url(self.base, values[name])
                 if url and document_link(url, values.get('title', '')):

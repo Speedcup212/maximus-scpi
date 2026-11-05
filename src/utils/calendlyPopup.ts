@@ -1,12 +1,3 @@
-declare global {
-  interface Window {
-    Calendly?: {
-      initPopupWidget: (options: { url: string }) => void;
-      closePopupWidget?: () => void;
-    };
-  }
-}
-
 const CALENDLY_SCRIPT_ID = 'maximus-calendly-widget-script';
 const CALENDLY_CSS_ID = 'maximus-calendly-widget-css';
 const CALENDLY_SCRIPT_URL = 'https://assets.calendly.com/assets/external/widget.js';

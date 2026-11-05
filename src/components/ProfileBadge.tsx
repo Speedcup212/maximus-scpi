@@ -1,6 +1,6 @@
 import React from 'react';
 import { User, Settings } from 'lucide-react';
-import { RiskProfile, ClientProfile } from '../types/riskProfile';
+import { ClientProfile } from '../types/riskProfile';
 
 interface ProfileBadgeProps {
   clientProfile: ClientProfile | null;

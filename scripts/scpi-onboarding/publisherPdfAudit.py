@@ -52,7 +52,7 @@ def audit_document(d,c,fetcher=download):
     period=d.get("reference_period")
     url=d.get("url","")
     hosts=c.get("issuer_hosts",[])
-    if kind not in {"quarterly","annual","dic","note","statutes"} or not isinstance(period,str) or not official_url(url,hosts):
+    if kind not in {"quarterly","semiannual","annual","dic","note","statutes"} or not isinstance(period,str) or not official_url(url,hosts):
         raise ValueError("SOURCE_MANIFEST_INVALID_OR_UNTRUSTED")
     raw,final_url=fetcher(url)
     if not official_url(final_url,hosts):raise ValueError("REDIRECT_OUTSIDE_ISSUER_HOST")
@@ -78,11 +78,19 @@ def audit_document(d,c,fetcher=download):
         if not re.fullmatch(r"20\d{2}-T[1-4]",period):raise ValueError("INVALID_QUARTER_PERIOD")
         quarter=period[-1]
         year=period[:4]
-        rx=r"\b"+quarter+r"(?:e|eme|er)?\s*(?:trimestre|trim)\b[\W\s]{0,15}"+year+r"\b|\b(?:t|q)"+quarter+r"\s*"+year+r"\b"
+        rx=r"\b"+quarter+r"\s*(?:eme|ieme|er|e)?\s*(?:trimestre|trim)\b[\W\s]{0,15}"+year+r"\b|\b(?:t|q)"+quarter+r"\s*"+year+r"\b"
         if not re.search(rx,opening):
             raise ValueError("QUARTER_TITLE_UNCONFIRMED:"+opening[:160])
+    elif kind=="semiannual":
+        if not re.fullmatch(r"20\d{2}-S[12]",period):raise ValueError("INVALID_SEMIANNUAL_PERIOD")
+        interval = (r"(?:1er|1)\s+janvier\s+au\s+30\s+juin" if period[-1]=="1"
+                    else r"(?:1er|1)\s+juillet\s+au\s+31\s+decembre")
+        if not re.search(r"bulletin\s+semestriel",opening) or not re.search(r"analyse\s*:\s*"+interval+r"\s+"+period[:4],opening):
+            raise ValueError("SEMIANNUAL_ANALYSIS_PERIOD_UNCONFIRMED")
     elif kind=="annual":
         if not re.fullmatch(r"20\d{2}-RA",period):raise ValueError("INVALID_ANNUAL_PERIOD")
+        if re.search(r"\brapport\s+(?:annuel\s+)?(?:isr|esg)\b|\b(?:isr|esg)\s+report\b",opening):
+            raise ValueError("ESG_REPORT_IS_NOT_FINANCIAL_ANNUAL_REPORT")
         if period[:4] not in opening or not re.search(r"rapport annuel|rapport de gestion|exercice",opening):
             raise ValueError("ANNUAL_TITLE_UNCONFIRMED:"+opening[:160])
     elif kind in ("dic","note","statutes"):

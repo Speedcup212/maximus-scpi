@@ -45,7 +45,6 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       question: "Quelle est la taille approximative de votre patrimoine financier et immobilier (hors résidence principale) ?",
       key: 'patrimoineValue',
       type: 'number',
-      autoAdvance: false,
       numberConfig: {
         min: 0,
         step: 10000,
@@ -107,7 +106,6 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
       question: "À titre indicatif, quel ordre de grandeur envisagez-vous pour une exposition en SCPI ?",
       key: 'investmentAmount',
       type: 'number',
-      autoAdvance: false,
       numberConfig: {
         min: 1000,
         step: 1000,
@@ -414,7 +412,7 @@ const GuidedJourneyQuestionnaire: React.FC<GuidedJourneyQuestionnaireProps> = ({
   const isLastQuestion = currentQuestion === questions.length;
 
   const handleAnswer = (value: string | number) => {
-    const newAnswers = {
+    const newAnswers: Partial<GuidedJourneyAnswers> = {
       ...answers,
       questionnaireMode: 'expert',
       [currentQ.key]: value,

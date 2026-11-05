@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "scpi_slug": "sofidynamic",
+  "status": "PRIMARY_SOURCE_OBSERVED_PENDING_INDEPENDENT_QA",
+  "publication_authorized": false,
+  "production_write_authorized": false,
+  "financial_certification_complete": false,
+  "independent_review_completed": false,
+  "source": {
+    "url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+    "pdf_sha256": "1898d414b5195c8e0f675ef9041e3142e2e53f720f238fd6ca6cdcf2f8992c38",
+    "document_period": "2026-T3",
+    "page": 5,
+    "reference_date_observed": "2026-06-30",
+    "source_run": "https://github.com/Speedcup212/maximus-scpi/actions/runs/41813938082",
+    "note": "The reporting quarter and valuation reference date are distinct. Amount and 30/06/2026 table header observed on page 5; not a final financial/regulatory signoff."
+  },
+  "proposed_valuation": {
+    "metric": "prix_reconstitution",
+    "value_numeric": 340.38,
+    "unit": "EUR_PER_PART",
+    "reference_date": "2026-06-30",
+    "source_period": "2026-T3",
+    "source_page": 5,
+    "source_url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+    "pdf_sha256": "1898d414b5195c8e0f675ef9041e3142e2e53f720f238fd6ca6cdcf2f8992c38",
+    "qa_status": "pending_independent_qa"
+  },
+  "price_for_dated_indication": {
+    "value_numeric": 320,
+    "reference_date": "2026-06-30",
+    "source_period": "2026-T2",
+    "source_page": 5,
+    "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+    "pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376"
+  },
+  "historical_valuation_preserved": {
+    "value_numeric": 336.75,
+    "reference_date": "2025-12-31",
+    "source_period": "2025-RA",
+    "source_page": 9,
+    "source_url": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+    "pdf_sha256": "b9173e2f54c9f5a8d3f94428a224dc3abd152c4716fad410ea7d700d9be21d57"
+  },
+  "derived_indicative_discount_percent": -5.987425818203185,
+  "displayed_absolute_percent": "5,99 %",
+  "disabled_features_must_remain": [
+    "suitability_recommendations",
+    "uncertified_history_comparison",
+    "share_movement_trend"
+  ],
+  "release_blockers": [
+    "CURRENT_STATUTES_UNVERIFIED",
+    "UNRECONCILED_15_SHARES",
+    "INDEPENDENT_QA_REQUIRED",
+    "CURRENT_T3_METRICS_AND_ALLOCATIONS_NOT_FULLY_REVIEWED",
+    "EXACT_DEPLOYMENT_READBACK_REQUIRED"
+  ]
+}

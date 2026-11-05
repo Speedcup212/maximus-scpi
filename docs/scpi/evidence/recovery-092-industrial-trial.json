@@ -1,0 +1,1305 @@
+{
+  "schema_version": 1,
+  "observation": {
+    "final": {
+      "name": "Sofidynamic",
+      "stage": "partial_pass",
+      "lifecycle": "existing",
+      "scpi_slug": "sofidynamic",
+      "full_qa_pass": false,
+      "release_ready": false,
+      "final_release_ready": false,
+      "annual_fields_qa_pass": 4,
+      "quarter_fields_qa_pass": 17,
+      "annual_2025_sha_verified": true,
+      "quarterly_core_qa_coverage": 4,
+      "quarter_2026_t2_sha_verified": true,
+      "regulatory_and_source_registry_verified": false
+    },
+    "tools": {
+      "scpi_slug": "sofidynamic",
+      "analysis_ready": false,
+      "liquidity_ready": true,
+      "trajectory_ready": false,
+      "client_card_ready": false,
+      "full_surface_ready": false,
+      "comparator_radar_ready": false,
+      "finance_and_final_qa_ready": false,
+      "catalog_and_simulator_ready": true
+    },
+    "summary": [
+      {
+        "live_catalog": 68,
+        "removed_aliases": 30,
+        "strict_checks_pass": 65,
+        "issuer_source_found": 53,
+        "candidate_unpublished": 143,
+        "identity_review_needed": 90,
+        "full_analysis_certified": 52,
+        "invalid_candidate_publications": 0
+      }
+    ],
+    "pilot_rows": [
+      {
+        "name": "CRISTAL Care",
+        "stage": "primary_source_found",
+        "lifecycle": "candidate",
+        "scpi_slug": "cristal-care",
+        "origin_url": "https://www.inter-gestion.com/corpo/cristal-care",
+        "updated_at": "2026-10-14T17:21:11.940274+00:00",
+        "origin_type": "publisher_primary",
+        "review_note": "Publisher official page has September 2026 information and regulatory document index; targeted projections are not historical performance, do not publish before QA.",
+        "strict_pass": false,
+        "first_seen_at": "2026-10-14T17:21:11.940274+00:00",
+        "last_checked_at": null,
+        "analysis_certified": false,
+        "management_company": "Inter Gestion REIM",
+        "publication_authorized": false
+      },
+      {
+        "name": "AEW Opportunités Europe",
+        "stage": "primary_source_found",
+        "lifecycle": "candidate",
+        "scpi_slug": "aew-opportunites-europe",
+        "origin_url": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
+        "updated_at": "2026-10-15T07:09:17.397744+00:00",
+        "origin_type": "publisher_primary",
+        "review_note": "Original AEW issuer page identifies FRUCTIREGIONS EUROPE renamed AEW OPPORTUNITES EUROPE, product active and publisher annual report 2025. Do not add separate former-name SCPI.",
+        "strict_pass": false,
+        "first_seen_at": "2026-10-14T16:48:29.057451+00:00",
+        "last_checked_at": "2026-10-15T07:09:17.397744+00:00",
+        "analysis_certified": false,
+        "management_company": "AEW Patrimoine",
+        "publication_authorized": false
+      },
+      {
+        "name": "Opus Real",
+        "stage": "primary_source_found",
+        "lifecycle": "candidate",
+        "scpi_slug": "opus-real",
+        "origin_url": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
+        "updated_at": "2026-10-15T07:46:48.351282+00:00",
+        "origin_type": "publisher_primary",
+        "review_note": "Identité confirmée sur la fiche produit officielle BNP Paribas REIM au 15/10/2026 ; documentation 2026 et régime de capital à vérifier par document primaire avant toute certification ou publication. Ne pas confondre souscription et marché secondaire.",
+        "strict_pass": false,
+        "first_seen_at": "2026-10-14T16:32:17.712045+00:00",
+        "last_checked_at": "2026-10-15T07:46:48.351282+00:00",
+        "analysis_certified": false,
+        "management_company": "BNP Paribas AM",
+        "publication_authorized": false
+      }
+    ],
+    "captured_at": "2026-11-04T10:03:37.923681+00:00",
+    "progressive": {
+      "name": "Sofidynamic",
+      "lifecycle": "existing",
+      "scpi_slug": "sofidynamic",
+      "pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+      "reservations": [
+        "LATEST_STATUTES_UNVERIFIED",
+        "HISTORY_NOT_RECONCILED",
+        "RISK_SFDR_TEXT_UNDER_REVIEW",
+        "UNRECONCILED_SHARE_FLOW"
+      ],
+      "source_period": "2026-T2",
+      "core_qa_fields": 11,
+      "current_qa_fields": 17,
+      "disabled_features": [
+        "uncertified_history_comparison",
+        "suitability_recommendations",
+        "share_movement_trend",
+        "legal_terms_currentness"
+      ],
+      "complete_certification": false,
+      "factual_listing_qa_pass": false,
+      "independent_audit_ready": false,
+      "responsible_batch_ready": false,
+      "independent_review_ready": false,
+      "latest_statutes_verified": false,
+      "publication_review_status": "BLOCKED",
+      "regulatory_documents_verified": 2,
+      "publication_authorized_by_review": false
+    }
+  },
+  "source_run": {
+    "sha": "c8789c853363bebd333329748b453c1ce315b483",
+    "run_id": 41813129155,
+    "artifact": {
+      "id": 13313417233,
+      "name": "sofidynamic-publisher-pdf-41813129155",
+      "size_in_bytes": 49099445,
+      "url": "https://api.github.com/repos/Speedcup212/maximus-scpi/actions/artifacts/13313417233",
+      "archive_download_url": "https://api.github.com/repos/Speedcup212/maximus-scpi/actions/artifacts/13313417233/zip",
+      "expired": false,
+      "created_at": "2026-11-04T10:19:26Z",
+      "expires_at": "2026-12-04T10:19:23Z",
+      "updated_at": "2026-11-04T10:19:26Z",
+      "digest": "sha256:b8165fc6058eb9f6ab051386d5ad5687ced1ca4c164d94116f15d9e37fff9a30",
+      "workflow_run": {
+        "id": 41813129155,
+        "repository_id": 1125202916,
+        "head_repository_id": 1125202916,
+        "head_branch": "recovery/091-scpi-certification-industrialisation",
+        "head_sha": "c8789c853363bebd333329748b453c1ce315b483"
+      }
+    }
+  },
+  "first_trial": {
+    "run_id": 41811713561,
+    "candidates": [
+      {
+        "slug": "sofidynamic",
+        "stages": {
+          "discovery": {
+            "status": "SOURCE_LINKS_FOUND",
+            "links_found": 62
+          },
+          "download": {
+            "status": "TECHNICAL_PASS_ONLY",
+            "documents_verified": 1
+          },
+          "extraction": {
+            "status": "TECHNICAL_PASS_ONLY",
+            "documents_verified": 1
+          },
+          "normalization": {
+            "status": "CANDIDATE_TEXT_ONLY_NO_FINANCIAL_PROMOTION",
+            "numeric_candidates": 3
+          },
+          "certification": {
+            "status": "BLOCKED",
+            "reason": "SOURCE_VERIFICATION_IS_NOT_FINANCIAL_OR_REGULATORY_SIGNOFF"
+          },
+          "tests": {
+            "status": "TECHNICAL_SOURCE_CHECKS_ONLY",
+            "publication_claim_rejected": true
+          },
+          "prepublication": {
+            "status": "BLOCKED",
+            "reason": "NO_CERTIFIED_PRIVATE_SNAPSHOT"
+          },
+          "publication_control": {
+            "status": "DENIED",
+            "reason": "UNMET_GATES_NO_RELEASE_CALL"
+          }
+        },
+        "documents": [
+          {
+            "kind": "quarterly",
+            "url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED: communication publicitaire les previsions de performance ou les performances passees ne constituent pas un indicateur fiable quant aux performances futures bul"
+          },
+          {
+            "kind": "quarterly",
+            "period": "2026-T2",
+            "url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+            "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.sofidy.com/app/uploads/2026/05/SOFIDYNAMIC-BT-1T-2026.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED: communication publicitaire les previsions de performance ou les performances passees ne constituent pas un indicateur fiable quant aux performances futures bul"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.sofidy.com/app/uploads/2026/02/SOFIDYNAMIC-BT-4T-2025.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED: communication publicitaire les previsions de performance ou les performances passees ne constituent pas un indicateur fiable quant aux performances futures bul"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.sofidy.com/app/uploads/2025/11/sofidynamic-bulletin-trimestriel-3T25.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED: communication publicitaire les previsions de performance ou les performances passees ne constituent pas un indicateur fiable quant aux performances futures bul"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.sofidy.com/app/uploads/2025/07/sofidynamic-bulletin-trimestriel-2T25.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED: communication publicitaire les previsions de performance ou les performances passees ne constituent pas un indicateur fiable quant aux performances futures bul"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.sofidy.com/app/uploads/2025/05/sofidynamic-bulletin-trimestriel-1t25.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED: communication publicitaire les previsions de performance ou les performances passees ne constituent pas un indicateur fiable quant aux performances futures bul"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.sofidy.com/app/uploads/2025/02/sofidynamic-bulletin-trimestriel-4t24.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED: communication publicitaire les previsions de performance ou les performances passees ne constituent pas un indicateur fiable quant aux performances futures bul"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.sofidy.com/app/uploads/2024/08/dy-bulletin-trimestriel-2t24.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED: communication publicitaire les previsions de performance ne constituent pas un indicateur fiable quant aux performances futures bulletin trimestriel d’informat"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.sofidy.com/app/uploads/2024/08/dy-bulletin-trimestriel-3t24.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED: communication publicitaire les previsions de performance ou les performances passees ne constituent pas un indicateur fiable quant aux performances futures bul"
+          }
+        ],
+        "publication_authorized": false
+      },
+      {
+        "slug": "opus-real",
+        "stages": {
+          "discovery": {
+            "status": "SOURCE_LINKS_FOUND",
+            "links_found": 4
+          },
+          "download": {
+            "status": "TECHNICAL_PASS_ONLY",
+            "documents_verified": 3
+          },
+          "extraction": {
+            "status": "TECHNICAL_PASS_ONLY",
+            "documents_verified": 3
+          },
+          "normalization": {
+            "status": "CANDIDATE_TEXT_ONLY_NO_FINANCIAL_PROMOTION",
+            "numeric_candidates": 32
+          },
+          "certification": {
+            "status": "BLOCKED",
+            "reason": "SOURCE_VERIFICATION_IS_NOT_FINANCIAL_OR_REGULATORY_SIGNOFF"
+          },
+          "tests": {
+            "status": "TECHNICAL_SOURCE_CHECKS_ONLY",
+            "publication_claim_rejected": true
+          },
+          "prepublication": {
+            "status": "BLOCKED",
+            "reason": "NO_CERTIFIED_PRIVATE_SNAPSHOT"
+          },
+          "publication_control": {
+            "status": "DENIED",
+            "reason": "UNMET_GATES_NO_RELEASE_CALL"
+          }
+        },
+        "documents": [
+          {
+            "kind": "quarterly",
+            "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-03/Bulletin%20d%27information%20associ%C3%A9s%20Opus%20Real%20_%20vsite%20internet.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED:scpi opus real suspension temporaire de la variabilite du capital a compter du 5 mars 2026 chers associes, comme indique dans les derniers bulletins trimestriel"
+          },
+          {
+            "kind": "note",
+            "period": "2026-REG",
+            "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/260511%20-%20SCPI%20Opus%20Real%20-%20Note%20d%27information%20-%20VClean.pdf",
+            "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY"
+          },
+          {
+            "kind": "statutes",
+            "period": "2026-REG",
+            "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/260511_-_Opus_Real_-_Statuts.pdf",
+            "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY"
+          },
+          {
+            "kind": "annual",
+            "period": "2025-RA",
+            "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-04/OPUSREAL_RA2025_Web_Def.pdf",
+            "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY"
+          }
+        ],
+        "publication_authorized": false
+      },
+      {
+        "slug": "aew-opportunites-europe",
+        "stages": {
+          "discovery": {
+            "status": "SOURCE_LINKS_FOUND",
+            "links_found": 57
+          },
+          "download": {
+            "status": "BLOCKED",
+            "documents_verified": 0
+          },
+          "extraction": {
+            "status": "BLOCKED",
+            "documents_verified": 0
+          },
+          "normalization": {
+            "status": "CANDIDATE_TEXT_ONLY_NO_FINANCIAL_PROMOTION",
+            "numeric_candidates": 0
+          },
+          "certification": {
+            "status": "BLOCKED",
+            "reason": "SOURCE_VERIFICATION_IS_NOT_FINANCIAL_OR_REGULATORY_SIGNOFF"
+          },
+          "tests": {
+            "status": "TECHNICAL_SOURCE_CHECKS_ONLY",
+            "publication_claim_rejected": true
+          },
+          "prepublication": {
+            "status": "BLOCKED",
+            "reason": "NO_CERTIFIED_PRIVATE_SNAPSHOT"
+          },
+          "publication_control": {
+            "status": "DENIED",
+            "reason": "UNMET_GATES_NO_RELEASE_CALL"
+          }
+        },
+        "documents": [
+          {
+            "kind": "quarterly",
+            "url": "https://www.aewpatrimoine.com/sites/default/files/2026-08/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%201er%20semestre%202026.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED:2026 semestre scpi 1er aew opportunites europe bulletin semestriel n°1 analyse : 1er janvier au 30 juin 2026 • validite : 2eme semestre 2026 scpi a preponderanc"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.aewpatrimoine.com/sites/default/files/2026-03/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%202%C3%A8me%20semestre%202025_0.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED:2025 semestre scpi 2eme aew opportunites europe bulletin semestriel n°2 analyse : 1er juillet au 31 decembre 2025 • validite : 1er semestre 2026 scpi a preponde"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.aewpatrimoine.com/sites/default/files/2025-08/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%201er%20semestre%202025.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED:2025 semestre scpi 1er aew opportunites europe bulletin semestriel n°1 analyse : 1er janvier au 30 juin 2025 • validite : 2eme semestre 2025 scpi a preponderanc"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.aewpatrimoine.com/sites/default/files/2024-08/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%201er%20semestre%202024.pdf",
+            "status": "UNVERIFIED",
+            "error": "QUARTER_TITLE_UNCONFIRMED: scpi eraew opportunites europe semestre 2024 bulletin semestriel n°1 – analyse : 1er janvier au 30 juin 2024 – validite : 2e semestre 2024 1bulletin trimestrie"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.aewpatrimoine.com/sites/default/files/2024-02/FRUCTIREGIONS%20EUROPE%20Bulletin%202%C3%A8me%20semestre%202023.pdf",
+            "status": "UNVERIFIED",
+            "error": "FUND_IDENTITY_NOT_FOUND:quarterly:2026-T3: scpi fructiregions e europe semestre 2023 bulletin semestriel n°2 – analyse : 1er juillet au 31 decembre 2023 – validite : 1er semestre 2024 2bulletin trimestriel - scpi editorial scpibureauxaprepo"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.aewpatrimoine.com/sites/default/files/2023-09/FRUCTIREGIONS%20EUROPE%20Bulletin%201er%20semestre%202023%20vseptembre.pdf",
+            "status": "UNVERIFIED",
+            "error": "FUND_IDENTITY_NOT_FOUND:quarterly:2026-T3: scpi fructiregions er europe semestre 2023 bulletin semestriel n°1 – analyse : 1er janvier au 30 juin 2023 – validite : 2e semestre 2023 1bulletin trimestriel - scpi editorial scpibureauxapreponder"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.aewpatrimoine.com/sites/default/files/2023-02/FRUCTIREGIONS%20EUROPE%20Bulletin%202%C3%A8me%20semestre%202022_0.pdf",
+            "status": "UNVERIFIED",
+            "error": "FUND_IDENTITY_NOT_FOUND:quarterly:2026-T3: scpi fructiregions e europe semestre 2022 bulletin semestriel n°2 – analyse : 1er juillet au 31 decembre 2022 – validite : 1er semestre 2023 2bulletin trimestriel - scpi editorial scpibureauxaprepo"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.aewpatrimoine.com/sites/default/files/2022-02/FRUCTIREGIONS%20EUROPE%20Bulletin%202%C3%A8me%20semestre%202021_0.pdf",
+            "status": "UNVERIFIED",
+            "error": "FUND_IDENTITY_NOT_FOUND:quarterly:2026-T3: scpi fructiregions e europe semestre 2021 bulletin semestriel n° 2 – analyse : 1er juillet au 31 decembre 2021 – validite : 1er semestre 2022 2bulletin trimestriel - scpi editorial scpibureauxaprep"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.aewpatrimoine.com/sites/default/files/2021-08/FRUCTIREGIONS%20EUROPE%20Bulletin%201er%20semestre%202021.pdf",
+            "status": "UNVERIFIED",
+            "error": "FUND_IDENTITY_NOT_FOUND:quarterly:2026-T3: scpi fructiregions er europe semestre 2021 bulletin semestriel n°1 – analyse : 1er janvier au 30 juin 2021 – validite : 2e semestre 2021 1bulletin trimestriel - scpi editorial scpibureauxapreponder"
+          },
+          {
+            "kind": "quarterly",
+            "url": "https://www.aewpatrimoine.com/sites/default/files/2021-02/FRUCTIREGIONS%20EUROPE%20Bulletin%202%C3%A8me%20semestre%202020.pdf",
+            "status": "UNVERIFIED",
+            "error": "FUND_IDENTITY_NOT_FOUND:quarterly:2026-T3: scpi fructiregions e europe semestre 2020 bulletin semestriel n°2 – analyse : 1er juillet au 31 decembre 2020 – validite : 1er semestre 2021 2bulletin trimestriel - scpi editorial scpiacapitaldiver"
+          }
+        ],
+        "publication_authorized": false
+      },
+      {
+        "slug": "cristal-care",
+        "stages": {
+          "discovery": {
+            "status": "SOURCE_LINKS_FOUND",
+            "links_found": 1
+          },
+          "download": {
+            "status": "TECHNICAL_PASS_ONLY",
+            "documents_verified": 1
+          },
+          "extraction": {
+            "status": "TECHNICAL_PASS_ONLY",
+            "documents_verified": 1
+          },
+          "normalization": {
+            "status": "CANDIDATE_TEXT_ONLY_NO_FINANCIAL_PROMOTION",
+            "numeric_candidates": 33
+          },
+          "certification": {
+            "status": "BLOCKED",
+            "reason": "SOURCE_VERIFICATION_IS_NOT_FINANCIAL_OR_REGULATORY_SIGNOFF"
+          },
+          "tests": {
+            "status": "TECHNICAL_SOURCE_CHECKS_ONLY",
+            "publication_claim_rejected": true
+          },
+          "prepublication": {
+            "status": "BLOCKED",
+            "reason": "NO_CERTIFIED_PRIVATE_SNAPSHOT"
+          },
+          "publication_control": {
+            "status": "DENIED",
+            "reason": "UNMET_GATES_NO_RELEASE_CALL"
+          }
+        },
+        "documents": [
+          {
+            "kind": "statutes",
+            "period": "2026-REG",
+            "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCCNoteInfo_StatutsAMFEurope20260911.pdf",
+            "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY"
+          }
+        ],
+        "publication_authorized": false
+      }
+    ]
+  },
+  "second_trial": [
+    {
+      "slug": "sofidynamic",
+      "management_company": "Tikehau Investment Management",
+      "source_period_requested": "2026-T2",
+      "stages": {
+        "discovery": {
+          "status": "SOURCE_LINKS_FOUND",
+          "links_found": 62
+        },
+        "download": {
+          "status": "TECHNICAL_PASS_ONLY",
+          "documents_verified": 6
+        },
+        "extraction": {
+          "status": "TECHNICAL_PASS_ONLY",
+          "documents_verified": 6
+        },
+        "normalization": {
+          "status": "CANDIDATE_TEXT_ONLY_NO_FINANCIAL_PROMOTION",
+          "numeric_candidates": 7
+        },
+        "certification": {
+          "status": "BLOCKED",
+          "reason": "SOURCE_VERIFICATION_IS_NOT_FINANCIAL_OR_REGULATORY_SIGNOFF"
+        },
+        "tests": {
+          "status": "TECHNICAL_SOURCE_CHECKS_ONLY",
+          "publication_claim_rejected": true
+        },
+        "prepublication": {
+          "status": "BLOCKED",
+          "reason": "NO_CERTIFIED_PRIVATE_SNAPSHOT"
+        },
+        "publication_control": {
+          "status": "DENIED",
+          "reason": "UNMET_GATES_NO_RELEASE_CALL"
+        }
+      },
+      "pages": [
+        {
+          "url": "https://www.sofidy.com/solutions/sofidynamic/",
+          "sha256": "5a3e26ff940ba4439d414e44560d04c01e544dab1c8a2a4d35455829799e304f",
+          "title": "Sofidynamic : SCPI en immobilier à haut rendement dès 320€ Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Icons/Play Icons/Avatar Icons/Croix Icons/Croix Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Twitter LinkedIn Youtube Icons/Croix",
+          "headings": "\n            Sofidynamic\n             SCPI diversifiée \n             Europe High Yield \n           La SCPI à haut rendement de Sofidy Une stratégie de diversification affirmée Pourquoi choisir Sofidynamic ? Un large univers d’investissement SCPI Sofidynamic , comment souscrire ?  Performances Documentation Ces solutions peuvent aussi vous intéresser L'expertise et les produits de Sofidy primés par la presse Lancez-vous dans l'immobilier comme nos 70 000 épargnants !",
+          "access_blocked": false
+        },
+        {
+          "url": "https://www.sofidy.com/documentation/",
+          "sha256": "5d7ca0318ef81b4246778c55ffa909f5d533dc05fdb29deaacecc4c863751d5a",
+          "title": "Documentation | Sofidy Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Picto Icons/Play Icons/Avatar Icons/Croix Icons/Croix Icons/Croix Twitter LinkedIn Youtube Icons/Croix",
+          "headings": "Documentation Immorente   -   Fonds diversifiés Lancez-vous dans l'immobilier comme nos 70 000 épargnants !",
+          "access_blocked": false
+        }
+      ],
+      "documents": [
+        {
+          "url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+          "kind": "quarterly",
+          "label": "télécharger Bulletin_Trimestriel_-_Sofidynamic.pdf   ",
+          "publisher_page": "https://www.sofidy.com/solutions/sofidynamic/",
+          "publisher_page_sha256": "5a3e26ff940ba4439d414e44560d04c01e544dab1c8a2a4d35455829799e304f",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2026-T3",
+          "source_url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+          "sha256": "1898d414b5195c8e0f675ef9041e3142e2e53f720f238fd6ca6cdcf2f8992c38",
+          "archive_assets": null,
+          "page_count": 6,
+          "native_text_characters": 41620,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": false,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2024/01/DIC-DYN-072026-FR-1-3197-1.pdf",
+          "kind": "dic",
+          "label": "télécharger DIC-DYN-072026-FR-1-3197-1.pdf   ",
+          "publisher_page": "https://www.sofidy.com/solutions/sofidynamic/",
+          "publisher_page_sha256": "5a3e26ff940ba4439d414e44560d04c01e544dab1c8a2a4d35455829799e304f",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2026-REG",
+          "source_url": "https://www.sofidy.com/app/uploads/2024/01/DIC-DYN-072026-FR-1-3197-1.pdf",
+          "sha256": "1b1e7acf03074e0dec326aa46c39df84c0302b21be337fcd97379c042aeec6e2",
+          "archive_assets": null,
+          "page_count": 3,
+          "native_text_characters": 28252,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": true,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2024/01/NI-DYN-072026-FR-2-3146.pdf",
+          "kind": "note",
+          "label": "télécharger NI-DYN-072026-FR-2-3146.pdf   ",
+          "publisher_page": "https://www.sofidy.com/solutions/sofidynamic/",
+          "publisher_page_sha256": "5a3e26ff940ba4439d414e44560d04c01e544dab1c8a2a4d35455829799e304f",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2026-REG",
+          "source_url": "https://www.sofidy.com/app/uploads/2024/01/NI-DYN-072026-FR-2-3146.pdf",
+          "sha256": "782f5b2fcdabe3cc5219fe3bb49e7a636760b42b2c5f3afa2b4110fc853e51c3",
+          "archive_assets": null,
+          "page_count": 43,
+          "native_text_characters": 205280,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": true,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2024/01/ST-DY-072025-FR-1-2348.pdf",
+          "kind": "statutes",
+          "label": "télécharger ST-DY-072025-FR-1-2348.pdf   ",
+          "publisher_page": "https://www.sofidy.com/solutions/sofidynamic/",
+          "publisher_page_sha256": "5a3e26ff940ba4439d414e44560d04c01e544dab1c8a2a4d35455829799e304f",
+          "status": "UNVERIFIED",
+          "error": "REGULATORY_EDITION_YEAR_UNCONFIRMED"
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2026/09/Sofidy_ISR_SOFIDYNAMIC_2025_OPTI.pdf",
+          "kind": "annual",
+          "label": "télécharger   Rapport ISR - 2025 ",
+          "publisher_page": "https://www.sofidy.com/solutions/sofidynamic/",
+          "publisher_page_sha256": "5a3e26ff940ba4439d414e44560d04c01e544dab1c8a2a4d35455829799e304f",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2025-RA",
+          "source_url": "https://www.sofidy.com/app/uploads/2026/09/Sofidy_ISR_SOFIDYNAMIC_2025_OPTI.pdf",
+          "sha256": "1ef4dd4ff9d1de4366209d259ee1cc356f78be743b59d817df6c5a0a74748573",
+          "archive_assets": null,
+          "page_count": 21,
+          "native_text_characters": 83669,
+          "identity_location": "body_native_text",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": false,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+          "kind": "quarterly",
+          "label": "télécharger   Bulletin Trimestriel - T2 2026 ",
+          "publisher_page": "https://www.sofidy.com/solutions/sofidynamic/",
+          "publisher_page_sha256": "5a3e26ff940ba4439d414e44560d04c01e544dab1c8a2a4d35455829799e304f",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2026-T2",
+          "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+          "sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376",
+          "archive_assets": null,
+          "page_count": 6,
+          "native_text_characters": 45170,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": false,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2022/04/DIC-IR-072026-FR-1-3193-1.pdf",
+          "kind": "dic",
+          "label": "télécharger DIC-IR-072026-FR-1-3193-1.pdf   ",
+          "publisher_page": "https://www.sofidy.com/documentation/",
+          "publisher_page_sha256": "5d7ca0318ef81b4246778c55ffa909f5d533dc05fdb29deaacecc4c863751d5a",
+          "status": "UNVERIFIED",
+          "error": "FUND_IDENTITY_NOT_FOUND:dic:2026-REG: document d’informations cles immorente visa amf n°26-08 du 31 mars 2026 - initiateur du priips : tikehau investment management (www.tikehaucapital.com) contact : sofidy@tikehaucapital.com - appeler le 0"
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+          "kind": "annual",
+          "label": "télécharger   Rapport Annuel - 2025 ",
+          "publisher_page": "https://www.sofidy.com/solutions/sofidynamic/",
+          "publisher_page_sha256": "5a3e26ff940ba4439d414e44560d04c01e544dab1c8a2a4d35455829799e304f",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2025-RA",
+          "source_url": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+          "sha256": "b9173e2f54c9f5a8d3f94428a224dc3abd152c4716fad410ea7d700d9be21d57",
+          "archive_assets": null,
+          "page_count": 84,
+          "native_text_characters": 412485,
+          "identity_location": "body_native_text",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": false,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        }
+      ],
+      "source_claim_occurrences": [
+        {
+          "claim": "valuation_340_38",
+          "token": "340,38",
+          "page": 5,
+          "source_url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+          "pdf_sha256": "1898d414b5195c8e0f675ef9041e3142e2e53f720f238fd6ca6cdcf2f8992c38",
+          "excerpt": "                                                                                                l'inscription sur le registre\nLe  profil de  performance de  votre  SCPI  est  orienté  vers                 306,58 €       340,38 €                             des associés\nla  distribution  d'un  haut  rendement,  supérieur à  celui de\nla moyenne des SCPI de rendement  diversifié. Cet  objectif\ns'accompagne d'un SRRI de 4.                                                                                           Valeur de                                                      ",
+          "page_text_sha256": "5f05dc4feb6b340fb510e090a90af9a95373667d257255c5ccf76b72d4453c46",
+          "financially_certified": false
+        }
+      ],
+      "blockers": [
+        "MISSING_VERIFIED_STATUTES",
+        "FIELD_LEVEL_FINANCIAL_QA_REQUIRED",
+        "ALLOCATION_QA_REQUIRED",
+        "ACCOUNTABLE_RELEASE_REVIEW_REQUIRED",
+        "AUTHENTICATED_SIX_SURFACE_PREFLIGHT_REQUIRED"
+      ],
+      "publication_authorized": false,
+      "complete_certification": false,
+      "status": "BLOCKED",
+      "attempts": [
+        {
+          "url": "https://www.sofidy.com/solutions/sofidynamic/",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.sofidy.com/documentation/",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2024/01/DIC-DYN-072026-FR-1-3197-1.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2024/01/NI-DYN-072026-FR-2-3146.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2024/01/ST-DY-072025-FR-1-2348.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2026/09/Sofidy_ISR_SOFIDYNAMIC_2025_OPTI.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2022/04/DIC-IR-072026-FR-1-3193-1.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+          "status": 200,
+          "attempt": 1
+        }
+      ]
+    },
+    {
+      "slug": "opus-real",
+      "management_company": "BNP Paribas REIM France",
+      "source_period_requested": "2026-T2",
+      "stages": {
+        "discovery": {
+          "status": "SOURCE_LINKS_FOUND",
+          "links_found": 4
+        },
+        "download": {
+          "status": "TECHNICAL_PASS_ONLY",
+          "documents_verified": 3
+        },
+        "extraction": {
+          "status": "TECHNICAL_PASS_ONLY",
+          "documents_verified": 3
+        },
+        "normalization": {
+          "status": "CANDIDATE_TEXT_ONLY_NO_FINANCIAL_PROMOTION",
+          "numeric_candidates": 32
+        },
+        "certification": {
+          "status": "BLOCKED",
+          "reason": "SOURCE_VERIFICATION_IS_NOT_FINANCIAL_OR_REGULATORY_SIGNOFF"
+        },
+        "tests": {
+          "status": "TECHNICAL_SOURCE_CHECKS_ONLY",
+          "publication_claim_rejected": true
+        },
+        "prepublication": {
+          "status": "BLOCKED",
+          "reason": "NO_CERTIFIED_PRIVATE_SNAPSHOT"
+        },
+        "publication_control": {
+          "status": "DENIED",
+          "reason": "UNMET_GATES_NO_RELEASE_CALL"
+        }
+      },
+      "pages": [
+        {
+          "url": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
+          "sha256": "ab07e1efdf517f8e8edb6106eff055c4b88d09387c35e452ee35bd74473aef4d",
+          "title": "SCPI Opus Real d'immobilier d'entreprise | BNP Paribas REIM France",
+          "headings": "  SCPI Opus Real À propos d'Opus Real Chiffres clés Assemblée générale 2026 Valeur IFI 2025 Notre approche ESG Risques et coûts Marché secondaire Toutes nos actualités FAQ : tout savoir sur les SCPI Découvrez nos autres SCPI Documentation Documentation",
+          "access_blocked": false
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/fr-fr/documentation?pid=26",
+          "status": "UNVERIFIED",
+          "error": "HTML_TOO_LARGE"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/fr-fr/documentation",
+          "status": "UNVERIFIED",
+          "error": "HTML_TOO_LARGE"
+        }
+      ],
+      "documents": [
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-03/Bulletin%20d%27information%20associ%C3%A9s%20Opus%20Real%20_%20vsite%20internet.pdf",
+          "kind": "quarterly",
+          "label": "  En savoir plus >",
+          "publisher_page": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
+          "publisher_page_sha256": "ab07e1efdf517f8e8edb6106eff055c4b88d09387c35e452ee35bd74473aef4d",
+          "status": "UNVERIFIED",
+          "error": "QUARTER_TITLE_PERIOD_NOT_DETECTED"
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/260511%20-%20SCPI%20Opus%20Real%20-%20Note%20d%27information%20-%20VClean.pdf",
+          "kind": "note",
+          "label": "  Télécharger",
+          "publisher_page": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
+          "publisher_page_sha256": "ab07e1efdf517f8e8edb6106eff055c4b88d09387c35e452ee35bd74473aef4d",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2026-REG",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/260511%20-%20SCPI%20Opus%20Real%20-%20Note%20d%27information%20-%20VClean.pdf",
+          "sha256": "4da86245c7814f5cb743407f357c94387cc254aec22db51430d97dc51fbb9ac6",
+          "archive_assets": null,
+          "page_count": 29,
+          "native_text_characters": 211546,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": true,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/260511_-_Opus_Real_-_Statuts.pdf",
+          "kind": "statutes",
+          "label": "  Télécharger",
+          "publisher_page": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
+          "publisher_page_sha256": "ab07e1efdf517f8e8edb6106eff055c4b88d09387c35e452ee35bd74473aef4d",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2026-REG",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/260511_-_Opus_Real_-_Statuts.pdf",
+          "sha256": "3448095ab3c154ee70989aba4a7bbbe801509462bc0a0d9d082ef8674b873b38",
+          "archive_assets": null,
+          "page_count": 12,
+          "native_text_characters": 90134,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": true,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-04/OPUSREAL_RA2025_Web_Def.pdf",
+          "kind": "annual",
+          "label": "  rapport annuel 2025",
+          "publisher_page": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
+          "publisher_page_sha256": "ab07e1efdf517f8e8edb6106eff055c4b88d09387c35e452ee35bd74473aef4d",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2025-RA",
+          "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-04/OPUSREAL_RA2025_Web_Def.pdf",
+          "sha256": "ef9192613c9befd1b7b55f73beb77c2704a67edadb233395c60f01a7bee13e99",
+          "archive_assets": null,
+          "page_count": 29,
+          "native_text_characters": 468286,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": false,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        }
+      ],
+      "source_claim_occurrences": [],
+      "blockers": [
+        "MISSING_VERIFIED_QUARTERLY",
+        "MISSING_VERIFIED_DIC",
+        "FIELD_LEVEL_FINANCIAL_QA_REQUIRED",
+        "ALLOCATION_QA_REQUIRED",
+        "ACCOUNTABLE_RELEASE_REVIEW_REQUIRED",
+        "AUTHENTICATED_SIX_SURFACE_PREFLIGHT_REQUIRED"
+      ],
+      "publication_authorized": false,
+      "complete_certification": false,
+      "status": "BLOCKED",
+      "attempts": [
+        {
+          "url": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/fr-fr/documentation?pid=26",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/fr-fr/documentation",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-03/Bulletin%20d%27information%20associ%C3%A9s%20Opus%20Real%20_%20vsite%20internet.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/260511%20-%20SCPI%20Opus%20Real%20-%20Note%20d%27information%20-%20VClean.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/260511_-_Opus_Real_-_Statuts.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-04/OPUSREAL_RA2025_Web_Def.pdf",
+          "status": 200,
+          "attempt": 1
+        }
+      ]
+    },
+    {
+      "slug": "aew-opportunites-europe",
+      "management_company": "AEW Patrimoine",
+      "source_period_requested": "2026-T3",
+      "stages": {
+        "discovery": {
+          "status": "SOURCE_LINKS_FOUND",
+          "links_found": 61
+        },
+        "download": {
+          "status": "TECHNICAL_PASS_ONLY",
+          "documents_verified": 5
+        },
+        "extraction": {
+          "status": "TECHNICAL_PASS_ONLY",
+          "documents_verified": 5
+        },
+        "normalization": {
+          "status": "CANDIDATE_TEXT_ONLY_NO_FINANCIAL_PROMOTION",
+          "numeric_candidates": 2
+        },
+        "certification": {
+          "status": "BLOCKED",
+          "reason": "SOURCE_VERIFICATION_IS_NOT_FINANCIAL_OR_REGULATORY_SIGNOFF"
+        },
+        "tests": {
+          "status": "TECHNICAL_SOURCE_CHECKS_ONLY",
+          "publication_claim_rejected": true
+        },
+        "prepublication": {
+          "status": "BLOCKED",
+          "reason": "NO_CERTIFIED_PRIVATE_SNAPSHOT"
+        },
+        "publication_control": {
+          "status": "DENIED",
+          "reason": "UNMET_GATES_NO_RELEASE_CALL"
+        }
+      },
+      "pages": [
+        {
+          "url": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
+          "sha256": "09e24fffe88a52590b64a22dc797c7b933450d1f42429bbb202efd75bbcf6745",
+          "title": "AEW OPPORTUNITES EUROPE | AEW Patrimoine",
+          "headings": "Navigation principale Utility bar \n             AEW OPPORTUNITES EUROPE  \n       \n             EXTRAITS DU DOCUMENT D'INFORMATIONS CLÉS (DIC)  \n       \n             Informations sur la durabilité \n       Pied de page Second footer menu",
+          "access_blocked": false
+        }
+      ],
+      "documents": [
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2019-07/FRUCTIREGIONS%20EUROPE%20Bulletin%202%C3%A8me%20trimestre%202019.pdf",
+          "kind": "quarterly",
+          "label": " ",
+          "publisher_page": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
+          "publisher_page_sha256": "09e24fffe88a52590b64a22dc797c7b933450d1f42429bbb202efd75bbcf6745",
+          "status": "UNVERIFIED",
+          "error": "FUND_IDENTITY_NOT_FOUND:quarterly:2019-T2: scpi fructiregions e europe trimestre 2019 bulletin trimestriel n°2 – analyse : 1er avril au 30 juin 2019 – validite : 2e semestre 2019 2bulletin trimestriel - scpi editorial scpiacapitaldiversifie"
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2026-08/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%201er%20semestre%202026.pdf",
+          "kind": "semiannual",
+          "label": " Télécharger le fichier AOE Bulletin 1er semestre 2026  Télécharger ",
+          "publisher_page": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
+          "publisher_page_sha256": "09e24fffe88a52590b64a22dc797c7b933450d1f42429bbb202efd75bbcf6745",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2026-S1",
+          "source_url": "https://www.aewpatrimoine.com/sites/default/files/2026-08/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%201er%20semestre%202026.pdf",
+          "sha256": "7dee4e015b33a15b36a51fc1eaf8686eba50ad3291560a4150b64b37c34e19fe",
+          "archive_assets": null,
+          "page_count": 4,
+          "native_text_characters": 34559,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": false,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2026-07/DIC%20AEW%20OPPORTUNITES%20EUROPE%20juillet%202026_1.pdf",
+          "kind": "dic",
+          "label": " Télécharger le fichier AOE Document d'informations clés - Juillet 2026  Télécharger ",
+          "publisher_page": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
+          "publisher_page_sha256": "09e24fffe88a52590b64a22dc797c7b933450d1f42429bbb202efd75bbcf6745",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2026-REG",
+          "source_url": "https://www.aewpatrimoine.com/sites/default/files/2026-07/DIC%20AEW%20OPPORTUNITES%20EUROPE%20juillet%202026_1.pdf",
+          "sha256": "27bbf007ed4276079aae15d11dd306ea652941be0610b601fbc09a5f89288332",
+          "archive_assets": null,
+          "page_count": 3,
+          "native_text_characters": 18919,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": true,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2026-08/AOE%20Note%20d%27information%20et%20Statuts%20-%20Edition%20Juillet%202026_0.pdf",
+          "kind": "statutes",
+          "label": " Télécharger le fichier AOE Note Information et statuts - Edition juillet 2026  Télécharger ",
+          "publisher_page": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
+          "publisher_page_sha256": "09e24fffe88a52590b64a22dc797c7b933450d1f42429bbb202efd75bbcf6745",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2026-REG",
+          "source_url": "https://www.aewpatrimoine.com/sites/default/files/2026-08/AOE%20Note%20d%27information%20et%20Statuts%20-%20Edition%20Juillet%202026_0.pdf",
+          "sha256": "74886716c3618e50c748b110ef7a2c4d0936f1c949a0dd20e87b37ffd362ae74",
+          "archive_assets": null,
+          "page_count": 44,
+          "native_text_characters": 333295,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": true,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2026-09/AEW_OPPORTUNITES_EUROPE%20Rapport%20annuel%202025%20v2.pdf",
+          "kind": "annual",
+          "label": " Télécharger le fichier AOE Rapport annuel 2025  Télécharger ",
+          "publisher_page": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
+          "publisher_page_sha256": "09e24fffe88a52590b64a22dc797c7b933450d1f42429bbb202efd75bbcf6745",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2025-RA",
+          "source_url": "https://www.aewpatrimoine.com/sites/default/files/2026-09/AEW_OPPORTUNITES_EUROPE%20Rapport%20annuel%202025%20v2.pdf",
+          "sha256": "02beb7ab17d4edd160088a7b2a7bc91b2026a6ee4e0d7792590f06cb4d4e8c69",
+          "archive_assets": null,
+          "page_count": 64,
+          "native_text_characters": 278774,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": false,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2019-05/FRUCTIREGIONS%20EUROPE%20BT%201er%20trimestre%202019_0.pdf",
+          "kind": "quarterly",
+          "label": " ",
+          "publisher_page": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
+          "publisher_page_sha256": "09e24fffe88a52590b64a22dc797c7b933450d1f42429bbb202efd75bbcf6745",
+          "status": "UNVERIFIED",
+          "error": "AMBIGUOUS_QUARTER_TITLE_PERIOD"
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2026-03/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%202%C3%A8me%20semestre%202025_0.pdf",
+          "kind": "semiannual",
+          "label": " ",
+          "publisher_page": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
+          "publisher_page_sha256": "09e24fffe88a52590b64a22dc797c7b933450d1f42429bbb202efd75bbcf6745",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2025-S2",
+          "source_url": "https://www.aewpatrimoine.com/sites/default/files/2026-03/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%202%C3%A8me%20semestre%202025_0.pdf",
+          "sha256": "6e4556df29e653aba7ad7e940802ad6fcc7b9f73180ed360284718007a7640fd",
+          "archive_assets": null,
+          "page_count": 4,
+          "native_text_characters": 36187,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": false,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2025-05/AEW%20OPPORTUNITES%20EUROPE%20Rapport%20annuel%202024.pdf",
+          "kind": "annual",
+          "label": " ",
+          "publisher_page": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
+          "publisher_page_sha256": "09e24fffe88a52590b64a22dc797c7b933450d1f42429bbb202efd75bbcf6745",
+          "status": "UNVERIFIED",
+          "error": "ANNUAL_TITLE_UNCONFIRMED:aew opportunites europe scpi a preponderance bureaux rapport annuel i m m o b i l i e r d ’ e n t r e p r i s e  organes de direction et de controle ± ▢societe "
+        }
+      ],
+      "source_claim_occurrences": [],
+      "blockers": [
+        "MISSING_VERIFIED_NOTE",
+        "FIELD_LEVEL_FINANCIAL_QA_REQUIRED",
+        "ALLOCATION_QA_REQUIRED",
+        "ACCOUNTABLE_RELEASE_REVIEW_REQUIRED",
+        "AUTHENTICATED_SIX_SURFACE_PREFLIGHT_REQUIRED"
+      ],
+      "publication_authorized": false,
+      "complete_certification": false,
+      "status": "BLOCKED",
+      "attempts": [
+        {
+          "url": "https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2019-07/FRUCTIREGIONS%20EUROPE%20Bulletin%202%C3%A8me%20trimestre%202019.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2026-08/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%201er%20semestre%202026.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2026-07/DIC%20AEW%20OPPORTUNITES%20EUROPE%20juillet%202026_1.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2026-08/AOE%20Note%20d%27information%20et%20Statuts%20-%20Edition%20Juillet%202026_0.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2026-09/AEW_OPPORTUNITES_EUROPE%20Rapport%20annuel%202025%20v2.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2019-05/FRUCTIREGIONS%20EUROPE%20BT%201er%20trimestre%202019_0.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2026-03/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%202%C3%A8me%20semestre%202025_0.pdf",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://www.aewpatrimoine.com/sites/default/files/2025-05/AEW%20OPPORTUNITES%20EUROPE%20Rapport%20annuel%202024.pdf",
+          "status": 200,
+          "attempt": 1
+        }
+      ]
+    },
+    {
+      "slug": "cristal-care",
+      "management_company": "Inter Gestion REIM",
+      "source_period_requested": "2026-T3",
+      "stages": {
+        "discovery": {
+          "status": "SOURCE_LINKS_FOUND",
+          "links_found": 1
+        },
+        "download": {
+          "status": "TECHNICAL_PASS_ONLY",
+          "documents_verified": 1
+        },
+        "extraction": {
+          "status": "TECHNICAL_PASS_ONLY",
+          "documents_verified": 1
+        },
+        "normalization": {
+          "status": "CANDIDATE_TEXT_ONLY_NO_FINANCIAL_PROMOTION",
+          "numeric_candidates": 25
+        },
+        "certification": {
+          "status": "BLOCKED",
+          "reason": "SOURCE_VERIFICATION_IS_NOT_FINANCIAL_OR_REGULATORY_SIGNOFF"
+        },
+        "tests": {
+          "status": "TECHNICAL_SOURCE_CHECKS_ONLY",
+          "publication_claim_rejected": true
+        },
+        "prepublication": {
+          "status": "BLOCKED",
+          "reason": "NO_CERTIFIED_PRIVATE_SNAPSHOT"
+        },
+        "publication_control": {
+          "status": "DENIED",
+          "reason": "UNMET_GATES_NO_RELEASE_CALL"
+        }
+      },
+      "pages": [
+        {
+          "url": "https://www.inter-gestion.com/corpo/cristal-care",
+          "sha256": "874340577f789a093f58027815e23d0c0b34f3cf0597b08d8225646385d9bc51",
+          "title": "CRISTAL Care - InterGestion",
+          "headings": "\n  \n           Devenez copropriétaires  \n          \n      d’un immobilier sans frontières \n\n           \n        \n \n  \n          Une architecture immobilière de nouvelle génération\n        \n \n  \n        Une alliance inédite au cœur du modèle\n      \n \n  \n      Comprendre l'architecture de  \n      \n      CRISTAL Care \n  \n       \n    \n \n  \n      10 ans\n    \n \n  \n      7%\n    \n \n  \n      \n      \n     Rejoignez le cercle restreint des  \n\n     premiers associés ! \n\n      \n     \n\n    \n \n  \n      Investir comporte des risques, \n      \n      \n      on vous explique pourquoi \n  \n       \n    \n \n  \n      Calculez vos revenus potentiels avec la SCPI CRISTAL Care \n       \n    \n \n  \n          Calculez vos revenus potentiels avec la SCPI CRISTAL Care \n           \n        \n \n  \n      Souscrire simplement   en 3 étapes \n       \n    \n \n  \n      Retrouvez \n      \n      toute la documentation  \n  \n        de la SCPI CRISTAL Care \n    \n",
+          "access_blocked": false
+        }
+      ],
+      "documents": [
+        {
+          "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCCNoteInfo_StatutsAMFEurope20260911.pdf",
+          "kind": "statutes",
+          "label": "     ",
+          "publisher_page": "https://www.inter-gestion.com/corpo/cristal-care",
+          "publisher_page_sha256": "874340577f789a093f58027815e23d0c0b34f3cf0597b08d8225646385d9bc51",
+          "status": "BINARY_IDENTITY_PERIOD_VERIFIED_ONLY",
+          "reference_period": "2026-REG",
+          "source_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCCNoteInfo_StatutsAMFEurope20260911.pdf",
+          "sha256": "eea6f515b69f1fdb0469c6f01942b1858cc78bc0fea84307826cb97dc6469fc2",
+          "archive_assets": null,
+          "page_count": 50,
+          "native_text_characters": 458697,
+          "identity_location": "cover",
+          "publisher_binary_pass": true,
+          "fund_and_period_identity_pass": true,
+          "regulatory_content_certified": false,
+          "regulatory_kind_seen": true,
+          "page_hints": [],
+          "review_assets": [],
+          "all_hints_found": true,
+          "financial_metrics_certified": false,
+          "publication_authorized": false
+        }
+      ],
+      "source_claim_occurrences": [],
+      "blockers": [
+        "MISSING_VERIFIED_QUARTERLY",
+        "MISSING_VERIFIED_DIC",
+        "MISSING_VERIFIED_NOTE",
+        "MISSING_VERIFIED_ANNUAL",
+        "FIELD_LEVEL_FINANCIAL_QA_REQUIRED",
+        "ALLOCATION_QA_REQUIRED",
+        "ACCOUNTABLE_RELEASE_REVIEW_REQUIRED",
+        "AUTHENTICATED_SIX_SURFACE_PREFLIGHT_REQUIRED"
+      ],
+      "publication_authorized": false,
+      "complete_certification": false,
+      "status": "BLOCKED",
+      "attempts": [
+        {
+          "url": "https://www.inter-gestion.com/corpo/cristal-care",
+          "status": 200,
+          "attempt": 1
+        },
+        {
+          "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCCNoteInfo_StatutsAMFEurope20260911.pdf",
+          "status": 200,
+          "attempt": 1
+        }
+      ]
+    }
+  ],
+  "complete_certification": false,
+  "publication_authorized": false
+}

@@ -58,6 +58,10 @@ def number(s):
     return float(s)
 
 def end_date(period):
+    semester=re.fullmatch(r'(20\d{2})-S([12])',period)
+    if semester:
+        year,month=int(semester[1]),int(semester[2])*6
+        return datetime.date(year,month,calendar.monthrange(year,month)[1]).isoformat()
     m=re.fullmatch(r'(20\d{2})-T([1-4])',period)
     if not m:return None
     year,month=int(m[1]),int(m[2])*3
@@ -97,6 +101,9 @@ def text(ws):return ' '.join(w[4] for w in sorted(ws,key=lambda w:w[0]))
 def caption_only(label,patterns,unit):
     """Editorial prose, examples and definitions cannot act as a chart caption."""
     n=norm(label)
+    # Explanatory prose below a withdrawal price is not a subscription
+    # caption, even when both PDF engines reproduce the same geometry.
+    if re.match(r'^au prix (?:de )?souscription\b',n):return False
     if len(n)>140 or re.search(r'comprendre|exemple|objectif|maxim|autorise|limite|nets? de frais|mais brut|est defini|correspond|promesse|malgre',n):return False
     n=DATE.sub(' ',n)
     n=AMOUNT.sub(' ',n);n=PERCENT.sub(' ',n)
@@ -171,6 +178,19 @@ def extract(pages,wordpages,widths,period):
     if not end:return {},set()
     for index,words in enumerate(wordpages):
         groups=line_groups(words)
+        # Publisher infographic captions commonly wrap over two or three
+        # aligned lines. Merge only known caption fragments, never figures.
+        original=list(groups)
+        for i,group in enumerate(original):
+            combined=list(group)
+            for previous in reversed(original[max(0,i-2):i]):
+                x0,y0,x1,y1=rect(combined);px0,py0,px1,py1=rect(previous)
+                if min(abs(px0-x0),abs((px0+px1-x0-x1)/2))>20 or not 0<=y0-py1<=14:break
+                if re.search(r'\d|[%€]',text(previous)):break
+                combined=list(previous)+combined
+                label=' '.join(w[4] for w in sorted(combined,key=lambda w:(w[1],w[0])))
+                if any(caption_only(label,patterns,unit) and any(re.search(p,norm(label)) for p in patterns)
+                       for unit,patterns in FIELDS.values()):groups.append([(*rect(combined),label)])
         for group in groups:
             label=text(group);n=norm(label);r=rect(group)
             for metric,(unit,patterns) in FIELDS.items():
@@ -225,10 +245,54 @@ def extract(pages,wordpages,widths,period):
     # Duplicate identical occurrences are harmless; different dates remain separate.
     return hits,seen
 
+def corroborated_exact_capitalisation(av,bv):
+    """Match separately cross-checked precise EUR and rounded M EUR captions.
+
+    Only one date/definition and one exact EUR value may be present. A
+    conflicting number, period or missing second-reader match always blocks.
+    """
+    def money_kind(v):
+        t=norm(v.get('text',''))
+        if re.search(r'(?<![a-z])\d+(?:[ \u00a0\u202f]\d{3})*(?:[,.]\d+)?\s*(?:m\s*€|millions?\s+d.euros)',t):
+            return 'rounded_million'
+        if re.search(r'\d+(?:[ \u00a0\u202f]\d{3})*(?:[,.]\d+)?\s*(?:€|euros?)',t):
+            return 'exact_euro'
+        return None
+    if not av or not bv:return None
+    for rows in (av,bv):
+        if any(v.get('unit')!='MEUR' or v.get('definition')!='reported_metric' or
+               money_kind(v) is None for v in rows):return None
+    def signature(v):return (v['value'],v['page'],v['reference_date'],v['definition'],v['unit'])
+    unique={(v['value'],v['reference_date'],v['definition']) for v in av+bv}
+    if len({d for _,d,_ in unique})!=1 or len({definition for _,_,definition in unique})!=1:
+        return None
+    def agreed(kind):
+        first=[v for v in av if money_kind(v)==kind]
+        second=[v for v in bv if money_kind(v)==kind]
+        values={v['value'] for v in first+second}
+        if len(values)!=1 or not first or not second:return None
+        if not any(signature(v)==signature(w) for v in first for w in second):return None
+        v=min(first,key=lambda x:x['page'])
+        w=next(x for x in second if signature(x)==signature(v))
+        return v,w
+    exact=agreed('exact_euro')
+    rounded=agreed('rounded_million')
+    if not exact or not rounded:return None
+    precise,precise_second=exact;display,display_second=rounded
+    if abs(display['value']-int(precise['value']+0.5))>1e-9:return None
+    return precise,precise_second,display,display_second
+
+
 def reconcile(a,b):
     ah,aseen=a;bh,bseen=b;results={};proofs={};coverage={};candidates={}
     for metric in FIELDS:
-        av=ah.get(metric,[]);bv=bh.get(metric,[])
+        raw_av=ah.get(metric,[]);raw_bv=bh.get(metric,[])
+        # A numeric fact without a matching explicit unit is not evidence.
+        # Reject malformed/legacy proposals without crashing an entire batch.
+        expected_unit=FIELDS[metric][0]
+        invalid_unit=any(v.get('unit')!=expected_unit for v in raw_av+raw_bv)
+        av=[v for v in raw_av if v.get('unit')==expected_unit]
+        bv=[v for v in raw_bv if v.get('unit')==expected_unit]
         if metric=='tof':
             # Fiducial's occupancy breakdown has a small line such as
             # "Locaux vacants en restructuration (intégrés au TOF sous
@@ -240,12 +304,22 @@ def reconcile(a,b):
                 return bool(re.search(r'integres? au tof sous conditions',caption))
             av=[v for v in av if not is_occupancy_breakdown(v)]
             bv=[v for v in bv if not is_occupancy_breakdown(v)]
-        def signature(v):return v['value'],v['page'],v['reference_date'],v['definition']
+        def signature(v):return v['value'],v['page'],v['reference_date'],v['definition'],v['unit']
         same={signature(v):v for v in av if any(signature(v)==signature(w) for w in bv)}
-        if len(same)==1 and len({(v['value'],v['reference_date']) for v in av+bv})==1:
-            sig,v=next(iter(same.items()));other=next(w for w in bv if signature(w)==sig)
+        reconciled_rounding=corroborated_exact_capitalisation(av,bv) if metric=='capitalisation' and not invalid_unit else None
+        if reconciled_rounding:
+            precise,precise_second,rounded,rounded_second=reconciled_rounding
+            results[metric]=precise['value']
+            proofs[metric]={**precise,'poppler_text':precise_second['text'],
+                'independent_engines':['MuPDF','Poppler'],'method':'dual_pdf_geometry',
+                'value_match':True,'rounded_summary_confirmation':{
+                    'value_million_eur':rounded['value'],'page':rounded['page'],
+                    'poppler_text':rounded_second['text']}}
+            coverage[metric]='verified'
+        elif not invalid_unit and same and len({(v['value'],v['reference_date'],v['definition'],v['unit']) for v in av+bv})==1:
+            sig,v=min(same.items(),key=lambda item:item[1]['page']);other=next(w for w in bv if signature(w)==sig)
             results[metric]=v['value'];proofs[metric]={**v,'poppler_text':other['text'],'independent_engines':['MuPDF','Poppler'],'method':'dual_pdf_geometry','value_match':True};coverage[metric]='verified'
         else:
-            coverage[metric]='needs_review' if metric in aseen|bseen else 'not_found_after_full_read'
-            if av or bv:candidates[metric]={'MuPDF':av,'Poppler':bv}
+            coverage[metric]='needs_review' if metric in aseen|bseen or raw_av or raw_bv else 'not_found_after_full_read'
+            if raw_av or raw_bv:candidates[metric]={'MuPDF':raw_av,'Poppler':raw_bv}
     return results,proofs,coverage,candidates

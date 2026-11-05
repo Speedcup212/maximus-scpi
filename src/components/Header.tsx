@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, HelpCircle, Calculator, FileText, ArrowRight, MapPin, User, BarChart2, Eye } from 'lucide-react';
+import { Info, BookOpen, ChevronDown, Menu, X, TrendingUp, Search, Calculator, FileText, ArrowRight, MapPin, User, BarChart2, Eye } from 'lucide-react';
 import { getDominantSector, groupScpisByDominantSector, SECTOR_DISPLAY_ORDER } from '../utils/dominantSector';
 import { getDominantGeography, groupScpisByDominantGeography, GEOGRAPHY_DISPLAY_ORDER } from '../utils/dominantGeography';
 import { createSlugFromName, findScpiSlug } from '../utils/scpiSlugMapper';
@@ -30,21 +30,13 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({
   isDarkMode,
-  toggleTheme,
-  onContactClick,
   onAboutClick,
-  onEducationClick,
-  onArticlesClick,
   onActualitesClick,
   onLogoClick,
   onScpiPageClick,
-  onUnderstandingClick,
-  onAboutSectionClick,
-  onFaqClick,
   onComparateurClick,
   onSimulateurClick,
   onAboutNavigation,
-  onPrivateSpaceClick,
   onProClick,
   currentView
 }) => {
@@ -419,11 +411,6 @@ const Header: React.FC<HeaderProps> = ({
                           const pages = scpisByDominantSector[sector];
                           if (!pages || pages.length === 0) return null;
 
-                          // Calculer le label de qualification pour ce secteur
-                          const sampleScpi = pages[0]?.scpi;
-                          const dominantInfo = sampleScpi ? getDominantSector(sampleScpi) : null;
-                          const qualificationLabel = dominantInfo?.label || sector;
-
                           return (
                             <details key={sector} className="group/sector" open>
                               <summary className="px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors list-none flex items-center justify-between cursor-pointer">
@@ -507,11 +494,6 @@ const Header: React.FC<HeaderProps> = ({
                         {GEOGRAPHY_DISPLAY_ORDER.map((geography) => {
                           const pages = scpisByDominantGeography[geography];
                           if (!pages || pages.length === 0) return null;
-
-                          // Calculer le label de qualification pour cette géographie
-                          const sampleScpi = pages[0]?.scpi;
-                          const dominantInfo = sampleScpi ? getDominantGeography(sampleScpi) : null;
-                          const qualificationLabel = dominantInfo?.label || geography;
 
                           return (
                             <details key={geography} className="group/sector" open>

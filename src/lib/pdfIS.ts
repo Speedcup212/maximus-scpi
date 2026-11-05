@@ -28,7 +28,6 @@ const formatPoints = (value: number) => {
 
 export const generateISReportPDF = ({ inputs, result }: PdfPayload) => {
   const pdf = new jsPDF('p', 'mm', 'a4');
-  const pageWidth = pdf.internal.pageSize.getWidth();
 
   let cursorY = 20;
 

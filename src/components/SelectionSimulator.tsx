@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, DollarSign, Calculator, TrendingUp, PieChart as PieChartIcon, BarChart3, Download, Calendar, Phone, Building, MapPin, Target, Award } from 'lucide-react';
+import { X, DollarSign, Calculator, PieChart as PieChartIcon, BarChart3, Download, Phone, Building, MapPin, Target, Award } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { formatCurrency } from '../utils/formatters';
 import PieChart from './PieChart';
@@ -169,16 +169,23 @@ const SelectionSimulator: React.FC<SelectionSimulatorProps> = ({ selectedScpi, o
     }
   };
 
-  const downloadPDF = () => {
-    // Afficher un formulaire de contact puis générer le PDF
-    const name = prompt('Votre nom complet :');
-    const email = prompt('Votre email :');
-    const phone = prompt('Votre téléphone (optionnel) :');
-    
-    if (name && email) {
-      // Simuler la génération du PDF
-      alert(`📄 Rapport PDF en cours de génération pour ${name} (${email})`);
-      // Ici on appellerait generatePortfolioPDF() avec les données
+  const downloadPDF = async () => {
+    if (portfolio.length === 0 || Math.abs(totalAllocation - 100) > 0.1 || totalInvested <= 0) {
+      alert('Vérifiez que le portefeuille est financé et que les allocations totalisent 100 % avant l’export.');
+      return;
+    }
+    try {
+      // Le rapport existant calcule les montants et déclenche un véritable téléchargement.
+      // Sans questionnaire complet, aucun profil investisseur n'est attribué artificiellement.
+      const { generatePortfolioPDF } = await import('../utils/pdfGenerator');
+      await generatePortfolioPDF(
+        portfolio.map(item => ({ ...item, percentage: item.allocation })),
+        null,
+        totalInvested,
+      );
+    } catch (error) {
+      console.error('[SelectionSimulator] Échec de génération du PDF', error);
+      alert('Le PDF n’a pas pu être généré. Aucun rapport n’a été enregistré.');
     }
   };
 

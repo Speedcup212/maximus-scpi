@@ -4,6 +4,15 @@ on:
     branches: [main]
     paths:
       - 'scripts/scpi-onboarding/**'
+      - 'scripts/scpi-history/**'
+      - 'scripts/scpi-candidates/**'
+      - 'supabase/migrations/**'
+      - 'src/components/**'
+      - 'src/utils/**'
+      - 'src/app/**'
+      - 'src/data/**'
+      - 'plugins/maximus-scpi-native-release/**'
+      - 'docs/scpi/evidence/**'
       - '.github/workflows/scpi-onboarding-preflight.yml'
       - 'src/data/certified_scpi_cohort.json'
       - 'src/data/scpi_complet.json'
@@ -30,7 +39,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Test generic cohort, provenance, absence and period guards
-        run: node --test scripts/scpi-onboarding/preflight.test.mjs scripts/scpi-onboarding/datedEvidence.test.mjs scripts/scpi-onboarding/discovery.test.mjs scripts/scpi-onboarding/roundedAllocationPolicy.test.mjs scripts/scpi-onboarding/candidateConsistency.test.mjs scripts/scpi-onboarding/autoRemediate.test.mjs scripts/scpi-onboarding/privatePreviewDisposition.test.mjs
+        run: node --test scripts/scpi-onboarding/*.test.mjs
+      - name: Verify private screenshot ZIP integrity and 12-case content
+        run: python3 -m unittest discover -s scripts/scpi-onboarding -p 'test_verify_browser_artifact.py' -v
       - name: Verify independent-review boundaries, 15-part discrepancy and period-correct fee bases
         run: node --test scripts/scpi-onboarding/sourceFinancialSemantics.test.mjs scripts/scpi-candidates/autonomousPreparedRelease.test.mjs
       - name: Regression preflight on the two published BNP candidates
@@ -59,11 +70,41 @@ jobs:
         run: node scripts/scpi-onboarding/privateSofidynamicBrowser.mjs
       - name: Private Sofidynamic trajectory desktop/mobile, no fabricated 2026 valuation
         run: node scripts/scpi-history/sofidynamicPrivateTrajectoryBrowser.mjs
-      - name: Preserve Sofidynamic browser proof separately
+      - name: Preserve only a real Sofidynamic private browser report (never re-label BNP)
         if: always()
         run: |
-          if [ -f test-results/scpi-onboarding/report.json ]; then
-            cp test-results/scpi-onboarding/report.json test-results/scpi-onboarding/report-sofidynamic.json
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          const folder='test-results/scpi-onboarding/';
+          const current=folder+'report.json';
+          const candidate=folder+'report-sofidynamic.json';
+          fs.rmSync(candidate,{force:true});
+          if(!fs.existsSync(current)){
+            console.log('SOFIDYNAMIC_PRIVATE_REPORT_NOT_PRODUCED: no report.json');
+            process.exit(0);
+          }
+          const report=JSON.parse(fs.readFileSync(current,'utf8'));
+          const cases=Array.isArray(report.cases)?report.cases:[];
+          const expected=new Set([390,1440].flatMap(w=>['profile','comparator_analysis','radar','simulator','client_card'].map(s=>w+':'+s)));
+          const own=cases.filter(c=>c.slug==='sofidynamic');
+          const valid=report.status==='PASS' && cases.length===10 && own.length===10 &&
+            report.mode==='generic-private-stage-integration-not-production' &&
+            /^[a-f0-9]{40}$/.test(report.commit||'') &&
+            new Set(own.map(c=>c.width+':'+c.surface)).size===10 &&
+            own.every(c=>c.status==='PASS' && expected.has(c.width+':'+c.surface));
+          if(valid){
+            fs.copyFileSync(current,candidate);
+            console.log('SOFIDYNAMIC_PRIVATE_REPORT_PROVENANCE_PRESENT');
+          }else {
+            console.log('SOFIDYNAMIC_PRIVATE_REPORT_NOT_EXECUTED: no candidate-specific 10-case proof; BNP report never reused');
+          }
+          JS
+      - name: Bind private 10+2 browser screenshots to one hashed case manifest
+        run: |
+          if test -f test-results/scpi-onboarding/report-sofidynamic.json; then
+            node scripts/scpi-onboarding/combinePrivateBrowserEvidence.mjs
+          else
+            echo "NO_SOFIDYNAMIC_PRIVATE_REPORT: no 12-case bundle certified"
           fi
       - name: Save candidate browser proof
         if: always()

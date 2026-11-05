@@ -116,12 +116,13 @@ export interface PatrimoineSepare {
   ifi: number;
   otherCharges: number;
   
-  // Étape 7: Origine des fonds
-  primaryFundOrigin: FundOrigin;
-  fundAmount: number;
-  multipleOrigins: boolean;
+  // Étape 7: origine des fonds — collectée séparément, jamais déduite des actifs.
+  // Ces champs restent absents tant que le souscripteur ne les a pas déclarés.
+  primaryFundOrigin?: FundOrigin;
+  fundAmount?: number;
+  multipleOrigins?: boolean;
   secondaryOrigins?: Array<{ origin: FundOrigin; amount: number }>;
-  fundOriginCountry: string;
+  fundOriginCountry?: string;
 }
 
 export interface SubscriptionState {
@@ -226,16 +227,17 @@ export interface SubscriptionState {
   patrimoineCommuns?: PatrimoineSepare; // Patrimoine commun
   
   // Étape 7: Origine des fonds (LCB-FT)
-  primaryFundOrigin: FundOrigin;
-  fundAmount: number; // Montant de l'origine principale
+  primaryFundOrigin?: FundOrigin; // Choix explicite du souscripteur
+  fundAmount?: number; // Indisponible tant que le montant n'est pas renseigné
   multipleOrigins: boolean;
   secondaryOrigins?: Array<{ origin: FundOrigin; amount: number }>;
   fundOriginCountry: string; // Pays de provenance des fonds
   
   // Étape 8: Communication & Consentements
   electronicDocuments: boolean; // Documents électroniques
-  emailConsent: boolean; // Informations par email
+  emailConsent: boolean; // Consentement facultatif aux communications par email
   smsConsent: boolean; // Informations par SMS
+  wantsAccompaniment: boolean; // Demande explicite de contact, distincte du consentement marketing
   
   // Étape 9: Validation client
   informationAccuracy: boolean; // Exactitude des informations *

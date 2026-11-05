@@ -1,7 +1,6 @@
 import { scpiLandingPages, ScpiLandingData } from '../data/landingPagesData';
 import { scpiData } from '../data/scpiData';
 import { createSlugFromName } from './scpiSlugMapper';
-import { qualifyYield } from './yieldContext';
 import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from './scpiDiscountPremium';
 import { Scpi } from '../types/scpi';
 import {isFeatureDisabled} from './scpiPublicationQuality';
@@ -195,7 +194,6 @@ export function buildScpiLandingData(scpiKey: string): BuiltLandingData | null {
   const scpi = findScpiBySlug(scpiKey);
   if (!scpi) return null;
 
-  const yq = qualifyYield(scpi.yield);
   const generated: ScpiLandingData = {
     nom: scpi.name,
     slug: createSlugFromName(scpi.name),

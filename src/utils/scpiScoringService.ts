@@ -1,7 +1,7 @@
 import { supabase } from '../supabaseClient';
 import { Scpi } from '../types/scpi';
 import { transformScpiArrayToScoringInput } from './scpiDataTransformer';
-import { scoreScpiBatch, ScpiScores, defaultParams, ScpiInput } from './scpiScoring';
+import { scoreScpiBatch, ScpiScores, defaultParams } from './scpiScoring';
 
 /**
  * Service pour calculer et sauvegarder les scores SCPI.

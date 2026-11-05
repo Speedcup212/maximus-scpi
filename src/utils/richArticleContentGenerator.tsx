@@ -3,7 +3,6 @@
  * Cette fonction alimente directement DynamicArticlePage puis le pré-rendu HTML.
  * Aucun contenu SEO parallèle ne doit diverger de cette source.
  */
-import React from 'react';
 import {
   Target,
   BarChart3,

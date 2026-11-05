@@ -1,6 +1,5 @@
-import React from 'react';
 import { Document, Page, Text, View } from '@react-pdf/renderer';
-import { buildImpactFiscalReportModel, ImpactFiscalReportModel } from './reportModel';
+import { ImpactFiscalReportModel } from './reportModel';
 import { styles } from './styles';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';

@@ -95,10 +95,11 @@ export function getDominantSector(scpi: SCPIExtended): DominantSectorInfo {
 /**
  * Groupe les SCPI par secteur dominant
  */
-export function groupScpisByDominantSector(
-  scpis: Array<{ scpi: SCPIExtended; slug?: string; scpiName?: string }>
-): Record<string, Array<{ scpi: SCPIExtended; slug?: string; scpiName?: string }>> {
-  const grouped: Record<string, Array<{ scpi: SCPIExtended; slug?: string; scpiName?: string }>> = {};
+export function groupScpisByDominantSector<T extends { scpi: SCPIExtended }>(
+  scpis: T[]
+): Record<string, T[]> {
+  // Preserve each caller's full metadata (including required slug/name) when grouping.
+  const grouped: Record<string, T[]> = {};
 
   scpis.forEach(item => {
     const dominantSector = getDominantSector(item.scpi);

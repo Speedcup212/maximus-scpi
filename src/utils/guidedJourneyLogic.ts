@@ -2,13 +2,7 @@ import { Scpi } from '../types/scpi';
 import { getMaxScpiCount } from './portfolioAdaptation';
 import { normalizeGeoLabel } from './labelNormalization';
 import { calculateScpiDiscountPremium } from './scpiDiscountPremium';
-import { 
-  GuidedJourneyAnswers, 
-  PortfolioType, 
-  RiskLevel,
-  Portfolio,
-  PortfolioRecommendation 
-} from '../types/guidedJourney';
+import { GuidedJourneyAnswers, PortfolioType, Portfolio, PortfolioRecommendation } from '../types/guidedJourney';
 
 /**
  * Mappe le montant d'impôt annuel vers une TMI estimée
@@ -268,7 +262,7 @@ const selectByScore = (
  * Détermine le portefeuille recommandé à partir des réponses
  */
 export function determineRecommendedPortfolio(answers: GuidedJourneyAnswers): PortfolioType {
-  const { taxSituation, objective, horizon, immediateIncome } = answers;
+  const { objective, horizon, immediateIncome } = answers;
   
   // Logique de décision simplifiée
   // Priorité 1: Besoin de revenus immédiats

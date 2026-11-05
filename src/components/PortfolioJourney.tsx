@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TrendingUp, PieChart as PieChartIcon, BarChart3, Target, Award, Building, MapPin, Calendar, Download, Phone, Calculator, DollarSign, Shield, Info, CheckCircle, AlertTriangle, CreditCard as Edit3, X, Plus, ArrowRight, Star, Zap } from 'lucide-react';
+import { TrendingUp, PieChart as PieChartIcon, BarChart3, Target, Award, Building, MapPin, Download, Phone, Calculator, DollarSign, Shield, X, ArrowRight } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from '../utils/formatters';
@@ -302,7 +302,7 @@ const PortfolioJourney: React.FC<PortfolioJourneyProps> = ({
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Liste des SCPI */}
                 <div className="space-y-4">
-                  {portfolio.map((item, index) => (
+                  {portfolio.map((item) => (
                     <div key={item.id} className="group p-4 bg-gray-50 dark:bg-gray-700/30 rounded-xl border border-gray-200 dark:border-gray-600 hover:shadow-lg transition-all duration-300">
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex-1">
@@ -691,7 +691,7 @@ const PortfolioJourney: React.FC<PortfolioJourneyProps> = ({
                     { years: 5, label: 'Moyen terme', color: 'from-purple-500 to-purple-600' },
                     { years: 10, label: 'Long terme', color: 'from-indigo-500 to-indigo-600' },
                     { years: 15, label: 'Très long terme', color: 'from-pink-500 to-pink-600' }
-                  ].map((period, index) => {
+                  ].map((period) => {
                     const projectedValue = totalInvested * Math.pow(1 + averageYield / 100, period.years);
                     const totalReturns = projectedValue - totalInvested;
                     const returnPercentage = ((projectedValue / totalInvested) - 1) * 100;

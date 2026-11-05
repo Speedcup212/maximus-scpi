@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Scpi } from '../types/scpi';
 import { getMetricDate } from '../utils/scpiPublicationQuality';
 

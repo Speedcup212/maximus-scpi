@@ -29,3 +29,9 @@ test('fees preserve HT/TTC, period and source-specific bases without granting fi
   bad[1].ttc_percent=12;
   assert.ok(verifyFeeBasis(bad).issues.some(x=>x.includes('INCOHERENT_HT_TTC')));
 });
+test('share flows require consecutive increasing quarters including year boundaries',()=>{
+ const base={opening:100,subscribed:20,withdrawn:2,closing:118};
+ for(const [opening_period,closing_period] of [['2026-T2','2026-T1'],['2026-T1','2026-T3']])
+  assert.equal(reconcilePartsFlow({...base,opening_period,closing_period}).status,'INVALID_SOURCE_FACTS');
+ assert.equal(reconcilePartsFlow({...base,opening_period:'2025-T4',closing_period:'2026-T1'}).status,'ARITHMETICALLY_RECONCILED');
+});

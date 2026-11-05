@@ -8,7 +8,7 @@ interface Step4SituationProps {
   onClose?: () => void;
 }
 
-const Step4Situation: React.FC<Step4SituationProps> = ({ onClose }) => {
+const Step4Situation: React.FC<Step4SituationProps> = () => {
   const { state, updateState, updateCoSubscriber, goToStep, validateStep } = useSubscription();
   const [hasAttemptedValidation, setHasAttemptedValidation] = React.useState(false);
 
@@ -20,7 +20,6 @@ const Step4Situation: React.FC<Step4SituationProps> = ({ onClose }) => {
     goToStep(5);
   };
 
-  const isStepValid = validateStep(4);
   
   // Fonction helper pour les classes de champs obligatoires
   const getFieldClasses = (isEmpty: boolean) => {

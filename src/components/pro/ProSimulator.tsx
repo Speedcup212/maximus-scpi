@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { useProReport } from '../../contexts/ProReportContext';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { getFavoriteScpiIds } from '../../utils/proFavorites';
@@ -137,14 +138,9 @@ function formatDisplayNumber(n: number, decimals?: number): string {
 }
 
 /* ── Classes visuelles partagées (tableaux) ── */
-const thClass = "py-2.5 px-3 text-[10px] uppercase tracking-wider text-slate-400 font-semibold";
-const tdClass = "py-2.5 px-3 text-xs text-slate-200";
 const tdMutedClass = "py-2.5 px-3 text-xs text-slate-400";
 const tdMoneyClass = "py-2.5 px-3 text-xs text-slate-100 font-semibold";
 const tdPositiveClass = "py-2.5 px-3 text-xs text-emerald-400 font-semibold";
-const tdWarningClass = "py-2.5 px-3 text-xs text-amber-400 font-semibold";
-const tdNegativeClass = "py-2.5 px-3 text-xs text-red-400 font-semibold";
-const totalRowClass = "border-t-2 border-slate-700 bg-slate-950/80 font-semibold";
 
 /* ── Calcul des parts ── */
 function computeAllocation(allocation: number, price: number, minInvestment: number): { parts: number; montantReel: number } {
@@ -289,12 +285,6 @@ export default function ProSimulator() {
   const updateTmi = (v: number) => { setTmi(v); localStorage.setItem('pro_sim_tmi', String(v)); };
   const updateDuration = (v: number) => { setDuration(v); localStorage.setItem('pro_sim_duration', String(v)); };
   const updateMode = (v: 'comptant' | 'credit' | 'demembrement') => { setMode(v); localStorage.setItem('pro_sim_mode', v); };
-
-  const handleGlobalBlur = (fn: (v: number) => void, raw: string, setRaw: (v: string) => void, minVal = 0) => {
-    setRaw('');
-    const v = parseFrenchNumber(raw);
-    if (v >= minVal || raw === '') fn(v);
-  };
 
   /* ─── Priorité parts (entrée manuelle du CGP) ─── */
   const [partsOverrides, setPartsOverrides] = useState<Record<number, number>>({});
@@ -623,18 +613,10 @@ export default function ProSimulator() {
     const mAss = calcTauxAssuranceMensuel(finance, tauxAssurance);
     const mTotale = mHa + mAss;
     const coutTotal = mTotale * dureeCredit * 12 - finance + fraisGarantie + fraisDossier;
-    // si différé partiel/total, les 2 premières années: l'assurance reste due
-    // différé total => pas de mensualité hors assurance pdt différé; différé partiel => que les intérêts
-    let mHaEffective = mHa;
-    let mTotaleEffective = mTotale;
-    const differeMois = dureeDiffere * 12;
-    if (differe === 'total') {
-      mHaEffective = finance * (tauxNominal / 100) / 12; // intérêts seuls en différé total ? Non, total = rien
-      // Simplification : différé total = 0 mensualité hors assurance pdt différé
-    }
+    // Projection de crédit standard : le calendrier d'un éventuel différé n'est
+    // pas modélisé par cette estimation. Aucune mensualité différée n'est certifiée.
     const revenusBruts = totalGross;
-    // Pendant le différé, les SCPI paient quand même leurs loyers
-    const revenusNets = mode === 'demembrement' && typeDemembrement === 'nue-propriete' ? 0 : totalNet;
+    const revenusNets = totalNet;
     const cashFlowMensuel = Math.round((revenusNets / 12) - mTotale);
     const effortMensuel = mTotale - (revenusNets / 12);
     return {
@@ -1240,17 +1222,14 @@ export default function ProSimulator() {
                 <YAxis tick={{ fill: '#64748b', fontSize: 12 }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k€`} />
                 <Tooltip
                   contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: '#e2e8f0' }}
-                  formatter={(value: number, name: string) => {
-                    if (name === 'Portefeuille total') {
-                      return [
-                        <span style={{ fontWeight: 700, color: '#fbbf24' }}>{value.toLocaleString('fr-FR')} €</span>,
-                        <span style={{ fontWeight: 700, color: '#fbbf24' }}>{name}</span>,
-                      ];
-                    }
+                  formatter={(value, name) => {
+                    const displayedValue = typeof value === 'number' && Number.isFinite(value)
+                      ? `${value.toLocaleString('fr-FR')} €` : '—';
+                    const isTotal = name === 'Portefeuille total';
                     return [
-                      <span>{value.toLocaleString('fr-FR')} €</span>,
-                      <span style={{ color: '#94a3b8' }}>{name}</span>,
-                    ];
+                      <span style={isTotal ? { fontWeight: 700, color: '#fbbf24' } : undefined}>{displayedValue}</span>,
+                      <span style={isTotal ? { fontWeight: 700, color: '#fbbf24' } : { color: '#94a3b8' }}>{name}</span>,
+                    ] as [ReactNode, ReactNode];
                   }}
                 />
                 {results.map((_r, i) => (
@@ -1682,7 +1661,7 @@ function HypothesesCredit(props: ScpiSelectProps & {
   differe: string; setDiffere: (v: 'aucun' | 'partiel' | 'total') => void;
   dureeDiffere: number; setDureeDiffere: (v: number) => void;
 }) {
-  const { rawApport, setRawApport, montantTotal, dureeCredit, setDureeCredit, tauxNominal, rawTauxNominal, setRawTauxNominal, tauxAssurance, setTauxAssurance, rawTauxAssurance, setRawTauxAssurance, fraisGarantie, setFraisGarantie, rawFraisGarantie, setRawFraisGarantie, fraisDossier, setFraisDossier, rawFraisDossier, setRawFraisDossier, differe, setDiffere, dureeDiffere, setDureeDiffere } = props;
+  const { rawApport, setRawApport, montantTotal, dureeCredit, setDureeCredit, rawTauxNominal, setRawTauxNominal, tauxAssurance, setTauxAssurance, rawTauxAssurance, setRawTauxAssurance, fraisGarantie, setFraisGarantie, rawFraisGarantie, setRawFraisGarantie, fraisDossier, setFraisDossier, rawFraisDossier, setRawFraisDossier, differe, setDiffere, dureeDiffere, setDureeDiffere } = props;
   const apport = parseLiveDecimal(rawApport);
   const finance = montantTotal - apport;
 
@@ -1951,12 +1930,6 @@ function ScpiSelectorPanel(props: ScpiSelectorPanelProps) {
       return b.yield - a.yield;
     });
   }, [filtered, usedIds]);
-
-  const getDominantSector = (scpi: SCPIExtended): string => {
-    if (!scpi.sectors || scpi.sectors.length === 0) return scpi.category || '—';
-    const top = [...scpi.sectors].sort((a, b) => b.value - a.value)[0];
-    return `${top.name} ${top.value}%`;
-  };
 
   const selectable = sorted.filter((s) => !usedIds.has(s.id));
   const selectedCount = [...checked].filter((id) => selectable.some((s) => s.id === id)).length;

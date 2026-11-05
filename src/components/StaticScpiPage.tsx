@@ -116,8 +116,6 @@ const StaticScpiPage: React.FC<StaticScpiPageProps> = ({
                            scpi['Taux de distribution (%)'] >= 5.5 ? 'Attractif' : 'Solide';
   const tofQuality = scpi['TOF (%)'] >= 95 ? 'Taux d\'occupation optimal' : 'Bien occupée';
 
-  const title = `SCPI ${scpi['Nom SCPI']} : ${scpi['Taux de distribution (%)']}% Rendement 2025 ✓ ${scpi['Société de gestion']} | Analyse & Avis`;
-
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
       <Header
@@ -261,7 +259,7 @@ const StaticScpiPage: React.FC<StaticScpiPageProps> = ({
 
       <section className="bg-white py-16 px-6">
         <div className="max-w-2xl mx-auto text-center">
-          <EricAvatar size="lg" className="mx-auto mb-6" />
+          <EricAvatar size={80} className="mx-auto mb-6" />
           <h3 className="text-3xl font-bold text-slate-900 mb-2">Eric Bellaiche</h3>
           <p className="text-xl text-slate-600 mb-1">Conseiller en Gestion de Patrimoine et en Investissements Financiers</p>
           <p className="text-base text-slate-500">Membre de la Chambre Nationale des Conseils Experts Financiers (CNCEF) • 15 ans d'expérience</p>

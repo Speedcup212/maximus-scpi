@@ -42,7 +42,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!supabase) {
+    const client = supabase;
+    if (!client) {
       setUser(null);
       setLoading(false);
       return;
@@ -55,7 +56,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const {
         data: { session },
         error
-      } = await supabase.auth.getSession();
+      } = await client.auth.getSession();
 
       if (!mounted) return;
 
@@ -68,7 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       const {
         data: { subscription }
-      } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      } = client.auth.onAuthStateChange((_event, nextSession) => {
         if (!mounted) return;
         setUser(sessionUser(nextSession));
         setLoading(false);

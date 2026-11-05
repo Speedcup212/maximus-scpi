@@ -1,5 +1,5 @@
 import React from 'react';
-import { Target, PiggyBank, TrendingUp, Shield, Heart, Home, Briefcase, Users } from 'lucide-react';
+import { Target, PiggyBank, TrendingUp, Shield, Briefcase, Users } from 'lucide-react';
 import SEOHead from './SEOHead';
 import SemanticLinks from './SemanticLinks';
 import { getSemanticLinks } from '../data/semanticCocon';

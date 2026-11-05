@@ -1,5 +1,5 @@
 import React from 'react';
-import { Info, TrendingUp, Shield, Calculator, Users, Building2, CreditCard, Landmark } from 'lucide-react';
+import { Info, TrendingUp, Shield, Calculator, Users, Building2, CreditCard } from 'lucide-react';
 
 type PurchaseMethod = 'pleine-propriete' | 'nue-propriete' | 'usufruit' | 'credit';
 

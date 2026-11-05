@@ -1,6 +1,7 @@
 // Generic prepublication browser test. Temporary candidate cohort; NEVER a deployment.
 // All mocked API data comes from a committed staging export, not invented figures.
 import fs from 'node:fs';
+import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
 import {spawn,execFileSync} from 'node:child_process';
 import puppeteer from 'puppeteer';
@@ -21,7 +22,23 @@ cohort.count=cohort.slugs.length;
 assert.equal(cohort.count,new Set(cohort.slugs).size);
 fs.writeFileSync(path,JSON.stringify(cohort));
 const folder='test-results/scpi-onboarding';fs.mkdirSync(folder,{recursive:true});
-const report={commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),mode:'generic-private-stage-integration-not-production',cases:[]};
+const report={commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),mode:'generic-private-stage-integration-not-production',schema:'scpi-browser-cases/v2',cases:[]};
+async function captureCase(page,{slug,width,surface,sourcePeriod,selector=null}) {
+ const proofFile=slug+'-'+width+'-'+surface+'.png';
+ const output=folder+'/'+proofFile;
+ let bytes;
+ if(selector){
+  const element=await page.$(selector);
+  assert.ok(element,'Screenshot target missing for '+slug+' '+surface+' '+width);
+  bytes=await element.screenshot({path:output});
+ }else{
+  bytes=await page.screenshot({path:output,fullPage:true});
+ }
+ const proofHash=createHash('sha256').update(bytes).digest('hex');
+ assert.equal(proofHash,createHash('sha256').update(fs.readFileSync(output)).digest('hex'));
+ report.cases.push({slug,width,surface,status:'PASS',source_period:sourcePeriod,
+   proof_file:proofFile,proof_sha256:proofHash,proof_kind:'PUPPETEER_SCREENSHOT'});
+}
 const fixture='scpi-onboarding-module-check.html';
 fs.writeFileSync(fixture,`<div id="root"></div><script type="module">
 import React from 'react';import {createRoot} from 'react-dom/client';
@@ -65,6 +82,8 @@ try{
   return req.abort();
  });
  for(const [slug,name,price,issuerHost,annualYear] of candidates){
+  const sourcePeriod=manifest.candidates.find(c=>c.slug===slug)?.source_period;
+  assert.ok(/^20[0-9]{2}-(?:T[1-4]|S[12])$/.test(sourcePeriod),'Candidate browser period missing');
   for(const width of [1440,390]){
    await page.setViewport({width,height:1000});
    await page.goto(origin+'/'+slug+'/',{waitUntil:'networkidle0'});
@@ -72,7 +91,7 @@ try{
    assert.ok((await page.$eval('h1',e=>e.textContent)).includes(name));
    if(annualYear)assert.match(await page.$eval('body',e=>e.innerText),new RegExp('taux de distribution '+annualYear,'i'));
    assert.equal(cohort.slugs.includes(slug),true);
-   report.cases.push({slug,width,surface:'profile',status:'PASS'});
+   await captureCase(page,{slug,width,surface:'profile',sourcePeriod});
    await page.goto(origin+'/comparateur-scpi/',{waitUntil:'networkidle0'});
    const search=await page.waitForSelector('input[placeholder*="Rechercher"]');await search.type(name);
    await page.waitForFunction(()=>[...document.querySelectorAll('#scpi-grid button')].some(b=>/^analyser$/i.test(b.textContent.trim())));
@@ -84,7 +103,7 @@ try{
    if(annualYear)assert.match(modalText,new RegExp('Taux de distribution brut '+annualYear,'i'));
    assert.doesNotMatch(modalText,/principaux pays/);
    assert.ok(await page.evaluate((host)=>Array.from(document.querySelectorAll('a[href]')).some(a=>{try{return new URL(a.href).hostname===host;}catch{return false;}}),issuerHost),'Issuer source missing in comparator '+slug);
-   report.cases.push({slug,width,surface:'comparator_analysis',status:'PASS'});
+   await captureCase(page,{slug,width,surface:'comparator_analysis',sourcePeriod});
    await page.goto(origin+'/'+fixture+'?slug='+slug,{waitUntil:'networkidle0'});
    await page.waitForSelector('[data-test="client"]');
    assert.equal(await page.evaluate(()=>window.catalogEvidence.price),price);
@@ -92,7 +111,8 @@ try{
    assert.ok(await page.$('[data-test="radar"] svg[role="img"]'));
    assert.ok((await page.$eval('[data-test="client"]',e=>e.innerText)).includes(name));
    assert.doesNotMatch(await page.$eval('[data-test="simulator"]',e=>e.innerText),/NaN|Infinity/);
-   for(const surface of ['radar','simulator','client_card'])report.cases.push({slug,width,surface,status:'PASS'});
+   for(const [surface,selector] of [['radar','[data-test="radar"]'],['simulator','[data-test="simulator"]'],['client_card','[data-test="client"]']])
+    await captureCase(page,{slug,width,surface,sourcePeriod,selector});
    await page.screenshot({path:folder+'/'+slug+'-'+width+'.png',fullPage:true});
   }
  }

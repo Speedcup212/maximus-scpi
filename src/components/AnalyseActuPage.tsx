@@ -4,14 +4,7 @@ import SEOHead from './SEOHead';
 import Header from './Header';
 import Footer from './Footer';
 import { CookieConsent } from './CookieConsent';
-import {
-  articles,
-  articleCategories,
-  getFeaturedArticles,
-  getLatestArticles,
-  getArticlesByCategory,
-  type Article
-} from '../data/articlesData';
+import { articles, articleCategories, getFeaturedArticles, getArticlesByCategory } from '../data/articlesData';
 
 interface AnalyseActuPageProps {
   onNavigateHome: () => void;
@@ -49,7 +42,6 @@ const AnalyseActuPage: React.FC<AnalyseActuPageProps> = ({
   });
 
   const featuredArticles = getFeaturedArticles();
-  const latestArticles = getLatestArticles(3);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -69,7 +61,7 @@ const AnalyseActuPage: React.FC<AnalyseActuPageProps> = ({
       <SEOHead
         title="Analyse & Actu SCPI : Guides, Comparatifs et Stratégies 2026"
         description="Tous nos articles sur les SCPI : comparatifs (fonds euros, SCI, locatif), fiscalité (TMI 11-45%), stratégies retraite et revenus complémentaires."
-        keywords="SCPI, articles, guides, comparatifs, fiscalité, stratégies, investissement, analyse, actualité"
+        keywords={["SCPI", "articles", "guides", "comparatifs", "fiscalité", "stratégies", "investissement", "analyse", "actualité"]}
         canonical="https://maximusscpi.com/analyse-actu/"
       />
 

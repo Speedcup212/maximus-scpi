@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-  ArrowLeft, Building2, Calendar, Clock, TrendingUp, Play, FileText,
-  ChevronRight, Save, Trash2, Copy, Loader2, AlertCircle, BarChart3,
-  FileDown, Download, RefreshCw, BadgeCheck, Hash, User, Archive, ArchiveRestore,
+  ArrowLeft, Building2, Clock, TrendingUp, Play, FileText,
+  ChevronRight, Save, Trash2, Copy, Loader2, AlertCircle,
+  FileDown, Download, RefreshCw, BadgeCheck, Archive, ArchiveRestore,
 } from 'lucide-react';
 import {
   getExpertDossierById, updateExpertDossier, deleteExpertDossier,
   duplicateExpertDossier, deleteExpertHoldingSimulation,
-  getExpertReportsByDossier, deleteExpertReport, getExpertReportSignedUrl,
+  getExpertReportsByDossier, deleteExpertReport,
   archiveExpertReport, unarchiveExpertReport, downloadExpertReport,
 } from '../../utils/expertDossiersSupabase';
-import type { ExpertClientDossier, ExpertGeneratedReport } from '../../types/expertDossier';
+import type { ExpertClientDossier, ExpertGeneratedReport, ExpertSimulationSnapshot } from '../../types/expertDossier';
 
 const RESUME_SESSION_KEY = 'maximus_expert_resume_simulation';
 
@@ -57,7 +57,6 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
   const [downloadError, setDownloadError] = useState<string | null>(null);
   const [archivingIds, setArchivingIds] = useState<Set<string>>(new Set());
   const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
-  const [showDeletedReports, setShowDeletedReports] = useState(false);
 
   const showToast = (text: string, type: 'success' | 'error' | 'info' = 'success') => {
     setToastMessage({ text, type });
@@ -121,7 +120,7 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
     onNavigate('holding-simulator');
   };
 
-  const handleResumeSpecific = (sim: { inputs: Record<string, unknown> }) => {
+  const handleResumeSpecific = (sim: Pick<ExpertSimulationSnapshot, 'inputs'>) => {
     try {
       sessionStorage.setItem(RESUME_SESSION_KEY, JSON.stringify(sim.inputs));
     } catch { /* ignore */ }
@@ -159,7 +158,7 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
       if (!sim) throw new Error('Simulation introuvable');
 
       const { generatePdfBlob } = await import('./pdf/generateHoldingPdfBlob');
-      const { pdfBlob, fileName } = await generatePdfBlob(sim, {
+      const { pdfBlob, fileName } = await generatePdfBlob({ inputs: { ...sim.inputs }, results: { ...sim.results } }, {
         dossierName: dossier?.clientName,
         includeAdminTestBadge: false,
       });
@@ -262,11 +261,6 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
       .filter(r => r.simulationId === simId && r.reportStatus !== 'deleted')
       .sort((a, b) => (b.versionNumber || 0) - (a.versionNumber || 0));
     return simReports[0];
-  };
-
-  /* ── Helper: compter les rapports actifs pour une simulation ── */
-  const getActiveReportCount = (simId: string): number => {
-    return reports.filter(r => r.simulationId === simId && r.reportStatus !== 'deleted').length;
   };
 
   if (loading) {
@@ -465,18 +459,18 @@ const ExpertDossierDetail: React.FC<ExpertDossierDetailProps> = ({ dossierId, on
               </thead>
               <tbody className="divide-y divide-slate-800/50">
                 {[...dossier.simulations].reverse().map((sim, i) => {
-                  const report = getReportForSimulation(sim.id);
                   const pdfErr = pdfErrors[sim.id];
                   const isGenerating = regeneratingSimId === sim.id;
-                  const usufruitKey = (sim.inputs as Record<string, unknown>)?.usufruitKeyPercent ?? (sim.inputs as Record<string, unknown>)?.usufruitKey ?? '—';
-                  const duration = (sim.inputs as Record<string, unknown>)?.usufruitDuration ?? '—';
+                  // The persisted summary is the canonical source for the numbers displayed here.
+                  const usufruitKey = Number.isFinite(sim.summary.usufruitKey) ? sim.summary.usufruitKey : null;
+                  const duration = Number.isFinite(sim.summary.usufruitDuration) ? sim.summary.usufruitDuration : null;
                   return (
                     <tr key={sim.id} className={i % 2 === 0 ? 'bg-slate-900/30' : ''}>
                       <td className="py-2.5 px-3 text-slate-400">{fmtDateTime(sim.createdAt)}</td>
                       <td className="py-2.5 px-3 text-slate-300">{sim.label}</td>
                       <td className="py-2.5 px-3 text-right text-slate-300">{fmtEuro(sim.summary.usufruitAmount)}</td>
-                      <td className="py-2.5 px-3 text-right text-slate-300">{String(duration)} ans</td>
-                      <td className="py-2.5 px-3 text-right text-slate-300">{typeof usufruitKey === 'number' ? usufruitKey + '%' : usufruitKey}</td>
+                      <td className="py-2.5 px-3 text-right text-slate-300">{duration === null ? '—' : `${duration} ans`}</td>
+                      <td className="py-2.5 px-3 text-right text-slate-300">{usufruitKey === null ? '—' : `${usufruitKey}%`}</td>
                       <td className="py-2.5 px-3 text-right text-emerald-400 font-semibold">{fmtEuro(sim.summary.yearOneNetCashFlow)}</td>
                       <td className="py-2.5 px-3 text-right text-emerald-400 font-semibold">{fmtPercent(sim.summary.cashFlowAverageReturn ?? sim.summary.averageAnnualNetYield)}</td>
                       <td className="py-2.5 px-3 text-center">

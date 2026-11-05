@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-11-05",
+  "source": "MaximusSCPI Supabase read-only queried existing verified PDF and regulatory-document tables",
+  "source_verification_scope": "PRIOR_BINARY_IDENTITY_ONLY_NOT_CURRENT_RUN_NOT_FINANCIAL_QA",
+  "github_head_before_snapshot": "463ce90d1397c02e8db5bf1dffe8c94827879f85",
+  "publication_authorized": false,
+  "documents": [
+    {
+      "scpi_slug": "opus-real",
+      "origin_table": "pdf_validation",
+      "document_kind": "annual_report",
+      "reference_period": "2025-RA",
+      "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-04/OPUSREAL_RA2025_Web_Def.pdf",
+      "pdf_sha256": "ef9192613c9befd1b7b55f73beb77c2704a67edadb233395c60f01a7bee13e99",
+      "identity_verified": true,
+      "kind_verified": true,
+      "verified_at": "2026-10-15 15:10:08.841607+00"
+    },
+    {
+      "scpi_slug": "opus-real",
+      "origin_table": "pdf_validation",
+      "document_kind": "quarterly_bulletin",
+      "reference_period": "2026-T2",
+      "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/OPUS%20REAL_BT_FR_T2%202026_DEF.pdf",
+      "pdf_sha256": "1409b98c8f741bd83b577c16dec60af2ff4f7c2b8e56257b6a61cc821db1d3e2",
+      "identity_verified": true,
+      "kind_verified": true,
+      "verified_at": "2026-10-15 15:10:08.841607+00"
+    },
+    {
+      "scpi_slug": "opus-real",
+      "origin_table": "regulatory_documents",
+      "document_kind": "dic",
+      "reference_period": null,
+      "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-03/OPUS%20REAL_DIC_FR_05032026-%20vdef.pdf",
+      "pdf_sha256": "9ded0b03575d9895fd419ed9fc5dd2eaa0276499784e72c8aa1295aef3c4ef12",
+      "identity_verified": true,
+      "kind_verified": true,
+      "verified_at": "2026-10-15 15:31:08.424138+00"
+    },
+    {
+      "scpi_slug": "opus-real",
+      "origin_table": "regulatory_documents",
+      "document_kind": "note",
+      "reference_period": null,
+      "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/260511%20-%20SCPI%20Opus%20Real%20-%20Note%20d%27information%20-%20VClean.pdf",
+      "pdf_sha256": "4da86245c7814f5cb743407f357c94387cc254aec22db51430d97dc51fbb9ac6",
+      "identity_verified": true,
+      "kind_verified": true,
+      "verified_at": "2026-10-15 15:31:08.424138+00"
+    },
+    {
+      "scpi_slug": "opus-real",
+      "origin_table": "regulatory_documents",
+      "document_kind": "statutes",
+      "reference_period": null,
+      "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/260511_-_Opus_Real_-_Statuts.pdf",
+      "pdf_sha256": "3448095ab3c154ee70989aba4a7bbbe801509462bc0a0d9d082ef8674b873b38",
+      "identity_verified": true,
+      "kind_verified": true,
+      "verified_at": "2026-10-15 15:31:08.424138+00"
+    },
+    {
+      "scpi_slug": "sofidynamic",
+      "origin_table": "pdf_validation",
+      "document_kind": "annual_report",
+      "reference_period": "2025-RA",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+      "pdf_sha256": "b9173e2f54c9f5a8d3f94428a224dc3abd152c4716fad410ea7d700d9be21d57",
+      "identity_verified": true,
+      "kind_verified": true,
+      "verified_at": "2026-11-02 14:20:04.947219+00"
+    },
+    {
+      "scpi_slug": "sofidynamic",
+      "origin_table": "pdf_validation",
+      "document_kind": "quarterly_bulletin",
+      "reference_period": "2026-T2",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+      "pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376",
+      "identity_verified": true,
+      "kind_verified": true,
+      "verified_at": "2026-11-02 14:20:04.947219+00"
+    },
+    {
+      "scpi_slug": "sofidynamic",
+      "origin_table": "pdf_validation",
+      "document_kind": "quarterly_bulletin",
+      "reference_period": "2026-T1",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/05/SOFIDYNAMIC-BT-1T-2026.pdf",
+      "pdf_sha256": "059156b1025ec6f2ee0f65bae19574b56de74d71ed933760b7cd5ad7ba65b0d7",
+      "identity_verified": true,
+      "kind_verified": true,
+      "verified_at": "2026-11-02 14:20:04.947219+00"
+    },
+    {
+      "scpi_slug": "sofidynamic",
+      "origin_table": "regulatory_documents",
+      "document_kind": "dic",
+      "reference_period": null,
+      "source_url": "https://www.sofidy.com/app/uploads/2024/01/DIC-DYN-072026-FR-1-3197-1.pdf",
+      "pdf_sha256": "1b1e7acf03074e0dec326aa46c39df84c0302b21be337fcd97379c042aeec6e2",
+      "identity_verified": true,
+      "kind_verified": true,
+      "verified_at": "2026-11-02 15:17:17.280653+00"
+    },
+    {
+      "scpi_slug": "sofidynamic",
+      "origin_table": "regulatory_documents",
+      "document_kind": "note",
+      "reference_period": null,
+      "source_url": "https://www.sofidy.com/app/uploads/2024/01/NI-DYN-072026-FR-2-3146.pdf",
+      "pdf_sha256": "782f5b2fcdabe3cc5219fe3bb49e7a636760b42b2c5f3afa2b4110fc853e51c3",
+      "identity_verified": true,
+      "kind_verified": true,
+      "verified_at": "2026-11-02 15:17:17.280653+00"
+    },
+    {
+      "scpi_slug": "sofidynamic",
+      "origin_table": "regulatory_documents",
+      "document_kind": "statutes",
+      "reference_period": null,
+      "source_url": "https://www.sofidy.com/app/uploads/2024/01/ST-DY-072025-FR-1-2348.pdf",
+      "pdf_sha256": "d6873340ccb0c8a7eb1db75e238cb26b6ac1c49e2e396bc5207e095cc2295ebe",
+      "identity_verified": true,
+      "kind_verified": false,
+      "verified_at": "2026-11-02 15:21:08.307263+00"
+    }
+  ],
+  "private_document_candidates": [
+    {
+      "slug": "sofidynamic",
+      "kind": "statutes",
+      "title_date": "2026-04-30",
+      "source": "USER_LIBRARY_COPY_UNLINKED_TO_OFFICIAL_PUBLICATION",
+      "pdf_sha256": "dc040db78d22f50ee5470d34b74e7b7149676a153076f762629e946d38e0b1ba",
+      "page_count": 22,
+      "identity_claim": "SOFIDYNAMIC",
+      "management_company_signature": "TIKEHAU INVESTMENT MANAGEMENT",
+      "issuer_public_source_verified": false,
+      "statutes_currentness_verified": false,
+      "financially_certified": false
+    }
+  ],
+  "notes": [
+    "A verified historical PDF in Supabase does not establish currentness or financial-field certification.",
+    "Opus Real regulatory DIC and 2026-T2 bulletin exist as prior verified identities; 2026-T3 remains unresolved.",
+    "Sofidynamic website statutes 2025 kind_verified=false; private 2026 signed file remains unlinked to official primary registry.",
+    "No AEW or CRISTAL Care rows in these specific tables is not official document unavailability.",
+    "No publication or certification status changed."
+  ]
+}

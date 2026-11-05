@@ -1,8 +1,10 @@
 import React from 'react';
 import { ArrowLeft, ArrowRight, Building2, TrendingUp, CreditCard, User } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
-import { formatCurrency } from '../../utils/formatters';
-import { PatrimoineSepare } from '../../types/subscription';
+import type { PatrimoineSepare } from '../../types/subscription';
+
+type FinancialField = Exclude<keyof PatrimoineSepare, 'primaryFundOrigin' | 'fundAmount' | 'multipleOrigins' | 'secondaryOrigins' | 'fundOriginCountry'>;
+type FinancialPatrimoine = Pick<PatrimoineSepare, FinancialField>;
 
 // Fonction pour formater un montant exact à l'euro près
 const formatExactAmount = (amount: number): string => {
@@ -18,8 +20,8 @@ interface Step6PatrimoineProps {
 
 // Composant réutilisable pour les champs patrimoniaux
 interface PatrimoineFieldsProps {
-  patrimoine: PatrimoineSepare;
-  onUpdate: (field: keyof PatrimoineSepare, value: number) => void;
+  patrimoine: FinancialPatrimoine;
+  onUpdate: (field: FinancialField, value: number) => void;
   title: string;
   color: string;
   borderColor: string;
@@ -32,7 +34,7 @@ const PatrimoineFields: React.FC<PatrimoineFieldsProps> = ({
   color, 
   borderColor 
 }) => {
-  const handleNumberChange = (field: keyof PatrimoineSepare, value: string) => {
+  const handleNumberChange = (field: FinancialField, value: string) => {
     const numValue = value === '' ? 0 : Math.max(0, Number(value));
     onUpdate(field, numValue);
   };
@@ -456,7 +458,7 @@ const PatrimoineFields: React.FC<PatrimoineFieldsProps> = ({
   );
 };
 
-const Step6Patrimoine: React.FC<Step6PatrimoineProps> = ({ onClose }) => {
+const Step6Patrimoine: React.FC<Step6PatrimoineProps> = () => {
   const { state, updateState, goToStep } = useSubscription();
 
   const handleContinue = () => {

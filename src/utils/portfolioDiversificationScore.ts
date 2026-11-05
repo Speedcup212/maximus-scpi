@@ -207,7 +207,7 @@ export function extractDiversificationMetrics(
   const companies = new Set<string>();
   let hasAnyManagementCompany = false;
 
-  scpis.forEach((scpi, i) => {
+  scpis.forEach((scpi) => {
     const weight = percentages && scpi.id != null
       ? (percentages[scpi.id] ?? (100 / n))
       : (100 / n);

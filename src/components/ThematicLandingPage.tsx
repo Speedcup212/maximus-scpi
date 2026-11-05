@@ -1,11 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import {
-  TrendingUp, Shield, CheckCircle, Phone, Mail, User, Euro,
-  ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf,
-  Target, Calculator, MessageCircle, Clock, FileText, DollarSign,
-  Calendar, Search, Filter, UserCheck, PlayCircle, ShieldCheck,
-  Grid2x2 as Grid, Lock, Eye, BadgeCheck, Recycle, MapPin, Users, AlertCircle, Info
-} from 'lucide-react';
+import { TrendingUp, Shield, CheckCircle, ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf, Target, Calculator, MessageCircle, Clock, FileText, DollarSign, Calendar, Search, Filter, UserCheck, PlayCircle, ShieldCheck, Lock, Eye, BadgeCheck, Recycle, MapPin, Users, AlertCircle, Info } from 'lucide-react';
 import { thematicLandingPages } from '../data/thematicLandingPages';
 import { scpiData } from '../data/scpiData';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
@@ -15,9 +9,6 @@ import { usePortfolio } from '../hooks/usePortfolio';
 import ScpiTable from './ScpiTable';
 import QuickFilters from './QuickFilters';
 import AdvancedFilters from './AdvancedFilters';
-import Logo from './Logo';
-import ResponsiveImage from './ResponsiveImage';
-import MaximusLogo3Bars from './MaximusLogo3Bars';
 import MaximusLogoFooter from './MaximusLogoFooter';
 import Header from './Header';
 import SemanticLinks from './SemanticLinks';

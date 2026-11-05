@@ -1,0 +1,435 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-05",
+  "method": "GPT6_RENDERED_PAGE_VISUAL_SECOND_PASS_NOT_HUMAN",
+  "claim": "The assistant separately visually inspected the actual primary PDF pages extracted from GitHub Actions official-source artifact 13424413841; this is not organizationally independent human sign-off.",
+  "original_action_run": 42047948942,
+  "source_sha": "5e7ba0c1d890cba2208e90ce98f8fc930e595d24",
+  "review_result": "SOURCE_VISUAL_MATCHES_ONLY_NO_PUBLICATION",
+  "publication_authorized": false,
+  "funds": [
+    {
+      "slug": "sofidynamic",
+      "source_period": "2026-T3",
+      "document_kind": "quarterly_bulletin",
+      "source_pdf_sha256": "1898d414b5195c8e0f675ef9041e3142e2e53f720f238fd6ca6cdcf2f8992c38",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+      "metrics": [
+        {
+          "metric": "nombre_parts",
+          "value": 840198,
+          "unit": "PARTS",
+          "page": 5,
+          "value_basis": "STOCK_AT_2026_09_30",
+          "page_render_png_sha256": "9e1db8e8161fcadc62bcb7e00fed55455aac644be3b0a50566f0b2a079aa1417",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "nombre_parts_nouvelles_souscrites",
+          "value": 67306,
+          "unit": "PARTS",
+          "page": 5,
+          "value_basis": "FLOW_2026_T3",
+          "page_render_png_sha256": "9e1db8e8161fcadc62bcb7e00fed55455aac644be3b0a50566f0b2a079aa1417",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "nombre_parts_retires",
+          "value": 822,
+          "unit": "PARTS",
+          "page": 5,
+          "value_basis": "FLOW_2026_T3",
+          "page_render_png_sha256": "9e1db8e8161fcadc62bcb7e00fed55455aac644be3b0a50566f0b2a079aa1417",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "parts_attente_retrait",
+          "value": 0,
+          "unit": "PARTS",
+          "page": 5,
+          "value_basis": "STOCK_AT_2026_09_30",
+          "page_render_png_sha256": "9e1db8e8161fcadc62bcb7e00fed55455aac644be3b0a50566f0b2a079aa1417",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "prix_souscription",
+          "value": 320,
+          "unit": "EUR_PER_PART",
+          "page": 5,
+          "value_basis": "PRICE_AT_2026_09_30",
+          "page_render_png_sha256": "9e1db8e8161fcadc62bcb7e00fed55455aac644be3b0a50566f0b2a079aa1417",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "distribution_par_part",
+          "value": 5.52,
+          "unit": "EUR_PER_PART",
+          "page": 5,
+          "value_basis": "DISTRIBUTION_T3_2026",
+          "page_render_png_sha256": "9e1db8e8161fcadc62bcb7e00fed55455aac644be3b0a50566f0b2a079aa1417",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "prix_reconstitution",
+          "value": 340.38,
+          "unit": "EUR_PER_PART",
+          "page": 5,
+          "value_basis": "VALUATION_AT_2026_06_30",
+          "page_render_png_sha256": "9e1db8e8161fcadc62bcb7e00fed55455aac644be3b0a50566f0b2a079aa1417",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "valeur_realisation",
+          "value": 306.58,
+          "unit": "EUR_PER_PART",
+          "page": 5,
+          "value_basis": "VALUATION_AT_2026_06_30",
+          "page_render_png_sha256": "9e1db8e8161fcadc62bcb7e00fed55455aac644be3b0a50566f0b2a079aa1417",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "srri",
+          "value": 4,
+          "unit": "COUNT",
+          "page": 6,
+          "value_basis": "SRI_SCALE_1_TO_7",
+          "page_render_png_sha256": "66471db99d0127ed212687b66220a872d54d71db4cf3be755657191c80d812e9",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "duree_detention_recommandee",
+          "value": 8,
+          "unit": "COUNT",
+          "page": 6,
+          "value_basis": "RECOMMENDED_YEARS",
+          "page_render_png_sha256": "66471db99d0127ed212687b66220a872d54d71db4cf3be755657191c80d812e9",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "endettement",
+          "value": 17,
+          "unit": "PERCENT",
+          "page": 2,
+          "value_basis": "DEBT_RATIO_PROPERTY_VALUE_2026_09_30",
+          "page_render_png_sha256": "2a6778332cbbb16eac665b36b287ddba598d06201798f3a27f01c73aca4f7e2b",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "tof_quarterly",
+          "value": 97.3,
+          "unit": "PERCENT",
+          "page": 1,
+          "value_basis": "FINANCIAL_OCCUPANCY_T3_2026",
+          "page_render_png_sha256": "63040628b21acb12b11f52c259283ec54282f7ad3d79bda45e936bbeb8fe74b5",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "nombre_associes",
+          "value": 9029,
+          "unit": "COUNT",
+          "page": 1,
+          "value_basis": "STOCK_AT_2026_09_30",
+          "page_render_png_sha256": "63040628b21acb12b11f52c259283ec54282f7ad3d79bda45e936bbeb8fe74b5",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "nombre_immeubles",
+          "value": 40,
+          "unit": "COUNT",
+          "page": 1,
+          "value_basis": "STOCK_AT_2026_09_30",
+          "page_render_png_sha256": "63040628b21acb12b11f52c259283ec54282f7ad3d79bda45e936bbeb8fe74b5",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "capitalisation",
+          "value": 268.863422,
+          "unit": "MILLION_EUR",
+          "page": 5,
+          "value_basis": "EXACT_EUR_268863422_AT_2026_09_30",
+          "page_render_png_sha256": "9e1db8e8161fcadc62bcb7e00fed55455aac644be3b0a50566f0b2a079aa1417",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "retraits_executes_trimestre",
+          "value": 822,
+          "unit": "PARTS",
+          "page": 5,
+          "value_basis": "FLOW_2026_T3_NOT_WAITING_QUEUE",
+          "page_render_png_sha256": "9e1db8e8161fcadc62bcb7e00fed55455aac644be3b0a50566f0b2a079aa1417",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "prix_retrait",
+          "value": 313.6,
+          "unit": "EUR_PER_PART",
+          "page": 5,
+          "value_basis": "PRICE_AT_2026_09_30",
+          "page_render_png_sha256": "9e1db8e8161fcadc62bcb7e00fed55455aac644be3b0a50566f0b2a079aa1417",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        }
+      ]
+    },
+    {
+      "slug": "opus-real",
+      "source_period": "2026-T3",
+      "document_kind": "quarterly_bulletin",
+      "source_pdf_sha256": "4268caf8eac2f4c98906dd1d1d6fd3af7be0c1e47a8d24c04450cd79e3516eb9",
+      "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-11/BT_OR_3T2026_def.pdf",
+      "metrics": [
+        {
+          "metric": "nombre_parts",
+          "value": 98561,
+          "unit": "PARTS",
+          "page": 5,
+          "value_basis": "SECONDARY_MARKET_OUTSTANDING_PARTS_2026_T3",
+          "page_render_png_sha256": "048b9f57faee11c94f61fdd2221d034165a9f70ad34bfeb3cb6adcd707b3fcf1",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "nombre_associes",
+          "value": 3014,
+          "unit": "COUNT",
+          "page": 2,
+          "value_basis": "STOCK_AT_2026_09_30",
+          "page_render_png_sha256": "761ba6187f459ea32ca68e611fe4827e4f13660001a24b5a32cd693c05f48597",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "nombre_immeubles",
+          "value": 7,
+          "unit": "COUNT",
+          "page": 2,
+          "value_basis": "STOCK_AT_2026_09_30",
+          "page_render_png_sha256": "761ba6187f459ea32ca68e611fe4827e4f13660001a24b5a32cd693c05f48597",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "nombre_locataires",
+          "value": 66,
+          "unit": "COUNT",
+          "page": 4,
+          "value_basis": "STOCK_AT_2026_09_30",
+          "page_render_png_sha256": "33ad5021096724efd4283dbebfb8b6d9a9804c321c3a894033b4f226e3aff51e",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "tof_quarterly",
+          "value": 91.3,
+          "unit": "PERCENT",
+          "page": 4,
+          "value_basis": "CORRECTED_TOF_T3_2026_PUBLISHER_ERRATUM",
+          "page_render_png_sha256": "33ad5021096724efd4283dbebfb8b6d9a9804c321c3a894033b4f226e3aff51e",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "walb",
+          "value": 5.2,
+          "unit": "COUNT",
+          "page": 4,
+          "value_basis": "REMAINING_FIRM_LEASE_YEARS_T3_2026",
+          "page_render_png_sha256": "33ad5021096724efd4283dbebfb8b6d9a9804c321c3a894033b4f226e3aff51e",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "distribution_brute_par_part",
+          "value": 11,
+          "unit": "EUR_PER_PART",
+          "page": 5,
+          "value_basis": "GROSS_QUARTERLY_COUPON_T3_2026",
+          "page_render_png_sha256": "048b9f57faee11c94f61fdd2221d034165a9f70ad34bfeb3cb6adcd707b3fcf1",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "valeur_realisation_par_part",
+          "value": 1131.3,
+          "unit": "EUR_PER_PART",
+          "page": 5,
+          "value_basis": "VALUATION_AT_2026_06_30",
+          "page_render_png_sha256": "048b9f57faee11c94f61fdd2221d034165a9f70ad34bfeb3cb6adcd707b3fcf1",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "valeur_reconstitution_par_part",
+          "value": 1363.41,
+          "unit": "EUR_PER_PART",
+          "page": 5,
+          "value_basis": "VALUATION_AT_2026_06_30",
+          "page_render_png_sha256": "048b9f57faee11c94f61fdd2221d034165a9f70ad34bfeb3cb6adcd707b3fcf1",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "srri",
+          "value": 3,
+          "unit": "COUNT",
+          "page": 2,
+          "value_basis": "SRI_SCALE_1_TO_7",
+          "page_render_png_sha256": "761ba6187f459ea32ca68e611fe4827e4f13660001a24b5a32cd693c05f48597",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "duree_detention_recommandee",
+          "value": 10,
+          "unit": "COUNT",
+          "page": 6,
+          "value_basis": "RECOMMENDED_YEARS",
+          "page_render_png_sha256": "990e0a9afb1f41c2f99cb9fe02ac7d4856f5ddcc566830aa0095e92a1f44ad07",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "parts_inscrites_vente",
+          "value": 1909,
+          "unit": "PARTS",
+          "page": 5,
+          "value_basis": "SECONDARY_SELL_ORDERS_NOT_WITHDRAWAL_QUEUE",
+          "page_render_png_sha256": "048b9f57faee11c94f61fdd2221d034165a9f70ad34bfeb3cb6adcd707b3fcf1",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "taux_distribution_2025",
+          "value": 3.56,
+          "unit": "PERCENT",
+          "page": 2,
+          "value_basis": "ANNUAL_2025_PUBLISHED_IN_T3_2026",
+          "page_render_png_sha256": "761ba6187f459ea32ca68e611fe4827e4f13660001a24b5a32cd693c05f48597",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        }
+      ]
+    },
+    {
+      "slug": "aew-opportunites-europe",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
+      "source_pdf_sha256": "7dee4e015b33a15b36a51fc1eaf8686eba50ad3291560a4150b64b37c34e19fe",
+      "source_url": "https://www.aewpatrimoine.com/sites/default/files/2026-08/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%201er%20semestre%202026.pdf",
+      "metrics": [
+        {
+          "metric": "nombre_parts",
+          "value": 1549048,
+          "unit": "PARTS",
+          "page": 2,
+          "value_basis": "STOCK_AT_2026_06_30",
+          "page_render_png_sha256": "9bf812eb0a921f1d5ef5cc17983869d085b5886b693d4a8fa0a4f85db99824d6",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "nombre_associes",
+          "value": 6418,
+          "unit": "COUNT",
+          "page": 2,
+          "value_basis": "STOCK_AT_2026_06_30",
+          "page_render_png_sha256": "9bf812eb0a921f1d5ef5cc17983869d085b5886b693d4a8fa0a4f85db99824d6",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "capitalisation",
+          "value": 271.0834,
+          "unit": "MILLION_EUR",
+          "page": 1,
+          "value_basis": "EXACT_EUR_271083400_AT_2026_06_30",
+          "page_render_png_sha256": "c2ddb0c399fca756d9a344c6f0267e53c167e61fe6a651a6c49369191b4a764b",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "prix_souscription",
+          "value": 175,
+          "unit": "EUR_PER_PART",
+          "page": 1,
+          "value_basis": "PRICE_AT_2026_06_30",
+          "page_render_png_sha256": "c2ddb0c399fca756d9a344c6f0267e53c167e61fe6a651a6c49369191b4a764b",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "prix_retrait",
+          "value": 157.5,
+          "unit": "EUR_PER_PART",
+          "page": 3,
+          "value_basis": "COMPENSATED_WITHDRAWAL_PRICE_2026_S1",
+          "page_render_png_sha256": "edd7b312324094fa08065441a46734fbeb28cc4fca883983953afb2d86b4142a",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "tof",
+          "value": 82.58,
+          "unit": "PERCENT",
+          "page": 2,
+          "value_basis": "Q2_2026_FINANCIAL_OCCUPANCY_REPORTED_IN_S1_BULLETIN",
+          "page_render_png_sha256": "9bf812eb0a921f1d5ef5cc17983869d085b5886b693d4a8fa0a4f85db99824d6",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "top",
+          "value": 80.71,
+          "unit": "PERCENT",
+          "page": 2,
+          "value_basis": "Q2_2026_PHYSICAL_OCCUPANCY_REPORTED_IN_S1_BULLETIN",
+          "page_render_png_sha256": "9bf812eb0a921f1d5ef5cc17983869d085b5886b693d4a8fa0a4f85db99824d6",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "parts_attente_retrait",
+          "value": 75877,
+          "unit": "PARTS",
+          "page": 2,
+          "value_basis": "STOCK_AT_2026_06_30",
+          "page_render_png_sha256": "9bf812eb0a921f1d5ef5cc17983869d085b5886b693d4a8fa0a4f85db99824d6",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "nombre_parts_nouvelles_souscrites",
+          "value": 346,
+          "unit": "PARTS",
+          "page": 2,
+          "value_basis": "FLOW_2026_S1",
+          "page_render_png_sha256": "9bf812eb0a921f1d5ef5cc17983869d085b5886b693d4a8fa0a4f85db99824d6",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "retraits_non_compenses",
+          "value": 4564,
+          "unit": "PARTS",
+          "page": 2,
+          "value_basis": "UNCOMPENSATED_WITHDRAWALS_S1_2026",
+          "page_render_png_sha256": "9bf812eb0a921f1d5ef5cc17983869d085b5886b693d4a8fa0a4f85db99824d6",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "prix_reconstitution",
+          "value": 174.56,
+          "unit": "EUR_PER_PART",
+          "page": 1,
+          "value_basis": "VALUATION_AT_2026_06_30",
+          "page_render_png_sha256": "c2ddb0c399fca756d9a344c6f0267e53c167e61fe6a651a6c49369191b4a764b",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "valeur_realisation",
+          "value": 147.9,
+          "unit": "EUR_PER_PART",
+          "page": 1,
+          "value_basis": "VALUATION_AT_2026_06_30",
+          "page_render_png_sha256": "c2ddb0c399fca756d9a344c6f0267e53c167e61fe6a651a6c49369191b4a764b",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "td",
+          "value": 5.41,
+          "unit": "PERCENT",
+          "page": 1,
+          "value_basis": "ANNUAL_2025_RATE_REPEATED_ON_S1_2026_COVER",
+          "page_render_png_sha256": "c2ddb0c399fca756d9a344c6f0267e53c167e61fe6a651a6c49369191b4a764b",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        },
+        {
+          "metric": "endettement",
+          "value": 8.8,
+          "unit": "PERCENT",
+          "page": 1,
+          "value_basis": "DEBT_RATIO_AT_2026_06_30",
+          "page_render_png_sha256": "c2ddb0c399fca756d9a344c6f0267e53c167e61fe6a651a6c49369191b4a764b",
+          "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
+        }
+      ]
+    }
+  ]
+}

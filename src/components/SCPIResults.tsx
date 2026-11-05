@@ -1,6 +1,27 @@
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
-import { AMFProfileResult } from "../utils/amfScoring";
+import type { Scpi } from "../types/scpi";
+import type { RiskProfile } from "../types/riskProfile";
+
+/**
+ * Contrat de rendu historique uniquement : aucune qualification AMF,
+ * scoring ni recommandation ne sont calculés par ce composant.
+ */
+export interface SCPIResultsData {
+  profile: Pick<RiskProfile, 'name' | 'icon' | 'color' | 'description' | 'characteristics'>;
+  esgProfile: {
+    name: string;
+    icon: string;
+    color: string;
+    description: string;
+    impactScore: number;
+  };
+  recommendations: Array<{ scpi: Scpi }>;
+  simulation: {
+    investmentAmount: number;
+    annualIncome: number;
+  };
+}
 import { normalizeGeoLabel, normalizeSectorLabel } from "../utils/labelNormalization";
 import ScpiTable from "./ScpiTable";
 
@@ -8,7 +29,7 @@ import ScpiTable from "./ScpiTable";
 const COLORS = ["#2563eb", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#9333ea"];
 
 interface SCPIResultsProps {
-  result: AMFProfileResult;
+  result: SCPIResultsData;
   onBack?: () => void;
 }
 
@@ -120,7 +141,7 @@ const SCPIResults: React.FC<SCPIResultsProps> = ({ result, onBack }) => {
                 outerRadius={80}
                 label
               >
-                {aggregatedSectors.map((entry, index) => (
+                {aggregatedSectors.map((_, index) => (
                   <Cell key={`cell-sector-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
@@ -143,7 +164,7 @@ const SCPIResults: React.FC<SCPIResultsProps> = ({ result, onBack }) => {
                 outerRadius={80}
                 label
               >
-                {aggregatedGeo.map((entry, index) => (
+                {aggregatedGeo.map((_, index) => (
                   <Cell key={`cell-geo-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
@@ -168,7 +189,7 @@ const SCPIResults: React.FC<SCPIResultsProps> = ({ result, onBack }) => {
           <li>
             <p className="text-sm text-gray-500">Rendement moyen</p>
             <p className="text-xl font-bold">
-              {((simulation.annualIncome / simulation.investmentAmount) * 100).toFixed(2)} %
+              {simulation.investmentAmount > 0 ? `${((simulation.annualIncome / simulation.investmentAmount) * 100).toFixed(2)} %` : 'Non calculable'}
             </p>
           </li>
           <li>

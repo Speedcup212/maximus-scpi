@@ -61,9 +61,14 @@ jobs:
 
       - name: Generic SCPI onboarding evidence and baseline retention
         run: |
-          node --test scripts/scpi-onboarding/preflight.test.mjs scripts/scpi-onboarding/cohortInvariant.test.mjs scripts/scpi-onboarding/autoRemediate.test.mjs scripts/scpi-onboarding/candidateConsistency.test.mjs
+          node --test scripts/scpi-onboarding/*.test.mjs
           node scripts/scpi-onboarding/preflight.mjs --manifest scripts/scpi-onboarding/fixtures/bnpp-2026-t3.json
           node scripts/scpi-onboarding/autoRemediate.mjs --scan --report test-results/scpi-auto-recovery/build-verification.json
+
+      - name: Execute allocation certification migration in ephemeral PostgreSQL (no production access)
+        run: |
+          npm install --prefix /tmp/scpi-sql-tests --ignore-scripts --no-audit --no-fund --save-exact @electric-sql/pglite@0.3.14
+          SCPI_SQL_TEST_MODULE=/tmp/scpi-sql-tests/node_modules/@electric-sql/pglite/dist/index.js node --test scripts/scpi-onboarding/allocationCertification.sql-test.mjs
 
       - name: Current-only certified analysis with exact source and no fake trends
         run: node --test scripts/scpi-onboarding/candidateCurrentOnlyAnalysisGate.test.mjs

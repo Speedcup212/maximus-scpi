@@ -21,7 +21,7 @@ function loadAll(): ExpertClientDossier[] {
 
 /** Migre les anciens champs `name` → `clientName`, `title` → `label` */
 function fixLegacyFields(d: ExpertClientDossier & { name?: string; simulations?: Array<Record<string, unknown>> }): ExpertClientDossier {
-  const clientName = (d as Record<string, unknown>).clientName as string || d.name || '';
+  const clientName = d.clientName || d.name || '';
   return {
     ...d,
     clientName: clientName,
@@ -104,8 +104,8 @@ export interface SaveSimulationParams {
   dossierName: string;
   companyType: string;
   title: string;
-  inputs: Record<string, unknown>;
-  results: Record<string, unknown>;
+  inputs: ExpertSimulationSnapshot['inputs'];
+  results: ExpertSimulationSnapshot['results'];
   summary: ExpertSimulationSnapshot['summary'];
 }
 
@@ -119,8 +119,8 @@ export function saveSimulationToExpertDossier(params: SaveSimulationParams): Exp
     createdAt: now,
     updatedAt: now,
     label: params.title,
-    inputs: params.inputs as ExpertSimulationSnapshot['inputs'],
-    results: params.results as ExpertSimulationSnapshot['results'],
+    inputs: params.inputs,
+    results: params.results,
     summary: params.summary,
   };
 

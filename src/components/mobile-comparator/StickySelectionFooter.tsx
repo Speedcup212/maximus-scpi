@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, ArrowRight, Eye } from 'lucide-react';
+import { ShoppingBag, ArrowRight } from 'lucide-react';
 import { usePortfolioContext } from '../../contexts/PortfolioContext';
 
 interface StickySelectionFooterProps {

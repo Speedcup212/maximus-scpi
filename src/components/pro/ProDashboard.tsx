@@ -210,7 +210,7 @@ interface DashboardHomeProps {
   onDossierChanged?: () => void;
 }
 
-function DashboardHome({ onNavigate, onAnalyzeScpi, onCompareScpi, onDossierChanged }: DashboardHomeProps) {
+function DashboardHome({ onNavigate, onAnalyzeScpi, onDossierChanged }: DashboardHomeProps) {
   const [dossierModal, setDossierModal] = useState<ProDossier | null>(null);
   const [dossiers, setDossiers] = useState<ProDossier[]>(() => loadDossiers());
 
@@ -640,8 +640,10 @@ function CreateDossierModal({ onSave, onClose, initial }: {
   );
 }
 
-function DossiersFull({ onDossierChanged }: { onDossierChanged?: () => void }) {
+function DossiersFull({ onDossierChanged, onlyReady = false }: { onDossierChanged?: () => void; onlyReady?: boolean }) {
   const [allDossiers, setAllDossiers] = useState<ProDossier[]>(loadDossiers);
+  // Only the display is filtered: all dossier records remain intact for editing and saving.
+  const visibleDossiers = onlyReady ? allDossiers.filter(d => d.status === 'Livrable prêt') : allDossiers;
   const [detailDossier, setDetailDossier] = useState<ProDossier | null>(null);
   const [showCreate, setShowCreate] = useState(false);
   const [showEdit, setShowEdit] = useState<ProDossier | null>(null);
@@ -685,9 +687,10 @@ function DossiersFull({ onDossierChanged }: { onDossierChanged?: () => void }) {
     <>
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
         <div>
-          <h1 className="text-lg sm:text-2xl font-bold text-white mb-1">Dossiers en cours</h1>
-          <p className="text-xs text-slate-400">{allDossiers.length} dossier{allDossiers.length > 1 ? 's' : ''} actif{allDossiers.length > 1 ? 's' : ''} — gérez vos analyses en cours.</p>
+          <h1 className="text-lg sm:text-2xl font-bold text-white mb-1">{onlyReady ? 'Livrables prêts' : 'Dossiers en cours'}</h1>
+          <p className="text-xs text-slate-400">{onlyReady ? `${visibleDossiers.length} livrable(s) prêt(s), issus des dossiers existants.` : `${allDossiers.length} dossier(s) actif(s) — gérez vos analyses en cours.`}</p>
         </div>
+        {!onlyReady && (
         <button
           onClick={() => setShowCreate(true)}
           className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors shrink-0"
@@ -695,20 +698,23 @@ function DossiersFull({ onDossierChanged }: { onDossierChanged?: () => void }) {
           <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           Nouveau dossier
         </button>
+        )}
       </div>
 
-      {allDossiers.length === 0 ? (
+      {visibleDossiers.length === 0 ? (
         <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-8 text-center">
           <FolderOpen className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-          <p className="text-slate-400 text-sm mb-1">Aucun dossier</p>
-          <p className="text-slate-600 text-xs mb-4">Créez votre premier dossier client.</p>
-          <button onClick={() => setShowCreate(true)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors">
-            <Plus className="w-4 h-4" /> Nouveau dossier
-          </button>
+          <p className="text-slate-400 text-sm mb-1">{onlyReady ? 'Aucun livrable prêt' : 'Aucun dossier'}</p>
+          <p className="text-slate-600 text-xs mb-4">{onlyReady ? 'Les dossiers marqués « Livrable prêt » apparaîtront ici.' : 'Créez votre premier dossier client.'}</p>
+          {!onlyReady && (
+            <button onClick={() => setShowCreate(true)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg transition-colors">
+              <Plus className="w-4 h-4" /> Nouveau dossier
+            </button>
+          )}
         </div>
       ) : (
         <DossiersTable
-          dossiers={allDossiers}
+          dossiers={visibleDossiers}
           onOpenDossier={(d) => setDetailDossier(d)}
           onViewAll={() => {}}
           onCreateDossier={() => setShowCreate(true)}
@@ -1157,7 +1163,7 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
       case 'dossiers':
         return <DossiersFull onDossierChanged={() => setDossierVersion(v => v + 1)} />;
       case 'livrables':
-        return <LivrablesContent />;
+        return <DossiersFull onlyReady onDossierChanged={() => setDossierVersion(v => v + 1)} />;
       case 'comparateur':
         return <ProFintechComparator
           initialAnalysisScpi={pendingAnalysisScpi}
@@ -1229,7 +1235,6 @@ export default function ProDashboard({ initialSection }: { initialSection?: ProS
         return <ScpiFavorites
           onNavigateToComparator={() => handleSectionClick('comparateur')}
           onAnalyzeScpi={handleAnalyzeScpiFromFavorites}
-          onCompareScpi={handleCompareScpiFromFavorites}
         />;
       case 'videos':
         return <VideosContent />;

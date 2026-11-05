@@ -13,7 +13,8 @@ export const useProfile = (userId?: string | null) => {
       setLoading(false);
       return;
     }
-    if (!supabase) {
+    const client = supabase;
+    if (!client) {
       setError('Supabase non configuré.');
       setProfile(null);
       setLoading(false);
@@ -23,7 +24,7 @@ export const useProfile = (userId?: string | null) => {
     let isActive = true;
     const fetchProfile = async () => {
       setLoading(true);
-      const { data, error: fetchError } = await supabase
+      const { data, error: fetchError } = await client
         .from('profiles')
         .select('*')
         .eq('user_id', userId)

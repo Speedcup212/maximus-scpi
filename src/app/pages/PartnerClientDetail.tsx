@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { supabase } from '../../lib/supabase';
+import { requireSupabase } from '../../lib/supabase';
 import AppLayout from '../components/AppLayout';
 import StatusBadge from '../components/StatusBadge';
 import EmptyState from '../components/EmptyState';
@@ -18,8 +18,8 @@ const PartnerClientDetail: React.FC<PartnerClientDetailProps> = ({ clientId, onN
 
   useEffect(() => {
     const load = async () => {
-      const { data: clientRow } = await supabase.from('profiles').select('*').eq('user_id', clientId).single();
-      const { data: casesRows } = await supabase.from('cases').select('*').eq('client_user_id', clientId);
+      const { data: clientRow } = await requireSupabase().from('profiles').select('*').eq('user_id', clientId).single();
+      const { data: casesRows } = await requireSupabase().from('cases').select('*').eq('client_user_id', clientId);
       if (clientRow) setClient(clientRow as Profile);
       if (casesRows) setCases(casesRows as Case[]);
     };

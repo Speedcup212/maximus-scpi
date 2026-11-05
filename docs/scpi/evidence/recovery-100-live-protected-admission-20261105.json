@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "captured_date": "2026-11-05",
+  "purpose": "LIVE_INDEPENDENT_GATES_READBACK_NO_PUBLICATION",
+  "git_head": "fcc086aa971d9eb32fb4b47baa50386f43ebe287",
+  "pr_number": 292,
+  "pr_is_draft": true,
+  "pilot_rows": [
+    {
+      "scpi_slug": "aew-opportunites-europe",
+      "source_period": "2026-S1",
+      "current_pdf_identity_verified": true,
+      "current_metric_qa_count": 14,
+      "annual_metric_qa_count": 15,
+      "regime_specific_core_qa_count": 11,
+      "regulatory_binary_count": 3,
+      "source_financial_gate": true,
+      "allocation_gate": true,
+      "candidate_indicator_gate": true,
+      "analysis_gate": false,
+      "independent_review_gate": false,
+      "independent_audit_gate": false,
+      "responsible_batch_gate": false,
+      "six_surface_browser_gate": false,
+      "final_release_gate": false,
+      "registry_links_verified": true,
+      "regulatory_legal_review_gate": false,
+      "qa_historical_period_count": 0,
+      "liquidity_disclosure_gate": true,
+      "production_readback_status": "NOT_ELIGIBLE_FOR_PRODUCTION_READBACK",
+      "admission_100_proven": false,
+      "publication_authorized_by_observation": false
+    },
+    {
+      "scpi_slug": "opus-real",
+      "source_period": "2026-T3",
+      "current_pdf_identity_verified": true,
+      "current_metric_qa_count": 13,
+      "annual_metric_qa_count": 4,
+      "regime_specific_core_qa_count": 11,
+      "regulatory_binary_count": 3,
+      "source_financial_gate": true,
+      "allocation_gate": true,
+      "candidate_indicator_gate": true,
+      "analysis_gate": false,
+      "independent_review_gate": false,
+      "independent_audit_gate": false,
+      "responsible_batch_gate": false,
+      "six_surface_browser_gate": false,
+      "final_release_gate": false,
+      "registry_links_verified": true,
+      "regulatory_legal_review_gate": false,
+      "qa_historical_period_count": 0,
+      "liquidity_disclosure_gate": true,
+      "production_readback_status": "NOT_ELIGIBLE_FOR_PRODUCTION_READBACK",
+      "admission_100_proven": false,
+      "publication_authorized_by_observation": false
+    },
+    {
+      "scpi_slug": "sofidynamic",
+      "source_period": "2026-T3",
+      "current_pdf_identity_verified": true,
+      "current_metric_qa_count": 17,
+      "annual_metric_qa_count": 4,
+      "regime_specific_core_qa_count": 11,
+      "regulatory_binary_count": 2,
+      "source_financial_gate": false,
+      "allocation_gate": true,
+      "candidate_indicator_gate": true,
+      "analysis_gate": false,
+      "independent_review_gate": false,
+      "independent_audit_gate": false,
+      "responsible_batch_gate": false,
+      "six_surface_browser_gate": false,
+      "final_release_gate": false,
+      "registry_links_verified": false,
+      "regulatory_legal_review_gate": false,
+      "qa_historical_period_count": 2,
+      "liquidity_disclosure_gate": true,
+      "production_readback_status": "NOT_ELIGIBLE_FOR_PRODUCTION_READBACK",
+      "admission_100_proven": false,
+      "publication_authorized_by_observation": false
+    }
+  ],
+  "readback_acl": {
+    "anon_read": false,
+    "signed_read": false,
+    "service_read": true
+  },
+  "workflow_runs": [
+    {
+      "name": "BNP candidate full component and route preflight",
+      "id": 42057133779,
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "name": "Build verification",
+      "id": 42057133761,
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "name": "RECOVERY-070 official issuer PDF binary QA",
+      "id": 42057133599,
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "name": "SCPI industrial admission - mandatory evidence and TypeScript",
+      "id": 42057134018,
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "name": "All SCPI bulletins - complete archive replay",
+      "id": 42057134171,
+      "status": "pending",
+      "conclusion": null
+    },
+    {
+      "name": "RECOVERY-070 generic SCPI onboarding preflight",
+      "id": 42057133676,
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "name": "Espace client - contrôle qualité",
+      "id": 42057133812,
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "name": "BNP T3 official issuer source QA",
+      "id": 42057133448,
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "source_legal_dependency": {
+    "scpi_slug": "sofidynamic",
+    "siren": "983023003",
+    "current_statutes_deposit_date": "2026-07-08",
+    "public_register_source_url": "https://www.pappers.fr/entreprise/sofidynamic-983023003",
+    "current_pdf_binary_sha256": null,
+    "reason": "Public registry shows updated July 8 statutes. The actually available signed private April 30 PDF is older and cannot certify current legal terms."
+  },
+  "decision": "NO_GO",
+  "admission_score_last_verified": 75,
+  "protected_criteria_awarded": 0,
+  "published_new_candidates": 0,
+  "publication_authorized": false,
+  "remaining": [
+    "CURRENT_STATUTES_AND_LEGAL_SIGNOFF",
+    "CANDIDATE_HISTORY_AND_BULLETIN_ANALYSIS",
+    "AUTHENTICATED_SIX_SURFACE_BROWSER_PROOF",
+    "INDEPENDENT_FINAL_REVIEW_AND_AUDIT",
+    "RESPONSIBLE_BATCH_DECISION",
+    "EXACT_SHA_PRODUCTION_READBACK"
+  ]
+}

@@ -21,7 +21,6 @@ const EmailSimulationModal: React.FC<EmailSimulationModalProps> = ({
   isOpen,
   onClose,
   selectedScpi,
-  clientProfile,
   profilRisque = "Non défini",
   profilESG = "Standard",
   horizon = "",

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-11-05",
+  "method": "VISUAL_SECOND_PASS_ON_ORIGINAL_ISSUER_DIC_PDFS_FROM_GITHUB_ACTIONS_ARCHIVE",
+  "archive_run": 42047948942,
+  "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN",
+  "legal_approval": false,
+  "independent_compliance_approval": false,
+  "publication_authorized": false,
+  "dic": [
+    {
+      "slug": "sofidynamic",
+      "document_sha256": "1b1e7acf03074e0dec326aa46c39df84c0302b21be337fcd97379c042aeec6e2",
+      "url": "https://www.sofidy.com/app/uploads/2024/01/DIC-DYN-072026-FR-1-3197-1.pdf",
+      "document_date": "2026-08-01",
+      "risk_sri": 4,
+      "recommended_holding_years": 8,
+      "sfdr_article": 8,
+      "issuer_management": "Tikehau Investment Management",
+      "evidence_pages": {
+        "risk": 2,
+        "holding": 1,
+        "sfdr": 3,
+        "dated_issue": 1,
+        "leveraged_authorization": 1
+      },
+      "page_sha256": {
+        "1": "ea7c30286f68ebd53bd041d09175e8966593a2628defc37e6ab0ab9f9b499ce1",
+        "2": "f4df79b8373c6875e04dea2b5a392dd36d3af6ad084cac17f854a5e78ac1b402",
+        "3": "30e93b97d352ea321b134854b7910a1fe73283f46d4170a02eb0265dc5992ff1"
+      },
+      "risk_caveat": "DIC page 2: loss of capital and illiquidity, with no guarantee; 4/7 and 8-year recommended horizon.",
+      "coherence_exception": "DIC page 1 (produced 2026-08-01) still cites 2025 AGM authorized borrowings EUR 300 million. Sofidy 2025 annual report includes 2026 AGM RESOLUTION PROPOSAL (not verified adopted) for EUR 400 million. Obtain certified 2026 AGM minutes or updated July 2026 filed statutes before concluding that DIC is outdated or recording approved borrowing cap.",
+      "source_proposal_url": "https://www.sofidy.com/app/uploads/2026/04/sofidynamic-rapport-annuel-2025.pdf",
+      "source_proposal_page": 72,
+      "latest_statutes_2026_pdf_authenticated": false
+    },
+    {
+      "slug": "opus-real",
+      "document_sha256": "9ded0b03575d9895fd419ed9fc5dd2eaa0276499784e72c8aa1295aef3c4ef12",
+      "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-03/OPUS%20REAL_DIC_FR_05032026-%20vdef.pdf",
+      "document_date": "2026-03-05",
+      "risk_sri": 3,
+      "recommended_holding_years": 10,
+      "sfdr_article": 8,
+      "issuer_management": "BNP Paribas REIM France",
+      "evidence_pages": {
+        "risk": 1,
+        "holding": 1,
+        "sfdr": 3,
+        "capital_regime": 1
+      },
+      "page_sha256": {
+        "1": "16fe10a87ee8cd7fb6e372cec0b8adbcb35830c34756210969e70b5c7d7cd10a",
+        "2": "87012f8e514c7e275d5f6366766f0e5ab2fe69c9872515b5fa0fc97195f7d74c",
+        "3": "aa35e772e66acef8fbb33576134fd7a33b700560bc5a4df368219846c1dce263"
+      },
+      "risk_caveat": "DIC page 1 expressly documents suspension of capital variability effective 2026-03-05; no primary redemption price should be inferred from a secondary sell-order book.",
+      "coherence_exception": "DIC retains legal SCPI capital-variable type but explicitly discloses temporary suspension; secondary-market prices and execution require separate order-book evidence."
+    },
+    {
+      "slug": "aew-opportunites-europe",
+      "document_sha256": "27bbf007ed4276079aae15d11dd306ea652941be0610b601fbc09a5f89288332",
+      "url": "https://www.aewpatrimoine.com/sites/default/files/2026-07/DIC%20AEW%20OPPORTUNITES%20EUROPE%20juillet%202026_1.pdf",
+      "document_date": "2026-07-01",
+      "risk_sri": 3,
+      "recommended_holding_years": 10,
+      "sfdr_article": 8,
+      "issuer_management": "AEW",
+      "evidence_pages": {
+        "risk": 1,
+        "holding": 1,
+        "sfdr": 3
+      },
+      "page_sha256": {
+        "1": "d2bfa90ddf5bc347d6b60319e5598b401d178207dd8034037b1ba7f6ac6fcbd5",
+        "2": "d6d3404186d2cb892aab50d4ecbc737b7e07a6db0184b232c2d8f986a0a399b4",
+        "3": "a5b40ddd844f415ccfc06809bbff37cbc466b79733a344be4856eb35b5039341"
+      },
+      "risk_caveat": "DIC page 1: liquidity and capital loss risk without guaranteed resale, 3/7 SRI, 10-year recommended duration.",
+      "coherence_exception": "Verify combined note-information/statutes review separately. Historical fund rename needs independent identity and legal continuity validation."
+    }
+  ]
+}

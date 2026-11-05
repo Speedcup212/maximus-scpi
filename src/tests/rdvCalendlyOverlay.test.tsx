@@ -73,7 +73,7 @@ describe('RdvModal — Calendly popup lifecycle', () => {
   let submitLead: typeof import('../utils/leadSubmitter').submitLead;
   let openCalendlyPopup: typeof import('../utils/calendlyPopup').openCalendlyPopup;
   let trackFunnelEvent: typeof import('../utils/funnelAnalytics').trackFunnelEvent;
-  let onClose: ReturnType<typeof vi.fn>;
+  let onClose: () => void;
   let isOpen: boolean;
   let overlayVisible: boolean;
   let callbacks: Array<() => void>;

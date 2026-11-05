@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "documented_at": "2026-11-05",
+  "slug": "sofidynamic",
+  "mode": "OFFICIAL_ISSUER_PDF_VISUAL_SECOND_PASS_NOT_HUMAN",
+  "release_authorized": false,
+  "sources": [
+    {
+      "period": "2026-T1",
+      "pdf_sha256": "059156b1025ec6f2ee0f65bae19574b56de74d71ed933760b7cd5ad7ba65b0d7",
+      "url": "https://www.sofidy.com/app/uploads/2026/05/SOFIDYNAMIC-BT-1T-2026.pdf",
+      "source_page": 5,
+      "page_render_sha256": "b10e0e5408300fa83ff68286ba095d766ef62d6a9be906e062b5a037d98f8212",
+      "closing_shares": 672775,
+      "new_subscriptions": 110715,
+      "withdrawn_shares": 48
+    },
+    {
+      "period": "2026-T2",
+      "pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376",
+      "url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+      "source_page": 5,
+      "page_render_sha256": "a76f68a4bdf8b56445e0efa52c81daf2687af14515ef82def3c723014d051f36",
+      "closing_shares": 773714,
+      "new_subscriptions": 101076,
+      "withdrawn_shares": 122
+    }
+  ],
+  "arithmetic": {
+    "opening_shares": 672775,
+    "plus_subscribed": 101076,
+    "minus_withdrawn": 122,
+    "expected_closing": 773729,
+    "reported_closing": 773714,
+    "difference": -15
+  },
+  "decision": {
+    "status": "PUBLISHED_SHARE_FLOW_DELTA_UNEXPLAINED",
+    "independent_financial_qa_signoff": false,
+    "publication_authorized": false,
+    "action": "Require verified issuer explanation of unexplained 15 shares, no massaging source figures or overriding the historical inconsistency."
+  }
+}

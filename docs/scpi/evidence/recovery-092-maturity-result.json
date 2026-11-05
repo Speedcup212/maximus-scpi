@@ -1,0 +1,371 @@
+{
+  "before": {
+    "score": 40,
+    "max": 100,
+    "domains": [
+      {
+        "domain": "architecture",
+        "weight": 15,
+        "score": 5,
+        "criteria": [
+          {
+            "id": "registry",
+            "points": 5,
+            "awarded": 0,
+            "status": "NOT_DEMONSTRATED"
+          },
+          {
+            "id": "bounded_execution",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "targeted_retests",
+            "points": 5,
+            "awarded": 0,
+            "status": "NOT_DEMONSTRATED"
+          }
+        ]
+      },
+      {
+        "domain": "collection",
+        "weight": 15,
+        "score": 5,
+        "criteria": [
+          {
+            "id": "trusted_sources",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "three_issuer_binaries",
+            "points": 5,
+            "awarded": 0,
+            "status": "NOT_DEMONSTRATED"
+          },
+          {
+            "id": "current_regulatory_documents",
+            "points": 5,
+            "awarded": 0,
+            "status": "NOT_DEMONSTRATED"
+          }
+        ]
+      },
+      {
+        "domain": "extraction",
+        "weight": 15,
+        "score": 5,
+        "criteria": [
+          {
+            "id": "immutable_page_evidence",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "units_and_periods",
+            "points": 5,
+            "awarded": 0,
+            "status": "NOT_DEMONSTRATED"
+          },
+          {
+            "id": "all_financial_fields_reviewed",
+            "points": 5,
+            "awarded": 0,
+            "status": "NOT_DEMONSTRATED"
+          }
+        ]
+      },
+      {
+        "domain": "certification",
+        "weight": 20,
+        "score": 10,
+        "criteria": [
+          {
+            "id": "mandatory_gates",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "uncertified_recommendation_exclusion",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "independent_review",
+            "points": 5,
+            "awarded": 0,
+            "status": "NOT_DEMONSTRATED"
+          },
+          {
+            "id": "three_pilots_eligible",
+            "points": 5,
+            "awarded": 0,
+            "status": "NOT_DEMONSTRATED"
+          }
+        ]
+      },
+      {
+        "domain": "remediation",
+        "weight": 15,
+        "score": 5,
+        "criteria": [
+          {
+            "id": "derived_repairs_only",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "permanent_adversarial_tests",
+            "points": 5,
+            "awarded": 0,
+            "status": "NOT_DEMONSTRATED"
+          },
+          {
+            "id": "affected_controls_executed",
+            "points": 5,
+            "awarded": 0,
+            "status": "NOT_DEMONSTRATED"
+          }
+        ]
+      },
+      {
+        "domain": "publication",
+        "weight": 10,
+        "score": 5,
+        "criteria": [
+          {
+            "id": "exact_sha_and_private_rights",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "authorized_production_readback",
+            "points": 5,
+            "awarded": 0,
+            "status": "NOT_DEMONSTRATED"
+          }
+        ]
+      },
+      {
+        "domain": "traceability",
+        "weight": 10,
+        "score": 5,
+        "criteria": [
+          {
+            "id": "hashed_reports",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "hundred_identity_scalability",
+            "points": 5,
+            "awarded": 0,
+            "status": "NOT_DEMONSTRATED"
+          }
+        ]
+      }
+    ],
+    "constraints": {
+      "critical_integrity_pass": true,
+      "typecheck_pass": false,
+      "three_pilots_eligible": false,
+      "no_existing_regression": true,
+      "production_readback": false
+    },
+    "decision": "NO_GO",
+    "publication_authorized": false
+  },
+  "after": {
+    "score": 75,
+    "max": 100,
+    "domains": [
+      {
+        "domain": "architecture",
+        "weight": 15,
+        "score": 15,
+        "criteria": [
+          {
+            "id": "registry",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "bounded_execution",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "targeted_retests",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "domain": "collection",
+        "weight": 15,
+        "score": 10,
+        "criteria": [
+          {
+            "id": "trusted_sources",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "three_issuer_binaries",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "current_regulatory_documents",
+            "points": 5,
+            "awarded": 0,
+            "status": "BLOCKED"
+          }
+        ]
+      },
+      {
+        "domain": "extraction",
+        "weight": 15,
+        "score": 10,
+        "criteria": [
+          {
+            "id": "immutable_page_evidence",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "units_and_periods",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "all_financial_fields_reviewed",
+            "points": 5,
+            "awarded": 0,
+            "status": "BLOCKED"
+          }
+        ]
+      },
+      {
+        "domain": "certification",
+        "weight": 20,
+        "score": 10,
+        "criteria": [
+          {
+            "id": "mandatory_gates",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "uncertified_recommendation_exclusion",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "independent_review",
+            "points": 5,
+            "awarded": 0,
+            "status": "BLOCKED"
+          },
+          {
+            "id": "three_pilots_eligible",
+            "points": 5,
+            "awarded": 0,
+            "status": "BLOCKED"
+          }
+        ]
+      },
+      {
+        "domain": "remediation",
+        "weight": 15,
+        "score": 15,
+        "criteria": [
+          {
+            "id": "derived_repairs_only",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "permanent_adversarial_tests",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "affected_controls_executed",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "domain": "publication",
+        "weight": 10,
+        "score": 5,
+        "criteria": [
+          {
+            "id": "exact_sha_and_private_rights",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "authorized_production_readback",
+            "points": 5,
+            "awarded": 0,
+            "status": "BLOCKED"
+          }
+        ]
+      },
+      {
+        "domain": "traceability",
+        "weight": 10,
+        "score": 10,
+        "criteria": [
+          {
+            "id": "hashed_reports",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          },
+          {
+            "id": "hundred_identity_scalability",
+            "points": 5,
+            "awarded": 5,
+            "status": "PASS"
+          }
+        ]
+      }
+    ],
+    "constraints": {
+      "critical_integrity_pass": true,
+      "typecheck_pass": false,
+      "three_pilots_eligible": false,
+      "no_existing_regression": true,
+      "production_readback": false
+    },
+    "decision": "NO_GO",
+    "publication_authorized": false
+  },
+  "publication_authorized": false
+}

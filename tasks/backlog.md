@@ -147,3 +147,27 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Catalogue des réparations sans risque de falsification : recalcul de capitalisation **affichée** M€ à partir des valeurs officielles EUR et de l'égalité exacte prix x parts, après SHA et période vérifiés ; ordre chronologique des données trimestrielles sans altérer leurs valeurs ; réessai réseau borné sur erreurs transitoires de téléchargement PDF, TLS toujours activé.
 - Toutes les autres anomalies (statuts à jour, contre-preuves contradictoires, QA indépendantes, document manquant, fuite de comparaison historique, contraintes de sécurité) sont inscrites comme blocages à preuve et jamais auto-approuvées.
 - Workflow quotidien / à la demande `.github/workflows/scpi-auto-remediation.yml`, ouvertures de PR de correction et issue unique de blocages ; pas de merge, Supabase public, déploiement ni validation fabriquée. Tests de régression dans CI de préflight.
+
+## RECOVERY-091 — Industrialisation vérifiable de la certification SCPI (04/11/2026)
+
+- Mission propriétaire : reprendre RECOVERY-070 à 090 et #283 sur branche dédiée, préserver les SCPI existantes, ouvrir une PR testée, aucune donnée de production ni déploiement.
+- Périmètre : scripts et CI d'onboarding, preuve navigateur de trajectoire, plugin Netlify, utilitaire navigateur de build, migration d'alignement du gate d'allocation préparée sans application, audit et preuves de lecture seule.
+- Livrable : `docs/scpi/RECOVERY-091-industrialisation.md`. Sofidynamic publiée avec réserves, certification complète bloquée. Les statuts récents, l'écart de 15 parts, les revues et le read-back courant restent explicitement non résolus.
+- Branche : `recovery/091-scpi-certification-industrialisation`. La branche dédiée demandée par le propriétaire prime sur l'ancienne consigne de branche Recovery unique. Aucun changement de composant produit.
+
+## RECOVERY-092 — Démonstration industrielle multi-émetteurs (04/11/2026)
+
+- Mission utilisateur jointe : reprendre #292 et ses deux commits d'indication datée, mesurer la maturité avec grille 15/15/15/20/15/10/10, vérifier Sofidynamic puis exécuter trois pilotes non publics de gestionnaires distincts.
+- Périmètre autorisé : réutilisation du résolveur documentaire, auditeur PDF et gates existants, orchestration bornée et reprise par contenu, contrôles adverses, preuves de CI, tests TypeScript/navigateur, rapport mesuré ; aucun composant UI recréé.
+- Aucune promotion financière, migration distante ou livraison sans chaîne de validation complète. La valeur 340,38 EUR reste une revendication à prouver, jamais une donnée de production déduite d'une fixture.
+
+## RECOVERY-093 — Finalisation industrielle et résorption des diagnostics (04/11/2026)
+
+- Reprise explicite de #292 : conserver les correctifs validés, diagnostiquer les 1 023 erreurs TypeScript, corriger prioritairement les contrats SCPI partagés, poursuivre les quatre pilotes et la résolution générique des anomalies.
+- Périmètre : code partagé des consommateurs SCPI, remédiateur/gates/collecteur existants, tests, CI et preuves. Aucun changement financier non prouvé, aucune mutation de production, aucun merge ni déploiement.
+- Livrable : maturité calculée, résultats par pilote, corrections automatiques comptées, blocages dénombrés et causes, CI au SHA exact, verdict et limites pour 200 SCPI.
+
+## RECOVERY-094 — Intégration complète en préproduction (04/11/2026)
+
+- Reprise propriétaire au HEAD b3ddf64 et #292. Objectif : une cinquième SCPI non publiée dans la chaîne commune de préproduction, résolution des seuls défauts empêchant les contrôles critiques, TypeScript complet exigé par la consigne jointe.
+- Réutiliser les artefacts existants et les workflows GitHub Actions ; pas de nouvelle PR, de mission parallèle, de donnée financière de production, de merge ou de déploiement.

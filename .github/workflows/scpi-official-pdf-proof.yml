@@ -11,7 +11,7 @@ permissions:
 jobs:
   official-binary-audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,9 +20,12 @@ jobs:
         with:
           python-version: '3.12'
       - name: Verify issuer registry security and pending provenance
-        run: node --test scripts/scpi-onboarding/issuerRegistryPolicy.test.mjs scripts/scpi-onboarding/pendingCandidateEvidence.test.mjs scripts/scpi-onboarding/legalAuthorityGuard.test.mjs
+        run: node --test scripts/scpi-onboarding/issuerRegistryPolicy.test.mjs scripts/scpi-onboarding/pendingCandidateEvidence.test.mjs scripts/scpi-onboarding/legalAuthorityGuard.test.mjs scripts/scpi-onboarding/semesterDocumentRegistry.test.mjs
       - name: Install PDF inspection library
-        run: python -m pip install --quiet pymupdf==1.26.5
+        run: |
+          python -m pip install --quiet pymupdf==1.26.5
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
       - name: Source QA unit tests (no external network)
         run: python -m unittest discover -s scripts/scpi-onboarding -p 'test_*.py' -v
       - name: Restore missing issuer intermediate only after system-root verification
@@ -51,11 +54,72 @@ jobs:
         run: |
           python scripts/scpi-onboarding/inspectRegistryStatutes2026.py \
             --output test-results/scpi-source-validation/sofidynamic-2026-register-statutes.json
+      - name: Execute four-fund bounded industrial documentary trial (no publication)
+        run: |
+          python scripts/scpi-onboarding/industrialBatch.py \
+            --registry scripts/scpi-onboarding/fixtures/industrial-pilots-20261104.json \
+            --out test-results/scpi-source-validation/industrial \
+            --observed-sources docs/scpi/evidence/recovery-093-readonly-db-reconciliation-20261105.json
+      - name: Fifth standard SCPI through the same documentary engine (private only)
+        run: |
+          python scripts/scpi-onboarding/industrialBatch.py \
+            --registry scripts/scpi-onboarding/fixtures/industrial-standard-pilot.json \
+            --out test-results/scpi-source-validation/standard-pilot
       - name: Store verified public source binaries and page evidence (no approval)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: sofidynamic-publisher-pdf-${{ github.run_id }}
           path: test-results/scpi-source-validation/
+          retention-days: 30
+          if-no-files-found: warn
+
+  inpi-official-statutes:
+    # Protected, trusted main branch ONLY. Never expose INPI secrets to any PR.
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    needs: official-binary-audit
+    environment: production
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned PDF source validator
+        run: python -m pip install --quiet pymupdf==1.26.5
+      - name: Check original official INPI RNE act with protected credentials
+        env:
+          INPI_USERNAME: ${{ secrets.INPI_USERNAME }}
+          INPI_PASSWORD: ${{ secrets.INPI_PASSWORD }}
+        run: |
+          python scripts/scpi-onboarding/inspectRegistryStatutes2026.py \
+            --source inpi \
+            --output test-results/scpi-source-validation/sofidynamic-official-inpi-2026.json
+      - name: Reject missing or inauthentic original without manufacturing legal approval
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path('test-results/scpi-source-validation/sofidynamic-official-inpi-2026.json')
+          data=json.loads(path.read_text(encoding='utf-8'))
+          expected='OFFICIAL_INPI_FILE_MATCHED_AWAITING_INDEPENDENT_LEGAL_REVIEW'
+          if data.get('status') != expected or data.get('official_register_pdf_identity_verified') is not True:
+              raise SystemExit('INPI_PRIMARY_SOURCE_UNAVAILABLE_OR_UNVERIFIED')
+          if data.get('statutes_current_certified') is not False or data.get('publication_authorized') is not False:
+              raise SystemExit('INPI_SOURCE_PROBE_MUST_NOT_APPROVE_RELEASE')
+          print('INPI_RNE_ORIGINAL_BINARY_EVIDENCE_READY_FOR_INDEPENDENT_LEGAL_REVIEW')
+          PY
+      - name: Retain source identity and SHA evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sofidynamic-original-inpi-proof-${{ github.run_id }}
+          path: test-results/scpi-source-validation/sofidynamic-official-inpi-2026.json
           retention-days: 30
           if-no-files-found: warn

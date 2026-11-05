@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from '../../lib/supabase';
+import { requireSupabase } from '../../lib/supabase';
 import { Eye, EyeOff } from 'lucide-react';
 
 interface ProSignupProps {
@@ -58,7 +58,7 @@ export default function ProSignup({ onNavigate }: ProSignupProps) {
       const isApproved = oriasData.valid === true && isCif;
 
       // Étape B : Création du compte Supabase Auth
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+      const { data: signUpData, error: signUpError } = await requireSupabase().auth.signUp({
         email,
         password,
         options: {
@@ -87,7 +87,7 @@ export default function ProSignup({ onNavigate }: ProSignupProps) {
       }
 
       // Étape C : Insertion dans la table profiles
-      const { error: profileError } = await supabase.from('profiles').upsert({
+      const { error: profileError } = await requireSupabase().from('profiles').upsert({
         id: signUpData.user.id,
         first_name: firstName,
         last_name: lastName,

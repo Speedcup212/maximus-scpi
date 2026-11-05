@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { SubscriptionState, SubscriptionContextType, SubscriptionStep, CoSubscriberState } from '../types/subscription';
-import { validateEmail, validatePhone, validatePostalCode, validateNif } from '../utils/subscriptionValidation';
+import { validateEmail, validatePhone, validatePostalCode } from '../utils/subscriptionValidation';
 import { submitLead } from '../utils/leadSubmitter';
 
 const initialState: SubscriptionState = {
@@ -88,23 +88,19 @@ const initialState: SubscriptionState = {
   ifi: 0,
   otherCharges: 0,
   
-  // Étape 7
-  primaryFundOrigin: 'epargne',
-  fundAmount: 0,
+  // Étape 7 : aucune provenance des fonds ne doit être présumée.
+  primaryFundOrigin: undefined,
+  fundAmount: undefined,
   multipleOrigins: false,
-  fundOriginCountry: 'France',
+  fundOriginCountry: '',
   
-  // Étape 8
-  cniRecto: null,
-  cniVerso: null,
-  proofOfResidence: null,
-  proofOfFundOrigin: null,
-  rib: null,
+  // Justificatifs non collectés dans les 9 étapes actuelles.
   
   // Étape 9
   electronicDocuments: false,
   emailConsent: false,
   smsConsent: false,
+  wantsAccompaniment: false,
   
   // Étape 10
   informationAccuracy: false,
@@ -181,10 +177,7 @@ const getInitialCoSubscriberState = (): CoSubscriberState => ({
   incomeTax: 0,
   ifi: 0,
   otherCharges: 0,
-  primaryFundOrigin: 'epargne',
-  fundAmount: 0,
-  multipleOrigins: false,
-  fundOriginCountry: 'France',
+  // Aucun financement n'est présumé pour le co-souscripteur.
 });
 
 export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -352,6 +345,9 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
     try {
       if (!state.email || !state.phone) {
         throw new Error('L\'email et le téléphone sont obligatoires pour la soumission.');
+      }
+      if (!state.primaryFundOrigin || !state.fundOriginCountry.trim()) {
+        throw new Error('L’origine et le pays de provenance des fonds doivent être renseignés avant l’envoi du pré-dossier.');
       }
 
       const { email, phone, ...restOfState } = state;

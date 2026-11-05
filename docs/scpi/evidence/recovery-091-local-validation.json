@@ -1,0 +1,596 @@
+{
+  "schema_version": 1,
+  "mode": "LOCAL_WORKTREE_VALIDATION_NOT_REMOTE_CERTIFICATION",
+  "captured_at": "2026-11-04T09:21:29.241724+00:00",
+  "base_sha": "88755a0fb6b674048f49a1976c243e7169a31642",
+  "checks": [
+    {
+      "name": "onboarding_and_plugin",
+      "log_sha256": "9a5938bb74f774c2307575df607d2fc0bf6f34eebb059244e2337311c6471901",
+      "tail": [
+        "✔ workflow parses without duplicate keys: scpi-onboarding-preflight.yml (0.308484ms)",
+        "✔ workflow parses without duplicate keys: scpi-remaining-issuer-audit.yml (0.157362ms)",
+        "ℹ tests 103",
+        "ℹ suites 0",
+        "ℹ pass 103",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 2092.341468"
+      ]
+    },
+    {
+      "name": "existing_release_gates",
+      "log_sha256": "0780c620c0bfc046bf66d6b00f7730b354fb0961271ff7f8b5644d7a3cda8ca9",
+      "tail": [
+        "✔ duplicate, unauthorized extra, or uncontained partial facts reject the attestation (4.15889ms)",
+        "✔ active source-backed Sofidynamic can remain under review without blocking 68 strict certified funds (8.388044ms)",
+        "ℹ tests 15",
+        "ℹ suites 0",
+        "ℹ pass 15",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 1549.236899"
+      ]
+    },
+    {
+      "name": "application",
+      "log_sha256": "81b72b4ba3a62065a855d35f4a1eae18518945c9d5e8e24f79f5d232ded6b73b",
+      "tail": [
+        " ✓ src/tests/scpiPublicationQuality.test.ts (3 tests) 3ms",
+        " ✓ src/tests/simpleDirectFiscal.test.ts (4 tests) 3ms",
+        " ✓ src/tests/clientTrajectoryReuse.test.ts (4 tests) 5ms",
+        " ✓ src/tests/clientPositionEditDate.test.ts (4 tests) 4ms",
+        "",
+        " Test Files  34 passed (34)",
+        "      Tests  267 passed (267)",
+        "   Start at  09:08:46",
+        "   Duration  7.14s (transform 928ms, setup 0ms, import 2.74s, tests 685ms, environment 4ms)",
+        ""
+      ]
+    },
+    {
+      "name": "python_source_qa",
+      "log_sha256": "19894673a3cec68fe0cf279d8d5d968bc2b5b5d6cd4562cc58c12e2cc73d8114",
+      "tail": [
+        "test_redirect_trust_not_transferred (test_publisherPdfAudit.PublisherPdfTest.test_redirect_trust_not_transferred) ... ok",
+        "test_rejected_document_does_not_create_archival_proof (test_publisherPdfAudit.PublisherPdfTest.test_rejected_document_does_not_create_archival_proof) ... ok",
+        "test_valid_quarter_and_no_financial_certification (test_publisherPdfAudit.PublisherPdfTest.test_valid_quarter_and_no_financial_certification) ... ok",
+        "test_wrong_fund_or_wrong_period_is_rejected (test_publisherPdfAudit.PublisherPdfTest.test_wrong_fund_or_wrong_period_is_rejected) ... ok",
+        "test_wrong_regulatory_document_kind_or_year_fails (test_publisherPdfAudit.PublisherPdfTest.test_wrong_regulatory_document_kind_or_year_fails) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 20 tests in 0.573s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "name": "ephemeral_postgres",
+      "log_sha256": "aec25391e1312452f25e94ba43aeb6ce999f6f00fc5d8aaa87706aa360eacb59",
+      "tail": [
+        "✔ real PostgreSQL allocation gates: rounding, completeness, source integrity and private grants (2332.447742ms)",
+        "ℹ tests 1",
+        "ℹ suites 0",
+        "ℹ pass 1",
+        "ℹ fail 0",
+        "ℹ cancelled 0",
+        "ℹ skipped 0",
+        "ℹ todo 0",
+        "ℹ duration_ms 2502.150389"
+      ]
+    },
+    {
+      "name": "complete_ci_build",
+      "log_sha256": "e6c78d3f1f3a8ddcd561a116abdc29d9d16d782593afba57348f7ddee02696c1",
+      "tail": [
+        "✅ FAQ statique enrichie : 386 mots",
+        "✅ Home : signal interne vers /comparateur-scpi/ renforcé",
+        "✅ Hub Articles : passerelle sémantique vers /comparateur-scpi/ ajoutée",
+        "✅ Comparateur : lien méthodologie canonicalisé",
+        "[seo-sanitize] 4 HTML file(s) sanitized; unsupported hard-coded ratings removed from 0 file(s).",
+        "✅ Parité React ↔ HTML certifiée : 109/109 articles · minimum 5841 caractères · minimum 8 H2.",
+        "✅ Couverture SEO statique certifiée : 302/302 URLs avec HTML dédié, canonical propre, title et H1.",
+        "✅ DIST SITEMAP FINAL OK : 302 URLs uniques et politique canonique respectée.",
+        "[seo-fiscal-claims] PASS — no forbidden legacy fiscal claims in generated HTML.",
+        "✅ Build public contrôlé : aucune trace de SCPI retirée."
+      ]
+    }
+  ],
+  "browser": {
+    "progressive": {
+      "mode": "real React components / source-backed catalog",
+      "candidate": "sofidynamic",
+      "source_period": "2026-T2",
+      "cases": [
+        {
+          "surface": "profile",
+          "width": 1440,
+          "status": "PASS",
+          "evidence": "[data-case=\"profile\"] [data-testid=\"scpi-source-references\"]"
+        },
+        {
+          "surface": "fintech-card",
+          "width": 1440,
+          "status": "PASS",
+          "evidence": "[data-case=\"fintech-card\"] [data-testid=\"scpi-fintech-caveat\"]"
+        },
+        {
+          "surface": "fintech-row",
+          "width": 1440,
+          "status": "PASS",
+          "evidence": "[data-case=\"fintech-row\"] [data-testid=\"scpi-fintech-caveat\"]"
+        },
+        {
+          "surface": "client",
+          "width": 1440,
+          "status": "PASS",
+          "evidence": "[data-case=\"client\"] [data-testid=\"scpi-client-history-restricted\"]"
+        },
+        {
+          "surface": "dates",
+          "width": 1440,
+          "status": "PASS",
+          "evidence": "[data-case=\"dates\"]"
+        },
+        {
+          "surface": "blocked-actions",
+          "width": 1440,
+          "status": "PASS",
+          "evidence": "[data-case=\"blocked-actions\"]"
+        },
+        {
+          "surface": "profile",
+          "width": 390,
+          "status": "PASS",
+          "evidence": "[data-case=\"profile\"] [data-testid=\"scpi-source-references\"]"
+        },
+        {
+          "surface": "fintech-card",
+          "width": 390,
+          "status": "PASS",
+          "evidence": "[data-case=\"fintech-card\"] [data-testid=\"scpi-fintech-caveat\"]"
+        },
+        {
+          "surface": "fintech-row",
+          "width": 390,
+          "status": "PASS",
+          "evidence": "[data-case=\"fintech-row\"] [data-testid=\"scpi-fintech-caveat\"]"
+        },
+        {
+          "surface": "client",
+          "width": 390,
+          "status": "PASS",
+          "evidence": "[data-case=\"client\"] [data-testid=\"scpi-client-history-restricted\"]"
+        },
+        {
+          "surface": "dates",
+          "width": 390,
+          "status": "PASS",
+          "evidence": "[data-case=\"dates\"]"
+        },
+        {
+          "surface": "blocked-actions",
+          "width": 390,
+          "status": "PASS",
+          "evidence": "[data-case=\"blocked-actions\"]"
+        }
+      ],
+      "publication_authorized": false,
+      "commit": "88755a0fb6b674048f49a1976c243e7169a31642",
+      "status": "PASS"
+    },
+    "bnpp": {
+      "commit": "88755a0fb6b674048f49a1976c243e7169a31642",
+      "mode": "generic-private-stage-integration-not-production",
+      "cases": [
+        {
+          "slug": "acces-valeur-pierre",
+          "width": 1440,
+          "surface": "profile",
+          "status": "PASS"
+        },
+        {
+          "slug": "acces-valeur-pierre",
+          "width": 1440,
+          "surface": "comparator_analysis",
+          "status": "PASS"
+        },
+        {
+          "slug": "acces-valeur-pierre",
+          "width": 1440,
+          "surface": "radar",
+          "status": "PASS"
+        },
+        {
+          "slug": "acces-valeur-pierre",
+          "width": 1440,
+          "surface": "simulator",
+          "status": "PASS"
+        },
+        {
+          "slug": "acces-valeur-pierre",
+          "width": 1440,
+          "surface": "client_card",
+          "status": "PASS"
+        },
+        {
+          "slug": "acces-valeur-pierre",
+          "width": 390,
+          "surface": "profile",
+          "status": "PASS"
+        },
+        {
+          "slug": "acces-valeur-pierre",
+          "width": 390,
+          "surface": "comparator_analysis",
+          "status": "PASS"
+        },
+        {
+          "slug": "acces-valeur-pierre",
+          "width": 390,
+          "surface": "radar",
+          "status": "PASS"
+        },
+        {
+          "slug": "acces-valeur-pierre",
+          "width": 390,
+          "surface": "simulator",
+          "status": "PASS"
+        },
+        {
+          "slug": "acces-valeur-pierre",
+          "width": 390,
+          "surface": "client_card",
+          "status": "PASS"
+        },
+        {
+          "slug": "accimmo-pierre",
+          "width": 1440,
+          "surface": "profile",
+          "status": "PASS"
+        },
+        {
+          "slug": "accimmo-pierre",
+          "width": 1440,
+          "surface": "comparator_analysis",
+          "status": "PASS"
+        },
+        {
+          "slug": "accimmo-pierre",
+          "width": 1440,
+          "surface": "radar",
+          "status": "PASS"
+        },
+        {
+          "slug": "accimmo-pierre",
+          "width": 1440,
+          "surface": "simulator",
+          "status": "PASS"
+        },
+        {
+          "slug": "accimmo-pierre",
+          "width": 1440,
+          "surface": "client_card",
+          "status": "PASS"
+        },
+        {
+          "slug": "accimmo-pierre",
+          "width": 390,
+          "surface": "profile",
+          "status": "PASS"
+        },
+        {
+          "slug": "accimmo-pierre",
+          "width": 390,
+          "surface": "comparator_analysis",
+          "status": "PASS"
+        },
+        {
+          "slug": "accimmo-pierre",
+          "width": 390,
+          "surface": "radar",
+          "status": "PASS"
+        },
+        {
+          "slug": "accimmo-pierre",
+          "width": 390,
+          "surface": "simulator",
+          "status": "PASS"
+        },
+        {
+          "slug": "accimmo-pierre",
+          "width": 390,
+          "surface": "client_card",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    },
+    "trajectory": {
+      "candidate": "sofidynamic",
+      "mode": "source_backed_history_restriction_regression",
+      "commit": "88755a0fb6b674048f49a1976c243e7169a31642",
+      "cases": [
+        {
+          "slug": "sofidynamic",
+          "width": 1440,
+          "surface": "trajectory",
+          "status": "PASS",
+          "valuation": "NOT_BACKDATED",
+          "comparisons": "BLOCKED_UNCERTIFIED",
+          "fixture_history_periods": 2,
+          "production_history_certified": false
+        },
+        {
+          "slug": "sofidynamic",
+          "width": 390,
+          "surface": "trajectory",
+          "status": "PASS",
+          "valuation": "NOT_BACKDATED",
+          "comparisons": "BLOCKED_UNCERTIFIED",
+          "fixture_history_periods": 2,
+          "production_history_certified": false
+        }
+      ],
+      "publication_authorized": false,
+      "status": "PASS"
+    }
+  },
+  "observation_reconciliation": {
+    "candidate": "sofidynamic",
+    "captured_at": "2026-11-04T09:03:02.831237+00:00",
+    "mode": "EXPORTED_OBSERVATION_NOT_LIVE_CERTIFICATE",
+    "status": "BLOCKED",
+    "errors": [],
+    "blockers": [
+      "ACTIVE_RELEASE_DIFFERS_FROM_CURRENT_DEPLOY",
+      "FULL_FINANCIAL_CERTIFICATION_NOT_READY",
+      "LATEST_STATUTES_NOT_VERIFIED",
+      "CURRENT_PROGRESSIVE_REVIEW_NOT_READY",
+      "TOOL:analysis_ready",
+      "TOOL:trajectory_ready",
+      "TOOL:client_card_ready",
+      "TOOL:full_surface_ready",
+      "TOOL:comparator_radar_ready",
+      "TOOL:finance_and_final_qa_ready",
+      "ALLOCATION_CERTIFICATION_NOT_READY",
+      "FEWER_THAN_TWO_CERTIFIED_HISTORY_PERIODS",
+      "CURRENT_ANALYSIS_NOT_CERTIFIED"
+    ],
+    "metrics": [
+      {
+        "key": "2025-RA:capitalisation",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2025-RA:prix_reconstitution",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2025-RA:td",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2025-RA:valeur_realisation",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T1:capitalisation",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T1:distribution_par_part",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T1:nombre_associes",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T1:nombre_parts",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T1:parts_attente_retrait",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T1:prix_retrait",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T1:prix_souscription",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T1:tof",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:capitalisation",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:delai_jouissance_mois",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:distribution_par_part",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:duree_detention_recommandee_annees",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:endettement",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:frais_sortie_avant_huit_ans",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:nombre_associes",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:nombre_immeubles",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:nombre_parts",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:nombre_parts_nouvelles_souscrites",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:nombre_parts_retires",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:nombre_unites_locatives",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:parts_attente_retrait",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:prix_retrait",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:prix_souscription",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:srri",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      },
+      {
+        "key": "2026-T2:tof",
+        "status": "MATCHES_RECORDED_EVIDENCE",
+        "issues": []
+      }
+    ],
+    "allocations": [
+      {
+        "axis": "geography",
+        "label": "Paris",
+        "pct": 9.9,
+        "status": "MATCHES_RECORDED_EVIDENCE"
+      },
+      {
+        "axis": "geography",
+        "label": "Espagne",
+        "pct": 8.2,
+        "status": "MATCHES_RECORDED_EVIDENCE"
+      },
+      {
+        "axis": "geography",
+        "label": "Pays-Bas",
+        "pct": 36.9,
+        "status": "MATCHES_RECORDED_EVIDENCE"
+      },
+      {
+        "axis": "geography",
+        "label": "Régions",
+        "pct": 29.4,
+        "status": "MATCHES_RECORDED_EVIDENCE"
+      },
+      {
+        "axis": "geography",
+        "label": "Région parisienne",
+        "pct": 15.5,
+        "status": "MATCHES_RECORDED_EVIDENCE"
+      },
+      {
+        "axis": "sector",
+        "label": "Bureaux",
+        "pct": 12,
+        "status": "MATCHES_RECORDED_EVIDENCE"
+      },
+      {
+        "axis": "sector",
+        "label": "Activité",
+        "pct": 1.4,
+        "status": "MATCHES_RECORDED_EVIDENCE"
+      },
+      {
+        "axis": "sector",
+        "label": "Éducation",
+        "pct": 0.7,
+        "status": "MATCHES_RECORDED_EVIDENCE"
+      },
+      {
+        "axis": "sector",
+        "label": "Commerces de centre-ville",
+        "pct": 22,
+        "status": "MATCHES_RECORDED_EVIDENCE"
+      },
+      {
+        "axis": "sector",
+        "label": "Galeries et centres commerciaux",
+        "pct": 37.2,
+        "status": "MATCHES_RECORDED_EVIDENCE"
+      },
+      {
+        "axis": "sector",
+        "label": "Moyennes surfaces commerciales de périphérie",
+        "pct": 26.7,
+        "status": "MATCHES_RECORDED_EVIDENCE"
+      }
+    ],
+    "observed_publication": "published_with_reserves",
+    "complete_certification": false,
+    "counts": {
+      "public_indicator_rows": 69,
+      "catalog_identities": 69,
+      "universe_existing": 68,
+      "strict_checks_pass": 65,
+      "analysis_certified": 52,
+      "fully_certified_total": null,
+      "reason": "Strict checks and analysis QA are separate gates, not a complete certification census"
+    },
+    "publication_authorized": false
+  },
+  "catalog_and_cohort_changed": false,
+  "production_data_written": false,
+  "deployment_performed": false,
+  "publication_authorized": false
+}

@@ -2,7 +2,8 @@
 // No cohort edits, no manufactured valuations, no production publication.
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
-import {spawn} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import {spawn,execFileSync} from 'node:child_process';
 import puppeteer from 'puppeteer';
 
 const origin='http://127.0.0.1:4192';
@@ -26,7 +27,7 @@ const child=spawn(process.execPath,
  ['node_modules/vite/bin/vite.js','--host','127.0.0.1','--port','4192','--strictPort'],
  {env:{...process.env,VITE_SUPABASE_URL:'https://trajectory-test.supabase.co',VITE_SUPABASE_ANON_KEY:'candidate-test-public-key'},stdio:'pipe'});
 let browser;const errors=[];
-const report={candidate:'sofidynamic',mode:'isolated_real_staging_trend_private',cases:[],publication_authorized:false};
+const report={candidate:'sofidynamic',mode:'source_backed_history_restriction_regression',commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),cases:[],publication_authorized:false};
 try {
  let available=false;
  for(let i=0;i<50;i++){
@@ -53,23 +54,24 @@ try {
  for(const width of [1440,390]){
   await page.setViewport({width,height:1100});
   await page.goto(origin+'/'+fixture,{waitUntil:'networkidle0'});
-  await page.waitForFunction(()=>document.body.innerText.includes('2 périodes observées'),{timeout:20000});
-  const cards=await page.$$eval('#trajectoire-scpi .grid > div',
-   nodes=>nodes.slice(0,5).map(n=>n.innerText));
-  assert.equal(cards.length,5,'Missing trajectory cards');
-  assert.match(cards[0],/97,73 %/,'T2 occupancy differs from issuer');
-  assert.match(cards[2],/N\.D\./,'Unverified quarterly reconstitution must not appear');
-  assert.doesNotMatch(cards[2],/336,75|305,55/,'Annual 2025 valuation must not be misdated T2');
-  assert.match(cards[3],/5,52 €/,'Quarter dividend differs from issuer');
-  assert.match(cards[4],/16 %/,'T2 debt differs from issuer');
+  // The public catalog now deliberately disables uncertified comparisons.
+  // Keep that restriction in this test; never erase it to resurrect a chart.
+  await page.waitForSelector('[data-testid="scpi-trajectory-insufficient-history"]',{timeout:20000});
+  const text=await page.$eval('#trajectoire-scpi',node=>node.innerText);
+  assert.match(text,/deux périodes comparables et certifiées/);
+  assert.match(text,/aucun tracé ni variation n'est inventé/);
+  assert.equal(await page.$('#trajectoire-scpi .recharts-wrapper'),null,'Uncertified history must not render a trend');
+  assert.doesNotMatch(text,/336,75|305,55/,'Annual 2025 valuation must not be misdated T2');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,
    'Horizontal overflow at '+width);
-  assert.ok(await page.evaluate(()=>Array.from(document.querySelectorAll('#trajectoire-scpi a[href]'))
-    .some(a=>a.href.startsWith('https://www.sofidy.com/'))),
-   'Official source link is missing');
+  const proofFile='sofidynamic-'+width+'-trajectory.png';
+  const screenshot=await page.screenshot({path:folder+'/'+proofFile,fullPage:true});
+  const proofHash=createHash('sha256').update(screenshot).digest('hex');
+  assert.equal(proofHash,createHash('sha256').update(fs.readFileSync(folder+'/'+proofFile)).digest('hex'));
   report.cases.push({slug:'sofidynamic',width,surface:'trajectory',status:'PASS',
-   valuation:'NOT_BACKDATED',comparisons:'UNVERIFIED',official_history_periods:2});
-  await page.screenshot({path:folder+'/sofidynamic-'+width+'.png',fullPage:true});
+   proof_kind:'PUPPETEER_SCREENSHOT',proof_file:proofFile,proof_sha256:proofHash,
+   source_period:'2026-T2',valuation:'NOT_BACKDATED',comparisons:'BLOCKED_UNCERTIFIED',
+   fixture_history_periods:2,production_history_certified:false});
  }
  assert.deepEqual(errors,[],'Runtime page errors in private trajectory');
  report.status='PASS';

@@ -1,13 +1,36 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {isProductionDeploy,normalizeSecretHeaders,validateNativeReport} from './release.mjs';
+import {isProductionDeploy,normalizeSecretHeaders,validateNativeReport,verifyBrowserBuildProof,validateCandidateCatalog} from './release.mjs';
+import {createHash} from 'node:crypto';
+import {readFileSync} from 'node:fs';
 const environment={CONTEXT:'production',BRANCH:'main',
  COMMIT_REF:'a'.repeat(40),DEPLOY_ID:'b'.repeat(24),
  SITE_ID:'e4f16f87-663d-4965-8de8-00f6840f1aa7'};
+test('native publisher retains every existing identity, not just a minimum count',()=>{
+ const cohort=JSON.parse(readFileSync('src/data/certified_scpi_cohort.json','utf8'));
+ const catalog=JSON.parse(readFileSync('src/data/scpi_complet.json','utf8'));
+ assert.ok(validateCandidateCatalog(cohort,catalog).sourceSha);
+ const replaced={...cohort,slugs:[...cohort.slugs]};
+ const at=replaced.slugs.findIndex(x=>x!=='sofidynamic');
+ replaced.slugs[at]='unverified-replacement';
+ assert.throws(()=>validateCandidateCatalog(replaced,catalog),/PUBLIC_COHORT_NOT_STAGED/);
+ assert.throws(()=>validateCandidateCatalog({...cohort,slugs:[...cohort.slugs,cohort.slugs[0]],count:cohort.count+1},catalog),/PUBLIC_COHORT_NOT_STAGED/);
+});
 const labels=['profile','fintech-card','fintech-row','client','dates','blocked-actions'];
 const report={status:'PASS',candidate:'sofidynamic',commit:'a'.repeat(40),
  source_period:'2026-T2',publication_authorized:false,
  cases:labels.flatMap(surface=>[1440,390].map(width=>({surface,width,status:'PASS'})))};
+test('every new build verifies both exact-SHA browser proofs even for already public funds',()=>{
+ const bytes=Buffer.from(JSON.stringify(report));
+ const proof={sha:report.commit,sourceSha:'c'.repeat(64),bytes,stamp:{commit:report.commit,
+  source_pdf_sha256:'c'.repeat(64),browser_report_sha256:createHash('sha256').update(bytes).digest('hex'),
+  browser_report:report,full_certification_claim:false}};
+ assert.equal(verifyBrowserBuildProof(proof),true);
+ for(const patch of [{commit:'d'.repeat(40)},{full_certification_claim:true},
+  {browser_report_sha256:'e'.repeat(64)},{browser_report:{...report,cases:report.cases.slice(0,11)}},
+  {browser_report:{...report,cases:[...report.cases.slice(0,11),report.cases[0]]}}])
+  assert.throws(()=>verifyBrowserBuildProof({...proof,stamp:{...proof.stamp,...patch}}),/NETLIFY_NATIVE_SCPI_RELEASE/);
+});
 test('Netlify production deploy requires exact main context, known site, deploy ID and 40hex SHA',()=>{
  assert.equal(isProductionDeploy(environment),true);
  for(const patch of [{BRANCH:'fix'},{CONTEXT:'deploy-preview'},{DEPLOY_ID:'bad'},

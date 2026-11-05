@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, Shield, Leaf, FileText, User } from 'lucide-react';
+import { Shield, FileText, User } from 'lucide-react';
 import { useCookieConsent } from '../hooks/useCookieConsent';
 import MaximusLogoFooter from './MaximusLogoFooter';
 

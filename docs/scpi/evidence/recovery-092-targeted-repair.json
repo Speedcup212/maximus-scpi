@@ -1,0 +1,102 @@
+{
+  "task": "RECOVERY-072",
+  "mode": "DRY_RUN",
+  "evidence_scope": "COMMITTED_PRIVATE_SNAPSHOT_NOT_LIVE_DATABASE",
+  "live_certification_verified": false,
+  "candidates": [
+    {
+      "file": "industrialtrial-staging-2026-t2.json",
+      "task": "RECOVERY-072",
+      "batch_id": "sofidynamic-69-private-staging",
+      "candidate_slug": "sofidynamic-69-private-staging",
+      "status": "TECHNICAL_REMEDIATED_RELEASE_BLOCKED",
+      "before": {
+        "status": "FAIL",
+        "errors": [
+          "CAPITALISATION_UNIT_CONVERSION_FAILED"
+        ]
+      },
+      "after": {
+        "status": "TECHNICAL_PASS_ONLY",
+        "errors": []
+      },
+      "actions": [
+        {
+          "code": "RECALCULATE_DERIVED_CAPITALISATION_MEUR",
+          "field": "capitalisation_million_eur",
+          "before": 247588480,
+          "after": 247.58848,
+          "evidence_period": "2026-T2",
+          "evidence_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376",
+          "proof": "source_capitalisation_eur == verified current price * parts"
+        }
+      ],
+      "rejected": [],
+      "affected_controls": [
+        "scripts/scpi-onboarding/candidateConsistency.test.mjs",
+        "scripts/scpi-onboarding/cohortInvariant.test.mjs"
+      ],
+      "remaining_technical_errors": [],
+      "pending_gates": [
+        {
+          "code": "2026_STATUTES_VERIFIED",
+          "action": "RECOVER_CURRENT_OFFICIAL_STATUTES_AND_VERIFY_BINARY"
+        },
+        {
+          "code": "INDEPENDENT_METRIC_QA",
+          "action": "COMPLETE_SOURCE_BACKED_REVIEW"
+        },
+        {
+          "code": "INDEPENDENT_ALLOCATION_QA",
+          "action": "COMPLETE_SOURCE_BACKED_REVIEW"
+        },
+        {
+          "code": "CERTIFIED_HISTORY_2_PERIODS",
+          "action": "COMPLETE_REQUIRED_GUARD_WITH_VERIFIED_EVIDENCE"
+        },
+        {
+          "code": "CURRENT_PERIOD_ANALYSIS",
+          "action": "COMPLETE_REQUIRED_GUARD_WITH_VERIFIED_EVIDENCE"
+        },
+        {
+          "code": "LEGAL_FINANCIAL_FINAL_AUDIT",
+          "action": "COMPLETE_SOURCE_BACKED_REVIEW"
+        },
+        {
+          "code": "PRIVATE_BROWSER_PREFLIGHT",
+          "action": "COMPLETE_REQUIRED_GUARD_WITH_VERIFIED_EVIDENCE"
+        },
+        {
+          "code": "ATOMIC_PUBLICATION",
+          "action": "COMPLETE_REQUIRED_GUARD_WITH_VERIFIED_EVIDENCE"
+        },
+        {
+          "code": "VALUATION_PRECEDES_CURRENT_QUARTER",
+          "action": "PRESERVE_LAST_DATED_OFFICIAL_VALUE_AND_CHECK_NEW_REPORT"
+        },
+        {
+          "code": "CURRENT_STATUTES_NOT_VERIFIED",
+          "action": "RECOVER_CURRENT_OFFICIAL_STATUTES_AND_VERIFY_BINARY"
+        }
+      ],
+      "changed": true,
+      "evidence_scope": "COMMITTED_PRIVATE_SNAPSHOT_NOT_LIVE_DATABASE",
+      "live_certification_verified": false,
+      "publication_authorized": false,
+      "financial_qa_automatically_approved": false,
+      "note": "Only derived quantities and record ordering can be repaired. No DB write, no fake QA, no production deployment.",
+      "write_applied": false
+    }
+  ],
+  "auto_repaired_count": 1,
+  "candidates_with_pending_gates": 1,
+  "publication_authorized": false,
+  "targeted_retest": {
+    "status": "PASS",
+    "controls": [
+      "scripts/scpi-onboarding/candidateConsistency.test.mjs",
+      "scripts/scpi-onboarding/cohortInvariant.test.mjs"
+    ],
+    "exit_code": 0
+  }
+}

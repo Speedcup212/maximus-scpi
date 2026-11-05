@@ -18,12 +18,12 @@ const TaxOptimizationModal: React.FC<TaxOptimizationModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const tmiOptions = [
-    { value: 0 as TMIValue, label: '0% (Non imposable)', description: 'Revenus < 11 295€' },
-    { value: 11 as TMIValue, label: '11%', description: 'Revenus de 11 295€ à 28 798€' },
-    { value: 30 as TMIValue, label: '30%', description: 'Revenus de 28 798€ à 82 342€' },
-    { value: 41 as TMIValue, label: '41%', description: 'Revenus de 82 342€ à 177 106€' },
-    { value: 45 as TMIValue, label: '45%', description: 'Revenus > 177 106€' },
+  const tmiOptions: { value: Exclude<TMIValue, null>; label: string; description: string }[] = [
+    { value: 0, label: '0% (Non imposable)', description: 'Revenus < 11 295€' },
+    { value: 11, label: '11%', description: 'Revenus de 11 295€ à 28 798€' },
+    { value: 30, label: '30%', description: 'Revenus de 28 798€ à 82 342€' },
+    { value: 41, label: '41%', description: 'Revenus de 82 342€ à 177 106€' },
+    { value: 45, label: '45%', description: 'Revenus > 177 106€' },
   ];
 
   const handleSelect = (tmi: TMIValue) => {

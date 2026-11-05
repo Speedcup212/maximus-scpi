@@ -1,28 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import {
-  Building2,
-  Users,
-  Shield,
-  FileText,
-  Search,
-  ArrowRight,
-  ChevronRight,
-  BookOpen,
-  BarChart3,
-  AlertTriangle,
-  CheckCircle2,
-  ExternalLink,
-  Building,
-  Scale,
-  TrendingUp,
-  Target,
-  PieChart,
-  Globe,
-  Lightbulb,
-  HelpCircle,
-  FileSearch,
-  ShieldAlert
-} from 'lucide-react';
+import { Building2, Users, Shield, FileText, Search, ArrowRight, ChevronRight, BookOpen, BarChart3, AlertTriangle, CheckCircle2, ExternalLink, Building, TrendingUp, FileSearch, ShieldAlert } from 'lucide-react';
 import SEOHead from './SEOHead';
 import Header from './Header';
 import LegalFooter from './LegalFooter';
@@ -385,11 +362,7 @@ const GestionnairesActeursScpiPage: React.FC<GestionnairesActeursScpiPageProps> 
           </section>
         </div>
 
-        <LegalFooter
-          isDarkMode={isDarkMode}
-          onContactClick={onContactClick}
-          onAboutClick={onAboutClick}
-        />
+        <LegalFooter />
       </div>
     </>
   );

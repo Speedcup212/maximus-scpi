@@ -4,6 +4,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inspectPrivateCandidate } from './candidateConsistency.mjs';
+import {spawnSync} from 'node:child_process';
+import {parseTypeScriptDiagnostics,repairUnusedImports} from './technicalDiagnostics.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const FIXTURES = path.join(ROOT, 'scripts/scpi-onboarding/fixtures');
@@ -11,6 +13,16 @@ const STAGE_NAME = /^[a-z0-9]+(?:-[a-z0-9]+)*-staging-[0-9a-z-]+\.json$/;
 const SHA = /^[a-f0-9]{64}$/;
 const PERIOD = /^20\d{2}-T[1-4]$/;
 const MAX_PASSES = 2;
+export function affectedRepairControls(actions) {
+  const controls=new Set();
+  for(const action of actions) {
+    if(action.code==='RECALCULATE_DERIVED_CAPITALISATION_MEUR')controls.add('scripts/scpi-onboarding/candidateConsistency.test.mjs');
+    else if(action.code==='ORDER_SOURCE_QUARTERS_ASC')controls.add('scripts/scpi-onboarding/datedEvidence.test.mjs');
+    else throw Error('UNREGISTERED_REPAIR_CONTROL:'+action.code);
+  }
+  if(controls.size)controls.add('scripts/scpi-onboarding/cohortInvariant.test.mjs');
+  return [...controls].sort();
+}
 
 const BLOCKER_ACTIONS = Object.freeze({
   CURRENT_STATUTES_NOT_VERIFIED: 'RECOVER_CURRENT_OFFICIAL_STATUTES_AND_VERIFY_BINARY',
@@ -114,6 +126,7 @@ export function safeRepairCandidate(input) {
       before: { status: before.status, errors: before.errors },
       after: { status: after.status, errors: after.errors },
       actions, rejected,
+      affected_controls: affectedRepairControls(actions),
       remaining_technical_errors: remainingTechnical,
       pending_gates: pendingGates.map(code => ({
         code, action: BLOCKER_ACTIONS[code] || (
@@ -122,6 +135,8 @@ export function safeRepairCandidate(input) {
           : 'COMPLETE_REQUIRED_GUARD_WITH_VERIFIED_EVIDENCE'),
       })),
       changed,
+      evidence_scope: 'COMMITTED_PRIVATE_SNAPSHOT_NOT_LIVE_DATABASE',
+      live_certification_verified: false,
       publication_authorized: false,
       financial_qa_automatically_approved: false,
       note: 'Only derived quantities and record ordering can be repaired. No DB write, no fake QA, no production deployment.',
@@ -136,6 +151,7 @@ function safeFixture(file) {
   return resolved;
 }
 export function runCli(args = process.argv.slice(2)) {
+  if(args.includes('--typescript-log'))return runTechnicalRepair(args);
   const scan = args.includes('--scan');
   const write = args.includes('--write');
   const fileAt = args.indexOf('--file');
@@ -157,9 +173,20 @@ export function runCli(args = process.argv.slice(2)) {
     results.push({ file: name, ...report, write_applied: write && report.changed });
   }
   const out = { task: 'RECOVERY-072', mode: write ? 'SAFE_WRITE_ONLY' : 'DRY_RUN',
+    evidence_scope: 'COMMITTED_PRIVATE_SNAPSHOT_NOT_LIVE_DATABASE',
+    live_certification_verified: false,
     candidates: results, auto_repaired_count: results.filter(r => r.changed).length,
     candidates_with_pending_gates: results.filter(r => r.pending_gates.length).length,
     publication_authorized: false };
+  if(args.includes('--retest')) {
+    const controls=[...new Set(results.flatMap(r=>r.affected_controls))].sort();
+    if(controls.length) {
+      const check=spawnSync(process.execPath,['--test',...controls],{cwd:ROOT,encoding:'utf8',timeout:120000});
+      out.targeted_retest={status:check.status===0&&!check.error?'PASS':'FAIL',controls,exit_code:check.status};
+      process.stdout.write(check.stdout||'');process.stderr.write(check.stderr||'');
+      if(out.targeted_retest.status==='FAIL')process.exitCode=1;
+    } else out.targeted_retest={status:'NOT_NEEDED_NO_SAFE_CORRECTION',controls:[]};
+  }
   const dest = path.resolve(ROOT, args[reportAt + 1]);
   if (!dest.startsWith(ROOT + path.sep) ||
       !dest.includes('/test-results/scpi-auto-recovery/'))
@@ -171,6 +198,38 @@ export function runCli(args = process.argv.slice(2)) {
   // Unresolved SOURCE inconsistencies fail the workflow, while regulatory/QA
   // blockers are explicitly reported and leave the existing 68 published funds intact.
   if (results.some(r => r.remaining_technical_errors.length)) process.exitCode = 1;
+  return out;
+}
+
+export function runTechnicalRepair(args) {
+  const value=flag=>args[args.indexOf(flag)+1];
+  if(!args.includes('--report')||!args.includes('--typescript-log'))throw Error('TECHNICAL_REPORT_AND_LOG_REQUIRED');
+  const diagnostics=parseTypeScriptDiagnostics(fs.readFileSync(path.resolve(ROOT,value('--typescript-log')),'utf8'));
+  const prefix=value('--technical-scope');
+  if(!args.includes('--technical-scope')||!prefix?.startsWith('src/'))throw Error('EXPLICIT_SOURCE_SCOPE_REQUIRED');
+  const dest=path.resolve(ROOT,value('--report'));
+  if(!dest.startsWith(path.join(ROOT,'test-results/scpi-auto-recovery')+path.sep))throw Error('REPORT_OUTSIDE_SAFE_ARTIFACT_DIR');
+  fs.mkdirSync(path.dirname(dest),{recursive:true});
+  const write=args.includes('--write');const repairs=[];
+  const out={task:'RECOVERY-093',mode:write?'EMIT_EQUIVALENT_TECHNICAL_WRITE':'DRY_RUN',
+    diagnostic_count:diagnostics.length,repairs,auto_repaired_files:0,
+    full_typecheck_required:true,financial_qa_automatically_approved:false,publication_authorized:false};
+  const checkpoint=()=>{
+    out.auto_repaired_files=repairs.filter(r=>r.write_applied).length;
+    fs.writeFileSync(dest+'.tmp',JSON.stringify(out,null,2)+'\n');fs.renameSync(dest+'.tmp',dest);
+  };
+  checkpoint();
+  for(const file of [...new Set(diagnostics.map(d=>d.file))].sort()) {
+    if(!file.startsWith(prefix)||!/^src\/[\w/.-]+\.tsx?$/.test(file))continue;
+    const full=path.resolve(ROOT,file);
+    if(!full.startsWith(path.join(ROOT,'src')+path.sep))throw Error('UNTRUSTED_TECHNICAL_PATH');
+    if(!fs.realpathSync(full).startsWith(path.join(ROOT,'src')+path.sep))throw Error('UNTRUSTED_TECHNICAL_SYMLINK');
+    const original=fs.readFileSync(full,'utf8');const result=repairUnusedImports(original,file,diagnostics);
+    if(write&&result.report.applied)fs.writeFileSync(full,result.output);
+    if(result.report.applied){repairs.push({...result.report,write_applied:write});checkpoint();}
+  }
+  checkpoint();
+  console.log(JSON.stringify({mode:out.mode,auto_repaired_files:out.auto_repaired_files,proposed:repairs.length}));
   return out;
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

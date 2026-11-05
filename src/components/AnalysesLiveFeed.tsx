@@ -420,16 +420,6 @@ const displayTone = (
 ): SignalWithTone['tone'] =>
   signal.tone === 'alert' && riskLevel !== 'high' ? 'watch' : signal.tone;
 
-const getSignalLabel = (signal: SignalWithTone, riskLevel: RiskLevel) => {
-  const tone = displayTone(signal, riskLevel);
-  if (tone === 'alert') return 'Point critique';
-  if (tone === 'watch' && signal.tone === 'alert') return 'Vigilance forte';
-  if (tone === 'watch') return 'À surveiller';
-  if (tone === 'info') return 'Information de suivi';
-  if (tone === 'negative') return 'Dégradation';
-  return 'Amélioration';
-};
-
 const freshnessOrder: Record<AnalysisFreshness, number> = {
   recent: 0,
   unknown: 1,

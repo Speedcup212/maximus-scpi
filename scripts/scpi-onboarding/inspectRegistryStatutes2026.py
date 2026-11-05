@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """RECOVERY-071: inspect a 2026 register-filed Sofidynamic statutes PDF.
 
-Read-only probe of a documented third-party corporate-register mirror.
+Read-only probe of the official authenticated INPI RNE API when credentials are present;\notherwise retains a separate, explicitly untrusted corporate-register mirror probe.
 This is not publisher certification, not approval of legal clauses, and not
 an update of public/private Supabase tables. Any failure stays explicitly
 unverified; never fabricate a SHA or substitute the issuer's 2025 PDF.
@@ -17,6 +17,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 import fitz
+from inpiRegistryStatutes import probe_inpi
 
 REGISTRY_MIRROR_URL = (
     "https://www.pappers.fr/entreprise/sofidynamic-983023003/documents/"
@@ -118,8 +119,20 @@ def probe(fetcher=get_pdf):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True)
+    parser.add_argument("--source", choices=("auto", "inpi", "mirror"), default="auto")
     args = parser.parse_args()
-    data = probe()
+    if args.source == "inpi":
+        data = probe_inpi()
+    elif args.source == "mirror":
+        data = probe()
+    else:
+        official = probe_inpi()
+        if official["status"] == "INPI_PROTECTED_CREDENTIALS_NOT_CONFIGURED":
+            data = probe()
+            data["official_inpi_status"] = "INPI_PROTECTED_CREDENTIALS_NOT_CONFIGURED"
+        else:
+            # Never silently downgrade a failed official API proof to a mirror.
+            data = official
     path = Path(args.output)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")

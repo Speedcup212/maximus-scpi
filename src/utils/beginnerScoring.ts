@@ -51,14 +51,6 @@ export function computeBeginnerProfile(
 
   const toleranceScore = clamp((variationTolerance + preferenceScore) / 2, 0, 3);
 
-  const incomeDependence = answers.incomeImportanceShortTerm === 'oui-rapidement'
-    ? 0
-    : answers.incomeImportanceShortTerm === 'utile'
-      ? 1
-      : answers.incomeImportanceShortTerm === 'non-long-terme'
-        ? 2
-        : 1;
-
   const experienceScore = answers.realEstateExperience === 'aucune'
     ? 0
     : answers.realEstateExperience === 'rp'

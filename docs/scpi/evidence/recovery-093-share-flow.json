@@ -1,0 +1,48 @@
+{
+  "status": "UNRECONCILED",
+  "delta_parts": -15,
+  "expected_closing_parts": 773729,
+  "reported_closing_parts": 773714,
+  "evidence": [
+    {
+      "metric": "nombre_parts",
+      "period": "2026-T1",
+      "value": 672775,
+      "source_url": "https://www.sofidy.com/app/uploads/2026/05/SOFIDYNAMIC-BT-1T-2026.pdf",
+      "source_page": 5,
+      "pdf_sha256": "059156b1025ec6f2ee0f65bae19574b56de74d71ed933760b7cd5ad7ba65b0d7"
+    },
+    {
+      "metric": "nombre_parts",
+      "period": "2026-T2",
+      "value": 773714,
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+      "source_page": 5,
+      "pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376"
+    },
+    {
+      "metric": "nombre_parts_nouvelles_souscrites",
+      "period": "2026-T2",
+      "value": 101076,
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+      "source_page": 5,
+      "pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376"
+    },
+    {
+      "metric": "nombre_parts_retires",
+      "period": "2026-T2",
+      "value": 122,
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+      "source_page": 5,
+      "pdf_sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376"
+    }
+  ],
+  "automatic_correction_applied": false,
+  "source_values_changed": false,
+  "independent_financial_qa": false,
+  "disabled_features": [
+    "share_movement_trend",
+    "derived_capital_flow"
+  ],
+  "publication_authorized": false
+}

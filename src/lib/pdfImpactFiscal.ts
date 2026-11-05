@@ -213,7 +213,7 @@ export const generateImpactFiscalPDF = (result: ImpactFiscalResult, images?: Imp
   const filteredRows =
     allRows.length <= 15
       ? allRows
-      : allRows.filter((row, idx) => idx % 2 === 0 || idx === allRows.length - 1);
+      : allRows.filter((_, idx) => idx % 2 === 0 || idx === allRows.length - 1);
   filteredRows.forEach((row) => {
     if (rowY > 270) return;
     doc.setTextColor(30);

@@ -8,9 +8,10 @@ interface Step5FiscaleProps {
   onClose?: () => void;
 }
 
-const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
+const Step5Fiscale: React.FC<Step5FiscaleProps> = () => {
   const { state, updateState, updateCoSubscriber, goToStep, validateStep } = useSubscription();
   const [hasAttemptedValidation, setHasAttemptedValidation] = React.useState(false);
+  const coSubscriber = state.coSubscriber;
 
   const handleContinue = () => {
     setHasAttemptedValidation(true);
@@ -20,7 +21,6 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
     goToStep(6);
   };
 
-  const isStepValid = validateStep(5);
   
   // Fonction helper pour les classes de champs obligatoires
   const getFieldClasses = (isEmpty: boolean) => {
@@ -295,7 +295,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
         </div>
 
         {/* Co-souscripteur - Situation fiscale */}
-        {state.subscriptionType === 'biens_communs' && state.coSubscriber && (
+        {state.subscriptionType === 'biens_communs' && coSubscriber && (
           <div className="bg-slate-800 rounded-2xl p-6 mb-6 border-2 border-blue-500/50">
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
               <Receipt className="w-5 h-5 text-blue-400" />
@@ -310,7 +310,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                   <label
                     key={situation}
                     className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
-                      state.coSubscriber.housingSituation === situation
+                      coSubscriber.housingSituation === situation
                         ? 'border-emerald-500 bg-emerald-500/10'
                         : 'border-slate-700 hover:border-slate-600'
                     }`}
@@ -319,7 +319,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                       type="radio"
                       name="coHousingSituation"
                       value={situation}
-                      checked={state.coSubscriber.housingSituation === situation}
+                      checked={coSubscriber.housingSituation === situation}
                       onChange={() => updateCoSubscriber({ housingSituation: situation })}
                       className="mt-1"
                     />
@@ -338,9 +338,9 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">Pays de résidence fiscale *</label>
                   <select
-                    value={state.coSubscriber.taxResidence}
+                    value={coSubscriber.taxResidence}
                     onChange={(e) => updateCoSubscriber({ taxResidence: e.target.value })}
-                    className={getFieldClasses(state.coSubscriber.taxResidence === '')}
+                    className={getFieldClasses(coSubscriber.taxResidence === '')}
                   >
                     <option value="">Sélectionner un pays</option>
                     {countries.map((country) => (
@@ -351,11 +351,11 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                   </select>
                 </div>
                 
-                {state.coSubscriber.taxResidenceSameAsPrincipal === false && (
+                {coSubscriber.taxResidenceSameAsPrincipal === false && (
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-2">Pays de résidence fiscale si différent</label>
                     <select
-                      value={state.coSubscriber.taxResidenceCountry}
+                      value={coSubscriber.taxResidenceCountry}
                       onChange={(e) => updateCoSubscriber({ taxResidenceCountry: e.target.value })}
                       className="w-full px-4 py-3 bg-slate-700 border-2 border-slate-600 rounded-lg text-white focus:border-emerald-500 focus:outline-none"
                     >
@@ -379,9 +379,9 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                     type="button"
                     onClick={() => updateCoSubscriber({ taxResidenceSameAsPrincipal: true })}
                     className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-colors ${
-                      state.coSubscriber.taxResidenceSameAsPrincipal === true
+                      coSubscriber.taxResidenceSameAsPrincipal === true
                         ? 'bg-emerald-600 text-white'
-                        : hasAttemptedValidation && state.coSubscriber.taxResidenceSameAsPrincipal === null
+                        : hasAttemptedValidation && coSubscriber.taxResidenceSameAsPrincipal === null
                         ? 'bg-orange-600 text-white border-2 border-orange-500'
                         : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                     }`}
@@ -392,9 +392,9 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                     type="button"
                     onClick={() => updateCoSubscriber({ taxResidenceSameAsPrincipal: false })}
                     className={`flex-1 px-4 py-3 rounded-lg font-semibold transition-colors ${
-                      state.coSubscriber.taxResidenceSameAsPrincipal === false
+                      coSubscriber.taxResidenceSameAsPrincipal === false
                         ? 'bg-emerald-600 text-white'
-                        : hasAttemptedValidation && state.coSubscriber.taxResidenceSameAsPrincipal === null
+                        : hasAttemptedValidation && coSubscriber.taxResidenceSameAsPrincipal === null
                         ? 'bg-orange-600 text-white border-2 border-orange-500'
                         : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                     }`}
@@ -425,7 +425,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                     <label
                       key={String(option.key)}
                       className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
-                        state.coSubscriber.usPerson === option.key
+                        coSubscriber.usPerson === option.key
                           ? 'border-emerald-500 bg-emerald-500/10'
                           : 'border-slate-700 hover:border-slate-600'
                       }`}
@@ -433,7 +433,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                       <input
                         type="radio"
                         name="coUsPerson"
-                        checked={state.coSubscriber.usPerson === option.key}
+                        checked={coSubscriber.usPerson === option.key}
                         onChange={() => updateCoSubscriber({ usPerson: option.key })}
                         className="mt-1"
                       />
@@ -442,7 +442,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                   ))}
                 </div>
                 
-                {state.coSubscriber.usPerson && (
+                {coSubscriber.usPerson && (
                   <div className="mt-4 space-y-4">
                     <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
                       <p className="text-sm text-yellow-400">
@@ -458,7 +458,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                             type="button"
                             onClick={() => updateCoSubscriber({ usTaxObligation: true })}
                             className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-colors ${
-                              state.coSubscriber.usTaxObligation === true
+                              coSubscriber.usTaxObligation === true
                                 ? 'bg-emerald-600 text-white'
                                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                             }`}
@@ -469,7 +469,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                             type="button"
                             onClick={() => updateCoSubscriber({ usTaxObligation: false })}
                             className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-colors ${
-                              state.coSubscriber.usTaxObligation === false
+                              coSubscriber.usTaxObligation === false
                                 ? 'bg-emerald-600 text-white'
                                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                             }`}
@@ -486,7 +486,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                             type="button"
                             onClick={() => updateCoSubscriber({ usCitizenship: true })}
                             className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-colors ${
-                              state.coSubscriber.usCitizenship === true
+                              coSubscriber.usCitizenship === true
                                 ? 'bg-emerald-600 text-white'
                                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                             }`}
@@ -497,7 +497,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                             type="button"
                             onClick={() => updateCoSubscriber({ usCitizenship: false })}
                             className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-colors ${
-                              state.coSubscriber.usCitizenship === false
+                              coSubscriber.usCitizenship === false
                                 ? 'bg-emerald-600 text-white'
                                 : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                             }`}
@@ -529,7 +529,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                     <label
                       key={option.key}
                       className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
-                        state.coSubscriber.pep === option.key
+                        coSubscriber.pep === option.key
                           ? 'border-emerald-500 bg-emerald-500/10'
                           : 'border-slate-700 hover:border-slate-600'
                       }`}
@@ -538,7 +538,7 @@ const Step5Fiscale: React.FC<Step5FiscaleProps> = ({ onClose }) => {
                         type="radio"
                         name="coPep"
                         value={option.key}
-                        checked={state.coSubscriber.pep === option.key}
+                        checked={coSubscriber.pep === option.key}
                         onChange={() => updateCoSubscriber({ pep: option.key })}
                         className="mt-1"
                       />

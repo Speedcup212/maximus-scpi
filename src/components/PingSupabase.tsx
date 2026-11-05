@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { supabase } from "../lib/supabase";
+import { requireSupabase } from "../lib/supabase";
 
 const PingSupabase: React.FC = () => {
   const [result, setResult] = useState<string>("");
 
   const handlePing = async () => {
     try {
-      const { data, error } = await supabase.from("pg_tables").select("*").limit(1);
+      const { error } = await requireSupabase().from("pg_tables").select("*").limit(1);
       if (error) throw error;
       setResult("✅ Connexion Supabase OK");
     } catch (err) {

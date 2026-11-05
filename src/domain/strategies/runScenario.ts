@@ -1,4 +1,3 @@
-import Decimal from 'decimal.js';
 import { buildLoanSchedule } from '../finance/amortization';
 import { roundMoney, toDecimal, max } from '../finance/money';
 import { buildScpiProjection } from '../scpi/scpiModel';

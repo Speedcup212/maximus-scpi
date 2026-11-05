@@ -1,0 +1,110 @@
+name: SCPI industrial admission - mandatory evidence and TypeScript
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/scpi-onboarding/**'
+      - 'src/**'
+      - 'tsconfig*.json'
+      - 'package*.json'
+      - 'scripts/agents/bulletin_fields.py'
+      - 'docs/scpi/evidence/recovery-092-*.json'
+      - 'docs/scpi/evidence/recovery-093-*.json'
+      - '.github/workflows/scpi-industrial-readiness.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: scpi-industrial-admission-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  admission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Test two-phase admission trust boundary (PR cannot certify production)
+        run: node --test scripts/scpi-onboarding/admissionPhases.test.mjs scripts/scpi-onboarding/protectedReleaseEvidence.test.mjs scripts/scpi-onboarding/protectedProductionReadback.test.mjs scripts/scpi-onboarding/githubArtifactProvenance.test.mjs scripts/scpi-onboarding/protectedCandidateIdentity.test.mjs scripts/scpi-onboarding/githubArtifactArchive.test.mjs scripts/scpi-onboarding/combinePrivateBrowserEvidence.test.mjs
+      - name: Browser artifact ZIP-byte and 12-case hash tests
+        run: python3 -m unittest discover -s scripts/scpi-onboarding -p 'test_verify_browser_artifact.py' -v
+      - name: Mandatory full TypeScript check (preexisting failures remain failures)
+        id: typecheck
+        run: |
+          mkdir -p test-results/scpi-industrial-admission
+          if npm run typecheck > test-results/scpi-industrial-admission/typescript.log 2>&1; then
+            cat test-results/scpi-industrial-admission/typescript.log
+          else
+            cat test-results/scpi-industrial-admission/typescript.log
+            exit 1
+          fi
+      - name: Calculate demonstrated maturity without manufacturing release permission
+        if: always()
+        env:
+          TYPECHECK_OUTCOME: ${{ steps.typecheck.outcome }}
+        run: |
+          mkdir -p test-results/scpi-industrial-admission
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          import {evaluateMaturity} from './scripts/scpi-onboarding/industrialMaturity.mjs';
+          const input=JSON.parse(fs.readFileSync('docs/scpi/evidence/recovery-092-maturity-input.json','utf8'));
+          const observed={...input.after,typecheck_pass:process.env.TYPECHECK_OUTCOME==='success'};
+          const report=evaluateMaturity(observed);
+          fs.writeFileSync('test-results/scpi-industrial-admission/maturity.json',JSON.stringify(report,null,2));
+          console.log(JSON.stringify(report));
+          JS
+      - name: Record indicative prepublication blockers from untrusted repository snapshot
+        if: always()
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          import {evaluatePrepublication} from './scripts/scpi-onboarding/admissionPhases.mjs';
+          const snapshot=JSON.parse(fs.readFileSync('docs/scpi/evidence/recovery-100-live-protected-admission-20261105.json','utf8'));
+          const report=evaluatePrepublication(snapshot);
+          const out='test-results/scpi-industrial-admission/prepublication-indicative.json';
+          fs.mkdirSync('test-results/scpi-industrial-admission',{recursive:true});
+          fs.writeFileSync(out,JSON.stringify({...report,source:'PR_LOCAL_SNAPSHOT_NOT_LIVE'},null,2));
+          console.log(JSON.stringify(report));
+          if(report.publication_authorized!==false || report.postdeploy_100_proven!==false)
+            throw Error('UNTRUSTED_PR_ATTEMPTED_RELEASE_AUTHORITY');
+          JS
+      - name: Record actual diagnostic causes and reject new regressions
+        if: always()
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          import {parseTypeScriptDiagnostics,diagnosticDelta} from './scripts/scpi-onboarding/technicalDiagnostics.mjs';
+          const baseline=JSON.parse(fs.readFileSync('docs/scpi/evidence/recovery-093-typescript-baseline.json','utf8'));
+          const current=parseTypeScriptDiagnostics(fs.readFileSync('test-results/scpi-industrial-admission/typescript.log','utf8'));
+          const delta=diagnosticDelta(baseline.diagnostics,current);
+          const byCause={};for(const d of current)byCause[d.cause]=(byCause[d.cause]||0)+1;
+          const report={...delta,byCause,baseline_commit:baseline.commit,publication_authorized:false};
+          fs.writeFileSync('test-results/scpi-industrial-admission/diagnostic-causes.json',JSON.stringify(report,null,2));
+          console.log(JSON.stringify(report));
+          if(delta.introduced)throw Error('NEW_TYPESCRIPT_DIAGNOSTICS:'+delta.introduced);
+          JS
+      - name: Refuse industrial GO unless 100/100 and every protected condition is demonstrated
+        if: always()
+        run: |
+          node --input-type=module - <<'JS'
+          import fs from 'node:fs';
+          const path='test-results/scpi-industrial-admission/maturity.json';
+          if(!fs.existsSync(path))throw Error('No admission evidence');
+          const report=JSON.parse(fs.readFileSync(path,'utf8'));
+          if(report.score!==100||report.decision!=='GO'||report.publication_authorized!==false)
+            throw Error('INDUSTRIAL_NO_GO: score='+report.score+'; unmet controls='+JSON.stringify(report.constraints));
+          JS
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scpi-industrial-admission-${{ github.run_id }}
+          path: test-results/scpi-industrial-admission/
+          if-no-files-found: error
+          retention-days: 30

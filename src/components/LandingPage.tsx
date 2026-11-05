@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { ArrowLeft, TrendingUp, Shield, Users, CheckCircle, BarChart3, Target, Calendar, Star, Award } from 'lucide-react';
+import { ArrowLeft, Shield, Users, CheckCircle, Target, Calendar, Star, Award } from 'lucide-react';
 import Header from './Header';
 import Logo from './Logo';
 import SEOHead from './SEOHead';
@@ -33,6 +33,7 @@ interface LandingPageProps {
   onUnderstandingClick?: () => void;
   onAboutSectionClick?: () => void;
   onArticlesClick?: () => void;
+  onActualitesClick?: () => void;
   onComparateurClick?: () => void;
   onSimulateurClick?: (simulateurId: string) => void;
 }
@@ -50,6 +51,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
   onUnderstandingClick,
   onAboutSectionClick,
   onArticlesClick,
+  onActualitesClick,
   onComparateurClick,
   onSimulateurClick
 }) => {
@@ -162,6 +164,7 @@ const LandingPage: React.FC<LandingPageProps> = ({
         onUnderstandingClick={onUnderstandingClick}
         onAboutSectionClick={onAboutSectionClick || onAboutClick}
         onArticlesClick={onArticlesClick}
+        onActualitesClick={onActualitesClick}
         onComparateurClick={onComparateurClick}
         onSimulateurClick={onSimulateurClick}
         currentView="landing"

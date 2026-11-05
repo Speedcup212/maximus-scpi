@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "scpi_slug": "opus-real",
+  "document_kind": "quarterly_bulletin",
+  "source_period": "2026-T2",
+  "source_pdf_sha256": "1409b98c8f741bd83b577c16dec60af2ff4f7c2b8e56257b6a61cc821db1d3e2",
+  "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/OPUS%20REAL_BT_FR_T2%202026_DEF.pdf",
+  "pdf_pages": 7,
+  "source_artifact": {
+    "github_run_id": 42067572028,
+    "artifact_id": 13434009782
+  },
+  "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN",
+  "legal_signoff": false,
+  "publication_authorized": false,
+  "rendered_pages": {
+    "4": "16a5764966656a5a887996e19cd6cabe3f48f74c8511fb00be568c584ff6077d",
+    "5": "b2e9ea98628dbcfe53142a2d741f8f90ce0fcaea45f6dc7fc27b53556c90ca78"
+  },
+  "metrics": [
+    {
+      "metric": "nombre_parts",
+      "value": 98561,
+      "unit": "PARTS",
+      "page": 5,
+      "basis": "OUTSTANDING_SHARES_AT_2026_06_30",
+      "page_png_sha256": "b2e9ea98628dbcfe53142a2d741f8f90ce0fcaea45f6dc7fc27b53556c90ca78"
+    },
+    {
+      "metric": "nombre_associes",
+      "value": 3015,
+      "unit": "COUNT",
+      "page": 5,
+      "basis": "ASSOCIATES_AT_2026_06_30",
+      "page_png_sha256": "b2e9ea98628dbcfe53142a2d741f8f90ce0fcaea45f6dc7fc27b53556c90ca78"
+    },
+    {
+      "metric": "parts_inscrites_vente",
+      "value": 1646,
+      "unit": "PARTS",
+      "page": 5,
+      "basis": "SECONDARY_MARKET_SELL_ORDERS_AT_2026_06_30_NOT_WITHDRAWAL_QUEUE",
+      "page_png_sha256": "b2e9ea98628dbcfe53142a2d741f8f90ce0fcaea45f6dc7fc27b53556c90ca78"
+    },
+    {
+      "metric": "tof",
+      "value": 93.21,
+      "unit": "PERCENT",
+      "page": 4,
+      "basis": "FINANCIAL_OCCUPANCY_2026_S1_REPORTED_IN_T2_BULLETIN_NOT_T2_QUARTER_RATE",
+      "page_png_sha256": "16a5764966656a5a887996e19cd6cabe3f48f74c8511fb00be568c584ff6077d"
+    },
+    {
+      "metric": "walb",
+      "value": 5.5,
+      "unit": "COUNT",
+      "page": 4,
+      "basis": "REMAINING_FIRM_LEASE_DURATION_YEARS_AT_2026_S1",
+      "page_png_sha256": "16a5764966656a5a887996e19cd6cabe3f48f74c8511fb00be568c584ff6077d"
+    },
+    {
+      "metric": "nombre_immeubles",
+      "value": 7,
+      "unit": "COUNT",
+      "page": 4,
+      "basis": "PROPERTY_COUNT_AT_2026_06_30",
+      "page_png_sha256": "16a5764966656a5a887996e19cd6cabe3f48f74c8511fb00be568c584ff6077d"
+    },
+    {
+      "metric": "nombre_locataires",
+      "value": 66,
+      "unit": "COUNT",
+      "page": 4,
+      "basis": "TENANT_COUNT_AT_2026_06_30",
+      "page_png_sha256": "16a5764966656a5a887996e19cd6cabe3f48f74c8511fb00be568c584ff6077d"
+    }
+  ]
+}

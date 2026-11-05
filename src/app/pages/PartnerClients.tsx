@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { supabase } from '../../lib/supabase';
+import { requireSupabase } from '../../lib/supabase';
 import AppLayout from '../components/AppLayout';
 import EmptyState from '../components/EmptyState';
 import { useProfile } from '../hooks/useProfile';
@@ -18,7 +18,7 @@ const PartnerClients: React.FC<PartnerClientsProps> = ({ onNavigate }) => {
   useEffect(() => {
     if (!profile?.org_id) return;
     const fetchClients = async () => {
-      const { data } = await supabase
+      const { data } = await requireSupabase()
         .from('profiles')
         .select('*')
         .eq('org_id', profile.org_id)

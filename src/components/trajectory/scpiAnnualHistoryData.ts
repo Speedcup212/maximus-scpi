@@ -32,7 +32,7 @@ export const getVerifiedAnnualRows = (slug: string): VerifiedAnnualScpiRow[] =>
     && Number.isFinite(r.valeur_realisation_par_part)
     && Number.isFinite(r.valeur_reconstitution_par_part)
     && (r.distribution_totale_par_part === null || (r.evidence_pages?.distribution ?? 0) > 0)
-    && r.evidence_pages?.realisation > 0 && r.evidence_pages?.reconstitution > 0
+    && (r.evidence_pages?.realisation ?? 0) > 0 && (r.evidence_pages?.reconstitution ?? 0) > 0
     && /^https:\/\//.test(r.source_url))
     .sort((a,b) => a.fiscal_year-b.fiscal_year);
 export const getAnnualHistoryCoverage = (slug: string): AnnualHistoryCoverage | undefined =>

@@ -5,8 +5,8 @@ import {
   Shield, Target, Calculator, ChevronDown
 } from 'lucide-react';
 import { Scpi } from '../types/scpi';
-import { formatCurrency, getPerformanceColor, resolveDisplayedDiscount } from '../utils/formatters';
-import { getScpiPresentation, getScpiAnalysis, getScpiNews, getScpiAdvantages, getScpiPointsAttention } from '../utils/scpiAnalysis';
+import { formatCurrency, resolveDisplayedDiscount } from '../utils/formatters';
+import { getScpiPresentation, getScpiAnalysis, getScpiAdvantages, getScpiPointsAttention } from '../utils/scpiAnalysis';
 import PieChart from './PieChart';
 import { getLatestScore } from '../utils/scpiScoreService';
 import { scoreToStars } from '../utils/scoreToStars';
@@ -21,9 +21,10 @@ interface AnalysisModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAddToPortfolio?: (scpi: Scpi) => void;
+  onTakeAppointment?: () => void;
 }
 
-const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, onAddToPortfolio }) => {
+const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, onAddToPortfolio, onTakeAppointment }) => {
   const [openSection, setOpenSection] = useState<'overview' | 'charts' | 'analysis' | null>(null);
   const [qualityScore, setQualityScore] = useState<number | null>(null);
   const [scoreLoaded, setScoreLoaded] = useState(false);
@@ -68,13 +69,6 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, on
       '#0891b2', '#65a30d', '#ea580c', '#be185d', '#4f46e5'
     ][index % 10]
   })) || [];
-
-  // Données pour les graphiques de performance
-  const performanceData = [
-    { name: 'Rendement', value: scpi.yield, max: 12, color: '#10b981' },
-    { name: 'TOF', value: scpi.tof, max: 100, color: '#3b82f6' },
-    { name: 'Ancienneté', value: new Date().getFullYear() - scpi.creation, max: 50, color: '#f59e0b' }
-  ];
 
   const getQualityColor = (score: number | null) => {
     const stars = scoreToStars(score);
@@ -480,7 +474,9 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, on
 
           <button 
             onClick={() => {
-              if (window.openRdvModal) {
+              if (onTakeAppointment) {
+                onTakeAppointment();
+              } else if (window.openRdvModal) {
                 window.openRdvModal();
               }
             }}

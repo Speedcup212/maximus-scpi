@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Shield, AlertTriangle, FileText, UserCheck } from 'lucide-react';
+import { ArrowRight, AlertTriangle, FileText, UserCheck } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
 import EricAvatar from '../EricAvatar';
 
@@ -8,7 +8,7 @@ interface Step1ContextProps {
 }
 
 const Step1Context: React.FC<Step1ContextProps> = ({ onClose }) => {
-  const { state, updateState, goToStep, validateStep } = useSubscription();
+  const { updateState, goToStep } = useSubscription();
 
   const handleAccept = () => {
     updateState({ contextAccepted: true });

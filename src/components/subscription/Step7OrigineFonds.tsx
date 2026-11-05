@@ -2,7 +2,6 @@ import React from 'react';
 import { ArrowLeft, ArrowRight, Coins, Globe } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
 import { FundOrigin } from '../../types/subscription';
-import { formatCurrency } from '../../utils/formatters';
 import { countries } from '../../utils/subscriptionLists';
 
 interface Step7OrigineFondsProps {
@@ -19,7 +18,7 @@ const FUND_ORIGIN_OPTIONS: { value: FundOrigin; label: string }[] = [
   { value: 'autre', label: 'Autre' },
 ];
 
-const Step7OrigineFonds: React.FC<Step7OrigineFondsProps> = ({ onClose }) => {
+const Step7OrigineFonds: React.FC<Step7OrigineFondsProps> = () => {
   const { state, updateState, goToStep, validateStep } = useSubscription();
   const [hasAttemptedValidation, setHasAttemptedValidation] = React.useState(false);
 
@@ -71,7 +70,7 @@ const Step7OrigineFonds: React.FC<Step7OrigineFondsProps> = ({ onClose }) => {
                 className={`p-4 rounded-lg border-2 text-left transition-colors ${
                   state.primaryFundOrigin === option.value
                     ? 'border-emerald-500 bg-emerald-500/10'
-                    : !isStepValid && state.primaryFundOrigin === undefined
+                    : !isStepValid && !state.primaryFundOrigin
                     ? 'border-orange-500 hover:border-orange-600'
                     : 'border-slate-700 hover:border-slate-600'
                 }`}

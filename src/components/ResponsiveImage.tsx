@@ -28,6 +28,7 @@ const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
       className={className}
       loading={loading}
       decoding="async"
+      sizes={sizes}
       width={width}
       height={height}
     />

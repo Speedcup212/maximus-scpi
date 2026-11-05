@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, ArrowRight, X, TrendingUp, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, TrendingUp, AlertTriangle } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
-import { validateAllocation, calculateAverageYield, calculateMinInvestment } from '../../utils/subscriptionValidation';
+import { calculateAverageYield } from '../../utils/subscriptionValidation';
 import { formatCurrency } from '../../utils/formatters';
 
 interface Step1ValidationProps {
@@ -13,8 +13,7 @@ const Step1Validation: React.FC<Step1ValidationProps> = ({ onClose }) => {
   const [allocationError, setAllocationError] = useState<string>('');
 
   const avgYield = calculateAverageYield(state.selectedScpis);
-  const minInv = calculateMinInvestment(state.selectedScpis);
-  const estimatedAnnual = (state.totalAmount * avgYield) / 100;
+  const estimatedAnnual = (state.amount * avgYield) / 100;
   const estimatedMonthly = estimatedAnnual / 12;
 
   // Initialiser l'allocation si vide
@@ -146,7 +145,7 @@ const Step1Validation: React.FC<Step1ValidationProps> = ({ onClose }) => {
           <div className="space-y-4">
             {state.selectedScpis.map(scpi => {
               const percentage = state.allocation[scpi.id] || 0;
-              const amount = Math.round((percentage / 100) * state.totalAmount);
+              const amount = Math.round((percentage / 100) * state.amount);
               const shares = Math.floor(amount / scpi.price);
               
               return (
@@ -196,7 +195,7 @@ const Step1Validation: React.FC<Step1ValidationProps> = ({ onClose }) => {
             Estimation indicative
           </h2>
           <p className="text-sm text-slate-400 mb-4">
-            Pour un investissement de {formatCurrency(state.totalAmount)} :
+            Pour un investissement de {formatCurrency(state.amount)} :
           </p>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-slate-700/50 rounded-lg p-4">

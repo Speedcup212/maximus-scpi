@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, TrendingUp, Calculator, Edit3, Download, Target, PieChart, Award, DollarSign, Calendar, AlertTriangle } from 'lucide-react';
+import { X, Plus, TrendingUp, Calculator, Edit3, Target, PieChart, AlertTriangle } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from '../utils/formatters';
 // PDF Generator loaded dynamically
 import AllocationModal from './AllocationModal';
-import PortfolioSummary from './PortfolioSummary'; // v2.0 with tabs
 
 interface PortfolioItem extends Scpi {
   investedAmount: number;
@@ -31,6 +30,7 @@ const UnifiedPortfolio: React.FC<UnifiedPortfolioProps> = ({
 }) => {
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
   const [showScpiSelector, setShowScpiSelector] = useState(false);
+  const [selectorQuery, setSelectorQuery] = useState('');
   const [selectedScpiForEdit, setSelectedScpiForEdit] = useState<PortfolioItem | null>(null);
   const [isAllocationModalOpen, setIsAllocationModalOpen] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -51,12 +51,6 @@ const UnifiedPortfolio: React.FC<UnifiedPortfolioProps> = ({
   const isrCount = portfolio.filter(item => item.isr).length;
   const isrPercentage = (isrCount / portfolio.length) * 100;
   
-  const averageCreation = portfolio.reduce((sum, item) => 
-    sum + (item.creation * item.percentage / 100), 0
-  );
-  
-  const averageAge = new Date().getFullYear() - averageCreation;
-
   // Budget maximum (montant d'investissement du client)
   const maxBudget = clientProfile?.investmentAmount || 100000;
 
@@ -239,8 +233,79 @@ const UnifiedPortfolio: React.FC<UnifiedPortfolioProps> = ({
     };
   }, [clientProfile]);
 
+  const renderScpiSelector = () => {
+    if (!showScpiSelector) return null;
+    const query = selectorQuery.trim().toLocaleLowerCase('fr-FR');
+    const choices = availableScpi
+      .filter(scpi => !portfolio.some(item => item.id === scpi.id))
+      .filter(scpi => scpi.name.toLocaleLowerCase('fr-FR').includes(query))
+      .slice(0, 50);
+
+    return (
+      <div
+        className="fixed inset-0 z-[10010] bg-black/70 p-4 flex items-center justify-center"
+        onClick={() => setShowScpiSelector(false)}
+      >
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Ajouter une SCPI au portefeuille"
+          className="w-full max-w-xl max-h-[80vh] overflow-y-auto bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-2xl"
+          onClick={event => event.stopPropagation()}
+        >
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Ajouter une SCPI</h3>
+            <button
+              type="button"
+              onClick={() => setShowScpiSelector(false)}
+              aria-label="Fermer la sélection"
+              className="p-2 text-gray-600 dark:text-gray-200"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          <input
+            type="search"
+            value={selectorQuery}
+            onChange={event => setSelectorQuery(event.target.value)}
+            placeholder="Rechercher une SCPI"
+            aria-label="Rechercher une SCPI"
+            className="w-full mb-4 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-white"
+          />
+          <div className="space-y-2">
+            {choices.length === 0 && (
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Aucune SCPI disponible pour cette recherche.
+              </p>
+            )}
+            {choices.map(scpi => (
+              <button
+                key={scpi.id}
+                type="button"
+                onClick={() => {
+                  addScpiToPortfolio(scpi);
+                  setSelectorQuery('');
+                }}
+                className="w-full text-left flex items-center justify-between gap-3 px-4 py-3 rounded-lg bg-gray-100 hover:bg-blue-50 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white"
+              >
+                <span className="font-semibold">{scpi.name}</span>
+                <span className="text-sm shrink-0">Ajouter</span>
+              </button>
+            ))}
+          </div>
+          {availableScpi.length > 50 && (
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">
+              Affichage limité aux 50 premiers résultats ; affine ta recherche si nécessaire.
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  };
+
   if (portfolio.length === 0 && initialRecommendations.length === 0) {
     return (
+      <>
       <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-600">
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -278,6 +343,8 @@ const UnifiedPortfolio: React.FC<UnifiedPortfolioProps> = ({
         </div>
 
       </div>
+      {renderScpiSelector()}
+      </>
     );
   }
 
@@ -303,6 +370,18 @@ const UnifiedPortfolio: React.FC<UnifiedPortfolioProps> = ({
               >
                 <Calculator className="w-4 h-4" />
                 Équilibrer
+              </button>
+            )}
+            {onExportPDF && (
+              <button type="button" onClick={onExportPDF}
+                className="px-3 py-2 rounded-lg bg-slate-700 text-white text-sm font-medium">
+                Exporter PDF
+              </button>
+            )}
+            {onScheduleCall && (
+              <button type="button" onClick={onScheduleCall}
+                className="px-3 py-2 rounded-lg bg-blue-700 text-white text-sm font-medium">
+                Prendre rendez-vous
               </button>
             )}
             <button
@@ -672,6 +751,18 @@ const UnifiedPortfolio: React.FC<UnifiedPortfolioProps> = ({
           </div>
         </div>
       </div>
+      {renderScpiSelector()}
+      {selectedScpiForEdit && (
+        <AllocationModal
+          scpi={selectedScpiForEdit}
+          isOpen={isAllocationModalOpen}
+          onClose={closeAllocationModal}
+          onSave={saveAllocation}
+          currentAmount={selectedScpiForEdit.investedAmount}
+          currentPercentage={selectedScpiForEdit.percentage}
+          totalPortfolioAmount={maxBudget}
+        />
+      )}
     </div>
   );
 };

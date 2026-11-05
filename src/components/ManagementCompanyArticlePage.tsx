@@ -92,16 +92,13 @@ const ManagementCompanyArticlePage: React.FC<ManagementCompanyArticlePageProps> 
   onArticlesClick,
   onActualitesClick,
   onEducationClick,
-  onArticleClick,
 }) => {
   const {
     slug,
-    name,
     displayName,
     title,
     seoTitle,
     metaDescription,
-    mainKeyword,
     keywords: configKeywords,
     managedScpis,
     summary,
@@ -110,7 +107,6 @@ const ManagementCompanyArticlePage: React.FC<ManagementCompanyArticlePageProps> 
     casPratiques,
     faq,
     internalLinks,
-    internalScpiCoverage,
     externalVerificationStatus,
     dataConfidence,
     sourcePriority,
@@ -671,11 +667,7 @@ const ManagementCompanyArticlePage: React.FC<ManagementCompanyArticlePageProps> 
           </section>
         </div>
 
-        <LegalFooter
-          isDarkMode={isDarkMode}
-          onContactClick={onContactClick}
-          onAboutClick={onAboutClick}
-        />
+        <LegalFooter />
       </div>
     </>
   );

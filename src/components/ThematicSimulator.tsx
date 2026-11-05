@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, TrendingUp, Euro, Calendar, ArrowRight, Info } from 'lucide-react';
+import { Calculator, TrendingUp, Calendar, Info } from 'lucide-react';
 import { formatCurrency } from '../utils/formatters';
 
 interface ThematicSimulatorProps {

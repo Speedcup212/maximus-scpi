@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, TrendingUp, Shield, Target, Calculator, DollarSign } from 'lucide-react';
+import { X, Calculator } from 'lucide-react';
 import { ObjectiveType, InvestmentObjective } from '../types/scpi';
 
 interface ObjectiveModalProps {

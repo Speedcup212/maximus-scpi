@@ -1,18 +1,12 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import { formatFiniteTooltipValue } from '../utils/formatters';
+import React, { useState, useMemo } from 'react';
 import { TrendingUp, Building2, Shield, Briefcase, ChevronDown, ChevronUp, Info, ArrowRight } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import ScpiPortfolioBuilder, { PortfolioLine, ScpiDataForPortfolio } from './ScpiPortfolioBuilder';
 import { PortfolioAggregates, computePortfolioAggregates, createManualAggregates } from '../utils/portfolioAggregator';
 import { scpiData } from '../data/scpiData';
 import { SliderNumberField, TMISelector, NumberField } from './simulators';
-import {
-  GeoScenarioId,
-  GEO_SCENARIOS,
-  getGeoScenarioById,
-  computeYieldAndReval,
-  GROSS_YIELD_FRANCE_DEFAULT,
-  GROSS_YIELD_EUROPE_DEFAULT
-} from '../utils/scpiYield';
+import { GeoScenarioId, GEO_SCENARIOS, getGeoScenarioById, computeYieldAndReval, GROSS_YIELD_FRANCE_DEFAULT, GROSS_YIELD_EUROPE_DEFAULT } from '../utils/scpiYield';
 
 interface ScpiEnvelopeComparatorProps {
   defaultAmount?: number;
@@ -237,7 +231,6 @@ function computeDirectEnvelope(params: {
   const gainNetGlobal = revenusNetsCumules + breakdown.netValue - montantInvesti;
   const rendementNetMoyenAnnuel = (gainNetGlobal / (montantInvesti * duree)) * 100;
 
-  const fraisEntreeScpi = breakdown.ecartAmount; // Les frais sont inclus dans l'écart
 
   return {
     envelopeType: "direct",
@@ -307,8 +300,6 @@ function computeLifeInsuranceEnvelope(params: {
     duree,
     fraisEntreeAV,
     fraisGestionAV,
-    tauxFiscaliteRachat,
-    partFrance,
     contractAgeYears,
     householdStatus,
     usedAbatement,
@@ -359,7 +350,6 @@ function computeLifeInsuranceEnvelope(params: {
   // À la sortie : fiscalité sur le gain avec nouvelle logique
   const gainBrut = Math.max(capital - montantInvesti, 0);
   let impotRachat = 0;
-  let tauxEffectif = 0;
 
   if (gainBrut > 0) {
     let tauxGlobal: number;
@@ -388,7 +378,6 @@ function computeLifeInsuranceEnvelope(params: {
     const gainTaxable = Math.max(gainBrut - abattementDisponible, 0);
 
     impotRachat = gainTaxable * tauxGlobal;
-    tauxEffectif = gainBrut > 0 ? (impotRachat / gainBrut) * 100 : 0;
   }
 
   const capitalNetFinal = capital - impotRachat;
@@ -603,12 +592,6 @@ const EnvelopeCard: React.FC<EnvelopeCardProps> = ({ result, color, icon, title 
       maximumFractionDigits: 0
     }).format(value);
   };
-
-  const tauxFraisEntree = investissement.coutsInitiaux > 0
-    ? ((investissement.coutsInitiaux / investissement.montantInvesti) * 100).toFixed(1)
-    : '0';
-
-  const valeurRetraitImmediat = investissement.montantInvesti - investissement.coutsInitiaux;
 
   return (
     <div className={`${color.bg} rounded-xl shadow-lg p-6 border-2 ${color.border} space-y-5`}>
@@ -894,7 +877,6 @@ const ScpiEnvelopeComparator: React.FC<ScpiEnvelopeComparatorProps> = ({
   const [rendementBrut, setRendementBrut] = useState(defaultYield);
   const [revaloPrixPart, setRevaloPrixPart] = useState(0);
   const [duree, setDuree] = useState(defaultDuration);
-  const [partFrance, setPartFrance] = useState(100);
 
   // États pour scénario géographique (harmonisation rendements)
   const [selectedGeoScenarioId, setSelectedGeoScenarioId] = useState<GeoScenarioId>('FR70_EU30');
@@ -913,7 +895,7 @@ const ScpiEnvelopeComparator: React.FC<ScpiEnvelopeComparatorProps> = ({
   const [showAVParams, setShowAVParams] = useState(true);
   const [fraisEntreeAV, setFraisEntreeAV] = useState(2);
   const [fraisGestionAV, setFraisGestionAV] = useState(0.8);
-  const [tauxFiscaliteRachat, setTauxFiscaliteRachat] = useState(15);
+  const tauxFiscaliteRachat = 15; // Valeur historique transmise au comparateur AV (taux calculé par l'ancienneté).
   // Nouveaux paramètres AV pour fiscalité détaillée
   const [contractAgeYears, setContractAgeYears] = useState(10);
   const [householdStatus, setHouseholdStatus] = useState<'single' | 'couple'>('couple');
@@ -940,11 +922,6 @@ const ScpiEnvelopeComparator: React.FC<ScpiEnvelopeComparatorProps> = ({
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(value);
-  };
-
-  const formatPercent = (value: number | null) => {
-    if (value === null || !isFinite(value)) return 'N/A';
-    return `${value.toFixed(2)} %`;
   };
 
   // Préparer les données SCPI pour le builder
@@ -1867,7 +1844,7 @@ const ScpiEnvelopeComparator: React.FC<ScpiEnvelopeComparatorProps> = ({
                     <XAxis dataKey="name" stroke="#6b7280" />
                     <YAxis stroke="#6b7280" />
                     <Tooltip
-                      formatter={(value: number) => `${value.toFixed(2)} %`}
+                      formatter={(value) => formatFiniteTooltipValue(value, n => `${n.toFixed(2)} %`)}
                       contentStyle={{
                         backgroundColor: 'rgba(255, 255, 255, 0.95)',
                         border: '1px solid #e5e7eb',
@@ -1895,7 +1872,7 @@ const ScpiEnvelopeComparator: React.FC<ScpiEnvelopeComparatorProps> = ({
                     <XAxis dataKey="name" stroke="#6b7280" />
                     <YAxis stroke="#6b7280" />
                     <Tooltip
-                      formatter={(value: number) => formatEuro(value)}
+                      formatter={(value) => formatFiniteTooltipValue(value, formatEuro)}
                       contentStyle={{
                         backgroundColor: 'rgba(255, 255, 255, 0.95)',
                         border: '1px solid #e5e7eb',

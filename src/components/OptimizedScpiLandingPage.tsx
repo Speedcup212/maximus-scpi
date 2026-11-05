@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  TrendingUp, Shield, Phone, Mail, User, Euro,
-  ArrowRight, Award, Building2, Globe, BarChart3, Leaf,
-  Target, Calculator, MessageCircle, Clock, FileText, Lock,
-  ChevronRight, ChevronLeft, Zap, CheckCircle
-} from 'lucide-react';
+import { Shield, Mail, ArrowRight, Building2, Globe, Calculator, Clock, ChevronRight, Zap, CheckCircle } from 'lucide-react';
 import { ScpiLandingData } from '../data/landingPagesData';
 import { buildScpiLandingData } from '../utils/buildScpiLandingData';
 import { qualifyYield } from '../utils/yieldContext';
@@ -14,7 +9,6 @@ import MaximusLogoFooter from './MaximusLogoFooter';
 import EricAvatar from './EricAvatar';
 import PieChart from './PieChart';
 import ThematicSimulator from './ThematicSimulator';
-import Logo from './Logo';
 import Header from './Header';
 import { scpiData } from '../data/scpiData';
 import { CookieConsent } from './CookieConsent';
@@ -38,6 +32,7 @@ interface OptimizedScpiLandingPageProps {
   onNavigateToScpi?: (slug: string) => void;
   onContactClick?: () => void;
   onArticlesClick?: () => void;
+  onActualitesClick?: () => void;
   onComparateurClick?: () => void;
   onSimulateurClick?: (simulateurId: string) => void;
   isDarkMode?: boolean;
@@ -53,6 +48,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   onNavigateToScpi,
   onContactClick,
   onArticlesClick,
+  onActualitesClick,
   onComparateurClick,
   onSimulateurClick,
   isDarkMode = false,
@@ -69,7 +65,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
   }
 
   const landingData: ScpiLandingData = built.data;
-  const isEditorial = built.isEditorial;
 
   const landingSlug = createSlugFromName(landingData.nom);
   const staticScpiData = scpiData.find(
@@ -248,22 +243,6 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
     });
   };
 
-  const handleBackToHome = () => {
-    if (onNavigateHome) {
-      onNavigateHome();
-    } else {
-      window.location.href = '/';
-    }
-  };
-
-  const handleContactClick = () => {
-    if (onContactClick) {
-      onContactClick();
-    } else {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-  };
-
   const scrollToLeadForm = () => {
     document.getElementById('analyse-personnalisee')?.scrollIntoView({
       behavior: 'smooth',
@@ -318,6 +297,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         onComparateurClick={onComparateurClick}
         onSimulateurClick={onSimulateurClick}
         onArticlesClick={onArticlesClick}
+        onActualitesClick={onActualitesClick}
         currentView="scpi-landing"
       />
       {realScpiData && <div className="mx-auto max-w-7xl px-4 py-3"><ScpiPublicationQualityNotice scpi={realScpiData}/></div>}
@@ -463,22 +443,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {realScpiData && (
-                    <>
-                      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
-                        <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatPercentage(realScpiData.yield)}</div>
-                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Taux de distribution</div>
-                      </div>
-                      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
-                        <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.capitalization)}</div>
-                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Capitalisation</div>
-                      </div>
-                      <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
-                        <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.price)}</div>
-                        <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Prix de la part</div>
-                      </div>
-                    </>
-                  )}
+
                 </div>
               )}
 

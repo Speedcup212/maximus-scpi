@@ -1156,7 +1156,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({
           </View>
 
           {result.projections.map((row, i) => (
-            <View key={row.year} style={[styles.tableRow, i % 2 === 0 && styles.tableRowAlt]}>
+            <View key={row.year} style={[styles.tableRow, ...(i % 2 === 0 ? [styles.tableRowAlt] : [])]}>
               <Text style={{ ...styles.tableCell, flex: 0.6, fontWeight: 'bold' }}>A{row.year}</Text>
               <Text style={{ ...styles.tableCellRight, flex: 1.2, color: '#7c3aed' }}>{fmtNumber(row.grossIncome)} €</Text>
               <Text style={{ ...styles.tableCellRight, flex: 1.1 }}>{fmtNumber(row.amortization)} €</Text>
@@ -1265,8 +1265,8 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({
           <Text style={styles.infoTitle}>Revenus bruts annuels SCPI</Text>
           <Text style={styles.infoItem}>Revenus bruts annuels = Pleine propriété × Taux de distribution ({fmtPercent(inputs.grossYieldRate)})</Text>
           <Text style={styles.infoItem}>Revenus bruts annuels = {fmtEuro(result.reconstitutedFullProperty)} × {fmtPercent(inputs.grossYieldRate)} = {fmtEuro(result.annualGrossIncome)}</Text>
-          {inputs.incomeRevaluationRate > 0 && (
-            <Text style={styles.infoItem}>Revalorisés à {inputs.incomeRevaluationRate} % / an les années suivantes.</Text>
+          {inputs.revalorizationRate > 0 && (
+            <Text style={styles.infoItem}>Revalorisés à {inputs.revalorizationRate} % / an les années suivantes.</Text>
           )}
         </View>
 
@@ -1349,7 +1349,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({
           <Text style={styles.infoItem}>Année 0 : -{fmtEuro(result.effortEconomique)}</Text>
           <Text style={styles.infoItem}>Années 1 à {inputs.usufruitDuration} : flux opérationnels annuels</Text>
           <Text style={styles.infoItem}>Valeur finale de l'usufruit : 0 €</Text>
-          <Text style={styles.infoItem}>Flux : [-{fmtEuro(result.effortEconomique)} ; {(result.irrCashFlows && result.irrCashFlows.length > 1 ? result.irrCashFlows.slice(1, 5).map(f => fmtEuro(f)).join(' ; ') + (result.irrCashFlows.length > 5 ? ' ; ...' : '') : result.projections && result.projections.length > 0 ? result.projections.slice(0, 3).map((p: Record<string, unknown>) => fmtEuro((p.netCashFlow as number) ?? 0)).join(' ; ') + (result.projections.length > 3 ? ' ; ...' : '') : '—')}]</Text>
+          <Text style={styles.infoItem}>Flux : [-{fmtEuro(result.effortEconomique)} ; {(result.irrCashFlows && result.irrCashFlows.length > 1 ? result.irrCashFlows.slice(1, 5).map(f => fmtEuro(f)).join(' ; ') + (result.irrCashFlows.length > 5 ? ' ; ...' : '') : result.projections && result.projections.length > 0 ? result.projections.slice(0, 3).map(p => fmtEuro(p.netCashFlow)).join(' ; ') + (result.projections.length > 3 ? ' ; ...' : '') : '—')}]</Text>
           <Text style={styles.infoItem}>TRI indicatif = {result.indicativeIrr !== null ? fmtPercent(result.indicativeIrr) : 'Non calculable'}</Text>
         </View>
 
@@ -1357,7 +1357,7 @@ const ExpertHoldingReportPdf: React.FC<ExpertHoldingReportPdfProps> = ({
           <Text style={styles.infoTitle}>TVA et frais de mission</Text>
           {inputs.feesEnabled ? (
             <>
-              <Text style={styles.infoItem}>Frais de mission HT : {fmtEuro(result.feesHT ?? inputs.missionFeesAmount)}</Text>
+              <Text style={styles.infoItem}>Frais de mission HT : {fmtEuro(result.feesHT)}</Text>
               <Text style={styles.infoItem}>TVA ({inputs.feesVatRate ?? 20} %) : {fmtEuro(result.feesVAT ?? 0)}</Text>
               <Text style={styles.infoItem}>Total TTC : {fmtEuro(result.feesTTC ?? 0)}</Text>
               <Text style={styles.infoItem}>TVA récupérable : {fmtEuro(result.recoverableVatAmount ?? 0)}</Text>

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Building2, Search, X, ChevronRight, ExternalLink, Shield, ArrowRight, Users, Building, BarChart3, FileText, CheckCircle2, AlertTriangle, BookOpen } from 'lucide-react';
+import { Building2, Search, X, ChevronRight, Shield, ArrowRight, Users, Building, BarChart3, FileText, CheckCircle2, AlertTriangle, BookOpen } from 'lucide-react';
 import SEOHead from './SEOHead';
 import Header from './Header';
 import LegalFooter from './LegalFooter';
@@ -330,11 +330,7 @@ const SocietesDeGestionScpiPage: React.FC<SocietesDeGestionScpiPageProps> = ({
           </div>
         </div>
 
-        <LegalFooter
-          isDarkMode={isDarkMode}
-          onContactClick={onContactClick}
-          onAboutClick={onAboutClick}
-        />
+        <LegalFooter />
       </div>
     </>
   );

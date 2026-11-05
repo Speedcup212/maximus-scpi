@@ -15,8 +15,10 @@ export default function ProCgpLogin({ onNavigate }: ProCgpLoginProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
+    const client = supabase;
+    if (!client) return;
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await client.auth.getSession();
       if (session) {
         onNavigate('/pro/dashboard');
       }
@@ -28,8 +30,14 @@ export default function ProCgpLogin({ onNavigate }: ProCgpLoginProps) {
     e.preventDefault();
     setError('');
     setLoading(true);
+    const client = supabase;
+    if (!client) {
+      setError('Service de connexion temporairement indisponible.');
+      setLoading(false);
+      return;
+    }
 
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+    const { error: authError } = await client.auth.signInWithPassword({ email, password });
 
     if (authError) {
       setError(authError.message === 'Invalid login credentials'
@@ -44,7 +52,13 @@ export default function ProCgpLogin({ onNavigate }: ProCgpLoginProps) {
   const handleGoogleLogin = async () => {
     setError('');
     setGoogleLoading(true);
-    await supabase.auth.signInWithOAuth({
+    const client = supabase;
+    if (!client) {
+      setError('Service de connexion temporairement indisponible.');
+      setGoogleLoading(false);
+      return;
+    }
+    await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: window.location.origin + '/pro/dashboard',

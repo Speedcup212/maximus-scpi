@@ -1,13 +1,7 @@
-﻿import React, { useState } from 'react';
-import {
-  Building2, TrendingUp, Euro, Users, FileText, CheckCircle, ChevronDown, ChevronUp,
-  Clock, Shield, Calculator, Briefcase, Home, Store, Cross, Warehouse,
-  BadgeCheck, AlertCircle, LineChart, PiggyBank, Receipt, Scale
-} from 'lucide-react';
+﻿import React from 'react';
+import { Building2, TrendingUp, Euro, Users, CheckCircle, ChevronDown, Clock, Shield, Calculator, Briefcase, Home, Store, Cross, Warehouse, BadgeCheck, AlertCircle, LineChart, PiggyBank, Receipt, Scale } from 'lucide-react';
 
 const UnderstandingSCPI: React.FC = () => {
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-
   const benefits = [
     {
       icon: <Euro className="w-6 h-6" />,
@@ -122,49 +116,6 @@ const UnderstandingSCPI: React.FC = () => {
       percentage: "5%",
       description: "Résidences étudiantes et seniors",
       color: "from-orange-600 to-yellow-600"
-    }
-  ];
-
-  const faqs = [
-    {
-      question: "Qu'est-ce qu'une SCPI exactement ?",
-      answer: "Une SCPI (Société Civile de Placement Immobilier) est un placement collectif qui permet d'investir dans l'immobilier professionnel sans les contraintes de la gestion locative. En achetant des parts, vous devenez co-propriétaire d'un patrimoine immobilier diversifié géré par des professionnels. C'est l'équivalent d'un fonds d'investissement, mais dédié à l'immobilier d'entreprise."
-    },
-    {
-      question: "Quels sont les rendements moyens des SCPI ?",
-      answer: "Les SCPI de rendement offrent en moyenne entre 4% et 6% de rendement annuel brut. Ce taux varie selon le type de SCPI (bureaux, commerces, santé...) et sa stratégie d'investissement. Par exemple, les SCPI de bureaux en Île-de-France ont historiquement délivré des rendements autour de 4,5%, tandis que certaines SCPI diversifiées peuvent atteindre 5,5% à 6%. Les performances passées ne présagent pas des performances futures."
-    },
-    {
-      question: "Mon capital est-il garanti dans une SCPI ?",
-      answer: "Non, comme tout investissement immobilier, les SCPI comportent des risques. La valeur des parts peut fluctuer à la hausse comme à la baisse selon l'évolution du marché immobilier. Les revenus peuvent également varier en fonction du taux d'occupation des biens et de la conjoncture économique. C'est pourquoi nous recommandons de diversifier votre investissement sur plusieurs SCPI et de considérer cet investissement sur le long terme (8-10 ans minimum) pour lisser les variations du marché."
-    },
-    {
-      question: "Combien faut-il investir au minimum dans une SCPI ?",
-      answer: "L'investissement minimum varie selon les SCPI, généralement entre 200€ et 1000€ par part. Le prix moyen d'une part de SCPI se situe autour de 200€ à 1000€. Avec MaximusSCPI, nous vous aidons à construire un portefeuille diversifié adapté à votre budget, même avec un capital de départ de 5000€ à 10000€. Il est possible d'investir progressivement pour étaler votre investissement dans le temps."
-    },
-    {
-      question: "Quelle est la fiscalité applicable aux revenus de SCPI ?",
-      answer: "Les revenus des SCPI sont imposés dans la catégorie des revenus fonciers et soumis aux prélèvements sociaux (17,2%). Vous avez deux options : le régime micro-foncier (abattement de 30% si revenus < 15000€) ou le régime réel (déduction des charges réelles). Pour optimiser la fiscalité, plusieurs solutions existent : investir via une assurance-vie, opter pour le démembrement temporaire, ou utiliser le crédit (intérêts déductibles). MaximusSCPI vous conseille sur la meilleure stratégie selon votre situation."
-    },
-    {
-      question: "Quelle est la durée de placement recommandée ?",
-      answer: "La durée de placement recommandée pour une SCPI est de 8 à 10 ans minimum. Cette durée permet de lisser les fluctuations du marché immobilier et de bénéficier pleinement du potentiel de revalorisation des parts. Sur le long terme, l'immobilier professionnel a historiquement démontré sa capacité à préserver le capital et générer des revenus réguliers. Une sortie anticipée peut entraîner des frais et une moins-value si le marché est défavorable."
-    },
-    {
-      question: "Comment revendre mes parts de SCPI ?",
-      answer: "Pour les SCPI à capital variable, vous pouvez revendre vos parts à la société de gestion au prix de retrait (généralement le prix de souscription moins des frais). Pour les SCPI à capital fixe, la revente s'effectue sur le marché secondaire, via un bulletin de cession. Le délai de revente peut varier de quelques semaines à plusieurs mois selon la liquidité de la SCPI. Certaines SCPI proposent un service de contrepartie pour faciliter les transactions."
-    },
-    {
-      question: "Quels sont les frais associés aux SCPI ?",
-      answer: "Les SCPI comportent plusieurs types de frais : les frais de souscription (0% à 10% HT en moyenne), les frais de gestion annuels (environ 10% à 15% HT des loyers collectés), et d'éventuels frais de cession lors de la revente (généralement 5%). Ces frais sont déjà intégrés dans le calcul du rendement net. Chez MaximusSCPI, nous vous orientons vers les SCPI offrant le meilleur rapport rendement/frais et notre accompagnement est totalement gratuit pour vous."
-    },
-    {
-      question: "Peut-on investir en SCPI avec un crédit immobilier ?",
-      answer: "Oui, il est tout à fait possible d'investir en SCPI à crédit. Cette solution présente plusieurs avantages : effet de levier sur votre investissement, déductibilité des intérêts d'emprunt de vos revenus fonciers, et préservation de votre épargne. Les banques financent généralement jusqu'à 100% de l'investissement. Le crédit permet d'amplifier les rendements mais augmente aussi les risques. MaximusSCPI vous aide à simuler différents scénarios pour trouver la solution optimale."
-    },
-    {
-      question: "Les SCPI sont-elles adaptées à la préparation de la retraite ?",
-      answer: "Oui, les SCPI sont particulièrement adaptées à la préparation de la retraite. Elles offrent des revenus complémentaires réguliers et prévisibles, essentiels pour maintenir son niveau de vie. La revalorisation progressive des parts protège contre l'inflation. Pour optimiser votre stratégie retraite, nous recommandons de commencer tôt (10-15 ans avant la retraite), de diversifier sur plusieurs SCPI, et d'envisager le démembrement temporaire pour réduire la fiscalité pendant la phase d'acquisition."
     }
   ];
 
