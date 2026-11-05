@@ -282,14 +282,14 @@ const HomeApp: React.FC = () => {
 
                 <a
                   href="/comparateur-scpi/"
-                  aria-label={`Voir les ${certifiedScpiCohort.count} SCPI référencées dans le comparateur`}
+                  aria-label={`Voir les ${certifiedScpiCohort.count} SCPI analysées dans le comparateur`}
                   className="mt-6 inline-flex w-full max-w-xl items-center gap-4 rounded-xl border border-emerald-400/25 bg-slate-900/50 px-4 py-3.5 text-left transition-colors hover:border-emerald-400/60 hover:bg-slate-900/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 sm:w-auto"
                 >
                   <span className="shrink-0 text-4xl font-extrabold tabular-nums leading-none text-emerald-400 sm:text-5xl">
                     {certifiedScpiCohort.count}
                   </span>
                   <span className="flex flex-col">
-                    <span className="text-sm font-semibold text-slate-100 sm:text-base">SCPI référencées</span>
+                    <span className="text-sm font-semibold text-slate-100 sm:text-base">SCPI analysées</span>
                     <span className="text-xs leading-relaxed text-slate-300 sm:text-sm">Rendements • Frais • Risques • Trajectoires</span>
                   </span>
                 </a>
