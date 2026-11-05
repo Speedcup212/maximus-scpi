@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-05",
+  "scpi_slug": "aew-opportunites-europe",
+  "source_period": "2025-S2",
+  "document_kind": "semiannual_bulletin",
+  "source_url": "https://www.aewpatrimoine.com/sites/default/files/2026-03/AEW%20OPPORTUNITES%20EUROPE%20Bulletin%202%C3%A8me%20semestre%202025_0.pdf",
+  "pdf_sha256": "6e4556df29e653aba7ad7e940802ad6fcc7b9f73180ed360284718007a7640fd",
+  "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN",
+  "publication_authorized": false,
+  "legal_qa_approved": false,
+  "metrics": [
+    {
+      "metric": "nombre_parts",
+      "value": 1553612,
+      "unit": "PARTS",
+      "basis": "STOCK_AT_2025_12_31",
+      "page": 2
+    },
+    {
+      "metric": "nombre_associes",
+      "value": 6423,
+      "unit": "COUNT",
+      "basis": "STOCK_AT_2025_12_31",
+      "page": 2
+    },
+    {
+      "metric": "parts_attente_retrait",
+      "value": 67066,
+      "unit": "PARTS",
+      "basis": "WITHDRAWAL_QUEUE_STOCK_AT_2025_12_31",
+      "page": 2
+    },
+    {
+      "metric": "nombre_parts_nouvelles_souscrites",
+      "value": 1782,
+      "unit": "PARTS",
+      "basis": "SHARE_ISSUANCE_FLOW_2025_S2",
+      "page": 2
+    },
+    {
+      "metric": "retraits_non_compenses",
+      "value": 9311,
+      "unit": "PARTS",
+      "basis": "UNCOMPENSATED_REDEMPTIONS_FLOW_2025_S2",
+      "page": 2
+    },
+    {
+      "metric": "tof_quarterly",
+      "value": 82.82,
+      "unit": "PERCENT",
+      "basis": "Q4_2025_FINANCIAL_OCCUPANCY_REPORTED_IN_S2_2025",
+      "page": 2
+    },
+    {
+      "metric": "top",
+      "value": 83.52,
+      "unit": "PERCENT",
+      "basis": "PHYSICAL_OCCUPANCY_AT_2025_12_31_REPORTED_IN_S2",
+      "page": 2
+    }
+  ]
+}
