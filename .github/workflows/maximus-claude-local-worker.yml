@@ -127,7 +127,7 @@ jobs:
             throw 'Model diff is not exactly the approved one-file scope'
           }
           $pathsFile=Join-Path $env:RUNNER_TEMP 'maximus-claude-paths.json'
-          @($env:PROPOSED_FILE) | ConvertTo-Json -Compress | Set-Content -Encoding utf8 $pathsFile
+          ConvertTo-Json -InputObject @($env:PROPOSED_FILE) -Compress | Set-Content -Encoding utf8 $pathsFile
           node agents/autonomous/validate-change-scope.mjs --scope $env:CLAUDE_SCOPE_FILE --paths $pathsFile --branch $env:CANDIDATE_BRANCH
           if ($LASTEXITCODE -ne 0) { throw 'Static scope guard rejected candidate' }
           git diff --check
