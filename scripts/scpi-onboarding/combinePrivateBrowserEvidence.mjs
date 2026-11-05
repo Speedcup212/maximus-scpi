@@ -12,7 +12,7 @@ const DIGEST=/^[0-9a-f]{64}$/;
 const EXPECTED=new Set([1440,390].flatMap(width=>SURFACES.map(surface=>width+':'+surface)));
 const sha256=(b)=>createHash('sha256').update(b).digest('hex');
 const read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
-const safe=x=>typeof x==='string'&&/^[a-z0-9-]+\.png$/.test(x);
+const safe=x=>typeof x==='string'&&/^[a-z0-9_-]+\.png$/.test(x);
 
 export function combinePrivateBrowserEvidence({baseDir,trajectoryDir,candidate='sofidynamic'}){
  if(!PILOTS.includes(candidate))throw Error('UNKNOWN_PILOT');
