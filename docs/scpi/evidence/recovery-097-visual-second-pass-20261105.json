@@ -353,7 +353,7 @@
           "value": 82.58,
           "unit": "PERCENT",
           "page": 2,
-          "value_basis": "FINANCIAL_OCCUPANCY_S1_2026",
+          "value_basis": "Q2_2026_FINANCIAL_OCCUPANCY_REPORTED_IN_S1_BULLETIN",
           "page_render_png_sha256": "9bf812eb0a921f1d5ef5cc17983869d085b5886b693d4a8fa0a4f85db99824d6",
           "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
         },
@@ -362,7 +362,7 @@
           "value": 80.71,
           "unit": "PERCENT",
           "page": 2,
-          "value_basis": "PHYSICAL_OCCUPANCY_S1_2026",
+          "value_basis": "Q2_2026_PHYSICAL_OCCUPANCY_REPORTED_IN_S1_BULLETIN",
           "page_render_png_sha256": "9bf812eb0a921f1d5ef5cc17983869d085b5886b693d4a8fa0a4f85db99824d6",
           "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
         },
