@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {maturityRubric,evaluateMaturity,protectedAdmissionCriteria} from './industrialMaturity.mjs';
@@ -57,4 +58,64 @@ test('100 points plus trusted readback and all integrity conditions is the only 
  assert.equal(result.score,100);
  assert.equal(result.decision,'GO');
  assert.equal(result.publication_authorized,false,'A rubric GO never itself permits a publication');
+});
+
+
+test('CRASH 32/32: a PR cannot award any of five protected criteria from forged JSON',()=>{
+ const skeleton=Object.fromEntries(maturityRubric.flatMap(x=>x[2].map(([id])=>[id,{status:'PASS',proofs:['nonempty-string-only']}])));
+ const goodFlags={typecheck_pass:true,no_existing_regression:true,critical_integrity_pass:true};
+ for(let mask=0;mask<32;mask++){
+  const claims=structuredClone(skeleton);
+  for(let i=0;i<protectedAdmissionCriteria.length;i++){
+   const key=protectedAdmissionCriteria[i];
+   claims[key]={status:(mask&(1<<i))?'PASS':'BLOCKED',proofs:['claim-not-independently-read']};
+  }
+  const a=evaluateMaturity({...goodFlags,criteria:claims});
+  assert.equal(a.score,75,'an untrusted PR must not earn any protected points');
+  assert.equal(a.decision,'NO_GO');
+  assert.equal(a.constraints.protected_live_readback,false);
+  assert.equal(a.publication_authorized,false);
+ }
+});
+test('CRASH 32/32: trusted hypothetical needs every protected criterion, never just 4/5',()=>{
+ const skeleton=Object.fromEntries(maturityRubric.flatMap(x=>x[2].map(([id])=>[id,{status:'PASS',proofs:['synthetic-not-live']}])));
+ const goodFlags={typecheck_pass:true,no_existing_regression:true,critical_integrity_pass:true};
+ for(let mask=0;mask<32;mask++){
+  const c=structuredClone(skeleton);
+  protectedAdmissionCriteria.forEach((id,i)=>{if(!(mask&(1<<i)))c[id].status='BLOCKED';});
+  const report=evaluateMaturity({...goodFlags,criteria:c},{trustedProtectedReadback:true});
+  const passed=protectedAdmissionCriteria.filter((_,i)=>mask&(1<<i)).length;
+  assert.equal(report.score,75+5*passed);
+  assert.equal(report.decision,mask===31?'GO':'NO_GO');
+  assert.equal(report.publication_authorized,false);
+ }
+});
+test('CRASH 16/16: 100 capability points are never a substitute for a missing integrity gate',()=>{
+ const criteria=Object.fromEntries(maturityRubric.flatMap(x=>x[2].map(([id])=>[id,{status:'PASS',proofs:['synthetic-not-live']}])));
+ for(let mask=0;mask<16;mask++){
+  const report=evaluateMaturity({
+    criteria,typecheck_pass:!!(mask&1),no_existing_regression:!!(mask&2),
+    critical_integrity_pass:!!(mask&4)
+   },{trustedProtectedReadback:!!(mask&8)});
+  assert.equal(report.decision,mask===15?'GO':'NO_GO');
+  assert.equal(report.publication_authorized,false);
+ }
+});
+test('CRASH: a privileged true flag and fake nonempty proofs can mathematically assert GO without external verification',()=>{
+ const fabricated=Object.fromEntries(maturityRubric.flatMap(x=>x[2].map(([id])=>[id,{status:'PASS',proofs:['FAKE_NOT_AN_ATTESTATION']}])));
+ const r=evaluateMaturity({criteria:fabricated,typecheck_pass:true,no_existing_regression:true,critical_integrity_pass:true},{trustedProtectedReadback:true});
+ // This is a KNOWN trust-boundary defect in this isolated function, not an authorized release.
+ // A protected verifier must authenticate real signed/fresh Supabase and deployment evidence
+ // BEFORE it ever passes trustedProtectedReadback. Never use this function's GO alone to publish.
+ assert.equal(r.score,100);
+ assert.equal(r.decision,'GO');
+ assert.equal(r.publication_authorized,false);
+});
+test('CRASH: PR workflow is structurally unable to award any of its five protected 5-point gates',()=>{
+ const workflow=fs.readFileSync(new URL('../../.github/workflows/scpi-industrial-readiness.yml',import.meta.url),'utf8');
+ assert.ok(workflow.includes('pull_request:'));
+ assert.ok(workflow.includes('const report=evaluateMaturity(observed);'));
+ assert.ok(!workflow.includes('trustedProtectedReadback:true'));
+ assert.ok(workflow.includes("report.score!==100"));
+ assert.ok(workflow.includes("INDUSTRIAL_NO_GO"));
 });
