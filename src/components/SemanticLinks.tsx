@@ -47,7 +47,6 @@ const getIcon = (iconName: string) => {
 };
 
 const SemanticLinks: React.FC<SemanticLinksProps> = ({
-  currentPage,
   links,
   title = 'Découvrez aussi',
   compact = false

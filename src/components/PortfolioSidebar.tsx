@@ -29,6 +29,28 @@ const PortfolioSidebar: React.FC<PortfolioSidebarProps> = ({
     }
   };
 
+  const getSectorDisplayName = (sector: string): string => {
+    const sectorNames: Record<string, string> = {
+      'bureaux': 'Bureaux',
+      'commerces': 'Commerces',
+      'residentiel': 'Résidentiel',
+      'sante': 'Santé',
+      'logistique': 'Logistique',
+      'hotellerie': 'Hôtellerie',
+      'diversifie': 'Diversifié'
+    };
+    return sectorNames[sector] || 'Autres';
+  };
+
+  const getGeographyDisplayName = (geography: string): string => {
+    const geoNames: Record<string, string> = {
+      'france': 'France',
+      'europe': 'Europe',
+      'international': 'International'
+    };
+    return geoNames[geography] || 'Autres';
+  };
+
   // Calculs basés sur les vraies données SCPI
   const equalAllocation = selectedScpi.length > 0 ? 100 / selectedScpi.length : 0;
   const averageYield = selectedScpi.length > 0 
@@ -63,31 +85,9 @@ const PortfolioSidebar: React.FC<PortfolioSidebarProps> = ({
     color: ['#1e40af', '#059669', '#dc2626', '#7c3aed', '#0891b2'][index % 5]
   }));
 
-  const getSectorDisplayName = (sector: string): string => {
-    const sectorNames: Record<string, string> = {
-      'bureaux': 'Bureaux',
-      'commerces': 'Commerces',
-      'residentiel': 'Résidentiel',
-      'sante': 'Santé',
-      'logistique': 'Logistique',
-      'hotellerie': 'Hôtellerie',
-      'diversifie': 'Diversifié'
-    };
-    return sectorNames[sector] || 'Autres';
-  };
-
-  const getGeographyDisplayName = (geography: string): string => {
-    const geoNames: Record<string, string> = {
-      'france': 'France',
-      'europe': 'Europe',
-      'international': 'International'
-    };
-    return geoNames[geography] || 'Autres';
-  };
-
   const tabs = [
     { key: 'overview', label: 'Vue générale', icon: <Target className="w-4 h-4" /> },
-    { key: 'analysis', label: 'Analyse 3D', icon: <PieChart className="w-4 h-4" /> }
+    { key: 'analysis', label: 'Analyse', icon: <PieChart className="w-4 h-4" /> }
   ];
 
   return (
@@ -223,7 +223,7 @@ const PortfolioSidebar: React.FC<PortfolioSidebarProps> = ({
                 {/* Graphique 3D de répartition */}
                 <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 p-4 rounded-xl border border-purple-200 dark:border-purple-800">
                   <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 text-center">
-                    Répartition 3D Interactive
+                    Répartition sectorielle par catégorie principale
                   </h4>
                   <div className="bg-white/50 dark:bg-gray-800/50 rounded-xl p-4">
                     <PieChart3DInteractive
@@ -232,6 +232,18 @@ const PortfolioSidebar: React.FC<PortfolioSidebarProps> = ({
                       height={0.8}
                     />
                   </div>
+                </div>
+
+                {/* Catégorie géographique principale, non allocation réelle des immeubles */}
+                <div className="bg-white dark:bg-gray-800/50 p-4 rounded-xl border border-emerald-200 dark:border-emerald-800">
+                  <h4 className="text-base font-bold text-gray-900 dark:text-white mb-3 text-center">
+                    Catégorie géographique principale
+                  </h4>
+                  <PieChart3DInteractive data={geoData} radius={4} animated={false} />
+                  <p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
+                    Répartition des SCPI sélectionnées selon leur catégorie principale ;
+                    elle ne représente pas la localisation exacte de leurs immeubles.
+                  </p>
                 </div>
 
                 {/* Statistiques */}
