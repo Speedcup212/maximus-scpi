@@ -8,11 +8,11 @@ const pem=publicKey.export({type:'spki',format:'pem'});
 function payload(){return {
  schema:'scpi-industrial-postdeploy/v1',site:'maximusscpi.com',environment:'production',
  commit_sha:SHA,issued_at:new Date(now-60000).toISOString(),expires_at:new Date(now+60000).toISOString(),
- deployment:{id:'deploy-123',state:'ready',commit_sha:SHA},
+ deployment:{id:'deploy-123',state:'ready',commit_sha:SHA,published:true,context:'production',hostname:'maximusscpi.com',published_at:new Date(now-120000).toISOString()},
  supabase_readback:{observed_at:new Date(now-60000).toISOString(),commit_sha:SHA,protected_access:true,release_authorized:true,three_pilots_eligible:true},
  responsible_batch_decision:'APPROVED',pilots:PILOTS.map(slug=>({
  slug,...Object.fromEntries(REQUIRED.map(g=>[g,true])),reviewed_by:'analyste-habilite',
- independent_auditor:'auditeur-distinct',browser_checks:['desktop','mobile'].flatMap(device=>SURFACES.map(surface=>({device,surface,status:'PASS',commit_sha:SHA,proof_sha256:P})))
+ independent_auditor:'auditeur-distinct',browser_checks:['desktop','mobile'].flatMap(device=>SURFACES.map(surface=>({device,surface,status:'PASS',commit_sha:SHA,proof_sha256:P,deployment_id:'deploy-123',url:'https://maximusscpi.com/scpi/'+slug,observed_at:new Date(now-60000).toISOString()})))
  }))};}
 function issue(body=payload()){const raw=Buffer.from(JSON.stringify(body));return {payload:raw.toString('base64url'),signature:sign(null,raw,privateKey).toString('base64url')};}
 function verify(a=issue(),key=pem,sha=SHA,t=now){return verifyPostdeployAttestation({attestation:a,trustedPublicKeyPem:key,expectedSha:sha,now:t});}
@@ -50,6 +50,8 @@ test('all financial, legal, independent and release gates fail closed when indiv
 test('all 12 browser proof cases bind to SHA and exact surface',()=>{
  for(let i=0;i<12;i++){const p=payload();p.pilots[0].browser_checks[i].commit_sha='c'.repeat(40);assert.equal(verify(issue(p)).status,'NO_GO',String(i));}
  const p=payload();p.pilots[0].browser_checks[0].proof_sha256='nothash';assert.equal(verify(issue(p)).status,'NO_GO');
+ const q=payload();q.pilots[0].browser_checks[0].url='https://maximusscpi.evil.example/x';assert.equal(verify(issue(q)).status,'NO_GO');
+ const r=payload();r.pilots[0].browser_checks[0].deployment_id='preview';assert.equal(verify(issue(r)).status,'NO_GO');
 });
 test('pilot replacement, duplicate pilot, missing independent auditor fail',()=>{
  const p=payload();p.pilots[1].slug='other';assert.equal(verify(issue(p)).status,'NO_GO');
