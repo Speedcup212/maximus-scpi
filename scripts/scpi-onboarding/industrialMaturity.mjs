@@ -29,5 +29,5 @@ export function evaluateMaturity(evidence,{trustedProtectedReadback=false}={}) {
   three_pilots_eligible:demonstrated('three_pilots_eligible'),
   no_existing_regression:evidence?.no_existing_regression===true,
   production_readback:demonstrated('authorized_production_readback'),protected_live_readback:trustedProtectedReadback===true};
- return {score,max:100,domains,constraints,decision:score>=90&&Object.values(constraints).every(Boolean)?'GO':'NO_GO',publication_authorized:false};
+ return {score,max:100,domains,constraints,decision:score===100&&Object.values(constraints).every(Boolean)?'GO':'NO_GO',publication_authorized:false};
 }
