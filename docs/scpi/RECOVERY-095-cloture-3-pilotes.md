@@ -5,7 +5,7 @@ Date : 05/11/2026. Projet : MaximusSCPI. PR #292 conservée en **draft / NO GO**
 
 ## Corrections vérifiées en production privée
 1. L'ancienne contrainte Supabase refusait tout bulletin **S1/S2** : migration `20261105135939` appliquée pour accepter `semiannual_bulletin` et les seules périodes `20xx-S1/S2`, en conservant les périodes T1–T4 et RA.
-2. Le site émetteur officiel `www.aewpatrimoine.com` a été enregistré dans l'allowlist restreinte, avec le lien produit comme provenance.
+2. Le site émetteur officiel `www.aewpatrimoine.com` a été enregistré dans l'allowlist restreinte, avec le lien produit comme provenance (migration de configuration enregistrée sous le numéro exact `20261105141124`).
 3. La CI GitHub [#42024494906](https://github.com/Speedcup212/maximus-scpi/actions/runs/42024494906) a vérifié les binaires, identités et SHA ; **5 preuves financières documentaires** (Sofidynamic T3, Opus Real T3, AEW S1 2026, S2 2025, RA 2025) et **3 preuves réglementaires** (AEW DIC, note et statuts combinés) ont été inscrites dans les tables existantes. Le document signé Sofidynamic d'avril 2026 **n'a pas** été utilisé pour certifier les statuts courants de juillet 2026.
 4. La work queue existante traitait AEW comme `VERIFY_PDF_AND_IDENTITY` malgré les binaires. Migration `20261105140854` appliquée : le passage à `COMPLETE_PAGINATED_METRIC_QA` ne nécessite **que la preuve S1 officielle avec identité, empreinte SHA, volume textuel et hostname approuvé** ; jamais une validation financière.
 5. La migration est versionnée ici sous **son numéro exact déjà attribué par Supabase**, avec tests permanents dans le workflow documentaire existant. Pas de deuxième pipeline.

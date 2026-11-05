@@ -30,3 +30,11 @@ test('fix changes neither the financial release verdict nor user-facing values',
   assert.doesNotMatch(sql,/\bgrant\s+(?:all|select|insert|update)\b/i);
  }
 });
+
+test('new publisher AEW host is an exact allowlist row with a product-page provenance', () => {
+ const migration = fs.readFileSync(new URL('../../supabase/migrations/20261105141124_scpi_candidate_aew_verified_official_hostname_20261105.sql', import.meta.url),'utf8');
+ assert.ok(migration.includes("('www.aewpatrimoine.com','AEW Patrimoine'"));
+ assert.ok(migration.includes("https://www.aewpatrimoine.com/nos-produits/scpi-dimmobilier-dentreprise/aew-opportunites-europe"));
+ assert.match(migration,/on conflict \(hostname\) do nothing/i);
+ assert.doesNotMatch(migration,/\bgrant\s+(?:all|insert|update|select)\b/i);
+});

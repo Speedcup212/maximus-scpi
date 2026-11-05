@@ -14,6 +14,10 @@
     {
       "version": "20261105140854",
       "name": "scpi_candidate_semiannual_work_queue_20261105"
+    },
+    {
+      "version": "20261105141124",
+      "name": "scpi_candidate_aew_verified_official_hostname_20261105"
     }
   ],
   "synchronized_previous_pdf_identities": 5,
