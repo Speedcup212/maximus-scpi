@@ -69,3 +69,9 @@ Conserver un **bundle de preuves par lot borné** (5 SCPI maximum), non une ZIP 
 ## 6. Prérequis avant toute promotion
 
 Le prochain saut fonctionnel nécessite un test navigateur **T3 Sofidynamic réellement exécuté**, ainsi que des snapshots privés actuels AEW/Opus et de leurs douze cas, puis vérification du ZIP par le contrôleur externe protégé, revue financière/juridique imputable et audit indépendant. Le pipeline ne doit plus traduire un SKIPPED en PASS. **Aucune migration financière ou publique, aucune promotion QA, aucun merge/déploiement effectué dans RECOVERY-113.**
+
+### Clôture GitHub de l'exécution `740e2f0`
+
+Huit workflows terminés : **sept SUCCESS**, **un FAILURE intentionnel** sur `SCPI industrial admission - mandatory evidence and TypeScript` (**75/100 NO GO**). Les succès comprennent notamment build, QA PDF émetteur, rejeu complet des bulletins, contrôle des composants BNP, préflight générique et espace client. Le contrôleur industriel n'est **pas** déclaré `GO` ; aucun SHA de la PR #292 n'a été publié sur Netlify.
+
+Ces résultats se rapportent au **SHA de code `740e2f0bc5e180015200302a5c872a09d8c36ea3`** ; les commits documentaires postérieurs ne modifient pas les exécutables testés.
