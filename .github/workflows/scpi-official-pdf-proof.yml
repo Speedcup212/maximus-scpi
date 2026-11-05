@@ -73,3 +73,53 @@ jobs:
           path: test-results/scpi-source-validation/
           retention-days: 30
           if-no-files-found: warn
+
+  inpi-official-statutes:
+    # Protected, trusted main branch ONLY. Never expose INPI secrets to any PR.
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    needs: official-binary-audit
+    environment: production
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned PDF source validator
+        run: python -m pip install --quiet pymupdf==1.26.5
+      - name: Check original official INPI RNE act with protected credentials
+        env:
+          INPI_USERNAME: ${{ secrets.INPI_USERNAME }}
+          INPI_PASSWORD: ${{ secrets.INPI_PASSWORD }}
+        run: |
+          python scripts/scpi-onboarding/inspectRegistryStatutes2026.py \
+            --source inpi \
+            --output test-results/scpi-source-validation/sofidynamic-official-inpi-2026.json
+      - name: Reject missing or inauthentic original without manufacturing legal approval
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path('test-results/scpi-source-validation/sofidynamic-official-inpi-2026.json')
+          data=json.loads(path.read_text(encoding='utf-8'))
+          expected='OFFICIAL_INPI_FILE_MATCHED_AWAITING_INDEPENDENT_LEGAL_REVIEW'
+          if data.get('status') != expected or data.get('official_register_pdf_identity_verified') is not True:
+              raise SystemExit('INPI_PRIMARY_SOURCE_UNAVAILABLE_OR_UNVERIFIED')
+          if data.get('statutes_current_certified') is not False or data.get('publication_authorized') is not False:
+              raise SystemExit('INPI_SOURCE_PROBE_MUST_NOT_APPROVE_RELEASE')
+          print('INPI_RNE_ORIGINAL_BINARY_EVIDENCE_READY_FOR_INDEPENDENT_LEGAL_REVIEW')
+          PY
+      - name: Retain source identity and SHA evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sofidynamic-original-inpi-proof-${{ github.run_id }}
+          path: test-results/scpi-source-validation/sofidynamic-official-inpi-2026.json
+          retention-days: 30
+          if-no-files-found: warn
