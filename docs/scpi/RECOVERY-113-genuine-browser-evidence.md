@@ -52,3 +52,20 @@ Lecture read-only Supabase `maximus_agents.scpi_candidate_final_review.review_ev
 Conserver un **bundle de preuves par lot borné** (5 SCPI maximum), non une ZIP globale de 2 400 captures exécutée d'un bloc. Les réexécutions doivent viser le sous-ensemble touché par un changement de source, composant, contrat ou autorisation. Chaque bundle inclut son SHA code, période source, document et empreinte, les relecteurs et un statut non habilitant tant que le sign-off indépendant manque.
 
 **Verdict :** circuit de preuves renforcé, ancienne incohérence documentaire identifiée et reproduite, vérification des octets préparée. Aucune certification T3 ni publication additionnelle n'est déclarée.
+
+## 5. Crash test réel de la CI et correction du faux dossier Sofidynamic (05/11/2026)
+
+**CI SHA `55142cca233648b64141fe120c5b77aeb0521f9f`** :
+- Admission [#42117529697](https://github.com/Speedcup212/maximus-scpi/actions/runs/42117529697) : **33/33 tests Node PASS**, **6/6 tests Python PASS**, **TypeScript 0/1 023**, anti-régression PASS ; **75/100 NO GO** de contrôle des preuves toujours intentionnel.
+- Premier préflight générique [#42117529516](https://github.com/Speedcup212/maximus-scpi/actions/runs/42117529516) : FAIL sur `TEN_PLUS_TWO_SOURCE_CASES_REQUIRED`. La cause réelle ne provient pas des nouveaux hash, mais du **statut déjà publié avec réserves** : `privatePreviewDisposition` retourne `ALREADY_PUBLIC_SKIPPED`, puis l'ancien workflow copiait à tort `report.json` issu des deux pilotes BNP vers `report-sofidynamic.json`. L'archive réellement téléchargée contient 20 cas BNP et aucun cas Sofidynamic ; les deux cas trajectoire sont à part.
+- Correctif appliqué dans `.github/workflows/scpi-onboarding-preflight.yml` : on ne conserve un `report-sofidynamic.json` que s'il contient réellement les **10 cas Sofidynamic** sur les cinq surfaces et les deux largeurs. **Sinon SKIPPED est déclaré, sans copier le rapport BNP, sans créer de manifeste 12 cases.**
+- Nouvelle CI sur le **SHA `740e2f0bc5e180015200302a5c872a09d8c36ea3`** : [préflight #42118151338](https://github.com/Speedcup212/maximus-scpi/actions/runs/42118151338) **SUCCESS**, 187 tests Node PASS, 6 tests Python PASS ; `SOFIDYNAMIC_PRIVATE_REPORT_NOT_EXECUTED` et `NO_SOFIDYNAMIC_PRIVATE_REPORT` explicitement journalisés. Build [#42118151320](https://github.com/Speedcup212/maximus-scpi/actions/runs/42118151320) **SUCCESS**. La réussite du préflight **ne vaut pas** exécution de 12 nouveaux cas Sofidynamic.
+- Les nouveaux PNG et manifests *source-bound* sont désormais générés pour tout dossier réellement exécuté par le moteur navigateur générique. La preuve Sofidynamic T3 **reste à produire** depuis les bonnes données privées ; ses 12 captures ne sont pas fabriquées à partir des tests BNP.
+
+**Sources publiques complémentaires** : Pappers et Societe.com répertorient le dépôt de statuts Sofidynamic du **08/07/2026**, sans téléchargement du PDF source authentifié à ce stade :
+- https://www.pappers.fr/entreprise/sofidynamic-983023003
+- https://www.societe.com/societe/sofidynamic-983023003.html
+
+## 6. Prérequis avant toute promotion
+
+Le prochain saut fonctionnel nécessite un test navigateur **T3 Sofidynamic réellement exécuté**, ainsi que des snapshots privés actuels AEW/Opus et de leurs douze cas, puis vérification du ZIP par le contrôleur externe protégé, revue financière/juridique imputable et audit indépendant. Le pipeline ne doit plus traduire un SKIPPED en PASS. **Aucune migration financière ou publique, aucune promotion QA, aucun merge/déploiement effectué dans RECOVERY-113.**
