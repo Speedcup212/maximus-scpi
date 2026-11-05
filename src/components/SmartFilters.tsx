@@ -7,7 +7,7 @@ interface SmartFiltersProps {
   selectedScpi: Scpi[];
 }
 
-const SmartFilters: React.FC<SmartFiltersProps> = ({ availableScpi, selectedScpi }) => {
+const SmartFilters: React.FC<SmartFiltersProps> = ({ selectedScpi }) => {
   const [mode, setMode] = useState<'default' | 'ia' | 'selection'>('default');
 
   return (

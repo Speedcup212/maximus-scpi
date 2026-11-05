@@ -660,6 +660,9 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
 
   const result: HoldingISResult = {
     inputs,
+    isValid: false,
+    errors: [],
+    warnings: [],
     reconstitutedFullProperty: Math.round(reconstitutedFullProperty),
     annualGrossIncome: Math.round(annualGrossIncomeBase),
     annualAmortization: Math.round(annualAmortization),
@@ -753,7 +756,7 @@ export function calculateHoldingISProjection(inputs: HoldingISInputs): HoldingIS
   if (inputs.feesEnabled && result.feesHT > 0 && result.feesHT / Math.max(inputs.usufruitInvestment, 1) > 0.10) {
     validationWarnings.push('Frais de mission élevés (> 10 % du montant investi).');
   }
-  if (result.preTaxProfit > DEFAULT_REDUCED_THRESHOLD && inputs.reducedRateEligible) {
+  if (inputs.preTaxProfit > DEFAULT_REDUCED_THRESHOLD && inputs.reducedRateEligible) {
     validationWarnings.push('Tranche IS à taux réduit déjà consommée.');
   }
 
