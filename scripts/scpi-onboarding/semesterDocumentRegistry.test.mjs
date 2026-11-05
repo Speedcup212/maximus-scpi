@@ -168,3 +168,40 @@ test('private verified history breaks first-release cycle without inventing publ
  assert.doesNotMatch(sql,/\b(?:insert|update|delete|truncate)\s+(?:into\s+|from\s+)?public\./i);
  assert.doesNotMatch(sql,/\bGRANT\s+(?:ALL|SELECT|UPDATE|INSERT)\b/i);
 });
+
+
+test('secondary-market unchanged share stock is sourced but never equated to withdrawal or liquidity',()=>{
+ const source=migrationText('20261105165435_scpi_secondary_market_stock_evidence_not_liquidity_20261105.sql');
+ assert.ok(source.includes('SECONDARY_ISSUED_SHARE_STOCK_UNCHANGED_SELL_ORDERS_VERIFIED_NOT_LIQUIDITY'));
+ assert.ok(source.includes('variable_suspended'));
+ assert.ok(source.includes('secondary_market_order_book'));
+ assert.ok(source.includes('parts_inscrites_vente'));
+ assert.ok(source.includes('NOT_WITHDRAWAL_QUEUE'));
+ assert.ok(source.includes('e.qa_status'));
+ assert.ok(source.includes('e.independently_reviewed_at'));
+ assert.ok(source.includes('pdf_sha256'));
+ assert.ok(source.includes('source_page'));
+ assert.ok(source.includes('m.closing_parts=m.opening_parts')||source.includes('m.closing_parts = m.opening_parts'));
+ assert.ok(source.includes('expected_closing_parts'));
+ assert.ok(source.includes('disclosed_flow_delta'));
+ assert.ok(source.includes('PUBLISHED_SHARE_FLOW_DELTA_UNEXPLAINED'));
+ assert.ok(source.includes('independently_legal_certified'));
+ assert.ok(source.includes('publication_authorized'));
+ assert.doesNotMatch(source,/\b(?:insert|update|delete|truncate)\s+(?:into\s+|from\s+)?public\./i);
+});
+test('private history gate accepts source-verified secondary ledger but still rejects genuine share-flow mismatch',()=>{
+ const source=migrationText('20261105165710_scpi_private_history_secondary_stock_regime_20261105.sql');
+ const status='SECONDARY_ISSUED_SHARE_STOCK_UNCHANGED_SELL_ORDERS_VERIFIED_NOT_LIQUIDITY';
+ assert.ok(source.includes(status));
+ assert.ok(source.includes('SOURCE_FLOW_ARITHMETIC_RECONCILED'));
+ assert.ok(source.includes('sf.qa_reconciliation_status IN'));
+ assert.ok(source.includes('bad.qa_reconciliation_status NOT IN'));
+ assert.ok(source.includes('prepublication_history_consistency_ready'));
+ assert.ok(source.includes('prepublication_verified_history_periods'));
+ assert.ok(source.includes('maximus_agents.scpi_candidate_verified_share_flow_v1'));
+ assert.ok(source.includes('maximus_agents.scpi_candidate_private_trajectory_v1'));
+ assert.ok(source.includes('COALESCE(rv.independent_review_ready, false)'));
+ assert.ok(source.includes('COALESCE(rv.independent_audit_ready, false)'));
+ assert.ok(source.includes('COALESCE(rv.responsible_batch_ready, false)'));
+ assert.doesNotMatch(source,/\b(?:insert|update|delete|truncate)\s+(?:into\s+|from\s+)?public\./i);
+});
