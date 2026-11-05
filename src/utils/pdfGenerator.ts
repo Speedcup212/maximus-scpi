@@ -1,5 +1,4 @@
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from './formatters';
@@ -50,7 +49,7 @@ export const generatePortfolioPDF = async (
   
   // Page 2 - Profil et objectifs
   pdf.addPage();
-  createProfilePage(pdf, clientProfile, pageWidth, pageHeight, colors);
+  createProfilePage(pdf, clientProfile, pageWidth, colors);
   
   // Page 3 - Résumé global
   pdf.addPage();
@@ -62,11 +61,11 @@ export const generatePortfolioPDF = async (
   
   // Page 5 - Simulation personnalisée
   pdf.addPage();
-  createSimulationPage(pdf, portfolio, totalInvested, averageYield, annualIncome, monthlyIncome, clientProfile, pageWidth, pageHeight, colors);
+  createSimulationPage(pdf, totalInvested, averageYield, annualIncome, monthlyIncome, clientProfile, pageWidth, colors);
   
   // Page 6 - Graphiques d'analyse
   pdf.addPage();
-  createChartsPage(pdf, portfolio, pageWidth, pageHeight, colors);
+  createChartsPage(pdf, portfolio, pageWidth, colors);
   
   // Page 7 - Call to action
   pdf.addPage();
@@ -142,7 +141,6 @@ const createProfilePage = (
   pdf: jsPDF,
   clientProfile: ClientProfile | null,
   pageWidth: number,
-  pageHeight: number,
   colors: PdfColors
 ) => {
   // Header avec style
@@ -271,19 +269,19 @@ const createSummaryPage = (
 
   // Montant total investi
   createMetricBox(pdf, '💶 MONTANT TOTAL INVESTI', formatCurrency(totalInvested), 
-    20, metricsY, boxWidth, boxHeight, colors.primary, colors);
+    20, metricsY, boxWidth, boxHeight, colors.primary);
 
   // Rendement moyen
   createMetricBox(pdf, '📈 RENDEMENT MOYEN PONDÉRÉ', `${averageYield.toFixed(2)}%`, 
-    30 + boxWidth, metricsY, boxWidth, boxHeight, colors.success, colors);
+    30 + boxWidth, metricsY, boxWidth, boxHeight, colors.success);
 
   // Nombre de SCPI
   createMetricBox(pdf, '🏢 NOMBRE DE SCPI', `${portfolio.length}`, 
-    20, metricsY + 45, boxWidth, boxHeight, colors.secondary, colors);
+    20, metricsY + 45, boxWidth, boxHeight, colors.secondary);
 
   // TOF moyen
   createMetricBox(pdf, '🎯 TOF MOYEN PONDÉRÉ', `${averageTof.toFixed(1)}%`, 
-    30 + boxWidth, metricsY + 45, boxWidth, boxHeight, colors.warning, colors);
+    30 + boxWidth, metricsY + 45, boxWidth, boxHeight, colors.warning);
 
   // Revenus estimés - Encadré spécial
   const revenueY = metricsY + 100;
@@ -443,14 +441,12 @@ const createDetailedTable = (
 
 const createSimulationPage = (
   pdf: jsPDF,
-  portfolio: PortfolioItem[],
   totalInvested: number,
   averageYield: number,
   annualIncome: number,
   monthlyIncome: number,
   clientProfile: ClientProfile | null,
   pageWidth: number,
-  pageHeight: number,
   colors: PdfColors
 ) => {
   // Header
@@ -570,7 +566,6 @@ const createChartsPage = (
   pdf: jsPDF,
   portfolio: PortfolioItem[],
   pageWidth: number,
-  pageHeight: number,
   colors: PdfColors
 ) => {
   // Header
@@ -710,8 +705,7 @@ const createMetricBox = (
   y: number,
   width: number,
   height: number,
-  color: [number, number, number],
-  colors: PdfColors
+  color: [number, number, number]
 ) => {
   // Fond de la boîte
   pdf.setFillColor(color[0], color[1], color[2], 0.1);
@@ -758,7 +752,7 @@ const createSimplePieChart = (
   let currentAngle = 0;
   const total = data.reduce((sum, item) => sum + item.value, 0);
 
-  data.forEach((item, index) => {
+  data.forEach((item) => {
     const sliceAngle = (item.value / total) * 360;
     
     // Couleur du segment
