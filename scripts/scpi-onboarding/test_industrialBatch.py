@@ -312,3 +312,41 @@ class CrashTestRECOVERY094(unittest.TestCase):
    self.assertFalse(item['publication_authorized'])
   self.assertFalse(ledger['publication_authorized'])
 
+
+
+class CapitalizationPrecisionRegression(unittest.TestCase):
+ def fixture(self, exact=268.863422,rounded=269,date='2026-09-30'):
+  base={'unit':'MEUR','reference_date':date,'definition':'reported_metric','association':'adjacent_caption'}
+  precise={**base,'value':exact,'page':5,'text':'CAPITALISATION | 268 863 422 €'}
+  display={**base,'value':rounded,'page':1,'text':'CAPITALISATION | 269 M€'}
+  return precise,display
+ def test_exact_eur_and_rounded_million_are_not_two_different_capitalizations(self):
+  f=batch.bulletin_fields
+  precise,display=self.fixture()
+  both=({'capitalisation':[display,precise]},{'capitalisation'})
+  metrics,proof,coverage,candidates=f.reconcile(both,both)
+  self.assertAlmostEqual(metrics['capitalisation'],268.863422)
+  self.assertEqual(coverage['capitalisation'],'verified')
+  self.assertEqual(proof['capitalisation']['page'],5)
+  self.assertEqual(proof['capitalisation']['rounded_summary_confirmation']['value_million_eur'],269)
+  self.assertNotIn('capitalisation',candidates)
+ def test_previous_quarter_precision_also_reconciles(self):
+  f=batch.bulletin_fields
+  precise,display=self.fixture(247.58848,248,'2026-06-30')
+  precise['text']='CAPITALISATION | 247 588 480 €'
+  display['text']='CAPITALISATION | 248 M€'
+  rows=({'capitalisation':[display,precise]},{'capitalisation'})
+  self.assertAlmostEqual(f.reconcile(rows,rows)[0]['capitalisation'],247.58848)
+ def test_conflict_or_different_date_or_one_reader_only_never_passes(self):
+  f=batch.bulletin_fields
+  precise,display=self.fixture()
+  for changed in [
+   [{**precise,'value':267.863422},display],
+   [precise,{**display,'reference_date':'2026-06-30'}],
+   [precise,{**display,'value':270}],
+  ]:
+   input_=({'capitalisation':changed},{'capitalisation'})
+   self.assertNotIn('capitalisation',f.reconcile(input_,input_)[0])
+  first=({'capitalisation':[display,precise]},{'capitalisation'})
+  second=({'capitalisation':[precise]},{'capitalisation'})
+  self.assertNotIn('capitalisation',f.reconcile(first,second)[0])
