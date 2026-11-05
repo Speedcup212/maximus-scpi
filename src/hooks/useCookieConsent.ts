@@ -12,14 +12,6 @@ const CONSENT_KEY = 'cookie-consent';
 const CONSENT_VERSION = '1.0';
 const CONSENT_DURATION = 13 * 30 * 24 * 60 * 60 * 1000;
 
-const defaultConsent: CookieConsent = {
-  necessary: true,
-  analytics: false,
-  marketing: false,
-  timestamp: 0,
-  version: CONSENT_VERSION,
-};
-
 export const useCookieConsent = () => {
   const [consent, setConsentState] = useState<CookieConsent | null>(null);
   const [showBanner, setShowBanner] = useState(false);
