@@ -38,3 +38,23 @@ test('hypothetical protected proof still cannot override the TypeScript or integ
  assert.equal(evaluateMaturity(checked,{trustedProtectedReadback:true}).decision,'NO_GO');
  assert.equal(evaluateMaturity({...checked,typecheck_pass:true,critical_integrity_pass:false},{trustedProtectedReadback:true}).decision,'NO_GO');
 });
+
+
+test('95 point hypothetical with all critical live conditions still fails 100-point user admission',()=>{
+ const criteria=Object.fromEntries(maturityRubric.flatMap(x=>x[2].map(([id])=>[id,{status:'PASS',proofs:['simulated-verified-proof']}])));
+ // Noncritical architecture test missing. All mandatory live constraints nevertheless pass.
+ criteria.targeted_retests={status:'FAIL',proofs:['failed-retest']};
+ const input={criteria,typecheck_pass:true,no_existing_regression:true,critical_integrity_pass:true};
+ const assessment=evaluateMaturity(input,{trustedProtectedReadback:true});
+ assert.equal(assessment.score,95);
+ assert.deepEqual(Object.values(assessment.constraints).every(Boolean),true);
+ assert.equal(assessment.decision,'NO_GO');
+ assert.equal(assessment.publication_authorized,false);
+});
+test('100 points plus trusted readback and all integrity conditions is the only score-eligible state',()=>{
+ const criteria=Object.fromEntries(maturityRubric.flatMap(x=>x[2].map(([id])=>[id,{status:'PASS',proofs:['synthetic-unit-evidence']}])));
+ const result=evaluateMaturity({criteria,typecheck_pass:true,no_existing_regression:true,critical_integrity_pass:true},{trustedProtectedReadback:true});
+ assert.equal(result.score,100);
+ assert.equal(result.decision,'GO');
+ assert.equal(result.publication_authorized,false,'A rubric GO never itself permits a publication');
+});
