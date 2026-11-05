@@ -224,8 +224,8 @@
           "discovery_basis": "PREVIOUS_VERIFIED_OFFICIAL_SOURCE_SHA_IN_PRIVATE_DB_NOT_CURRENTNESS",
           "previous_publisher_page": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
           "previous_publisher_page_sha256": "ab07e1efdf517f8e8edb6106eff055c4b88d09387c35e452ee35bd74473aef4d",
-          "previous_pdf_sha256": "1409b98c8f741bd8",
-          "note": "historical comparison only; complete SHA must be checked from verified source registry, not trusted from truncated hint",
+          "previous_pdf_sha256": "1409b98c8f741bd83b577c16dec60af2ff4f7c2b8e56257b6a61cc821db1d3e2",
+          "note": "Historical evidence only. Official issuer URL and full 64-hex PDF SHA previously verified in restricted Supabase; re-download and compare before any financial QA.",
           "review_pages": [
             2,
             4,
