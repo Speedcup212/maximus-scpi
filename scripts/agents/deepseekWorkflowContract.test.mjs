@@ -18,3 +18,14 @@ test('DATA and SEARCH are scheduled but cannot deploy or merge automatically',()
  assert.doesNotMatch(yaml,/gh pr merge|netlify deploy|git push origin main/);
  assert.match(yaml,/claim_scoped|op:'claim'/);
 });
+
+test('Authenticated Flash inventory is verified before any task lease or billable inference',()=>{
+ const inventory=yaml.indexOf('node scripts/agents/deepseekApiPreflight.mjs');
+ const claim=yaml.indexOf('- name: Claim one existing exact-scope task');
+ const inference=yaml.indexOf('node scripts/agents/deepseekCorrectiveRunner.mjs');
+ assert.ok(inventory>0,'Missing real GET /models credential proof');
+ assert.ok(inventory<claim&&claim<inference,'Model authentication must precede task claim and any inference');
+ assert.match(yaml,/node --test scripts\/agents\/deepseekApiPreflight\.test\.mjs/);
+ assert.match(yaml,/no eligible DATA or SEARCH exact-scope task\. Zero model calls/);
+ assert.match(yaml,/no model inference, no candidate PR, no release/);
+});
