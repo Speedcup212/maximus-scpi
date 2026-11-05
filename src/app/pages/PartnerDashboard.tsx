@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { supabase } from '../../lib/supabase';
+import { requireSupabase } from '../../lib/supabase';
 import AppLayout from '../components/AppLayout';
 import StatusBadge from '../components/StatusBadge';
 import EmptyState from '../components/EmptyState';
@@ -16,7 +16,7 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({ onNavigate }) => {
 
   useEffect(() => {
     const fetchCases = async () => {
-      const { data } = await supabase.from('cases').select('*').order('updated_at', { ascending: false }).limit(8);
+      const { data } = await requireSupabase().from('cases').select('*').order('updated_at', { ascending: false }).limit(8);
       if (data) setCases(data as Case[]);
     };
     fetchCases();

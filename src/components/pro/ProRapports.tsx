@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '../../lib/supabase';
+import { requireSupabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { Clipboard, Trash2, Eye, FileText, Loader2 } from 'lucide-react';
 
@@ -22,7 +22,7 @@ export default function ProRapports() {
     if (!user) return;
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data, error } = await requireSupabase()
         .from('pro_reports')
         .select('id, cabinet_name, report_data, created_at, expires_at, view_count')
         .eq('cgp_id', user.id)
@@ -52,7 +52,7 @@ export default function ProRapports() {
   const handleDelete = async (id: string) => {
     if (!confirm('Supprimer ce rapport ? Cette action est irréversible.')) return;
     try {
-      await supabase.from('pro_reports').delete().eq('id', id);
+      await requireSupabase().from('pro_reports').delete().eq('id', id);
       fetchReports();
     } catch (err) {
       console.error('Erreur suppression:', err);
