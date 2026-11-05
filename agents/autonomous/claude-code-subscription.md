@@ -27,6 +27,21 @@
 - Quatre tâches de diagnostic `RECOVERY-114:2026-11-05:*` ont été réellement revendiquées et clôturées avec `verdict=REVIEW`; elles ne constituent pas les quatre travailleurs permanents.
 - Aucune exécution d'un modèle Claude, aucun accès de connexion Claude de l'utilisateur, aucun runner Windows enregistré, aucune attribution de signature QA ou de droits supplémentaires n'a été vérifiée.
 
+## Nouveau workflow GitHub connecté à la file existante (phase pilote)
+
+Le workflow `.github/workflows/maximus-claude-local-worker.yml` est **préparé**, limité à `workflow_dispatch` sur **main**, avec un runner `[self-hosted, Windows, X64, maximus-claude]`. Il n'a aucun déclencheur `pull_request` ou `schedule` à ce stade : éviter qu'une PR publique ait accès aux identifiants Claude locaux ou que les jobs s'accumulent avant l'installation.
+
+**Déploiement requis et NON encore effectué :**
+
+1. Enregistrer un **runner GitHub Actions auto-hébergé Windows dédié** depuis le dépôt → Settings → Actions → Runners → New self-hosted runner. Ajouter le label exact `maximus-claude`. Ne jamais utiliser ce compte/runner pour des PR provenant de forks ni pour du code non revu.
+2. Installer Claude Code via `winget install Anthropic.ClaudeCode`, Node 22, Git et GitHub CLI (`gh`) sur cette machine. Connecter Claude via `claude auth login` **sous le même utilisateur** que celui du service runner. Les sessions interactives et services Windows peuvent utiliser des profils différents ; le test préflight doit PASS depuis le contexte réellement exécuté.
+3. Réviser puis fusionner **cette PR dédiée**, distincte de la PR de certification #292. Les scripts ne seront accessibles sur `main` qu'après cela.
+4. Déployer **la version revue** de la fonction existante `maximus-search-agent-oidc` : son code n'ajoute **qu'un workflow GitHub explicitement autorisé**. Exiger `repository_id`, `workflow_ref` fixe, `ref=main`, jeton OIDC GitHub et role `DATA` ou `SEARCH`. Le code du pont est uniquement versionné dans cette PR ; la version live n'est **pas** remplacée automatiquement.
+5. Lancer un `workflow_dispatch` **DATA** ou **SEARCH** depuis Actions, après avoir contrôlé qu'il existe une issue `open` de correction mono-fichier validée dans Supabase. Le nouveau job utilise `prepare_execution()`, `claim_scoped_corrective_task`, Claude Code en abonnement, vérification du diff, build et PR draft, puis `record_execution` avec la vraie référence. Les retours négatifs restent `blocked/REVIEW`; le QA distinct est toujours requis.
+6. N'ajouter une cadence planifiée **qu'après** un run réel et un QA indépendant réussis. Éviter de relancer le vieux correcteur DeepSeek en parallèle sur la même issue. La file et les baux limitent les claims, mais ne remplacent pas la revue des conflits de branches.
+
+**Limite explicite** : cette phase livre un **candidat exécuteur local DATA/SEARCH**. CONTROL, ANALYST et QA ne sont pas encore des workers permanents. Il n'existe aucune preuve de cinq agents opérant simultanément ni d'admission 100/100.
+
 ## Passage au parallélisme des cinq rôles
 
 Ne pas faire travailler quatre clones sur un répertoire partagé. Un orchestrateur autorisé gère quatre **worktrees** distincts, et la file Supabase garde les dépendances. CONTROL supervise sans simuler un agent ; DATA collecte/analyse les sources; ANALYST contrôle la cohérence; SEARCH inspecte la conformité des surfaces et le SEO; QA **rejoue indépendamment** les preuves sans se fier au modèle du correcteur.
