@@ -234,3 +234,26 @@ test('readback does not conflate financial field coverage with regulatory PDF id
  assert.ok(sql.includes('security_invoker=true'));
  assert.doesNotMatch(sql,/\b(?:insert|update|delete|truncate)\s+(?:into\s+|from\s+)?public\./i);
 });
+
+
+test('first candidate financial analysis may be approved privately only against exact reviewer-and-PDF-signed stage',()=>{
+ const sql=migrationText('20261105170809_scpi_first_release_private_approved_analysis_without_public_cycle_20261105.sql');
+ assert.ok(sql.includes('scpi_candidate_final_review rr'));
+ assert.ok(sql.includes('scpi_candidate_indicator_stage private_stage'));
+ assert.ok(sql.includes("rr.review_evidence->'approved_analysis_snapshot'->>'financial_review_status'='APPROVED'"));
+ assert.ok(sql.includes("rr.review_evidence->'approved_analysis_snapshot'->>'source_pdf_sha256'=c_1.pdf_sha256"));
+ assert.ok(sql.includes("rr.review_evidence->'approved_analysis_snapshot'->>'source_url'=c_1.source_url"));
+ assert.ok(sql.includes('rr.reviewed_at>=c_1.pdf_validated_at'));
+ assert.ok(sql.includes('maximus_agents.scpi_delegated_actor_authorized'));
+ assert.ok(sql.includes('rr.legal_identity_passed'));
+ assert.ok(sql.includes('rr.dic_risk_sfdr_review_passed'));
+ assert.ok(sql.includes('rr.annual_quarter_coherence_passed'));
+ assert.ok(sql.includes('rr.liquidity_risk_review_passed'));
+ assert.ok(sql.includes('rr.verified_field_display_passed'));
+ assert.ok(sql.includes('rr.review_evidence'));
+ assert.ok(sql.includes("'current_snapshot'"));
+ assert.ok(sql.includes('COALESCE(rv.independent_review_ready, false)'));
+ assert.ok(sql.includes('COALESCE(rv.independent_audit_ready, false)'));
+ assert.ok(sql.includes('COALESCE(rv.responsible_batch_ready, false)'));
+ assert.doesNotMatch(sql,/\b(?:insert|update|delete|truncate)\s+(?:into\s+|from\s+)?public\./i);
+});
