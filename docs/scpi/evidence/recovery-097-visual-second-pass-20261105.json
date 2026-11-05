@@ -415,9 +415,9 @@
           "metric": "td",
           "value": 5.41,
           "unit": "PERCENT",
-          "page": 3,
-          "value_basis": "ANNUAL_2025_REPEATED_IN_S1_2026",
-          "page_render_png_sha256": "edd7b312324094fa08065441a46734fbeb28cc4fca883983953afb2d86b4142a",
+          "page": 1,
+          "value_basis": "ANNUAL_2025_RATE_REPEATED_ON_S1_2026_COVER",
+          "page_render_png_sha256": "c2ddb0c399fca756d9a344c6f0267e53c167e61fe6a651a6c49369191b4a764b",
           "reviewer_type": "AI_VISUAL_SECOND_PASS_NOT_HUMAN"
         },
         {
