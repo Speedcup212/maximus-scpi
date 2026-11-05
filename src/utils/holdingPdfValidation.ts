@@ -83,9 +83,7 @@ export const isHoldingPdfSnapshot = (value: unknown): value is HoldingPdfSnapsho
   const inputs = value.inputs;
   const resultInputs = value.results.inputs;
   // Compare the stored calculation inputs, not just the two types.
-  return Object.keys(inputs).every((key) =>
-    Object.is(
-      (inputs as Record<string, unknown>)[key],
-      (resultInputs as Record<string, unknown>)[key]
-    ));
+  const savedResultEntries = new Map(Object.entries(resultInputs));
+  return Object.entries(inputs).every(([key, value]) =>
+    savedResultEntries.has(key) && Object.is(value, savedResultEntries.get(key)));
 };
