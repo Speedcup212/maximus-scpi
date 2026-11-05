@@ -9,6 +9,9 @@ on:
       - "scripts/agents/claudeSubscriptionPreflight.mjs"
       - "scripts/agents/claudeSubscriptionPreflight.test.mjs"
       - "agents/autonomous/claude-code-subscription.md"
+      - "supabase/functions/maximus-search-agent-oidc/index.ts"
+      - ".github/workflows/maximus-claude-local-worker.yml"
+      - "scripts/agents/claudeLocalWorkflowContract.test.mjs"
       - ".github/workflows/maximus-claude-subscription-contract.yml"
   workflow_dispatch:
 
@@ -32,6 +35,7 @@ jobs:
           node --check scripts/agents/subscriptionCliRunner.mjs
           node --check scripts/agents/claudeSubscriptionPreflight.mjs
           node --test scripts/agents/claudeSubscriptionPreflight.test.mjs
+          node --test scripts/agents/claudeLocalWorkflowContract.test.mjs
           node --test scripts/agents/subscriptionCliRunner.test.mjs
           node --test scripts/agents/deepseekCorrectiveRunner.test.mjs
           node --test scripts/agents/deepseekWorkflowContract.test.mjs
@@ -41,7 +45,7 @@ jobs:
           import fs from 'node:fs';
           const a=fs.readFileSync('scripts/agents/subscriptionCliRunner.mjs','utf8');
           const workflow=fs.readFileSync('.github/workflows/maximus-claude-subscription-contract.yml','utf8');
-          for(const required of ["'ANTHROPIC_API_KEY'","'OPENAI_API_KEY'","'DEEPSEEK_API_KEY'","'--restricted'","'--tools'","'--permission-prompts'","'CLAUDE_SUBSCRIPTION_AUTH_ONLY_NO_API_BILLING'"]) {
+          for(const required of ["ANTHROPIC_","OPENAI_","DEEPSEEK_","'--restricted'","'--tools'","'--permission-prompts'","'CLAUDE_SUBSCRIPTION_AUTH_ONLY_NO_API_BILLING'"]) {
             if(!a.includes(required))throw Error('Subscription protection missing: '+required);
           }
           // Inspect only executable workflow steps, not this assertion's own source.
