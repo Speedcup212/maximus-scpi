@@ -11,6 +11,7 @@ const REVIEW_GATES=[
  'debt_and_leverage_review_passed','liquidity_risk_review_passed','fees_and_redemption_review_passed',
  'dic_risk_sfdr_review_passed','frontend_contract_smoke_passed'
 ];
+const REGULATORY_KINDS=['dic','note','statutes'];
 const AUDIT_GATES=[
  'historical_consistency_pass','financial_coverage_pass','liquidity_risk_pass',
  'document_regulatory_pass','public_display_mapping_pass'
@@ -20,14 +21,18 @@ const DB_GATES=[
  'candidate_indicator_gate','analysis_gate','independent_review_gate',
  'independent_audit_gate','responsible_batch_gate','six_surface_browser_gate',
  'final_release_gate','registry_links_verified','regulatory_legal_review_gate',
- 'prepublication_history_consistency_ready'
+ 'prepublication_history_consistency_ready','technical_financial_minimum_met',
+ 'regulatory_pdf_identity_minimum_met','liquidity_disclosure_gate'
 ];
 const BATCH_ID='RECOVERY-100-THREE-PILOTS-20261105';
 const unique=(xs,key)=>new Set(xs.map(x=>x?.[key])).size===xs.length;
 const date=x=>{const n=Date.parse(x);return Number.isFinite(n)?n:NaN;};
 const isStr=x=>typeof x==='string'&&x.trim().length>0;
 const row=(rows,slug)=>Array.isArray(rows)?rows.find(x=>x?.scpi_slug===slug)||{}:{};
-const parseJson=x=>typeof x==='string'?JSON.parse(x):x;
+const isHttpsDocumentUrl=url=>{
+  try{const u=new URL(url);return u.protocol==='https:'&&!u.username&&!u.password;}
+  catch{return false;}
+};
 export const EVIDENCE_CONTRACT={pilots:PILOTS,surfaces:SURFACES,widths:WIDTHS,batch_id:BATCH_ID};
 
 export function evaluateProtectedReleaseEvidence(snapshot,{expectedSha}={}) {
@@ -64,6 +69,20 @@ export function evaluateProtectedReleaseEvidence(snapshot,{expectedSha}={}) {
   for(const gate of DB_GATES)
    if(observation[gate]!==true)add(slug,'LIVE_'+gate.toUpperCase()+'_FALSE');
   if(observation.regulatory_binary_count!==3)add(slug,'THREE_CURRENT_REGULATORY_PDFS_REQUIRED');
+  if(!(Number.isSafeInteger(observation.prepublication_verified_history_periods)&&
+       observation.prepublication_verified_history_periods>=2))
+    add(slug,'TWO_SOURCE_VERIFIED_HISTORY_PERIODS_REQUIRED');
+  const documents=(Array.isArray(snapshot?.regulatory_documents)?snapshot.regulatory_documents:[])
+    .filter(d=>d?.scpi_slug===slug);
+  for(const kind of REGULATORY_KINDS){
+    const matching=documents.filter(d=>d?.document_kind===kind);
+    if(matching.length!==1 || matching[0]?.identity_verified!==true||
+       matching[0]?.kind_verified!==true || !SHA256.test(matching[0]?.pdf_sha256||'')||
+       !Number.isSafeInteger(matching[0]?.page_count)||matching[0]?.page_count<1||
+       !Number.isFinite(date(matching[0]?.checked_at))||
+       !isHttpsDocumentUrl(matching[0]?.source_url))
+      add(slug,'REGULATORY_PDF_PROVENANCE_INVALID:'+kind);
+  }
   if(!isStr(observation.source_period))add(slug,'SOURCE_PERIOD_MISSING');
   for(const gate of REVIEW_GATES)
    if(review[gate]!==true)add(slug,'REVIEW_'+gate.toUpperCase()+'_FALSE');
