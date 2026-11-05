@@ -102,3 +102,24 @@ test('prepublication browser smoke can use exact private issuer PDF, never a fab
  assert.doesNotMatch(migration,/\b(?:update|delete|truncate)\s+public\./i);
  assert.doesNotMatch(migration,/\bgrant\s+(?:all|select|insert|update)\b/i);
 });
+
+
+test('share-flow reconcilation works only with verified issuer periods and distinct real share movements',()=>{
+ const sql=migrationText('20261105162109_scpi_candidate_automated_share_flow_reconciliation_20261105.sql');
+ assert.match(sql,/CREATE OR REPLACE VIEW maximus_agents\.scpi_candidate_verified_share_flow_v1/);
+ assert.ok(sql.includes('document_identity_verified'));
+ assert.ok(sql.includes('is_verified_candidate_issuer_source'));
+ assert.ok(sql.includes("e.qa_status='qa_pass'"));
+ assert.ok(sql.includes("e.independently_reviewed_at IS NOT NULL"));
+ assert.ok(sql.includes('lag(closing_parts)'));
+ assert.ok(sql.includes('sequence-preceding_sequence<>1'));
+ assert.ok(sql.includes("subscribed-c.quarterly_withdrawn"));
+ assert.ok(sql.includes("subscribed-c.subscriptions_matched-c.uncompensated_withdrawals"));
+ assert.ok(sql.includes('closing_parts-expected_closing_parts'));
+ assert.ok(sql.includes('PUBLISHED_SHARE_FLOW_DELTA_UNEXPLAINED'));
+ assert.ok(sql.includes('SOURCE_FLOW_ARITHMETIC_RECONCILED'));
+ assert.ok(sql.includes('independently_legal_certified'));
+ assert.ok(sql.includes('publication_authorized'));
+ assert.match(sql,/REVOKE ALL.*anon,authenticated/i);
+ assert.doesNotMatch(sql,/\b(?:update|delete|truncate)\s+public\./i);
+});
