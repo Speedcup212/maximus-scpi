@@ -8,6 +8,7 @@ import {evaluatePublishedDeploy} from './protectedProductionReadback.mjs';
 import {verifyGitHubBrowserArtifact} from './githubArtifactProvenance.mjs';
 import {PILOTS} from './admissionPhases.mjs';
 import {verifyCurrentCandidatePr} from './protectedCandidateIdentity.mjs';
+import {verifyArtifactArchive} from './githubArtifactArchive.mjs';
 
 const siteId='e4f16f87-663d-4965-8de8-00f6840f1aa7';
 const batchId='RECOVERY-100-THREE-PILOTS-20261105';
@@ -88,22 +89,31 @@ export async function runProtectedReadback(){
  const artifactChecks=await Promise.all(PILOTS.map(async scpi_slug=>{
   const review=snapshot.reviews?.find(r=>r.scpi_slug===scpi_slug);
   const browser=review?.review_evidence?.browser_smoke;
-  if(!browser)return {scpi_slug,status:'BLOCKED',reason:'NO_PRIVATE_BROWSER_ARTIFACT',artifact_provenance_verified:false,content_verified:false};
+  if(!browser)return {scpi_slug,status:'BLOCKED',reason:'NO_PRIVATE_BROWSER_ARTIFACT',
+    artifact_provenance_verified:false,content_verified:false};
   const check=await verifyGitHubBrowserArtifact({
    browser,expectedSha,token:process.env.GITHUB_TOKEN
   });
-  return {scpi_slug,status:check.status,reason:check.reason||null,
-    artifact_provenance_verified:check.artifact_provenance_verified===true,
-    content_verified:false};
+  if(check.artifact_provenance_verified!==true)
+   return {scpi_slug,status:check.status,reason:check.reason||null,
+    artifact_provenance_verified:false,content_verified:false};
+  const sourcePeriod=snapshot.pilot_rows?.find(row=>row.scpi_slug===scpi_slug)?.source_period;
+  const archive=await verifyArtifactArchive({
+   artifactId:browser.artifact_id,zipDigest:browser.artifact_zip_sha256,
+   candidate:scpi_slug,expectedSha,sourcePeriod,token:process.env.GITHUB_TOKEN
+  });
+  return {scpi_slug,status:archive.status,reason:archive.reason||null,
+    artifact_provenance_verified:true,content_verified:archive.content_verified===true,
+    verified_case_count:archive.case_count_verified||0};
  }));
- const artifactBlockers=artifactChecks.filter(x=>!x.artifact_provenance_verified)
+ const artifactBlockers=artifactChecks.filter(x=>!x.content_verified)
    .map(x=>x.scpi_slug+':'+x.reason);
  if(phase==='prepublication'){
   const report={
    phase:'PROTECTED_PREPUBLICATION',status:'NO_GO',
    reason:evidence.status!=='CANDIDATE_FOR_PROTECTED_PUBLISH_APPROVAL'?
      'LIVE_PREPUBLICATION_PROOFS_INCOMPLETE':artifactBlockers.length?
-     'LIVE_GITHUB_BROWSER_ARTIFACT_PROVENANCE_FAILED':'AWAIT_INDEPENDENT_FINAL_APPROVAL',
+     'LIVE_GITHUB_BROWSER_ARTIFACT_CONTENT_NOT_VERIFIED':'AWAIT_INDEPENDENT_FINAL_APPROVAL',
    candidate_sha:expectedSha,db_snapshot_digest_sha256:hashEvidenceSnapshot(snapshot),
    evidence_status:evidence.status,blocker_count:evidence.blocker_count,blockers:evidence.blockers,
    github_artifact_checks:artifactChecks,github_artifact_blockers:artifactBlockers,
@@ -123,7 +133,7 @@ export async function runProtectedReadback(){
   status:'NO_GO',
   reason:evidence.status!=='CANDIDATE_FOR_PROTECTED_PUBLISH_APPROVAL'?
     'LIVE_PREPUBLICATION_PROOFS_INCOMPLETE':artifactBlockers.length?
-    'LIVE_GITHUB_BROWSER_ARTIFACT_PROVENANCE_FAILED':published.production_sha_verified!==true?
+    'LIVE_GITHUB_BROWSER_ARTIFACT_CONTENT_NOT_VERIFIED':published.production_sha_verified!==true?
     'LIVE_PRODUCTION_SHA_DIFFERENT':'AWAIT_INDEPENDENT_PRODUCTION_BROWSER_ATTESTATION',
   candidate_sha:expectedSha,db_snapshot_digest_sha256:hashEvidenceSnapshot(snapshot),
   github_artifact_checks:artifactChecks,
