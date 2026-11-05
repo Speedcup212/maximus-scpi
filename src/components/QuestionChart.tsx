@@ -31,7 +31,7 @@ const QuestionChart: React.FC<QuestionChartProps> = ({
                 paddingAngle={2}
                 dataKey="value"
               >
-                {data.map((entry, index) => (
+                {data.map((_, index) => (
                   <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
                 ))}
               </Pie>
@@ -46,7 +46,7 @@ const QuestionChart: React.FC<QuestionChartProps> = ({
               <XAxis dataKey="name" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} />
               <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                {data.map((entry, index) => (
+                {data.map((_, index) => (
                   <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
                 ))}
               </Bar>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArrowLeft, ArrowRight, Target, TrendingUp, DollarSign, Shield, Lightbulb } from 'lucide-react';
 import { useSubscription } from '../../contexts/SubscriptionContext';
-import { formatCurrency } from '../../utils/formatters';
 import { RiskTolerance, FundingMode, InvestmentHorizon, RiskReaction, ScpiKnowledge } from '../../types/subscription';
 
 interface Step2ProjetProps {
@@ -21,7 +20,7 @@ const OBJECTIVE_OPTIONS = [
   'Autre'
 ];
 
-const Step2Projet: React.FC<Step2ProjetProps> = ({ onClose }) => {
+const Step2Projet: React.FC<Step2ProjetProps> = () => {
   const { state, updateState, goToStep, validateStep } = useSubscription();
 
   const isObjectiveSelected = (obj: string): boolean => {
@@ -112,7 +111,6 @@ const Step2Projet: React.FC<Step2ProjetProps> = ({ onClose }) => {
     goToStep(3);
   };
 
-  const isStepValid = validateStep(2);
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">

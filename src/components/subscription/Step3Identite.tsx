@@ -8,7 +8,7 @@ interface Step3IdentiteProps {
   onClose?: () => void;
 }
 
-const Step3Identite: React.FC<Step3IdentiteProps> = ({ onClose }) => {
+const Step3Identite: React.FC<Step3IdentiteProps> = () => {
   const { state, updateState, updateCoSubscriber, goToStep, validateStep } = useSubscription();
   const [hasAttemptedValidation, setHasAttemptedValidation] = React.useState(false);
   
@@ -29,7 +29,6 @@ const Step3Identite: React.FC<Step3IdentiteProps> = ({ onClose }) => {
     goToStep(4);
   };
 
-  const isStepValid = validateStep(3);
   
   // Fonction helper pour les classes de champs obligatoires
   const getFieldClasses = (isEmpty: boolean) => {
@@ -212,8 +211,7 @@ const Step3Identite: React.FC<Step3IdentiteProps> = ({ onClose }) => {
                           date.getFullYear() == parseInt(year) &&
                           parseInt(year) >= 1900 && 
                           parseInt(year) <= new Date().getFullYear()) {
-                        // Date valide, convertir en format YYYY-MM-DD pour le stockage
-                        const isoDate = `${year}-${month}-${day}`;
+                        // Date valide : conserver la saisie pour l'affichage.
                         updateState({ birthDate: value }); // Garder l'affichage JJ/MM/AAAA
                       } else {
                         // Date invalide, réinitialiser
