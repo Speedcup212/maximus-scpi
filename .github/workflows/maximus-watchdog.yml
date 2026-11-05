@@ -66,15 +66,15 @@ jobs:
               `- Exécuteur : **${runner}**`,
               `- Tâches non terminées : **${data?.pending_tasks ?? "inconnu"}**`,
               `- Issues bloquées : **${data?.blocked_issues ?? "inconnu"}**`,
-              `- Crash test documentaire strict : **${data?.strict_pass ?? "?"}/61 PASS ; ${data?.strict_fail ?? "?"} échecs**`,
+              `- Crash test documentaire strict : **${data?.strict_pass ?? "?"}/${Number.isInteger(data?.strict_pass) && Number.isInteger(data?.strict_fail) ? data.strict_pass + data.strict_fail : "?"} PASS ; ${data?.strict_fail ?? "?"} échecs**`,
               `- Supervision Supabase actualisée : **${staleMonitor ? "NON" : "OUI"}**`,
               `- Incidents : **${incidents.length ? incidents.join(", ") : "aucun"}**`,
               `- Accès au pont : **${bridgeError ? "ERREUR" : "OK"}**`,
               "",
-              "Priorité : diagnostiquer et relancer un exécuteur IA externe indépendant,",
+              "Priorité : vérifier les runs par rôle et leurs preuves,",
               "puis traiter les anomalies strictes avec les preuves source et QA.",
               "",
-              "Le suivi interne ne constitue pas une preuve d'exécution des agents.",
+              "Un contrôle planifié et une tâche exécutée ont des identifiants et des résultats distincts.",
               "",
               "[Consulter l'architecture](https://github.com/Speedcup212/maximus-scpi/blob/agents/autonomous-control-20261005/agents/autonomous/watchdog-2026-10-14.md)"
             ].join("\n");
