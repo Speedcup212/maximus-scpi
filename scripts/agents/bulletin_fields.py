@@ -253,9 +253,9 @@ def corroborated_exact_capitalisation(av,bv):
     """
     def money_kind(v):
         t=norm(v.get('text',''))
-        if re.search(r'(?<![a-z])\\d+(?:[ \\u00a0\\u202f]\\d{3})*(?:[,.]\\d+)?\\s*(?:m\\s*€|millions?\\s+d.euros)',t):
+        if re.search(r'(?<![a-z])\d+(?:[ \u00a0\u202f]\d{3})*(?:[,.]\d+)?\s*(?:m\s*€|millions?\s+d.euros)',t):
             return 'rounded_million'
-        if re.search(r'\\d+(?:[ \\u00a0\\u202f]\\d{3})*(?:[,.]\\d+)?\\s*(?:€|euros?)',t):
+        if re.search(r'\d+(?:[ \u00a0\u202f]\d{3})*(?:[,.]\d+)?\s*(?:€|euros?)',t):
             return 'exact_euro'
         return None
     if not av or not bv:return None
