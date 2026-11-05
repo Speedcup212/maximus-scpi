@@ -195,7 +195,6 @@ export function buildScpiLandingData(scpiKey: string): BuiltLandingData | null {
   const scpi = findScpiBySlug(scpiKey);
   if (!scpi) return null;
 
-  const yq = qualifyYield(scpi.yield);
   const generated: ScpiLandingData = {
     nom: scpi.name,
     slug: createSlugFromName(scpi.name),
