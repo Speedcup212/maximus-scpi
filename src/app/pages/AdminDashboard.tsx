@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
+import { requireSupabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import AppLayout from '../components/AppLayout';
 import StatusBadge from '../components/StatusBadge';
@@ -48,11 +48,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) => {
     const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
 
     const [eventsResult, leadsResult] = await Promise.all([
-      supabase
+      requireSupabase()
         .from('funnel_events')
         .select('event_name,session_id')
         .gte('created_at', since),
-      supabase
+      requireSupabase()
         .from('contact_submissions')
         .select('form_type')
         .gte('created_at', since),
@@ -90,8 +90,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) => {
 
   const refresh = async () => {
     const [profilesResult, orgResult, metrics30d, metrics7d] = await Promise.all([
-      supabase.from('profiles').select('*').order('created_at', { ascending: false }),
-      supabase.from('organizations').select('*').order('created_at', { ascending: false }),
+      requireSupabase().from('profiles').select('*').order('created_at', { ascending: false }),
+      requireSupabase().from('organizations').select('*').order('created_at', { ascending: false }),
       loadBusinessMetrics(30),
       loadBusinessMetrics(7),
     ]);
@@ -108,13 +108,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) => {
   }, []);
 
   const updateProfile = async (userId: string, updates: Partial<Profile>) => {
-    await supabase.from('profiles').update(updates).eq('user_id', userId);
+    await requireSupabase().from('profiles').update(updates).eq('user_id', userId);
     refresh();
   };
 
   const createOrg = async () => {
     if (!newOrgName.trim()) return;
-    await supabase.from('organizations').insert({ name: newOrgName.trim(), slug: newOrgSlug || null });
+    await requireSupabase().from('organizations').insert({ name: newOrgName.trim(), slug: newOrgSlug || null });
     setNewOrgName('');
     setNewOrgSlug('');
     refresh();

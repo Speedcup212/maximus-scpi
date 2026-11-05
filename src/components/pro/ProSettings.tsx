@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
+import { requireSupabase } from '../../lib/supabase';
 
 export default function ProSettings() {
   const [loading, setLoading] = useState(true);
@@ -13,10 +13,10 @@ export default function ProSettings() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session } } = await requireSupabase().auth.getSession();
         if (!session) return;
 
-        const { data, error } = await supabase
+        const { data, error } = await requireSupabase()
           .from('cgp_profiles')
           .select('*')
           .eq('id', session.user.id)
@@ -43,10 +43,10 @@ export default function ProSettings() {
     setSuccess(false);
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await requireSupabase().auth.getSession();
       if (!session) throw new Error("Pas de session active");
 
-      const { error } = await supabase
+      const { error } = await requireSupabase()
         .from('cgp_profiles')
         .update({
           company_name: companyName,

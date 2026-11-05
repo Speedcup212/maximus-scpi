@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { supabase } from '../../lib/supabase';
+import { requireSupabase } from '../../lib/supabase';
 import AppLayout from '../components/AppLayout';
 import StatusBadge from '../components/StatusBadge';
 import EmptyState from '../components/EmptyState';
@@ -21,9 +21,9 @@ const PartnerCaseDetail: React.FC<PartnerCaseDetailProps> = ({ caseId, onNavigat
   const [statusUpdating, setStatusUpdating] = useState(false);
 
   const refresh = async () => {
-    const { data: caseRow } = await supabase.from('cases').select('*').eq('id', caseId).single();
-    const { data: notesRows } = await supabase.from('case_notes').select('*').eq('case_id', caseId).order('created_at', { ascending: false });
-    const { data: pdfRows } = await supabase.from('case_pdfs').select('*').eq('case_id', caseId).order('created_at', { ascending: false });
+    const { data: caseRow } = await requireSupabase().from('cases').select('*').eq('id', caseId).single();
+    const { data: notesRows } = await requireSupabase().from('case_notes').select('*').eq('case_id', caseId).order('created_at', { ascending: false });
+    const { data: pdfRows } = await requireSupabase().from('case_pdfs').select('*').eq('case_id', caseId).order('created_at', { ascending: false });
     if (caseRow) setCaseData(caseRow as Case);
     if (notesRows) setNotes(notesRows as CaseNote[]);
     if (pdfRows) setPdfs(pdfRows as CasePdf[]);
@@ -36,14 +36,14 @@ const PartnerCaseDetail: React.FC<PartnerCaseDetailProps> = ({ caseId, onNavigat
   const handleStatusChange = async (status: CaseStatus) => {
     if (!caseData) return;
     setStatusUpdating(true);
-    await supabase.from('cases').update({ status }).eq('id', caseData.id);
+    await requireSupabase().from('cases').update({ status }).eq('id', caseData.id);
     await refresh();
     setStatusUpdating(false);
   };
 
   const handleAddNote = async () => {
     if (!noteContent.trim()) return;
-    await supabase.from('case_notes').insert({
+    await requireSupabase().from('case_notes').insert({
       case_id: caseId,
       note_type: noteType,
       content_json: { text: noteContent }
@@ -53,7 +53,7 @@ const PartnerCaseDetail: React.FC<PartnerCaseDetailProps> = ({ caseId, onNavigat
   };
 
   const handleGeneratePdf = async () => {
-    const { data: session } = await supabase.auth.getSession();
+    const { data: session } = await requireSupabase().auth.getSession();
     const accessToken = session?.session?.access_token;
     if (!accessToken) return;
     const response = await fetch('/.netlify/functions/generate-case-pdf', {
@@ -71,7 +71,7 @@ const PartnerCaseDetail: React.FC<PartnerCaseDetailProps> = ({ caseId, onNavigat
   };
 
   const handleDownload = async (storagePath: string) => {
-    const { data } = await supabase.storage.from('private-docs').createSignedUrl(storagePath, 60 * 10);
+    const { data } = await requireSupabase().storage.from('private-docs').createSignedUrl(storagePath, 60 * 10);
     if (data?.signedUrl) {
       window.open(data.signedUrl, '_blank');
     }
