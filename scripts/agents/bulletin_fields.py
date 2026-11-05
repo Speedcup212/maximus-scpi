@@ -245,6 +245,44 @@ def extract(pages,wordpages,widths,period):
     # Duplicate identical occurrences are harmless; different dates remain separate.
     return hits,seen
 
+def corroborated_exact_capitalisation(av,bv):
+    """Match separately cross-checked precise EUR and rounded M EUR captions.
+
+    Only one date/definition and one exact EUR value may be present. A
+    conflicting number, period or missing second-reader match always blocks.
+    """
+    def money_kind(v):
+        t=norm(v.get('text',''))
+        if re.search(r'(?<![a-z])\\d+(?:[ \\u00a0\\u202f]\\d{3})*(?:[,.]\\d+)?\\s*(?:m\\s*€|millions?\\s+d.euros)',t):
+            return 'rounded_million'
+        if re.search(r'\\d+(?:[ \\u00a0\\u202f]\\d{3})*(?:[,.]\\d+)?\\s*(?:€|euros?)',t):
+            return 'exact_euro'
+        return None
+    if not av or not bv:return None
+    for rows in (av,bv):
+        if any(v.get('unit')!='MEUR' or v.get('definition')!='reported_metric' or
+               money_kind(v) is None for v in rows):return None
+    def signature(v):return (v['value'],v['page'],v['reference_date'],v['definition'],v['unit'])
+    unique={(v['value'],v['reference_date'],v['definition']) for v in av+bv}
+    if len({d for _,d,_ in unique})!=1 or len({definition for _,_,definition in unique})!=1:
+        return None
+    def agreed(kind):
+        first=[v for v in av if money_kind(v)==kind]
+        second=[v for v in bv if money_kind(v)==kind]
+        values={v['value'] for v in first+second}
+        if len(values)!=1 or not first or not second:return None
+        if not any(signature(v)==signature(w) for v in first for w in second):return None
+        v=min(first,key=lambda x:x['page'])
+        w=next(x for x in second if signature(x)==signature(v))
+        return v,w
+    exact=agreed('exact_euro')
+    rounded=agreed('rounded_million')
+    if not exact or not rounded:return None
+    precise,precise_second=exact;display,display_second=rounded
+    if abs(display['value']-int(precise['value']+0.5))>1e-9:return None
+    return precise,precise_second,display,display_second
+
+
 def reconcile(a,b):
     ah,aseen=a;bh,bseen=b;results={};proofs={};coverage={};candidates={}
     for metric in FIELDS:
@@ -268,7 +306,17 @@ def reconcile(a,b):
             bv=[v for v in bv if not is_occupancy_breakdown(v)]
         def signature(v):return v['value'],v['page'],v['reference_date'],v['definition'],v['unit']
         same={signature(v):v for v in av if any(signature(v)==signature(w) for w in bv)}
-        if not invalid_unit and same and len({(v['value'],v['reference_date'],v['definition'],v['unit']) for v in av+bv})==1:
+        reconciled_rounding=corroborated_exact_capitalisation(av,bv) if metric=='capitalisation' and not invalid_unit else None
+        if reconciled_rounding:
+            precise,precise_second,rounded,rounded_second=reconciled_rounding
+            results[metric]=precise['value']
+            proofs[metric]={**precise,'poppler_text':precise_second['text'],
+                'independent_engines':['MuPDF','Poppler'],'method':'dual_pdf_geometry',
+                'value_match':True,'rounded_summary_confirmation':{
+                    'value_million_eur':rounded['value'],'page':rounded['page'],
+                    'poppler_text':rounded_second['text']}}
+            coverage[metric]='verified'
+        elif not invalid_unit and same and len({(v['value'],v['reference_date'],v['definition'],v['unit']) for v in av+bv})==1:
             sig,v=min(same.items(),key=lambda item:item[1]['page']);other=next(w for w in bv if signature(w)==sig)
             results[metric]=v['value'];proofs[metric]={**v,'poppler_text':other['text'],'independent_engines':['MuPDF','Poppler'],'method':'dual_pdf_geometry','value_match':True};coverage[metric]='verified'
         else:
