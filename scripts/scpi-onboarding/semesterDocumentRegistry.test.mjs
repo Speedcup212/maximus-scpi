@@ -205,3 +205,17 @@ test('private history gate accepts source-verified secondary ledger but still re
  assert.ok(source.includes('COALESCE(rv.responsible_batch_ready, false)'));
  assert.doesNotMatch(source,/\b(?:insert|update|delete|truncate)\s+(?:into\s+|from\s+)?public\./i);
 });
+
+
+test('industrial live readback separates private issuer histories from actual published history count',()=>{
+ const sql=migrationText('20261105165855_scpi_readback_separate_private_history_and_public_count_20261105.sql');
+ assert.ok(sql.includes('maximus_agents.scpi_industrial_admission_live_v1'));
+ assert.ok(sql.includes('prepublication_verified_history_periods'));
+ assert.ok(sql.includes('prepublication_history_consistency_ready'));
+ assert.ok(sql.includes('qa_historical_period_count'));
+ assert.ok(sql.includes('admission_100_proven'));
+ assert.ok(sql.includes('publication_authorized_by_observation'));
+ assert.ok(sql.includes('WITH (security_invoker=true)'));
+ assert.doesNotMatch(sql,/\b(?:insert|update|delete|truncate)\s+(?:into\s+|from\s+)?public\./i);
+ assert.doesNotMatch(sql,/GRANT\s+(?:ALL|SELECT|INSERT|UPDATE)\s+ON\s+TABLE\s+[^;]+\s+TO\s+(?:anon|authenticated)\b/i);
+});
