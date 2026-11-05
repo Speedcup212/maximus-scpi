@@ -15,49 +15,64 @@
       "value": 1553612,
       "unit": "PARTS",
       "basis": "STOCK_AT_2025_12_31",
-      "page": 2
+      "page": 2,
+      "page_render_sha256": "40d4b3a3f95d9a2e32f4e24033b6f412ce98dd53c965911e11dd68c15232824a"
     },
     {
       "metric": "nombre_associes",
       "value": 6423,
       "unit": "COUNT",
       "basis": "STOCK_AT_2025_12_31",
-      "page": 2
+      "page": 2,
+      "page_render_sha256": "40d4b3a3f95d9a2e32f4e24033b6f412ce98dd53c965911e11dd68c15232824a"
     },
     {
       "metric": "parts_attente_retrait",
       "value": 67066,
       "unit": "PARTS",
       "basis": "WITHDRAWAL_QUEUE_STOCK_AT_2025_12_31",
-      "page": 2
+      "page": 2,
+      "page_render_sha256": "40d4b3a3f95d9a2e32f4e24033b6f412ce98dd53c965911e11dd68c15232824a"
     },
     {
       "metric": "nombre_parts_nouvelles_souscrites",
       "value": 1782,
       "unit": "PARTS",
       "basis": "SHARE_ISSUANCE_FLOW_2025_S2",
-      "page": 2
+      "page": 2,
+      "page_render_sha256": "40d4b3a3f95d9a2e32f4e24033b6f412ce98dd53c965911e11dd68c15232824a"
     },
     {
       "metric": "retraits_non_compenses",
       "value": 9311,
       "unit": "PARTS",
       "basis": "UNCOMPENSATED_REDEMPTIONS_FLOW_2025_S2",
-      "page": 2
+      "page": 2,
+      "page_render_sha256": "40d4b3a3f95d9a2e32f4e24033b6f412ce98dd53c965911e11dd68c15232824a"
     },
     {
       "metric": "tof_quarterly",
       "value": 82.82,
       "unit": "PERCENT",
       "basis": "Q4_2025_FINANCIAL_OCCUPANCY_REPORTED_IN_S2_2025",
-      "page": 2
+      "page": 2,
+      "page_render_sha256": "40d4b3a3f95d9a2e32f4e24033b6f412ce98dd53c965911e11dd68c15232824a"
     },
     {
       "metric": "top",
       "value": 83.52,
       "unit": "PERCENT",
       "basis": "PHYSICAL_OCCUPANCY_AT_2025_12_31_REPORTED_IN_S2",
-      "page": 2
+      "page": 2,
+      "page_render_sha256": "40d4b3a3f95d9a2e32f4e24033b6f412ce98dd53c965911e11dd68c15232824a"
     }
-  ]
+  ],
+  "visual_source_validation": {
+    "renderer": "PyMuPDF",
+    "scale": 1.9,
+    "page": 2,
+    "png_sha256": "40d4b3a3f95d9a2e32f4e24033b6f412ce98dd53c965911e11dd68c15232824a",
+    "method": "Original official PDF binary extracted from GitHub Actions artifact 13431371265; rendered, inspected and reconciled against all seven metrics; not a human QA review",
+    "artifact_source_run": 42059564159
+  }
 }
