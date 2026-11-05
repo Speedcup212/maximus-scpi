@@ -38,3 +38,35 @@ test('new publisher AEW host is an exact allowlist row with a product-page prove
  assert.match(migration,/on conflict \(hostname\) do nothing/i);
  assert.doesNotMatch(migration,/\bgrant\s+(?:all|insert|update|select)\b/i);
 });
+
+
+const migrationText=(name)=>fs.readFileSync(new URL('../../supabase/migrations/'+name,import.meta.url),'utf8');
+test('candidate release accepts real semester reporting, never grants production rights',()=>{
+ const sql=migrationText('20261105150927_scpi_candidate_current_semester_in_release_circuit_20261105.sql');
+ assert.match(sql,/semiannual_bulletin/);
+ assert.match(sql,/2026|20\[0-9\]/);
+ assert.match(sql,/document_identity_verified/);
+ assert.doesNotMatch(sql,/GRANT\s+(?:ALL|SELECT|INSERT|UPDATE)/i);
+ assert.doesNotMatch(sql,/update\s+public\.scpi_indicators/i);
+});
+test('issuer-specific 11 core checks must be numeric-verified and structurally distinct',()=>{
+ const sql=migrationText('20261105151738_scpi_issuer_capital_regime_specific_eleven_core_20261105.sql');
+ assert.ok(sql.includes("secondary_market_order_book"));
+ assert.ok(sql.includes("parts_inscrites_vente"));
+ assert.ok(sql.includes("qa_pass"));
+ assert.ok(sql.includes("independently_reviewed_at"));
+ assert.ok(sql.includes("core_qa_fields"));
+ assert.ok(sql.includes("count(DISTINCT"));
+ assert.doesNotMatch(sql,/update\s+public\.scpi_indicators/i);
+});
+test('suspended capital has no fabricated primary price or capitalization',()=>{
+ const sql=migrationText('20261105152205_scpi_secondary_market_app_readiness_no_fake_primary_price_20261105.sql');
+ assert.ok(sql.includes("i.capital_type = 'variable_suspended'"));
+ assert.ok(sql.includes("i.prix_souscription IS NULL"));
+ assert.ok(sql.includes("i.capitalisation IS NULL"));
+ assert.ok(sql.includes("secondary_market_order_book"));
+ assert.ok(sql.includes("parts_inscrites_vente"));
+ assert.ok(sql.includes("orders.qa_status='qa_pass'"));
+ assert.ok(sql.includes("i.metric_provenance->>'pdf_sha256' = c_1.pdf_sha256"));
+ assert.doesNotMatch(sql,/update\s+public\.scpi_indicators/i);
+});
