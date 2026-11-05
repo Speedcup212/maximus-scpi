@@ -1,9 +1,22 @@
-name: SCPI protected production admission - read-only diagnostic
+name: SCPI protected industrial evidence - read-only preflight
 on:
   workflow_dispatch:
+    inputs:
+      phase:
+        description: 'Protected stage (prepublication validates the live candidate PR SHA without checkout)'
+        required: true
+        type: choice
+        options:
+          - prepublication
+          - postdeploy
+      candidate_sha:
+        description: 'Exact 40-character current PR head SHA (prepublication only)'
+        required: false
+        type: string
 permissions:
   contents: read
   actions: read
+  pull-requests: read
 concurrency:
   group: scpi-protected-production-admission
   cancel-in-progress: false
@@ -29,7 +42,7 @@ jobs:
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
       - name: Test release evidence, roles and production readback
         run: |
-          node --test scripts/scpi-onboarding/protectedReleaseEvidence.test.mjs scripts/scpi-onboarding/protectedProductionReadback.test.mjs scripts/scpi-onboarding/admissionPhases.test.mjs scripts/scpi-onboarding/githubArtifactProvenance.test.mjs
+          node --test scripts/scpi-onboarding/protectedReleaseEvidence.test.mjs scripts/scpi-onboarding/protectedProductionReadback.test.mjs scripts/scpi-onboarding/admissionPhases.test.mjs scripts/scpi-onboarding/githubArtifactProvenance.test.mjs scripts/scpi-onboarding/protectedCandidateIdentity.test.mjs
       - name: Install PostgreSQL read-only client
         run: |
           sudo apt-get update -qq
@@ -39,6 +52,8 @@ jobs:
           SCPI_SUPABASE_READONLY_DATABASE_URL: ${{ secrets.SCPI_SUPABASE_READONLY_DATABASE_URL }}
           SCPI_NETLIFY_READ_TOKEN: ${{ secrets.SCPI_NETLIFY_READ_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
+          SCPI_ADMISSION_PHASE: ${{ inputs.phase }}
+          SCPI_CANDIDATE_SHA: ${{ inputs.candidate_sha }}
         run: node scripts/scpi-onboarding/protectedAdmissionReadback.mjs
       - name: Archive sanitized, non-authoritative diagnostic
         if: always()
