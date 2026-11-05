@@ -7,7 +7,7 @@ import {
   getVerificationStatusLabel,
   getVerificationBadgeColor,
 } from '../../utils/expertVerification';
-import type { ExpertVerificationProfile, ExpertVerificationStatus } from '../../types/expertDossier';
+import type { ExpertVerificationProfile } from '../../types/expertDossier';
 
 interface ExpertVerificationProps {
   onNavigate: (section: string) => void;

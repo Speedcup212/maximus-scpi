@@ -5,7 +5,7 @@ interface ExpertAccessRefusedProps {
   onNavigate: (section: string) => void;
 }
 
-const ExpertAccessRefused: React.FC<ExpertAccessRefusedProps> = ({ onNavigate }) => {
+const ExpertAccessRefused: React.FC<ExpertAccessRefusedProps> = () => {
   return (
     <div className="p-6 lg:p-10 max-w-3xl mx-auto">
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-8">

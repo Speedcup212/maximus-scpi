@@ -334,14 +334,15 @@ export default function MoneyPageTools({ slug }: MoneyPageToolsProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!SUPPORTED.has(slug) || !supabase) {
+    const client = supabase;
+    if (!SUPPORTED.has(slug) || !client) {
       setLoading(false);
       return;
     }
 
     let cancelled = false;
     const load = async () => {
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from('scpi_indicators')
         .select('nom,td,tof,endettement,prime_decote,capitalisation,source_period,qa_status')
         .limit(100);

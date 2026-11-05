@@ -188,15 +188,6 @@ const getScpiKnowledgeLabel = (knowledge: string | undefined): string => {
   return labels[knowledge || ''] || knowledge || 'N/A';
 };
 
-const getHousingSituationLabel = (situation: string | undefined): string => {
-  const labels: Record<string, string> = {
-    'proprietaire': 'Propriétaire',
-    'locataire': 'Locataire',
-    'heberge': 'Logé gratuit',
-  };
-  return labels[situation || ''] || situation || 'N/A';
-};
-
 const getFundOriginLabel = (origin: string | undefined): string => {
   const labels: Record<string, string> = {
     'salaires': 'Salaires',
