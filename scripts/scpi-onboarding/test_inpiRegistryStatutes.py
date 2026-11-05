@@ -1,10 +1,11 @@
 import unittest
+import base64
 import json
 import fitz
 
 from inpiRegistryStatutes import (
     API_ROOT, SIREN, choose_filed_statutes, inspect_official_pdf,
-    probe_inpi, _verified_url
+    probe_inpi, _verified_url, _decode_inpi_pdf, MAX_PDF_WIRE_BYTES
 )
 
 
@@ -98,7 +99,7 @@ class InpiOfficialStatutesTests(unittest.TestCase):
         out = probe_inpi("registered@example.org", secret, fetch)
         self.assertEqual(out["status"], "OFFICIAL_INPI_FILE_MATCHED_AWAITING_INDEPENDENT_LEGAL_REVIEW")
         self.assertEqual(len(calls), 4)
-        self.assertEqual(calls[-1][3], 12_000_000)
+        self.assertEqual(calls[-1][3], MAX_PDF_WIRE_BYTES)
         self.assertNotIn(secret, json.dumps(out))
         self.assertNotIn("protected-token", json.dumps(out))
         self.assertFalse(out["publication_authorized"])
@@ -121,6 +122,42 @@ class InpiOfficialStatutesTests(unittest.TestCase):
         self.assertNotIn("secret", json.dumps(out))
         self.assertFalse(out["statutes_current_certified"])
 
+
+
+    def test_documented_inpi_binary_file_base64_download_is_decoded(self):
+        original = pdf_bytes()
+        uri = "data:application/pdf;base64," + base64.b64encode(original).decode("ascii")
+        self.assertEqual(_decode_inpi_pdf(uri.encode()), original)
+        self.assertEqual(_decode_inpi_pdf(base64.b64encode(original)), original)
+        self.assertEqual(_decode_inpi_pdf(json.dumps({"binaryFile": uri}).encode()), original)
+        self.assertEqual(_decode_inpi_pdf(json.dumps(uri).encode()), original)
+        self.assertEqual(_decode_inpi_pdf(original), original)
+
+    def test_bad_content_and_oversized_binary_are_not_accepted(self):
+        for bad in [b"<html>Service indisponible</html>",
+                    b"data:text/html;base64,PGh0bWw+",
+                    b"data:application/pdf;base64,%%%invalid%%%",
+                    b'{"file":"not-binaryFile"}',
+                    b"data:application/pdf;base64,"]:
+            with self.assertRaises(ValueError):
+                _decode_inpi_pdf(bad)
+        with self.assertRaisesRegex(ValueError, "WIRE_TOO_LARGE"):
+            _decode_inpi_pdf(b"a" * (MAX_PDF_WIRE_BYTES + 1))
+
+    def test_fetch_pipeline_handles_documented_base64_response(self):
+        item = act()
+        def fetch(url, token=None, payload=None, limit=None):
+            if url.endswith("/api/sso/login"):
+                return b'{"token":"private"}'
+            if url.endswith("/attachments"):
+                return json.dumps({"actes":[item]}).encode()
+            if url.endswith("/download"):
+                assert limit == MAX_PDF_WIRE_BYTES
+                return ("data:application/pdf;base64,"+base64.b64encode(pdf_bytes()).decode()).encode()
+            return json.dumps(item).encode()
+        output = probe_inpi("u", "p", fetch)
+        self.assertEqual(output["status"], "OFFICIAL_INPI_FILE_MATCHED_AWAITING_INDEPENDENT_LEGAL_REVIEW")
+        self.assertFalse(output["publication_authorized"])
 
 if __name__ == "__main__":
     unittest.main()
