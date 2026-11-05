@@ -350,3 +350,43 @@ class CapitalizationPrecisionRegression(unittest.TestCase):
   first=({'capitalisation':[display,precise]},{'capitalisation'})
   second=({'capitalisation':[precise]},{'capitalisation'})
   self.assertNotIn('capitalisation',f.reconcile(first,second)[0])
+
+
+class WithdrawalQueueSemanticRegression(unittest.TestCase):
+ def page(self,retired='822',pending='0'):
+  pdf=fitz.open()
+  page=pdf.new_page()
+  page.insert_text((420,120),retired+'\nPARTS RETIRÉES',fontsize=12)
+  page.insert_text((420,200),pending+'\nPARTS EN ATTENTE',fontsize=12)
+  raw=pdf.tobytes();pdf.close()
+  return raw
+ def test_retired_shares_are_not_zero_when_awaiting_withdrawal_is_zero(self):
+  raw=self.page()
+  candidates=batch.block_verified_share_counts(raw)
+  self.assertEqual(candidates['retraits_executes_trimestre'][0]['value'],822)
+  self.assertEqual(candidates['parts_attente_retrait'][0]['value'],0)
+  metrics={'retraits_executes_trimestre':0,'parts_attente_retrait':0}
+  proofs={k:{'value':v} for k,v in metrics.items()}
+  coverage={k:'verified' for k in metrics}
+  alternatives={}
+  batch.guard_share_caption_meaning(raw,metrics,proofs,coverage,alternatives)
+  self.assertNotIn('retraits_executes_trimestre',metrics)
+  self.assertEqual(metrics['parts_attente_retrait'],0)
+  self.assertEqual(coverage['retraits_executes_trimestre'],'needs_review')
+  self.assertEqual(alternatives['retraits_executes_trimestre']['rejected_dual_reader_value'],0)
+  self.assertEqual(alternatives['retraits_executes_trimestre']['explicit_source_block'][0]['value'],822)
+ def test_exact_matching_caption_retains_verified_values(self):
+  raw=self.page('822','0')
+  m={'retraits_executes_trimestre':822,'parts_attente_retrait':0}
+  p={k:{} for k in m};c={k:'verified' for k in m};alt={}
+  batch.guard_share_caption_meaning(raw,m,p,c,alt)
+  self.assertEqual(m,{'retraits_executes_trimestre':822,'parts_attente_retrait':0})
+  self.assertEqual(alt,{})
+ def test_conflicting_count_blocks_are_not_promoted(self):
+  pdf=fitz.open();p=pdf.new_page()
+  p.insert_text((400,90),'822\nPARTS RETIRÉES',fontsize=12)
+  p.insert_text((400,180),'823\nPARTS RETIRÉES',fontsize=12)
+  raw=pdf.tobytes();pdf.close()
+  m={'retraits_executes_trimestre':822}
+  batch.guard_share_caption_meaning(raw,m,{}, {}, {})
+  self.assertNotIn('retraits_executes_trimestre',m)
