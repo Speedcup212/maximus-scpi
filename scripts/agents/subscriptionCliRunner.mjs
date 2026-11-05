@@ -18,12 +18,13 @@ const SHA256=value=>createHash('sha256').update(value).digest('hex');
 
 export function subscriptionOnlyEnv(env){
  const safe={...env};
- for(const key of [
-  'OPENAI_API_KEY','ANTHROPIC_API_KEY','DEEPSEEK_API_KEY',
-  'AZURE_OPENAI_API_KEY','CODEX_API_KEY','SUPABASE_SERVICE_ROLE_KEY',
-  'SUPABASE_DB_URL','GITHUB_TOKEN','GH_TOKEN','NETLIFY_AUTH_TOKEN',
-  'ANTHROPIC_AUTH_TOKEN','ANTHROPIC_BASE_URL','OPENAI_BASE_URL'
- ])delete safe[key];
+ for(const key of Object.keys(safe)){
+  // Prevent inherited cloud/API billing and GitHub OIDC credentials from
+  // reaching the local subscription subprocess. The login itself must be
+  // authenticated by Claude Code and reported as authMethod=claude.ai.
+  if(/^(ANTHROPIC_|OPENAI_|DEEPSEEK_|AZURE_|AWS_|GOOGLE_APPLICATION_CREDENTIALS$|CODEX_API_KEY$|CLAUDE_CODE_USE_(BEDROCK|VERTEX|FOUNDRY)|CLAUDE_CODE_OAUTH_TOKEN$|GITHUB_TOKEN$|GH_TOKEN$|NETLIFY_AUTH_TOKEN$|SUPABASE_DB_URL$|SUPABASE_SERVICE_ROLE_KEY$|ACTIONS_ID_TOKEN_REQUEST_)/i.test(key))
+   delete safe[key];
+ }
  return safe;
 }
 export function subscriptionCommand(provider,prompt){
