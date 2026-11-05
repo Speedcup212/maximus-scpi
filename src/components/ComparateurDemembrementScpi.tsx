@@ -216,7 +216,6 @@ function computePleinePropriete(inputs: DemembrementInputs): DemembrementScenari
                      origineLoyers === "70_30" ? 0.7 : 0.3;
 
   const cashflows: number[] = [-montantPleinePropriete];
-  let capitalActuel = capitalProductif;
   let revenusNetsCumules = 0;
   let revenusBrutsCumules = 0;
   let impotIRCumule = 0;
@@ -348,9 +347,6 @@ function computeNuePropriete(inputs: DemembrementInputs): DemembrementScenarioRe
   let revenusBrutsCumules = 0;
   let impotIRCumule = 0;
   let impotPSCumule = 0;
-
-  // Valeur de la pleine propriété (évolue pendant le démembrement)
-  let valeurPP = montantNuePro;
 
   // Phase 1: Pendant le démembrement (0 revenu)
   for (let year = 1; year <= Math.min(dureeDemembrement, horizonTotal); year++) {

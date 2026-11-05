@@ -3,7 +3,7 @@ import {
   Calculator, TrendingUp, Building2, Euro, Percent,
   BarChart3, Shield, AlertTriangle, ChevronDown,
   Landmark, FileText, Info, ArrowRight, Table2, Receipt, Wallet,
-  FileDown, Save, Clock, CheckCircle2, Search, Loader2,
+  FileDown, Save, CheckCircle2, Search, Loader2,
 } from 'lucide-react';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { getExpertDossiers, findOrCreateDossier, saveExpertHoldingSimulation } from '../../utils/expertDossiersSupabase';
@@ -120,7 +120,6 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
   /* ── Dossiers Supabase ── */
   const [dossierList, setDossierList] = useState<ExpertClientDossier[]>([]);
   const [selectedDossierId, setSelectedDossierId] = useState<string | null>(null);
-  const [selectedDossierSiret, setSelectedDossierSiret] = useState<string | null>(null);
   const [dossierSearch, setDossierSearch] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [dossiersLoading, setDossiersLoading] = useState(true);
@@ -243,95 +242,8 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
     reducedRateEligible: inputs.reducedRateEligible,
   }), [inputs.preTaxProfit, inputs.reducedRateEligible]);
 
-  /* ── Warnings métier ── */
-  const warnings = useMemo(() => {
-    const w: { id: string; message: string; severity: 'critical' | 'warning' | 'info' }[] = [];
-    const tresorerieResiduelle = inputs.availableCash - result.effortEconomique;
-
-    if (result.effortEconomique > inputs.availableCash) {
-      w.push({ id: 'effort-exceeds-tresorerie', message: 'L\'effort de trésorerie dépasse la trésorerie disponible.', severity: 'critical' });
-    }
-
-    if (tresorerieResiduelle < 0) {
-      w.push({ id: 'tresorerie-negative', message: `Trésorerie résiduelle négative : ${fmtEuro(tresorerieResiduelle)}.`, severity: 'critical' });
-    }
-
-    if (inputs.usufruitKeyPercent <= 0 || inputs.usufruitKeyPercent > 100) {
-      w.push({ id: 'key-invalid', message: 'Clé usufruit invalide (doit être entre 1 % et 100 %).', severity: 'critical' });
-    }
-
-    if (inputs.usufruitDuration <= 0) {
-      w.push({ id: 'duration-invalid', message: 'La durée d\'usufruit doit être supérieure à 0.', severity: 'critical' });
-    }
-
-    if (inputs.grossYieldRate <= 0) {
-      w.push({ id: 'no-yield', message: 'Aucun revenu projeté : l\'opération repose uniquement sur l\'effet fiscal.', severity: 'warning' });
-    }
-
-    if (result.annualNetCashFlowAfterFees < 0) {
-      w.push({ id: 'cashflow-negative', message: 'Cash-flow net négatif en année 1.', severity: 'warning' });
-    }
-
-    if (result.netCompanyYieldAvgAnnual < 0) {
-      w.push({ id: 'yield-negative', message: 'Rendement net moyen négatif sur la durée.', severity: 'warning' });
-    }
-
-    if (inputs.feesEnabled && result.effortEconomique > 0 && (result.feesHT / inputs.usufruitInvestment) > 0.10) {
-      w.push({ id: 'fees-high', message: 'Frais de mission élevés par rapport au montant investi (> 10 %).', severity: 'warning' });
-    }
-
-    if (inputs.feesEnabled && !inputs.feesVatRecoverable && result.nonRecoverableVatAmount > 0 && inputs.holdingVatProfile === 'to-qualify') {
-      w.push({ id: 'vat-not-recoverable', message: 'TVA non récupérable : l\'effort de trésorerie intègre le TTC.', severity: 'info' });
-    }
-
-    if (inputs.feesEnabled && inputs.holdingVatProfile === 'pure' && result.nonRecoverableVatAmount > 0) {
-      w.push({ id: 'vat-pure-non-recoverable', message: `Holding pure : TVA non récupérable de ${fmtEuro(result.nonRecoverableVatAmount)} augmente l'effort économique.`, severity: 'warning' });
-    }
-
-    if (inputs.feesEnabled && inputs.holdingVatProfile === 'mixed') {
-      w.push({ id: 'vat-mixed', message: `Récupération partielle TVA : ${fmtEuro(result.recoverableVatAmount)} récupérable, ${fmtEuro(result.nonRecoverableVatAmount)} non récupérable.`, severity: 'info' });
-    }
-
-    if (inputs.feesEnabled && inputs.feesTreatment === 'non-deductible') {
-      w.push({ id: 'fees-non-deductible', message: 'Les frais de mission n\'impactent pas le résultat fiscal dans cette simulation (traitement non déductible).', severity: 'info' });
-    }
-
-    // ── Contrôles de cohérence cabinet ──
-
-    // A. Holding pure + TVA récupérable (ne devrait pas arriver avec la synchro, mais ceinture + bretelles)
-    if (inputs.holdingVatProfile === 'pure' && inputs.feesVatRecoverable) {
-      w.push({ id: 'vat-pure-inconsistency', message: 'Incohérence probable : une holding pure ne permet généralement pas la récupération de TVA. À valider.', severity: 'critical' });
-    }
-
-    // B. Profil TVA à qualifier + TVA récupérable cochée
-    if (inputs.holdingVatProfile === 'to-qualify' && inputs.feesVatRecoverable && inputs.feesEnabled && result.feesVAT > 0) {
-      w.push({ id: 'vat-to-qualify-recoverable', message: 'TVA récupérable retenue alors que le profil TVA de la holding est à qualifier.', severity: 'warning' });
-    }
-
-    // C. Frais de mission > 10 % de l'usufruit investi (already covered above by fees-high)
-
-    // D. Cash-flow net année 1 négatif
-    if (result.annualNetCashFlowAfterFees < 0) {
-      w.push({ id: 'cashflow-negative-year1', message: 'Flux net année 1 négatif — opération à revoir.', severity: 'warning' });
-    }
-
-    // E. Gain net après extinction négatif
-    if (result.gainNetAfterUsufructExtinction < 0) {
-      w.push({ id: 'gain-negative', message: 'Gain économique négatif après extinction de l\'usufruit — opération défavorable.', severity: 'critical' });
-    }
-
-    // F. Résultat fiscal avant opération < 42 500 €
-    if (inputs.reducedRateEligible && inputs.preTaxProfit < 42500 && inputs.preTaxProfit > 0) {
-      w.push({ id: 'reduced-rate-available', message: 'La tranche à taux réduit peut absorber une partie du résultat additionnel selon les conditions d\'éligibilité.', severity: 'info' });
-    }
-
-    // G. Résultat fiscal avant opération ≥ 42 500 €
-    if (inputs.reducedRateEligible && inputs.preTaxProfit >= 42500) {
-      w.push({ id: 'reduced-rate-exhausted', message: 'La tranche d\'IS à taux réduit étant déjà consommée, le résultat additionnel est principalement imposé au taux marginal applicable.', severity: 'info' });
-    }
-
-    return w;
-  }, [inputs, result.effortEconomique, result.annualNetCashFlowAfterFees, result.netCompanyYieldAvgAnnual, result.feesHT, result.feesVAT, result.gainNetAfterUsufructExtinction]);
+  // Les avertissements actifs sont produits par getValidationWarnings et
+  // les contrôles cabinet de calculateHoldingISProjection.
 
   /* ── Avis d'expert ── */
   const expertOpinion = useMemo(() => {
@@ -360,7 +272,6 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
   /* ── Sélection dossier ── */
   const handleSelectDossier = useCallback((dossier: ExpertClientDossier) => {
     setSelectedDossierId(dossier.id);
-    setSelectedDossierSiret(dossier.siret || null);
     setDossierSearch(dossier.clientName);
     setShowDropdown(false);
     setHighlightedIndex(-1);
@@ -380,7 +291,6 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
       const match = dossierList.find((d) => d.id === selectedDossierId && normalizeName(d.clientName) === norm);
       if (!match) {
         setSelectedDossierId(null);
-        setSelectedDossierSiret(null);
       }
     }
 
@@ -475,7 +385,6 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
 
   /* ── Validation ── */
   const validationWarnings = useMemo(() => getValidationWarnings(inputs, result), [inputs, result]);
-  const hasCriticalErrors = validationWarnings.some(w => w.severity === 'critical');
   const isPdfReady = areInputsValidForPdf(inputs);
 
   // Résumé contrôles cabinet
@@ -1013,7 +922,7 @@ const ExpertHoldingSimulator: React.FC<ExpertHoldingSimulatorProps> = ({ onNavig
               sublabel="Usufruit + frais + TVA non récup. éventuelle" />
             <KpiCard icon={<Euro className="w-4 h-4" />} label="Cash-flow net année 1" value={fmtEuro(result.annualNetCashFlowAfterFees)} color="emerald"
               sublabel="Après frais de mission" />
-            <KpiCard icon={<Percent className="w-4 h-4" />} label="Rendement cash-flow moyen" value={fmtPercent(result.cashFlowAverageReturn)} color="amber"
+            <KpiCard icon={<Percent className="w-4 h-4" />} label="Rendement cash-flow moyen" value={fmtPercent(result.cashFlowAverageReturn)} color="orange"
               sublabel="Flux net moyen / effort initial" />
             <KpiCard icon={<TrendingUp className="w-4 h-4" />} label="Gain net après extinction" value={fmtEuro(result.gainNetAfterUsufructExtinction)} color="emerald"
               sublabel="Flux opérationnel cumulé – effort initial" />
