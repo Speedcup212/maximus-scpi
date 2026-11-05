@@ -261,7 +261,7 @@ const App: React.FC = () => {
   // Data states
   const [selectedScpiForAnalysis, setSelectedScpiForAnalysis] = useState<Scpi | null>(null);
   const [showFloatingButton, setShowFloatingButton] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [, setCurrentPage] = useState(1);
   const [searchQuery] = useState('');
 
   // Education/Article/Landing states
@@ -1073,7 +1073,7 @@ const App: React.FC = () => {
 
   // Hooks - DOIT être appelé AVANT tous les retours conditionnels
   const { filteredScpi: filteredByFilters, activeQuickFilter } = useScpiFilters(scpiData);
-  const { selectedScpi, investmentAmount, toggleScpiSelection, portfolioStats } = usePortfolio();
+  const { selectedScpi, investmentAmount, toggleScpiSelection } = usePortfolio();
 
   // Apply search filter on top of existing filters
   const filteredScpi = React.useMemo(() => {
