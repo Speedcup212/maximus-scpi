@@ -23,6 +23,23 @@ import {
   valuationGapPct,
 } from './trajectoryData';
 
+/** Reject untyped Supabase view errors and incomplete rows before charting history. */
+const isHistoryRow = (value: unknown): value is ScpiHistoryRow => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const row = value as Record<string, unknown>;
+  if (typeof row.scpi_slug !== 'string' || !row.scpi_slug.trim()) return false;
+  const stringFields = ['snapshot_at', 'source_period', 'source_url', 'qa_status', 'capital_type', 'liquidity_basis'];
+  const metricFields = [
+    'source_confidence', 'tof', 'td', 'capitalisation', 'prix_souscription',
+    'prix_reconstitution', 'prix_retrait', 'valeur_realisation', 'endettement',
+    'distribution_par_part', 'parts_attente_retrait', 'nombre_parts',
+  ];
+  if (!stringFields.every((key) => key in row && (row[key] === null || typeof row[key] === 'string'))) return false;
+  if (!metricFields.every((key) => key in row && (row[key] === null || typeof row[key] === 'number' || typeof row[key] === 'string'))) return false;
+  const provenance = row.metric_provenance;
+  return provenance == null || (typeof provenance === 'object' && !Array.isArray(provenance));
+};
+
 type DashboardRow = {
   scpi_slug: string;
   latest_period: string | null;
@@ -180,7 +197,7 @@ const TrajectorySurveillanceTable: React.FC = () => {
         console.warn('[TrajectorySurveillanceTable] Historique indisponible.', historyResult.error);
       } else {
         setHistoryRows(
-          ((historyResult.data || []) as ScpiHistoryRow[]).filter((row) =>
+          (Array.isArray(historyResult.data) ? historyResult.data.filter(isHistoryRow) : []).filter((row) =>
             certifiedSlugSet.has(row.scpi_slug),
           ),
         );

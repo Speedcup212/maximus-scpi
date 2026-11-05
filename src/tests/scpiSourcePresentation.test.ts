@@ -5,7 +5,22 @@ import type { Scpi } from '../types/scpi';
 import ScpiPublicationQualityNotice from '../components/ScpiPublicationQualityNotice';
 import { canRecommendScpi, isFeatureDisabled } from '../utils/scpiPublicationQuality';
 
-const scpi = {
+const scpi: Scpi = {
+  id: 0,
+  name: 'SCPI fixture documentaire',
+  sector: 'diversifie',
+  geography: 'europe',
+  yield: 0,
+  capitalization: 0,
+  tof: 0,
+  price: 0,
+  discount: 0,
+  fees: 0,
+  isr: false,
+  european: true,
+  company: 'Gestionnaire de test',
+  creation: 2026,
+  minInvest: 0,
   maximusPublicationStatus: 'published_with_reserves',
   maximusSourcePeriode: '2026-T2',
   distributionReferencePeriod: '2025-RA',
@@ -23,7 +38,7 @@ const scpi = {
       source_url: 'https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf'
     }
   }
-} as Scpi;
+};
 
 const render = (item: Scpi = scpi) =>
   renderToStaticMarkup(React.createElement(ScpiPublicationQualityNotice, { scpi: item }));

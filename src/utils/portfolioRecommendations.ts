@@ -25,7 +25,7 @@ export const generatePortfolioRecommendations = (
   availableScpi: Scpi[],
   clientProfile: ClientProfile
 ): RecommendationResult => {
-  const { riskProfile, preferences, investmentAmount } = clientProfile;
+  const { riskProfile, preferences } = clientProfile;
   
   // Filtrer les SCPI selon les préférences
   let filteredScpi = availableScpi.filter(scpi => {

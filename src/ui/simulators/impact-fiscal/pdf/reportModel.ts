@@ -42,7 +42,8 @@ export type ImpactFiscalReportModel = {
   disclaimer: string;
   glossary: string[];
   scenarios: ReportScenario[];
-  annualSeries: ReturnType<typeof buildAnnualSeries>;
+  // Holding IS is intentionally omitted when it duplicates SCI IS, not replaced by a fabricated value.
+  annualSeries: Array<Omit<ReturnType<typeof buildAnnualSeries>[number], 'holdingIS'> & { holdingIS?: number }>;
   taxesSeries: ReturnType<typeof buildTaxesSeries>;
   quickRead: string[];
   coherenceWarnings: string[];
