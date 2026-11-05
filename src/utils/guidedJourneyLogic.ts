@@ -262,7 +262,7 @@ const selectByScore = (
  * Détermine le portefeuille recommandé à partir des réponses
  */
 export function determineRecommendedPortfolio(answers: GuidedJourneyAnswers): PortfolioType {
-  const { taxSituation, objective, horizon, immediateIncome } = answers;
+  const { objective, horizon, immediateIncome } = answers;
   
   // Logique de décision simplifiée
   // Priorité 1: Besoin de revenus immédiats
