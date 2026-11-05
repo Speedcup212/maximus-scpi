@@ -218,6 +218,21 @@
           ]
         },
         {
+          "kind": "quarterly",
+          "reference_period": "2026-T2",
+          "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/OPUS%20REAL_BT_FR_T2%202026_DEF.pdf",
+          "discovery_basis": "PREVIOUS_VERIFIED_OFFICIAL_SOURCE_SHA_IN_PRIVATE_DB_NOT_CURRENTNESS",
+          "previous_publisher_page": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/opus-real",
+          "previous_publisher_page_sha256": "ab07e1efdf517f8e8edb6106eff055c4b88d09387c35e452ee35bd74473aef4d",
+          "previous_pdf_sha256": "1409b98c8f741bd8",
+          "note": "historical comparison only; complete SHA must be checked from verified source registry, not trusted from truncated hint",
+          "review_pages": [
+            2,
+            4,
+            5
+          ]
+        },
+        {
           "kind": "dic",
           "reference_period": "2026-REG",
           "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-03/OPUS%20REAL_DIC_FR_05032026-%20vdef.pdf",
