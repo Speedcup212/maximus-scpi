@@ -15,8 +15,10 @@ const ExpertRegister: React.FC<ExpertRegisterProps> = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
+    const client = supabase;
+    if (!client) return;
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await client.auth.getSession();
       if (session) {
         window.location.href = '/expert-comptable/verification';
       }
@@ -28,6 +30,12 @@ const ExpertRegister: React.FC<ExpertRegisterProps> = () => {
     e.preventDefault();
     setError('');
     setLoading(true);
+    const client = supabase;
+    if (!client) {
+      setError('Service de connexion temporairement indisponible.');
+      setLoading(false);
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError('Les mots de passe ne correspondent pas.');
@@ -41,7 +49,7 @@ const ExpertRegister: React.FC<ExpertRegisterProps> = () => {
       return;
     }
 
-    const { error: authError } = await supabase.auth.signUp({ email, password });
+    const { error: authError } = await client.auth.signUp({ email, password });
 
     if (authError) {
       setError(authError.message === 'User already registered'
@@ -57,8 +65,14 @@ const ExpertRegister: React.FC<ExpertRegisterProps> = () => {
   const handleGoogleSignUp = async () => {
     setError('');
     setGoogleLoading(true);
+    const client = supabase;
+    if (!client) {
+      setError('Service de connexion temporairement indisponible.');
+      setGoogleLoading(false);
+      return;
+    }
 
-    const { error: googleError } = await supabase.auth.signInWithOAuth({
+    const { error: googleError } = await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: window.location.origin + '/expert-comptable/post-login',

@@ -6,7 +6,7 @@ interface ExpertLoginProps {
   onNavigateHome?: () => void;
 }
 
-export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
+export default function ExpertLogin(_props: ExpertLoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -15,8 +15,10 @@ export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
+    const client = supabase;
+    if (!client) return;
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await client.auth.getSession();
       if (session) {
         window.location.href = '/expert-comptable/post-login';
       }
@@ -28,8 +30,14 @@ export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
     e.preventDefault();
     setError('');
     setLoading(true);
+    const client = supabase;
+    if (!client) {
+      setError('Service de connexion temporairement indisponible.');
+      setLoading(false);
+      return;
+    }
 
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+    const { error: authError } = await client.auth.signInWithPassword({ email, password });
 
     if (authError) {
       setError(authError.message === 'Invalid login credentials'
@@ -44,8 +52,14 @@ export default function ExpertLogin({ onNavigateHome }: ExpertLoginProps) {
   const handleGoogleLogin = async () => {
     setError('');
     setGoogleLoading(true);
+    const client = supabase;
+    if (!client) {
+      setError('Service de connexion temporairement indisponible.');
+      setGoogleLoading(false);
+      return;
+    }
 
-    const { error: googleError } = await supabase.auth.signInWithOAuth({
+    const { error: googleError } = await client.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: window.location.origin + '/expert-comptable/post-login',
