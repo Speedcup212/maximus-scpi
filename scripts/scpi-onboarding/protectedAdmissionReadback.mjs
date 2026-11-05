@@ -13,6 +13,8 @@ const SQL=`select jsonb_build_object(
  'captured_at',now(),
  'pilot_rows',coalesce((select jsonb_agg(to_jsonb(t) order by t.scpi_slug)
    from maximus_agents.scpi_industrial_admission_live_v1 t where t.scpi_slug in ${ids}),'[]'::jsonb),
+ 'regulatory_documents',coalesce((select jsonb_agg(to_jsonb(t) order by t.scpi_slug,t.document_kind)
+   from maximus_agents.scpi_candidate_regulatory_documents t where t.scpi_slug in ${ids}),'[]'::jsonb),
  'reviews',coalesce((select jsonb_agg(to_jsonb(t) order by t.scpi_slug)
    from maximus_agents.scpi_candidate_final_review t where t.scpi_slug in ${ids}),'[]'::jsonb),
  'audits',coalesce((select jsonb_agg(to_jsonb(t) order by t.scpi_slug)
