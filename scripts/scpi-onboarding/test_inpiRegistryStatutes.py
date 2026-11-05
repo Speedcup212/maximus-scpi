@@ -5,7 +5,7 @@ import fitz
 
 from inpiRegistryStatutes import (
     API_ROOT, SIREN, choose_filed_statutes, inspect_official_pdf,
-    probe_inpi, _verified_url, _decode_inpi_pdf, MAX_PDF_WIRE_BYTES
+    probe_inpi, _verified_url, _decode_inpi_pdf, MAX_PDF_WIRE_BYTES, public_act_candidates
 )
 
 
@@ -158,6 +158,29 @@ class InpiOfficialStatutesTests(unittest.TestCase):
         output = probe_inpi("u", "p", fetch)
         self.assertEqual(output["status"], "OFFICIAL_INPI_FILE_MATCHED_AWAITING_INDEPENDENT_LEGAL_REVIEW")
         self.assertFalse(output["publication_authorized"])
+
+
+    def test_omit_typerdd_in_listing_then_check_official_detail(self):
+        entry = act()
+        bare = {k:v for k,v in entry.items() if k != 'typeRdd'}
+        def fetch(url, token=None, payload=None, limit=None):
+            if url.endswith('/api/sso/login'):
+                return b'{"token":"secret"}'
+            if url.endswith('/attachments'):
+                return json.dumps({'actes':[bare]}).encode()
+            if url.endswith('/download'):
+                return pdf_bytes()
+            return json.dumps(entry).encode()
+        result = probe_inpi('u','p',fetch)
+        self.assertEqual(result['act_id'],entry['id'])
+        self.assertFalse(result['publication_authorized'])
+
+    def test_inpi_metadata_candidate_count_bounded(self):
+        items=[act(id=f"6385db8b901325760b{i:08d}") for i in range(51)]
+        with self.assertRaisesRegex(ValueError, 'PAGINATION'):
+            public_act_candidates({'actes':items})
+        with self.assertRaisesRegex(ValueError,'NOT_FOUND'):
+            public_act_candidates({'actes':[{**act(),'id':'../escape'}]})
 
 if __name__ == "__main__":
     unittest.main()
