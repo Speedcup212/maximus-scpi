@@ -21,6 +21,7 @@ on:
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
       - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
       - "supabase/migrations/20261106_recovery119_candidate_retry_guards.sql"
+      - "supabase/migrations/20261106_recovery121_agent_operational_status.sql"
   pull_request:
     branches: [main]
     paths:
@@ -37,6 +38,7 @@ on:
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
       - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
       - "supabase/migrations/20261106_recovery119_candidate_retry_guards.sql"
+      - "supabase/migrations/20261106_recovery121_agent_operational_status.sql"
 
 permissions:
   contents: read
