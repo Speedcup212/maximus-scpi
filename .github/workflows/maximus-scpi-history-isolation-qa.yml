@@ -1,0 +1,31 @@
+name: MaximusSCPI SCPI history isolation QA
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "src/components/ScpiIndicatorHistory.tsx"
+      - "src/utils/scpiRowScope.ts"
+      - "src/utils/certifiedLiquidity.ts"
+      - "scripts/agents/scpiRowScope.test.ts"
+      - ".github/workflows/maximus-scpi-history-isolation-qa.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  history-cross-fund-isolation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Execute financial display isolation regression tests
+        run: npx --no-install tsx --test scripts/agents/scpiRowScope.test.ts
