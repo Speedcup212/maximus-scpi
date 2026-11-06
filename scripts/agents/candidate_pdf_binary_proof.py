@@ -77,6 +77,16 @@ def independent_poppler(pdf_path,fund_name,reference_period,kind,expected_page_c
             year+r"\b|\b(?:t|q)"+quarter+r"\s*"+year+r"\b")
         if not re.search(rx,opening):
             raise ValueError("POPPLER_QUARTER_UNCONFIRMED")
+    elif kind=="semiannual_bulletin":
+        if not re.fullmatch(r"20\d{2}-S[12]",reference_period):
+            raise ValueError("INVALID_SEMESTER_PERIOD")
+        semester=reference_period[-1]
+        year=reference_period[:4]
+        marker=(r"\b"+semester+r"(?:er|ere|e|eme)?\s*(?:semestre|sem)\b[\W\s]{0,20}"+year+r"\b"
+                r"|\b(?:s|semestre)\s*"+semester+r"[\W\s]{0,15}"+year+r"\b"
+                r"|\b"+year+r"[\W\s]{0,15}(?:s|semestre)\s*"+semester+r"\b")
+        if not re.search(marker,opening):
+            raise ValueError("POPPLER_SEMESTER_UNCONFIRMED")
     else:
         if not re.fullmatch(r"20\d{2}-RA",reference_period):
             raise ValueError("INVALID_ANNUAL_PERIOD")
@@ -101,7 +111,7 @@ def validate_manifest(manifest):
     allowed=set(hosts)
     for doc in docs:
         if not isinstance(doc,dict) or doc.get("document_kind") not in (
-            "quarterly_bulletin","annual_report") or not isinstance(doc.get("source_url"),str) or not official_url(
+            "quarterly_bulletin","semiannual_bulletin","annual_report") or not isinstance(doc.get("source_url"),str) or not official_url(
             doc["source_url"],list(allowed)) or not re.fullmatch(
             r"[a-f0-9]{64}",doc.get("pdf_sha256","")) or not isinstance(
             doc.get("page_count"),int) or doc["page_count"]<1:
@@ -110,7 +120,7 @@ def validate_manifest(manifest):
 
 
 def document_proof(doc,manifest,archive_dir,auditor=audit_document,checker=independent_poppler):
-    kind={"quarterly_bulletin":"quarterly","annual_report":"annual"}[doc["document_kind"]]
+    kind={"quarterly_bulletin":"quarterly","semiannual_bulletin":"semiannual","annual_report":"annual"}[doc["document_kind"]]
     requested=doc["source_url"]
     c={"name":manifest["candidate_name"],"issuer_hosts":manifest["allowed_hosts"]}
     source={"kind":kind,"reference_period":doc["source_period"],"url":requested}
