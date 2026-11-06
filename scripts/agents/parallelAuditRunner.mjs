@@ -42,7 +42,10 @@ export function assertAuditTask(task,expectedRole){
  if(!ROLES.has(expectedRole)||task?.role!==expectedRole||task?.kind!=='audit'||
     !['parallel_readonly_audit','candidate_documentary_audit'].includes(task?.payload?.mode)||!task?.lease_token||
     task?.deploy_allowed!==false)throw Error('UNAUTHORIZED_READONLY_AUDIT_SCOPE');
- if(!task.dedupe_key?.endsWith((isCandidateMode(task)?':candidate-evidence:':':parallel-audit:')+expectedRole))
+ const suffix=isCandidateMode(task)&&task.payload?.batch_mode==='candidate20'
+   ?':candidate20:'+task.payload.scpi_slug+':'+expectedRole
+   :(isCandidateMode(task)?':candidate-evidence:':':parallel-audit:')+expectedRole;
+ if(!task.dedupe_key?.endsWith(suffix))
    throw Error('UNEXPECTED_TASK_DEDUPE');
  if(isCandidateMode(task))validateCandidateSnapshot(task);
  return task;
