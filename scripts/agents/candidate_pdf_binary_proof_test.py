@@ -106,12 +106,12 @@ class CandidateProofTests(unittest.TestCase):
                   "Texte financier officiel sans certification. "*15)+"\\f")*5
             with patch.object(proof.subprocess,"run",return_value=
                 subprocess.CompletedProcess(args=["pdftotext"],returncode=0,
-                    stdout=output.encode("utf-8"),stderr=b"")):
+                    stdout=output,stderr="")):
                 self.assertEqual(proof.independent_poppler(
                     pdf,issuer["name"],"2026-S1","semiannual_bulletin",5),5)
             with patch.object(proof.subprocess,"run",return_value=
                 subprocess.CompletedProcess(args=["pdftotext"],returncode=0,
-                    stdout=output.encode("utf-8"),stderr=b"")):
+                    stdout=output,stderr="")):
                 with self.assertRaisesRegex(ValueError,"SEMESTER_UNCONFIRMED"):
                     proof.independent_poppler(
                         pdf,issuer["name"],"2026-S2","semiannual_bulletin",5)
