@@ -141,7 +141,7 @@ class CandidateProofTests(unittest.TestCase):
 
         # Exercise the real MuPDF reader on an embedded-extractable PDF.
         doc=fitz.open()
-        for i in range(3):
+        for i in range(6):
             page=doc.new_page()
             lines=[
                 "AEW OPPORTUNITES EUROPE BULLETIN SEMESTRIEL N 1",
@@ -161,18 +161,18 @@ class CandidateProofTests(unittest.TestCase):
         record=proof.audit_document(source,issuer,fetcher=lambda url:(binary,url))
         self.assertTrue(record["publisher_binary_pass"])
         self.assertFalse(record["financial_metrics_certified"])
-        expected_text=(cover+" AEW Opportunites Europe "*35+chr(12))*3
+        expected_text=(cover+" AEW Opportunites Europe "*35+chr(12))*6
         with patch.object(proof.subprocess,"run",return_value=
             subprocess.CompletedProcess(args=["pdftotext"],returncode=0,
                 stdout=expected_text,stderr="")):
             self.assertEqual(proof.independent_poppler(
-                Path("original.pdf"),issuer["name"],"2026-S1","semiannual_bulletin",3),3)
+                Path("original.pdf"),issuer["name"],"2026-S1","semiannual_bulletin",6),6)
         with patch.object(proof.subprocess,"run",return_value=
             subprocess.CompletedProcess(args=["pdftotext"],returncode=0,
                 stdout=expected_text,stderr="")):
             with self.assertRaisesRegex(ValueError,"POPPLER_SEMESTER_UNCONFIRMED"):
                 proof.independent_poppler(
-                    Path("original.pdf"),issuer["name"],"2026-S2","semiannual_bulletin",3)
+                    Path("original.pdf"),issuer["name"],"2026-S2","semiannual_bulletin",6)
 
     def test_annual_fiscal_date_on_page3_with_cover_title(self):
         # AEW annual report cover has the title but no year; its contents
