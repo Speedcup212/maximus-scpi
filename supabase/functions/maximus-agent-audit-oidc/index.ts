@@ -117,7 +117,7 @@ Deno.serve(async request=>{
                d.document_identity_verified!==true||
                !/^[a-f0-9]{64}$/i.test(d.pdf_sha256||"")||
                !Number.isInteger(d.page_count)||d.page_count<1||
-               !["quarterly_bulletin","annual_report"].includes(d.document_kind);
+               !["quarterly_bulletin","semiannual_bulletin","annual_report"].includes(d.document_kind);
            }catch{return true;}
          }))return new Response("Untrusted candidate PDF manifest",{status:422});
       return Response.json({
@@ -158,7 +158,7 @@ Deno.serve(async request=>{
                 d.document_identity_verified!==true||
                 !/^[0-9a-f]{64}$/i.test(d.pdf_sha256||'')||
                 !Number.isInteger(d.page_count)||d.page_count<1||
-                !['quarterly_bulletin','annual_report'].includes(d.document_kind);
+                !['quarterly_bulletin','semiannual_bulletin','annual_report'].includes(d.document_kind);
             }catch{return true;}
           }))
         return new Response("Untrusted candidate PDF manifest",{status:422});
