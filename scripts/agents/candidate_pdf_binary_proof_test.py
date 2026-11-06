@@ -103,7 +103,7 @@ class CandidateProofTests(unittest.TestCase):
             pdf=Path(tmp)/"source.pdf"
             pdf.write_bytes(binary)
             output=(("AEW Opportunites Europe - Bulletin 1er semestre 2026 "+
-                  "Texte financier officiel sans certification. "*15)+"\\f")*5
+                  "Texte financier officiel sans certification. "*15)+chr(12))*5
             with patch.object(proof.subprocess,"run",return_value=
                 subprocess.CompletedProcess(args=["pdftotext"],returncode=0,
                     stdout=output,stderr="")):
