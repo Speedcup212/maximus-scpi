@@ -234,11 +234,11 @@ CREATE OR REPLACE VIEW maximus_agents.candidate_source_coverage
 WITH (security_invoker = true) AS
 SELECT u.scpi_slug,u.name,u.management_company,u.origin_url,
        u.stage,
-       count(p.*) FILTER (WHERE p.document_identity_verified
+       count(DISTINCT (p.source_period,p.document_kind,p.source_url)) FILTER (WHERE p.document_identity_verified
          AND p.pdf_sha256 ~ '^[0-9a-f]{64}$' AND p.page_count>0) AS verified_pdf_count,
-       count(d.*) FILTER (WHERE d.status='publisher_index_visible') AS indexed_only_count,
-       count(d.*) FILTER (WHERE d.status='rejected') AS rejected_count,
-       CASE WHEN count(p.*) FILTER (WHERE p.document_identity_verified
+       count(DISTINCT (d.source_period,d.document_kind,d.direct_document_url)) FILTER (WHERE d.status='publisher_index_visible') AS indexed_only_count,
+       count(DISTINCT (d.source_period,d.document_kind,d.direct_document_url)) FILTER (WHERE d.status='rejected') AS rejected_count,
+       CASE WHEN count(DISTINCT (p.source_period,p.document_kind,p.source_url)) FILTER (WHERE p.document_identity_verified
          AND p.pdf_sha256 ~ '^[0-9a-f]{64}$' AND p.page_count>0)>0
          THEN 'EVIDENCE_READY_FOR_READONLY_QA'
          ELSE 'SOURCE_DISCOVERY_REQUIRED' END AS next_documentary_stage,
@@ -256,7 +256,7 @@ SELECT management_company,
  count(*) AS candidate_count,
  count(*) FILTER (WHERE next_documentary_stage='SOURCE_DISCOVERY_REQUIRED') AS discovery_required,
  count(*) FILTER (WHERE next_documentary_stage='EVIDENCE_READY_FOR_READONLY_QA') AS qa_eligible,
- count(*) FILTER (WHERE origin_url IS NOT NULL) AS candidates_with_official_origin
+ count(*) FILTER (WHERE origin_url IS NOT NULL) AS candidates_with_origin_url
 FROM maximus_agents.candidate_source_coverage
 GROUP BY management_company;
 REVOKE ALL ON maximus_agents.candidate_source_gap_by_manager FROM PUBLIC,anon,authenticated;
