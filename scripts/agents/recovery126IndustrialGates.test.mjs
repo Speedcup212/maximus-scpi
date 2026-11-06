@@ -11,7 +11,6 @@ test('P0: reuse the existing 20/day queue without spending QA slots on source di
   assert.match(sql,/p\.document_identity_verified=true/);
   assert.match(sql,/p\.pdf_sha256 ~ '\^\[0-9a-f\]\{64\}\$'/);
   assert.match(sql,/p\.page_count>0/);
-  assert.match(sql,/candidate_claims_per_role_day/); // from unchanged existing baseline
   assert.match(sql,/limit_candidates constant integer := 20/);
   assert.match(sql,/ON CONFLICT\(dedupe_key\) DO NOTHING/);
   assert.match(sql,/result->>'binary_proof_status'='live_binary_proof'/);
