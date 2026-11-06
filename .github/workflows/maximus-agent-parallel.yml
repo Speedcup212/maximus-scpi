@@ -16,6 +16,7 @@ on:
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery122_candidate20.sql"
       - "supabase/migrations/20261106_recovery126_evidence_first_gates.sql"
+      - "supabase/migrations/20261106_recovery127_watchdog_allowed_state.sql"
       - "scripts/agents/recovery126IndustrialGates.test.mjs"
   pull_request:
     branches: [main]
@@ -32,6 +33,7 @@ on:
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery122_candidate20.sql"
       - "supabase/migrations/20261106_recovery126_evidence_first_gates.sql"
+      - "supabase/migrations/20261106_recovery127_watchdog_allowed_state.sql"
       - "scripts/agents/recovery126IndustrialGates.test.mjs"
 
 permissions:
