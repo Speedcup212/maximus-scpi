@@ -154,7 +154,7 @@ BEGIN
     RAISE EXCEPTION 'Invalid read-only candidate role or slug';
   END IF;
   PERFORM pg_advisory_xact_lock(
-    hashtext('maximus_agents:candidate20:claim:'||p_role));
+    hashtext('maximus_agents:claim:'||p_role));
   SELECT * INTO cfg FROM maximus_agents.settings WHERE singleton;
   IF NOT FOUND OR NOT cfg.enabled OR NOT coalesce(
     (SELECT enabled FROM maximus_agents.agents WHERE role=p_role),false)
@@ -244,3 +244,82 @@ SELECT t.cycle_date,t.dossiers_selected,t.dossiers_reviewed,
 FROM tasks_today t LEFT JOIN usage u USING(cycle_date);
 REVOKE ALL ON maximus_agents.candidate20_daily_progress
  FROM PUBLIC,anon,authenticated;
+
+-- Preserve existing non-batch 2/day budget; batch20 claims never consume it.
+CREATE OR REPLACE FUNCTION maximus_agents.claim_parallel_audit_task(p_role text)
+ RETURNS SETOF maximus_agents.tasks
+ LANGUAGE plpgsql
+ SET search_path TO 'pg_catalog', 'maximus_agents'
+AS $function$
+DECLARE
+  d date := (now() at time zone 'Europe/Paris')::date;
+  cfg maximus_agents.settings;
+  t maximus_agents.tasks;
+  token uuid;
+BEGIN
+  IF p_role NOT IN ('DATA','SEARCH','ANALYST','QA') THEN
+    RAISE EXCEPTION 'Role not permitted for read-only audit';
+  END IF;
+  PERFORM pg_advisory_xact_lock(hashtext('maximus_agents:claim:'||p_role));
+  SELECT * INTO cfg FROM maximus_agents.settings WHERE singleton;
+  IF NOT FOUND OR NOT cfg.enabled OR NOT coalesce(
+    (SELECT enabled FROM maximus_agents.agents WHERE role=p_role),false) THEN RETURN; END IF;
+  IF EXISTS (SELECT 1 FROM maximus_agents.tasks WHERE role=p_role AND status='running') THEN RETURN; END IF;
+  IF (SELECT count(*) FROM maximus_agents.runs r
+       JOIN maximus_agents.tasks counted ON counted.id=r.task_id
+       WHERE r.role=p_role AND (r.started_at at time zone 'Europe/Paris')::date=d
+         AND coalesce(counted.payload->>'batch_mode','')<>'candidate20')
+     >= cfg.max_claims_per_role_day THEN RETURN; END IF;
+  SELECT * INTO t FROM maximus_agents.tasks x
+  WHERE x.role=p_role AND x.kind='audit' AND x.status='pending'
+    AND x.cycle_date=d AND x.attempts<2
+    AND (x.dedupe_key=d::text||':candidate-evidence:'||p_role
+        OR x.dedupe_key=d::text||':parallel-audit:'||p_role)
+    AND x.payload->>'mode' IN ('candidate_documentary_audit','parallel_readonly_audit')
+    AND NOT EXISTS (
+      SELECT 1 FROM unnest(x.depends_on) dep(id)
+      LEFT JOIN maximus_agents.tasks parent ON parent.id=dep.id
+      WHERE parent.id IS NULL OR parent.status<>'done'
+    )
+  ORDER BY CASE WHEN x.payload->>'mode'='candidate_documentary_audit' THEN 0 ELSE 1 END
+  FOR UPDATE SKIP LOCKED LIMIT 1;
+  IF t.id IS NULL THEN RETURN; END IF;
+  token:=gen_random_uuid();
+  UPDATE maximus_agents.tasks SET status='running',attempts=attempts+1,
+    lease_token=token,lease_until=now()+make_interval(mins=>cfg.lease_minutes),
+    updated_at=now() WHERE id=t.id RETURNING * INTO t;
+  INSERT INTO maximus_agents.runs(task_id,role,attempt,lease_token)
+    VALUES(t.id,p_role,t.attempts,token);
+  UPDATE maximus_agents.agents SET heartbeat_at=now() WHERE role=p_role;
+  RETURN NEXT t;
+END
+$function$;
+
+-- Preserve existing non-batch 2/day budget; batch20 claims never consume it.
+CREATE OR REPLACE FUNCTION maximus_agents.claim_task(p_role text)
+ RETURNS SETOF maximus_agents.tasks
+ LANGUAGE plpgsql
+ SET search_path TO 'pg_catalog', 'maximus_agents'
+AS $function$
+declare t maximus_agents.tasks; cfg maximus_agents.settings; token uuid;
+begin
+  if p_role not in ('DATA','ANALYST','SEARCH','QA') then raise exception 'Invalid worker role'; end if;
+  perform pg_advisory_xact_lock(hashtext('maximus_agents:claim:'||p_role));
+  select * into cfg from maximus_agents.settings where singleton;
+  if not cfg.enabled or not (select enabled from maximus_agents.agents where role=p_role) then return; end if;
+  if exists(select 1 from maximus_agents.tasks where role=p_role and status='running') then return; end if;
+  if (select count(*) from maximus_agents.runs r join maximus_agents.tasks counted on counted.id=r.task_id where r.role=p_role and (r.started_at at time zone 'Europe/Paris')::date=(now() at time zone 'Europe/Paris')::date and coalesce(counted.payload->>'batch_mode','')<>'candidate20')>=cfg.max_claims_per_role_day then return; end if;
+  select * into t from maximus_agents.tasks x where x.role=p_role and x.status='pending' and x.attempts<2
+    and coalesce(x.payload->>'batch_mode','')<>'candidate20'
+    and (x.kind in ('execute','verify') or x.cycle_date=(now() at time zone 'Europe/Paris')::date)
+    and not exists(select 1 from unnest(x.depends_on) dep(id) left join maximus_agents.tasks parent on parent.id=dep.id where parent.id is null or parent.status not in ('done','failed','blocked'))
+    order by case when x.kind in ('execute','verify') then 0 else 1 end,x.priority,x.created_at for update skip locked limit 1;
+  if t.id is null then return; end if;
+  token:=gen_random_uuid();
+  update maximus_agents.tasks set status='running',attempts=attempts+1,lease_token=token,
+    lease_until=now()+make_interval(mins=>cfg.lease_minutes),updated_at=now() where id=t.id returning * into t;
+  insert into maximus_agents.runs(task_id,role,attempt,lease_token) values(t.id,p_role,t.attempts,token);
+  if t.kind='execute' then update maximus_agents.issues set status='in_progress',updated_at=now() where id=any(t.issue_ids) and status='open'; end if;
+  update maximus_agents.agents set heartbeat_at=now() where role=p_role;
+  return next t;
+end $function$;
