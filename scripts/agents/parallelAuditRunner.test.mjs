@@ -73,10 +73,14 @@ test('Reject empty, oversized, unreliable or malformed model outputs',()=>{
  for(const text of ['',JSON.stringify({observations:[],follow_up:'ok'}),
  JSON.stringify({observations:['ok'],follow_up:''}),
  JSON.stringify({observations:[42],follow_up:'ok'}),
- JSON.stringify({observations:['x'.repeat(281)],follow_up:'ok'}),
  'not json'])assert.throws(()=>parseAuditOutput(text));
  const valid=parseAuditOutput('```json\n{"observations":["Needs verification"],"follow_up":"Check official PDF."}\n```');
  assert.equal(valid.observations.length,1);
+ const bounded=parseAuditOutput(JSON.stringify({observations:['x'.repeat(450),'Second','Third','Fourth'],follow_up:'y'.repeat(500)}));
+ assert.equal(bounded.observations.length,3);
+ assert.equal(bounded.observations[0].length,280);
+ assert.equal(bounded.follow_up.length,360);
+ assert.equal(bounded.model_output_truncated,true);
 });
 test('Independent QA refuses missing roles and reviews all three recorded audit results',()=>{
  const upstream=['DATA','SEARCH','ANALYST'].map(role=>({
