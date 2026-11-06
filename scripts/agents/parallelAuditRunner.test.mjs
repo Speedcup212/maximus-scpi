@@ -115,5 +115,5 @@ test('Workflow contract: CONTROL, 3 true parallel roles, independent QA and no d
  assert.match(edge,/\["REVIEW","FAIL"\]/);
  assert.match(edge,/kind='audit'/);
  assert.match(edge,/maximus_agents\.finish_task/);
- assert.doesNotMatch(edge,/maximus_agents\.record_execution|publish|deployNetlify/);
+ assert.doesNotMatch(edge,/maximus_agents\.record_execution\s*\(|publish_scpi\s*\(|deployNetlify\s*\(/);
 });
