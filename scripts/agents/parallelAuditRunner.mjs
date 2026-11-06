@@ -1,6 +1,7 @@
 // RECOVERY-117: one bounded read-only audit for an existing leased task.
 // No model shell, no repo writes, no financial certification or release.
 import fs from 'node:fs';
+import {verifyCandidateBinaryEvidence} from './candidateBinaryEvidence.mjs';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -128,13 +129,14 @@ export function parseAuditOutput(text){
      value.follow_up.trim().length>360
  };
 }
-export function buildQAResult(task,upstream,now=getNow()){
+export function buildQAResult(task,upstream,now=getNow(),binaryProof=null){
  assertAuditTask(task,'QA');
  if(!Array.isArray(upstream)||upstream.length!==3||
     new Set(upstream.map(x=>x.role)).size!==3||
     !['DATA','SEARCH','ANALYST'].every(r=>upstream.some(x=>x.role===r)))
    throw Error('QA_UPSTREAM_THREE_ROLES_REQUIRED');
  const candidateMode=isCandidateMode(task);
+ const verifiedBinary=candidateMode?verifyCandidateBinaryEvidence(task,binaryProof):null;
  const expectedDigest=candidateMode?
    candidateSnapshotSha256(validateCandidateSnapshot(task)):null;
  const badCandidateResult=candidateMode&&upstream.some(x=>
@@ -148,6 +150,10 @@ export function buildQAResult(task,upstream,now=getNow()){
      candidate_sha_match:candidateMode?
        x.result?.candidate_snapshot_sha256===expectedDigest:null}
  }));
+ if(verifiedBinary)evidence.push({
+   source:'GitHub Actions live publisher PDF binary proof',
+   observed_at:now,finding:verifiedBinary
+ });
  if(badCandidateResult||upstream.some(x=>x.status!=='done'||!['REVIEW','FAIL'].includes(x.verdict)))
    return {status:'blocked',result:{
      summary:'QA read-only: upstream audits are incomplete or inconsistent. Manual review required.',
@@ -163,6 +169,8 @@ export function buildQAResult(task,upstream,now=getNow()){
      verified_documents:task.payload.candidate_evidence.documents.length,
      linked_metrics:task.payload.candidate_evidence.metrics.length,
      candidate_snapshot_sha256:expectedDigest,
+     binary_proof_status:verifiedBinary.kind,
+     live_verified_pdf_count:verifiedBinary.kind==='live_binary_proof'?verifiedBinary.documents:0,
      financial_certified:false}:{}),evidence}};
 }
 export async function runModelAudit(task,{apiKey,fetcher=fetch,now=getNow()}={}){
@@ -218,7 +226,9 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
   const outcome=await (async()=>{try{
     if(task.role==='QA'){
       const upstream=JSON.parse(fs.readFileSync(process.env.AGENT_QA_CONTEXT_FILE,'utf8')).upstream;
-      return buildQAResult(task,upstream);
+      const proof=isCandidateMode(task)?
+        JSON.parse(fs.readFileSync(process.env.AGENT_BINARY_PROOF_FILE,'utf8')):null;
+      return buildQAResult(task,upstream,getNow(),proof);
     }
     return await runModelAudit(task,{apiKey:process.env.DEEPSEEK_API_KEY});
    }catch(e){return safeFailure(task,e);}})();
