@@ -52,7 +52,7 @@ def audit_document(d,c,fetcher=download):
     period=d.get("reference_period")
     url=d.get("url","")
     hosts=c.get("issuer_hosts",[])
-    if kind not in {"quarterly","annual","dic","note","statutes"} or not isinstance(period,str) or not official_url(url,hosts):
+    if kind not in {"quarterly","semiannual","annual","dic","note","statutes"} or not isinstance(period,str) or not official_url(url,hosts):
         raise ValueError("SOURCE_MANIFEST_INVALID_OR_UNTRUSTED")
     raw,final_url=fetcher(url)
     if not official_url(final_url,hosts):raise ValueError("REDIRECT_OUTSIDE_ISSUER_HOST")
@@ -81,6 +81,16 @@ def audit_document(d,c,fetcher=download):
         rx=r"\b"+quarter+r"(?:e|eme|er)?\s*(?:trimestre|trim)\b[\W\s]{0,15}"+year+r"\b|\b(?:t|q)"+quarter+r"\s*"+year+r"\b"
         if not re.search(rx,opening):
             raise ValueError("QUARTER_TITLE_UNCONFIRMED:"+opening[:160])
+    elif kind=="semiannual":
+        if not re.fullmatch(r"20\d{2}-S[12]",period):
+            raise ValueError("INVALID_SEMESTER_PERIOD")
+        semester=period[-1]
+        year=period[:4]
+        marker=(r"\b"+semester+r"(?:er|ere|e|eme)?\s*(?:semestre|sem)\b[\W\s]{0,20}"+year+r"\b"
+                r"|\b(?:s|semestre)\s*"+semester+r"[\W\s]{0,15}"+year+r"\b"
+                r"|\b"+year+r"[\W\s]{0,15}(?:s|semestre)\s*"+semester+r"\b")
+        if not re.search(marker,opening):
+            raise ValueError("SEMESTER_TITLE_UNCONFIRMED:"+opening[:160])
     elif kind=="annual":
         if not re.fullmatch(r"20\d{2}-RA",period):raise ValueError("INVALID_ANNUAL_PERIOD")
         if period[:4] not in opening or not re.search(r"rapport annuel|rapport de gestion|exercice",opening):
