@@ -149,8 +149,14 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
     return 'Le régime ne permet pas de produire un ratio comparable de liquidité.';
   }, [certified]);
 
-  const hasHistory = Boolean(data && data.previous_period && data.current_period && metrics.length > 0);
-  const hasLiquidity = Boolean(liquidity || gate);
+  const isCurrentScpi = (slug: string | undefined | null) => slug === scpiSlug;
+  const currentData = data && isCurrentScpi(data.scpi_slug) ? data : null;
+  const currentLiquidity = liquidity && isCurrentScpi(liquidity.scpi_slug) ? liquidity : null;
+  const currentGate = gate && isCurrentScpi(gate.scpi_slug) ? gate : null;
+  const currentSource = source && isCurrentScpi(source.scpi_slug) ? source : null;
+
+  const hasHistory = Boolean(currentData && currentData.previous_period && currentData.current_period && metrics.length > 0);
+  const hasLiquidity = Boolean(currentLiquidity || currentGate);
   if (!hasHistory && !hasLiquidity) return null;
 
   return (
