@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 
 const sql=readFileSync(new URL('../../supabase/migrations/20261106_recovery126_evidence_first_gates.sql',import.meta.url),'utf8');
 const original=readFileSync(new URL('../../supabase/migrations/20261106_recovery122_candidate20.sql',import.meta.url),'utf8');
+const watchdogFix=readFileSync(new URL('../../supabase/migrations/20261106_recovery127_watchdog_allowed_state.sql',import.meta.url),'utf8');
 
 test('P0: reuse the existing 20/day queue without spending QA slots on source discovery',()=>{
   assert.match(sql,/CREATE OR REPLACE FUNCTION maximus_agents\.prepare_candidate_batch20\(\)/);
@@ -31,17 +32,19 @@ test('P1: provenance checks are private and cannot certify financial records',()
   assert.match(sql,/REVOKE ALL ON maximus_agents\.candidate_metric_provenance_integrity FROM PUBLIC,anon,authenticated/);
 });
 
-test('P2: watchdog distinguishes old heartbeats from runnable work',()=>{
-  assert.match(sql,/CREATE OR REPLACE FUNCTION maximus_agents\.watchdog_tick\(\)/);
+test('P2: watchdog only reports stalling for runnable tasks, using allowed state enum',()=>{
   assert.match(sql,/CREATE OR REPLACE VIEW maximus_agents\.agent_operational_status/);
   assert.match(sql,/coalesce\(claim_task\.payload->>'batch_mode',''\)<>'candidate20'/);
   assert.match(sql,/FROM maximus_agents\.runs z LEFT JOIN maximus_agents\.tasks claim_task ON claim_task\.id=z\.task_id/);
-  assert.match(sql,/operational_state='READY_OR_WAITING' AND a\.pending_today>0/);
-  const idle=sql.indexOf("when v_runnable=0 then 'WAITING_POLICY'");
-  const stalled=sql.indexOf("when v_last is null or v_last<now()-interval '2 hours' then 'STALE'");
+  assert.match(watchdogFix,/CREATE OR REPLACE FUNCTION maximus_agents\.watchdog_tick\(\)/);
+  assert.match(watchdogFix,/operational_state='READY_OR_WAITING' AND a\.pending_today>0/);
+  const idle=watchdogFix.indexOf("when v_runnable=0 then 'IDLE'");
+  const stalled=watchdogFix.indexOf("when v_last is null or v_last<now()-interval '2 hours' then 'STALE'");
   assert.ok(idle>0 && stalled>idle);
-  assert.match(sql,/v_incident := v_enabled and v_state='STALE' and v_runnable>0/);
-  assert.match(sql,/REVOKE ALL ON FUNCTION maximus_agents\.watchdog_tick\(\) FROM PUBLIC,anon,authenticated/);
+  assert.match(watchdogFix,/'policy_wait',v_pending>0 AND v_runnable=0/);
+  assert.doesNotMatch(watchdogFix,/WAITING_POLICY/);
+  assert.match(watchdogFix,/v_incident := v_enabled and v_state='STALE' and v_runnable>0/);
+  assert.match(watchdogFix,/REVOKE ALL ON FUNCTION maximus_agents\.watchdog_tick\(\) FROM PUBLIC,anon,authenticated/);
 });
 
 test('P3/P4: prohibit publication and quota bypass until independent final admission',()=>{
