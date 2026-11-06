@@ -63,7 +63,7 @@ jobs:
       contents: read
       id-token: write
     outputs:
-      slugs: ${{ steps.dispatch.outputs.slugs }
+      slugs: ${{ steps.dispatch.outputs.slugs }}
     steps:
       - name: CONTROL — prepare exactly one 20-SCPI cohort on existing Supabase queue
         id: dispatch
@@ -92,7 +92,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        scpi_slug: ${{ fromJSON(needs.control.outputs.slugs) }
+        scpi_slug: ${{ fromJSON(needs.control.outputs.slugs) }}
     runs-on: ubuntu-latest
     timeout-minutes: 18
     permissions:
@@ -107,7 +107,7 @@ jobs:
         id: manifest
         uses: actions/github-script@v7
         env:
-          SCPI_SLUG: ${{ matrix.scpi_slug }
+          SCPI_SLUG: ${{ matrix.scpi_slug }}
         with:
           script: |
             const fs=require('node:fs');
@@ -157,8 +157,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: candidate20-proof-${{ matrix.scpi_slug }-${{ github.run_id }
-          path: ${{ runner.temp }/candidate-binary-proof/
+          name: candidate20-proof-${{ matrix.scpi_slug }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/candidate-binary-proof/
           if-no-files-found: error
           retention-days: 7
 
@@ -169,7 +169,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        scpi_slug: ${{ fromJSON(needs.control.outputs.slugs) }
+        scpi_slug: ${{ fromJSON(needs.control.outputs.slugs) }}
     runs-on: ubuntu-latest
     timeout-minutes: 16
     permissions:
@@ -186,8 +186,8 @@ jobs:
       - name: Three independent role-specific missions for this SCPI
         uses: actions/github-script@v7
         env:
-          SCPI_SLUG: ${{ matrix.scpi_slug }
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }
+          SCPI_SLUG: ${{ matrix.scpi_slug }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         with:
           script: |
             const {pathToFileURL}=require('node:url'),path=require('node:path');
@@ -260,7 +260,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        scpi_slug: ${{ fromJSON(needs.control.outputs.slugs) }
+        scpi_slug: ${{ fromJSON(needs.control.outputs.slugs) }}
     runs-on: ubuntu-latest
     timeout-minutes: 8
     permissions:
@@ -277,12 +277,12 @@ jobs:
       - name: Retrieve only this fund's independent binary proof
         uses: actions/download-artifact@v4
         with:
-          name: candidate20-proof-${{ matrix.scpi_slug }-${{ github.run_id }
-          path: ${{ runner.temp }/candidate-binary-proof/
+          name: candidate20-proof-${{ matrix.scpi_slug }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/candidate-binary-proof/
       - name: QA role checks 3 agent results plus this fund's live binary PDF evidence
         uses: actions/github-script@v7
         env:
-          SCPI_SLUG: ${{ matrix.scpi_slug }
+          SCPI_SLUG: ${{ matrix.scpi_slug }}
         with:
           script: |
             const fs=require('node:fs'),path=require('node:path');
