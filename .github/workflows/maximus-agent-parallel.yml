@@ -9,6 +9,9 @@ on:
     paths:
       - ".github/workflows/maximus-agent-parallel.yml"
       - "scripts/agents/parallelAuditRunner.mjs"
+      - "scripts/scpi-onboarding/publisherPdfAudit.py"
+      - "scripts/agents/candidate_pdf_binary_proof_test.py"
+      - "scripts/agents/candidate_pdf_binary_proof.py"
       - "scripts/agents/candidateBinaryEvidence.mjs"
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery122_candidate20.sql"
@@ -17,6 +20,9 @@ on:
     paths:
       - ".github/workflows/maximus-agent-parallel.yml"
       - "scripts/agents/parallelAuditRunner.mjs"
+      - "scripts/scpi-onboarding/publisherPdfAudit.py"
+      - "scripts/agents/candidate_pdf_binary_proof_test.py"
+      - "scripts/agents/candidate_pdf_binary_proof.py"
       - "scripts/agents/candidateDocumentEvidence.test.mjs"
       - "scripts/agents/parallelAuditRunner.test.mjs"
       - "scripts/agents/agentSchedulingCrash.test.mjs"
@@ -207,7 +213,16 @@ jobs:
             async function execute(role){
               const claimed=await call({op:'batch_claim',role,scpi_slug:slug});
               const task=claimed.task;
-              if(!task)return {role,status:'not_claimed',reason:claimed.reason||'quota_or_dependency'};
+              if(!task){
+                // Rerun must never consume model tokens or report an already
+                // completed REVIEW as an error. An unfinished task still fails.
+                const existing=await call({op:'batch_status',scpi_slug:slug});
+                const prior=existing.tasks?.find(t=>t.role===role);
+                if(prior?.status==='done'&&prior?.verdict==='REVIEW'){
+                  return {role,status:'done',tokens:0,reused:true};
+                }
+                return {role,status:'not_claimed',reason:claimed.reason||'quota_or_dependency'};
+              }
               if(task.role!==role||task.payload?.scpi_slug!==slug||
                  task.payload?.batch_mode!=='candidate20'||task.deploy_allowed!==false)
                 throw Error('Cross-SCPI task rejected');
@@ -302,8 +317,15 @@ jobs:
             const result=await call({op:'batch_claim',role:'QA',scpi_slug:slug});
             if(!result.task){
               const status=await call({op:'batch_status',scpi_slug:slug});
+              const rows=status.tasks||[];
+              const alreadyReviewed=rows.length===4&&
+                rows.every(t=>t.status==='done'&&t.verdict==='REVIEW');
+              if(alreadyReviewed){
+                core.notice('QA '+slug+' already completed REVIEW in this cohort; no additional claim or financial PASS');
+                return;
+              }
               core.setFailed('Independent QA not eligible for '+slug+' (upstream or quota): '+
-                JSON.stringify(status.tasks?.map(t=>({role:t.role,status:t.status}))));
+                JSON.stringify(rows.map(t=>({role:t.role,status:t.status}))));
               return;
             }
             const task=result.task;
