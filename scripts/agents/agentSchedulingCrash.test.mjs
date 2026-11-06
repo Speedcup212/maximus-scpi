@@ -23,16 +23,11 @@ function testLeaseCycle({status='pending',attempts=0,expired=false}){
  return {status,attempts};
 }
 
-test('CRASH A — candidate gets dispatch priority and repetitive generic audit cannot consume its slot',()=>{
- const first=control.indexOf("await prepare('prepare_candidate')");
- const generic=control.indexOf("await prepare('prepare')");
- assert.ok(first>0&&generic>first,'Candidate must prepare BEFORE generic audit');
- assert.match(control,/if\(candidateResult\.prepared===true\)/);
- assert.match(control,/generic audit deliberately skipped to preserve role quotas/);
- assert.match(control,/mondayUTC/);
- const candidateReady=true;
- assert.equal(!candidateReady && new Date('2026-11-09').getUTCDay()===1,false);
- assert.equal(new Date('2026-11-09').getUTCDay(),1);
+test('CRASH A — CONTROL enrolls at most 20 SCPI once and never burns the generic-audit budget',()=>{
+ assert.match(control,/op:'prepare_batch20'/);
+ assert.match(control,/slugs\.length>20/);
+ assert.match(control,/new Set\(slugs\)\.size!==slugs\.length/);
+ assert.doesNotMatch(control,/op:'prepare_candidate'|op:'prepare'/);
 });
 
 test('CRASH B — concurrent claims on the same role cannot double-lease one task',()=>{
@@ -56,14 +51,13 @@ test('CRASH C — strict daily role budget is preserved; no fake quota reset',()
  assert.doesNotMatch(control,/max_claims_per_role_day\s*=|reset.*quota|truncate/i);
 });
 
-test('CRASH D — expired audit lease requeues once and a repeated failure blocks it',()=>{
- const reconciler=read('supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql');
- // Core recovery is in a pre-existing Supabase function: do not replace it.
- assert.match(workflow,/Record actual audit result in existing Supabase run/);
- assert.match(queue,/x\.attempts<2/);
+test('CRASH D — expired audit leases remain guarded, no direct replay of code corrections',()=>{
+ const batch=read('supabase/migrations/20261106_recovery122_candidate20.sql');
+ assert.match(batch,/PERFORM maximus_agents\.reconcile_expired_tasks\(\)/);
+ assert.match(batch,/x\.attempts<2/);
  assert.deepEqual(testLeaseCycle({status:'running',attempts:1,expired:true}),{status:'pending',attempts:1});
  assert.deepEqual(testLeaseCycle({status:'running',attempts:2,expired:true}),{status:'blocked',attempts:2});
- assert.match(reconciler,/claim_parallel_audit_task/);
+ assert.match(batch,/FOR UPDATE SKIP LOCKED LIMIT 1/);
 });
 
 test('CRASH E — independent QA must wait for all three, and never certifies financial data',()=>{
@@ -73,7 +67,7 @@ test('CRASH E — independent QA must wait for all three, and never certifies fi
  assert.match(queue,/parent\.status<>'done'/);
  assert.match(workflow,/qa:\s*needs: \[control, workers, source-proof\]/);
  assert.match(bridge,/\["REVIEW","FAIL"\]/);
- assert.match(workflow,/Candidate documentary cycle incomplete; no QA approval/);
+ assert.match(workflow,/Independent QA not eligible for/);
 });
 
 test('CRASH F — inconsistent DeepSeek JSON is bounded, never a fake financial PASS',()=>{
@@ -92,7 +86,18 @@ test('CRASH G — old and failed candidate tasks are preserved; retry limit is b
  assert.match(retry,/WHERE kind='audit' AND status='pending' AND cycle_date<d/);
 });
 
-test('CAPACITY WARNING — candidate pilot still prepares only one fund daily',()=>{
+test('CAPACITY TARGET — 20 distinct SCPI daily, no expansion of code correction quota',()=>{
+ const batch=read('supabase/migrations/20261106_recovery122_candidate20.sql');
+ assert.match(batch,/limit_candidates constant integer := 20/);
+ assert.match(batch,/candidate_claims_per_role_day BETWEEN 1 AND 20/);
+ assert.match(batch,/\(r\.started_at AT TIME ZONE 'Europe\/Paris'\)::date=d/);
+ assert.match(batch,/jsonb_array_length\(slugs\)/);
+ assert.match(batch,/AND x\.payload->>'scpi_slug'=p_slug/);
+ assert.match(workflow,/max-parallel: 4/);
+ assert.match(workflow,/scpi_slug: \$\{\{ fromJSON\(needs\.control\.outputs\.slugs\) \}\}/);
+ assert.equal(Math.ceil(143/20),8);
+});
+
  assert.match(retry,/d::text\|\|':candidate-evidence:'\|\|role_name/);
  assert.match(retry,/WHERE dedupe_key=d::text\|\|':candidate-evidence:DATA' LIMIT 1/);
  const candidates=143;
