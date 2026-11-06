@@ -37,6 +37,50 @@ Deno.serve(async request=>{
       const [r]=await sql`select maximus_agents.prepare_candidate_evidence_pilot() as result`;
       return Response.json({prepared:r.result?.prepared===true,cycle:r.result});
     }
+    if(body.op==="candidate_manifest"){
+      // Return only the selected task's existing, immutable-at-dispatch source
+      // references, never an arbitrary user-supplied URL or SCPI.
+      const rows=await sql`select t.payload->'candidate_evidence' as evidence
+        from maximus_agents.tasks t
+        where t.dedupe_key=((now() at time zone 'Europe/Paris')::date::text
+          ||':candidate-evidence:DATA')
+          and t.kind='audit'
+          and t.payload->>'mode'='candidate_documentary_audit'
+        limit 1`;
+      const evidence=rows[0]?.evidence;
+      if(!evidence)return Response.json({exists:false,documents:[],deploy_allowed:false});
+      const allowedRows=await sql`select hostname from
+        maximus_agents.scpi_candidate_issuer_hosts
+        where approved_at is not null`;
+      const hosts=new Set(allowedRows.map(row=>String(row.hostname||'').toLowerCase()));
+      const documents=evidence.documents;
+      if(!/^[a-z0-9-]{2,100}$/.test(String(evidence.scpi_slug||''))||
+          typeof evidence.scpi_name!=='string'||
+          !Array.isArray(documents)||documents.length>8||
+          documents.some(d=>{
+            try{
+              const u=new URL(d.source_url);
+              return u.protocol!=='https:'||u.username||u.password||
+                (u.port&&u.port!=='443')||!hosts.has(u.hostname.toLowerCase())||
+                d.document_identity_verified!==true||
+                !/^[0-9a-f]{64}$/i.test(d.pdf_sha256||'')||
+                !Number.isInteger(d.page_count)||d.page_count<1||
+                !['quarterly_bulletin','annual_report'].includes(d.document_kind);
+            }catch{return true;}
+          }))
+        return new Response("Untrusted candidate PDF manifest",{status:422});
+      return Response.json({
+        exists:true,candidate_slug:evidence.scpi_slug,
+        candidate_name:evidence.scpi_name,
+        allowed_hosts:[...hosts].sort(),
+        documents:documents.map(d=>({
+          source_url:d.source_url,source_period:d.source_period,
+          document_kind:d.document_kind,
+          pdf_sha256:d.pdf_sha256,page_count:d.page_count
+        })),
+        financial_certified:false,deploy_allowed:false
+      });
+    }
     if(body.op==="candidate_status"){
       const rows=await sql`select role,status,attempts from maximus_agents.tasks
         where cycle_date=(now() at time zone 'Europe/Paris')::date
