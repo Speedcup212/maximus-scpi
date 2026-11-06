@@ -103,6 +103,13 @@ test('SQL and OIDC contract: same queue, no finance writes or approval',()=>{
  assert.doesNotMatch(sql,/UPDATE\s+maximus_agents\.scpi_candidate_(?!work_queue)/i);
  const edge=readFileSync(new URL('../../supabase/functions/maximus-agent-audit-oidc/index.ts',import.meta.url),'utf8');
  assert.match(edge,/prepare_candidate/);
+ assert.match(edge,/candidate_status/);
+ const retry=readFileSync(new URL('../../supabase/migrations/20261106_recovery119_candidate_retry_guards.sql',import.meta.url),'utf8');
+ assert.match(retry,/Prior candidate cycle did not finish/);
+ assert.match(retry,/t\.role='QA' AND t\.kind='audit' AND t\.status='done'/);
+ assert.match(retry,/t\.status<>'done'/);
+ const workflow=readFileSync(new URL('../../.github/workflows/maximus-agent-parallel.yml',import.meta.url),'utf8');
+ assert.match(workflow,/core\.setFailed\('Candidate documentary cycle incomplete/);
  assert.match(edge,/candidate_documentary_audit/);
  assert.match(edge,/payload\.workflow_ref!==workflowRef/);
  assert.match(edge,/\["REVIEW","FAIL"\]/);
