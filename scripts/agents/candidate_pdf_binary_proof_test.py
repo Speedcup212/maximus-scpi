@@ -120,6 +120,54 @@ class CandidateProofTests(unittest.TestCase):
                   {"kind":"semiannual","reference_period":"2025-S2",
                    "url":source["url"]},issuer,fetcher=lambda url:(binary,url))
 
+    def test_aew_real_cover_reporting_date_overrides_future_validity_semester(self):
+        # Captured from the failing real PDF's bounded, first-page proof
+        # (run 42222071731). "Validite 2eme semestre" is NOT its report period.
+        cover=("2026 SEMESTRE SCPI 1er AEW OPPORTUNITES EUROPE "
+               "BULLETIN SEMESTRIEL N 1 ANALYSE : 1er janvier au 30 juin 2026 "
+               "VALIDITE : 2eme semestre 2026")
+        self.assertTrue(proof.semester_title_matches(cover,"2026-S1"))
+        self.assertFalse(proof.semester_title_matches(cover,"2026-S2"))
+        self.assertFalse(proof.semester_title_matches(cover,"2025-S1"))
+        self.assertFalse(proof.semester_title_matches(
+            "Bulletin semestriel 2eme semestre 2026, analyse du 1er juillet au 31 decembre 2025",
+            "2026-S2"))
+        self.assertTrue(proof.semester_title_matches(
+            "AEW bulletin second semestre. Du 1er juillet au 31 décembre 2026",
+            "2026-S2"))
+        self.assertFalse(proof.semester_title_matches(
+            "AEW bulletin valide pour le 2eme semestre 2026. Du 1er janvier au 30 juin 2026",
+            "2026-S2"))
+
+        # Exercise the real MuPDF reader on an embedded-extractable PDF.
+        doc=fitz.open()
+        for i in range(3):
+            page=doc.new_page()
+            for y in range(6):
+                page.insert_text((40,50+y*35),
+                    (cover if y==0 else "AEW Opportunites Europe documents financiers. "*3),
+                    fontsize=9)
+        binary=doc.tobytes()
+        doc.close()
+        source={"kind":"semiannual","reference_period":"2026-S1",
+                "url":BASE["documents"][0]["source_url"]}
+        issuer={"name":"AEW Opportunites Europe","issuer_hosts":BASE["allowed_hosts"]}
+        record=proof.audit_document(source,issuer,fetcher=lambda url:(binary,url))
+        self.assertTrue(record["publisher_binary_pass"])
+        self.assertFalse(record["financial_metrics_certified"])
+        expected_text=(cover+" AEW Opportunites Europe "*35+chr(12))*3
+        with patch.object(proof.subprocess,"run",return_value=
+            subprocess.CompletedProcess(args=["pdftotext"],returncode=0,
+                stdout=expected_text,stderr="")):
+            self.assertEqual(proof.independent_poppler(
+                Path("original.pdf"),issuer["name"],"2026-S1","semiannual_bulletin",3),3)
+        with patch.object(proof.subprocess,"run",return_value=
+            subprocess.CompletedProcess(args=["pdftotext"],returncode=0,
+                stdout=expected_text,stderr="")):
+            with self.assertRaisesRegex(ValueError,"POPPLER_SEMESTER_UNCONFIRMED"):
+                proof.independent_poppler(
+                    Path("original.pdf"),issuer["name"],"2026-S2","semiannual_bulletin",3)
+
     def test_annual_fiscal_date_on_page3_with_cover_title(self):
         # AEW annual report cover has the title but no year; its contents
         # page establishes 31 December of the relevant fiscal year.
