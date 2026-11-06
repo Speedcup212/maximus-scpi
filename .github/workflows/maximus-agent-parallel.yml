@@ -12,10 +12,8 @@ on:
       - "scripts/agents/parallelAuditRunner.mjs"
       - "scripts/agents/parallelAuditRunner.test.mjs"
       - "scripts/agents/candidateDocumentEvidence.test.mjs"
-      - "scripts/agents/candidateDocumentEvidence.test.mjs"
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
-      - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
       - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
   pull_request:
     branches: [main]
@@ -23,8 +21,10 @@ on:
       - ".github/workflows/maximus-agent-parallel.yml"
       - "scripts/agents/parallelAuditRunner.mjs"
       - "scripts/agents/parallelAuditRunner.test.mjs"
+      - "scripts/agents/candidateDocumentEvidence.test.mjs"
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
+      - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
 
 permissions:
   contents: read
