@@ -200,3 +200,47 @@ REVOKE ALL ON FUNCTION maximus_agents.prepare_candidate_batch20()
  FROM PUBLIC,anon,authenticated;
 REVOKE ALL ON FUNCTION maximus_agents.claim_candidate_batch20_task(text,text)
  FROM PUBLIC,anon,authenticated;
+
+-- Supervisory KPI: "reviewed" means independent REVIEW, not financial PASS.
+CREATE OR REPLACE VIEW maximus_agents.candidate20_daily_progress
+WITH (security_invoker = true)
+AS
+WITH tasks_today AS (
+ SELECT cycle_date,
+  count(*) FILTER (WHERE role='QA') AS dossiers_selected,
+  count(*) FILTER (WHERE role='QA' AND status='done'
+    AND result->>'verdict'='REVIEW') AS dossiers_reviewed,
+  count(*) FILTER (WHERE role='QA' AND status='pending') AS qa_pending,
+  count(*) FILTER (WHERE role='QA' AND status='blocked') AS qa_blocked,
+  count(*) FILTER (WHERE role='QA' AND status='done'
+    AND result->>'binary_proof_status'='source_gap') AS dossiers_source_gap,
+  count(*) FILTER (WHERE role='QA' AND status='done'
+    AND result->>'binary_proof_status'='live_binary_proof') AS dossiers_live_pdf_verified,
+  count(*) FILTER (WHERE role IN ('DATA','SEARCH','ANALYST')
+    AND status='blocked') AS agent_tasks_blocked
+ FROM maximus_agents.tasks t
+ WHERE t.payload->>'batch_mode'='candidate20'
+ GROUP BY cycle_date
+), usage AS (
+ SELECT t.cycle_date,
+  count(*) FILTER (WHERE r.result->>'provider'='DeepSeek API'
+    AND r.status='done') AS model_calls,
+  coalesce(sum(
+    CASE WHEN r.result->'usage'->>'total_tokens' ~ '^[0-9]{1,9}$'
+      THEN (r.result->'usage'->>'total_tokens')::integer ELSE 0 END
+  ),0) AS total_model_tokens
+ FROM maximus_agents.tasks t
+ JOIN maximus_agents.runs r ON r.task_id=t.id
+ WHERE t.payload->>'batch_mode'='candidate20'
+ GROUP BY t.cycle_date
+)
+SELECT t.cycle_date,t.dossiers_selected,t.dossiers_reviewed,
+ t.qa_pending,t.qa_blocked,t.dossiers_source_gap,
+ t.dossiers_live_pdf_verified,t.agent_tasks_blocked,
+ coalesce(u.model_calls,0) AS model_calls,
+ coalesce(u.total_model_tokens,0) AS total_model_tokens,
+ (t.dossiers_reviewed=20) AS review_target_reached,
+ false AS financial_certification_proven
+FROM tasks_today t LEFT JOIN usage u USING(cycle_date);
+REVOKE ALL ON maximus_agents.candidate20_daily_progress
+ FROM PUBLIC,anon,authenticated;
