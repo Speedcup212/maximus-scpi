@@ -124,10 +124,10 @@ class CandidateProofTests(unittest.TestCase):
         # AEW annual report cover has the title but no year; its contents
         # page establishes 31 December of the relevant fiscal year.
         text=(
-            "Rapport annuel AEW Opportunites Europe "+"titre annuel. "*40+"\\f"
-            +"AEW Opportunites Europe organes de direction "*12+"\\f"
-            +"Les donnees essentielles au 31 decembre 2025 "+"exercice. "*25+"\\f"
-            +"Perspectives de l'exercice et patrimoine immobilier "*15+"\\f"
+            "Rapport annuel AEW Opportunites Europe "+"titre annuel. "*40+chr(12)
+            +"AEW Opportunites Europe organes de direction "*12+chr(12)
+            +"Les donnees essentielles au 31 decembre 2025 "+"exercice. "*25+chr(12)
+            +"Perspectives de l'exercice et patrimoine immobilier "*15+chr(12)
         ).replace("\\\\f",chr(12))
         result=subprocess.CompletedProcess(
             args=["pdftotext"],returncode=0,stdout=text,stderr="")
