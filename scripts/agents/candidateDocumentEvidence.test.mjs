@@ -121,13 +121,13 @@ test('SQL and OIDC contract: same queue, no finance writes or approval',()=>{
  assert.match(retry,/t\.role='QA' AND t\.kind='audit' AND t\.status='done'/);
  assert.match(retry,/t\.status<>'done'/);
  const workflow=readFileSync(new URL('../../.github/workflows/maximus-agent-parallel.yml',import.meta.url),'utf8');
- assert.match(workflow,/core\.setFailed\('Candidate documentary cycle incomplete/);
+ assert.match(workflow,/core\.setFailed\('Independent QA not eligible for/);
  assert.match(edge,/candidate_documentary_audit/);
  assert.match(edge,/payload\.workflow_ref!==workflowRef/);
  assert.match(edge,/\["REVIEW","FAIL"\]/);
  const wf=readFileSync(new URL('../../.github/workflows/maximus-agent-parallel.yml',import.meta.url),'utf8');
- assert.match(wf,/await prepare\('prepare_candidate'\)/);
- assert.match(wf,/matrix:\s*role: \[DATA, SEARCH, ANALYST\]/);
+ assert.match(wf,/op:'prepare_batch20'/);
+ assert.match(wf,/Promise\.allSettled\(\['DATA','SEARCH','ANALYST'\]\.map\(execute\)\)/);
  assert.match(wf,/qa:\s*needs: \[control, workers, source-proof\]/);
  assert.doesNotMatch(wf,/deploy --prod|netlify deploy|gh pr merge/);
 });

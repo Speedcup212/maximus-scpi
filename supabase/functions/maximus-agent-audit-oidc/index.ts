@@ -46,6 +46,90 @@ Deno.serve(async request=>{
       }
       return Response.json({prepared:r.result?.prepared===true,cycle:r.result});
     }
+    if(body.op==="prepare_batch20"){
+      if(Number(payload.run_attempt||1)!==1)
+        return Response.json({prepared:false,reason:"rerun_denied"});
+      const [r]=await sql`select maximus_agents.prepare_candidate_batch20() as batch`;
+      const batch=r.batch;
+      if(batch?.prepared===true){
+        const summary={mode:"candidate20",cycle:batch,
+          prepared_at:new Date().toISOString(),actual_inference_executed:false,
+          deploy_allowed:false};
+        await sql`update maximus_agents.agents set heartbeat_at=now(),
+          last_summary=${sql.json(summary)}::jsonb
+          where role='CONTROL' and enabled=true`;
+      }
+      return Response.json({prepared:batch?.prepared===true,cycle:batch,
+        deploy_allowed:false});
+    }
+    if(body.op==="batch_claim"&&roles.has(body.role)&&
+       typeof body.scpi_slug==="string"&&
+       /^[a-z0-9-]{2,100}$/.test(body.scpi_slug)){
+      if(Number(payload.run_attempt||1)!==1)
+        return Response.json({task:null,reason:"rerun_denied"});
+      const rows=await sql`select id,role,kind,title,cycle_date,dedupe_key,payload,
+        lease_token,attempts,depends_on from
+        maximus_agents.claim_candidate_batch20_task(${body.role},${body.scpi_slug})`;
+      const t=rows[0];
+      if(!t)return Response.json({task:null,reason:"no_eligible_task_or_budget"});
+      if(t.role!==body.role||t.kind!=="audit"||
+        t.payload?.batch_mode!=="candidate20"||
+        t.payload?.scpi_slug!==body.scpi_slug||
+        t.payload?.mode!=="candidate_documentary_audit"||!t.lease_token)
+        throw Error("Unauthorized cross-SCPI task");
+      return Response.json({task:{...t,deploy_allowed:false}});
+    }
+    if(body.op==="batch_status"&&typeof body.scpi_slug==="string"&&
+       /^[a-z0-9-]{2,100}$/.test(body.scpi_slug)){
+      const rows=await sql`select role,status,attempts,
+        result->>'verdict' as verdict
+        from maximus_agents.tasks
+        where cycle_date=(now() at time zone 'Europe/Paris')::date
+         and payload->>'batch_mode'='candidate20'
+         and payload->>'scpi_slug'=${body.scpi_slug}
+        order by role`;
+      return Response.json({scpi_slug:body.scpi_slug,tasks:rows,
+         deploy_allowed:false});
+    }
+    if(body.op==="batch_manifest"&&typeof body.scpi_slug==="string"&&
+       /^[a-z0-9-]{2,100}$/.test(body.scpi_slug)){
+      const rows=await sql`select payload->'candidate_evidence' as evidence
+        from maximus_agents.tasks
+        where dedupe_key=((now() at time zone 'Europe/Paris')::date::text
+         ||':candidate20:'||${body.scpi_slug}||':DATA')
+         and kind='audit' and payload->>'batch_mode'='candidate20'
+         and payload->>'scpi_slug'=${body.scpi_slug}
+        limit 1`;
+      const evidence=rows[0]?.evidence;
+      if(!evidence||evidence.scpi_slug!==body.scpi_slug)
+        return new Response("Candidate outside current daily batch",{status:404});
+      const hostsRows=await sql`select hostname from
+         maximus_agents.scpi_candidate_issuer_hosts where approved_at is not null`;
+      const hosts=new Set(hostsRows.map(row=>String(row.hostname||"").toLowerCase()));
+      const docs=evidence.documents;
+      if(typeof evidence.scpi_name!=="string"||
+         !Array.isArray(docs)||docs.length>8||
+         docs.some(d=>{
+           try{
+             const u=new URL(d.source_url);
+             return u.protocol!=="https:"||u.username||u.password||
+               (u.port&&u.port!=="443")||!hosts.has(u.hostname.toLowerCase())||
+               d.document_identity_verified!==true||
+               !/^[a-f0-9]{64}$/i.test(d.pdf_sha256||"")||
+               !Number.isInteger(d.page_count)||d.page_count<1||
+               !["quarterly_bulletin","annual_report"].includes(d.document_kind);
+           }catch{return true;}
+         }))return new Response("Untrusted candidate PDF manifest",{status:422});
+      return Response.json({
+        exists:true,candidate_slug:body.scpi_slug,
+        candidate_name:evidence.scpi_name,
+        allowed_hosts:[...hosts].sort(),
+        documents:docs.map(d=>({
+          source_url:d.source_url,source_period:d.source_period,
+          document_kind:d.document_kind,pdf_sha256:d.pdf_sha256,
+          page_count:d.page_count
+        })),financial_certified:false,deploy_allowed:false});
+    }
     if(body.op==="candidate_manifest"){
       // Return only the selected task's existing, immutable-at-dispatch source
       // references, never an arbitrary user-supplied URL or SCPI.
