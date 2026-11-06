@@ -16,10 +16,12 @@ on:
       - "scripts/agents/candidate_pdf_binary_proof_test.py"
       - "scripts/agents/candidateBinaryEvidence.mjs"
       - "scripts/agents/candidateBinaryEvidence.test.mjs"
+      - "scripts/agents/agentSchedulingCrash.test.mjs"
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
       - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
       - "supabase/migrations/20261106_recovery119_candidate_retry_guards.sql"
+      - "supabase/migrations/20261106_recovery121_agent_operational_status.sql"
   pull_request:
     branches: [main]
     paths:
@@ -31,10 +33,12 @@ on:
       - "scripts/agents/candidate_pdf_binary_proof_test.py"
       - "scripts/agents/candidateBinaryEvidence.mjs"
       - "scripts/agents/candidateBinaryEvidence.test.mjs"
+      - "scripts/agents/agentSchedulingCrash.test.mjs"
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
       - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
       - "supabase/migrations/20261106_recovery119_candidate_retry_guards.sql"
+      - "supabase/migrations/20261106_recovery121_agent_operational_status.sql"
 
 permissions:
   contents: read
@@ -58,7 +62,7 @@ jobs:
       - name: Safety and deterministic parallel audit contract
         run: |
           node --check scripts/agents/parallelAuditRunner.mjs
-          node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs scripts/agents/candidateBinaryEvidence.test.mjs
+          node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs scripts/agents/candidateBinaryEvidence.test.mjs scripts/agents/agentSchedulingCrash.test.mjs
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -80,24 +84,38 @@ jobs:
         with:
           script: |
             const oidc=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
-            const response=await fetch(
-              'https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
-              method:'POST',headers:{Authorization:'Bearer '+oidc,'Content-Type':'application/json'},
-              body:JSON.stringify({op:'prepare'}),signal:AbortSignal.timeout(20000)});
-            if(!response.ok)throw Error('CONTROL OIDC bridge HTTP '+response.status);
-            const result=await response.json();
-            if(result.prepared!==true||result.cycle?.deploy_allowed!==false)
-              throw Error('CONTROL refused unsafe or incomplete preparation');
-            core.notice('CONTROL prepared existing tasks; no LLM inference and no release. '+JSON.stringify(result.cycle));
-            const candidate=await fetch(
-              'https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
-              method:'POST',headers:{Authorization:'Bearer '+oidc,'Content-Type':'application/json'},
-              body:JSON.stringify({op:'prepare_candidate'}),signal:AbortSignal.timeout(20000)});
-            if(!candidate.ok)throw Error('Candidate evidence bridge HTTP '+candidate.status);
-            const candidateResult=await candidate.json();
-            if(candidateResult.cycle?.deploy_allowed!==false && candidateResult.prepared===true)
-              throw Error('Unsafe candidate handoff');
-            core.notice('Candidate documentary handoff: '+JSON.stringify(candidateResult.cycle));
+            // Candidate integration has priority over repetitive generic
+            // monitoring. Do not spend DATA/SEARCH/ANALYST daily quotas on the
+            // generic audit while the candidate queue remains actionable.
+            const endpoint='https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc';
+            async function prepare(op){
+              const res=await fetch(endpoint,{
+                method:'POST',headers:{Authorization:'Bearer '+oidc,'Content-Type':'application/json'},
+                body:JSON.stringify({op}),signal:AbortSignal.timeout(20000)});
+              if(!res.ok)throw Error('CONTROL '+op+' bridge HTTP '+res.status);
+              return res.json();
+            }
+            const candidateResult=await prepare('prepare_candidate');
+            if(candidateResult.prepared===true){
+              if(candidateResult.cycle?.deploy_allowed!==false)
+                throw Error('Candidate source mission cannot authorize publication');
+              core.notice('CONTROL reserved this cycle for candidate '+candidateResult.cycle.scpi_slug+
+                '; generic audit deliberately skipped to preserve role quotas.');
+            }else{
+              // Generic monitoring is a fallback, not a competing daily
+              // consumer of the strict 2-claim-per-role quota.
+              const mondayUTC=new Date().getUTCDay()===1;
+              if(candidateResult.cycle?.reason==='agents_disabled')
+                throw Error('CONTROL agents disabled');
+              if(mondayUTC){
+                const generic=await prepare('prepare');
+                if(generic.prepared!==true||generic.cycle?.deploy_allowed!==false)
+                  throw Error('CONTROL refused generic monitoring preparation');
+                core.notice('Weekly generic health audit prepared (no eligible candidate).');
+              }else{
+                core.notice('No candidate prepared: generic audit deferred until weekly fallback; no model calls.');
+              }
+            }
 
   source-proof:
     needs: control

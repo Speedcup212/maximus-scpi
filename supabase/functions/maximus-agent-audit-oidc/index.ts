@@ -35,6 +35,15 @@ Deno.serve(async request=>{
       if(Number(payload.run_attempt||1)!==1)
         return Response.json({prepared:false,reason:"rerun_denied"});
       const [r]=await sql`select maximus_agents.prepare_candidate_evidence_pilot() as result`;
+      if(r.result?.prepared===true){
+        // A CONTROL heartbeat proves orchestration/preparation, NOT model work.
+        const summary={mode:"candidate_documentary_audit",cycle:r.result,
+          prepared_at:new Date().toISOString(),
+          actual_inference_executed:false,deploy_allowed:false};
+        await sql`update maximus_agents.agents set
+          heartbeat_at=now(),last_summary=${sql.json(summary)}::jsonb
+          where role='CONTROL' and enabled=true`;
+      }
       return Response.json({prepared:r.result?.prepared===true,cycle:r.result});
     }
     if(body.op==="candidate_manifest"){
