@@ -126,6 +126,6 @@ test('SQL and OIDC contract: same queue, no finance writes or approval',()=>{
  const wf=readFileSync(new URL('../../.github/workflows/maximus-agent-parallel.yml',import.meta.url),'utf8');
  assert.match(wf,/op:'prepare_candidate'/);
  assert.match(wf,/matrix:\s*role: \[DATA, SEARCH, ANALYST\]/);
- assert.match(wf,/qa:\s*needs: \[control, workers\]/);
+ assert.match(wf,/qa:\s*needs: \[control, workers, source-proof\]/);
  assert.doesNotMatch(wf,/deploy --prod|netlify deploy|gh pr merge/);
 });
