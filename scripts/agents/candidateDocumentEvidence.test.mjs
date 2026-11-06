@@ -70,13 +70,22 @@ test('DeepSeek sees only previously validated document evidence and cannot certi
  assert.equal(audit.result.usage.total_tokens,1960);
  assert.equal(JSON.stringify(audit.result).includes('sk-999'),false);
 });
+const liveProof={status:'verified',candidate_slug:'opus-real',
+ documents:[{status:'verified',source_url:document.source_url,
+   source_period:document.source_period,document_kind:document.document_kind,
+   pdf_sha256:document.pdf_sha256,page_count:document.page_count,
+   reader_engines:['MuPDF','Poppler'],
+   binary_hash_matches_registered:true,identity_verified:true,
+   period_verified:true,financial_certified:false}],
+ financial_certified:false,deploy_allowed:false};
+
 test('QA independently checks all three model responses reference the same source snapshot',()=>{
  const digest=candidateSnapshotSha256(snapshot);
  const upstream=['DATA','SEARCH','ANALYST'].map(role=>({
   id:role+'-id',role,status:'done',verdict:'REVIEW',completed_at:seen,
   result:{candidate_slug:'opus-real',candidate_snapshot_sha256:digest,deploy_allowed:false}
  }));
- const qa=buildQAResult(task('QA'),upstream,seen);
+ const qa=buildQAResult(task('QA'),upstream,seen,liveProof);
  assert.equal(qa.status,'done');
  assert.equal(qa.result.verdict,'REVIEW');
  assert.equal(qa.result.financial_certified,false);
@@ -85,9 +94,10 @@ test('QA independently checks all three model responses reference the same sourc
  assert.equal(qa.result.candidate_snapshot_sha256,digest);
  assert.equal(qa.result.evidence.length,3);
  const bad=buildQAResult(task('QA'),upstream.map((x,i)=>
- i===1?{...x,result:{...x.result,candidate_snapshot_sha256:'0'.repeat(64)}}:x),seen);
+ i===1?{...x,result:{...x.result,candidate_snapshot_sha256:'0'.repeat(64)}}:x),seen,liveProof);
  assert.equal(bad.status,'blocked');
  assert.throws(()=>buildQAResult(task('QA'),upstream.slice(0,2),seen),/QA_UPSTREAM/);
+ assert.throws(()=>buildQAResult(task('QA'),upstream,seen,null),/INVALID_CANDIDATE_BINARY_PROOF_ENVELOPE/);
 });
 test('SQL and OIDC contract: same queue, no finance writes or approval',()=>{
  const sql=readFileSync(new URL('../../supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql',import.meta.url),'utf8');
