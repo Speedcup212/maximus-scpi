@@ -16,6 +16,7 @@ on:
       - "scripts/agents/candidate_pdf_binary_proof_test.py"
       - "scripts/agents/candidateBinaryEvidence.mjs"
       - "scripts/agents/candidateBinaryEvidence.test.mjs"
+      - "scripts/agents/agentSchedulingCrash.test.mjs"
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
       - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
@@ -31,6 +32,7 @@ on:
       - "scripts/agents/candidate_pdf_binary_proof_test.py"
       - "scripts/agents/candidateBinaryEvidence.mjs"
       - "scripts/agents/candidateBinaryEvidence.test.mjs"
+      - "scripts/agents/agentSchedulingCrash.test.mjs"
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
       - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
@@ -58,7 +60,7 @@ jobs:
       - name: Safety and deterministic parallel audit contract
         run: |
           node --check scripts/agents/parallelAuditRunner.mjs
-          node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs scripts/agents/candidateBinaryEvidence.test.mjs
+          node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs scripts/agents/candidateBinaryEvidence.test.mjs scripts/agents/agentSchedulingCrash.test.mjs
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
