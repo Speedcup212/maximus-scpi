@@ -12,6 +12,10 @@ on:
       - "scripts/agents/parallelAuditRunner.mjs"
       - "scripts/agents/parallelAuditRunner.test.mjs"
       - "scripts/agents/candidateDocumentEvidence.test.mjs"
+      - "scripts/agents/candidate_pdf_binary_proof.py"
+      - "scripts/agents/candidate_pdf_binary_proof_test.py"
+      - "scripts/agents/candidateBinaryEvidence.mjs"
+      - "scripts/agents/candidateBinaryEvidence.test.mjs"
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
       - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
@@ -23,6 +27,10 @@ on:
       - "scripts/agents/parallelAuditRunner.mjs"
       - "scripts/agents/parallelAuditRunner.test.mjs"
       - "scripts/agents/candidateDocumentEvidence.test.mjs"
+      - "scripts/agents/candidate_pdf_binary_proof.py"
+      - "scripts/agents/candidate_pdf_binary_proof_test.py"
+      - "scripts/agents/candidateBinaryEvidence.mjs"
+      - "scripts/agents/candidateBinaryEvidence.test.mjs"
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
       - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
@@ -50,7 +58,14 @@ jobs:
       - name: Safety and deterministic parallel audit contract
         run: |
           node --check scripts/agents/parallelAuditRunner.mjs
-          node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs
+          node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs scripts/agents/candidateBinaryEvidence.test.mjs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install existing PDF auditor dependency
+        run: python -m pip install --disable-pip-version-check "PyMuPDF==1.26.5"
+      - name: Deterministic publisher-binary security tests
+        run: python -m unittest scripts/agents/candidate_pdf_binary_proof_test.py -v
 
   control:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.run_attempt == 1
@@ -83,6 +98,69 @@ jobs:
             if(candidateResult.cycle?.deploy_allowed!==false && candidateResult.prepared===true)
               throw Error('Unsafe candidate handoff');
             core.notice('Candidate documentary handoff: '+JSON.stringify(candidateResult.cycle));
+
+  source-proof:
+    needs: control
+    if: needs.control.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Fetch exact current candidate manifest over authorized GitHub OIDC
+        uses: actions/github-script@v7
+        id: candidate
+        with:
+          script: |
+            const fs=require('node:fs');
+            const jwt=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
+            const res=await fetch('https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
+              method:'POST',headers:{Authorization:'Bearer '+jwt,'Content-Type':'application/json'},
+              body:JSON.stringify({op:'candidate_manifest'}),signal:AbortSignal.timeout(20000)});
+            if(!res.ok)throw Error('OIDC candidate manifest rejected HTTP '+res.status);
+            const manifest=await res.json();
+            if(manifest.deploy_allowed!==false)throw Error('Unsafe candidate publication flag');
+            fs.writeFileSync(process.env.RUNNER_TEMP+'/candidate-manifest.json',
+              JSON.stringify(manifest),{mode:0o600});
+            core.setOutput('exists',manifest.exists===true?'yes':'no');
+            core.notice('Source proof selection: '+(manifest.candidate_slug||'no candidate')+
+              '; registered PDFs '+(manifest.documents?.length||0)+'; no release.');
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install only existing PDF auditor and independent Poppler
+        if: steps.candidate.outputs.exists == 'yes'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check "PyMuPDF==1.26.5"
+      - name: Live official PDF download, identity, period, SHA and two-reader proof
+        if: steps.candidate.outputs.exists == 'yes'
+        env:
+          CANDIDATE_SOURCE_MANIFEST: ${{ runner.temp }}/candidate-manifest.json
+          CANDIDATE_BINARY_OUT: ${{ runner.temp }}/candidate-binary-proof
+        run: |
+          python scripts/agents/candidate_pdf_binary_proof.py \
+            --manifest "$CANDIDATE_SOURCE_MANIFEST" --out "$CANDIDATE_BINARY_OUT"
+      - name: Explicit no-candidate checkpoint
+        if: steps.candidate.outputs.exists == 'no'
+        shell: bash
+        run: |
+          mkdir -p "${{ runner.temp }}/candidate-binary-proof"
+          printf '%s\n' '{"status":"no_candidate","candidate_slug":null,"documents":[],"financial_certified":false,"deploy_allowed":false}' > "${{ runner.temp }}/candidate-binary-proof/proof.json"
+      - name: Retain issuer source binary and page proof for independent QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate-binary-proof-${{ github.run_id }}
+          path: ${{ runner.temp }}/candidate-binary-proof/
+          retention-days: 7
+          if-no-files-found: error
 
   workers:
     needs: control
@@ -166,8 +244,8 @@ jobs:
             core.notice('Recorded '+task.role+' '+outcome.status+'/'+outcome.result.verdict+'; publication not authorized');
 
   qa:
-    needs: [control, workers]
-    if: needs.control.result == 'success' && needs.workers.result == 'success'
+    needs: [control, workers, source-proof]
+    if: needs.control.result == 'success' && needs.workers.result == 'success' && needs.source-proof.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 8
     permissions:
@@ -220,6 +298,19 @@ jobs:
         if: steps.claim.outputs.claimed == 'yes'
         with:
           node-version: "22"
+      - name: Restore verified publisher PDF artifacts for QA
+        if: steps.claim.outputs.claimed == 'yes'
+        uses: actions/download-artifact@v4
+        with:
+          name: candidate-binary-proof-${{ github.run_id }}
+          path: ${{ runner.temp }}/candidate-binary-proof
+      - name: Validate provenance of source-proof report
+        if: steps.claim.outputs.claimed == 'yes'
+        env:
+          AGENT_TASK_FILE: ${{ runner.temp }}/maximus-parallel-task.json
+          AGENT_BINARY_PROOF_FILE: ${{ runner.temp }}/candidate-binary-proof/proof.json
+        run: |
+          node --input-type=module -e "import fs from 'node:fs'; import {verifyCandidateBinaryEvidence} from './scripts/agents/candidateBinaryEvidence.mjs'; const task=JSON.parse(fs.readFileSync(process.env.AGENT_TASK_FILE,'utf8')); const proof=JSON.parse(fs.readFileSync(process.env.AGENT_BINARY_PROOF_FILE,'utf8')); const state=verifyCandidateBinaryEvidence(task,proof); console.log('Independent PDF provenance: '+(state.kind||'not required')+' financial_certified=false');"
       - name: Deterministic independent QA — never approve publication
         if: steps.claim.outputs.claimed == 'yes'
         env:
@@ -227,6 +318,7 @@ jobs:
           AGENT_TASK_FILE: ${{ runner.temp }}/maximus-parallel-task.json
           AGENT_RESULT_FILE: ${{ runner.temp }}/maximus-parallel-result.json
           AGENT_QA_CONTEXT_FILE: ${{ runner.temp }}/maximus-parallel-qa.json
+          AGENT_BINARY_PROOF_FILE: ${{ runner.temp }}/candidate-binary-proof/proof.json
         run: node scripts/agents/parallelAuditRunner.mjs
       - name: Store independent QA audit in existing queue
         if: always() && steps.claim.outputs.claimed == 'yes'
