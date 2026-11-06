@@ -143,10 +143,16 @@ class CandidateProofTests(unittest.TestCase):
         doc=fitz.open()
         for i in range(3):
             page=doc.new_page()
-            for y in range(6):
-                page.insert_text((40,50+y*35),
-                    (cover if y==0 else "AEW Opportunites Europe documents financiers. "*3),
-                    fontsize=9)
+            lines=[
+                "AEW OPPORTUNITES EUROPE BULLETIN SEMESTRIEL N 1",
+                "2026 SEMESTRE SCPI 1er",
+                "ANALYSE : 1er janvier au 30 juin 2026",
+                "VALIDITE : 2eme semestre 2026",
+                "AEW Opportunites Europe donnees financieres officielles. "*2,
+                "AEW Opportunites Europe donnees financieres officielles. "*2,
+            ]
+            for y,line in enumerate(lines):
+                page.insert_text((40,50+y*35),line,fontsize=9)
         binary=doc.tobytes()
         doc.close()
         source={"kind":"semiannual","reference_period":"2026-S1",
