@@ -15,6 +15,7 @@ on:
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
       - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
+      - "supabase/migrations/20261106_recovery119_candidate_retry_guards.sql"
   pull_request:
     branches: [main]
     paths:
@@ -25,6 +26,7 @@ on:
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
       - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
+      - "supabase/migrations/20261106_recovery119_candidate_retry_guards.sql"
 
 permissions:
   contents: read
@@ -188,7 +190,16 @@ jobs:
               return response.json();
             }
             const result=await call({op:'claim',role:'QA'});
-            if(!result.task){core.setOutput('claimed','no');core.notice('QA dependencies not ready or daily budget exhausted: '+(result.reason||''));}
+            if(!result.task){
+              core.setOutput('claimed','no');
+              const status=await call({op:'candidate_status'});
+              const rows=Array.isArray(status.tasks)?status.tasks:[];
+              if(rows.length===4&&rows.some(t=>t.status!=='done')){
+                core.setFailed('Candidate documentary cycle incomplete; no QA approval. '+rows.map(t=>t.role+':'+t.status).join(','));
+              }else{
+                core.notice('No eligible QA audit, no model call. '+(result.reason||''));
+              }
+            }
             else{
               if(result.task.role!=='QA'||result.task.kind!=='audit'||result.task.deploy_allowed!==false)
                 throw Error('Untrusted QA task');
