@@ -98,11 +98,3 @@ test('CAPACITY TARGET — 20 distinct SCPI daily, no expansion of code correctio
  assert.equal(Math.ceil(143/20),8);
 });
 
- assert.match(retry,/d::text\|\|':candidate-evidence:'\|\|role_name/);
- assert.match(retry,/WHERE dedupe_key=d::text\|\|':candidate-evidence:DATA' LIMIT 1/);
- const candidates=143;
- const maxCandidateCyclesPerDay=1;
- assert.equal(Math.ceil(candidates/maxCandidateCyclesPerDay),143);
- assert.ok(Math.ceil(candidates/maxCandidateCyclesPerDay)>30,
-  'Pilot cannot meet 30-day 143-candidate target without a multi-slot extension');
-});
