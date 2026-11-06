@@ -92,7 +92,9 @@ test('QA independently checks all three model responses reference the same sourc
  assert.equal(qa.result.verified_documents,1);
  assert.equal(qa.result.linked_metrics,1);
  assert.equal(qa.result.candidate_snapshot_sha256,digest);
- assert.equal(qa.result.evidence.length,3);
+ assert.equal(qa.result.evidence.length,4);
+ assert.equal(qa.result.binary_proof_status,'live_binary_proof');
+ assert.equal(qa.result.live_verified_pdf_count,1);
  const bad=buildQAResult(task('QA'),upstream.map((x,i)=>
  i===1?{...x,result:{...x.result,candidate_snapshot_sha256:'0'.repeat(64)}}:x),seen,liveProof);
  assert.equal(bad.status,'blocked');
