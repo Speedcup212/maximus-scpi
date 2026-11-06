@@ -47,6 +47,34 @@ def download(url):
             raise ValueError("PUBLISHER_HTTPS_FETCH_FAILED:"+result.stderr.strip()[:240])
         return dest.read_bytes(),result.stdout.strip()
 
+def semester_title_matches(raw_text, source_period):
+    """Confirm semester by the reported date range, not by the bulletin validity.
+    An S1 bulletin may explicitly say 'validite : 2eme semestre' on its cover.
+    That label describes the validity of the prospectus, NOT the period audited.
+    """
+    if not isinstance(source_period,str) or not re.fullmatch(r"20\d{2}-S[12]",source_period):
+        return False
+    opening=normalize(raw_text)
+    reported=[]
+    ranges=(
+        ("1",r"\b(?:du\s+)?1(?:er|ere|e)?\s+janvier\s+(?:au|a|jusqu.?au)\s+30\s+juin\s+(20\d{2})\b"),
+        ("2",r"\b(?:du\s+)?1(?:er|ere|e)?\s+juillet\s+(?:au|a|jusqu.?au)\s+31\s+decembre\s+(20\d{2})\b"),
+    )
+    for semester,pattern in ranges:
+        for match in re.finditer(pattern,opening):
+            reported.append((match.group(1),semester))
+    if reported:
+        # Require all explicitly reported full ranges on the cover to agree;
+        # a separate "validite" semester must never override this range.
+        return len(set(reported))==1 and reported[0]==(source_period[:4],source_period[-1])
+    semester=source_period[-1]
+    year=source_period[:4]
+    marker=(r"\b"+semester+r"(?:er|ere|e|eme)?\s*(?:semestre|sem)\b[\W\s]{0,20}"+year+r"\b"
+            r"|\b(?:s|semestre)\s*"+semester+r"[\W\s]{0,15}"+year+r"\b"
+            r"|\b"+year+r"[\W\s]{0,15}(?:s|semestre)\s*"+semester+r"\b")
+    return bool(re.search(marker,opening))
+
+
 def audit_document(d,c,fetcher=download):
     kind=d.get("kind")
     period=d.get("reference_period")
@@ -84,12 +112,7 @@ def audit_document(d,c,fetcher=download):
     elif kind=="semiannual":
         if not re.fullmatch(r"20\d{2}-S[12]",period):
             raise ValueError("INVALID_SEMESTER_PERIOD")
-        semester=period[-1]
-        year=period[:4]
-        marker=(r"\b"+semester+r"(?:er|ere|e|eme)?\s*(?:semestre|sem)\b[\W\s]{0,20}"+year+r"\b"
-                r"|\b(?:s|semestre)\s*"+semester+r"[\W\s]{0,15}"+year+r"\b"
-                r"|\b"+year+r"[\W\s]{0,15}(?:s|semestre)\s*"+semester+r"\b")
-        if not re.search(marker,opening):
+        if not semester_title_matches(opening,period):
             raise ValueError("SEMESTER_TITLE_UNCONFIRMED:"+opening[:160])
     elif kind=="annual":
         if not re.fullmatch(r"20\d{2}-RA",period):raise ValueError("INVALID_ANNUAL_PERIOD")
