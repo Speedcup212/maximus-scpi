@@ -11,8 +11,12 @@ on:
       - ".github/workflows/maximus-agent-parallel.yml"
       - "scripts/agents/parallelAuditRunner.mjs"
       - "scripts/agents/parallelAuditRunner.test.mjs"
+      - "scripts/agents/candidateDocumentEvidence.test.mjs"
+      - "scripts/agents/candidateDocumentEvidence.test.mjs"
       - "supabase/functions/maximus-agent-audit-oidc/index.ts"
       - "supabase/migrations/20261106_recovery117_parallel_readonly_audits.sql"
+      - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
+      - "supabase/migrations/20261106_recovery118_candidate_documentary_handoff.sql"
   pull_request:
     branches: [main]
     paths:
@@ -44,7 +48,7 @@ jobs:
       - name: Safety and deterministic parallel audit contract
         run: |
           node --check scripts/agents/parallelAuditRunner.mjs
-          node --test scripts/agents/parallelAuditRunner.test.mjs
+          node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs
 
   control:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.run_attempt == 1
@@ -68,6 +72,15 @@ jobs:
             if(result.prepared!==true||result.cycle?.deploy_allowed!==false)
               throw Error('CONTROL refused unsafe or incomplete preparation');
             core.notice('CONTROL prepared existing tasks; no LLM inference and no release. '+JSON.stringify(result.cycle));
+            const candidate=await fetch(
+              'https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
+              method:'POST',headers:{Authorization:'Bearer '+oidc,'Content-Type':'application/json'},
+              body:JSON.stringify({op:'prepare_candidate'}),signal:AbortSignal.timeout(20000)});
+            if(!candidate.ok)throw Error('Candidate evidence bridge HTTP '+candidate.status);
+            const candidateResult=await candidate.json();
+            if(candidateResult.cycle?.deploy_allowed!==false && candidateResult.prepared===true)
+              throw Error('Unsafe candidate handoff');
+            core.notice('Candidate documentary handoff: '+JSON.stringify(candidateResult.cycle));
 
   workers:
     needs: control
