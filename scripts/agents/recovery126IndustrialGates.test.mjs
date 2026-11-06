@@ -33,6 +33,9 @@ test('P1: provenance checks are private and cannot certify financial records',()
 
 test('P2: watchdog distinguishes old heartbeats from runnable work',()=>{
   assert.match(sql,/CREATE OR REPLACE FUNCTION maximus_agents\.watchdog_tick\(\)/);
+  assert.match(sql,/CREATE OR REPLACE VIEW maximus_agents\.agent_operational_status/);
+  assert.match(sql,/coalesce\(claim_task\.payload->>'batch_mode',''\)<>'candidate20'/);
+  assert.match(sql,/FROM maximus_agents\.runs z LEFT JOIN maximus_agents\.tasks claim_task ON claim_task\.id=z\.task_id/);
   assert.match(sql,/operational_state='READY_OR_WAITING' AND a\.pending_today>0/);
   const idle=sql.indexOf("when v_runnable=0 then 'WAITING_POLICY'");
   const stalled=sql.indexOf("when v_last is null or v_last<now()-interval '2 hours' then 'STALE'");
