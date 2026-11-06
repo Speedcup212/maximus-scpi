@@ -53,22 +53,21 @@ try {
  for(const width of [1440,390]){
   await page.setViewport({width,height:1100});
   await page.goto(origin+'/'+fixture,{waitUntil:'networkidle0'});
-  await page.waitForFunction(()=>document.body.innerText.includes('2 périodes observées'),{timeout:20000});
-  const cards=await page.$$eval('#trajectoire-scpi .grid > div',
-   nodes=>nodes.slice(0,5).map(n=>n.innerText));
-  assert.equal(cards.length,5,'Missing trajectory cards');
-  assert.match(cards[0],/97,73 %/,'T2 occupancy differs from issuer');
-  assert.match(cards[2],/N\.D\./,'Unverified quarterly reconstitution must not appear');
-  assert.doesNotMatch(cards[2],/336,75|305,55/,'Annual 2025 valuation must not be misdated T2');
-  assert.match(cards[3],/5,52 €/,'Quarter dividend differs from issuer');
-  assert.match(cards[4],/16 %/,'T2 debt differs from issuer');
+  // This unpublished candidate intentionally carries the current
+  // uncertified_history_comparison gate in scpi_complet.json.
+  // The browser MUST show the restricted fallback, not a misleading chart.
+  await page.waitForSelector('[data-testid="scpi-trajectory-insufficient-history"]',
+    {timeout:20000});
+  const body=await page.$eval('#trajectoire-scpi',node=>node.innerText);
+  assert.match(body,/Trajectoire historique en cours de constitution/);
+  assert.match(body,/2 période historique admissible/);
+  assert.match(body,/aucun tracé ni variation n.est inventé/);
+  assert.equal(await page.$$('#trajectoire-scpi .recharts-wrapper').then(a=>a.length),0,
+    'Uncertified historical comparisons must not render as charts');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,
-   'Horizontal overflow at '+width);
-  assert.ok(await page.evaluate(()=>Array.from(document.querySelectorAll('#trajectoire-scpi a[href]'))
-    .some(a=>a.href.startsWith('https://www.sofidy.com/'))),
-   'Official source link is missing');
+    'Horizontal overflow at '+width);
   report.cases.push({slug:'sofidynamic',width,surface:'trajectory',status:'PASS',
-   valuation:'NOT_BACKDATED',comparisons:'UNVERIFIED',official_history_periods:2});
+   valuation:'NOT_BACKDATED',comparisons:'RESTRICTED_NOT_CHARTED',official_history_periods:2});
   await page.screenshot({path:folder+'/sofidynamic-'+width+'.png',fullPage:true});
  }
  assert.deepEqual(errors,[],'Runtime page errors in private trajectory');
