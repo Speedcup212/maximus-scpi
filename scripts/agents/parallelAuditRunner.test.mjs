@@ -100,7 +100,7 @@ test('Independent QA refuses missing roles and reviews all three recorded audit 
 test('Workflow contract: CONTROL, 3 true parallel roles, independent QA and no deployments',()=>{
  const yaml=fs.readFileSync(new URL('../../.github/workflows/maximus-agent-parallel.yml',import.meta.url),'utf8');
  assert.match(yaml,/matrix:\s*role: \[DATA, SEARCH, ANALYST\]/);
- assert.match(yaml,/qa:\s*needs: \[control, workers\]/);
+ assert.match(yaml,/qa:\s*needs: \[control, workers, source-proof\]/);
  assert.match(yaml,/github\.ref == 'refs\/heads\/main'/);
  assert.match(yaml,/maximus-agent-audit-oidc/);
  assert.match(yaml,/persist-credentials: false/);
