@@ -1,9 +1,7 @@
 -- RECOVERY-126: evidence-first admission and truthful operational supervision.
--- P0: no candidate20 FINANCIAL QA quota for a fund without any verified PDF.
--- P1/P2: private provenance integrity checks; never infer financial approval.
--- P3/P4: publication and 200+ expansion remain fail closed pending live QA.
--- Existing roles, queue, caps, RLS, release gates and history unchanged.
--- Safe to re-run: CREATE OR REPLACE only; no historic task or financial mutation.
+-- Existing 5 roles, single task queue, quota policy and historic financial data preserved.
+-- Candidate documentary admission requires a verified PDF, not a guessed URL.
+-- No automatic financial certification or publication.
 CREATE OR REPLACE FUNCTION maximus_agents.prepare_candidate_batch20()
 RETURNS jsonb
 LANGUAGE plpgsql
@@ -39,110 +37,19 @@ BEGIN
       LEFT JOIN maximus_agents.scpi_candidate_work_queue w
         ON w.scpi_slug=u.scpi_slug
       WHERE u.lifecycle='candidate'
-        -- P0: a financial review slot requires a verified primary binary.
-        -- Discovery-only candidates remain in scpi_universe and source-gap queue,
-        -- not the scarce 20/role/day QA review budget.
+        -- P0: reserve agent-financial QA for a verifiable registered PDF.
+        -- Source discovery stays on the existing catalogue, not in QA slots.
         AND EXISTS (
           SELECT 1 FROM maximus_agents.scpi_candidate_pdf_validation p
           WHERE p.scpi_slug=u.scpi_slug AND p.document_identity_verified=true
-            AND p.pdf_sha256 ~ '^[0-9a-f]{64} of the same candidate may be retried on another day, but
-        -- never if its independent QA completed, and never over 3 cycles.
-        AND NOT EXISTS (
-          SELECT 1 FROM maximus_agents.tasks t
-          WHERE t.role='QA' AND t.kind='audit' AND t.status='done'
-            AND t.result->>'binary_proof_status'='live_binary_proof'
-            AND t.payload->>'mode'='candidate_documentary_audit'
-            AND t.payload->>'scpi_slug'=u.scpi_slug
-        )
-        AND (
-          SELECT count(*) FROM maximus_agents.tasks t
-          WHERE t.role='QA' AND t.kind='audit'
-            AND t.payload->>'mode'='candidate_documentary_audit'
-            AND t.payload->>'scpi_slug'=u.scpi_slug
-        ) < 3
-      ORDER BY
-        CASE WHEN EXISTS (
-          SELECT 1 FROM maximus_agents.tasks t
-          WHERE t.role='QA' AND t.payload->>'mode'='candidate_documentary_audit'
-            AND t.payload->>'scpi_slug'=u.scpi_slug AND t.status<>'done'
-        ) THEN 0 ELSE 1 END,
-        CASE WHEN EXISTS (
-          SELECT 1 FROM maximus_agents.scpi_candidate_pdf_validation p
-          WHERE p.scpi_slug=u.scpi_slug
-            AND p.document_identity_verified=true
-        ) THEN 0 ELSE 1 END,
-        CASE WHEN w.stage='primary_source_found' THEN 0 ELSE 1 END,
-        coalesce(w.priority_bucket,999),u.scpi_slug
-      LIMIT limit_candidates
-    LOOP
-      snapshot:=maximus_agents.candidate_documentary_snapshot(candidate.scpi_slug);
-      FOREACH role_name IN ARRAY ARRAY['DATA','SEARCH','ANALYST'] LOOP
-        focus:=CASE role_name
-          WHEN 'DATA' THEN 'Examine only the SCPI-specific recorded numerical metrics, periods, unit and actual PDF page references; mark unverified data as gap, not certified.'
-          WHEN 'SEARCH' THEN 'Assess this SCPI source coverage and find missing official-document classes in supplied references. Never claim external research you did not perform.'
-          ELSE 'Audit this SCPI metric comparability and potential finance inconsistencies. No auto-financial PASS or publication.'
-        END;
-        INSERT INTO maximus_agents.tasks
-          (dedupe_key,cycle_date,role,title,priority,kind,payload)
-        VALUES
-          (d::text||':candidate20:'||candidate.scpi_slug||':'||role_name,
-            d,role_name,
-            'RECOVERY-122 candidate20 '||candidate.scpi_slug||' '||role_name,
-            5,'audit',
-            jsonb_build_object('mode','candidate_documentary_audit',
-              'batch_mode','candidate20','scpi_slug',candidate.scpi_slug,
-              'candidate_evidence',snapshot,'focus',focus,
-              'no_financial_mutation',true,'deploy_allowed',false,
-              'independent_qa_required',true))
-        ON CONFLICT(dedupe_key) DO NOTHING;
-      END LOOP;
-      SELECT array_agg(t.id ORDER BY t.role) INTO deps
-      FROM maximus_agents.tasks t
-      WHERE t.cycle_date=d AND t.kind='audit'
-        AND t.dedupe_key IN (
-          d::text||':candidate20:'||candidate.scpi_slug||':DATA',
-          d::text||':candidate20:'||candidate.scpi_slug||':SEARCH',
-          d::text||':candidate20:'||candidate.scpi_slug||':ANALYST');
-      IF cardinality(deps)<>3 THEN
-        RAISE EXCEPTION 'Three independent SCPI-specific upstream tasks required';
-      END IF;
-      INSERT INTO maximus_agents.tasks
-        (dedupe_key,cycle_date,role,title,priority,kind,depends_on,payload)
-      VALUES
-        (d::text||':candidate20:'||candidate.scpi_slug||':QA',
-          d,'QA',
-          'RECOVERY-122 candidate20 independent QA '||candidate.scpi_slug,
-          6,'audit',deps,
-          jsonb_build_object('mode','candidate_documentary_audit',
-            'batch_mode','candidate20','scpi_slug',candidate.scpi_slug,
-            'candidate_evidence',snapshot,
-            'focus','Independently verify this SCPI all three upstream audit evidence and freshly downloaded source PDF provenance; never certify numbers or publish.',
-            'no_financial_mutation',true,'deploy_allowed',false))
-      ON CONFLICT(dedupe_key) DO NOTHING;
-      prepared:=prepared+1;
-    END LOOP;
-  END IF;
-
-  SELECT coalesce(jsonb_agg(x.scpi_slug ORDER BY x.scpi_slug),'[]'::jsonb)
-    INTO slugs
-  FROM (
-    SELECT DISTINCT t.payload->>'scpi_slug' AS scpi_slug
-    FROM maximus_agents.tasks t
-    WHERE t.cycle_date=d AND t.role='QA' AND t.kind='audit'
-      AND t.payload->>'batch_mode'='candidate20'
-  ) x;
-  RETURN jsonb_build_object('prepared',jsonb_array_length(slugs)>0,
-    'cycle_date',d,'slugs',slugs,'candidate_count',jsonb_array_length(slugs),
-    'new_candidate_count',prepared,'max_candidates_per_day',20,
-    'deploy_allowed',false,'actual_inference_executed',false);
-END
-$fn$; AND p.page_count>0
+            AND p.pdf_sha256 ~ '^[0-9a-f]{64}$' AND p.page_count>0
         )
         -- The audit of the same candidate may be retried on another day, but
         -- never if its independent QA completed, and never over 3 cycles.
         AND NOT EXISTS (
           SELECT 1 FROM maximus_agents.tasks t
           WHERE t.role='QA' AND t.kind='audit' AND t.status='done'
+            AND t.result->>'binary_proof_status'='live_binary_proof'
             AND t.payload->>'mode'='candidate_documentary_audit'
             AND t.payload->>'scpi_slug'=u.scpi_slug
         )
@@ -285,8 +192,8 @@ LEFT JOIN maximus_agents.scpi_candidate_pdf_validation p
  AND p.source_url=m.source_url;
 REVOKE ALL ON maximus_agents.candidate_metric_provenance_integrity FROM PUBLIC,anon,authenticated;
 
--- Correct the per-role operational counter: candidate20 claims use a separate
--- 20/day documentary budget, never the 2/day generic correction budget.
+
+-- P2: quota accounting must exclude the separate candidate20 20/day budget.
 CREATE OR REPLACE VIEW maximus_agents.agent_operational_status
 WITH (security_invoker = true)
 AS
@@ -353,8 +260,7 @@ LEFT JOIN LATERAL (
 ) r ON true;
 REVOKE ALL ON maximus_agents.agent_operational_status FROM PUBLIC,anon,authenticated;
 
--- Alert only on genuinely runnable work; an exhausted budget or missing QA dependency
--- must not repeatedly create AI_WORKERS_STALLED during intentional daily idle time.
+-- Only a genuinely runnable task can establish worker stalling.
 CREATE OR REPLACE FUNCTION maximus_agents.watchdog_tick()
  RETURNS jsonb
  LANGUAGE plpgsql
@@ -384,8 +290,7 @@ begin
  where role in ('DATA','ANALYST','SEARCH','QA') and enabled=true;
  select count(*) into v_pending from maximus_agents.tasks
  where status in ('pending','running');
- -- The idle/quota-limited/QA-dependent backlog is not a stalled worker.
- -- Operational view excludes disabled roles and tracks exhausted quotas.
+ -- Runnable distinct from quota-exhausted/blocked/dependent work.
  select count(*) into v_runnable
  from maximus_agents.agent_operational_status a
  where a.operational_state='READY_OR_WAITING' AND a.pending_today>0;
