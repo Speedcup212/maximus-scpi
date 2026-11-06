@@ -2,6 +2,9 @@ import tempfile
 import unittest
 from pathlib import Path
 import sys
+import subprocess
+from unittest.mock import patch
+import fitz
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import candidate_pdf_binary_proof as proof
 
@@ -68,6 +71,54 @@ class CandidateProofTests(unittest.TestCase):
             self.assertEqual(result["documents"][0]["reader_engines"],["MuPDF","Poppler"])
             self.assertEqual(result["documents"][0]["pdf_sha256"],SHA)
             self.assertFalse(result["financial_certified"])
+
+    def test_semester_manifest_and_two_reader_period_identity(self):
+        sem={**BASE,"documents":[{
+            **BASE["documents"][0],
+            "document_kind":"semiannual_bulletin",
+            "source_period":"2026-S1"
+        }]}
+        proof.validate_manifest(sem)
+        with tempfile.TemporaryDirectory() as tmp:
+            # Real MuPDF publisher reader on generated public-issuer-like PDF.
+            document=fitz.open()
+            for i in range(5):
+                page=document.new_page()
+                title="AEW Opportunites Europe - Bulletin 1er semestre 2026"
+                text=" ".join(["AEW Opportunites Europe - donnees semestrielles"]*13)
+                for j in range(7):
+                    page.insert_text((40,55+j*27),title if j==0 else text,fontsize=9)
+            binary=document.tobytes()
+            document.close()
+            source={"kind":"semiannual","reference_period":"2026-S1",
+                    "url":BASE["documents"][0]["source_url"]}
+            issuer={"name":"AEW Opportunites Europe",
+                    "issuer_hosts":BASE["allowed_hosts"]}
+            record=proof.audit_document(source,issuer,
+              fetcher=lambda url:(binary,url))
+            self.assertTrue(record["publisher_binary_pass"])
+            self.assertFalse(record["financial_metrics_certified"])
+            import hashlib
+            self.assertEqual(record["sha256"],hashlib.sha256(binary).hexdigest())
+            pdf=Path(tmp)/"source.pdf"
+            pdf.write_bytes(binary)
+            output=(("AEW Opportunites Europe - Bulletin 1er semestre 2026 "+
+                  "Texte financier officiel sans certification. "*15)+"\\f")*5
+            with patch.object(proof.subprocess,"run",return_value=
+                subprocess.CompletedProcess(args=["pdftotext"],returncode=0,
+                    stdout=output.encode("utf-8"),stderr=b"")):
+                self.assertEqual(proof.independent_poppler(
+                    pdf,issuer["name"],"2026-S1","semiannual_bulletin",5),5)
+            with patch.object(proof.subprocess,"run",return_value=
+                subprocess.CompletedProcess(args=["pdftotext"],returncode=0,
+                    stdout=output.encode("utf-8"),stderr=b"")):
+                with self.assertRaisesRegex(ValueError,"SEMESTER_UNCONFIRMED"):
+                    proof.independent_poppler(
+                        pdf,issuer["name"],"2026-S2","semiannual_bulletin",5)
+            with self.assertRaisesRegex(ValueError,"SEMESTER_TITLE_UNCONFIRMED"):
+                proof.audit_document(
+                  {"kind":"semiannual","reference_period":"2025-S2",
+                   "url":source["url"]},issuer,fetcher=lambda url:(binary,url))
 
     def test_new_candidates_with_no_verified_pdf_require_source_search(self):
         with tempfile.TemporaryDirectory() as tmp:
