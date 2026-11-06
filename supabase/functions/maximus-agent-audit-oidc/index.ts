@@ -37,6 +37,13 @@ Deno.serve(async request=>{
       const [r]=await sql`select maximus_agents.prepare_candidate_evidence_pilot() as result`;
       return Response.json({prepared:r.result?.prepared===true,cycle:r.result});
     }
+    if(body.op==="candidate_status"){
+      const rows=await sql`select role,status,attempts from maximus_agents.tasks
+        where cycle_date=(now() at time zone 'Europe/Paris')::date
+          and payload->>'mode'='candidate_documentary_audit'
+        order by role`;
+      return Response.json({tasks:rows,deploy_allowed:false});
+    }
     if(body.op==="claim"&&roles.has(body.role)){
       // Every GitHub run may claim at most one task per role. SQL also enforces
       // lease, daily budget, dependencies, audit-kind and task deduplication.
