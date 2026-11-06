@@ -31,6 +31,12 @@ Deno.serve(async request=>{
       const [r]=await sql`select maximus_agents.prepare_parallel_audit_cycle() as result`;
       return Response.json({prepared:true,cycle:r.result});
     }
+    if(body.op==="prepare_candidate"){
+      if(Number(payload.run_attempt||1)!==1)
+        return Response.json({prepared:false,reason:"rerun_denied"});
+      const [r]=await sql`select maximus_agents.prepare_candidate_evidence_pilot() as result`;
+      return Response.json({prepared:r.result?.prepared===true,cycle:r.result});
+    }
     if(body.op==="claim"&&roles.has(body.role)){
       // Every GitHub run may claim at most one task per role. SQL also enforces
       // lease, daily budget, dependencies, audit-kind and task deduplication.
@@ -42,7 +48,7 @@ Deno.serve(async request=>{
       const t=rows[0];
       if(!t)return Response.json({task:null,reason:"no_eligible_today_or_budget"});
       if(t.role!==body.role||t.kind!=="audit"||
-         t.payload?.mode!=="parallel_readonly_audit"||!t.lease_token)
+         !["parallel_readonly_audit","candidate_documentary_audit"].includes(t.payload?.mode)||!t.lease_token)
         throw Error("Task scope mismatch");
       return Response.json({task:{...t,deploy_allowed:false}});
     }
@@ -52,11 +58,12 @@ Deno.serve(async request=>{
         from maximus_agents.tasks
         where id=${body.task_id}::uuid and lease_token=${body.lease_token}::uuid
           and role='QA' and kind='audit' and status='running'
-          and lease_until>now() and payload->>'mode'='parallel_readonly_audit'`;
+          and lease_until>now() and payload->>'mode' in ('parallel_readonly_audit','candidate_documentary_audit')`;
       if(rows.length!==1)return new Response("Forbidden",{status:403});
       const deps=await sql`select id,role,kind,status,attempts,completed_at,
           result->>'verdict' as verdict,
-          result->>'summary' as summary
+          result->>'summary' as summary,
+          result as result
         from maximus_agents.tasks where id=any(${rows[0].depends_on}::uuid[])
         order by role`;
       return Response.json({upstream:deps,deploy_allowed:false});
@@ -73,7 +80,7 @@ Deno.serve(async request=>{
         return new Response("Invalid audit evidence",{status:400});
       const [t]=await sql`select id,kind,role from maximus_agents.tasks where
         id=${body.task_id}::uuid and lease_token=${body.lease_token}::uuid
-        and kind='audit' and payload->>'mode'='parallel_readonly_audit'
+        and kind='audit' and payload->>'mode' in ('parallel_readonly_audit','candidate_documentary_audit')
         and status='running' and lease_until>now()`;
       if(!t)return new Response("Forbidden",{status:403});
       const [row]=await sql`select maximus_agents.finish_task(
