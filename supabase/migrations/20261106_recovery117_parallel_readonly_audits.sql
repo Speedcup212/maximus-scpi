@@ -20,6 +20,20 @@ BEGIN
     RETURN jsonb_build_object('enabled',false,'reason','settings_disabled');
   END IF;
   PERFORM maximus_agents.reconcile_expired_tasks();
+  -- Prior-day snapshots cannot be audited as current evidence. Keep the audit
+  -- trail but close pending-only old cycles; never touch execute/verify tasks.
+  UPDATE maximus_agents.tasks
+    SET status='blocked',completed_at=now(),updated_at=now(),
+        result=jsonb_build_object(
+          'summary','Read-only parallel audit snapshot expired before execution',
+          'verdict','REVIEW','deploy_allowed',false,
+          'evidence',jsonb_build_array(jsonb_build_object(
+            'source','maximus_agents.tasks.cycle_date','observed_at',now(),
+            'finding',jsonb_build_object('expired_cycle',cycle_date,
+                'new_cycle',d,'no_model_call',true))))
+  WHERE kind='audit' AND status='pending' AND attempts=0
+    AND cycle_date<d AND payload->>'mode'='parallel_readonly_audit'
+    AND dedupe_key LIKE '%:parallel-audit:%';
   SELECT to_jsonb(h) INTO health FROM public.scpi_chantier_health h LIMIT 1;
   IF health IS NULL THEN RAISE EXCEPTION 'Current official SCPI health snapshot unavailable'; END IF;
 
