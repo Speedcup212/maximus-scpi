@@ -120,6 +120,42 @@ class CandidateProofTests(unittest.TestCase):
                   {"kind":"semiannual","reference_period":"2025-S2",
                    "url":source["url"]},issuer,fetcher=lambda url:(binary,url))
 
+    def test_annual_fiscal_date_on_page3_with_cover_title(self):
+        # AEW annual report cover has the title but no year; its contents
+        # page establishes 31 December of the relevant fiscal year.
+        text=(
+            "Rapport annuel AEW Opportunites Europe "+"titre annuel. "*40+"\\f"
+            +"AEW Opportunites Europe organes de direction "*12+"\\f"
+            +"Les donnees essentielles au 31 decembre 2025 "+"exercice. "*25+"\\f"
+            +"Perspectives de l'exercice et patrimoine immobilier "*15+"\\f"
+        ).replace("\\\\f",chr(12))
+        result=subprocess.CompletedProcess(
+            args=["pdftotext"],returncode=0,stdout=text,stderr="")
+        with patch.object(proof.subprocess,"run",return_value=result):
+            self.assertEqual(proof.independent_poppler(
+                Path("synthetic.pdf"),"AEW Opportunites Europe",
+                "2025-RA","annual_report",4),4)
+        with patch.object(proof.subprocess,"run",return_value=result):
+            with self.assertRaisesRegex(ValueError,"POPPLER_ANNUAL_TITLE_UNCONFIRMED"):
+                proof.independent_poppler(
+                    Path("synthetic.pdf"),"AEW Opportunites Europe",
+                    "2024-RA","annual_report",4)
+
+    def test_rejected_semester_preserves_only_bounded_cover_diagnostic(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            document={**BASE["documents"][0],
+                "document_kind":"semiannual_bulletin","source_period":"2026-S1"}
+            def rejected_auditor(*a,**kw):
+                raise ValueError("SEMESTER_TITLE_UNCONFIRMED:AEW bulletin "+
+                                 "premier semestre. "+("x"*900))
+            entry=proof.document_proof(
+                document,{**BASE,"documents":[document]},Path(tmp),
+                auditor=rejected_auditor)
+            self.assertEqual(entry["status"],"blocked")
+            self.assertEqual(entry["error_code"],"SEMESTER_TITLE_UNCONFIRMED")
+            self.assertLessEqual(len(entry["cover_text_excerpt"]),180)
+            self.assertFalse(entry["financial_certified"])
+
     def test_new_candidates_with_no_verified_pdf_require_source_search(self):
         with tempfile.TemporaryDirectory() as tmp:
             result=proof.run_manifest({**BASE,"documents":[]},Path(tmp))
