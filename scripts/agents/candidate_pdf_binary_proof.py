@@ -90,8 +90,14 @@ def independent_poppler(pdf_path,fund_name,reference_period,kind,expected_page_c
     else:
         if not re.fullmatch(r"20\d{2}-RA",reference_period):
             raise ValueError("INVALID_ANNUAL_PERIOD")
-        if reference_period[:4] not in opening or not re.search(
-            r"rapport annuel|rapport de gestion|exercice",opening):
+        # Keep the title on the cover, but accept fiscal-year evidence in the
+        # next two pages: AEW's cover and management page omit the fiscal year.
+        fiscal_window=normalize(" ".join(pages[:4]))
+        fiscal_year=reference_period[:4]
+        fiscal_date=re.search(r"\b31\s+decembre\s+"+fiscal_year+r"\b",fiscal_window)
+        if not re.search(r"rapport annuel|rapport de gestion|exercice",opening) or (
+          fiscal_year not in opening and not fiscal_date
+        ):
             raise ValueError("POPPLER_ANNUAL_TITLE_UNCONFIRMED")
     return len(pages)
 
@@ -150,10 +156,17 @@ def document_proof(doc,manifest,archive_dir,auditor=audit_document,checker=indep
         code=str(exc).split(":",1)[0][:70]
         if not re.fullmatch(r"[A-Z][A-Z0-9_]{3,69}",code):
             code="ISSUER_BINARY_PROOF_FAILED"
+        diagnostic={}
+        if code in ("SEMESTER_TITLE_UNCONFIRMED","ANNUAL_TITLE_UNCONFIRMED"):
+            # Existing publisher audit embeds a short normalized cover excerpt.
+            # This remains a blocked document: never turn diagnostics into PASS.
+            excerpt=str(exc).partition(":")[2]
+            diagnostic["cover_text_excerpt"]=re.sub(
+                r"[^a-z0-9A-Z\s.,;:()%-]"," ",excerpt)[:180]
         return {"status":"blocked","source_url":requested,
                 "source_period":doc["source_period"],"document_kind":doc["document_kind"],
                 "expected_sha256":doc["pdf_sha256"],
-                "error_code":code,"financial_certified":False}
+                "error_code":code,"financial_certified":False,**diagnostic}
 
 
 def run_manifest(manifest,output_dir,auditor=audit_document,checker=independent_poppler):
