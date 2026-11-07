@@ -7,11 +7,14 @@ on:
   schedule:
     # UTC; two distinct daily controls, no AI API and no Netlify deployment.
     - cron: "17 6,18 * * *"
+    # Late independent observation of missed candidate20 daily dispatch.
+    - cron: "57 8 * * *"
   workflow_dispatch:
 
 permissions:
   contents: read
   issues: write
+  actions: write
   id-token: write
 
 concurrency:
@@ -104,3 +107,48 @@ jobs:
               core.notice("Maximus watchdog healthy; no issue required");
             }
             if (bridgeError) core.setFailed(`Supabase watchdog unreachable: ${bridgeError}`);
+
+      - name: Recover missed candidate20 GitHub daily trigger (never bypass QA)
+        if: github.event_name == 'schedule' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // A second schedule is not a substitute for QA or verified PDFs.
+            // Recovery dispatch is restricted to this single, existing workflow.
+            const now=new Date();
+            const parisDay=new Intl.DateTimeFormat('sv-SE',{
+              timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'
+            }).format(now);
+            const parisHour=Number(new Intl.DateTimeFormat('en-GB',{
+              timeZone:'Europe/Paris',hour:'2-digit',hourCycle:'h23'
+            }).format(now));
+            if(parisHour<9){
+              core.notice('Candidate20 daily schedule not due for backup before 09:00 Paris');
+              return;
+            }
+            const owner=context.repo.owner,repo=context.repo.repo;
+            const target='maximus-agent-parallel.yml';
+            const response=await github.rest.actions.listWorkflowRuns({
+              owner,repo,workflow_id:target,branch:'main',per_page:50
+            });
+            const sameDay=response.data.workflow_runs.filter(run=>
+              new Intl.DateTimeFormat('sv-SE',{
+                timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'
+              }).format(new Date(run.created_at))===parisDay);
+            if(sameDay.length){
+              const active=sameDay.some(run=>run.status!=='completed');
+              const passed=sameDay.some(run=>run.conclusion==='success');
+              core.notice('Candidate20 trigger exists on '+parisDay+
+                '; runs='+sameDay.length+' active='+active+' passed='+passed+
+                ' (QA results are not equivalent to financial certification)');
+              if(!active&&!passed){
+                core.setFailed('Candidate20 ran but did not complete successfully; '+
+                  'investigate PDF/QA failure, do not bypass checks or reset quotas');
+              }
+              return;
+            }
+            await github.rest.actions.createWorkflowDispatch({
+              owner,repo,workflow_id:target,ref:'main'
+            });
+            core.warning('RECOVERY-129: daily candidate20 trigger missed '+parisDay+
+              '; dispatched existing workflow once via GitHub Actions');
