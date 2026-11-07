@@ -7,8 +7,10 @@ on:
     branches: [main, recovery/all-bulletins-completeness-20261027]
     paths:
       - scripts/agents/bulletin_complete_pipeline*
+      - scripts/agents/missing_metric_policy.py
       - scripts/agents/bulletin_fields.py
       - scripts/agents/corum_bulletin_fields.py
+      - supabase/migrations/20261107_recovery175_missing_metric_evidence_triage.sql
       - 'supabase/migrations/*_source_qa.sql'
       - scripts/agents/bulletin_source_resolver*
       - scripts/agents/bulletin_source_transport*
@@ -19,8 +21,10 @@ on:
   pull_request:
     paths:
       - scripts/agents/bulletin_complete_pipeline*
+      - scripts/agents/missing_metric_policy.py
       - scripts/agents/bulletin_fields.py
       - scripts/agents/corum_bulletin_fields.py
+      - supabase/migrations/20261107_recovery175_missing_metric_evidence_triage.sql
       - 'supabase/migrations/*_source_qa.sql'
       - scripts/agents/bulletin_source_resolver*
       - scripts/agents/bulletin_source_transport*
