@@ -12,11 +12,12 @@ import json
 from pathlib import Path
 import re
 import subprocess
+from urllib.parse import urljoin, urlsplit
 
 import fitz
 
 from candidate_pdf_binary_proof import download_official, official_url, normalize
-from tofIssuerBinaryReview import inspect_issuer_redirect
+from tofIssuerBinaryReview import inspect_issuer_redirect, first_redirect_location
 
 PINNED={
  "2026-T1":(
@@ -73,6 +74,49 @@ def code_for(err):
     return code if re.fullmatch("[A-Z][A-Z0-9_]{3,69}",code) else "BURO_BINARY_SOURCE_FAILED"
 
 
+T2_APPROVED_ISSUER_PDF_PATH=(
+    "/content/download/1410/file/BTI%20Buroboutic%20T2%202026%20WEB.pdf"
+)
+T1_ALTERNATIVE_FROM_QUARANTINED_CERTIFICATE=(
+    "https://www.fiducial-gerance.fr/content/download/1334/38495?version=5"
+)
+
+
+def fetch_pinned_t2_same_host(doc,hosts,loader=download_official,
+                               location_probe=first_redirect_location):
+    """Single issuer 302 for the exact T2 bulletin already independently seen.
+
+    The original registered hash MUST be checked by inspect() after retrieval.
+    """
+    if doc["period"]!="2026-T2" or (
+       doc["source_url"],doc["pdf_sha256"])!=PINNED["2026-T2"] or (
+       hosts!=["www.fiducial-gerance.fr"]):
+        raise ValueError("T2_REDIRECT_NOT_PINNED")
+    target=urljoin(doc["source_url"],location_probe(doc["source_url"],hosts))
+    parsed=urlsplit(target)
+    if not (
+        parsed.scheme=="https"
+        and parsed.hostname=="www.fiducial-gerance.fr"
+        and parsed.username is None
+        and parsed.password is None
+        and parsed.port in (None,443)
+        and parsed.fragment==""
+        and parsed.path==T2_APPROVED_ISSUER_PDF_PATH
+        and official_url(target,hosts)
+    ):
+        raise ValueError("T2_OFFICIAL_PDF_REDIRECT_NOT_APPROVED")
+    raw,final=loader(target,hosts)
+    if final!=target:
+        raise ValueError("T2_MULTIHOP_REDIRECT_REJECTED")
+    return raw,final,{
+        "approved_exact_issuer_host":parsed.hostname,
+        "approved_exact_path":parsed.path,
+        "query_omitted":True,
+        "multihop_forbidden":True,
+        "source_sha_still_needs_validation":True,
+    }
+
+
 def inspect(doc,hosts,out,loader=download_official):
     record={"scpi_slug":doc["scpi_slug"],"source_period":doc["period"],
             "original_issuer_url":doc["source_url"],
@@ -80,8 +124,17 @@ def inspect(doc,hosts,out,loader=download_official):
             "quarantined_value_not_certified":True,
             "financial_certified":False,"deploy_allowed":False}
     try:
-        raw,final=loader(doc["source_url"],hosts)
-        if final!=doc["source_url"]:
+        pinned_redirect=None
+        try:
+            raw,final=loader(doc["source_url"],hosts)
+        except ValueError as err:
+            if (doc["period"]=="2026-T2" and
+                code_for(err)=="ISSUER_REDIRECT_NEEDS_INDEPENDENT_APPROVAL"):
+                raw,final,pinned_redirect=fetch_pinned_t2_same_host(
+                    doc,hosts,loader=loader)
+            else:
+                raise
+        if final!=doc["source_url"] and pinned_redirect is None:
             raise ValueError("OFFICIAL_SOURCE_URL_CHANGED")
         if not raw.startswith(b"%PDF"):
             raise ValueError("ISSUER_SOURCE_NOT_PDF")
@@ -105,6 +158,9 @@ def inspect(doc,hosts,out,loader=download_official):
                 raise ValueError("OFFICIAL_PERIOD_COVER_UNCONFIRMED")
             if "buroboutic" not in normalize(" ".join(pages)):
                 raise ValueError("OFFICIAL_SCPI_IDENTITY_MISSING")
+        if pinned_redirect is not None:
+            pinned_redirect["source_sha_still_needs_validation"]=False
+            record["issuer_redirect"]=pinned_redirect
         record.update(status="pdf_binary_verified_only",sha256=sha,
                       page_count=len(mupages),
                       readers=["MuPDF","Poppler"],
@@ -119,6 +175,14 @@ def inspect(doc,hosts,out,loader=download_official):
         if ec=="ISSUER_REDIRECT_NEEDS_INDEPENDENT_APPROVAL":
             record["first_redirect"]=inspect_issuer_redirect(
                 doc["source_url"],hosts)
+            if doc["period"]=="2026-T1":
+                # Historical certificate has a different issuer URL, but
+                # no trusted same-period binary exists yet. Discover only.
+                record["alternative_issuer_url_diagnostic"]=inspect_issuer_redirect(
+                    T1_ALTERNATIVE_FROM_QUARANTINED_CERTIFICATE,hosts)
+                if "Note%20d%27information%20et%20statuts" in str(
+                    record["first_redirect"].get("destination_path","")):
+                    record["error_code"]="T1_REGISTERED_SOURCE_IS_INFORMATION_NOTE"
     return record
 
 
