@@ -1,0 +1,63 @@
+name: LFREM 14 candidate official PDFs — read-only binary evidence
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery133_lfrem_period_correction.sql'
+      - 'supabase/migrations/20261107_recovery133_lfrem_binary_proof_registration.sql'
+      - 'scripts/agents/lfremIssuerProbe.py'
+      - 'scripts/agents/lfremIssuerProbe_test.py'
+      - 'scripts/agents/fixtures/lfrem_2026t2_issuer_leads.json'
+      - '.github/workflows/lfrem-candidate-binary-proof.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery133_lfrem_period_correction.sql'
+      - 'supabase/migrations/20261107_recovery133_lfrem_binary_proof_registration.sql'
+      - 'scripts/agents/lfremIssuerProbe.py'
+      - 'scripts/agents/lfremIssuerProbe_test.py'
+      - 'scripts/agents/fixtures/lfrem_2026t2_issuer_leads.json'
+      - '.github/workflows/lfrem-candidate-binary-proof.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lfrem-issuer-readonly-binary-proof
+  cancel-in-progress: false
+
+jobs:
+  official-source-proof:
+    name: La Française issuer binary QA without DB writes
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Negative cross-fund and untrusted-host tests
+        run: |
+          python -m unittest discover -s scripts/agents -p 'lfremIssuerProbe_test.py' -v
+      - name: Download 14 issuer-authored PDFs and prove SHA + pages + identity + period
+        run: |
+          python scripts/agents/lfremIssuerProbe.py \
+            --manifest scripts/agents/fixtures/lfrem_2026t2_issuer_leads.json \
+            --out test-results/lfrem-binary
+      - name: Preserve PDF binaries, exact hashes and per-fund gap status for independent QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lfrem-binary-evidence-${{ github.run_id }}
+          path: test-results/lfrem-binary/
+          if-no-files-found: warn
+          retention-days: 7
