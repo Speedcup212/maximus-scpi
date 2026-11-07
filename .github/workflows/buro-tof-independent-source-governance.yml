@@ -1,0 +1,51 @@
+name: Quarantined TOF independent PDF proof and replay protection
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery142_*.sql'
+      - 'scripts/agents/recovery142_independent_tof_governance_test.py'
+      - '.github/workflows/buro-tof-independent-source-governance.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery142_*.sql'
+      - 'scripts/agents/recovery142_independent_tof_governance_test.py'
+      - '.github/workflows/buro-tof-independent-source-governance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  safe-financial-governance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test exact Buro 2-PDF independent eligibility and downgrade guard
+        run: python -m unittest discover -s scripts/agents -p 'recovery142_independent_tof_governance_test.py' -v
+      - name: Forbid dangerous financial-policy shortcuts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          f=Path("supabase/migrations")
+          scripts=list(f.glob("20261107_recovery142_*.sql"))
+          assert len(scripts)==4, f"Need four coordinated migrations, got {len(scripts)}"
+          sql="\n".join(s.read_text() for s in scripts)
+          for forbidden in ("SECURITY DEFINER","DROP TABLE","DROP VIEW",
+                            "DELETE FROM scpi_internal.tof_policy_quarantine_audit_20261028",
+                            "publication_enabled=true"):
+              assert forbidden not in sql, forbidden
+          assert sql.count("13577252680")>=2
+          assert "source_page=4" in sql
+          assert "independent_verified_official_geometric_pdf" in sql
+          assert "h.proof_sha<>h.pdf_sha256" in sql
+          print("Source proof/legacy quarantine policy: contract PASS")
+          PY
