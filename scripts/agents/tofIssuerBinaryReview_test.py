@@ -61,6 +61,27 @@ class TofPdfProofTests(unittest.TestCase):
             self.assertFalse(out["financial_certified"])
             self.assertFalse(out["deploy_allowed"])
 
+    def test_perial_migration_is_exact_issuer_sha_page_and_no_human_attestation(self):
+        migration = (
+            Path(__file__).resolve().parents[2] /
+            "supabase/migrations/20261107_recovery135_perial_t3_dual_reader_tof_evidence.sql"
+        ).read_text(encoding="utf-8")
+        for marker in (
+            "e9205e1d300724742c6189fdd49a5787e7e5857a5eee040a9f701ac8f2a5f8b1",
+            "42375137331",
+            "source_page=6",
+            "value_numeric=84.7",
+            "qa_status='auto_verified_dual_pdf_evidence'",
+            "IF k<>1",
+            "financial_human_signoff',false",
+            "maximus_agents.scpi_replay_provenance_quarantine",
+        ):
+            self.assertIn(marker,migration)
+        self.assertNotIn("SECURITY DEFINER",migration)
+        self.assertNotIn("manual_verified_official_pdf_text_review",migration)
+        self.assertNotIn("UPDATE public.scpi_source_registry",migration)
+        self.assertNotIn("UPDATE maximus_agents.scpi_candidate_final_review",migration)
+
     def test_buro_vacancy_text_separate_from_aggregate(self):
         text=("Locaux vacants en restructuration "
               "(intégrés au TOF sous conditions) : 0,07 % "
