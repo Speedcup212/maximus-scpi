@@ -12,6 +12,98 @@ class TofPdfProofTests(unittest.TestCase):
     def setUp(self):
         self.m=json.loads(MANIFEST.read_text())
 
+    def test_official_same_host_redirect_is_observed_not_followed(self):
+        source="https://www.fiducial-gerance.fr/content/download/544/12625?version=14"
+        answer=audit.classify_redirect_location(
+            source,"/content/download/544/file/Buroboutic.pdf?signature=PRIVATE",
+            ["www.fiducial-gerance.fr"])
+        self.assertTrue(answer["exact_same_official_host"])
+        self.assertFalse(answer["automatic_followed"])
+        self.assertEqual(answer["destination_host"],"www.fiducial-gerance.fr")
+        self.assertEqual(answer["destination_path"],
+                         "/content/download/544/file/Buroboutic.pdf")
+        self.assertNotIn("PRIVATE",str(answer))
+
+    def test_unapproved_cdn_redirect_requires_independent_review(self):
+        src="https://www.fiducial-gerance.fr/content/download/544/12625"
+        answer=audit.classify_redirect_location(
+            src,"https://external.example.org/a.pdf?token=PRIVATE",
+            ["www.fiducial-gerance.fr"])
+        self.assertFalse(answer["exact_same_official_host"])
+        self.assertFalse(answer["automatic_followed"])
+        self.assertEqual(answer["status"],"REDIRECT_TARGET_REQUIRES_INDEPENDENT_APPROVAL")
+        self.assertNotIn("PRIVATE",str(answer))
+
+    def test_non_https_and_credential_redirect_never_autoproves_issuer(self):
+        src="https://www.fiducial-gerance.fr/content/download/544/12625"
+        for target in ("http://www.fiducial-gerance.fr/test.pdf",
+                       "https://operator:pw@www.fiducial-gerance.fr/test.pdf",
+                       "https://127.0.0.1/test.pdf"):
+            with self.subTest(target=target):
+                result=audit.classify_redirect_location(
+                    src,target,["www.fiducial-gerance.fr"])
+                self.assertFalse(result["exact_same_official_host"])
+                self.assertFalse(result["automatic_followed"])
+
+    def test_exact_buro_same_host_pinned_302_can_be_revalidated(self):
+        doc=self.m["cases"][0]
+        seen=[]
+        def loader(url,hosts):
+            seen.append(url)
+            return b"%PDF-1.7 source original",url
+        raw,url,meta=audit.fetch_pinned_buro_redirect(
+            doc,loader=loader,
+            location_probe=lambda source,hosts:
+                "/content/download/544/file/BTI%20Buroboutic%20T3%202026%20WEB.pdf?version=14")
+        self.assertEqual(len(seen),1)
+        self.assertEqual(url,seen[0])
+        self.assertEqual(url.split("?",1)[0],
+            "https://www.fiducial-gerance.fr"
+            "/content/download/544/file/BTI%20Buroboutic%20T3%202026%20WEB.pdf")
+        self.assertEqual(meta["status"],
+                         "PINNED_SAME_ISSUER_REDIRECT_SOURCE_FETCHED")
+        self.assertNotIn("version=14",str(meta))
+        self.assertFalse(meta["financial_certified"])
+
+    def test_alternate_or_cross_host_redirect_fails_before_download(self):
+        doc=self.m["cases"][0]
+        seen=[]
+        def loader(url,hosts):
+            seen.append(url)
+            return b"%PDF",url
+        for location in (
+            "https://cdn.evil.example/BTI.pdf",
+            "http://www.fiducial-gerance.fr/content/download/544/file/"
+            "BTI%20Buroboutic%20T3%202026%20WEB.pdf",
+            "/content/download/544/file/Different%20Fund.pdf",
+            "/content/download/544/file/"
+            "BTI%20Buroboutic%20T3%202026%20WEB.pdf/../../secret",
+            "https://attacker@www.fiducial-gerance.fr/content/download/544/file/"
+            "BTI%20Buroboutic%20T3%202026%20WEB.pdf",
+        ):
+            with self.subTest(location=location):
+                with self.assertRaisesRegex(ValueError,
+                    "PINNED_BURO_REDIRECT_TARGET_NOT_APPROVED"):
+                    audit.fetch_pinned_buro_redirect(
+                        doc,loader=loader,
+                        location_probe=lambda source,hosts:location)
+        self.assertEqual(seen,[])
+
+    def test_other_fund_or_tampered_sha_cannot_use_buro_redirect_exception(self):
+        doc=self.m["cases"][0]
+        for replacement in ({"slug":"perial-grand-paris"},
+                            {"sha256":"a"*64},
+                            {"source_url":"https://www.fiducial-gerance.fr/other"},
+                            {"period":"2025-T4"}):
+            with self.subTest(replacement=replacement):
+                edited={**doc,**replacement}
+                with self.assertRaisesRegex(
+                    ValueError,"UNAPPROVED_DOCUMENT_REDIRECT_EXCEPTION"):
+                    audit.fetch_pinned_buro_redirect(
+                        edited,loader=lambda *a:(_ for _ in ()).throw(
+                            AssertionError("unexpected fetch")),
+                        location_probe=lambda *a: "/other.pdf")
+
     def test_pinned_two_issuer_docs_and_readonly(self):
         cases=audit.validate(self.m)
         self.assertEqual(len(cases),2)
