@@ -1,0 +1,39 @@
+name: Three historical issuer TOF source gap probes
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/agents/three_historical_tof_publisher_probe.py'
+      - 'scripts/agents/three_historical_tof_publisher_probe_test.py'
+      - '.github/workflows/three-historical-tof-source-probes.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  paref-evo-hexa-pierval-original-pdf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install PDF readers pinned
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Confirm fail-closed publisher SHA, period and source context tests
+        run: python -m unittest discover -s scripts/agents -p 'three_historical_tof_publisher_probe_test.py' -v
+      - name: Retrieve original issuer PDFs and independent page layout signals
+        run: python scripts/agents/three_historical_tof_publisher_probe.py test-results/three-historical-tof
+      - name: Preserve original issuer PDF files and read-only evidence report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: three-historical-tof-source-qa-${{ github.run_id }}
+          path: test-results/three-historical-tof/
+          retention-days: 7
+          if-no-files-found: warn
