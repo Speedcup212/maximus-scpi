@@ -1,0 +1,74 @@
+name: Pierval T3 issuer TOF independent PDF geometry and data QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/agents/pierval_t3_tof_binary_geometry.py'
+      - 'scripts/agents/pierval_t3_tof_binary_geometry_test.py'
+      - 'supabase/migrations/20261107_recovery147_*.sql'
+      - '.github/workflows/pierval-t3-indep-source-cert.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/agents/pierval_t3_tof_binary_geometry.py'
+      - 'scripts/agents/pierval_t3_tof_binary_geometry_test.py'
+      - 'supabase/migrations/20261107_recovery147_*.sql'
+      - '.github/workflows/pierval-t3-indep-source-cert.yml'
+permissions:
+  contents: read
+jobs:
+  exact-issuer-sha-and-dual-geometry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned MuPDF and Poppler
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Test independent chart coordinates, fail closed on vacancy mismatch
+        run: python -m unittest discover -s scripts/agents -p 'pierval_t3_tof_binary_geometry_test.py' -v
+      - name: Read real original Pierval publisher PDF page9 in two engines
+        run: python scripts/agents/pierval_t3_tof_binary_geometry.py test-results/pierval-t3
+      - name: Preserve issuer PDF bytes and independent numeric proof
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pierval-t3-tof-original-${{ github.run_id }}
+          path: test-results/pierval-t3/
+          retention-days: 14
+          if-no-files-found: warn
+  financial-policy-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Enforce no manual signoff or unrelated publication from SQL
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root=Path('supabase/migrations')
+          files=list(root.glob('20261107_recovery147_*.sql'))
+          assert len(files) in (0,2), files
+          if files:
+              sql='\n'.join(f.read_text() for f in files)
+              for forbidden in ('SECURITY DEFINER','DROP VIEW','DROP TABLE',
+                                'DISABLE TRIGGER','publication_enabled=true',
+                                'UPDATE public.scpi_indicators'):
+                  assert forbidden not in sql,forbidden
+              assert '91.04' in sql and '8.96' in sql
+              assert 'pierval-sante' in sql
+              assert 'human_attestation' in sql
+          print('Pierval independent financial guard contract PASS')
+          PY
