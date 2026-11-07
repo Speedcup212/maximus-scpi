@@ -1,0 +1,33 @@
+name: PAREF Evo T4 alternate issuer PDF exact SHA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/agents/paref_evo_t4_official_mirror_sha.py'
+      - 'scripts/agents/paref_evo_t4_official_mirror_sha_test.py'
+      - '.github/workflows/paref-evo-t4-sha-mirror-probe.yml'
+permissions:
+  contents: read
+jobs:
+  archived-publisher-binary-equality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reject untrusted mirrors without identical archived publisher bytes
+        run: python -m unittest discover -s scripts/agents -p 'paref_evo_t4_official_mirror_sha_test.py' -v
+      - name: Try exact SHA of broker mirrors versus archived official original
+        run: python scripts/agents/paref_evo_t4_official_mirror_sha.py test-results/paref-evo-sha
+      - name: Save signed-off NO-GO reasons or exact-original PDF binary
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: paref-evo-t4-sha-source-${{ github.run_id }}
+          path: test-results/paref-evo-sha/
+          retention-days: 7
+          if-no-files-found: warn
