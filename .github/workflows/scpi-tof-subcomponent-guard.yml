@@ -1,0 +1,33 @@
+name: SCPI TOF subcomponent evidence-policy guard
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery134_tof_subcomponent_sql_guard.sql'
+      - 'scripts/agents/recovery134TofSubcomponent.test.mjs'
+      - '.github/workflows/scpi-tof-subcomponent-guard.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery134_tof_subcomponent_sql_guard.sql'
+      - 'scripts/agents/recovery134TofSubcomponent.test.mjs'
+      - '.github/workflows/scpi-tof-subcomponent-guard.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prove subcomponent cannot masquerade as TOF, no invented financial value
+        run: node --test scripts/agents/recovery134TofSubcomponent.test.mjs
