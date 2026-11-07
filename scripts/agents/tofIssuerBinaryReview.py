@@ -13,8 +13,11 @@ from pathlib import Path
 import re
 import subprocess
 import unicodedata
+import urllib.error
+import urllib.request
+from urllib.parse import urljoin, urlsplit
 
-from candidate_pdf_binary_proof import download_official, official_url
+from candidate_pdf_binary_proof import download_official, official_url, public_host_addresses
 import fitz
 
 EXPECTED = {
@@ -79,6 +82,64 @@ def safe_error(exc):
     return code if re.fullmatch("[A-Z][A-Z0-9_]{3,69}",code) else "PDF_SOURCE_AUDIT_BLOCKED"
 
 
+class StopAtRedirect(urllib.request.HTTPRedirectHandler):
+    """Only inspect one issuer Location header; never follow or fetch target."""
+    def redirect_request(self,req,fp,code,msg,headers,newurl):
+        return None
+
+
+def classify_redirect_location(source_url,location,approved_hosts):
+    """Classify one issuer HTTP redirect without approving its destination."""
+    if not isinstance(location,str) or not location.strip():
+        return {"status":"REDIRECT_LOCATION_MISSING"}
+    target=urljoin(source_url,location.strip())
+    parsed=urlsplit(target)
+    host=parsed.hostname or ""
+    if not re.fullmatch(r"[a-z0-9.-]{1,253}",host.lower()):
+        return {"status":"REDIRECT_HOST_INVALID"}
+    # Query strings can contain time-limited signed tokens. Never log them.
+    path=parsed.path[:220]
+    exact_issuer=(
+        parsed.scheme=="https" and parsed.hostname==urlsplit(source_url).hostname
+        and official_url(target,approved_hosts)
+    )
+    return {
+        "status":"SAME_ISSUER_HOST_NOT_YET_APPROVED" if exact_issuer
+                 else "REDIRECT_TARGET_REQUIRES_INDEPENDENT_APPROVAL",
+        "destination_host":host.lower(),
+        "destination_path":path,
+        "query_omitted":True,
+        "automatic_followed":False,
+        "exact_same_official_host":exact_issuer,
+    }
+
+
+def inspect_issuer_redirect(source_url,approved_hosts):
+    """Read only first 30x Location; no JWT, SQL, signed URL, or PDF download."""
+    try:
+        if not official_url(source_url,approved_hosts):
+            raise ValueError("UNAPPROVED_ISSUER_HOST")
+        public_host_addresses(urlsplit(source_url).hostname)
+        opener=urllib.request.build_opener(StopAtRedirect())
+        req=urllib.request.Request(
+            source_url,
+            headers={"User-Agent":"Mozilla/5.0 (compatible; MaximusSCPI-DocumentProof/1.0)",
+                     "Accept":"application/pdf"},
+            method="GET",
+        )
+        try:
+            with opener.open(req,timeout=35):
+                return {"status":"SOURCE_RETURNED_NON_REDIRECT_ON_RETRY"}
+        except urllib.error.HTTPError as exc:
+            if exc.code not in (301,302,303,307,308):
+                return {"status":"ISSUER_HTTP_STATUS","http_status":exc.code}
+            verdict=classify_redirect_location(
+                source_url,exc.headers.get("Location"),approved_hosts)
+            verdict["http_status"]=exc.code
+            return verdict
+    except Exception:
+        return {"status":"REDIRECT_DIAGNOSTIC_UNAVAILABLE"}
+
 def inspect_case(doc,out,loader=download_official):
     entry={"scpi_slug":doc["slug"],"period":doc["period"],"official_url":doc["source_url"],
            "expected_sha256":doc["sha256"],
@@ -125,8 +186,12 @@ def inspect_case(doc,out,loader=download_official):
                      poppler_context=page_excerpt(pop[doc["evidence_page"]-1]),
                      metric_status="independent_financial_qa_required")
     except Exception as error:
-        entry.update(status="blocked",error_code=safe_error(error),
+        code=safe_error(error)
+        entry.update(status="blocked",error_code=code,
                      metric_status="no_financial_qa_admission")
+        if code=="ISSUER_REDIRECT_NEEDS_INDEPENDENT_APPROVAL":
+            entry["redirect_diagnostic"]=inspect_issuer_redirect(
+                doc["source_url"],doc["issuer_hosts"])
     return entry
 
 
