@@ -1,6 +1,7 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { preserveIndependentIssuerProof } from "./sourceProvenance.mjs";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
 const PARSER_VERSION="2026-10-31-v90-labelled-price-pair";
@@ -1048,19 +1049,6 @@ function validate(p:any,c:any,allowCorrection=false){
 }
 async function startEvent(db:any,s:Source){const {data}=await db.from("scpi_ingestion_events").insert({scpi_slug:s.scpi_slug,status:"started",step:"edge_source_selected",source_page_url:s.discovered_page_url||s.official_scpi_page_url}).select("id").single();return data?.id||null;}
 async function finish(db:any,id:string|null,x:any){if(id)await db.from("scpi_ingestion_events").update({...x,ended_at:new Date().toISOString()}).eq("id",id);}
-// RECOVERY-181: a later parser extracting fewer fields from the SAME PDF must
-// not downgrade an independently issuer-linked, SHA-matched source attestation.
-// A changed URL, period, or PDF SHA immediately disables this protection.
-function preserveIndependentIssuerProof(s:Source,pdfUrl:string,sourcePeriod:string,sha256:string,existingSameHash:boolean){
-  return existingSameHash && s.verification_status==="verified" &&
-    s.confidence_level==="high" &&
-    !!s.issuer_source_verified_at &&
-    !!s.issuer_source_sha256 &&
-    s.issuer_source_sha256===sha256 &&
-    s.issuer_source_url===pdfUrl &&
-    s.issuer_source_period===sourcePeriod &&
-    s.bulletin_url===pdfUrl && s.last_document_period===sourcePeriod;
-}
 async function reg(db:any,slug:string,x:any){const {error}=await db.from("scpi_source_registry").update({...x,updated_at:new Date().toISOString()}).eq("scpi_slug",slug);if(error)throw new Error(error.message);}
 async function next(db:any){
   const {data,error}=await db.from("scpi_source_registry").select("scpi_slug,scpi_name,management_company,official_scpi_page_url,discovered_page_url,source_domain,last_checked_at,next_check_at,error_count,bulletin_url,last_document_period,verification_status,confidence_level,issuer_source_sha256,issuer_source_period,issuer_source_url,issuer_source_verified_at").eq("automation_enabled",true).eq("ingestion_driver","generic").limit(200);if(error)throw error;const now=Date.now();
