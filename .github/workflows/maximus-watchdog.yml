@@ -84,6 +84,11 @@ jobs:
               : null;
             const staleMonitor = ageMinutes === null || ageMinutes < 0 || ageMinutes > 90;
             const runner = data?.runner_state || "UNAVAILABLE";
+            const passCount = Number(data?.strict_pass);
+            const failCount = Number(data?.strict_fail);
+            const strictTotal = Number.isInteger(passCount) && passCount >= 0 &&
+              Number.isInteger(failCount) && failCount >= 0
+              ? passCount + failCount : null;
             const incidents = Array.isArray(data?.active_incidents)
               ? data.active_incidents.slice().sort() : [];
             const unhealthy = !!bridgeError || staleMonitor ||
@@ -98,7 +103,7 @@ jobs:
               `- Exécuteur : **${runner}**`,
               `- Tâches non terminées : **${data?.pending_tasks ?? "inconnu"}**`,
               `- Issues bloquées : **${data?.blocked_issues ?? "inconnu"}**`,
-              `- Crash test documentaire strict : **${data?.strict_pass ?? "?"}/61 PASS ; ${data?.strict_fail ?? "?"} échecs**`,
+              `- Crash test documentaire strict : **${data?.strict_pass ?? "?"}/${strictTotal ?? "?"} PASS ; ${data?.strict_fail ?? "?"} échecs**`,
               `- Supervision Supabase actualisée : **${staleMonitor ? "NON" : "OUI"}**`,
               `- Incidents : **${incidents.length ? incidents.join(", ") : "aucun"}**`,
               `- Accès au pont : **${bridgeError ? "ERREUR" : "OK"}**`,
