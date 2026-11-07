@@ -84,3 +84,28 @@ test('technical main pushes run read-only CONTROL triage without enrolling candi
   assert.ok(readonly.includes("op:'control_existing_metric_triage'"));
   assert.ok(!readonly.includes("op:'prepare_batch20'"));
 });
+
+test('strict admission route facts do not misread invalid historical rows as PASS blockers',()=>{
+  const s=readFileSync('supabase/migrations/20261108_recovery179_true_strict_admission_routes.sql','utf8');
+  assert.match(s,/scpi_strict_actual_admission_v1/);
+  assert.match(s,/scpi_crash_test_strict_v2/);
+  assert.match(s,/CROSS JOIN LATERAL/);
+  assert.match(s,/INDEPENDENT_STRICT_EVIDENCE_GUARD/);
+  assert.match(s,/historical_tof_quarantine_records/);
+  assert.match(s,/period_matched_pdf_proofs/);
+  assert.match(s,/strict_admission_gates/);
+  assert.match(s,/blocks_strict_pass/);
+  assert.doesNotMatch(s,/WHEN c.invalid_rows\s*>\s*0/);
+  assert.doesNotMatch(s,/INSERT\s+INTO\s+maximus_agents\.tasks/i);
+  assert.doesNotMatch(s,/UPDATE\s+public\.scpi_/i);
+  assert.doesNotMatch(s,/GRANT\s+(SELECT|EXECUTE)\s+TO\s+(anon|authenticated)/i);
+  assert.match(s,/REVOKE ALL ON maximus_agents\.scpi_strict_actual_admission_v1/);
+});
+
+test('strict gates are observational; cannot infer full approval from PDF presence',()=>{
+  const s=readFileSync('supabase/migrations/20261108_recovery179_true_strict_admission_routes.sql','utf8');
+  assert.match(s,/false::boolean AS financial_certified/);
+  assert.match(s,/false::boolean AS deploy_allowed/);
+  assert.match(s,/false::boolean AS executes_remediation/);
+  assert.match(s,/state','NEEDS_INDEPENDENT_SOURCE_QA'/);
+});
