@@ -1,0 +1,50 @@
+name: Accimmo T2 exact issuer source certification integrity
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery145_*.sql'
+      - 'scripts/agents/recovery145_accimmo_t2_source_cert_test.py'
+      - '.github/workflows/accimmo-t2-source-cert-gate.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery145_*.sql'
+      - 'scripts/agents/recovery145_accimmo_t2_source_cert_test.py'
+      - '.github/workflows/accimmo-t2-source-cert-gate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  source-proven-one-quarter-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test exact source 87.44, page 2, ledger and anti-replay gates
+        run: python -m unittest discover -s scripts/agents -p 'recovery145_accimmo_t2_source_cert_test.py' -v
+      - name: Fail closed on publication or financial certificate shortcuts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root=Path('supabase/migrations')
+          paths=list(root.glob('20261107_recovery145_*.sql'))
+          assert len(paths)==2, paths
+          sql='\n'.join(p.read_text() for p in paths)
+          for forbidden in ('SECURITY DEFINER','DROP VIEW','DROP TABLE',
+                            'DELETE FROM scpi_internal.tof_policy_quarantine',
+                            'publication_enabled=true','DISABLE TRIGGER',
+                            'UPDATE public.scpi_indicators'):
+              assert forbidden not in sql, forbidden
+          assert "87.44" in sql and "87.03" in sql
+          assert "scpi_internal.accimmo_t2_exact_tof_proof_valid" in sql
+          assert "human_attestation',false" in sql
+          print('Accimmo T2 exact-one-field source QA: PASS')
+          PY
