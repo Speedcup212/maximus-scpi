@@ -6,6 +6,7 @@ on:
     paths:
       - 'scripts/agents/tofIssuerBinaryReview.py'
       - 'scripts/agents/tofIssuerBinaryReview_test.py'
+      - 'supabase/migrations/20261107_recovery135_perial_t3_dual_reader_tof_evidence.sql'
       - 'scripts/agents/fixtures/tof_two_issuer_conflicts_2026t3.json'
       - '.github/workflows/scpi-tof-official-pdf-audit.yml'
   push:
@@ -13,6 +14,7 @@ on:
     paths:
       - 'scripts/agents/tofIssuerBinaryReview.py'
       - 'scripts/agents/tofIssuerBinaryReview_test.py'
+      - 'supabase/migrations/20261107_recovery135_perial_t3_dual_reader_tof_evidence.sql'
       - 'scripts/agents/fixtures/tof_two_issuer_conflicts_2026t3.json'
       - '.github/workflows/scpi-tof-official-pdf-audit.yml'
   workflow_dispatch:
