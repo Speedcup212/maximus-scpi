@@ -1,0 +1,43 @@
+name: Buroboutic T1 official source pointer restore regression
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery139_buro_t1_source_pointer_restore.sql'
+      - 'scripts/agents/recovery139_buro_t1_source_test.py'
+      - '.github/workflows/scpi-buro-t1-source-identity.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery139_buro_t1_source_pointer_restore.sql'
+      - 'scripts/agents/recovery139_buro_t1_source_test.py'
+      - '.github/workflows/scpi-buro-t1-source-identity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-issuer-doc-identity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check wrong statutory note cannot be requalified as T1 source
+        run: python -m unittest discover -s scripts/agents -p 'recovery139_buro_t1_source_test.py' -v
+      - name: Verify no accidental TOF certification or publication writes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          s=Path('supabase/migrations/20261107_recovery139_buro_t1_source_pointer_restore.sql').read_text()
+          assert 'financial_certified\',false' in s
+          for forbidden in ('UPDATE public.scpi_metric_certifications','UPDATE public.scpi_indicator_history','SECURITY DEFINER','GRANT ALL'):
+              assert forbidden not in s, forbidden
+          print('Source-only repair contract passed, live financial QA unchanged')
+          PY
