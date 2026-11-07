@@ -95,8 +95,16 @@ def probe_one(doc, archive_dir, auditor=audit_document, checker=independent_popp
                    identity_verified=True, period_verified=True,
                    issuer_origin_verified=True)
     except Exception as exc:
-        rec.update(status="blocked", error_code=safe_error_code(exc),
+        code = safe_error_code(exc)
+        rec.update(status="blocked", error_code=code,
                    identity_verified=False, period_verified=False)
+        # Only the public issuer's short normalized PDF cover; never raw
+        # exceptions, HTTP headers, tokens, or untrusted command output.
+        if code == "QUARTER_TITLE_UNCONFIRMED":
+            cover = str(exc).partition(":")[2]
+            rec["publisher_cover_excerpt"] = re.sub(
+                r"[^0-9a-zA-Z\\s.,;:%()/&-]", " ", cover
+            ).strip()[:160]
     return rec
 
 
