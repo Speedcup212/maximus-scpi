@@ -27,7 +27,7 @@ class CurrentTofDeliverySafety(unittest.TestCase):
             "91.56",
             "2cc87a2cf3536f145bc6db7d71f8cef69190379fa2e2c369ae8052de896c99ba",
             "scpi_internal.independent_tof_geometric_proof_valid",
-            "certificate.source_page=4",
+            "AND source_page=4",
         ):
             self.assertIn(token,LIVE)
         self.assertIn("source_type='official_bulletin_extended'",LIVE)
