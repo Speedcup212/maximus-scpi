@@ -33,6 +33,43 @@ class BuroHistorySourcesTest(unittest.TestCase):
         self.assertTrue(b.quarter_visible("2e trimestre 2026","2026-T2"))
         self.assertFalse(b.quarter_visible("2e trimestre 2026","2026-T1"))
 
+    def test_exact_t2_redirect_to_registered_same_issuer_pdf(self):
+        doc=self.m["documents"][1]
+        calls=[]
+        def loader(u,hosts):
+            calls.append(u)
+            return b"%PDF-test",u
+        raw,final,meta=b.fetch_pinned_t2_same_host(
+            doc,self.m["issuer_hosts"],loader=loader,
+            location_probe=lambda url,hosts:
+                "/content/download/1410/file/BTI%20Buroboutic%20T2%202026%20WEB.pdf?private_query=hidden")
+        self.assertEqual(calls,[final])
+        self.assertEqual(meta["approved_exact_issuer_host"],"www.fiducial-gerance.fr")
+        self.assertFalse(meta["multihop_forbidden"] is False)
+        self.assertNotIn("private_query",str(meta))
+        self.assertTrue(meta["source_sha_still_needs_validation"])
+
+    def test_t2_different_path_and_cross_domain_cannot_be_accepted(self):
+        doc=self.m["documents"][1]
+        for location in (
+            "/content/download/1410/file/BTI%20Buroboutic%20T1%202026.pdf",
+            "https://foreign.example/file.pdf",
+            "http://www.fiducial-gerance.fr/content/download/1410/file/BTI%20Buroboutic%20T2%202026%20WEB.pdf",
+        ):
+            with self.subTest(location=location):
+                with self.assertRaises(ValueError):
+                    b.fetch_pinned_t2_same_host(
+                        doc,self.m["issuer_hosts"],
+                        loader=lambda *args: (_ for _ in ()).throw(
+                            AssertionError("unexpected download")),
+                        location_probe=lambda *args: location)
+
+    def test_t1_cannot_use_t2_source_exception(self):
+        with self.assertRaisesRegex(ValueError,"T2_REDIRECT_NOT_PINNED"):
+            b.fetch_pinned_t2_same_host(
+                self.m["documents"][0],self.m["issuer_hosts"],
+                location_probe=lambda *args: "/content/download/1410/file/BTI.pdf")
+
     def test_false_pdf_cannot_be_source_proven(self):
         with tempfile.TemporaryDirectory() as td:
             doc=self.m["documents"][0]
