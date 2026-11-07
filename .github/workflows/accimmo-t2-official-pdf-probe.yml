@@ -1,0 +1,36 @@
+name: Accimmo T2 2026 official issuer PDF independent source probe
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/agents/accimmo_t2_official_tof_probe.py'
+      - '.github/workflows/accimmo-t2-official-pdf-probe.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  two-reader-issuer-pdf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Read exact publisher binary, require archived SHA and dual-reader 87.44 evidence
+        run: python scripts/agents/accimmo_t2_official_tof_probe.py test-results/accimmo-t2
+      - name: Retain original publisher PDF and numeric source-layout inspection
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: accimmo-t2-source-probe-${{ github.run_id }}
+          path: test-results/accimmo-t2/
+          if-no-files-found: warn
+          retention-days: 7
