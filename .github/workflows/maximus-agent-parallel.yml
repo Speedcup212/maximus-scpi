@@ -84,7 +84,7 @@ jobs:
       contents: read
       id-token: write
     outputs:
-      slugs: ${{ steps.dispatch.outputs.slugs }}
+      slugs: ${{ steps.dispatch.outputs.slugs || '[]' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -92,6 +92,7 @@ jobs:
           persist-credentials: false
       - name: CONTROL — prepare exactly one 20-SCPI cohort on existing Supabase queue
         id: dispatch
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         uses: actions/github-script@v7
         with:
           script: |
