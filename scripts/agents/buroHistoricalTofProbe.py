@@ -80,6 +80,76 @@ T2_APPROVED_ISSUER_PDF_PATH=(
 T1_ALTERNATIVE_FROM_QUARANTINED_CERTIFICATE=(
     "https://www.fiducial-gerance.fr/content/download/1334/38495?version=5"
 )
+T1_ALTERNATIVE_SHA_FROM_ORIGINAL_HISTORY=(
+    "25d420cf867dabbc2be7c51aec7d0cd5ed6b0250e2081b274cce1fe72f5b5ab3"
+)
+T1_ALTERNATIVE_EXACT_PDF_PATH=(
+    "/content/download/1334/file/BTI%20Buroboutic%20T1%202026.pdf"
+)
+
+
+def inspect_t1_alternative(hosts,out,loader=download_official,
+                           location_probe=first_redirect_location):
+    """Probe only the alternate issuer binary cited in the T1 quarantine.
+
+    This does NOT replace the incorrectly registered T1 note/statutes PDF.
+    A matching SHA authenticates the alternate source, not historical QA.
+    """
+    record={"issuer_url":T1_ALTERNATIVE_FROM_QUARANTINED_CERTIFICATE,
+            "sha_from_quarantine_history":T1_ALTERNATIVE_SHA_FROM_ORIGINAL_HISTORY,
+            "issuer_registration_corrected":False,
+            "financial_certified":False,"deploy_allowed":False}
+    try:
+        if hosts!=["www.fiducial-gerance.fr"]:
+            raise ValueError("T1_ISSUER_NOT_APPROVED")
+        location=location_probe(T1_ALTERNATIVE_FROM_QUARANTINED_CERTIFICATE,hosts)
+        target=urljoin(T1_ALTERNATIVE_FROM_QUARANTINED_CERTIFICATE,location)
+        p=urlsplit(target)
+        if not (
+            p.scheme=="https"
+            and p.hostname=="www.fiducial-gerance.fr"
+            and p.username is None and p.password is None
+            and p.port in (None,443) and not p.fragment
+            and p.path==T1_ALTERNATIVE_EXACT_PDF_PATH
+            and official_url(target,hosts)
+        ):
+            raise ValueError("T1_ALTERNATE_REDIRECT_NOT_EXACT_ISSUER_PDF")
+        raw,final=loader(target,hosts)
+        if final!=target or not raw.startswith(b"%PDF"):
+            raise ValueError("T1_ALTERNATE_NOT_ONE_HOP_PDF")
+        sha=hashlib.sha256(raw).hexdigest()
+        if sha!=T1_ALTERNATIVE_SHA_FROM_ORIGINAL_HISTORY:
+            raise ValueError("T1_ALTERNATE_SHA_DIFFERS_FROM_QUARANTINE")
+        path=out/"alternative-original-pdfs"/(sha+".pdf")
+        path.parent.mkdir(parents=True,exist_ok=True)
+        path.write_bytes(raw)
+        with fitz.open(stream=raw,filetype="pdf") as pdf:
+            if pdf.needs_pass or not 1<=len(pdf)<=250:
+                raise ValueError("T1_ALTERNATE_BAD_PDF")
+            mupages=[pg.get_text("text") for pg in pdf]
+        ptxt=subprocess.run(["pdftotext","-layout",str(path),"-"],
+                            capture_output=True,text=True,timeout=60,check=True)
+        popages=[x for x in ptxt.stdout.split("\f") if x.strip()]
+        if len(popages)!=len(mupages):
+            raise ValueError("T1_ALTERNATE_PAGE_COUNT_CONFLICT")
+        for pages in (mupages,popages):
+            if not quarter_visible(" ".join(pages[:3]),"2026-T1"):
+                raise ValueError("T1_ALTERNATE_NOT_T1_2026")
+            if "buroboutic" not in normalize(" ".join(pages)):
+                raise ValueError("T1_ALTERNATE_WRONG_FUND")
+        record.update(status="alternate_issuer_pdf_binary_verified_only",
+                      page_count=len(mupages),sha256=sha,
+                      final_issuer_host=p.hostname,final_issuer_path=p.path,
+                      query_omitted=True,
+                      dual_readers=["MuPDF","Poppler"],
+                      metric_candidates_unverified={
+                          "MuPDF":financial_page_clues(mupages),
+                          "Poppler":financial_page_clues(popages)})
+    except Exception as error:
+        record.update(status="blocked",error_code=code_for(error))
+    return record
+
+
 
 
 def fetch_pinned_t2_same_host(doc,hosts,loader=download_official,
@@ -180,6 +250,8 @@ def inspect(doc,hosts,out,loader=download_official):
                 # no trusted same-period binary exists yet. Discover only.
                 record["alternative_issuer_url_diagnostic"]=inspect_issuer_redirect(
                     T1_ALTERNATIVE_FROM_QUARANTINED_CERTIFICATE,hosts)
+                record["alternative_issuer_pdf_proof"]=inspect_t1_alternative(
+                    hosts,out,loader=loader)
                 if "Note%20d%27information%20et%20statuts" in str(
                     record["first_redirect"].get("destination_path","")):
                     record["error_code"]="T1_REGISTERED_SOURCE_IS_INFORMATION_NOTE"
