@@ -1,6 +1,49 @@
 import unittest,sys
 import corum_bulletin_fields as f
 class ExtendedFieldsTest(unittest.TestCase):
+ def test_corum_xl_2019_t1_two_dated_columns_and_subscription_math(self):
+  page="""ÉVOLUTION DU CAPITAL
+Date 30/03/2019 31/12/2018
+Capitalisation (en prix de souscription) 307 291 K€ 226 143 K€
+Capital nominal 243 881 K€ 179 479 K€
+Nombre de parts 1 625 878 1 196 523
+Nombre d'associés 7 538 5 497
+Une part (tous frais inclus) 189,00 €
+"""
+  row=f.dated_publisher_capital_table_shares(page,'2019-T1')
+  self.assertEqual(row['value'],1625878)
+  self.assertEqual(row['date'],'2019-03-30')  # Printed date, NOT invented 31 March.
+  a=f.extract([page],[[]],[595],'2019-T1')
+  m,proof,coverage=f.reconcile_extended(a,a,{})
+  self.assertEqual(m['nombre_parts'],1625878)
+  self.assertEqual(coverage['nombre_parts'],'verified')
+  self.assertEqual(proof['nombre_parts']['reference_date'],'2019-03-30')
+  self.assertEqual(proof['nombre_parts']['independent_engines'],['MuPDF','Poppler'])
+
+ def test_two_column_table_rejects_wrong_quarter_or_previous_column(self):
+  page="""Date 30/03/2019 31/12/2018
+Capitalisation (en prix de souscription) 307 291 K€ 226 143 K€
+Nombre de parts 1 625 878 1 196 523
+Une part (tous frais inclus) 189,00 €"""
+  self.assertIsNone(f.dated_publisher_capital_table_shares(page,'2018-T4'))
+  self.assertIsNone(f.dated_publisher_capital_table_shares(page.replace('30/03/2019','30/06/2019'),'2019-T1'))
+  self.assertIsNone(f.dated_publisher_capital_table_shares(page.replace('1 625 878 1 196 523','1 196 523 1 625 878'),'2019-T1'))
+  self.assertIsNone(f.dated_publisher_capital_table_shares(page.replace('307 291 K€','300 000 K€'),'2019-T1'))
+  self.assertIsNone(f.dated_publisher_capital_table_shares(page.replace('189,00 €','195,00 €'),'2019-T1'))
+
+ def test_two_engine_table_disagreement_never_certifies_shares(self):
+  page="""Date 30/03/2019 31/12/2018
+Capitalisation (en prix de souscription) 307 291 K€ 226 143 K€
+Nombre de parts 1 625 878 1 196 523
+Une part (tous frais inclus) 189,00 €"""
+  bad=page.replace('1 625 878','1 625 879')
+  a=f.extract([page],[[]],[595],'2019-T1')
+  b=f.extract([bad],[[]],[595],'2019-T1')
+  metrics,proofs,coverage=f.reconcile_extended(a,b,{})
+  self.assertNotIn('nombre_parts',metrics)
+  self.assertNotIn('nombre_parts',proofs)
+  self.assertEqual(coverage['nombre_parts'],'needs_review')
+
  def test_capitalisation_preserves_thousands_in_millions(self):
   words=[(10,50,80,60,'Capitalisation'),(10,20,15,30,'1'),(17,20,32,30,'148'),(34,20,70,30,'millions'),(72,20,100,30,"d'euros")]
   a,_=f.extract(['Capitalisation 1 148 millions d’euros'],[words],[400],'2023-T4')
