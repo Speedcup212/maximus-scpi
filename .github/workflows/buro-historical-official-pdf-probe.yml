@@ -6,6 +6,8 @@ on:
     paths:
       - 'scripts/agents/buroHistoricalTofProbe.py'
       - 'scripts/agents/buroHistoricalTofProbe_test.py'
+      - 'scripts/agents/official_tof_independent_geometry.py'
+      - 'scripts/agents/official_tof_independent_geometry_test.py'
       - 'scripts/agents/fixtures/buro_historical_t1_t2_issuer_sources.json'
       - '.github/workflows/buro-historical-official-pdf-probe.yml'
   push:
@@ -13,6 +15,8 @@ on:
     paths:
       - 'scripts/agents/buroHistoricalTofProbe.py'
       - 'scripts/agents/buroHistoricalTofProbe_test.py'
+      - 'scripts/agents/official_tof_independent_geometry.py'
+      - 'scripts/agents/official_tof_independent_geometry_test.py'
       - 'scripts/agents/fixtures/buro_historical_t1_t2_issuer_sources.json'
       - '.github/workflows/buro-historical-official-pdf-probe.yml'
   workflow_dispatch:
@@ -43,6 +47,13 @@ jobs:
           python scripts/agents/buroHistoricalTofProbe.py \
             --manifest scripts/agents/fixtures/buro_historical_t1_t2_issuer_sources.json \
             --out test-results/buro-historical-sources
+      - name: Test independent period-to-value geometry binding
+        run: python -m unittest discover -s scripts/agents -p 'official_tof_independent_geometry_test.py' -v
+      - name: 'Independent QA: compare two PDF layout engines on original page 4'
+        run: |
+          python scripts/agents/official_tof_independent_geometry.py \
+            --archive-root test-results/buro-historical-sources \
+            --out test-results/buro-historical-sources/independent-tof-qa.json
       - name: Save exact-hash PDF evidence or source gaps
         if: always()
         uses: actions/upload-artifact@v4
