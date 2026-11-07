@@ -1,0 +1,48 @@
+name: Exact T2 issuer TOF current publication and weak replay skip
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery143_*.sql'
+      - 'scripts/agents/recovery143_live_tof_compatibility_test.py'
+      - '.github/workflows/buro-current-tof-publication.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery143_*.sql'
+      - 'scripts/agents/recovery143_live_tof_compatibility_test.py'
+      - '.github/workflows/buro-current-tof-publication.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-live-tof-propagation-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test safe insert conflict handling and exact-source live T2 publish
+        run: python -m unittest discover -s scripts/agents -p 'recovery143_live_tof_compatibility_test.py' -v
+      - name: Reject any unrelated live-source mutation or privileges
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          paths=list(Path('supabase/migrations').glob('20261107_recovery143_*.sql'))
+          assert len(paths)==2
+          content='\n'.join(p.read_text() for p in paths)
+          for forbidden in ('SECURITY DEFINER','GRANT ALL',
+                            'DELETE FROM public.scpi_indicator_history',
+                            'publication_enabled=true'):
+              assert forbidden not in content, forbidden
+          assert "RETURN NULL" in content
+          assert "T2_HISTORY_DEGRADED_BY_ANALYSIS_REFRESH" in content
+          print('Upsert replay and same-quarter delivery: PASS')
+          PY
