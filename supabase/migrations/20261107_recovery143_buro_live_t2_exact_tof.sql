@@ -7,6 +7,16 @@
 -- The T2 public summary's other fields were already independently reviewed;
 -- its prior "manual_verified_issuer_bulletin_fields_" state is preserved for
 -- THESE preexisting fields, while TOF is explicitly described as independent.
+-- Snapshot every NON-TOF certificate before the live trigger recursively
+-- refreshes document metrics. That refresh unconditionally writes verified_at
+-- even if NO field was re-verified; misleading historical revalidation dates
+-- are not allowed. Preserve original timestamps and require all other fields
+-- byte-identical, rather than disabling the analysis trigger.
+CREATE TEMP TABLE recovery143_non_tof_before ON COMMIT DROP AS
+ SELECT c.id,c.verified_at, to_jsonb(c)-'verified_at' AS immutable_fields
+ FROM public.scpi_metric_certifications c
+ WHERE c.scpi_slug='buroboutic-metropoles' AND c.metric<>'tof';
+
 DO $recovery143_live$
 DECLARE
  original public.scpi_indicators%ROWTYPE;
@@ -107,4 +117,47 @@ BEGIN
     AND h.metric_provenance->'tof'->>'sha256'=
         '2cc87a2cf3536f145bc6db7d71f8cef69190379fa2e2c369ae8052de896c99ba'
  ) THEN RAISE EXCEPTION 'T2_HISTORY_DEGRADED_BY_ANALYSIS_REFRESH'; END IF;
+
+ -- Refreshing the public summary runs a full automatic metric-certificate
+ -- upsert. We may correct its synthetic verified_at rewrites ONLY if every
+ -- source, value, QA status, page, evidence and bulletin id is unchanged.
+ IF (SELECT count(*) FROM public.scpi_metric_certifications
+     WHERE scpi_slug='buroboutic-metropoles' AND metric<>'tof')
+    <> (SELECT count(*) FROM recovery143_non_tof_before)
+ OR EXISTS(
+    SELECT 1 FROM recovery143_non_tof_before prior
+    LEFT JOIN public.scpi_metric_certifications c ON c.id=prior.id
+    WHERE c.id IS NULL
+      OR to_jsonb(c)-'verified_at' IS DISTINCT FROM prior.immutable_fields
+ ) THEN RAISE EXCEPTION 'BURO_UNRELATED_METRIC_CERTIFICATE_WAS_MUTATED'; END IF;
+
+ -- Restore the true original verification dates, not a synthetic date of
+ -- re-processing other metrics during a one-field TOF release.
+ UPDATE public.scpi_metric_certifications c
+ SET verified_at=prior.verified_at
+ FROM recovery143_non_tof_before prior
+ WHERE c.id=prior.id
+   AND c.verified_at IS DISTINCT FROM prior.verified_at
+   AND to_jsonb(c)-'verified_at'=prior.immutable_fields;
+ IF EXISTS (
+    SELECT 1 FROM recovery143_non_tof_before prior
+    JOIN public.scpi_metric_certifications c ON c.id=prior.id
+    WHERE c.verified_at IS DISTINCT FROM prior.verified_at
+       OR to_jsonb(c)-'verified_at' IS DISTINCT FROM prior.immutable_fields
+ ) THEN RAISE EXCEPTION 'BURO_METRIC_VERIFICATION_TIMESTAMPS_NOT_RESTORED'; END IF;
+
+ -- Reject a second-order refresh that attempted to downgrade another
+ -- protected TOF on the same fund (2026-T3 and 2026-T1).
+ IF NOT EXISTS (
+    SELECT 1 FROM public.scpi_metric_certifications c
+    WHERE c.id='985d9663-2900-40ba-9a0f-2a215461ebe4'::uuid
+      AND c.value_numeric=91.37
+      AND c.verification_status='auto_verified_with_evidence'
+      AND c.extraction_confidence>=0.95
+ ) OR NOT EXISTS (
+    SELECT 1 FROM public.scpi_metric_certifications c
+    WHERE c.id='2a6d65bd-6101-416b-a16a-dd32f5d008a9'::uuid
+      AND c.value_numeric=91.78
+      AND c.verification_status='independent_verified_official_geometric_pdf'
+ ) THEN RAISE EXCEPTION 'BURO_PROTECTED_TOF_DOWNGRADED_DURING_REFRESH'; END IF;
 END $recovery143_live$;
