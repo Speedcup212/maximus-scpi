@@ -103,7 +103,7 @@ def probe_one(doc, archive_dir, auditor=audit_document, checker=independent_popp
         if code == "QUARTER_TITLE_UNCONFIRMED":
             cover = str(exc).partition(":")[2]
             rec["publisher_cover_excerpt"] = re.sub(
-                r"[^0-9a-zA-Z\\s.,;:%()/&-]", " ", cover
+                r"[^0-9a-zA-Z\s.,;:%()/&-]", " ", cover
             ).strip()[:160]
     return rec
 
