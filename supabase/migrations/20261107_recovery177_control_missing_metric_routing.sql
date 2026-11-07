@@ -79,15 +79,15 @@ LANGUAGE plpgsql
 SECURITY INVOKER
 SET search_path TO pg_catalog,maximus_agents
 AS $function$
-DECLARE summary jsonb; strict_pass integer; strict_fail integer;
+DECLARE summary jsonb; strict_pass integer; strict_fail integer; existing_total integer;
 BEGIN
- SELECT count(*) FILTER(WHERE v.crash_test_status='PASS_100')::int,
+ SELECT count(*)::int, count(*) FILTER(WHERE v.crash_test_status='PASS_100')::int,
         count(*) FILTER(WHERE v.crash_test_status='FAIL_STRICT')::int
- INTO strict_pass,strict_fail
+ INTO existing_total,strict_pass,strict_fail
  FROM public.scpi_crash_test_strict_v2 v
  JOIN maximus_agents.scpi_universe u USING(scpi_slug) WHERE u.lifecycle='existing';
 
- IF strict_pass IS NULL OR strict_fail IS NULL OR strict_pass+strict_fail<>68 THEN
+ IF existing_total<1 OR strict_pass IS NULL OR strict_fail IS NULL OR strict_pass+strict_fail<>existing_total THEN
    RAISE EXCEPTION 'CONTROL_TRIAGE_UNEXPECTED_COHORT';
  END IF;
 
@@ -95,7 +95,7 @@ BEGIN
    'version','recovery177-evidence-routing-v1',
    'observed_at',now(),
    'strategy','read_only_routing_proposal',
-   'strict_pass',strict_pass,'strict_fail',strict_fail,
+   'existing_total',existing_total,'strict_pass',strict_pass,'strict_fail',strict_fail,
    'new_tasks_created',0,
    'new_issues_created',0,
    'model_calls',0,
