@@ -18,106 +18,107 @@
     {
       "scpi_slug": "lf-grand-paris-habitation",
       "candidate_name": "LF Grand Paris Habitation",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-lf-grand-paris-habitation-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     },
     {
       "scpi_slug": "lf-les-grands-palais",
       "candidate_name": "LF Les Grands Palais",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-lf-les-grands-palais-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     },
     {
       "scpi_slug": "lf-renovimmo",
       "candidate_name": "LF Rénovimmo",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-scpi-lf-renovimmo-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     },
     {
       "scpi_slug": "multihabitation-10",
       "candidate_name": "Multihabitation 10",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-10-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     },
     {
       "scpi_slug": "multihabitation-2",
       "candidate_name": "Multihabitation 2",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-2-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     },
     {
       "scpi_slug": "multihabitation-3",
       "candidate_name": "Multihabitation 3",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-3-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     },
     {
       "scpi_slug": "multihabitation-4",
       "candidate_name": "Multihabitation 4",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-4-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     },
     {
       "scpi_slug": "multihabitation-5",
       "candidate_name": "Multihabitation 5",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-5-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     },
     {
       "scpi_slug": "multihabitation-6",
       "candidate_name": "Multihabitation 6",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-6-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     },
     {
       "scpi_slug": "multihabitation-7",
       "candidate_name": "Multihabitation 7",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-7-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     },
     {
       "scpi_slug": "multihabitation-8",
       "candidate_name": "Multihabitation 8",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-8-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     },
     {
       "scpi_slug": "multihabitation-9",
       "candidate_name": "Multihabitation 9",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-9-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     },
     {
       "scpi_slug": "ufg-pierre-et-vacances",
       "candidate_name": "UFG Pierre & Vacances",
-      "source_period": "2026-T2",
-      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-S1",
+      "document_kind": "semiannual_bulletin",
       "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-scpi-ufg-pierre-vacances-30062026",
       "publisher_index_url": "https://client.la-francaise.com/bt"
     }
-  ]
+  ],
+  "source_classification": "1 quarterly T2 2026, 13 semiannual S1 2026; determined from issuer PDF cover, not the index's 'trimestriel' label"
 }
