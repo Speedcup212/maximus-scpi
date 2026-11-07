@@ -9,11 +9,15 @@ on:
       - 'scripts/agents/corum_document_pipeline*'
       - 'scripts/agents/corum_bulletin_fields*'
       - '.github/workflows/maximus-corum-document-pipeline.yml'
+      - 'supabase/migrations/20261107_recovery130_corum_service_role_review_read.sql'
+      - 'scripts/agents/corumPermissionContract.test.mjs'
   pull_request:
     paths:
       - 'scripts/agents/corum_document_pipeline*'
       - 'scripts/agents/corum_bulletin_fields*'
       - '.github/workflows/maximus-corum-document-pipeline.yml'
+      - 'supabase/migrations/20261107_recovery130_corum_service_role_review_read.sql'
+      - 'scripts/agents/corumPermissionContract.test.mjs'
 permissions:
   contents: read
   id-token: write
@@ -38,6 +42,8 @@ jobs:
           python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
       - name: Adversarial crash tests, including actual scanned PDF
         run: python -m unittest discover -s scripts/agents -p 'corum*_test.py' -v
+      - name: CORUM server-role least privilege contract
+        run: node --test scripts/agents/corumPermissionContract.test.mjs
       - uses: actions/cache@v4
         if: github.event_name != 'pull_request'
         with:
