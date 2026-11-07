@@ -1069,7 +1069,7 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
     const capitalSection = /[ÉE]VOLUTIONS?\s+DU\s+CAPITAL[\s\S]{0,2200}/i.exec(text)?.[0] || "";
     if (/Parts\s+en\s+attente\s+de\s+retrait/i.test(capitalSection)) {
       const periodRows = capitalSection.match(/T[1-4]\s+20\d{2}[^\n]*/gi) || [];
-      const latestRow = periodRows.length > 0 ? periodRows[periodRows.length - 1] : "";
+      const latestRow = periodRows.at(-1) ?? "";
       if (/\s-\s/.test(latestRow)) {
         result.parts_attente_retrait = 0;
       }
