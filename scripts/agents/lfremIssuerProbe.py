@@ -19,7 +19,6 @@ from publisherPdfAudit import audit_document, normalize, official_url
 
 HOSTS = ["doc.la-francaise.com"]
 INDEX = "https://client.la-francaise.com/bt"
-PERIOD = "2026-T2"
 SCPI_PATTERN = re.compile(r"[a-z0-9-]{2,100}\Z")
 
 
@@ -36,10 +35,13 @@ def validate_discovery_manifest(manifest):
     for doc in docs:
         slug = doc.get("scpi_slug", "")
         url = doc.get("source_url", "")
+        expected_period = "2026-T2" if slug == "lf-croissance-et-territoires" else "2026-S1"
+        expected_kind = ("quarterly_bulletin" if expected_period == "2026-T2"
+                         else "semiannual_bulletin")
         if (not isinstance(slug, str) or not SCPI_PATTERN.fullmatch(slug) or
             slug in seen or not isinstance(doc.get("candidate_name"), str) or
-            not doc["candidate_name"].strip() or doc.get("source_period") != PERIOD or
-            doc.get("document_kind") != "quarterly_bulletin" or
+            not doc["candidate_name"].strip() or doc.get("source_period") != expected_period or
+            doc.get("document_kind") != expected_kind or
             doc.get("publisher_index_url") != INDEX or
             not official_url(url, HOSTS) or
             not url.startswith("https://doc.la-francaise.com/Documents/")):
@@ -64,13 +66,16 @@ def safe_error_code(exc):
 
 def probe_one(doc, archive_dir, auditor=audit_document, checker=independent_poppler,
               downloader=download_official):
-    rec = {"scpi_slug": doc["scpi_slug"], "source_period": PERIOD,
-           "document_kind": "quarterly_bulletin",
+    period = doc["source_period"]
+    doc_kind = doc["document_kind"]
+    parser_kind = "quarterly" if doc_kind == "quarterly_bulletin" else "semiannual"
+    rec = {"scpi_slug": doc["scpi_slug"], "source_period": period,
+           "document_kind": doc_kind,
            "publisher_index_url": INDEX, "source_url": doc["source_url"],
            "financial_certified": False, "deploy_allowed": False}
     try:
         result = auditor(
-            {"kind": "quarterly", "reference_period": PERIOD, "url": doc["source_url"]},
+            {"kind": parser_kind, "reference_period": period, "url": doc["source_url"]},
             {"name": doc["candidate_name"], "issuer_hosts": HOSTS},
             fetcher=lambda url: downloader(url, HOSTS))
         assets = result.get("archive_assets") or {}
@@ -80,7 +85,7 @@ def probe_one(doc, archive_dir, auditor=audit_document, checker=independent_popp
         count = result.get("page_count")
         if not isinstance(count, int) or count < 1:
             raise ValueError("INVALID_PDF_PAGE_COUNT")
-        checker(pdf, doc["candidate_name"], PERIOD, "quarterly_bulletin", count)
+        checker(pdf, doc["candidate_name"], period, doc_kind, count)
         # Both readers have separately verified exact issuer identity/period.
         # Additional fund ID guard protects similarly named Multihabitation funds.
         import fitz
@@ -118,7 +123,8 @@ def probe_all(manifest, out):
     verified = sum(x["status"] == "binary_pdf_verified_only" for x in records)
     proof = {
         "run_reference": "github-actions:" + os.environ.get("GITHUB_RUN_ID", "local"),
-        "issuer": "La Française REM", "source_period": PERIOD,
+        "issuer": "La Française REM", "source_period": "mixed_T2_and_S1_2026",
+        "periods": ["2026-T2", "2026-S1"],
         "candidate_count": len(records), "binary_verified_count": verified,
         "blocked_count": len(records) - verified,
         "status": "binary_discovery_complete" if verified == len(records) else
