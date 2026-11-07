@@ -49,7 +49,7 @@ jobs:
             --out test-results/buro-historical-sources
       - name: Test independent period-to-value geometry binding
         run: python -m unittest discover -s scripts/agents -p 'official_tof_independent_geometry_test.py' -v
-      - name: Independent QA: compare two PDF layout engines on original page 4
+      - name: 'Independent QA: compare two PDF layout engines on original page 4'
         run: |
           python scripts/agents/official_tof_independent_geometry.py \
             --archive-root test-results/buro-historical-sources \
