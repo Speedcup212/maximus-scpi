@@ -49,7 +49,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: maximus-existing-agent-candidate20
+  # PR contract tests must never wait behind a 20-SCPI production matrix.
+  # Production schedule/dispatch/push still share one collision-safe lane.
+  group: ${{ github.event_name == 'pull_request' && format('maximus-existing-agent-candidate20-pr-{0}', github.event.pull_request.number) || 'maximus-existing-agent-candidate20' }}
   cancel-in-progress: false
 
 jobs:
