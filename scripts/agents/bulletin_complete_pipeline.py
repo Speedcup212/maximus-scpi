@@ -13,6 +13,7 @@ import ipaddress
 import fitz
 from corum_document_pipeline import mupdf, poppler
 import corum_bulletin_fields
+import missing_metric_policy
 import bulletin_fields
 import bulletin_source_resolver as source_resolver
 import bulletin_source_transport as source_transport
@@ -399,7 +400,17 @@ def inspect(item, downloaded, out, aliases):
         result['unresolved_count']=sum(s not in ('verified','not_found_after_full_read') for s in result['field_coverage'].values())
         result['financial_unresolved_count']=sum(s not in ('verified','not_found_after_full_read') for k,s in result['field_coverage'].items() if k not in structured)
         result['structured_review_fields']=[k for k in structured if result['field_coverage'].get(k)=='needs_review']
-        result['officially_absent_metrics']=[k for k,s in result['field_coverage'].items() if s=='not_found_after_full_read']
+        # A full-page scan without a match is NOT official proof of non-disclosure.
+        # Official NOT_DISCLOSED/NOT_APPLICABLE decisions remain confined to
+        # independently reviewed, period-matched source certificates in SQL.
+        result['not_detected_metrics']=[k for k,s in result['field_coverage'].items() if s=='not_found_after_full_read']
+        result['missing_metric_policy_version']=missing_metric_policy.VERSION
+        result['field_decisions']=missing_metric_policy.classify_fields(
+            result['field_coverage'],result['metrics'],result['evidence'],
+            processing_complete=result['pages_read']==result['page_count'],
+            identity_verified=result['identity_verified'],
+            period_verified=result['period_verified'],
+            hash_changed=downloaded['hash_changed'])
         # Full-reader absence is nonblocking for financial extraction; structured fields
         # remain explicitly unverified until a separate typed parser certifies them.
         # Never invent or red-date a previously certified official value.
