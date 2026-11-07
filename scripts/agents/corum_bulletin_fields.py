@@ -24,6 +24,46 @@ def box(words,r):
 def nums(s):return [float(re.sub(r'\s','',v).replace(',','.')) for v in re.findall(r'(?<![\d.,])(\d+(?:[ \u202f\u00a0]\d{3})*(?:[,.]\d+)?)(?![\d.,])',s)]
 def quarter_date(period):
  y,q=map(int,period.split('-T'));m=q*3;return f'{y}-{m:02d}-{calendar.monthrange(y,m)[1]}'
+def dated_publisher_capital_table_shares(page_text,period):
+ """Read the CURRENT column of a publisher's dated capital table, not the adjacent prior year.
+
+ Requires both printed share counts, both printed capitalisation amounts in K EUR,
+ the printed subscription price and arithmetic agreement for BOTH columns.
+ Every other layout remains pending independent QA.
+ """
+ issue=re.fullmatch(r'(20\d{2})-T([1-4])',period)
+ if not issue:return None
+ p=norm(page_text)
+ dates=re.search(r'\bdate\s+(\d{1,2}/\d{1,2}/20\d{2})\s+(\d{1,2}/\d{1,2}/20\d{2})\b',p)
+ capitals=re.search(r'capitalisation\s*\(en prix de souscription\)\s+(\d{1,3}(?: \d{3})+)\s*k\s*€\s+(\d{1,3}(?: \d{3})+)\s*k\s*€',p)
+ shares=re.search(r'\bnombre de parts\s+(\d{1,3}(?: \d{3})+)\s+(\d{1,3}(?: \d{3})+)\b',p)
+ price=re.search(r'une part\s*\(tous frais inclus\)\s+(\d+(?:[,.]\d{2})?)\s*€',p)
+ if not all((dates,capitals,shares,price)):return None
+ try:
+  today=datetime.datetime.strptime(dates[1],'%d/%m/%Y').date()
+  prior=datetime.datetime.strptime(dates[2],'%d/%m/%Y').date()
+  share_now=int(shares[1].replace(' ',''))
+  share_prior=int(shares[2].replace(' ',''))
+  cap_now_k=int(capitals[1].replace(' ',''))
+  cap_prior_k=int(capitals[2].replace(' ',''))
+  subscription=float(price[1].replace(',','.'))
+ except (ValueError,OverflowError):return None
+ if not (today.year==int(issue[1]) and (today.month-1)//3+1==int(issue[2])
+   and prior<today and share_now>0 and share_prior>0 and subscription>=10):
+  return None
+ # Printed K€ figures are rounded to the nearest K€ by the issuer.
+ if any(abs(shares*subscription/1000-cap)>1 for shares,cap in
+   ((share_now,cap_now_k),(share_prior,cap_prior_k))):
+  return None
+ if not (share_now>share_prior and cap_now_k>cap_prior_k):
+  return None
+ return dict(value=float(share_now),date=today.isoformat(),
+   proof=('Publisher dated capital table, current '+dates[1]+' shares '+shares[1]+
+    ' / printed capitalisation '+capitals[1]+' K€, comparative '+dates[2]+
+    ' shares '+shares[2]+' / printed capitalisation '+capitals[2]+
+    ' K€, subscription '+price[1]+' €, both columns issuer-reconciled'),
+   definition='publisher_current_dated_share_table_dual_arithmetic')
+
 def valuation_date(text):
  m=re.search(r'valeurs de reference au (\d{1,2}) (janvier|fevrier|mars|avril|mai|juin|juillet|aout|septembre|octobre|novembre|decembre) (20\d{2})',norm(text))
  if not m:return None
@@ -38,6 +78,11 @@ def extract(pages,wordpages,widths,period):
    hits.setdefault(k,[]).append(dict(value=v,page=page,text=text[:900],reference_date=date,unit=FIELDS[k],definition=definition))
  for i,words in enumerate(wordpages):
   page=i+1;pn=norm(pages[i]);width=widths[i]
+  shares_table=dated_publisher_capital_table_shares(pages[i],period)
+  if shares_table:
+   seen.add('nombre_parts')
+   add('nombre_parts',shares_table['value'],page,shares_table['proof'],
+       date=shares_table['date'],definition=shares_table['definition'])
   for k,label in [('prix_reconstitution','Valeur de reconstitution'),('valeur_realisation','Valeur de réalisation')]:
    for x0,y0,x1,y1 in labels(words,label):
     seen.add(k);txt=box(words,(x1,y0-2,width,y1+3));v=[float(re.sub(r'\s','',v).replace(',','.')) for v in re.findall(r'(\d+(?:[ \u202f\u00a0]\d{3})*(?:[,.]\d+)?)\s*€',txt)]
