@@ -44,6 +44,7 @@ WITH slots AS (
     WHERE c.scpi_slug=s.scpi_slug AND c.metric=s.metric
       AND c.source_period=s.target_period AND c.value_numeric IS NOT NULL
       AND c.verification_status !~ '^invalid'
+      AND c.verification_status NOT LIKE 'manual_verified_official_not_%'
       AND c.extraction_confidence>=0.95
       AND c.source_page>0 AND c.source_url LIKE 'https://%'
       AND length(btrim(coalesce(c.evidence_text,'')))>=12
@@ -57,6 +58,7 @@ WITH slots AS (
       AND c.source_period < s.target_period
       AND c.source_period ~ '^20[0-9]{2}-T[1-4]$'
       AND c.value_numeric IS NOT NULL AND c.verification_status !~ '^invalid'
+      AND c.verification_status NOT LIKE 'manual_verified_official_not_%'
       AND c.extraction_confidence>=0.95
       AND c.source_page>0 AND c.source_url LIKE 'https://%'
       AND length(btrim(coalesce(c.evidence_text,'')))>=12
@@ -141,7 +143,8 @@ SELECT e.scpi_slug,e.target_period,e.metric,e.crash_test_status,e.source_ready,
        e.processing_complete,e.recorded_value,
        -- Previous values remain dated context; never allow a silent same-period
        -- substitute in calculations or personalized recommendations.
-       (e.current_value IS NOT NULL AND NOT coalesce(e.conflicting_evidence,false)
+       (e.current_value IS NOT NULL AND e.source_ready IS TRUE
+          AND NOT coalesce(e.conflicting_evidence,false)
           AND e.verified_absence_status IS NULL
           AND e.extraction_status IS DISTINCT FROM 'parser_disagreement')
          AS safe_for_current_calculation,
