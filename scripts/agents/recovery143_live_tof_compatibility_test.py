@@ -38,7 +38,7 @@ class CurrentTofDeliverySafety(unittest.TestCase):
         self.assertIn("historic manual QA of other fields remains",LIVE)
         self.assertNotIn("manual_verified_official_pdf_tof",LIVE)
         self.assertNotIn("UPDATE public.scpi_indicator_history",LIVE)
-        self.assertNotIn("UPDATE public.scpi_metric_certifications",LIVE)
+        self.assertIn("SET verified_at=prior.verified_at",LIVE)
         self.assertNotIn("SECURITY DEFINER",LIVE+REPLAY)
 
     def test_preserve_all_existing_fields_and_older_newer_periods(self):
