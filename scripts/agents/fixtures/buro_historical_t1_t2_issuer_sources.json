@@ -1,0 +1,26 @@
+{
+  "financial_certified": false,
+  "deploy_allowed": false,
+  "source_reference": "public.scpi_bulletins issuer T1/T2 2026 originals; quarantine records (values not approved)",
+  "issuer_hosts": [
+    "www.fiducial-gerance.fr"
+  ],
+  "documents": [
+    {
+      "scpi_slug": "buroboutic-metropoles",
+      "name": "Buroboutic Métropoles",
+      "period": "2026-T1",
+      "source_url": "https://www.fiducial-gerance.fr/content/download/1634/43668?version=4",
+      "pdf_sha256": "cdcbef9488a16eb7bba36ba6eec72cde84881ab10a558d302ec4158bdecb2278",
+      "quarantined_prior_tof_percent": 91.78
+    },
+    {
+      "scpi_slug": "buroboutic-metropoles",
+      "name": "Buroboutic Métropoles",
+      "period": "2026-T2",
+      "source_url": "https://www.fiducial-gerance.fr/content/download/1410/40287?version=4",
+      "pdf_sha256": "2cc87a2cf3536f145bc6db7d71f8cef69190379fa2e2c369ae8052de896c99ba",
+      "quarantined_prior_tof_percent": 91.56
+    }
+  ]
+}
