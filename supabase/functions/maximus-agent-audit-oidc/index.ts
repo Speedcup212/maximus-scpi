@@ -62,6 +62,20 @@ Deno.serve(async request=>{
       return Response.json({prepared:batch?.prepared===true,cycle:batch,
         deploy_allowed:false});
     }
+    if(body.op==="control_existing_metric_triage"){
+      // The existing CONTROL orchestrator runs this AFTER prepare_batch20.
+      // Group pre-existing evidence without creating tasks, granting financial
+      // certification, calling a model, or altering the candidate batch.
+      if(Number(payload.run_attempt||1)!==1)
+        return Response.json({prepared:false,reason:"rerun_denied"});
+      const [row]=await sql`select maximus_agents.refresh_existing_missing_metric_control() as plan`;
+      const plan=row?.plan;
+      if(!plan||plan.deploy_allowed!==false||
+         plan.financial_certified!==false||plan.new_tasks_created!==0||
+         plan.model_calls!==0)
+        throw Error("CONTROL_TRIAGE_FINANCIAL_SAFETY");
+      return Response.json(plan);
+    }
     if(body.op==="batch_claim"&&roles.has(body.role)&&
        typeof body.scpi_slug==="string"&&
        /^[a-z0-9-]{2,100}$/.test(body.scpi_slug)){

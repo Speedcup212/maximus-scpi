@@ -11,6 +11,9 @@ on:
     paths:
       - ".github/workflows/maximus-agent-parallel.yml"
       - "scripts/agents/parallelAuditRunner.mjs"
+      - "scripts/agents/controlEvidenceRouting.mjs"
+      - "scripts/agents/controlEvidenceRouting.test.mjs"
+      - "supabase/migrations/20261107_recovery177_control_missing_metric_routing.sql"
       - "scripts/scpi-onboarding/publisherPdfAudit.py"
       - "scripts/agents/candidate_pdf_binary_proof_test.py"
       - "scripts/agents/candidate_pdf_binary_proof.py"
@@ -26,6 +29,9 @@ on:
     paths:
       - ".github/workflows/maximus-agent-parallel.yml"
       - "scripts/agents/parallelAuditRunner.mjs"
+      - "scripts/agents/controlEvidenceRouting.mjs"
+      - "scripts/agents/controlEvidenceRouting.test.mjs"
+      - "supabase/migrations/20261107_recovery177_control_missing_metric_routing.sql"
       - "scripts/scpi-onboarding/publisherPdfAudit.py"
       - "scripts/agents/candidate_pdf_binary_proof_test.py"
       - "scripts/agents/candidate_pdf_binary_proof.py"
@@ -61,7 +67,7 @@ jobs:
       - name: Contract, crash, cross-SCPI and admission safety
         run: |
           node --check scripts/agents/parallelAuditRunner.mjs
-          node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs scripts/agents/candidateBinaryEvidence.test.mjs scripts/agents/agentSchedulingCrash.test.mjs scripts/agents/candidate20Batch.test.mjs scripts/agents/recovery126IndustrialGates.test.mjs scripts/agents/candidateSchedulingRecovery.test.mjs
+          node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs scripts/agents/candidateBinaryEvidence.test.mjs scripts/agents/agentSchedulingCrash.test.mjs scripts/agents/candidate20Batch.test.mjs scripts/agents/recovery126IndustrialGates.test.mjs scripts/agents/candidateSchedulingRecovery.test.mjs scripts/agents/controlEvidenceRouting.test.mjs
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -80,6 +86,10 @@ jobs:
     outputs:
       slugs: ${{ steps.dispatch.outputs.slugs }}
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
       - name: CONTROL — prepare exactly one 20-SCPI cohort on existing Supabase queue
         id: dispatch
         uses: actions/github-script@v7
@@ -99,6 +109,36 @@ jobs:
                new Set(slugs).size!==slugs.length)throw Error('Invalid candidate cohort');
             core.setOutput('slugs',JSON.stringify(slugs));
             core.notice('CONTROL selected '+slugs.length+' distinct SCPI; 0 finance certified, 0 deployments');
+
+      - name: CONTROL — classify existing SCPI evidence without new tasks or AI spend
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const path=require('node:path');
+            const {pathToFileURL}=require('node:url');
+            const {validateEvidenceRoutingPlan}=await import(
+              pathToFileURL(path.join(process.env.GITHUB_WORKSPACE,
+                'scripts/agents/controlEvidenceRouting.mjs')).href);
+            const token=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
+            const res=await fetch(
+              'https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
+                method:'POST',
+                headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
+                body:JSON.stringify({op:'control_existing_metric_triage'}),
+                signal:AbortSignal.timeout(25000)
+              });
+            if(!res.ok)throw Error('CONTROL triage OIDC HTTP '+res.status);
+            const plan=await res.json();
+            const counts=validateEvidenceRoutingPlan(plan);
+            core.notice('CONTROL existing: '+counts.strict_pass+'/'+counts.existing_total+
+              ' strict PASS; '+counts.strict_fail+' FAIL, '+counts.families+
+              ' evidence families, '+counts.evidence_items+
+              ' overlapping evidence/strict issues. 0 tasks created, 0 AI calls.');
+            for(const family of plan.families){
+              core.notice('CONTROL route '+family.route_family+' → '+family.owner_role+
+                '; '+family.funds+' SCPI; '+family.evidence_items+
+                ' cases; overlap in '+family.existing_role_task_overlaps+' current tasks');
+            }
 
   source-proof:
     needs: control

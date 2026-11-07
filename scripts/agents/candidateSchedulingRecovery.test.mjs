@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {RECOVERY_TARGETS, decideWorkflowRecovery} from './durableOrchestrator.mjs';
 
 const get=(path)=>readFileSync(new URL(path,import.meta.url),'utf8');
 const candidate=get('../../.github/workflows/maximus-agent-parallel.yml');
@@ -18,19 +19,29 @@ test('RECOVERY-129 candidate has two non-hour-boundary daily triggers, plus manu
   assert.match(candidate,/scripts\/agents\/candidateSchedulingRecovery\.test\.mjs/);
 });
 
-test('RECOVERY-129 watchdog detects missing runs and dispatches only the existing main workflow',()=>{
+test('RECOVERY-129 watchdog recovers only missing existing workflows, no blind retry',()=>{
   assert.match(watchdog,/cron: "57 8 \* \* \*"/);
   assert.match(watchdog,/  actions: write/);
   assert.match(watchdog,/github\.event_name == 'schedule'/);
   assert.match(watchdog,/github\.ref == 'refs\/heads\/main'/);
   assert.match(watchdog,/github\.run_attempt == 1/);
-  assert.match(watchdog,/timeZone:'Europe\/Paris'/);
-  assert.match(watchdog,/if\(parisHour<9\)/);
-  assert.match(watchdog,/const target='maximus-agent-parallel\.yml'/);
+  assert.match(watchdog,/durableOrchestrator\.mjs/);
   assert.match(watchdog,/listWorkflowRuns/);
-  assert.match(watchdog,/if\(sameDay\.length\)/);
   assert.match(watchdog,/createWorkflowDispatch/);
-  assert.match(watchdog,/workflow_id:target,ref:'main'/);
+  assert.match(watchdog,/workflow_id:target\.workflow,ref:'main'/);
+  assert.match(watchdog,/decision\.decision==='FAILED'/);
+  assert.deepEqual(RECOVERY_TARGETS.map(t=>t.workflow),[
+    'maximus-agent-parallel.yml','maximus-all-bulletins-replay.yml','scpi-auto-remediation.yml']);
+  const target=RECOVERY_TARGETS[0];
+  const now='2026-11-07T10:30:00Z';
+  assert.equal(decideWorkflowRecovery({now,runs:[],target}).decision,'DISPATCH_ONCE');
+  const status=(conclusion,runState='completed')=>({
+    created_at:'2026-11-07T10:00:00Z',event:'schedule',
+    status:runState,conclusion
+  });
+  assert.equal(decideWorkflowRecovery({now,runs:[status(null,'in_progress')],target}).decision,'ACTIVE');
+  assert.equal(decideWorkflowRecovery({now,runs:[status('failure')],target}).decision,'FAILED');
+  assert.equal(decideWorkflowRecovery({now,runs:[status('success')],target}).decision,'HEALTHY');
   assert.doesNotMatch(watchdog,/\b(?:reset_quota|override_qa|disable_qa|publish_scpi)\b/i);
 });
 
