@@ -289,4 +289,60 @@ class SerializedReplaySeedTests(unittest.TestCase):
         self.assertEqual(text.count('python scripts/agents/bulletin_complete_pipeline.py --seed-only'),1)
 
 
+class MissingMetricEvidencePolicyTests(unittest.TestCase):
+    """An unmatched PDF field is NEVER an official non-disclosure."""
+    def decisions(self,coverage,metrics=None,evidence=None,**kw):
+        from missing_metric_policy import classify_fields
+        return classify_fields(
+            coverage,metrics or {},evidence or {},
+            processing_complete=kw.get('full',True),
+            identity_verified=kw.get('identity',True),
+            period_verified=kw.get('period',True),
+            hash_changed=kw.get('changed',False))
+
+    def test_full_scan_without_match_is_unverified_not_officially_absent(self):
+        item=self.decisions({'prix_reconstitution':'not_found_after_full_read'})
+        self.assertEqual(item['prix_reconstitution']['status'],'UNVERIFIED_ABSENCE')
+        self.assertTrue(item['prix_reconstitution']['blocks_automatic_certification'])
+        self.assertNotIn('NOT_DISCLOSED',str(item))
+
+    def test_ambiguous_metric_requires_review(self):
+        self.assertEqual(self.decisions({'tof':'needs_review'})['tof']['status'],'UNRESOLVED')
+        self.assertEqual(self.decisions({'tof':'parser_disagreement'})['tof']['status'],'CONFLICT')
+
+    def test_only_a_page_matched_twice_is_verified(self):
+        proof={'value':90.1,'page':2,'independent_engines':['MuPDF','Poppler']}
+        item=self.decisions({'tof':'verified'},{'tof':90.1},{'tof':proof})
+        self.assertEqual(item['tof']['status'],'VERIFIED')
+        self.assertFalse(item['tof']['blocks_automatic_certification'])
+
+    def test_verified_flag_without_proof_cannot_certify(self):
+        self.assertEqual(self.decisions({'tof':'verified'},{'tof':90.1})['tof']['status'],'UNRESOLVED')
+        self.assertEqual(self.decisions({'tof':'verified'},{'tof':90.1},{'tof':{'value':90.1,'page':2}})['tof']['status'],'UNRESOLVED')
+
+    def test_changed_hash_wrong_period_and_incomplete_read_never_certify(self):
+        proof={'value':91,'page':3,'independent_engines':['MuPDF','Poppler']}
+        for kwargs in ({'changed':True},{'period':False},{'identity':False},{'full':False}):
+            self.assertEqual(self.decisions({'tof':'verified'},{'tof':91},{'tof':proof},**kwargs)['tof']['status'],'SOURCE_UNAVAILABLE')
+
+    def test_no_auto_not_disclosed_or_not_applicable(self):
+        from missing_metric_policy import classify_fields
+        for state in ['not_found_after_full_read','needs_review','verified','parser_disagreement']:
+            row=self.decisions({'tof':state})['tof']
+            self.assertNotIn(row['status'],('NOT_DISCLOSED','NOT_APPLICABLE','LAST_OFFICIAL_VALUE'))
+            self.assertTrue(row['blocks_automatic_certification'])
+
+    def test_private_sql_view_never_changes_strict_pass_100(self):
+        sql=(pathlib.Path(__file__).resolve().parents[2]/
+             'supabase/migrations/20261107_recovery175_missing_metric_evidence_triage.sql').read_text()
+        self.assertIn('security_invoker=true',sql)
+        self.assertIn('manual_verified_official_not_reported',sql)
+        self.assertIn('manual_verified_official_not_applicable',sql)
+        self.assertIn('UNVERIFIED_ABSENCE',sql)
+        self.assertIn('authorizes_financial_certification',sql)
+        self.assertNotIn('UPDATE public.scpi_crash_test_strict',sql)
+        self.assertNotIn('INSERT INTO public.scpi_metric_certifications',sql)
+        self.assertNotIn('GRANT SELECT TO anon',sql)
+
+
 if __name__=='__main__':unittest.main()
