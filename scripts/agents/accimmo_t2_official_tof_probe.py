@@ -7,6 +7,7 @@ approved. It creates independent MuPDF/Poppler word-level evidence to decide
 if that historic number is verifiable rather than copying it.
 """
 import hashlib
+import html
 import json
 import re
 import subprocess
@@ -55,16 +56,40 @@ def mupdf_words(page):
             for x0,y0,x1,y1,text,*rest in page.get_text("words")]
 
 
+def parse_poppler_bbox(xml_text):
+    # Poppler may expose non-XML-safe glyphs in a perfectly valid publisher
+    # PDF (e.g. an unescaped typographic control inside a non-TOF word).
+    # First parse strict XML; on such input, recover only <word> elements
+    # with explicit finite bounding coordinates. No data may be invented.
+    try:
+        root = ET.fromstring(xml_text)
+        words = [[round(float(el.attrib[k]),2) for k in ("xMin","yMin","xMax","yMax")]
+                 + [el.text or ""]
+                 for el in root.iter() if el.tag.endswith("word") and el.text]
+        return words, "poppler_bbox_xml"
+    except ET.ParseError:
+        words=[]
+        for match in re.finditer(r"<word\b([^>]*)>(.*?)</word>",xml_text,re.DOTALL):
+            attrs=dict(re.findall(r'(xMin|yMin|xMax|yMax)="([^"]+)"',match.group(1)))
+            if set(attrs)!= {"xMin","yMin","xMax","yMax"}:
+                continue
+            try:
+                coords=[round(float(attrs[k]),2)
+                        for k in ("xMin","yMin","xMax","yMax")]
+            except ValueError:
+                continue
+            if not all(-1e5<x<1e5 for x in coords):
+                continue
+            words.append(coords+[html.unescape(match.group(2))])
+        if not words:
+            raise ValueError("POPPLER_BBOX_NO_RECOVERABLE_WORDS")
+        return words, "poppler_bbox_strict_word_recovery"
+
+
 def poppler_words(path):
     cmd = ["pdftotext","-f","2","-l","2","-bbox",str(path),"-"]
     proc = subprocess.run(cmd,check=True,capture_output=True,text=True,timeout=75)
-    root = ET.fromstring(proc.stdout)
-    return [
-       [round(float(el.attrib["xMin"]),2),round(float(el.attrib["yMin"]),2),
-        round(float(el.attrib["xMax"]),2),round(float(el.attrib["yMax"]),2),el.text or ""]
-       for el in root.iter() if el.tag.endswith("word") and el.text
-    ]
-
+    return parse_poppler_bbox(proc.stdout)
 
 def contexts(words):
     hits = []
@@ -104,8 +129,9 @@ def main():
             result["mupdf_page2"]={"target_and_neighboring_words":contexts(words)[0],
                                    "tof_label_words":contexts(words)[1][:35],
                                    "first_2000_characters":text[:2000]}
-        pop=poppler_words(path)
-        result["poppler_page2"]={"target_and_neighboring_words":contexts(pop)[0],
+        pop,pop_method=poppler_words(path)
+        result["poppler_page2"]={"parse_mode":pop_method,
+                                 "target_and_neighboring_words":contexts(pop)[0],
                                  "tof_label_words":contexts(pop)[1][:35]}
         result["value_present_in_two_independent_readers"]=bool(
            result["mupdf_page2"]["target_and_neighboring_words"]
