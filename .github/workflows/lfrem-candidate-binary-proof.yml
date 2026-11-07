@@ -43,7 +43,7 @@ jobs:
           python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
       - name: Negative cross-fund and untrusted-host tests
         run: |
-          python -m unittest scripts/agents/lfremIssuerProbe_test.py -v
+          python -m unittest discover -s scripts/agents -p 'lfremIssuerProbe_test.py' -v
       - name: Download 14 issuer-authored PDFs and prove SHA + pages + identity + period
         run: |
           python scripts/agents/lfremIssuerProbe.py \
