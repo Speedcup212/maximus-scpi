@@ -4,6 +4,8 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'supabase/migrations/20261107_recovery133_lfrem_period_correction.sql'
+      - 'supabase/migrations/20261107_recovery133_lfrem_binary_proof_registration.sql'
       - 'scripts/agents/lfremIssuerProbe.py'
       - 'scripts/agents/lfremIssuerProbe_test.py'
       - 'scripts/agents/fixtures/lfrem_2026t2_issuer_leads.json'
@@ -11,6 +13,8 @@ on:
   push:
     branches: [main]
     paths:
+      - 'supabase/migrations/20261107_recovery133_lfrem_period_correction.sql'
+      - 'supabase/migrations/20261107_recovery133_lfrem_binary_proof_registration.sql'
       - 'scripts/agents/lfremIssuerProbe.py'
       - 'scripts/agents/lfremIssuerProbe_test.py'
       - 'scripts/agents/fixtures/lfrem_2026t2_issuer_leads.json'
