@@ -49,6 +49,40 @@ async function extractPdfText(bytes:Uint8Array){
   return String(out?.text||"").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g," ");
 }
 
+// RECOVERY-140 — a discovered HTML link and a valid %PDF signature do not
+// prove that the downloaded bytes are the RIGHT issuer quarterly bulletin.
+// The 2026-T1 Buroboutic edge job once overwrote an authentic bulletin with
+// a same-issuer "Note d'information et statuts" PDF. Reject such confusion
+// before Storage upload / scpi_bulletins upsert, with no financial promotion.
+function exactQuarterlyIssuerPdfIdentity(
+  extractedText:string, scpiName:string, expectedPeriod:string
+):{ok:boolean;code:string}{
+  const title=norm(extractedText.slice(0,1800));
+  const product=norm(scpiName);
+  if(!/^20\d{2}-T[1-4]$/.test(expectedPeriod)) {
+    return {ok:false,code:"INVALID_QUARTER_REFERENCE"};
+  }
+  if(/\bnote d information\b|\bstatuts\b|\bprospectus\b|\brapport annuel\b/.test(title.slice(0,850))) {
+    return {ok:false,code:"ISSUER_PDF_DOCUMENT_KIND_MISMATCH"};
+  }
+  if(/\bbulletin semestriel\b|\binformation semestrielle\b/.test(title.slice(0,850))) {
+    return {ok:false,code:"ISSUER_PDF_SEMESTER_NOT_QUARTER"};
+  }
+  if(!/\bbulletin\b|\binformation trimestrielle\b|\bfil d actualites\b|\blettre trimestrielle\b/.test(title.slice(0,1100))) {
+    return {ok:false,code:"ISSUER_PDF_QUARTERLY_TITLE_MISSING"};
+  }
+  if(product.length<4 || !title.includes(product)) {
+    return {ok:false,code:"ISSUER_PDF_FUND_IDENTITY_MISMATCH"};
+  }
+  // Never infer the PDF's own reporting period from the HTML anchor, the
+  // destination URL, or an arbitrary date in a distant table/appendix.
+  const titlePeriod=period(title.slice(0,850));
+  if(!titlePeriod || titlePeriod.p!==expectedPeriod) {
+    return {ok:false,code:"ISSUER_PDF_COVER_PERIOD_MISMATCH"};
+  }
+  return {ok:true,code:"ISSUER_PDF_QUARTERLY_IDENTITY_CONFIRMED"};
+}
+
 function makeUrl(raw:string,base:string){try{const u=new URL(dec(raw),base);if(!/^https?:$/.test(u.protocol))return null;u.hash="";return u.href;}catch{return null;}}
 function htmlBase(html:string,base:string){
   const m=/<base\b[^>]*\bhref\s*=\s*(?:"([^"]+)"|'([^']+)')/i.exec(html);
@@ -1112,6 +1146,17 @@ Deno.serve(async(req:Request)=>{
     }
     if(text.trim().length<200)throw new Error("Texte source insuffisant");
     const pp=c.p?{p:c.p,k:c.k}:period(c.label+" "+c.pdf+" "+text.slice(0,9000))||periodFromUrlDate(c.pdf)||periodFromDates(text);if(!pp)throw new Error("Période du bulletin introuvable");
+    if(!c.html){
+      const pdfIdentity=exactQuarterlyIssuerPdfIdentity(text,s.scpi_name,pp.p);
+      if(!pdfIdentity.ok){
+        await finish(db,eid,{status:"needs_review",step:"edge_pdf_cover_identity_gate",
+          source_page_url:c.page,bulletin_url:c.pdf,source_period:pp.p,
+          message:pdfIdentity.code+"; issuer PDF bytes were not staged or published."});
+        return Response.json({ok:false,slug:s.scpi_slug,
+          status:"issuer_pdf_document_identity_rejected",
+          period:pp.p,reason:pdfIdentity.code,review_required:true},{status:422});
+      }
+    }
     const {data:old}=await db.from("scpi_bulletins").select("id,scpi_slug,period,extraction_json,qa_status,extraction_confidence").eq("pdf_sha256",hashPdf).maybeSingle();
     if(old?.id&&(old.scpi_slug!==s.scpi_slug||old.period!==pp.p)){
       const reason="PDF_SHA256_PERIOD_OR_PRODUCT_COLLISION: existing "+old.scpi_slug+" / "+old.period+"; candidate "+s.scpi_slug+" / "+pp.p;
