@@ -66,6 +66,34 @@ class FinancialAssociationTests(unittest.TestCase):
         m,_,coverage,_=fields.reconcile(a,a)
         self.assertEqual(m['nombre_parts'],3835627)
         self.assertEqual(coverage['nombre_parts'],'verified')
+    def test_corum_xl_2020_t2_singular_part_pending_with_explicit_zero(self):
+        # CORUM XL T2 2020, original publisher PDF p.3 actually says
+        # "Part en attente de retraits" (singular), not "Parts".
+        a=self.parse([(20,'Part en attente de retraits 0')])
+        m,p,c,_=fields.reconcile(a,a)
+        self.assertEqual(m['parts_attente_retrait'],0)
+        self.assertEqual(c['parts_attente_retrait'],'verified')
+        self.assertEqual(p['parts_attente_retrait']['independent_engines'],['MuPDF','Poppler'])
+
+    def test_singular_parts_label_without_attached_figure_never_invents_zero(self):
+        a=self.parse([(20,'Part en attente de retraits')])
+        m,_,c,_=fields.reconcile(a,a)
+        self.assertNotIn('parts_attente_retrait',m)
+        self.assertEqual(c['parts_attente_retrait'],'needs_review')
+
+    def test_singular_queue_table_multiple_numeric_columns_cannot_steal_value(self):
+        a=self.parse([(20,'268 213 3 360 5 0'),(40,'Parts augmentant Retraits compenses Achats et cessions Part en attente de retraits')])
+        m,_,c,_=fields.reconcile(a,a)
+        self.assertNotIn('parts_attente_retrait',m)
+        self.assertEqual(c['parts_attente_retrait'],'needs_review')
+
+    def test_singular_queue_two_readers_disagree_stays_review(self):
+        a=self.parse([(20,'Part en attente de retraits 0')])
+        b=self.parse([(20,'Part en attente de retraits 5')])
+        m,_,c,_=fields.reconcile(a,b)
+        self.assertNotIn('parts_attente_retrait',m)
+        self.assertEqual(c['parts_attente_retrait'],'needs_review')
+
     def test_zero_queue_is_explicit_and_not_imputed(self):
         a=self.parse([(20,'Parts en attente de retrait 0')]);m,p,c,_=fields.reconcile(a,a)
         self.assertEqual(m['parts_attente_retrait'],0)
