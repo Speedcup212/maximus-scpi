@@ -62,4 +62,33 @@ class PipelineTest(unittest.TestCase):
    cache=pathlib.Path(td);item={'slug':'corum-origin','period':'2025-T1','kind':'quarterly_bulletin','url':'https://www.corum.fr/sites/default/files/CORUM-Origin-fixture.pdf'}
    path=cache/(hashlib.sha256(item['url'].encode()).hexdigest()+'.pdf');path.write_bytes(self.fixture())
    a=c.inspect(item,cache);b=c.inspect(item,cache);self.assertEqual(a,b);self.assertEqual(a['status'],'certified_core')
+ def test_blocked_pdf_keeps_issuer_period_hash_and_following_documents(self):
+  with tempfile.TemporaryDirectory() as td:
+   report=pathlib.Path(td)/'results.json';results=[];failures=[]
+   one={'slug':'corum-origin','period':'2026-T2','kind':'quarterly_bulletin','url':'https://www.corum.fr/sites/default/files/official.pdf','sha256':'a'*64,'status':'certified_core'}
+   two={'slug':'corum-xl','period':'2026-T3','kind':'quarterly_bulletin','url':'https://www.corum.fr/sites/default/files/official2.pdf','sha256':'b'*64,'status':'certified_core'}
+   def rejected(_):raise RuntimeError('CORUM bridge HTTP 422: {"error":"EXTENDED_PDF_HASH_OR_URL_MISMATCH"}')
+   first=c.commit_corum_result(one,True,rejected,results,failures,report)
+   self.assertFalse(first['ok']);self.assertEqual(first['error_code'],'HTTP_422_EXTENDED_PDF_HASH_OR_URL_MISMATCH')
+   self.assertEqual(failures[0]['slug'],'corum-origin')
+   self.assertEqual(failures[0]['period'],'2026-T2')
+   self.assertEqual(failures[0]['sha256'],'a'*64)
+   second=c.commit_corum_result(two,True,lambda _: {'ok':True,'status':'unchanged'},results,failures,report)
+   self.assertEqual(second['status'],'unchanged')
+   archived=json.loads(report.read_text())
+   self.assertEqual(len(archived),2)
+   self.assertEqual(archived[0]['database_result']['status'],'blocked')
+   self.assertEqual(archived[1]['database_result']['status'],'unchanged')
+   self.assertEqual(len(failures),1)
+
+ def test_rpc_secret_message_never_stored_as_failure_evidence(self):
+  with tempfile.TemporaryDirectory() as td:
+   results=[];failures=[];report=pathlib.Path(td)/'results.json'
+   doc={'slug':'corum-usa','period':'2026-T3','status':'certified_core','url':'https://www.corum.fr/sites/default/files/fixture.pdf'}
+   def leak(_):raise RuntimeError('Token super-private-secret in unexpected HTTP payload')
+   c.commit_corum_result(doc,True,leak,results,failures,report)
+   self.assertEqual(failures[0]['error_code'],'RPC_FAILURE')
+   self.assertNotIn('super-private-secret',report.read_text())
+   self.assertNotIn('super-private-secret',json.dumps(failures))
+
 if __name__=='__main__':unittest.main()
