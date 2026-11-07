@@ -46,6 +46,11 @@ class ArchiveSourceBridgeSecurity(unittest.TestCase):
     self.assertIn("Drain durable queue - all 65 SCPI",WORKFLOW)
     self.assertIn("supabase/functions/scpi-bulletin-replay-oidc/**",WORKFLOW)
     self.assertIn("id-token: write",WORKFLOW)
+ def test_private_signed_source_is_redacted_from_any_error(self):
+    import paref_private_archived_tof_oidc_probe as qa
+    self.assertEqual(qa.safe_error_code(ValueError("WRONG_PRIVATE_SOURCE_SHA")),"WRONG_PRIVATE_SOURCE_SHA")
+    self.assertEqual(qa.safe_error_code(RuntimeError("https://private.example/token?secret=123")),
+                     "ARCHIVE_TRANSPORT_OR_PDF_PARSER_FAILURE")
  def test_two_readers_must_match_coordinates(self):
     import inspect
     code=inspect.getsource(qa)
