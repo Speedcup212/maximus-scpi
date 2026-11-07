@@ -40,8 +40,9 @@ function eur(v: number): string {
  *   5. confidence < 0.50          → NEEDS_REVIEW (extraction unreliable)
  *   6. otherwise                  → OK
  *
- * Rules 1–3 are informational warnings that never change the status by
- * themselves.  Rules 4–5 set status to NEEDS_REVIEW regardless of warnings.
+ * Rule 1 triggers NEEDS_REVIEW even with high confidence and an available TD,
+ * because a TOF below 70% or above 100% must be independently reviewed.
+ * Rules 2–3 remain advisory. Rules 4–5 also trigger NEEDS_REVIEW.
  *
  * A result can be OK with warnings (e.g. a legitimately high TD is suspicious
  * but does not require manual review if confidence is high and fields are
@@ -90,6 +91,14 @@ export function runQa(metrics: ExtractedMetrics): QaResult {
 
   // ── Rules 4 & 5: status determination ────────────────────────────────────
   let status: QaStatus = "OK";
+
+  // An out-of-range TOF must NOT be admitted as QA OK merely because a TD
+  // was also extracted and model confidence is high. Suspicious but genuine
+  // occupancy figures remain visible as evidence pending independent review.
+  if (metrics.tof !== undefined &&
+      (metrics.tof < TOF_MIN || metrics.tof > TOF_MAX)) {
+    status = "NEEDS_REVIEW";
+  }
 
   if (metrics.tof === undefined && metrics.td === undefined) {
     // Rule 4: neither key occupancy nor distribution rate could be extracted

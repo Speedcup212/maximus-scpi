@@ -1,0 +1,65 @@
+name: SCPI TOF semantic QA and quarantine regression
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scpi-ingestion/src/qa.ts'
+      - 'scpi-ingestion/src/qa.test.ts'
+      - 'scpi-ingestion/package.json'
+      - 'supabase/migrations/20261107_recovery134_tof_semantic_vacancy_quarantine.sql'
+      - '.github/workflows/scpi-tof-qa-regression.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scpi-ingestion/src/qa.ts'
+      - 'scpi-ingestion/src/qa.test.ts'
+      - 'scpi-ingestion/package.json'
+      - 'supabase/migrations/20261107_recovery134_tof_semantic_vacancy_quarantine.sql'
+      - '.github/workflows/scpi-tof-qa-regression.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-tof-metric-governance:
+    name: Fail-closed TOF and source quarantine checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: scpi-ingestion
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: scpi-ingestion/package-lock.json
+      - name: Install locked nested ingester dependencies
+        run: npm ci --ignore-scripts
+      - name: All ingestion tests, including anomalous TOF
+        run: npm test
+      - name: Typecheck nested ingester
+        run: npm run typecheck
+      - name: Disallow financial PASS fabrication in data-only migration
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const sql=fs.readFileSync('../supabase/migrations/20261107_recovery134_tof_semantic_vacancy_quarantine.sql','utf8');
+          for(const text of [
+            'maximus_agents.scpi_replay_provenance_quarantine',
+            'trg_zz_tof_vacancy_subcomponent',
+            'IF affected<>1',
+            "qa_status='auto_partial_review_tof_certificate_conflict'",
+            'verification_status=\'invalid_tof_subcomponent_not_occupancy\''
+          ]) if(!sql.includes(text))throw Error('TOF guard evidence missing: '+text);
+          if(/UPDATE\s+public\.scpi_indicators\b/i.test(sql))
+            throw Error('Forbidden direct financial live metric rewrite');
+          if(/SECURITY\s+DEFINER/i.test(sql))
+            throw Error('Forbidden privileged function');
+          console.log('TOF SQL guard contract: PASS');
+          NODE

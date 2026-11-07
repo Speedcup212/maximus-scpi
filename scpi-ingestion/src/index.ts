@@ -271,6 +271,7 @@ async function processSource(
         valorisation_risque:      {},
         strategie_investissement: {},
         actualite_trimestrielle:  { acquisitions: [], arbitrages: [] },
+        maximus_indicators:       {},
         confidence:               0,
         _meta:                    { critical_fields_total: 10, critical_fields_found: 0 },
       }
