@@ -144,7 +144,7 @@ BURO_T3_ORIGINAL = (
     "https://www.fiducial-gerance.fr/content/download/544/12625?version=14"
 )
 BURO_T3_SHA256 = (
-    "5837592186764194f265f2ddf6386c8ef980947eb3f088af6a2419d68a89d"
+    "5837592186764194f265f2af2ddf6386c8ef980947eb3f088af6a2419d68a89d"
 )
 BURO_T3_EXACT_REDIRECT_PATH = (
     "/content/download/544/file/BTI%20Buroboutic%20T3%202026%20WEB.pdf"
