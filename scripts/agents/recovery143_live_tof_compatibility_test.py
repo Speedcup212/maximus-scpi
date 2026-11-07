@@ -31,7 +31,7 @@ class CurrentTofDeliverySafety(unittest.TestCase):
         ):
             self.assertIn(token,LIVE)
         self.assertIn("source_type='official_bulletin_extended'",LIVE)
-        self.assertIn("hist.metric_provenance->'tof'->>'human_attestation'='false'",LIVE)
+        self.assertIn("metric_provenance->'tof'->>'human_attestation'='false'",LIVE)
 
     def test_do_not_mislabel_tof_as_human_certified(self):
         self.assertIn("manual_verified_issuer_fields_tof_independent_pdf_geometry",LIVE)
