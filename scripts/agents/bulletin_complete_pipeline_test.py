@@ -345,4 +345,22 @@ class MissingMetricEvidencePolicyTests(unittest.TestCase):
         self.assertNotIn('GRANT SELECT TO anon',sql)
 
 
+class MissingMetricLiveSemanticGuards(unittest.TestCase):
+    def test_migration_never_calls_an_old_certificate_current_value(self):
+        sql=(pathlib.Path(__file__).resolve().parents[2]/
+             'supabase/migrations/20261107_recovery176_missing_metric_triage_semantics.sql').read_text()
+        self.assertIn("THEN 'LAST_CERTIFIED_VALUE'",sql)
+        self.assertNotIn("THEN 'LAST_OFFICIAL_VALUE'",sql)
+        self.assertIn('last_certified_age_quarters',sql)
+        self.assertIn("'EXTRACTION_REVIEW'",sql)
+        self.assertIn("'UNCERTIFIED_EXTRACTION'",sql)
+        self.assertLess(sql.index("WHEN e.extraction_status='needs_review'"),
+                        sql.index("WHEN e.last_official_value IS NOT NULL"))
+        self.assertLess(sql.index("WHEN e.extraction_status='verified'"),
+                        sql.index("WHEN e.last_official_value IS NOT NULL"))
+        self.assertIn('authorizes_financial_certification',sql)
+        self.assertIn('false::boolean AS authorizes_financial_certification',sql)
+        self.assertNotIn('UPDATE public.scpi_indicators SET',sql)
+
+
 if __name__=='__main__':unittest.main()
