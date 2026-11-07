@@ -296,7 +296,7 @@ def rpc(body):return oidc_bridge({'op':'record','doc':body})
 def bounded_rpc_error_code(exc):
  """Return a non-secret, bounded machine code; never persist a raw HTTP body."""
  detail=str(exc)
- match=re.search(r'CORUM bridge HTTP (\\d{3}):\\s*(\\{.*\\})',detail)
+ match=re.search(r'CORUM bridge HTTP (\d{3}):\s*(\{.*\})',detail)
  if match:
   try:
    message=json.loads(match.group(2)).get('error','')
