@@ -1,0 +1,44 @@
+name: Buroboutic T3 official TOF source evidence regression
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery137_buroboutic_t3_tof_dual_pdf.sql'
+      - 'scripts/agents/recovery137_buro_tof_sql_test.py'
+      - '.github/workflows/scpi-buro-t3-tof-proof.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/20261107_recovery137_buroboutic_t3_tof_dual_pdf.sql'
+      - 'scripts/agents/recovery137_buro_tof_sql_test.py'
+      - '.github/workflows/scpi-buro-t3-tof-proof.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  financial-evidence-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Buro T3 exact financial source boundaries
+        run: python -m unittest discover -s scripts/agents -p 'recovery137_buro_tof_sql_test.py' -v
+      - name: Check no SQL publication authorization or unrelated price rewrite
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          sql=Path('supabase/migrations/20261107_recovery137_buroboutic_t3_tof_dual_pdf.sql').read_text()
+          for forbidden in ('UPDATE public.scpi_indicators','GRANT ALL','SECURITY DEFINER','publication_enabled=true'):
+              assert forbidden not in sql, forbidden
+          assert "source_page=4" in sql
+          assert "value_numeric=91.37" in sql
+          print("Evidence contract PASS; financial DB migration requires controlled application")
+          PY
