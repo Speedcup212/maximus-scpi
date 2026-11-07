@@ -293,6 +293,40 @@ def oidc_bridge(payload):
 def enabled_funds():return oidc_bridge({'op':'registry'})['registry']
 def rpc(body):return oidc_bridge({'op':'record','doc':body})
 
+def bounded_rpc_error_code(exc):
+ """Return a non-secret, bounded machine code; never persist a raw HTTP body."""
+ detail=str(exc)
+ match=re.search(r'CORUM bridge HTTP (\\d{3}):\\s*(\\{.*\\})',detail)
+ if match:
+  try:
+   message=json.loads(match.group(2)).get('error','')
+   code=re.match(r'[A-Z][A-Z0-9_]{2,79}',str(message))
+   if code:return 'HTTP_'+match.group(1)+'_'+code.group()
+  except (ValueError,TypeError,AttributeError):pass
+ return 'RPC_FAILURE'
+
+def commit_corum_result(doc,apply,rpc_func,results,failures,report):
+ """Persist a per-document attempt, even when the private RPC rejects it.
+ Never treat a failed RPC as a certified PDF or silently discard an issuer.
+ """
+ if apply:
+  try:
+   reply=rpc_func(doc)
+   if not isinstance(reply,dict) or reply.get('ok') is not True:
+    raise RuntimeError('unapproved_rpc_response')
+   doc['database_result']=reply
+  except Exception as exc:
+   code=bounded_rpc_error_code(exc)
+   doc['database_result']={'ok':False,'status':'blocked','error_code':code}
+   failures.append({'slug':doc['slug'],'period':doc['period'],
+                    'kind':doc.get('kind'),'source_url':doc.get('url'),
+                    'sha256':doc.get('sha256'),'error_code':code})
+ results.append(doc)
+ report.write_text(json.dumps(results,ensure_ascii=False,indent=2))
+ return doc['database_result'] if apply else None
+
+
+
 def main():
  arg=argparse.ArgumentParser();arg.add_argument('--out',required=True);arg.add_argument('--apply',action='store_true');arg.add_argument('--manifest');args=arg.parse_args()
  out=pathlib.Path(args.out);out.mkdir(parents=True,exist_ok=True);cache=out/'pdf-cache';cache.mkdir(exist_ok=True)
@@ -310,16 +344,19 @@ def main():
      period,kind=classify(url)
      if period:items.append(dict(slug=row['scpi_slug'],url=url,period=period,kind=kind,index_url=row['official_scpi_page_url']))
  items.sort(key=lambda i:i['period'],reverse=True)
- results=[];seen={}
+ results=[];seen={};failures=[]
  with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
   for r in pool.map(lambda i:inspect(i,cache),items):
    key=(r['slug'],r['period'],r.get('sha256'))
    if r.get('sha256') and key in seen:r['duplicate_of']=seen[key]
    else:seen[key]=r['url']
-   if args.apply:
-    response=rpc(r);r['database_result']=response
-    if not response.get('ok'):raise RuntimeError('document transaction rejected: '+json.dumps(response))
-   results.append(r);(out/'results.json').write_text(json.dumps(results,ensure_ascii=False,indent=2))
-   print(r['slug'],r['period'],r['status'],r.get('metrics'),flush=True)
+   reply=commit_corum_result(r,args.apply,rpc,results,failures,out/'results.json')
+   print(r['slug'],r['period'],r['status'],
+         'db='+str(reply.get('status')) if reply else 'not_applied',flush=True)
+ if failures:
+  print('CORUM_INGESTION_BLOCKED: '+str(len(failures))+
+        ' independent document(s), see results.json (no admission)',flush=True)
+  raise RuntimeError('CORUM_INGESTION_BLOCKED count='+str(len(failures))+
+    ' first='+failures[0]['slug']+':'+failures[0]['period']+':'+failures[0]['error_code'])
  print('completed',len(results),flush=True)
 if __name__=='__main__':main()
