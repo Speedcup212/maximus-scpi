@@ -1,0 +1,60 @@
+name: Official TOF two-issuer PDF conflict review
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/agents/tofIssuerBinaryReview.py'
+      - 'scripts/agents/tofIssuerBinaryReview_test.py'
+      - 'supabase/migrations/20261107_recovery135_perial_t3_dual_reader_tof_evidence.sql'
+      - 'scripts/agents/fixtures/tof_two_issuer_conflicts_2026t3.json'
+      - '.github/workflows/scpi-tof-official-pdf-audit.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/agents/tofIssuerBinaryReview.py'
+      - 'scripts/agents/tofIssuerBinaryReview_test.py'
+      - 'supabase/migrations/20261107_recovery135_perial_t3_dual_reader_tof_evidence.sql'
+      - 'scripts/agents/fixtures/tof_two_issuer_conflicts_2026t3.json'
+      - '.github/workflows/scpi-tof-official-pdf-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scpi-tof-real-issuer-conflict-pdf-review
+  cancel-in-progress: false
+
+jobs:
+  issuer-tof-binary-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independently executable PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Adversarial source and SHA tests
+        run: |
+          python -m unittest discover -s scripts/agents -p 'tofIssuerBinaryReview_test.py' -v
+      - name: Read two original issuer PDFs, fail closed when SHA or period changes
+        run: |
+          python scripts/agents/tofIssuerBinaryReview.py \
+            --manifest scripts/agents/fixtures/tof_two_issuer_conflicts_2026t3.json \
+            --out test-results/tof-source-conflicts
+      - name: Retain original PDFs, actual SHA and evidence page images
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tof-issuer-conflict-proof-${{ github.run_id }}
+          path: test-results/tof-source-conflicts/
+          if-no-files-found: warn
+          retention-days: 7
