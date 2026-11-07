@@ -50,6 +50,16 @@ class CurrentTofDeliverySafety(unittest.TestCase):
         self.assertNotIn("UPDATE public.scpi_universe",LIVE)
         self.assertNotIn("publication_enabled=true",LIVE)
 
+    def test_unrelated_certificates_and_verified_at_are_restored_if_unchanged(self):
+        self.assertIn("CREATE TEMP TABLE recovery143_non_tof_before ON COMMIT DROP",LIVE)
+        self.assertIn("to_jsonb(c)-'verified_at' AS immutable_fields",LIVE)
+        self.assertIn("BURO_UNRELATED_METRIC_CERTIFICATE_WAS_MUTATED",LIVE)
+        self.assertIn("SET verified_at=prior.verified_at",LIVE)
+        self.assertIn("BURO_METRIC_VERIFICATION_TIMESTAMPS_NOT_RESTORED",LIVE)
+        self.assertIn("BURO_PROTECTED_TOF_DOWNGRADED_DURING_REFRESH",LIVE)
+        self.assertNotIn("DROP TRIGGER",LIVE)
+        self.assertNotIn("DISABLE TRIGGER",LIVE)
+
     def test_append_only_original_snapshots_for_live_release(self):
         self.assertIn("maximus_agents.scpi_replay_provenance_quarantine",LIVE)
         self.assertIn("old_live',to_jsonb(original)",LIVE)
