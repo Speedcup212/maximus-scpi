@@ -324,6 +324,34 @@ def inspect(item, downloaded, out, aliases):
                 'ocr':next((p['text'] for p in ocr if p['page']==i+1),None)} for i in range(len(a[0]))]
         (out/'pages').mkdir(exist_ok=True)
         save_json(out/'pages'/(item['id']+'.json'),{'sha256':downloaded['sha256'],'pages':pages})
+        # RECOVERY-169: bounded read-only source triage for two exact issuer PDFs.
+        # This never changes metrics, certifications, queue status or financial gates.
+        official_corum_probes={
+            '2019-T1':('5773fdf45a3c556e5f343a36cff1049d5bf1a91366fc72d745ef5dbe679063e7',
+                       5,corum_bulletin_fields.dated_publisher_capital_table_shares,
+                       ('date ','capitalisation (en prix de souscription)','nombre de parts','une part (tous frais inclus)')),
+            '2020-T2':('173b4d5dd0085d8ffd0d5864c76b0c6514d59110ff99f8e1184f0e7adf2816be',
+                       3,corum_bulletin_fields.dated_publisher_four_column_withdrawal_queue,
+                       ('268 213','date d','parts augmentant','part en attente')),
+        }
+        if item['scpi_slug']=='corum-xl' and item['period'] in official_corum_probes:
+            expected_sha,which_page,parser,anchors=official_corum_probes[item['period']]
+            if downloaded['sha256']==expected_sha and len(a[0])>=which_page and len(b[0])>=which_page:
+                for engine,raw in (('MuPDF',a[0][which_page-1]),('Poppler',b[0][which_page-1])):
+                    standardized=norm(raw)
+                    probe=parser(raw,item['period'])
+                    snippets={}
+                    for anchor_text in anchors:
+                        pos=standardized.find(anchor_text)
+                        snippets[anchor_text]=None if pos<0 else standardized[max(0,pos-25):pos+125]
+                    print('RECOVERY169_SOURCE_DIAG '+json.dumps({
+                        'scpi_slug':'corum-xl','source_period':item['period'],
+                        'sha256':expected_sha,'source_page':which_page,
+                        'engine':engine,'parser_matched':bool(probe),
+                        'parser_value':probe['value'] if probe else None,
+                        'native_chars':len(raw),'bounded_source_snippets':snippets
+                    },ensure_ascii=False),flush=True)
+
         result['metrics'],result['evidence'],result['field_coverage'],result['candidates']=bulletin_fields.reconcile(bulletin_fields.extract(*a,item['period']),bulletin_fields.extract(*b,item['period']))
         if item['scpi_slug'].startswith('corum-') and re.fullmatch(r'20\d{2}-T[1-4]',item['period']):
             from corum_document_pipeline import parse_core,reconcile
