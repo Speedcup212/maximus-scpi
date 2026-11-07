@@ -3,7 +3,16 @@ name: MaximusSCPI - independent watchdog
 on:
   push:
     branches: [main]
-    paths: [".github/workflows/maximus-watchdog.yml"]
+    paths:
+      - ".github/workflows/maximus-watchdog.yml"
+      - "scripts/agents/durableOrchestrator.mjs"
+      - "scripts/agents/durableOrchestrator.test.mjs"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/maximus-watchdog.yml"
+      - "scripts/agents/durableOrchestrator.mjs"
+      - "scripts/agents/durableOrchestrator.test.mjs"
   schedule:
     # UTC; two distinct daily controls, no AI API and no Netlify deployment.
     - cron: "17 6,18 * * *"
@@ -22,10 +31,30 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  contract:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Durable orchestration contract and adversarial regression
+        run: node --test scripts/agents/durableOrchestrator.test.mjs
+
   watchdog:
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Check protected Supabase watchdog through GitHub OIDC
         uses: actions/github-script@v7
         with:
@@ -108,47 +137,65 @@ jobs:
             }
             if (bridgeError) core.setFailed(`Supabase watchdog unreachable: ${bridgeError}`);
 
-      - name: Recover missed candidate20 GitHub daily trigger (never bypass QA)
-        if: github.event_name == 'schedule' && github.ref == 'refs/heads/main' && github.run_attempt == 1
+      - name: Recover missed existing workflows (bounded, fail closed)
+        if: (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' && github.run_attempt == 1
         uses: actions/github-script@v7
         with:
           script: |
-            // A second schedule is not a substitute for QA or verified PDFs.
-            // Recovery dispatch is restricted to this single, existing workflow.
-            const now=new Date();
-            const parisDay=new Intl.DateTimeFormat('sv-SE',{
-              timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'
-            }).format(now);
-            const parisHour=Number(new Intl.DateTimeFormat('en-GB',{
-              timeZone:'Europe/Paris',hour:'2-digit',hourCycle:'h23'
-            }).format(now));
-            if(parisHour<9){
-              core.notice('Candidate20 daily schedule not due for backup before 09:00 Paris');
-              return;
-            }
+            // Only reschedule an existing workflow if today's scheduled run is absent.
+            // No retry of failed runs, no AI-provider calls, no financial QA override.
+            const path=require('node:path');
+            const {pathToFileURL}=require('node:url');
+            const {RECOVERY_TARGETS,decideWorkflowRecovery}=await import(
+              pathToFileURL(path.join(process.env.GITHUB_WORKSPACE,
+                'scripts/agents/durableOrchestrator.mjs')).href);
             const owner=context.repo.owner,repo=context.repo.repo;
-            const target='maximus-agent-parallel.yml';
-            const response=await github.rest.actions.listWorkflowRuns({
-              owner,repo,workflow_id:target,branch:'main',per_page:50
-            });
-            const sameDay=response.data.workflow_runs.filter(run=>
-              new Intl.DateTimeFormat('sv-SE',{
-                timeZone:'Europe/Paris',year:'numeric',month:'2-digit',day:'2-digit'
-              }).format(new Date(run.created_at))===parisDay);
-            if(sameDay.length){
-              const active=sameDay.some(run=>run.status!=='completed');
-              const passed=sameDay.some(run=>run.conclusion==='success');
-              core.notice('Candidate20 trigger exists on '+parisDay+
-                '; runs='+sameDay.length+' active='+active+' passed='+passed+
-                ' (QA results are not equivalent to financial certification)');
-              if(!active&&!passed){
-                core.setFailed('Candidate20 ran but did not complete successfully; '+
-                  'investigate PDF/QA failure, do not bypass checks or reset quotas');
+            const problems=[];
+            for(const target of RECOVERY_TARGETS){
+              const runs=await github.rest.actions.listWorkflowRuns({
+                owner,repo,workflow_id:target.workflow,branch:'main',per_page:100
+              });
+              // API failure or an unexpected response MUST NOT cause a blind dispatch.
+              const decision=decideWorkflowRecovery({
+                now:new Date(),runs:runs.data?.workflow_runs,target
+              });
+              core.notice(target.key+': '+decision.decision+' ('+decision.day+')');
+              if(decision.decision==='DISPATCH_ONCE'){
+                await github.rest.actions.createWorkflowDispatch({
+                  owner,repo,workflow_id:target.workflow,ref:'main'
+                });
+                core.warning('Recovered missing '+target.workflow+' trigger once');
+              }else if(decision.decision==='FAILED'){
+                problems.push({target,decision});
               }
-              return;
             }
-            await github.rest.actions.createWorkflowDispatch({
-              owner,repo,workflow_id:target,ref:'main'
+            const title='MaximusSCPI — orchestrateur : échec d’un workflow durable';
+            const all=await github.paginate(github.rest.issues.listForRepo,{
+              owner,repo,state:'all',per_page:100
             });
-            core.warning('RECOVERY-129: daily candidate20 trigger missed '+parisDay+
-              '; dispatched existing workflow once via GitHub Actions');
+            const old=all.find(x=>!x.pull_request&&x.title===title);
+            if(problems.length){
+              const body=[
+                '## Incidents des workflows existants',
+                '',
+                'Aucun rejeu aveugle : la preuve et les contrôles QA restent obligatoires.',
+                'Cette alerte ne constitue ni une certification financière ni un GO publication.',
+                '',
+                ...problems.map(p=>'- **'+p.target.key+'** : '+
+                  (p.decision.url||p.target.workflow)+' — '+p.decision.conclusion),
+                '',
+                'File persistante : `maximus_agents.tasks` / `maximus_agents.runs`.',
+                'Consulter les échecs, corriger la cause puis relancer le workflow existant.',
+                'Aucun nouveau gestionnaire de tâches ou exécuteur IA créé.'
+              ].join('\n');
+              if(!old)await github.rest.issues.create({owner,repo,title,body});
+              else if(old.state!=='open'||old.body!==body)
+                await github.rest.issues.update({
+                  owner,repo,issue_number:old.number,state:'open',body
+                });
+              core.setFailed(problems.length+' existing workflow(s) failed; no automatic retry');
+            }else if(old?.state==='open'){
+              await github.rest.issues.update({
+                owner,repo,issue_number:old.number,state:'closed',state_reason:'completed'
+              });
+            }
