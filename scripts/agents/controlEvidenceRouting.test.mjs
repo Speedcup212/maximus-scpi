@@ -70,3 +70,17 @@ test('existing GitHub CONTROL job and OIDC endpoint are the only orchestration w
   assert.match(edge,/maximus-parallel-audit-ygvsddcpohsnaowofuwc/);
   assert.doesNotMatch(yaml,/OPENAI_API_KEY|ANTHROPIC_API_KEY|CLAUDE_CODE_OAUTH_TOKEN/);
 });
+
+test('technical main pushes run read-only CONTROL triage without enrolling candidate20 tasks',()=>{
+  const yaml=readFileSync('.github/workflows/maximus-agent-parallel.yml','utf8');
+  const anchor='      - name: CONTROL — prepare exactly one 20-SCPI cohort on existing Supabase queue';
+  const start=yaml.indexOf(anchor);
+  const end=yaml.indexOf('      - name: CONTROL — classify existing SCPI evidence',start);
+  assert.ok(start>=0&&end>start);
+  const prepare=yaml.slice(start,end);
+  assert.ok(prepare.includes("if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'"));
+  assert.ok(yaml.includes("slugs: "+'$'+"{{ steps.dispatch.outputs.slugs || '[]' }}"));
+  const readonly=yaml.slice(end,yaml.indexOf('  source-proof:',end));
+  assert.ok(readonly.includes("op:'control_existing_metric_triage'"));
+  assert.ok(!readonly.includes("op:'prepare_batch20'"));
+});

@@ -12,7 +12,9 @@ test('RECOVERY-129 candidate has two non-hour-boundary daily triggers, plus manu
   assert.match(candidate,/cron: "27 6 \* \* \*"/);
   assert.match(candidate,/cron: "43 7 \* \* \*"/);
   assert.match(candidate,/  workflow_dispatch:/);
-  assert.match(candidate,/group: maximus-existing-agent-candidate20/);
+  // The production candidate lane stays serialized, while PR contracts are isolated.
+  assert.match(candidate,/maximus-existing-agent-candidate20-pr-/);
+  assert.match(candidate,/\|\| 'maximus-existing-agent-candidate20'/);
   assert.match(candidate,/cancel-in-progress: false/);
   assert.match(candidate,/github\.run_attempt == 1/);
   assert.match(candidate,/deploy_allowed!==false/);
