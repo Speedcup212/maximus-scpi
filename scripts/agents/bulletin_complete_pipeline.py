@@ -173,14 +173,33 @@ def archive_pdf(item, downloaded, result):
             if response.status not in (200,201):raise RuntimeError('Archive upload was not acknowledged')
     result['archive_path']=archived['path']
 
-def run_queue(out):
-    """Drain the durable queue until the runner deadline; resume on the next run."""
+def seed_once(out):
+    """Single authenticated source-index seed, before the parallel replay workers."""
+    out.mkdir(parents=True, exist_ok=True)
+    try:
+        health = preflight(out)
+        seed = oidc_bridge({'op': 'seed'})
+        if not isinstance(seed, dict):
+            raise RuntimeError('Replay seed was not acknowledged')
+        save_json(out/'seed.json', {'status': 'completed', 'health': health, 'seed': seed})
+        return seed
+    except Exception as error:
+        save_json(out/'seed.json', {'status': 'failed',
+                  'error': type(error).__name__+': '+str(error)[:1200]})
+        raise
+
+
+def run_queue(out, preseeded=False):
+    """Drain an already seeded durable queue; legacy direct use still seeds once."""
     out.mkdir(parents=True,exist_ok=True);deadline=time.monotonic()+44*60
     results=[];summary={'status':'starting','parser_version':VERSION,'resolver_version':source_resolver.VERSION,'documents':results}
     save_json(out/'run-summary.json',summary)
     try:
         summary['before']=preflight(out)
-        summary['seed']=oidc_bridge({'op':'seed'})
+        # GitHub Actions performs the seed once in a prerequisite job. Never
+        # have four parallel workers contend on the same protected seed lock.
+        summary['seed']=({'mode':'preseeded_in_required_workflow_job'} if preseeded
+                         else oidc_bridge({'op':'seed'}))
         while time.monotonic()<deadline:
             response=oidc_bridge({'op':'claim','parser_version':VERSION});item=response.get('task')
             if not item:
@@ -400,13 +419,20 @@ def main():
     ap.add_argument('--download-only', action='store_true')
     ap.add_argument('--inspect-downloaded', action='store_true')
     ap.add_argument('--run', action='store_true')
+    ap.add_argument('--seed-only', action='store_true',
+                    help='Preflight and seed protected queue once before matrix workers')
+    ap.add_argument('--preseeded', action='store_true',
+                    help='Only inside GitHub Actions, after successful prerequisite seed job')
     ap.add_argument('--preflight', action='store_true')
     ap.add_argument('--result-dir', default='documents')
     ap.add_argument('--workers', type=int, default=6)
     args = ap.parse_args()
     out = pathlib.Path(args.out); out.mkdir(parents=True, exist_ok=True)
+    if args.preseeded and (not args.run or os.environ.get('GITHUB_ACTIONS') != 'true'):
+        ap.error('--preseeded requires --run within GitHub Actions after seed dependency')
     if args.preflight:return preflight(out)
-    if args.run:return run_queue(out)
+    if args.seed_only:return seed_once(out)
+    if args.run:return run_queue(out, preseeded=args.preseeded)
     if not args.manifest:ap.error('--manifest required for local replay')
     items = json.loads(pathlib.Path(args.manifest).read_text())
     if args.inspect_downloaded:
