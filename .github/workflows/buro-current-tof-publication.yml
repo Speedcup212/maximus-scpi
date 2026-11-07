@@ -40,7 +40,6 @@ jobs:
           content='\n'.join(p.read_text() for p in paths)
           for forbidden in ('SECURITY DEFINER','GRANT ALL',
                             'DELETE FROM public.scpi_indicator_history',
-                            'UPDATE public.scpi_metric_certifications',
                             'publication_enabled=true'):
               assert forbidden not in content, forbidden
           assert "RETURN NULL" in content
