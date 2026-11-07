@@ -10,6 +10,7 @@ on:
       - scripts/agents/bulletin_fields.py
       - scripts/agents/bulletin_source_resolver*
       - scripts/agents/bulletin_source_transport*
+      - scripts/agents/paref_private_archived_tof_oidc_probe*
       - scripts/agents/certificates/**
       - supabase/functions/scpi-bulletin-replay-oidc/**
       - .github/workflows/maximus-all-bulletins-replay.yml
@@ -19,6 +20,7 @@ on:
       - scripts/agents/bulletin_fields.py
       - scripts/agents/bulletin_source_resolver*
       - scripts/agents/bulletin_source_transport*
+      - scripts/agents/paref_private_archived_tof_oidc_probe*
       - scripts/agents/certificates/**
       - supabase/functions/scpi-bulletin-replay-oidc/**
       - .github/workflows/maximus-all-bulletins-replay.yml
@@ -93,3 +95,49 @@ jobs:
           name: source-access-${{ github.run_id }}-${{ github.run_attempt }}
           path: test-results/source-access/
           if-no-files-found: error
+
+  archive-source-contract:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Guard narrow publisher registry + original OIDC trust boundaries
+        run: python -m unittest discover -s scripts/agents -p 'paref_private_archived_tof_oidc_probe_test.py' -v
+
+  archive-source-probe:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Read ONLY two pinned private PAREF original bulletins with existing GitHub OIDC
+        run: python scripts/agents/paref_private_archived_tof_oidc_probe.py test-results/paref-private-archive
+      - name: Store source proof JSON only (NO signed URL, JWT, private PDF)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paref-private-source-qa-${{ github.run_id }}-${{ github.run_attempt }}
+          path: test-results/paref-private-archive/source-qa.json
+          if-no-files-found: warn
+          retention-days: 7
