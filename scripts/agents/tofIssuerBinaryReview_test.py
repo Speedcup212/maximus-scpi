@@ -12,6 +12,39 @@ class TofPdfProofTests(unittest.TestCase):
     def setUp(self):
         self.m=json.loads(MANIFEST.read_text())
 
+    def test_official_same_host_redirect_is_observed_not_followed(self):
+        source="https://www.fiducial-gerance.fr/content/download/544/12625?version=14"
+        answer=audit.classify_redirect_location(
+            source,"/content/download/544/file/Buroboutic.pdf?signature=PRIVATE",
+            ["www.fiducial-gerance.fr"])
+        self.assertTrue(answer["exact_same_official_host"])
+        self.assertFalse(answer["automatic_followed"])
+        self.assertEqual(answer["destination_host"],"www.fiducial-gerance.fr")
+        self.assertEqual(answer["destination_path"],
+                         "/content/download/544/file/Buroboutic.pdf")
+        self.assertNotIn("PRIVATE",str(answer))
+
+    def test_unapproved_cdn_redirect_requires_independent_review(self):
+        src="https://www.fiducial-gerance.fr/content/download/544/12625"
+        answer=audit.classify_redirect_location(
+            src,"https://external.example.org/a.pdf?token=PRIVATE",
+            ["www.fiducial-gerance.fr"])
+        self.assertFalse(answer["exact_same_official_host"])
+        self.assertFalse(answer["automatic_followed"])
+        self.assertEqual(answer["status"],"REDIRECT_TARGET_REQUIRES_INDEPENDENT_APPROVAL")
+        self.assertNotIn("PRIVATE",str(answer))
+
+    def test_non_https_and_credential_redirect_never_autoproves_issuer(self):
+        src="https://www.fiducial-gerance.fr/content/download/544/12625"
+        for target in ("http://www.fiducial-gerance.fr/test.pdf",
+                       "https://operator:pw@www.fiducial-gerance.fr/test.pdf",
+                       "https://127.0.0.1/test.pdf"):
+            with self.subTest(target=target):
+                result=audit.classify_redirect_location(
+                    src,target,["www.fiducial-gerance.fr"])
+                self.assertFalse(result["exact_same_official_host"])
+                self.assertFalse(result["automatic_followed"])
+
     def test_pinned_two_issuer_docs_and_readonly(self):
         cases=audit.validate(self.m)
         self.assertEqual(len(cases),2)
