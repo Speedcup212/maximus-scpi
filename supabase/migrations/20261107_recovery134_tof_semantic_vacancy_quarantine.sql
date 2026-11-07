@@ -52,7 +52,10 @@ BEGIN
   WHERE id='985d9663-2900-40ba-9a0f-2a215461ebe4'::uuid
     AND scpi_slug='buroboutic-metropoles'
     AND source_period='2026-T3' AND metric='tof'
-    AND value_numeric=0.07 AND verification_status='auto_verified_with_evidence'
+    AND value_numeric=0.07
+    AND verification_status IN ('auto_verified_with_evidence',
+      'invalid_tof_bulletin_source_policy',
+      'invalid_tof_subcomponent_not_occupancy')
     AND source_page=4
     AND source_url='https://www.fiducial-gerance.fr/content/download/544/12625?version=14'
     AND evidence_text ILIKE '%Locaux vacants en restructuration%'
@@ -90,7 +93,14 @@ BEGIN
   WHERE id=b.id AND value_numeric=0.07
     AND verification_status='auto_verified_with_evidence';
   GET DIAGNOSTICS affected=ROW_COUNT;
-  IF affected<>1 THEN RAISE EXCEPTION 'BUROBOUTIC_QUARANTINE_EXPECTED_1_GOT_%',affected; END IF;
+  IF b.verification_status='auto_verified_with_evidence' AND affected<>1 THEN
+    RAISE EXCEPTION 'BUROBOUTIC_FIRST_QUARANTINE_EXPECTED_1_GOT_%',affected;
+  END IF;
+  IF b.verification_status<>'auto_verified_with_evidence'
+    AND (affected<>0 OR b.extraction_confidence<>0
+      OR b.verification_status NOT LIKE 'invalid_tof_%') THEN
+    RAISE EXCEPTION 'BUROBOUTIC_ALREADY_QUARANTINED_STATE_CHANGED';
+  END IF;
 
   UPDATE public.scpi_indicator_history
   SET tof=NULL,
