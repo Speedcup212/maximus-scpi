@@ -109,3 +109,31 @@ test('strict gates are observational; cannot infer full approval from PDF presen
   assert.match(s,/false::boolean AS executes_remediation/);
   assert.match(s,/state','NEEDS_INDEPENDENT_SOURCE_QA'/);
 });
+
+test('RECOVERY-180 can only reconcile stale TOF status after dual-reader issuer-linked evidence',()=>{
+  const sql=readFileSync('supabase/migrations/20261108_recovery180_reconcile_verified_tof_backfill.sql','utf8');
+  assert.match(sql,/q\.last_error='tof_not_found_or_not_period_bound'/);
+  assert.match(sql,/v\.crash_test_status='FAIL_STRICT'/);
+  assert.match(sql,/v\.last_document_period=q\.source_period/);
+  assert.match(sql,/d\.result->'evidence'->'tof'->'independent_engines'='\["MuPDF","Poppler"\]'::jsonb/);
+  assert.match(sql,/d\.result->'source_resolution'|x\.result->'source_resolution'/);
+  assert.match(sql,/x\.result->'source_resolution'->>'sha256'=d\.pdf_sha256/);
+  assert.match(sql,/scpi_internal\.tof_bulletin_source_rejection_reason/);
+  assert.match(sql,/NOT EXISTS\s*\(\s*SELECT 1 FROM scpi_internal\.tof_policy_quarantine_audit_20261028/);
+  assert.match(sql,/h\.metric_provenance->'tof'->>'sha256'=d\.pdf_sha256/);
+  assert.match(sql,/AND c\.value_numeric=h\.tof/);
+  assert.match(sql,/d\.result->'evidence'->'tof'->>'page/);
+  assert.match(sql,/RETURNING q\.id,q\.scpi_slug,q\.source_period/);
+  assert.match(sql,/INSERT INTO public\.scpi_ingestion_events/);
+  assert.match(sql,/REVOKE ALL ON FUNCTION/);
+});
+test('RECOVERY-180 never writes financial values, changes quality guards or adds jobs',()=>{
+  const sql=readFileSync('supabase/migrations/20261108_recovery180_reconcile_verified_tof_backfill.sql','utf8');
+  assert.doesNotMatch(sql,/UPDATE\s+public\.scpi_(indicator_history|metric_certifications|source_registry|indicators)/i);
+  assert.doesNotMatch(sql,/UPDATE\s+scpi_internal\.tof_policy_quarantine_audit/i);
+  assert.doesNotMatch(sql,/UPDATE\s+public\.scpi_crash_test_strict_v2/i);
+  assert.doesNotMatch(sql,/GRANT\s+(SELECT|EXECUTE)\s+TO\s+(anon|authenticated)/i);
+  assert.match(sql,/metric_changes',0/);
+  assert.match(sql,/financial_certified',false/);
+  assert.match(sql,/deploy_allowed',false/);
+});
