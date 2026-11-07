@@ -140,14 +140,104 @@ def inspect_issuer_redirect(source_url,approved_hosts):
     except Exception:
         return {"status":"REDIRECT_DIAGNOSTIC_UNAVAILABLE"}
 
+BURO_T3_ORIGINAL = (
+    "https://www.fiducial-gerance.fr/content/download/544/12625?version=14"
+)
+BURO_T3_SHA256 = (
+    "5837592186764194f265f2ddf6386c8ef980947eb3f088af6a2419d68a89d"
+)
+BURO_T3_EXACT_REDIRECT_PATH = (
+    "/content/download/544/file/BTI%20Buroboutic%20T3%202026%20WEB.pdf"
+)
+
+
+def first_redirect_location(source_url,approved_hosts):
+    """Return a single Location privately; never follow, store or log its query."""
+    if not official_url(source_url,approved_hosts):
+        raise ValueError("UNAPPROVED_ISSUER_HOST")
+    public_host_addresses(urlsplit(source_url).hostname)
+    opener=urllib.request.build_opener(StopAtRedirect())
+    req=urllib.request.Request(
+        source_url,
+        headers={"User-Agent":"Mozilla/5.0 (compatible; MaximusSCPI-DocumentProof/1.0)",
+                 "Accept":"application/pdf"},
+        method="GET",
+    )
+    try:
+        with opener.open(req,timeout=35):
+            raise ValueError("PINNED_SOURCE_EXPECTED_REDIRECT")
+    except urllib.error.HTTPError as exc:
+        if exc.code!=302:
+            raise ValueError("UNEXPECTED_ISSUER_REDIRECT_STATUS") from None
+        location=exc.headers.get("Location")
+        if not location:
+            raise ValueError("ISSUER_REDIRECT_LOCATION_MISSING")
+        return location
+
+
+def fetch_pinned_buro_redirect(doc,loader=download_official,location_probe=None):
+    """Approve only Buro T3's independently diagnosed same-host PDF path.
+
+    Preserve registered source provenance and all existing exact-SHA checks.
+    The Location query (potentially signed) is used in memory, never logged.
+    """
+    if not (
+        doc.get("slug")=="buroboutic-metropoles"
+        and doc.get("period")=="2026-T3"
+        and doc.get("source_url")==BURO_T3_ORIGINAL
+        and doc.get("sha256")==BURO_T3_SHA256
+        and doc.get("evidence_page")==4
+        and doc.get("issuer_hosts")==["www.fiducial-gerance.fr"]
+    ):
+        raise ValueError("UNAPPROVED_DOCUMENT_REDIRECT_EXCEPTION")
+    probe=location_probe if location_probe is not None else first_redirect_location
+    location=probe(doc["source_url"],doc["issuer_hosts"])
+    target=urljoin(doc["source_url"],location)
+    parsed=urlsplit(target)
+    if not (
+        parsed.scheme=="https"
+        and parsed.hostname=="www.fiducial-gerance.fr"
+        and parsed.port in (None,443)
+        and parsed.username is None
+        and parsed.password is None
+        and parsed.fragment==""
+        and parsed.path==BURO_T3_EXACT_REDIRECT_PATH
+        and official_url(target,doc["issuer_hosts"])
+    ):
+        raise ValueError("PINNED_BURO_REDIRECT_TARGET_NOT_APPROVED")
+    # Revalidate the destination's current public DNS, TLS, PDF-size and URL
+    # through the pre-existing safe official transport. Redirects at target
+    # still fail closed; no multi-hop acceptance.
+    raw,final_url=loader(target,doc["issuer_hosts"])
+    if final_url!=target:
+        raise ValueError("PINNED_BURO_FINAL_URL_CHANGED")
+    meta={
+        "status":"PINNED_SAME_ISSUER_REDIRECT_SOURCE_FETCHED",
+        "destination_host":parsed.hostname,
+        "destination_path":parsed.path,
+        "query_omitted":True,
+        "automatic_multihop_followed":False,
+        "financial_certified":False,
+    }
+    return raw,final_url,meta
+
+
 def inspect_case(doc,out,loader=download_official):
     entry={"scpi_slug":doc["slug"],"period":doc["period"],"official_url":doc["source_url"],
            "expected_sha256":doc["sha256"],
            "conflict_kind":doc["conflict_kind"],
            "financial_certified":False,"deploy_allowed":False}
     try:
-        raw,final_url=loader(doc["source_url"],doc["issuer_hosts"])
-        if final_url!=doc["source_url"]:
+        pinned_redirect=None
+        try:
+            raw,final_url=loader(doc["source_url"],doc["issuer_hosts"])
+        except ValueError as exc:
+            if (safe_error(exc)=="ISSUER_REDIRECT_NEEDS_INDEPENDENT_APPROVAL"
+                and doc["slug"]=="buroboutic-metropoles"):
+                raw,final_url,pinned_redirect=fetch_pinned_buro_redirect(doc,loader)
+            else:
+                raise
+        if final_url!=doc["source_url"] and pinned_redirect is None:
             raise ValueError("SOURCE_URL_CHANGED_AFTER_FETCH")
         if not raw.startswith(b"%PDF"):
             raise ValueError("ISSUER_NOT_PDF")
@@ -179,6 +269,8 @@ def inspect_case(doc,out,loader=download_official):
                 raise ValueError("FUND_IDENTITY_NOT_MATCHED_BOTH_READERS")
             if not quarter_on_cover(pages):
                 raise ValueError("T3_2026_PERIOD_UNCONFIRMED_BOTH_READERS")
+        if pinned_redirect is not None:
+            entry["pinned_redirect_evidence"]=pinned_redirect
         entry.update(status="pdf_binary_verified",pdf_sha256=digest,
                      page_count=len(mu),identity_verified=True,
                      period_verified=True,independent_readers=["MuPDF","Poppler"],
