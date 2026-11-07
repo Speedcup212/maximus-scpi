@@ -44,6 +44,55 @@ Une part (tous frais inclus) 189,00 €"""
   self.assertNotIn('nombre_parts',proofs)
   self.assertEqual(coverage['nombre_parts'],'needs_review')
 
+ def test_current_and_previous_share_counts_accept_independent_pdf_spacing(self):
+  page="""ÉVOLUTION DU CAPITAL
+Date 30/03/2019 31/12/2018
+Capitalisation (en prix de souscription) 307291 K€ 226143 K€
+Nombre de parts 1625878 1196523
+Une part (tous frais inclus) 189,00 €"""
+  proof=f.dated_publisher_capital_table_shares(page,'2019-T1')
+  self.assertIsNotNone(proof)
+  self.assertEqual(proof['value'],1625878)
+  self.assertEqual(proof['date'],'2019-03-30')
+
+ def test_corum_xl_2020_t2_explicit_four_column_pending_zero(self):
+  page="""Les performances du 2e trimestre 2020
+268 213 3 360 5 0 DATE D’ENTRÉE 1er JOUR DU 6ème MOIS
+Parts augmentant Retraits compensés Achats et cessions Part en attente
+le capital par l’épargne collectée entre épargnants de retraits
+ÉVOLUTION DU CAPITAL Date 30/06/2020 31/12/2019
+Nombre de parts 4 162 717 3 411 885"""
+  proof=f.dated_publisher_four_column_withdrawal_queue(page,'2020-T2')
+  self.assertIsNotNone(proof)
+  self.assertEqual(proof['value'],0)
+  self.assertEqual(proof['date'],'2020-06-30')
+  a=f.extract([page],[[]],[595],'2020-T2')
+  m,p,c=f.reconcile_extended(a,a,{})
+  self.assertEqual(m['parts_attente_retrait'],0)
+  self.assertEqual(c['parts_attente_retrait'],'verified')
+  self.assertEqual(p['parts_attente_retrait']['independent_engines'],['MuPDF','Poppler'])
+
+ def test_four_column_pending_no_zero_without_exact_labels_and_matching_period(self):
+  page="""268 213 3 360 5 0 DATE D’ENTRÉE 1er JOUR DU 6ème MOIS
+Parts augmentant Retraits compensés Achats et cessions Part en attente
+le capital par l’épargne collectée entre épargnants de retraits
+ÉVOLUTION DU CAPITAL Date 30/06/2020 31/12/2019"""
+  self.assertIsNone(f.dated_publisher_four_column_withdrawal_queue(page.replace('Part en attente','Parts échangées'),'2020-T2'))
+  self.assertIsNone(f.dated_publisher_four_column_withdrawal_queue(page,'2020-T3'))
+  self.assertIsNone(f.dated_publisher_four_column_withdrawal_queue(page.replace('268 213 3 360 5 0','268 213 3 360 5'),'2020-T2'))
+  self.assertIsNone(f.dated_publisher_four_column_withdrawal_queue(page.replace('30/06/2020','30/06/2019'),'2020-T2'))
+
+ def test_four_column_withdrawal_engines_disagree_stays_review(self):
+  page="""268 213 3 360 5 0 DATE D’ENTRÉE 1er JOUR DU 6ème MOIS
+Parts augmentant Retraits compensés Achats et cessions Part en attente
+le capital par l’épargne collectée entre épargnants de retraits
+ÉVOLUTION DU CAPITAL Date 30/06/2020 31/12/2019"""
+  a=f.extract([page],[[]],[595],'2020-T2')
+  b=f.extract([page.replace('5 0 DATE','5 7 DATE')],[[]],[595],'2020-T2')
+  m,_,c=f.reconcile_extended(a,b,{})
+  self.assertNotIn('parts_attente_retrait',m)
+  self.assertEqual(c['parts_attente_retrait'],'needs_review')
+
  def test_capitalisation_preserves_thousands_in_millions(self):
   words=[(10,50,80,60,'Capitalisation'),(10,20,15,30,'1'),(17,20,32,30,'148'),(34,20,70,30,'millions'),(72,20,100,30,"d'euros")]
   a,_=f.extract(['Capitalisation 1 148 millions d’euros'],[words],[400],'2023-T4')

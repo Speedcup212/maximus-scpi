@@ -34,9 +34,10 @@ def dated_publisher_capital_table_shares(page_text,period):
  issue=re.fullmatch(r'(20\d{2})-T([1-4])',period)
  if not issue:return None
  p=norm(page_text)
+ count=r'(?:\d{1,3}(?: \d{3})+|\d{4,10})'
  dates=re.search(r'\bdate\s+(\d{1,2}/\d{1,2}/20\d{2})\s+(\d{1,2}/\d{1,2}/20\d{2})\b',p)
- capitals=re.search(r'capitalisation\s*\(en prix de souscription\)\s+(\d{1,3}(?: \d{3})+)\s*k\s*€\s+(\d{1,3}(?: \d{3})+)\s*k\s*€',p)
- shares=re.search(r'\bnombre de parts\s+(\d{1,3}(?: \d{3})+)\s+(\d{1,3}(?: \d{3})+)\b',p)
+ capitals=re.search(r'capitalisation\s*\(en prix de souscription\)\s+('+count+r')\s*k\s*€\s+('+count+r')\s*k\s*€',p)
+ shares=re.search(r'\bnombre de parts\s+('+count+r')\s+('+count+r')\b',p)
  price=re.search(r'une part\s*\(tous frais inclus\)\s+(\d+(?:[,.]\d{2})?)\s*€',p)
  if not all((dates,capitals,shares,price)):return None
  try:
@@ -64,6 +65,44 @@ def dated_publisher_capital_table_shares(page_text,period):
     ' K€, subscription '+price[1]+' €, both columns issuer-reconciled'),
    definition='publisher_current_dated_share_table_dual_arithmetic')
 
+def dated_publisher_four_column_withdrawal_queue(page_text,period):
+ """Read the last printed value in the four-column issuer movement table.
+
+ The zero is NOT inferred from absent liquidity figures. Both PDF engines must
+ see all four source columns and their distinct captions on the same page.
+ """
+ issue=re.fullmatch(r'(20\d{2})-T([1-4])',period)
+ if not issue:return None
+ p=norm(page_text)
+ count=r'(?:\d{1,3}(?: \d{3})+|\d{4,10})'
+ header=re.search(r'\bdate\s+(\d{1,2}/\d{1,2}/20\d{2})\s+(\d{1,2}/\d{1,2}/20\d{2})\b',p)
+ row=re.search(r'(?<!\d)('+count+r')\s+('+count+r')\s+(\d{1,3})\s+(\d{1,3})\s+date d.entree\b',p)
+ if not (header and row):return None
+ try:
+  current=datetime.datetime.strptime(header[1],'%d/%m/%Y').date()
+  previous=datetime.datetime.strptime(header[2],'%d/%m/%Y').date()
+  movements=[int(re.sub(r'\s','',x)) for x in row.groups()]
+ except (ValueError,OverflowError):return None
+ if not (current.year==int(issue[1]) and (current.month-1)//3+1==int(issue[2])
+  and previous<current and all(v>=0 for v in movements)
+  and movements[0]>0 and movements[1]>0 and movements[-1]<=1_000_000_000):
+  return None
+ label_block=p[row.end():row.end()+720]
+ required=('parts augmentant','retraits compenses','achats et cessions','part en attente')
+ locations=[label_block.find(label) for label in required]
+ if not (all(i>=0 for i in locations) and locations==sorted(locations)):
+  return None
+ if 'de retraits' not in label_block[locations[-1]:locations[-1]+250]:
+  return None
+ return dict(value=float(movements[-1]),date=current.isoformat(),
+  proof=('Publisher four-column savings movement table, same-page date '+header[1]+
+   ', shares augmenting capital '+str(movements[0])+
+   ', shares compensating withdrawals '+str(movements[1])+
+   ', between-holder transfers '+str(movements[2])+
+   ', final column Part en attente de retraits '+str(movements[3])+
+   '; no zero imputed'),
+  definition='publisher_same_page_four_column_pending_withdrawal')
+
 def valuation_date(text):
  m=re.search(r'valeurs de reference au (\d{1,2}) (janvier|fevrier|mars|avril|mai|juin|juillet|aout|septembre|octobre|novembre|decembre) (20\d{2})',norm(text))
  if not m:return None
@@ -78,6 +117,11 @@ def extract(pages,wordpages,widths,period):
    hits.setdefault(k,[]).append(dict(value=v,page=page,text=text[:900],reference_date=date,unit=FIELDS[k],definition=definition))
  for i,words in enumerate(wordpages):
   page=i+1;pn=norm(pages[i]);width=widths[i]
+  withdrawal_table=dated_publisher_four_column_withdrawal_queue(pages[i],period)
+  if withdrawal_table:
+   seen.add('parts_attente_retrait')
+   add('parts_attente_retrait',withdrawal_table['value'],page,withdrawal_table['proof'],
+       date=withdrawal_table['date'],definition=withdrawal_table['definition'])
   shares_table=dated_publisher_capital_table_shares(pages[i],period)
   if shares_table:
    seen.add('nombre_parts')
