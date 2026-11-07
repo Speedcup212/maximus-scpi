@@ -35,7 +35,42 @@ concurrency:
   group: all-scpi-bulletin-replay-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref }}
   cancel-in-progress: false
 jobs:
+  seed-replay:
+    # Single authenticated source-index mutation: do NOT run this inside
+    # the 4-slot matrix (RECOVERY-174 lock contention incident).
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned reader dependency required by the protected bridge
+        run: python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Protected preflight and serialized source-index seed
+        run: |
+          python scripts/agents/bulletin_complete_pipeline.py --seed-only \
+            --out test-results/bulletin-replay-seed
+      - name: Retain seed result for independent inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bulletin-replay-seed-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            test-results/bulletin-replay-seed/seed.json
+            test-results/bulletin-replay-seed/preflight.json
+          if-no-files-found: ignore
+          retention-days: 7
+
   replay:
+    needs: seed-replay
+    if: always() && (github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/main') || needs.seed-replay.result == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 50
     strategy:
@@ -63,7 +98,7 @@ jobs:
         run: python scripts/agents/bulletin_complete_pipeline.py --preflight --out test-results/bulletin-replay-${{ matrix.slot }}
       - name: Drain durable queue - all 65 SCPI and all registered periods
         if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
-        run: python scripts/agents/bulletin_complete_pipeline.py --run --out test-results/bulletin-replay-${{ matrix.slot }}
+        run: python scripts/agents/bulletin_complete_pipeline.py --run --preseeded --out test-results/bulletin-replay-${{ matrix.slot }}
       - name: Keep document outcomes and checkpoints
         if: always() && github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
         uses: actions/upload-artifact@v4

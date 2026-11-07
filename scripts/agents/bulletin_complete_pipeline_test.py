@@ -235,4 +235,58 @@ class SourceSafetyTests(unittest.TestCase):
         self.assertTrue(replay.period_matches('2026-T3',['Bulletin 3e trimestre 2026']))
         self.assertFalse(replay.period_matches('2026-T3',['Bulletin 2e trimestre 2026']))
 
+class SerializedReplaySeedTests(unittest.TestCase):
+    def test_single_seed_calls_protected_bridge_once(self):
+        with tempfile.TemporaryDirectory() as d, \
+             patch.object(replay,'preflight',return_value={'permissions_ok':True}), \
+             patch.object(replay,'oidc_bridge',return_value={'seeded':5}) as bridge:
+            replay.seed_once(pathlib.Path(d))
+            self.assertEqual(bridge.call_count,1)
+            self.assertEqual(bridge.call_args.args[0],{'op':'seed'})
+            self.assertEqual(__import__('json').loads((pathlib.Path(d)/'seed.json').read_text())['status'],'completed')
+
+    def test_seeding_error_is_recorded_but_not_reported_successful(self):
+        with tempfile.TemporaryDirectory() as d, \
+             patch.object(replay,'preflight',return_value={'permissions_ok':True}), \
+             patch.object(replay,'oidc_bridge',side_effect=RuntimeError('lock timeout')):
+            with self.assertRaisesRegex(RuntimeError,'lock timeout'):
+                replay.seed_once(pathlib.Path(d))
+            self.assertEqual(__import__('json').loads((pathlib.Path(d)/'seed.json').read_text())['status'],'failed')
+
+    def test_four_parallel_preseeded_workers_do_not_call_seed(self):
+        for slot in range(4):
+            calls=[]
+            def bridge(body):
+                calls.append(body['op'])
+                return {'task':None} if body['op']=='claim' else {'effective_role':'service_role'}
+            with tempfile.TemporaryDirectory() as d, \
+                 patch.object(replay,'preflight',return_value={'permissions_ok':True}), \
+                 patch.object(replay,'oidc_bridge',side_effect=bridge):
+                replay.run_queue(pathlib.Path(d),preseeded=True)
+                result=__import__('json').loads((pathlib.Path(d)/'run-summary.json').read_text())
+                self.assertEqual(result['status'],'completed')
+                self.assertEqual(result['seed']['mode'],'preseeded_in_required_workflow_job')
+                self.assertEqual(calls,['claim','health'])
+
+    def test_standalone_legacy_runner_still_seeds(self):
+        calls=[]
+        def bridge(body):
+            calls.append(body['op'])
+            return {'task':None} if body['op']=='claim' else {'ok':True}
+        with tempfile.TemporaryDirectory() as d, \
+             patch.object(replay,'preflight',return_value={'permissions_ok':True}), \
+             patch.object(replay,'oidc_bridge',side_effect=bridge):
+            replay.run_queue(pathlib.Path(d))
+            self.assertEqual(calls,['seed','claim','health'])
+
+    def test_gha_replay_requires_single_seed_dependency(self):
+        text=(pathlib.Path(__file__).resolve().parents[2]/
+              '.github/workflows/maximus-all-bulletins-replay.yml').read_text()
+        self.assertIn('needs: seed-replay',text)
+        self.assertIn('needs.seed-replay.result',text)
+        self.assertIn('--seed-only',text)
+        self.assertIn('--run --preseeded',text)
+        self.assertEqual(text.count('python scripts/agents/bulletin_complete_pipeline.py --seed-only'),1)
+
+
 if __name__=='__main__':unittest.main()
