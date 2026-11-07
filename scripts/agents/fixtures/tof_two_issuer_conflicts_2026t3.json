@@ -1,0 +1,33 @@
+{
+  "financial_certified": false,
+  "deploy_allowed": false,
+  "source": "Existing private issuer-source connector allowlists and published metric certificate records, Nov 7 2026",
+  "cases": [
+    {
+      "slug": "buroboutic-metropoles",
+      "name": "Buroboutic Métropoles",
+      "issuer_hosts": [
+        "www.fiducial-gerance.fr"
+      ],
+      "period": "2026-T3",
+      "source_url": "https://www.fiducial-gerance.fr/content/download/544/12625?version=14",
+      "sha256": "5837592186764194f265f2af2ddf6386c8ef980947eb3f088af6a2419d68a89d",
+      "evidence_page": 4,
+      "recorded_certificate_tof_percent": 0.07,
+      "conflict_kind": "vacancy_subcomponent"
+    },
+    {
+      "slug": "perial-grand-paris",
+      "name": "PERIAL Grand Paris",
+      "issuer_hosts": [
+        "cdn.prod.website-files.com"
+      ],
+      "period": "2026-T3",
+      "source_url": "https://cdn.prod.website-files.com/68d505281630e4a2223e1bee/6ae388fb36c133576bb09925_PGP%20BTI%203T%2026%201.pdf",
+      "sha256": "e9205e1d300724742c6189fdd49a5787e7e5857a5eee040a9f701ac8f2a5f8b1",
+      "evidence_page": 6,
+      "recorded_certificate_tof_percent": 84.7,
+      "conflict_kind": "history_100_vs_certificate_84_7"
+    }
+  ]
+}
