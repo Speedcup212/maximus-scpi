@@ -34,7 +34,7 @@ def dated_publisher_capital_table_shares(page_text,period):
  issue=re.fullmatch(r'(20\d{2})-T([1-4])',period)
  if not issue:return None
  p=norm(page_text)
- count=r'(?:\\d{1,3}(?: \\d{3})+|\\d{4,10})'
+ count=r'(?:\d{1,3}(?: \d{3})+|\d{4,10})'
  dates=re.search(r'\bdate\s+(\d{1,2}/\d{1,2}/20\d{2})\s+(\d{1,2}/\d{1,2}/20\d{2})\b',p)
  capitals=re.search(r'capitalisation\s*\(en prix de souscription\)\s+('+count+r')\s*k\s*€\s+('+count+r')\s*k\s*€',p)
  shares=re.search(r'\bnombre de parts\s+('+count+r')\s+('+count+r')\b',p)
