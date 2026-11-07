@@ -20,7 +20,11 @@ class IssuerProbeContractTest(unittest.TestCase):
         self.assertEqual(len({d["scpi_slug"] for d in docs}), 14)
         self.assertFalse(self.manifest["financial_certified"])
         self.assertFalse(self.manifest["deploy_allowed"])
-        self.assertTrue(all(d["source_period"] == "2026-T2" for d in docs))
+        self.assertEqual(sum(d["source_period"] == "2026-T2" and
+                             d["document_kind"] == "quarterly_bulletin" for d in docs), 1)
+        self.assertEqual(sum(d["source_period"] == "2026-S1" and
+                             d["document_kind"] == "semiannual_bulletin" for d in docs), 13)
+        self.assertEqual(docs[0]["scpi_slug"], "lf-croissance-et-territoires")
 
     def test_no_cross_fund_or_forged_host_accepted(self):
         for url in [
@@ -35,6 +39,14 @@ class IssuerProbeContractTest(unittest.TestCase):
                 m["documents"][0]["source_url"] = url
                 with self.assertRaises(ValueError):
                     probe.validate_discovery_manifest(m)
+
+    def test_false_t2_label_on_semester_bulletin_must_be_rejected(self):
+        m = copy.deepcopy(self.manifest)
+        semester = m["documents"][5]
+        semester["source_period"] = "2026-T2"
+        semester["document_kind"] = "quarterly_bulletin"
+        with self.assertRaisesRegex(ValueError, "UNTRUSTED_SOURCE_DISCOVERY_ENTRY"):
+            probe.validate_discovery_manifest(m)
 
     def test_second_multihabitation_must_not_match_twenty(self):
         self.assertFalse(probe.exact_fund_identity(
