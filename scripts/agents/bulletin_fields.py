@@ -27,7 +27,7 @@ FIELDS={
  'nombre_associes':('count',[r'nombre d\W?associes',r'\bassocies au\b']),
  'nombre_immeubles':('count',[r'nombre d\W?immeubles',r'nombre d\W?actifs immobiliers']),
  'nombre_locataires':('count',[r'nombre de locataires']),
- 'parts_attente_retrait':('parts',[r'parts en attente de retraits?',r'parts en attente au']),
+ 'parts_attente_retrait':('parts',[r'parts? en attente de retraits?',r'parts? en attente au']),
  'retraits_executes_trimestre':('parts',[r'parts retirees',r'retraits executes',r'parts remboursees']),
  'collecte_nette':('MEUR',[r'collecte nette']),
  'walt':('years',[r'\bwalt\b',r'duree (?:residuelle )?(?:moyenne )?(?:des baux )?jusqu\W?au terme']),
