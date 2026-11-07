@@ -9,6 +9,7 @@ on:
       - scripts/agents/bulletin_complete_pipeline*
       - scripts/agents/bulletin_fields.py
       - scripts/agents/corum_bulletin_fields.py
+      - 'supabase/migrations/*_source_qa.sql'
       - scripts/agents/bulletin_source_resolver*
       - scripts/agents/bulletin_source_transport*
       - scripts/agents/paref_private_archived_tof_oidc_probe*
@@ -20,6 +21,7 @@ on:
       - scripts/agents/bulletin_complete_pipeline*
       - scripts/agents/bulletin_fields.py
       - scripts/agents/corum_bulletin_fields.py
+      - 'supabase/migrations/*_source_qa.sql'
       - scripts/agents/bulletin_source_resolver*
       - scripts/agents/bulletin_source_transport*
       - scripts/agents/paref_private_archived_tof_oidc_probe*
