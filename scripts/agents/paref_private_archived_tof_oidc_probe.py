@@ -126,6 +126,13 @@ def source_qa(spec,raw):
           "financial_certified":False,"human_attestation":False,
           "publication_authorized":False}
 
+def safe_error_code(exc):
+    # Never let a transport exception print a short-lived private signed URL,
+    # a GitHub JWT, or a Storage query string into CI logs/artifacts.
+    if isinstance(exc, ValueError) and re.fullmatch(r"[A-Z][A-Z0-9_]{3,90}",str(exc)):
+        return str(exc)
+    return "ARCHIVE_TRANSPORT_OR_PDF_PARSER_FAILURE"
+
 def main():
     import sys
     out=Path(sys.argv[1] if len(sys.argv)>1 else "test-results/paref-private-archive")
@@ -138,10 +145,11 @@ def main():
             print("PAREF_PRIVATE_ARCHIVE_SHA_AND_GEOMETRY_PASS",spec["slug"],spec["period"],
                   spec["sha256"],[p["page"] for p in result["target_position_matches"]],flush=True)
         except Exception as exc:
+            error_code=safe_error_code(exc)
             result={"slug":spec["slug"],"period":spec["period"],"status":"blocked",
-                    "code":str(exc)[:180],
+                    "code":error_code,
                     "financial_certified":False,"human_attestation":False}
-            print("PAREF_PRIVATE_ARCHIVE_PROOF_BLOCKED",spec["slug"],str(exc)[:140],flush=True)
+            print("PAREF_PRIVATE_ARCHIVE_PROOF_BLOCKED",spec["slug"],error_code,flush=True)
         report["records"].append(result)
     (out/"source-qa.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
     if any(r["status"]!="issuer_binary_verified_candidate_geometry" for r in report["records"]):
