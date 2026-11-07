@@ -20,16 +20,16 @@ test('RECOVERY-129 candidate has two non-hour-boundary daily triggers, plus manu
 });
 
 test('RECOVERY-129 watchdog recovers only missing existing workflows, no blind retry',()=>{
-  assert.match(watchdog,/cron: "57 8 \\* \\* \\*"/);
+  assert.match(watchdog,/cron: "57 8 \* \* \*"/);
   assert.match(watchdog,/  actions: write/);
-  assert.match(watchdog,/github\\.event_name == 'schedule'/);
-  assert.match(watchdog,/github\\.ref == 'refs\\/heads\\/main'/);
-  assert.match(watchdog,/github\\.run_attempt == 1/);
-  assert.match(watchdog,/durableOrchestrator\\.mjs/);
+  assert.match(watchdog,/github\.event_name == 'schedule'/);
+  assert.match(watchdog,/github\.ref == 'refs\/heads\/main'/);
+  assert.match(watchdog,/github\.run_attempt == 1/);
+  assert.match(watchdog,/durableOrchestrator\.mjs/);
   assert.match(watchdog,/listWorkflowRuns/);
   assert.match(watchdog,/createWorkflowDispatch/);
-  assert.match(watchdog,/workflow_id:target\\.workflow,ref:'main'/);
-  assert.match(watchdog,/decision\\.decision==='FAILED'/);
+  assert.match(watchdog,/workflow_id:target\.workflow,ref:'main'/);
+  assert.match(watchdog,/decision\.decision==='FAILED'/);
   assert.deepEqual(RECOVERY_TARGETS.map(t=>t.workflow),[
     'maximus-agent-parallel.yml','maximus-all-bulletins-replay.yml','scpi-auto-remediation.yml']);
   const target=RECOVERY_TARGETS[0];
@@ -42,7 +42,7 @@ test('RECOVERY-129 watchdog recovers only missing existing workflows, no blind r
   assert.equal(decideWorkflowRecovery({now,runs:[status(null,'in_progress')],target}).decision,'ACTIVE');
   assert.equal(decideWorkflowRecovery({now,runs:[status('failure')],target}).decision,'FAILED');
   assert.equal(decideWorkflowRecovery({now,runs:[status('success')],target}).decision,'HEALTHY');
-  assert.doesNotMatch(watchdog,/\\b(?:reset_quota|override_qa|disable_qa|publish_scpi)\\b/i);
+  assert.doesNotMatch(watchdog,/\b(?:reset_quota|override_qa|disable_qa|publish_scpi)\b/i);
 });
 
 test('P0 daily dedupe and financial gates remain impossible to bypass by retry',()=>{
