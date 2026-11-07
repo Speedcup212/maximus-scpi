@@ -70,6 +70,24 @@ class BuroHistorySourcesTest(unittest.TestCase):
                 self.m["documents"][0],self.m["issuer_hosts"],
                 location_probe=lambda *args: "/content/download/1410/file/BTI.pdf")
 
+    def test_t1_alternative_wrong_issuer_path_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            proof=b.inspect_t1_alternative(self.m['issuer_hosts'],Path(td),
+                loader=lambda *args: (_ for _ in ()).throw(AssertionError('unexpected download')),
+                location_probe=lambda *args:'/content/download/1334/file/not-statutes.pdf')
+            self.assertEqual(proof['status'],'blocked')
+            self.assertEqual(proof['error_code'],'T1_ALTERNATE_REDIRECT_NOT_EXACT_ISSUER_PDF')
+            self.assertFalse(proof['financial_certified'])
+
+    def test_t1_alternative_hash_mismatch_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            proof=b.inspect_t1_alternative(self.m['issuer_hosts'],Path(td),
+                loader=lambda url,hosts:(b'%PDF-1.7 incorrect',url),
+                location_probe=lambda *args:'/content/download/1334/file/BTI%20Buroboutic%20T1%202026.pdf')
+            self.assertEqual(proof['status'],'blocked')
+            self.assertEqual(proof['error_code'],'T1_ALTERNATE_SHA_DIFFERS_FROM_QUARANTINE')
+            self.assertFalse(proof['issuer_registration_corrected'])
+
     def test_false_pdf_cannot_be_source_proven(self):
         with tempfile.TemporaryDirectory() as td:
             doc=self.m["documents"][0]
