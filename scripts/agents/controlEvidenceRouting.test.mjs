@@ -180,3 +180,35 @@ test('RECOVERY-181 source attestation adds evidence without creating new financi
  assert.match(edge,/source_reference|issuer_source_sha256/);
  assert.match(edge,/hashPdf,Boolean\(old\?\.id/);
 });
+
+test('RECOVERY-182 quarantines only six evidence-proven Transitions Europe semantic defects',()=>{
+ const sql=readFileSync('supabase/migrations/20261108_recovery182_semantic_evidence_quarantine.sql','utf8');
+ assert.match(sql,/scpi_semantic_evidence_review_v1/);
+ assert.match(sql,/security_invoker=true/);
+ assert.match(sql,/SUSPECTED_REQUIRES_INDEPENDENT_QA/);
+ assert.match(sql,/quarantine_transitions_europe_t3_semantics_v1/);
+ assert.match(sql,/c\.source_page>0 AND c\.extraction_confidence>=\.95/);
+ assert.match(sql,/RECOVERY182_SIX_SEMANTIC_PROOFS_NOT_VERIFIED/);
+ assert.match(sql,/RECOVERY182_HISTORY_CHANGED_STOP/);
+ assert.match(sql,/d\.pdf_sha256=pdf_sha/);
+ assert.match(sql,/h\.source_url=documented/);
+ assert.match(sql,/c\.source_url=documented/);
+ assert.match(sql,/GET DIAGNOSTICS changed=ROW_COUNT/);
+ assert.match(sql,/GET DIAGNOSTICS historical=ROW_COUNT/);
+ assert.match(sql,/invalid_semantic_mismatch_pending_qa/);
+ assert.match(sql,/recovery182_semantic_metric_quarantine/);
+ assert.match(sql,/REVOKE ALL ON FUNCTION/);
+ assert.doesNotMatch(sql,/UPDATE public\.scpi_crash_test_strict_v2/);
+ assert.doesNotMatch(sql,/SET (value_numeric|tof|prix_reconstitution|valeur_realisation|collecte_nette|td|walb)=/);
+ assert.doesNotMatch(sql,/INSERT INTO public\.scpi_metric_certifications/);
+ assert.doesNotMatch(sql,/GRANT (SELECT|EXECUTE) TO (anon|authenticated)/);
+});
+test('RECOVERY-182 distinguishes historical TD 7.6 from 6 percent PGA objective',()=>{
+ const sql=readFileSync('supabase/migrations/20261108_recovery182_semantic_evidence_quarantine.sql','utf8');
+ assert.match(sql,/e\.metric='td' AND e\.recorded_value=6 AND e\.refers_to_pga_target/);
+ assert.match(sql,/c\.metric='td' AND c\.value_numeric=6/);
+ assert.match(sql,/c\.metric='walb' AND c\.value_numeric=6\.76/);
+ assert.match(sql,/c\.metric='prix_reconstitution' AND c\.value_numeric=229\.27/);
+ assert.match(sql,/c\.metric='valeur_realisation' AND c\.value_numeric=181\.8/);
+ assert.match(sql,/c\.metric='collecte_nette' AND c\.value_numeric=142000000/);
+});
