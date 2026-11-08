@@ -31,9 +31,9 @@ class GeometrySecurity(unittest.TestCase):
     def test_vacancy_subcomponent_not_target_tof(self):
         words=[w("TOF",30,40),w("89,7",58,40),w("Locaux",30,180),
                w("vacants",62,180),w("10,3",97,180)]
-        wrong=g.locate(words,10.3)[0]
-        self.assertFalse(wrong["tof_label_near"])
-        self.assertGreater(wrong["tof_distance"],wrong["vacancy_distance"])
+        # The reader refuses a vacancy percentage outside the credible TOF
+        # candidate range; it must not assert that it found a TOF label.
+        self.assertEqual(g.locate(words,10.3),[])
     def test_conflicting_current_and_previous_targets_remain_review(self):
         spec={"candidate":89.7,"target_page":4}
         pages=[(4,[w("TOF",30,100),w("89,7",65,100)],
