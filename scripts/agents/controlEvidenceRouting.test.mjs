@@ -282,3 +282,41 @@ test('RECOVERY-184 uses existing CONTROL summary with no model calls, task mutat
  assert.doesNotMatch(sql,/INSERT\s+INTO\s+maximus_agents\.tasks/i);
  assert.doesNotMatch(sql,/UPDATE\s+scpi_internal\./i);
 });
+
+
+test('RECOVERY-185 dispatches bounded historical TOF jobs that are genuinely claimable',()=>{
+ const sql=readFileSync('supabase/migrations/20261108_recovery185_historical_tof_live_queue.sql','utf8');
+ assert.match(sql,/prepare_historical_tof_proof_batch_v1/);
+ assert.match(sql,/claim_historical_tof_proof_v1/);
+ assert.match(sql,/p_max<1 OR p_max>3/);
+ assert.match(sql,/maximus_agents\.tasks/);
+ assert.match(sql,/ON CONFLICT\(dedupe_key\) DO NOTHING/);
+ assert.match(sql,/q\.still_blocks_strict_pass/);
+ assert.match(sql,/d\.pdf_sha256 ~ '\^\[0-9a-f\]\{64\}\$'/);
+ assert.match(sql,/d\.result->>'identity_verified'='true'/);
+ assert.match(sql,/d\.result->>'period_verified'='true'/);
+ assert.match(sql,/lower\(split_part\(split_part\(d\.source_url/);
+ assert.match(sql,/claim_task/);
+ assert.match(sql,/coalesce\(x\.payload->>''mode''/);
+ assert.match(sql,/REVOKE ALL ON FUNCTION maximus_agents\.claim_historical_tof_proof_v1/);
+ assert.doesNotMatch(sql,/UPDATE\s+public\.scpi_(indicator_history|metric_certifications|source_registry)/i);
+ assert.doesNotMatch(sql,/DELETE\s+FROM\s+scpi_internal\.tof_policy_quarantine/i);
+});
+test('RECOVERY-185 OIDC worker never accepts a financial pass or an arbitrary PDF',()=>{
+ const edge=readFileSync('supabase/functions/maximus-agent-audit-oidc/index.ts','utf8');
+ const workflow=readFileSync('.github/workflows/maximus-agent-parallel.yml','utf8');
+ assert.match(edge,/historical_prepare/);
+ assert.match(edge,/historical_claim/);
+ assert.match(edge,/historical_complete/);
+ assert.match(edge,/HISTORICAL_SOURCE_HOST_NOT_APPROVED/);
+ assert.match(edge,/binary_hash_matches_registered===true/);
+ assert.match(edge,/financial_qa_completed:false/);
+ assert.match(edge,/verdict:"REVIEW",deploy_allowed:false,financial_certified:false/);
+ assert.match(workflow,/historical-tof-proof:/);
+ assert.match(workflow,/op:'historical_prepare'/);
+ assert.match(workflow,/op:'historical_claim'/);
+ assert.match(workflow,/op:'historical_complete'/);
+ assert.match(workflow,/candidate_pdf_binary_proof\.py/);
+ assert.match(workflow,/max-parallel: 3/);
+ assert.doesNotMatch(workflow,/op:'historical_approve'/);
+});

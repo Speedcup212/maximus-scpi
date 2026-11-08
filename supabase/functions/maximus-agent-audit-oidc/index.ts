@@ -76,6 +76,97 @@ Deno.serve(async request=>{
         throw Error("CONTROL_TRIAGE_FINANCIAL_SAFETY");
       return Response.json(plan);
     }
+    if(body.op==="historical_prepare"){
+      // Reuse the existing CONTROL job, queue and credentials. At most 3 jobs.
+      if(Number(payload.run_attempt||1)!==1)
+        return Response.json({documents:[],prepared:0,reason:"rerun_denied",
+          financial_certified:false,deploy_allowed:false});
+      const [row]=await sql`select maximus_agents.prepare_historical_tof_proof_batch_v1(3) as batch`;
+      const batch=row.batch;
+      if(!batch||batch.deploy_allowed!==false||batch.financial_certified!==false||
+         !Array.isArray(batch.documents)||batch.documents.length>3)
+        throw Error("HISTORICAL_DISPATCH_UNSAFE");
+      return Response.json(batch);
+    }
+    if(body.op==="historical_claim"&&typeof body.scpi_slug==="string"&&
+       typeof body.source_period==="string"&&
+       /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(body.scpi_slug)&&
+       /^20[0-9]{2}-T[1-4]$/.test(body.source_period)){
+      if(Number(payload.run_attempt||1)!==1)
+        return Response.json({task:null,reason:"rerun_denied"});
+      const rows=await sql`select id,role,kind,status,lease_token,payload
+        from maximus_agents.claim_historical_tof_proof_v1(${body.scpi_slug},${body.source_period})`;
+      const t=rows[0];
+      if(!t)return Response.json({task:null,reason:"no_eligible_scoped_qa_task"});
+      const e=t.payload;
+      if(t.role!=="QA"||t.kind!=="audit"||t.status!=="running"||
+         e.mode!=="historical_tof_source_qa"||e.scpi_slug!==body.scpi_slug||
+         e.source_period!==body.source_period||!t.lease_token||
+         !/^[0-9a-f]{64}$/.test(String(e.pdf_sha256))||
+         !Number.isInteger(e.page_count)||e.page_count<1||e.page_count>80||
+         !Array.isArray(e.allowed_hosts)||!e.allowed_hosts.length)
+        throw Error("HISTORICAL_CLAIM_SCOPE_MISMATCH");
+      const [connector]=await sql`select allowed_hosts from public.scpi_source_connectors
+          where scpi_slug=${body.scpi_slug} and enabled=true`;
+      let source;
+      try{source=new URL(e.source_url);}catch{return new Response("Invalid source",{status:422});}
+      if(source.protocol!=="https:"||source.username||source.password||
+         (source.port&&source.port!=="443")||
+         !connector?.allowed_hosts?.includes(source.hostname.toLowerCase())||
+         !e.allowed_hosts.includes(source.hostname.toLowerCase()))
+        throw Error("HISTORICAL_SOURCE_HOST_NOT_APPROVED");
+      const manifest={exists:true,candidate_slug:e.scpi_slug,
+        candidate_name:e.candidate_name,allowed_hosts:connector.allowed_hosts,
+        documents:[{source_url:e.source_url,source_period:e.source_period,
+          document_kind:"quarterly_bulletin",pdf_sha256:e.pdf_sha256,
+          page_count:e.page_count}]};
+      return Response.json({task:{id:t.id,role:t.role,kind:t.kind,
+          lease_token:t.lease_token,scpi_slug:e.scpi_slug,
+          source_period:e.source_period},manifest,
+        deploy_allowed:false,financial_certified:false});
+    }
+    if(body.op==="historical_complete"&&typeof body.task_id==="string"&&
+       typeof body.lease_token==="string"&&body.proof&&
+       typeof body.proof==="object"&&!Array.isArray(body.proof)){
+      const [t]=await sql`select id,role,kind,payload from maximus_agents.tasks
+        where id=${body.task_id}::uuid and lease_token=${body.lease_token}::uuid
+          and status='running' and lease_until>now()
+          and role='QA' and kind='audit'
+          and payload->>'mode'='historical_tof_source_qa'`;
+      if(!t)return new Response("Forbidden",{status:403});
+      const p=body.proof,doc=Array.isArray(p.documents)&&p.documents.length===1?p.documents[0]:null;
+      const match=doc?.source_url===t.payload.source_url&&
+        doc?.source_period===t.payload.source_period&&
+        (doc?.pdf_sha256===t.payload.pdf_sha256||
+         doc?.expected_sha256===t.payload.pdf_sha256);
+      if(!match||p.candidate_slug!==t.payload.scpi_slug||
+         p.financial_certified!==false||p.deploy_allowed!==false||
+         !["verified","blocked"].includes(p.status)||
+         !["verified","blocked"].includes(doc?.status))
+        return new Response("Untrusted documentary proof",{status:422});
+      const accepted=p.status==="verified"&&doc.status==="verified"&&
+        doc.binary_hash_matches_registered===true&&
+        doc.identity_verified===true&&doc.period_verified===true&&
+        Array.isArray(doc.reader_engines)&&
+        doc.reader_engines.includes("MuPDF")&&doc.reader_engines.includes("Poppler");
+      const result={summary:accepted?
+        "Original publisher PDF re-read with exact SHA and two independent readers; TOF metric still requires financial QA.":
+        "Publisher PDF/source audit blocked; historical TOF not certified.",
+        verdict:"REVIEW",deploy_allowed:false,financial_certified:false,
+        independent_pdf_readers:true,financial_qa_completed:false,
+        evidence:[{source:"maximus-agent-parallel historical PDF proof",
+          observed_at:new Date().toISOString(),
+          finding:{scpi_slug:t.payload.scpi_slug,
+            source_period:t.payload.source_period,
+            source_sha256:t.payload.pdf_sha256,
+            result:doc,verified_binary:accepted,
+            no_financial_certification:true}}]};
+      const [row]=await sql`select maximus_agents.finish_task(
+         ${body.task_id}::uuid,${body.lease_token}::uuid,
+         ${accepted?"done":"blocked"},${sql.json(result)}::jsonb) as result`;
+      return Response.json({result:row.result,financial_certified:false,
+        deploy_allowed:false});
+    }
     if(body.op==="batch_claim"&&roles.has(body.role)&&
        typeof body.scpi_slug==="string"&&
        /^[a-z0-9-]{2,100}$/.test(body.scpi_slug)){
