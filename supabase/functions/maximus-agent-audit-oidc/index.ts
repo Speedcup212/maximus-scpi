@@ -168,6 +168,71 @@ Deno.serve(async request=>{
       return new Response(data,{status:200,headers:{
         "Content-Type":"application/pdf","Cache-Control":"no-store","X-Original-Sha256":hash}});
     }
+    if(body.op==="historical_metric_original"&&
+       typeof body.scpi_slug==="string"&&typeof body.source_period==="string"){
+      // Read-only financial forensics: 3 precisely scoped previously archived
+      // issuer originals with a completed two-reader QA task. Never a new
+      // certification, no arbitrary path, no access from public clients.
+      const permitted={
+        "novapierre-1":"2024-T4",
+        "novapierre-residentiel":"2022-T1",
+        "cristal-rente":"2026-T2"
+      };
+      if(permitted[body.scpi_slug as keyof typeof permitted]!==body.source_period)
+        return new Response("Unapproved historical geometry source",{status:403});
+      const [verified]=await sql`select t.id,t.payload
+        from maximus_agents.tasks t
+        where t.role='QA' and t.kind='audit' and t.status='done'
+          and t.payload->>'mode'='historical_tof_source_qa'
+          and t.payload->>'scpi_slug'=${body.scpi_slug}
+          and t.payload->>'source_period'=${body.source_period}
+          and t.result->'evidence'->0->'finding'->>'verified_binary'='true'
+          and t.result->>'financial_certified'='false'
+          and t.result->>'deploy_allowed'='false'
+        order by t.completed_at desc limit 1`;
+      if(!verified)return new Response("No completed source proof",{status:404});
+      const p=verified.payload;
+      const [file]=await sql`select b.pdf_path,b.pdf_sha256,
+          o.metadata->>'size' as archive_bytes,d.page_count
+        from public.scpi_bulletins b
+        join storage.objects o on o.bucket_id='scpi-bulletins' and o.name=b.pdf_path
+        join maximus_agents.scpi_bulletin_replay_documents d
+          on d.scpi_slug=b.scpi_slug and d.source_period=b.period
+         and d.pdf_sha256=b.pdf_sha256 and d.source_url=b.source_url
+         and d.status='extracted' and d.processing_complete is true
+         and d.result->>'identity_verified'='true'
+         and d.result->>'period_verified'='true'
+        where b.scpi_slug=${body.scpi_slug}
+          and b.period=${body.source_period}
+          and b.pdf_sha256=${p.pdf_sha256}
+          and b.source_url=${p.source_url}
+          and b.pdf_path=b.scpi_slug||'/'||b.period||'/'||b.pdf_sha256||'.pdf'
+        limit 1`;
+      const size=Number(file?.archive_bytes);
+      if(!file||!Number.isSafeInteger(size)||size<1024||size>20000000||
+         !Number.isInteger(file.page_count)||file.page_count<1||file.page_count>80)
+        return new Response("Original archive invalid",{status:404});
+      const secret=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+      if(!secret)throw Error("PRIVATE_STORAGE_ACCESS_MISSING");
+      const objectUrl="https://ygvsddcpohsnaowofuwc.supabase.co/storage/v1/object/authenticated/scpi-bulletins/"
+        +file.pdf_path.split("/").map(encodeURIComponent).join("/");
+      const response=await fetch(objectUrl,{headers:{
+        apikey:secret,Authorization:"Bearer "+secret},
+        redirect:"error",signal:AbortSignal.timeout(20000)});
+      if(!response.ok)return new Response("Archive original inaccessible",{status:424});
+      const data=await response.arrayBuffer();
+      if(data.byteLength!==size)return new Response("Archive length changed",{status:422});
+      const hash=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",data)))
+        .map(n=>n.toString(16).padStart(2,"0")).join("");
+      if(hash!==file.pdf_sha256||hash!==p.pdf_sha256)
+        return new Response("Archive SHA mismatch",{status:422});
+      return new Response(data,{status:200,headers:{
+        "Content-Type":"application/pdf","Cache-Control":"no-store",
+        "X-Original-Sha256":hash,
+        "X-Scpi-Slug":body.scpi_slug,
+        "X-Source-Period":body.source_period,
+        "X-Page-Count":String(file.page_count)}});
+    }
     if(body.op==="historical_complete"&&typeof body.task_id==="string"&&
        typeof body.lease_token==="string"&&body.proof&&
        typeof body.proof==="object"&&!Array.isArray(body.proof)){

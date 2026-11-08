@@ -28,6 +28,8 @@ on:
       - "scripts/agents/candidate_pdf_binary_proof_test.py"
       - "scripts/agents/candidate_pdf_binary_proof.py"
       - "scripts/agents/historicalArchiveProof.py"
+      - "scripts/agents/historicalTofGeometry.py"
+      - "scripts/agents/historical_tof_geometry_test.py"
       - "scripts/agents/historical_archive_proof_test.py"
       - "supabase/migrations/20261108_recovery186_original_archive_retry.sql"
       - "scripts/agents/candidateBinaryEvidence.mjs"
@@ -59,6 +61,8 @@ on:
       - "scripts/agents/candidate_pdf_binary_proof_test.py"
       - "scripts/agents/candidate_pdf_binary_proof.py"
       - "scripts/agents/historicalArchiveProof.py"
+      - "scripts/agents/historicalTofGeometry.py"
+      - "scripts/agents/historical_tof_geometry_test.py"
       - "scripts/agents/historical_archive_proof_test.py"
       - "supabase/migrations/20261108_recovery186_original_archive_retry.sql"
       - "scripts/agents/candidateDocumentEvidence.test.mjs"
@@ -105,6 +109,8 @@ jobs:
         run: python -m unittest scripts/agents/candidate_pdf_binary_proof_test.py -v
       - name: Historical original archive SHA and independent-read security tests
         run: python -m unittest scripts/agents/historical_archive_proof_test.py -v
+      - name: Historical TOF bbox semantics regression
+        run: python -m unittest scripts/agents/historical_tof_geometry_test.py -v
 
   control:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.run_attempt == 1
@@ -191,6 +197,89 @@ jobs:
             core.setOutput('documents',JSON.stringify(p.documents));
             core.notice('Historical source QA: '+p.documents.length+' jobs, '+p.prepared+
               ' newly queued; 0 certifications');
+
+  historical-tof-financial-geometry:
+    # Read-only follow-up to RECOVERY-186 on three original source PDFs.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        include:
+          - scpi_slug: novapierre-1
+            period: 2024-T4
+            sha: 3296b51f63b420914be88a4004179d40cf3b2f2bdd3baee9cd4d8e4f241f1c54
+          - scpi_slug: novapierre-residentiel
+            period: 2022-T1
+            sha: 6997ac5572b2907f6ab4e3b4d1f8dce08a750e266b1431dc8dbe6dab4a450708
+          - scpi_slug: cristal-rente
+            period: 2026-T2
+            sha: d3cdc6ce4955a226accf191df1c1a9a2ffda38605f1bece8d76cac9761fe680a
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Retrieve exact original private issuer PDF, bound to completed QA
+        uses: actions/github-script@v7
+        env:
+          SOURCE_SLUG: ${{ matrix.scpi_slug }}
+          SOURCE_PERIOD: ${{ matrix.period }}
+          SOURCE_SHA: ${{ matrix.sha }}
+        with:
+          script: |
+            const fs=require('node:fs'),crypto=require('node:crypto');
+            const token=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
+            const res=await fetch('https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
+              method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
+              body:JSON.stringify({op:'historical_metric_original',
+                scpi_slug:process.env.SOURCE_SLUG,source_period:process.env.SOURCE_PERIOD}),
+              signal:AbortSignal.timeout(30000)});
+            if(!res.ok)throw Error('Original archive PDF HTTP '+res.status);
+            if(res.headers.get('content-type')?.split(';')[0]!=='application/pdf'||
+               res.headers.get('x-scpi-slug')!==process.env.SOURCE_SLUG||
+               res.headers.get('x-source-period')!==process.env.SOURCE_PERIOD||
+               res.headers.get('x-original-sha256')!==process.env.SOURCE_SHA)
+              throw Error('Original issuer SHA/source header mismatch');
+            const bytes=Buffer.from(await res.arrayBuffer());
+            const sha=crypto.createHash('sha256').update(bytes).digest('hex');
+            if(bytes.length<1024||bytes.length>20000000||sha!==process.env.SOURCE_SHA)
+              throw Error('Original PDF bytes changed');
+            fs.writeFileSync(process.env.RUNNER_TEMP+'/historical-financial-original.pdf',bytes,{mode:0o600});
+            fs.writeFileSync(process.env.RUNNER_TEMP+'/historical-financial-manifest.json',
+              JSON.stringify({scpi_slug:process.env.SOURCE_SLUG,
+                source_period:process.env.SOURCE_PERIOD,sha256:sha}),{mode:0o600});
+            core.notice('Exact publisher archive '+process.env.SOURCE_SLUG+
+              '/'+process.env.SOURCE_PERIOD+' verified; finance not certified');
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install both geometry readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check "PyMuPDF==1.26.5"
+      - name: Independent TOF geometry, semantic labels, exact issuer period
+        env:
+          SOURCE_SLUG: ${{ matrix.scpi_slug }}
+        run: |
+          python scripts/agents/historicalTofGeometry.py --slug "$SOURCE_SLUG" \
+            --pdf "$RUNNER_TEMP/historical-financial-original.pdf" \
+            --manifest "$RUNNER_TEMP/historical-financial-manifest.json" \
+            --out "$RUNNER_TEMP/historical-tof-geometry.json"
+      - name: Retain only the geometry report, never the private PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovery187-tof-geometry-${{ matrix.scpi_slug }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/historical-tof-geometry.json
+          if-no-files-found: warn
+          retention-days: 7
 
   historical-tof-proof:
     needs: control
