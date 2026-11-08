@@ -212,3 +212,32 @@ test('RECOVERY-182 distinguishes historical TD 7.6 from 6 percent PGA objective'
  assert.match(sql,/c\.metric='valeur_realisation' AND c\.value_numeric=181\.8/);
  assert.match(sql,/c\.metric='collecte_nette' AND c\.value_numeric=142000000/);
 });
+
+test('RECOVERY-183 issuer-direct source attestation requires exact independent source and canonical data proofs',()=>{
+ const sql=readFileSync('supabase/migrations/20261108_recovery183_aestiam_horizon_source_provenance.sql','utf8');
+ assert.match(sql,/attest_aestiam_horizon_direct_issuer_v1/);
+ assert.match(sql,/pdf_sha text := 'c77dc6259fc2e7731db341a4dc7db8475653b77ebe7be98ad42ae3ac7e588309'/);
+ assert.match(sql,/v\.crash_test_status='FAIL_STRICT'/);
+ assert.match(sql,/r\.last_error='Extraction existante partielle'/);
+ assert.match(sql,/d\.result->>'identity_verified'='true'/);
+ assert.match(sql,/d\.result->>'period_verified'='true'/);
+ assert.match(sql,/scpi_internal\.tof_bulletin_source_rejection_reason/);
+ assert.match(sql,/NOT EXISTS \(\s*SELECT 1 FROM scpi_internal\.tof_policy_quarantine_audit_20261028/);
+ assert.match(sql,/tof\.verification_status='manual_verified_official_pdf_text_review'/);
+ assert.match(sql,/tof\.verification_method='issuer_pdf_page_text_verified_against_TopAndTOF'/);
+ assert.match(sql,/d\.result->'evidence'->c\.metric->'independent_engines'='\["MuPDF","Poppler"\]'::jsonb/);
+ assert.match(sql,/proof_count<>5/);
+ assert.match(sql,/2026-06-30/);
+ assert.match(sql,/h\.metric_provenance->c\.metric->>'reference_date'/);
+ assert.match(sql,/source_provenance_only|source provenance only/i);
+ assert.match(sql,/issuer_source_sha256=pdf_sha/);
+ assert.match(sql,/GET DIAGNOSTICS n=ROW_COUNT/);
+ assert.match(sql,/REVOKE ALL ON FUNCTION/);
+ assert.doesNotMatch(sql,/UPDATE public\.scpi_indicator_history/);
+ assert.doesNotMatch(sql,/UPDATE public\.scpi_metric_certifications/);
+ assert.doesNotMatch(sql,/UPDATE public\.scpi_indicators/);
+ assert.doesNotMatch(sql,/UPDATE public\.scpi_crash_test_strict_v2/);
+ assert.doesNotMatch(sql,/INSERT INTO maximus_agents\.tasks/);
+ assert.match(sql,/financial_value_changes',0/);
+ assert.match(sql,/financial_certifications_granted',0/);
+});
