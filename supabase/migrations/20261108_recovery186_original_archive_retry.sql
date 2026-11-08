@@ -178,8 +178,7 @@ BEGIN
          AND q.still_blocks_strict_pass
      )
    ORDER BY t.created_at,t.id
-   FOR UPDATE OF t SKIP LOCKED
-   LIMIT 2
+   LIMIT 2 FOR UPDATE OF t SKIP LOCKED
  ), changed AS (
    UPDATE maximus_agents.tasks t SET status='pending',
      lease_token=NULL,lease_until=NULL,completed_at=NULL,
