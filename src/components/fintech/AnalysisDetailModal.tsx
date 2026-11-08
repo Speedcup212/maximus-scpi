@@ -14,6 +14,8 @@ import { buildScpiForAnalysis } from '../../utils/buildScpiForAnalysis';
 import { getScpiDatedDiscount } from '../../utils/scpiDatedDiscount';
 import { aggregateCountryGeographyRows } from '../../utils/scpiGeography';
 import { annualReferenceYear, metricDateLabel } from '../../utils/scpiFinancialProvenance';
+import { getVerifiedPga2025 } from '../../utils/scpiPga';
+import ScpiPgaIndicator from './ScpiPgaIndicator';
 import SriRiskProfileBlock from '../shared/SriRiskProfileBlock';
 import type { ScpiScores } from '../../utils/scpiScoring';
 
@@ -129,6 +131,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
   const countryGeography = aggregateCountryGeographyRows(scpi.geography);
   const distributionYear=annualReferenceYear(scpiForAnalysis?.distributionReferencePeriod);
   const debtYear=annualReferenceYear(scpiForAnalysis?.debtReferencePeriod);
+  const officialPga2025 = getVerifiedPga2025(scpi.name);
 
   // Récupérer les avantages et inconvénients
   const advantages = scpiForAnalysis ? getScpiAdvantages(scpiForAnalysis) : [];
@@ -223,17 +226,18 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                 <div className="flex items-center gap-2 mb-2">
                   <TrendingUp className="w-4 h-4 text-emerald-400" />
                   <div className="text-xs text-slate-400">
-                    Taux de distribution brut{distributionYear!==null ? ` ${distributionYear}` : ''}
+                    Taux de distribution brut{officialPga2025 ? ' 2025' : distributionYear!==null ? ` ${distributionYear}` : ''}
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-emerald-400">
-                  {(scpiForAnalysis?.yield ?? scpi.yield).toFixed(2)}%
+                  {(officialPga2025?.distributionPct ?? scpiForAnalysis?.yield ?? scpi.yield).toFixed(2)}%
                 </div>
                 <div className="mt-2 pt-2 border-t border-slate-600">
                   <div className="text-[10px] text-slate-500 leading-tight">
                     Taux brut avant fiscalité – la fiscalité dépend de la situation personnelle de l'investisseur.
                   </div>
                 </div>
+                <div className="mt-3"><ScpiPgaIndicator name={scpi.name} variant="detail" /></div>
               </div>
 
               {/* TOF */}
@@ -473,6 +477,9 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                     Chaque sommet reprend exactement le score affiché à droite. Les anneaux correspondent à 0, 25, 50, 75 et 100. Le radar ne constitue ni une prévision de performance, ni une garantie de liquidité ou de capital.
                   </p>
                 </div>
+              </div>
+              <div className="mt-4">
+                <ScpiPgaIndicator name={scpi.name} variant="radar" />
               </div>
             </div>
           </div>
