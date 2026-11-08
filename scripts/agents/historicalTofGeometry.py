@@ -14,6 +14,7 @@ import re
 import subprocess
 import unicodedata
 import xml.etree.ElementTree as ET
+from html.parser import HTMLParser
 from pathlib import Path
 
 import fitz
@@ -49,14 +50,56 @@ def percent(word):
 def mupdf_words(page):
     return [(float(w[0]),float(w[1]),float(w[2]),float(w[3]),str(w[4])) for w in page.get_text("words")]
 
+class PopplerHTMLWordParser(HTMLParser):
+    """Tolerant parser for malformed Poppler XHTML, *not* a second OCR engine.
+
+    Only actual <word xMin...> tags and their numeric source coordinates count.
+    Discard incomplete/NaN boxes; never infer missing values or positions.
+    """
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.words=[]
+        self.current=None
+        self.parts=[]
+    def handle_starttag(self,tag,attrs):
+        if tag.lower()!="word":return
+        self.current={k.lower():v for k,v in attrs}
+        self.parts=[]
+    def handle_data(self,data):
+        if self.current is not None:self.parts.append(data)
+    def handle_endtag(self,tag):
+        if tag.lower()!="word" or self.current is None:return
+        raw="".join(self.parts).strip()
+        try:
+            box=tuple(float(self.current[k]) for k in ("xmin","ymin","xmax","ymax"))
+            if raw and all(math.isfinite(x) for x in box) and box[2]>box[0] and box[3]>box[1]:
+                self.words.append((*box,raw))
+        except (KeyError,ValueError,TypeError):
+            pass
+        self.current=None
+        self.parts=[]
+
+def parse_poppler_bbox(document):
+    try:
+        root=ET.fromstring(document)
+        words=[(float(el.attrib["xMin"]),float(el.attrib["yMin"]),
+                float(el.attrib["xMax"]),float(el.attrib["yMax"]),el.text)
+               for el in root.iter() if el.tag.endswith("word") and el.text]
+        if len(words)<3:raise ValueError("POPPLER_BBOX_XML_HAS_NO_WORDS")
+        return words,"strict_xml"
+    except ET.ParseError:
+        recovery=PopplerHTMLWordParser()
+        recovery.feed(document)
+        recovery.close()
+        if len(recovery.words)<3:
+            raise ValueError("POPPLER_BBOX_HTML_RECOVERY_INSUFFICIENT_WORDS")
+        return recovery.words,"html_word_recovery"
+
 def poppler_words(path,pageno):
     completed=subprocess.run(["pdftotext","-f",str(pageno),"-l",str(pageno),
               "-bbox",str(path),"-"],capture_output=True,text=True,
               timeout=45,check=True)
-    root=ET.fromstring(completed.stdout)
-    return [(float(el.attrib["xMin"]),float(el.attrib["yMin"]),
-             float(el.attrib["xMax"]),float(el.attrib["yMax"]),el.text)
-            for el in root.iter() if el.tag.endswith("word") and el.text]
+    return parse_poppler_bbox(completed.stdout)
 
 def centre(w):
     return ((w[0]+w[2])/2,(w[1]+w[3])/2)
@@ -141,10 +184,15 @@ def audit(slug,pdf_path,manifest):
             raise ValueError("ARCHIVE_ISSUER_SCPI_IDENTITY_MISMATCH")
         if spec["period"][:4] not in cover:
             raise ValueError("COVER_REPORT_YEAR_MISMATCH")
-        records=[(i+1,mupdf_words(doc[i]),poppler_words(pdf_path,i+1))
-                 for i in range(len(doc))]
+        records=[]
+        parser_modes=[]
+        for i in range(len(doc)):
+            poppler,mode=poppler_words(pdf_path,i+1)
+            parser_modes.append(mode)
+            records.append((i+1,mupdf_words(doc[i]),poppler))
     review=evaluate(spec,records)
     return {"scpi_slug":slug,"source_period":spec["period"],"sha256":spec["sha256"],
+        "poppler_bbox_parsers":sorted(set(parser_modes)),
         "source_type":"private_archived_publisher_original_verified_binary",
         "readers":["MuPDF-geometry","Poppler-bbox"],
         "expected_pdf_pages":spec["page_count"],
