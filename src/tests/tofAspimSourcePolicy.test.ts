@@ -34,7 +34,7 @@ describe('RECOVERY-193 — TOF ASPIM source evidence, no blanket ban', () => {
     expect(netlify).not.toContain('forbiddenAspimTof');
     expect(netlify).toContain("rejected.length > 0 || aspimTofCandidate ? 'auto_partial_review'");
     expect(netlify).toContain('The separate page-evidence/certification pipeline');
-    expect(netlify).toContain('stage-only');
+    expect(netlify).toContain('Stage-only ingestion');
   });
 
   it('never drops issuer ASPIM TOF in the Edge extractor or auto-verifies it', () => {
