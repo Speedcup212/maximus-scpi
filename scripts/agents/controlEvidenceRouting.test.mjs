@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {preserveIndependentIssuerProof} from '../../supabase/functions/scpi-bulletin-watch/sourceProvenance.mjs';
 import {validateEvidenceRoutingPlan as validate} from './controlEvidenceRouting.mjs';
 
 const valid=()=>({
@@ -136,4 +137,46 @@ test('RECOVERY-180 never writes financial values, changes quality guards or adds
   assert.match(sql,/metric_changes',0/);
   assert.match(sql,/financial_certified',false/);
   assert.match(sql,/deploy_allowed',false/);
+});
+
+test('RECOVERY-181 preserves prior independent issuer source ONLY for unchanged exact SHA, URL and period',()=>{
+ const base={
+  verification_status:'verified',confidence_level:'high',
+  bulletin_url:'https://issuer.example/docs/2026-T3.pdf',
+  last_document_period:'2026-T3',
+  issuer_source_sha256:'a'.repeat(64),
+  issuer_source_url:'https://issuer.example/docs/2026-T3.pdf',
+  issuer_source_period:'2026-T3',
+  issuer_source_verified_at:'2026-11-08T00:00:00Z'
+ };
+ const accepts=(s={...base},url=base.bulletin_url,period='2026-T3',sha='a'.repeat(64),same=true)=>
+   preserveIndependentIssuerProof(s,url,period,sha,same);
+ assert.equal(accepts(),true);
+ assert.equal(accepts({...base,confidence_level:'medium'}),false);
+ assert.equal(accepts({...base,verification_status:'incomplete'}),false);
+ assert.equal(accepts({...base,issuer_source_verified_at:null}),false);
+ assert.equal(accepts({...base,issuer_source_sha256:null}),false);
+ assert.equal(accepts({...base,issuer_source_period:'2026-T2'}),false);
+ assert.equal(accepts({...base,issuer_source_url:'https://issuer.example/other.pdf'}),false);
+ assert.equal(accepts({...base,bulletin_url:'https://issuer.example/other.pdf'}),false);
+ assert.equal(accepts(base,base.bulletin_url,'2026-T2'),false);
+ assert.equal(accepts(base,base.bulletin_url,'2026-T3','b'.repeat(64)),false);
+ assert.equal(accepts(base,base.bulletin_url,'2026-T3','a'.repeat(64),false),false);
+});
+test('RECOVERY-181 source attestation adds evidence without creating new financial certificates',()=>{
+ const sql=readFileSync('supabase/migrations/20261108_recovery181_attest_issuer_source_sha.sql','utf8');
+ const edge=readFileSync('supabase/functions/scpi-bulletin-watch/index.ts','utf8');
+ assert.match(sql,/issuer_source_sha256/);
+ assert.match(sql,/source_reference_resolved/);
+ assert.match(sql,/independent_engines'='\["MuPDF","Poppler"\]'::jsonb/);
+ assert.match(sql,/recovery181_issuer_source_attested/);
+ assert.match(sql,/scpi_internal\.tof_bulletin_source_rejection_reason/);
+ assert.match(sql,/REVOKE ALL ON FUNCTION/);
+ assert.doesNotMatch(sql,/UPDATE public\.scpi_indicator_history/i);
+ assert.doesNotMatch(sql,/INSERT INTO public\.scpi_metric_certifications/i);
+ assert.doesNotMatch(sql,/UPDATE public\.scpi_crash_test_strict_v2/i);
+ assert.match(edge,/import \{ preserveIndependentIssuerProof \}/);
+ assert.match(edge,/unchangedIndependentSourceProof/);
+ assert.match(edge,/source_reference|issuer_source_sha256/);
+ assert.match(edge,/hashPdf,Boolean\(old\?\.id/);
 });

@@ -1,6 +1,7 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { preserveIndependentIssuerProof } from "./sourceProvenance.mjs";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
 const PARSER_VERSION="2026-10-31-v90-labelled-price-pair";
@@ -159,7 +160,7 @@ async function sitemap(origin:string){
     const docs=await Promise.allSettled(kids.map(u=>getText(u,4500)));for(const d of docs)if(d.status==="fulfilled")for(const u of locs(d.value))if(!/\.xml(?:$|\?)/i.test(u))out.add(u);if(out.size)return [...out];}catch{}}return [];
 }
 
-type Source={scpi_slug:string;scpi_name:string;management_company:string;official_scpi_page_url:string|null;discovered_page_url:string|null;source_domain:string|null;last_checked_at:string|null;next_check_at:string|null;error_count:number|null};
+type Source={scpi_slug:string;scpi_name:string;management_company:string;official_scpi_page_url:string|null;discovered_page_url:string|null;source_domain:string|null;last_checked_at:string|null;next_check_at:string|null;error_count:number|null;bulletin_url:string|null;last_document_period:string|null;verification_status:string|null;confidence_level:string|null;issuer_source_sha256:string|null;issuer_source_period:string|null;issuer_source_url:string|null;issuer_source_verified_at:string|null};
 type Cand={page:string;pdf:string;html:boolean;label:string;p:string|null;k:number;score:number};
 
 async function pages(s:Source){
@@ -1050,7 +1051,7 @@ async function startEvent(db:any,s:Source){const {data}=await db.from("scpi_inge
 async function finish(db:any,id:string|null,x:any){if(id)await db.from("scpi_ingestion_events").update({...x,ended_at:new Date().toISOString()}).eq("id",id);}
 async function reg(db:any,slug:string,x:any){const {error}=await db.from("scpi_source_registry").update({...x,updated_at:new Date().toISOString()}).eq("scpi_slug",slug);if(error)throw new Error(error.message);}
 async function next(db:any){
-  const {data,error}=await db.from("scpi_source_registry").select("scpi_slug,scpi_name,management_company,official_scpi_page_url,discovered_page_url,source_domain,last_checked_at,next_check_at,error_count").eq("automation_enabled",true).eq("ingestion_driver","generic").limit(200);if(error)throw error;const now=Date.now();
+  const {data,error}=await db.from("scpi_source_registry").select("scpi_slug,scpi_name,management_company,official_scpi_page_url,discovered_page_url,source_domain,last_checked_at,next_check_at,error_count,bulletin_url,last_document_period,verification_status,confidence_level,issuer_source_sha256,issuer_source_period,issuer_source_url,issuer_source_verified_at").eq("automation_enabled",true).eq("ingestion_driver","generic").limit(200);if(error)throw error;const now=Date.now();
   return (data||[]).filter((x:any)=>!x.next_check_at||new Date(x.next_check_at).getTime()<=now).sort((a:any,b:any)=>(a.last_checked_at?new Date(a.last_checked_at).getTime():0)-(b.last_checked_at?new Date(b.last_checked_at).getTime():0))[0] as Source|undefined;
 }
 
@@ -1080,7 +1081,7 @@ Deno.serve(async(req:Request)=>{
   let s:Source|undefined;
   if(body?.slug){
     const {data,error}=await db.from("scpi_source_registry")
-      .select("scpi_slug,scpi_name,management_company,official_scpi_page_url,discovered_page_url,source_domain,last_checked_at,next_check_at,error_count")
+      .select("scpi_slug,scpi_name,management_company,official_scpi_page_url,discovered_page_url,source_domain,last_checked_at,next_check_at,error_count,bulletin_url,last_document_period,verification_status,confidence_level,issuer_source_sha256,issuer_source_period,issuer_source_url,issuer_source_verified_at")
       .eq("automation_enabled",true).eq("ingestion_driver","generic").eq("scpi_slug",String(body.slug)).maybeSingle();
     if(error)throw error;
     if(!data)return Response.json({ok:false,status:"unknown_slug",slug:String(body.slug)},{status:404});
@@ -1164,6 +1165,8 @@ Deno.serve(async(req:Request)=>{
       await finish(db,eid,{status:"needs_review",step:"edge_pdf_identity_collision",bulletin_url:c.pdf,source_period:pp.p,message:reason});
       return Response.json({ok:true,slug:s.scpi_slug,status:"pdf_identity_collision",period:pp.p});
     }
+    const unchangedIndependentSourceProof=preserveIndependentIssuerProof(
+      s,c.pdf,pp.p,hashPdf,Boolean(old?.id&&old.scpi_slug===s.scpi_slug&&old.period===pp.p));
     if(old?.id&&old.extraction_json?.parser_version===PARSER_VERSION){
       const {data:cur}=await db.from("scpi_indicators").select("source_period").eq("scpi_slug",s.scpi_slug).maybeSingle();
       const oldKey=period(String(old.period||""))?.k||0,currentKey=period(String(cur?.source_period||""))?.k||0;
@@ -1172,7 +1175,7 @@ Deno.serve(async(req:Request)=>{
       const strong=metricCount>=5&&conf>=0.6&&!/partial|review/i.test(String(old.qa_status||""));
       const promotable=!currentKey||oldKey>=currentKey;
       if(promotable&&metricCount>=2){
-        await reg(db,s.scpi_slug,{discovered_page_url:c.page,bulletin_url:c.pdf,last_document_period:old.period,last_verified_at:new Date().toISOString(),last_success_at:new Date().toISOString(),verification_status:strong?"verified":"incomplete",confidence_level:conf>=0.7?"high":conf>=0.4?"medium":"low",last_error:strong?null:"Extraction existante partielle",error_count:0,next_check_at:later(24)});
+        await reg(db,s.scpi_slug,{discovered_page_url:c.page,bulletin_url:c.pdf,last_document_period:old.period,last_verified_at:new Date().toISOString(),last_success_at:new Date().toISOString(),verification_status:unchangedIndependentSourceProof?"verified":strong?"verified":"incomplete",confidence_level:unchangedIndependentSourceProof?"high":conf>=0.7?"high":conf>=0.4?"medium":"low",last_error:unchangedIndependentSourceProof?null:strong?null:"Extraction existante partielle",error_count:0,next_check_at:later(24)});
       }else{
         await reg(db,s.scpi_slug,{last_success_at:new Date().toISOString(),next_check_at:later(24)});
       }
@@ -1239,7 +1242,7 @@ Deno.serve(async(req:Request)=>{
         last_document_period:pp.p,
         last_success_at:new Date().toISOString(),
         verification_status:"verified",
-        confidence_level:prevConf>=.7?"high":prevConf>=.4?"medium":"low",
+        confidence_level:unchangedIndependentSourceProof?"high":prevConf>=.7?"high":prevConf>=.4?"medium":"low",
         last_error:null,
         error_count:0,
         next_check_at:later(24)
@@ -1266,9 +1269,9 @@ Deno.serve(async(req:Request)=>{
     }
     const st=strong?"verified":metricCount>=2?"incomplete":"manual_review_required";
     if(canPromote&&metricCount>=2){
-      await reg(db,s.scpi_slug,{discovered_page_url:c.page,bulletin_url:c.pdf,last_document_period:pp.p,last_verified_at:strong?new Date().toISOString():null,last_success_at:new Date().toISOString(),verification_status:st,confidence_level:confidence>=.7?"high":confidence>=.4?"medium":"low",last_error:st==="verified"?null:(bad.length?"Rejets QA: "+bad.join(", "):"Extraction partielle — non promue dans les indicateurs live"),error_count:0,next_check_at:later(24)});
+      await reg(db,s.scpi_slug,{discovered_page_url:c.page,bulletin_url:c.pdf,last_document_period:pp.p,last_verified_at:unchangedIndependentSourceProof||strong?new Date().toISOString():null,last_success_at:new Date().toISOString(),verification_status:unchangedIndependentSourceProof?"verified":st,confidence_level:unchangedIndependentSourceProof?"high":confidence>=.7?"high":confidence>=.4?"medium":"low",last_error:unchangedIndependentSourceProof?null:st==="verified"?null:(bad.length?"Rejets QA: "+bad.join(", "):"Extraction partielle — non promue dans les indicateurs live"),error_count:0,next_check_at:later(24)});
     }else{
-      await reg(db,s.scpi_slug,{verification_status:canPromote?"manual_review_required":undefined,confidence_level:canPromote?"low":undefined,last_error:canPromote?"Extraction insuffisante — source non mémorisée":undefined,last_success_at:new Date().toISOString(),next_check_at:later(24)});
+      await reg(db,s.scpi_slug,{verification_status:unchangedIndependentSourceProof?"verified":canPromote?"manual_review_required":undefined,confidence_level:unchangedIndependentSourceProof?"high":canPromote?"low":undefined,last_error:unchangedIndependentSourceProof?null:canPromote?"Extraction insuffisante — source non mémorisée":undefined,last_success_at:new Date().toISOString(),next_check_at:later(24)});
     }
     const eventStatus=!canPromote?"stale_document":"needs_review";
     await finish(db,eid,{status:eventStatus,step:"edge_staged_independent_qa",source_page_url:c.page,bulletin_url:c.pdf,source_period:pp.p,extraction_confidence:confidence,metrics_count:metricCount,message:!canPromote?"Document plus ancien que la période courante — historique uniquement":metricCount+" indicateurs extraits, attente de certification PDF/page; coeurs="+coreCount+"; rejets: "+bad.join(", ")});
