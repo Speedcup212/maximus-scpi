@@ -1,3 +1,5 @@
+> **Politique historique du 28 octobre 2026 — remplacée le 8 novembre 2026.** Le rejet automatique du seul libellé « TOF ASPIM » est abrogé. La politique applicable est [RECOVERY-193](scpi/RECOVERY-193-issuer-aspim-tof.md). Le présent texte est conservé comme archive pour l'audit des quarantaines, pas comme règle active.
+
 # TOF MaximusSCPI — source émetteur exclusivement (cabinet, 28/10/2026)
 
 ## Règle obligatoire

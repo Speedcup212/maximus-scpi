@@ -286,13 +286,9 @@ function nearestMoney(t:string,label:RegExp){
   }
   return best?.value??null;
 }
-// Cabinet policy: TOF ASPIM is not an eligible MaximusSCPI TOF metric,
-// including when displayed in a management company's official bulletin.
-// Do not substitute an ASPIM value for the issuer's separately published TOF.
-const FORBIDDEN_TOF_ASPIM_LABEL = /\bTOF\s+(?:financier\s+)?ASPIM\b|\btaux\s+d['’]?occupation\s+financier\s+ASPIM\b/i;
-function rejectAspimTof(text:string, metrics:Record<string,unknown>){
-  if(FORBIDDEN_TOF_ASPIM_LABEL.test(text))delete metrics.tof;
-}
+// ASPIM is a legitimate methodology label when printed by the issuer.
+// Parser results are candidates: financial certification still requires page QA.
+const ASPIM_TOF_LABEL = /\bTOF\s+(?:financier\s+)?ASPIM\b|\btaux\s+d['’]?occupation\s+financier\s+ASPIM\b/i;
 
 function parseMetrics(t:string,sourcePeriod?:string){
   t=t.replace(/\r/g,"\n").replace(/\u00a0|\u202f/g," ").replace(/[’‘]/g,"'");const flat=t.replace(/\s+/g," ");const o:any={};
@@ -987,7 +983,6 @@ function parseMetrics(t:string,sourcePeriod?:string){
     if(officialSubscription!==null)o.prix_souscription=officialSubscription;
     if(officialWithdrawal!==null)o.prix_retrait=officialWithdrawal;
   }
-  rejectAspimTof(t,o);
   return Object.fromEntries(Object.entries(o).filter(([,v])=>v!==null&&v!==undefined&&!(typeof v==="number"&&!Number.isFinite(v))));
 }
 
@@ -1024,7 +1019,6 @@ function parseHtmlMetrics(t:string){
   if(/\bSCPI\s+[àa]\s+capital\s+fixe\b/i.test(t))o.capital_type="fixe";
   else if(/\bSCPI\s+[àa]\s+capital\s+variable\b/i.test(t))o.capital_type="variable";
 
-  rejectAspimTof(t,o);
   return o;
 }
 
@@ -1185,6 +1179,9 @@ Deno.serve(async(req:Request)=>{
     const raw=c.html?parseHtmlMetrics(text):parseMetrics(text,pp.p),count=Object.keys(raw).length,confidence=Math.min(1,count/12);
     if(ocrRecovered){await finish(db,eid,{status:"needs_review",step:"edge_ocr_qa_required",bulletin_url:c.pdf,source_period:pp.p,metrics_count:count,message:"Page OCR present; numeric values awaiting independent QA; no public promotion."});return Response.json({ok:true,slug:s.scpi_slug,status:"ocr_pending_independent_qa",period:pp.p,metrics:count});}
     if(count<2)console.log("[scpi-bulletin-debug]",s.scpi_slug,text.slice(0,5000).replace(/[\u0000-\u001F]/g," "));const {data:cur}=await db.from("scpi_indicators").select("*").eq("scpi_slug",s.scpi_slug).maybeSingle();const sameAutomatedPeriod=cur?.source_type==="bulletin_edge_automated"&&cur?.source_period===pp.p;const {r,bad}=validate(raw,cur,sameAutomatedPeriod);
+    if(typeof r.tof==="number"&&ASPIM_TOF_LABEL.test(text)){
+      bad.push("TOF ASPIM: candidat officiel à valider par preuve PDF/page et QA indépendante");
+    }
     // Confusion récurrente : la valeur de retrait est parfois capturée
     // sous l'étiquette prix de souscription (p. ex. 39,82 vs 44 €).
     // Ne jamais promouvoir une baisse artificielle du prix de part.

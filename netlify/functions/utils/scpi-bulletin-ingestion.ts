@@ -46,8 +46,9 @@ const USER_AGENT =
 const BULLETIN_WORDS =
   /(bulletin|trimestriel|trimestrielle|information\s+trimestrielle|bulletin\s+d['’]?information|\bbt\b)/i;
 
-// Cabinet rule: a labelled "TOF ASPIM" cannot be used as MaximusSCPI TOF.
-const FORBIDDEN_TOF_ASPIM_LABEL =
+// ASPIM is a methodology label, not a forbidden origin. Retain candidates
+// for independent source-page QA; the crawler does not certify metrics.
+const ASPIM_TOF_LABEL =
   /\bTOF\s+(?:financier\s+)?ASPIM\b|\btaux\s+d['’]?occupation\s+financier\s+ASPIM\b/i;
 
 const EXCLUDED_DOCUMENTS =
@@ -756,7 +757,6 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
       throw new Error('Texte PDF insuffisant pour une extraction fiable.');
     }
 
-    const forbiddenAspimTof = FORBIDDEN_TOF_ASPIM_LABEL.test(text);
     const extraction = extractFromText(text);
     const qa = runQa(toExtractedMetrics(extraction));
     const periodFromPdf = parsePeriod(
@@ -792,7 +792,7 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
     const storagePath = `${source.scpi_slug}/${period}/${sha256}.pdf`;
 
     const rawPatch = buildIndicatorPatch(extraction);
-    if (forbiddenAspimTof) delete rawPatch.tof;
+    const aspimTofCandidate = typeof rawPatch.tof === 'number' && ASPIM_TOF_LABEL.test(text);
     const { data: current } = await client
       .from('scpi_indicators')
       .select('*')
@@ -803,7 +803,6 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
       rawPatch,
       (current as Record<string, unknown> | null) || null
     );
-    if (forbiddenAspimTof) rejected.push('tof: TOF ASPIM interdit, aucune substitution au TOF du bulletin');
 
     const metricsCount = Object.keys(accepted).filter(
       (key) => !['repartition_sectorielle', 'repartition_geographique'].includes(key)
@@ -828,7 +827,7 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
     }
 
     const qaStatus =
-      rejected.length > 0 ? 'auto_partial_review' :
+      rejected.length > 0 || aspimTofCandidate ? 'auto_partial_review' :
       qa.status === 'OK' ? 'auto_verified' :
       metricsCount >= 4 ? 'auto_partial' : 'needs_review';
 
@@ -861,16 +860,16 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
     // performed by the certified publisher, not by a crawler.
     const stagedForIndependentQa = metricsCount >= 2 && rejected.length === 0;
     console.log('[scpi-ingest] candidate staged, public snapshot preserved', JSON.stringify({
-      slug: source.scpi_slug, period, metricsCount, stagedForIndependentQa,
+      slug: source.scpi_slug, period, metricsCount, stagedForIndependentQa, aspimTofCandidate,
       bulletinId: bulletin.id,
     }));
 
     const confidenceLevel =
-      extraction.confidence >= 0.7 && rejected.length === 0 ? 'high' :
+      extraction.confidence >= 0.7 && rejected.length === 0 && !aspimTofCandidate ? 'high' :
       extraction.confidence >= 0.4 ? 'medium' : 'low';
 
     const sourceStatus =
-      metricsCount >= 4 && rejected.length === 0 ? 'verified' :
+      metricsCount >= 4 && rejected.length === 0 && !aspimTofCandidate ? 'verified' :
       metricsCount >= 2 ? 'incomplete' : 'manual_review_required';
 
     await updateRegistry(client, source.scpi_slug, {
@@ -881,7 +880,7 @@ export async function processNextScpiBulletin(client: SupabaseClient): Promise<P
       last_success_at: new Date().toISOString(),
       verification_status: sourceStatus,
       confidence_level: confidenceLevel,
-      last_error: rejected.length ? rejected.join(' | ').slice(0, 2_000) : null,
+      last_error: rejected.length ? rejected.join(' | ').slice(0, 2_000) : aspimTofCandidate ? 'TOF ASPIM candidat : QA indépendante par page requise' : null,
       error_count: 0,
       next_check_at: futureIso(24),
     });

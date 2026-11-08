@@ -116,6 +116,22 @@ describe('same-quarter manual snapshot protection in the real Edge handler', () 
     expect(result.writes).toEqual([]);
   });
 
+  it('keeps an ASPIM-labelled issuer TOF candidate but requires independent QA', async () => {
+    const pdfText = (
+      "SCPI Novapierre Residentiel Bulletin trimestriel d Information " +
+      "N 2026 T3. Période analysée 3e trimestre 2026. " +
+      "TOF ASPIM 89,8 % ; locaux vacants 10,2 %. "
+    ).repeat(20);
+    const result = await runFixture('2026-T3', [], ['official.example'], pdfText);
+    expect(result.body.status).toBe('needs_review');
+    expect(result.body.verification).toBe('incomplete');
+    expect(result.body.rejected).toContain(
+      'TOF ASPIM: candidat officiel à valider par preuve PDF/page et QA indépendante'
+    );
+    expect(result.writes).not.toContain('scpi_indicators');
+    expect(result.writes).toContain('scpi_bulletins');
+  });
+
   it('stages a newer quarter for source-page QA without publishing it', async () => {
     const result = await runFixture('2026-T3');
     expect(result.body.status).toBe('needs_review');
