@@ -43,6 +43,15 @@ class GeometrySecurity(unittest.TestCase):
         result=g.evaluate(spec,pages)
         self.assertEqual(result["status"],"NEEDS_INDEPENDENT_SEMANTIC_QA")
         self.assertFalse(result["financial_certified"])
+    def test_two_matching_same_page_chart_labels_are_not_conflicting_values(self):
+        spec={"candidate":89.7,"target_page":4}
+        words=[w("TOF",30,100),w("89,7",65,100),
+               w("TOF",400,100),w("89,7",430,100)]
+        result=g.evaluate(spec,[(4,words,words)])
+        self.assertEqual(result["status"],"BBOX_CANDIDATE_REVIEW")
+        self.assertEqual(result["candidate_geom_count"],2)
+        self.assertFalse(result["financial_certified"])
+        self.assertTrue(result["manual_financial_qa_required"])
     def test_fake_archive_sha_rejected_without_reader(self):
         with tempfile.TemporaryDirectory() as tmp:
             f=Path(tmp)/"pdf";f.write_bytes(b"%PDF"+b"x"*1200)
