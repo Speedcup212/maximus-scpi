@@ -15,8 +15,8 @@ export interface OfficialPga2025 {
 export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025>>> = {
   'activimmo': {
     year: 2025, pgaPct: 5.49, distributionPct: 5.49,
-    sourceUrl: 'https://offre-booster.alderan.fr/scpi-activimmo',
-    sourceLabel: 'Alderan, performances 2025',
+    sourceUrl: 'https://alderan.fr/wp-content/uploads/2026/04/20260410-Rapport-Annuel-ActivImmo-2025.pdf',
+    sourceLabel: 'Alderan, rapport annuel 2025, p. 4',
   },
   'corum-origin': {
     year: 2025, pgaPct: 6.50, distributionPct: 6.50,
