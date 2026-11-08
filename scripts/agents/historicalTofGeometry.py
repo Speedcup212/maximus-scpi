@@ -109,7 +109,12 @@ def evaluate(spec,pages):
     exact=[x for x in targeted if x["page"]==spec["target_page"] and x["both_near_tof"]]
     # If the same expected value appears multiple times, manual chart association
     # is mandatory: only one spatially unique TOF candidate can progress.
-    validated=len(exact)==1 and len([x for x in targeted if x["both_near_tof"]])==1
+    # A source TOF can be printed both in the chart and in the adjacent
+    # historical table. Two identical independently located values on the
+    # correct page do not contradict one another. Conflicting pages/values
+    # still fail closed and never approve finance.
+    validated=(1<=len(exact)<=3 and len(targeted)==len(exact) and
+       all(x["value"]==spec["candidate"] and x["both_near_tof"] for x in exact))
     return {"status":"BBOX_CANDIDATE_REVIEW" if validated else "NEEDS_INDEPENDENT_SEMANTIC_QA",
         "matched_target_candidates":targeted[:20],
         "unscored_tof_nearby_percentages":preview[:60],
@@ -158,9 +163,16 @@ def main():
     try:
         result=audit(a.slug,a.pdf,json.loads(a.manifest.read_text()))
     except Exception as e:
-        code=str(e).split(":",1)[0][:85]
-        if not re.fullmatch(r"[A-Z][A-Z0-9_]{3,84}",code):
-            code="SOURCE_GEOMETRY_AUDIT_BLOCKED"
+        if isinstance(e,subprocess.CalledProcessError):
+            code="POPPLER_BBOX_NONZERO_EXIT"
+        elif isinstance(e,ET.ParseError):
+            code="POPPLER_BBOX_XML_MALFORMED"
+        elif isinstance(e,ValueError) and re.fullmatch(
+            r"[A-Z][A-Z0-9_]{3,84}",str(e)):
+            code=str(e)
+        else:
+            kind=re.sub(r"[^A-Z]","",type(e).__name__.upper())[:35]
+            code="SOURCE_GEOMETRY_"+(kind or "OTHER")+"_BLOCKED"
         result={"scpi_slug":a.slug,"status":"BLOCKED","error_code":code,
                 "financial_certified":False,"deploy_allowed":False}
     a.out.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
