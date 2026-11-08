@@ -241,3 +241,44 @@ test('RECOVERY-183 issuer-direct source attestation requires exact independent s
  assert.match(sql,/financial_value_changes',0/);
  assert.match(sql,/financial_certifications_granted',0/);
 });
+
+test('RECOVERY-184 tracks current TOF quarantine *blocking* status, not audit record count',()=>{
+ const sql=readFileSync('supabase/migrations/20261108_recovery184_historical_tof_diagnostics.sql','utf8');
+ assert.match(sql,/scpi_historical_tof_quarantine_qa_v1/);
+ assert.match(sql,/scpi_historical_tof_quarantine_summary_v1/);
+ assert.match(sql,/security_invoker=true/);
+ assert.match(sql,/scpi_internal\.tof_policy_quarantine_audit_20261028/);
+ assert.match(sql,/scpi_internal\.independent_tof_geometric_proof_valid/);
+ assert.match(sql,/scpi_internal\.tof_bulletin_source_rejection_reason/);
+ assert.match(sql,/h\.tof IS DISTINCT FROM c\.value_numeric/);
+ assert.match(sql,/q\.certificate_id/);
+ assert.match(sql,/still_blocks_strict_pass/);
+ assert.match(sql,/ALREADY_RECONCILED_HISTORICAL_PROOF/);
+ assert.match(sql,/ASPIM_TOF_NOT_ADMISSIBLE/);
+ assert.match(sql,/OUTSIDE_ISSUER_DOCUMENT_HOST/);
+ assert.match(sql,/has_archive_pdf_exact_period/);
+ assert.match(sql,/independent_qa_required/);
+ assert.match(sql,/false::boolean AS permits_strict_pass/);
+ assert.match(sql,/false::boolean AS task_dispatched/);
+ assert.match(sql,/REVOKE ALL ON maximus_agents\.scpi_historical_tof_quarantine_qa_v1/);
+ assert.doesNotMatch(sql,/DELETE\s+FROM\s+scpi_internal\.tof_policy_quarantine_audit/i);
+ assert.doesNotMatch(sql,/UPDATE\s+(public\.|scpi_internal\.)/i);
+ assert.doesNotMatch(sql,/GRANT\s+(SELECT|EXECUTE)\s+TO\s+(anon|authenticated)/i);
+});
+test('RECOVERY-184 uses existing CONTROL summary with no model calls, task mutations or bogus PASS',()=>{
+ const sql=readFileSync('supabase/migrations/20261108_recovery184_control_historical_tof_summary.sql','utf8');
+ assert.match(sql,/refresh_existing_missing_metric_control\(\)/);
+ assert.match(sql,/scpi_historical_tof_quarantine_summary_v1/);
+ assert.match(sql,/historical_tof_quarantine/);
+ assert.match(sql,/still_blocking_periods/);
+ assert.match(sql,/already_reconciled_periods/);
+ assert.match(sql,/new_tasks_created',0/);
+ assert.match(sql,/model_calls',0/);
+ assert.match(sql,/financial_certified',false/);
+ assert.match(sql,/deploy_allowed',false/);
+ assert.match(sql,/role='CONTROL' AND enabled=true/);
+ assert.match(sql,/REVOKE ALL ON FUNCTION/);
+ assert.doesNotMatch(sql,/UPDATE\s+public\.scpi_/i);
+ assert.doesNotMatch(sql,/INSERT\s+INTO\s+maximus_agents\.tasks/i);
+ assert.doesNotMatch(sql,/UPDATE\s+scpi_internal\./i);
+});
