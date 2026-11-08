@@ -153,7 +153,7 @@ Deno.serve(async request=>{
         "Original publisher PDF re-read with exact SHA and two independent readers; TOF metric still requires financial QA.":
         "Publisher PDF/source audit blocked; historical TOF not certified.",
         verdict:"REVIEW",deploy_allowed:false,financial_certified:false,
-        independent_qa:true,
+        independent_pdf_readers:true,financial_qa_completed:false,
         evidence:[{source:"maximus-agent-parallel historical PDF proof",
           observed_at:new Date().toISOString(),
           finding:{scpi_slug:t.payload.scpi_slug,
