@@ -63,7 +63,7 @@ const required = [
   '<a href="/analyses/">Analyses</a>',
   '<a href="/articles/">Comprendre</a>',
   'Analyse SCPI • Comparaison • Simulation • Suivi',
-  'Au-delà du rendement : examinez les frais, la diversification et l'évolution des indicateurs avant toute décision.',
+  `Au-delà du rendement : examinez les frais, la diversification et l'évolution des indicateurs avant toute décision.`,
 ];
 const forbidden = [
   '>Apprendre</a>',
