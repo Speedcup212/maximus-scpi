@@ -51,3 +51,15 @@ test('Certified publisher uses one database transaction for live data and queue'
   assert.match(migration, /SCPI_UNCERTIFIED_FIELD/);
   assert.match(migration, /GRANT EXECUTE ON FUNCTION public\.scpi_commit_certified_promotion/);
 });
+
+test('Reviewed issuer QA remains protected against automatic same-PDF downgrades', () => {
+  const migration = file('supabase/migrations/20261108195900_scpi_prevent_verified_source_auto_downgrade.sql');
+  assert.match(migration, /OLD\.qa_status = 'verified_issuer_html_8_metrics_pdf_tof'/);
+  assert.match(migration, /NEW\.qa_status IN \('auto_partial_review'/);
+  assert.match(migration, /verified_metric_count/);
+  assert.match(migration, /NEW\.pdf_sha256/);
+  assert.match(migration, /IS NOT DISTINCT FROM/);
+  assert.match(migration, /RETURN OLD/);
+  assert.match(migration, /RETURN NEW/);
+  assert.doesNotMatch(migration, /UPDATE public\.scpi_bulletin_analysis/);
+});

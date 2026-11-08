@@ -224,9 +224,9 @@ for (const slug of Object.keys(depthBlocks)) {
   const homeHtml = read(homeFile);
   const homeText = textOnly(homeHtml);
   const requiredHomeSignals = [
-    'Analysez. Comparez.',
-    'Investissez sur',
-    'MaximusSCPI.',
+    'Analysez et comparez',
+    "avant d'investir.",
+    'SCPI',
     '/comparateur-scpi/',
     '/analyses/',
     'Comprendre'
