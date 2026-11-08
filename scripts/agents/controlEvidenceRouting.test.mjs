@@ -358,3 +358,39 @@ test('RECOVERY-186 OIDC archive fetch is leased, private and bytes/SHA verified 
  assert.match(workflow,/financial-certification-does-not-exist|no financial publication|finance=REVIEW|financial_certified/);
  assert.doesNotMatch(workflow,/SUPABASE_SERVICE_ROLE_KEY|service_role/);
 });
+
+
+test('RECOVERY-191 only restores exact issuer-SHA dual-PDF Iroko T3 with immutable audit',()=>{
+ const sql=readFileSync('supabase/migrations/20261108_recovery191_iroko_atlas_independent_tof_and_source_attestation.sql','utf8');
+ for(const required of [
+   'preserve_same_issuer_attestation_confidence',
+   'trg_zzzz_preserve_same_issuer_attestation_confidence',
+   "OLD.issuer_source_sha256=NEW.issuer_source_sha256",
+   "OLD.issuer_source_verified_at=NEW.issuer_source_verified_at",
+   "d.result->>'identity_verified'='true'",
+   "d.result->>'period_verified'='true'",
+   "issuer_source_sha256<>'301b326b2c149f75cd94f563401b9c9748779e64cf63e430b5d8c1a42d85918a'",
+   "value_numeric<>96.65",
+   "d.result->'evidence'->'tof'->'independent_engines'",
+   "d.result->'evidence'->'tof'->>'association'='adjacent_caption'",
+   "AND (d.result->'evidence'->'tof'->>'page')::integer=6",
+   "FROM storage.objects",
+   "INSERT INTO maximus_agents.scpi_replay_provenance_quarantine",
+   "financial_certification_method','independent_issuer_pdf_two_readers'",
+   "WHERE id='9036a11c-367c-4dd5-897c-b7cc7bd222c8'",
+   "source_page=6",
+   "extraction_confidence=1",
+   "independent_verified_official_bulletin",
+   "post_pass<>prior_pass+1",
+   "REC191_POST_ADMISSION_NOT_EXACTLY_PLUS_ONE",
+   "REVOKE ALL ON FUNCTION"
+ ]) assert.ok(sql.includes(required),'Missing strict clause '+required);
+ assert.match(sql,/UPDATE public\.scpi_metric_certifications/);
+ assert.match(sql,/UPDATE public\.scpi_source_registry/);
+ assert.doesNotMatch(sql,/UPDATE\s+public\.scpi_indicator_history/i);
+ assert.doesNotMatch(sql,/UPDATE\s+maximus_agents\.scpi_universe/i);
+ assert.doesNotMatch(sql,/DELETE\s+FROM\s+scpi_internal\.tof_policy_quarantine/i);
+ assert.doesNotMatch(sql,/SECURITY DEFINER/i);
+ assert.doesNotMatch(sql,/financial_certified',true/);
+ assert.doesNotMatch(sql,/human_attestation',true/);
+});
