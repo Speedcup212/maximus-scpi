@@ -67,13 +67,14 @@ const patchTitle = (html, title) => html
     let html = fs.readFileSync(file, 'utf8');
     html = html
       .replace('<a href="/comparateur-scpi/">Comparateur</a>', '<a href="/comparateur-scpi/">Comparateur SCPI</a>')
-      .replace('>Voir le comparateur complet</a>', '>Accéder au comparateur SCPI</a>');
+      .replace('>Voir le comparateur complet</a>', '>Comparer les SCPI</a>')
+      .replace('>Accéder au comparateur SCPI</a>', '>Comparer les SCPI</a>');
 
     fs.writeFileSync(file, html, 'utf8');
     if (!html.includes('href="/comparateur-scpi/">Comparateur SCPI</a>')) {
       throw new Error('Home : lien canonique Comparateur SCPI absent du HTML final');
     }
-    if (!html.includes('>Accéder au comparateur SCPI</a>')) {
+    if (!html.includes('>Comparer les SCPI</a>')) {
       throw new Error('Home : CTA Comparateur SCPI absent du HTML final');
     }
     console.log('✅ Home : signal interne vers /comparateur-scpi/ renforcé');
