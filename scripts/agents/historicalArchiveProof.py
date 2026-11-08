@@ -15,7 +15,7 @@ from candidate_pdf_binary_proof import validate_manifest, independent_poppler
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scpi-onboarding"))
 from publisherPdfAudit import normalize
 
-TOF_LABEL = re.compile(r"taux d.?occupation financier|\\btof\\b", re.IGNORECASE)
+TOF_LABEL = re.compile(r"taux d.?occupation financier|\btof\b", re.IGNORECASE)
 
 
 def inspect_archive(manifest: dict, pdf_path: Path) -> dict:
@@ -43,7 +43,7 @@ def inspect_archive(manifest: dict, pdf_path: Path) -> dict:
     candidates = []
     for index, page in enumerate(pages):
         for match in list(TOF_LABEL.finditer(page))[:5]:
-            excerpt = re.sub(r"\\s+", " ", page[max(0, match.start()-90):match.end()+180])
+            excerpt = re.sub(r"\s+", " ", page[max(0, match.start()-90):match.end()+180])
             candidates.append({"source_page": index+1, "context": excerpt[:250]})
     return {
         "status": "verified", "source_url": doc["source_url"],
