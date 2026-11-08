@@ -20,6 +20,7 @@ on:
       - "supabase/migrations/20261108_recovery183_aestiam_horizon_source_provenance.sql"
       - "supabase/migrations/20261108_recovery184_historical_tof_diagnostics.sql"
       - "supabase/migrations/20261108_recovery184_control_historical_tof_summary.sql"
+      - "supabase/migrations/20261108_recovery185_historical_tof_live_queue.sql"
       - "supabase/migrations/20261108_recovery181_attest_issuer_source_sha.sql"
       - "supabase/functions/scpi-bulletin-watch/index.ts"
       - "supabase/functions/scpi-bulletin-watch/sourceProvenance.mjs"
@@ -47,6 +48,7 @@ on:
       - "supabase/migrations/20261108_recovery183_aestiam_horizon_source_provenance.sql"
       - "supabase/migrations/20261108_recovery184_historical_tof_diagnostics.sql"
       - "supabase/migrations/20261108_recovery184_control_historical_tof_summary.sql"
+      - "supabase/migrations/20261108_recovery185_historical_tof_live_queue.sql"
       - "supabase/migrations/20261108_recovery181_attest_issuer_source_sha.sql"
       - "supabase/functions/scpi-bulletin-watch/index.ts"
       - "supabase/functions/scpi-bulletin-watch/sourceProvenance.mjs"
@@ -105,6 +107,7 @@ jobs:
       id-token: write
     outputs:
       slugs: ${{ steps.dispatch.outputs.slugs || '[]' }}
+      historical: ${{ steps.historical.outputs.documents || '[]' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -160,6 +163,126 @@ jobs:
                 '; '+family.funds+' SCPI; '+family.evidence_items+
                 ' cases; overlap in '+family.existing_role_task_overlaps+' current tasks');
             }
+
+      - name: CONTROL — dispatch historical TOF QA jobs on existing task queue
+        id: historical
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const token=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
+            const res=await fetch('https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
+              method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
+              body:JSON.stringify({op:'historical_prepare'}),signal:AbortSignal.timeout(25000)});
+            if(!res.ok)throw Error('Historical TOF dispatch HTTP '+res.status);
+            const p=await res.json();
+            if(p.deploy_allowed!==false||p.financial_certified!==false||
+               !Array.isArray(p.documents)||p.documents.length>3||
+               p.documents.some(x=>!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(x.scpi_slug)||
+                 !/^20[0-9]{2}-T[1-4]$/.test(x.source_period)))
+              throw Error('Unsafe historical dispatch');
+            core.setOutput('documents',JSON.stringify(p.documents));
+            core.notice('Historical source QA: '+p.documents.length+' jobs, '+p.prepared+
+              ' newly queued; 0 certifications');
+
+  historical-tof-proof:
+    needs: control
+    if: needs.control.result == 'success' && needs.control.outputs.historical != '[]'
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        document: ${{ fromJSON(needs.control.outputs.historical) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Claim exact historical publisher PDF task
+        id: claim
+        uses: actions/github-script@v7
+        env:
+          HISTORICAL_SLUG: ${{ matrix.document.scpi_slug }}
+          HISTORICAL_PERIOD: ${{ matrix.document.source_period }}
+        with:
+          script: |
+            const fs=require('node:fs');
+            const token=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
+            const res=await fetch('https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
+              method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
+              body:JSON.stringify({op:'historical_claim',scpi_slug:process.env.HISTORICAL_SLUG,
+                source_period:process.env.HISTORICAL_PERIOD}),signal:AbortSignal.timeout(25000)});
+            if(!res.ok)throw Error('Historical claim HTTP '+res.status);
+            const x=await res.json();
+            if(!x.task)throw Error('No historical QA task: '+x.reason);
+            if(x.deploy_allowed!==false||x.financial_certified!==false||
+               x.task.scpi_slug!==process.env.HISTORICAL_SLUG||
+               x.task.source_period!==process.env.HISTORICAL_PERIOD||
+               x.manifest?.candidate_slug!==process.env.HISTORICAL_SLUG||
+               x.manifest?.documents?.length!==1)
+              throw Error('Cross-fund historical claim');
+            fs.writeFileSync(process.env.RUNNER_TEMP+'/historical-task.json',
+              JSON.stringify(x.task),{mode:0o600});
+            fs.writeFileSync(process.env.RUNNER_TEMP+'/historical-manifest.json',
+              JSON.stringify(x.manifest),{mode:0o600});
+            core.setOutput('has_work','yes');
+      - uses: actions/setup-python@v5
+        if: steps.claim.outputs.has_work == 'yes'
+        with:
+          python-version: "3.12"
+      - name: Install two independent official PDF readers
+        if: steps.claim.outputs.has_work == 'yes'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check "PyMuPDF==1.26.5"
+      - name: Verify exact publisher bytes, period, identity and SHA
+        if: steps.claim.outputs.has_work == 'yes'
+        run: |
+          python scripts/agents/candidate_pdf_binary_proof.py --manifest \
+            "$RUNNER_TEMP/historical-manifest.json" --out "$RUNNER_TEMP/historical-proof"
+      - name: Report real source proof back to the existing QA task
+        if: always() && steps.claim.outputs.has_work == 'yes'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('node:fs');
+            const root=process.env.RUNNER_TEMP;
+            const task=JSON.parse(fs.readFileSync(root+'/historical-task.json'));
+            const manifest=JSON.parse(fs.readFileSync(root+'/historical-manifest.json'));
+            let proof;
+            try{proof=JSON.parse(fs.readFileSync(root+'/historical-proof/proof.json'));}
+            catch{
+              const d=manifest.documents[0];
+              proof={status:'blocked',candidate_slug:manifest.candidate_slug,
+                documents:[{status:'blocked',source_url:d.source_url,source_period:d.source_period,
+                  expected_sha256:d.pdf_sha256,error_code:'PDF_AUDIT_TOOL_FAILED',
+                  financial_certified:false}],financial_certified:false,deploy_allowed:false};
+            }
+            const token=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
+            const res=await fetch('https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
+              method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
+              body:JSON.stringify({op:'historical_complete',task_id:task.id,
+                lease_token:task.lease_token,proof}),signal:AbortSignal.timeout(25000)});
+            if(!res.ok)throw Error('Historical completion HTTP '+res.status);
+            const x=await res.json();
+            if(x.deploy_allowed!==false||x.financial_certified!==false)
+              throw Error('Unexpected financial claim');
+            core.notice('Historical PDF '+task.scpi_slug+'/'+task.source_period+
+              ' status='+x.result?.status+', finance=REVIEW');
+            if(x.result?.status!=='done')core.setFailed('PDF origin/SHA validation blocked');
+      - name: Retain evidence manifest (no financial publication)
+        if: always() && steps.claim.outputs.has_work == 'yes'
+        uses: actions/upload-artifact@v4
+        with:
+          name: historical-tof-${{ matrix.document.scpi_slug }}-${{ matrix.document.source_period }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/historical-proof/proof.json
+          if-no-files-found: warn
+          retention-days: 7
 
   source-proof:
     needs: control
