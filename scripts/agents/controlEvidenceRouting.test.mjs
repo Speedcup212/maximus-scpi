@@ -338,7 +338,7 @@ test('RECOVERY-186 one-time archive retry is exact SCPI/SHA and preserves old ru
  assert.match(sql,/no|false/);
  assert.doesNotMatch(sql,/UPDATE\s+public\.scpi_(indicator_history|metric_certifications|source_registry)/i);
  assert.doesNotMatch(sql,/DELETE\s+FROM\s+scpi_internal\.tof_policy_quarantine/i);
- assert.doesNotMatch(sql,/INSERT\s+INTO\s+maximus_agents\.runs/i);
+ assert.match(sql,/INSERT\s+INTO\s+maximus_agents\.runs/i); // every real retry creates attempt #2 audit
 });
 test('RECOVERY-186 OIDC archive fetch is leased, private and bytes/SHA verified without release',()=>{
  const edge=readFileSync('supabase/functions/maximus-agent-audit-oidc/index.ts','utf8');
