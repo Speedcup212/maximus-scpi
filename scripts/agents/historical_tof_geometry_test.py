@@ -52,6 +52,30 @@ class GeometrySecurity(unittest.TestCase):
         self.assertEqual(result["candidate_geom_count"],2)
         self.assertFalse(result["financial_certified"])
         self.assertTrue(result["manual_financial_qa_required"])
+    def test_malformed_poppler_xhtml_recovers_only_real_bbox_words(self):
+        xml=('<html><page><word xMin="42" yMin="80" xMax="62" yMax="92">TOF</word>'
+             '<word xMin="80" yMin="80" xMax="119" yMax="92">95,3</word>'
+             '<word xMin="121" yMin="80" xMax="130" yMax="92">%</word>'
+             '\x0b</page></html>')
+        words,mode=g.parse_poppler_bbox(xml)
+        self.assertEqual(mode,"html_word_recovery")
+        self.assertEqual([w[4] for w in words],["TOF","95,3","%"])
+        self.assertEqual(words[1][:4],(80.0,80.0,119.0,92.0))
+        self.assertEqual(len(g.locate(words,95.3)),1)
+    def test_broken_bbox_does_not_create_fake_numeric_positions(self):
+        xml=('<page><word xMin="NaN" yMin="0" xMax="20" yMax="3">95,3</word>'
+             '<word xMin="5" yMin="0" xMax="NaN" yMax="3">TOF</word>'
+             '<word xMin="1" yMin="1" xMax="5" yMax="4">97,2</word>'
+             '\x0b</page>')
+        with self.assertRaisesRegex(ValueError,"INSUFFICIENT_WORDS"):
+            g.parse_poppler_bbox(xml)
+    def test_valid_poppler_xml_uses_strict_parser(self):
+        xml='<page><word xMin="1" yMin="2" xMax="5" yMax="8">TOF</word>' + \
+            '<word xMin="7" yMin="2" xMax="10" yMax="8">89,7</word>' + \
+            '<word xMin="12" yMin="2" xMax="14" yMax="8">%</word></page>'
+        words,mode=g.parse_poppler_bbox(xml)
+        self.assertEqual(mode,"strict_xml")
+        self.assertEqual(len(words),3)
     def test_fake_archive_sha_rejected_without_reader(self):
         with tempfile.TemporaryDirectory() as tmp:
             f=Path(tmp)/"pdf";f.write_bytes(b"%PDF"+b"x"*1200)
