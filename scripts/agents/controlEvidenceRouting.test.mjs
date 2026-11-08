@@ -394,3 +394,34 @@ test('RECOVERY-191 only restores exact issuer-SHA dual-PDF Iroko T3 with immutab
  assert.doesNotMatch(sql,/financial_certified',true/);
  assert.doesNotMatch(sql,/human_attestation',true/);
 });
+
+test('RECOVERY-192 stores only issuer SHA and independent geometry CANDIDATES, never financial admission',()=>{
+ const sql=readFileSync('supabase/migrations/20261108_recovery192_staged_historical_tof_geometry_qa.sql','utf8');
+ for(const needed of [
+   'scpi_tof_candidate_geometry_qa',
+   "candidate_tof_percent",
+   "prior_invalid_value",
+   "BBOX_CANDIDATE_REVIEW",
+   "NEEDS_INDEPENDENT_SEMANTIC_QA",
+   "artifact_json_sha256",
+   "human_attestation=false",
+   "deploy_allowed=false",
+   "financial_certified=false",
+   "LEFT JOIN maximus_agents.scpi_historical_tof_quarantine_qa_v1",
+   "q.rejection_reason='TOF_ASPIM_FORBIDDEN'",
+   "o.metadata->>'size'=e.pdf_bytes::text",
+   "t.result->>'financial_certified'='false'",
+   "workflow_reference='github-actions:42469201587'",
+   "REC192_PERSISTED_PROOF_COUNT_",
+   "REVOKE ALL",
+   "security_invoker = true"
+ ])assert.ok(sql.includes(needed),'Missing evidence fail-closed condition '+needed);
+ assert.match(sql,/UNIQUE\(artifact_id\)/);
+ assert.match(sql,/ENABLE ROW LEVEL SECURITY/);
+ assert.doesNotMatch(sql,/UPDATE\s+public\.scpi_/i);
+ assert.doesNotMatch(sql,/DELETE\s+FROM\s+scpi_internal\.tof_policy_quarantine/i);
+ assert.doesNotMatch(sql,/INSERT\s+INTO\s+public\.scpi_metric_certifications/i);
+ assert.doesNotMatch(sql,/UPDATE\s+maximus_agents\.scpi_universe/i);
+ assert.doesNotMatch(sql,/SECURITY DEFINER/i);
+ assert.doesNotMatch(sql,/GRANT ALL/i);
+});
