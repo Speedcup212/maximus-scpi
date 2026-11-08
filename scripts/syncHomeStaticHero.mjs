@@ -15,8 +15,8 @@ if (!fs.existsSync(target)) {
 let html = fs.readFileSync(target, 'utf-8');
 
 const desiredBlock = `<h1>
-                <span class="initial-title-main">Analysez. Comparez.</span>
-                <span class="initial-title-accent">Investissez sur <span class="initial-title-brand">MaximusSCPI.</span></span>
+                <span class="initial-title-main">Analysez et comparez</span>
+                <span class="initial-title-accent">les <span class="initial-title-brand">SCPI</span> avant d'investir.</span>
               </h1>`;
 
 const heroPattern = /<h1>\s*<span class=["']initial-title-main["']>[\s\S]*?<\/span>\s*<span class=["']initial-title-accent["']>[\s\S]*?<\/span>(?:\s*<span class=["']initial-title-accent["']>[\s\S]*?<\/span>)?\s*<\/h1>/i;
@@ -39,11 +39,11 @@ html = html.replace(
 );
 html = html.replace(
   `En 2 minutes, obtenez une première orientation pédagogique selon votre montant, votre fiscalité, votre horizon d'investissement et votre tolérance au risque.`,
-  `Un seul espace pour comprendre les SCPI, les comparer, simuler votre investissement et construire votre portefeuille.`
+  `Ne choisissez pas une SCPI sur son seul rendement. Comparez ses performances, ses risques, sa liquidité et sa trajectoire grâce à des analyses documentées et des simulateurs.`
 );
 html = html.replace(
   `Comparateur, simulateurs, fiches SCPI, fiscalité, risques et rendement net : une expérience complète pour avancer avec méthode.`,
-  `Au-delà du rendement, découvrez les forces, la trajectoire et les fondamentaux de chaque SCPI.`
+  `Au-delà du rendement : examinez les frais, la diversification et l'évolution des indicateurs avant toute décision.`
 );
 html = html.replace(/\s*<p class="initial-proof-strong">Plus de 4 650 situations patrimoniales étudiées — plus de 330 M€ de projets analysés<\/p>/g, '');
 
@@ -52,8 +52,8 @@ fs.writeFileSync(target, html, 'utf-8');
 // Cette vérification conserve volontairement la signature attendue par
 // patchHomeHeroVisuals.mjs afin que le prebuild reste idempotent.
 if (
-  !html.includes('<span class="initial-title-main">Analysez. Comparez.</span>') ||
-  !html.includes('<span class="initial-title-accent">Investissez sur <span class="initial-title-brand">MaximusSCPI.</span></span>')
+  !html.includes('<span class="initial-title-main">Analysez et comparez</span>') ||
+  !html.includes('<span class="initial-title-accent">les <span class="initial-title-brand">SCPI</span> avant d\'investir.</span>')
 ) {
   console.error('❌ Synchronisation du H1 statique de la home non vérifiée.');
   process.exit(1);
@@ -63,13 +63,14 @@ const required = [
   '<a href="/analyses/">Analyses</a>',
   '<a href="/articles/">Comprendre</a>',
   'Analyse SCPI • Comparaison • Simulation • Suivi',
-  'Au-delà du rendement, découvrez les forces, la trajectoire et les fondamentaux de chaque SCPI.',
+  'Au-delà du rendement : examinez les frais, la diversification et l'évolution des indicateurs avant toute décision.',
 ];
 const forbidden = [
   '>Apprendre</a>',
   'Plus de 4 650 situations patrimoniales étudiées',
   'plus de 330 M€ de projets analysés',
   'Testez. Comparez. Décidez.',
+  'Investissez sur <span class="initial-title-brand">MaximusSCPI.</span>',
 ];
 
 const missing = required.filter((value) => !html.includes(value));
@@ -79,5 +80,5 @@ if (missing.length || leaked.length) {
   process.exit(1);
 }
 
-console.log('✅ H1 statique de la home synchronisé avec HomeApp : Analysez. Comparez. / Investissez sur (blanc) / MaximusSCPI. (vert)');
+console.log('✅ H1 statique de la home synchronisé avec HomeApp : Analysez et comparez les SCPI avant d’investir.');
 console.log('✅ Home statique alignée : Analyses, Comprendre, copie actuelle, anciennes preuves sociales supprimées.');
