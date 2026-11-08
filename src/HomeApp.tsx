@@ -219,8 +219,8 @@ const HomeApp: React.FC = () => {
   return (
     <div className={`min-h-screen bg-slate-900 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
       <SEOHead
-        title="MaximusSCPI — Analyse, comparaison et portefeuille multi-SCPI"
-        description="Comparez les SCPI, analysez leurs forces et leurs risques, simulez votre projet et construisez votre portefeuille multi-SCPI."
+        title="Comparateur SCPI : analyse, rendements et risques | MaximusSCPI"
+        description="Analysez et comparez les SCPI avant d'investir : rendement, frais, risques, liquidité et trajectoire. Consultez les fiches et simulez votre investissement."
         canonical="https://maximusscpi.com/"
       />
 
@@ -260,24 +260,21 @@ const HomeApp: React.FC = () => {
                   Analyse SCPI • Comparaison • Simulation • Suivi
                 </span>
 
-                <h1 className="mt-5 mb-5 overflow-visible md:mb-6">
-                  <span className="block text-4xl font-bold leading-tight text-slate-100 sm:text-5xl lg:whitespace-nowrap lg:text-5xl">
-                    Analysez. Comparez.
+                <h1 className="mt-4 mb-4 overflow-visible sm:mt-5 sm:mb-5 md:mb-6">
+                  <span className="block text-[clamp(2rem,4.1vw,3rem)] font-bold leading-[1.12] text-slate-100">
+                    Analysez et comparez
                   </span>
-                  <span className="mt-2 block bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text pb-1 text-3xl font-bold leading-tight text-transparent sm:text-4xl lg:text-5xl">
-                    Investissez sur
-                  </span>
-                  <span className="block bg-gradient-to-r from-pink-400 via-pink-300 to-rose-200 bg-clip-text pb-1 text-3xl font-bold leading-tight text-transparent sm:text-4xl lg:text-5xl">
-                    MaximusSCPI.
+                  <span className="mt-2 block text-[clamp(1.8rem,3.4vw,2.6rem)] font-bold leading-[1.14] text-slate-100">
+                    les <span className="text-emerald-400">SCPI</span> avant d'investir.
                   </span>
                 </h1>
 
-                <p className="max-w-xl text-lg font-semibold leading-relaxed text-slate-200 sm:text-xl">
-                  Un seul espace pour comprendre les SCPI, les comparer, simuler votre investissement et construire votre portefeuille.
+                <p className="max-w-xl text-base font-medium leading-relaxed text-slate-200 sm:text-lg">
+                  Ne choisissez pas une SCPI sur son seul rendement. Comparez ses performances, ses risques, sa liquidité et sa trajectoire grâce à des analyses documentées et des simulateurs.
                 </p>
 
                 <p className="mt-3 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">
-                  Au-delà du rendement, découvrez les forces, la trajectoire et les fondamentaux de chaque SCPI.
+                  Au-delà du rendement : examinez les frais, la diversification et l'évolution des indicateurs avant toute décision.
                 </p>
 
                 <a
@@ -295,19 +292,19 @@ const HomeApp: React.FC = () => {
                 </a>
 
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+                  <a
+                    href="/comparateur-scpi/"
+                    className="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-2xl shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:bg-emerald-400"
+                  >
+                    Comparer les SCPI
+                  </a>
                   <button
                     type="button"
                     onClick={scrollToPortfolioBuilder}
-                    className="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-2xl shadow-emerald-500/20 transition hover:-translate-y-0.5 hover:bg-emerald-400"
+                    className="inline-flex items-center justify-center rounded-xl border border-slate-600 bg-slate-800/70 px-6 py-3.5 text-sm font-bold text-slate-100 transition hover:border-emerald-500/50 hover:bg-slate-800"
                   >
                     Construire mon portefeuille
                   </button>
-                  <a
-                    href="/comparateur-scpi/"
-                    className="inline-flex items-center justify-center rounded-xl border border-slate-600 bg-slate-800/70 px-6 py-3.5 text-sm font-bold text-slate-100 transition hover:border-emerald-500/50 hover:bg-slate-800"
-                  >
-                    Voir le comparateur
-                  </a>
                 </div>
                 <p className="mt-3 max-w-xl text-xs leading-relaxed text-slate-500">
                   Analyse gratuite et informative. Si vous souhaitez aller plus loin, votre allocation peut ensuite être vérifiée avant souscription et suivie dans le temps.
