@@ -180,3 +180,30 @@ test('RECOVERY-181 source attestation adds evidence without creating new financi
  assert.match(edge,/source_reference|issuer_source_sha256/);
  assert.match(edge,/hashPdf,Boolean\(old\?\.id/);
 });
+
+test('RECOVERY-182 first-party source attestation cannot exceed one explicitly named fund',()=>{
+ const s=readFileSync('supabase/migrations/20261108_recovery182_first_party_pdf_attestation.sql','utf8');
+ assert.match(s,/p_scpi_slug text/);
+ assert.match(s,/r\.scpi_slug=p_scpi_slug/);
+ assert.match(s,/LIMIT 1/);
+ assert.match(s,/r\.verification_status='incomplete'/);
+ assert.match(s,/r\.last_error='Extraction existante partielle'/);
+ assert.match(s,/source_domain/);
+ assert.match(s,/official_scpi_page_url/);
+ assert.match(s,/b\.pdf_sha256/);
+ assert.match(s,/manual_verified_official/);
+ assert.match(s,/independent_engines'='\["MuPDF","Poppler"\]'::jsonb/);
+ assert.match(s,/tof_bulletin_source_rejection_reason/);
+ assert.match(s,/NOT EXISTS\s*\(\s*SELECT 1 FROM scpi_internal\.tof_policy_quarantine_audit_20261028/);
+ assert.match(s,/recovery182_first_party_issuer_source_attested/);
+ assert.match(s,/REVOKE ALL ON FUNCTION/);
+});
+test('RECOVERY-182 cannot alter financial metrics nor claim full profile review',()=>{
+ const s=readFileSync('supabase/migrations/20261108_recovery182_first_party_pdf_attestation.sql','utf8');
+ assert.doesNotMatch(s,/UPDATE\s+public\.scpi_(indicator_history|metric_certifications|indicators|annual_fundamentals)/i);
+ assert.doesNotMatch(s,/INSERT INTO public\.scpi_metric_certifications/i);
+ assert.doesNotMatch(s,/UPDATE\s+public\.scpi_crash_test_strict_v2/i);
+ assert.match(s,/qa_partial_metrics_remain',true/);
+ assert.match(s,/financial_values_changed',false/);
+ assert.match(s,/deploy_allowed',false/);
+});
