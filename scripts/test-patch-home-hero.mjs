@@ -17,7 +17,7 @@ test('hero migration is repeatable and replaces both matching card classes',()=>
   assert.ok(!result[0].includes('absolute bottom-6 right-4'));
   assert.equal(run().status,0);
   assert.deepEqual(files.map(f=>readFileSync(join(dir,f),'utf8')),result);
-  writeFileSync(join(dir,'src/HomeApp.tsx'),result[0].replace('Analysez. Comparez.','UNKNOWN TITLE'));
+  writeFileSync(join(dir,'src/HomeApp.tsx'),result[0].replace('Analysez et comparez','UNKNOWN TITLE'));
   const before=files.map(f=>readFileSync(join(dir,f),'utf8'));
   assert.notEqual(run().status,0);
   assert.deepEqual(files.map(f=>readFileSync(join(dir,f),'utf8')),before);
