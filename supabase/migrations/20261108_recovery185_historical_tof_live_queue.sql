@@ -7,15 +7,27 @@ RETURNS jsonb LANGUAGE plpgsql SECURITY INVOKER
 SET search_path TO pg_catalog,maximus_agents
 AS $fn$
 DECLARE today_paris date:=(now() at time zone 'Europe/Paris')::date;
-        prepared integer:=0; records jsonb;
+        prepared integer:=0; active_jobs integer:=0; claims_today integer:=0;
+        records jsonb;
 BEGIN
- IF p_max<1 OR p_max>3 THEN RAISE EXCEPTION 'REC185_MAX_1_TO_3'; END IF;
+ IF p_max IS NULL OR p_max<1 OR p_max>3 THEN RAISE EXCEPTION 'REC185_MAX_1_TO_3'; END IF;
  PERFORM pg_advisory_xact_lock(hashtext('maximus_agents:historical-tof:prepare'));
  IF NOT coalesce((SELECT enabled FROM maximus_agents.settings WHERE singleton),false)
    OR NOT coalesce((SELECT enabled FROM maximus_agents.agents WHERE role='QA'),false)
  THEN RETURN jsonb_build_object('documents','[]'::jsonb,'prepared',0,
        'reason','agents_disabled','financial_certified',false,'deploy_allowed',false);
  END IF;
+ SELECT count(*) INTO claims_today FROM maximus_agents.runs r
+   JOIN maximus_agents.tasks t ON t.id=r.task_id
+ WHERE t.payload->>'mode'='historical_tof_source_qa'
+   AND (r.started_at at time zone 'Europe/Paris')::date=today_paris;
+ IF claims_today>=3 THEN
+   RETURN jsonb_build_object('documents','[]'::jsonb,'prepared',0,
+      'reason','daily_claim_budget_exhausted','financial_certified',false,'deploy_allowed',false);
+ END IF;
+ SELECT count(*) INTO active_jobs FROM maximus_agents.tasks
+ WHERE payload->>'mode'='historical_tof_source_qa'
+   AND status IN ('pending','running');
  WITH eligible AS (
    SELECT q.scpi_slug,q.source_period,q.repair_family,
       r.scpi_name,d.source_url,d.pdf_sha256,d.page_count,
@@ -47,7 +59,7 @@ BEGIN
      )
  ), selected AS (
    SELECT * FROM eligible WHERE rn=1
-   ORDER BY fund_period_count,source_period DESC,scpi_slug LIMIT p_max
+   ORDER BY fund_period_count,source_period DESC,scpi_slug LIMIT greatest(0,p_max-active_jobs)
  ), created AS (
    INSERT INTO maximus_agents.tasks
      (dedupe_key,cycle_date,role,title,kind,status,priority,payload)
@@ -77,7 +89,6 @@ BEGIN
    WHERE payload->>'mode'='historical_tof_source_qa'
      AND status='pending'
      AND attempts=0
-     AND created_at>=now()-interval '1 day'
    ORDER BY created_at,id LIMIT p_max
  ) t;
  RETURN jsonb_build_object('documents',records,'prepared',prepared,
