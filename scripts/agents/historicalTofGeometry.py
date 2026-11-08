@@ -77,7 +77,7 @@ def locate(words,candidate=None):
         near_vacancy=min((distance(word,w) for w in vacancy),default=100000)
         numbers.append({"value":val,"bbox":[round(v,2) for v in word[:4]],
             "tof_distance":round(near_tof,2),"vacancy_distance":round(near_vacancy,2),
-            "tof_label_near":near_tof<=180})
+            "tof_label_near":near_tof<=180 and near_tof<near_vacancy})
     return numbers
 
 def pair_engines(mu,po):
