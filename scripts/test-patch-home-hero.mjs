@@ -14,6 +14,9 @@ test('hero migration is repeatable and replaces both matching card classes',()=>
   const run=()=>spawnSync(process.execPath,[join(dir,'scripts/patchHomeHeroVisuals.mjs')],{encoding:'utf8'});
   const first=run(); assert.equal(first.status,0,first.stderr);
   const result=files.map(f=>readFileSync(join(dir,f),'utf8'));
+  const eyebrow = 'Outil d’analyse et de comparaison de SCPI';
+  assert.ok(result[0].includes(eyebrow), 'React hero eyebrow must match the approved positioning');
+  assert.ok(result[1].includes(`<span class="initial-badge">${eyebrow}</span>`), 'Static hero eyebrow must match React');
   assert.ok(!result[0].includes('absolute bottom-6 right-4'));
   assert.equal(run().status,0);
   assert.deepEqual(files.map(f=>readFileSync(join(dir,f),'utf8')),result);

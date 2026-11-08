@@ -257,7 +257,7 @@ const HomeApp: React.FC = () => {
             <div className="grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14">
               <div>
                 <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold tracking-wide text-emerald-300">
-                  Analyse SCPI • Comparaison • Simulation • Suivi
+                  Outil d’analyse et de comparaison de SCPI
                 </span>
 
                 <h1 className="mt-4 mb-4 overflow-visible sm:mt-5 sm:mb-5 md:mb-6">

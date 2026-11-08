@@ -35,8 +35,9 @@ html = html.replace(`<a href="/articles/">Apprendre</a>`, `<a href="/articles/">
 
 html = html.replace(
   'Analyse SCPI pédagogique • Fiscalité • Rendement net',
-  'Analyse SCPI • Comparaison • Simulation • Suivi'
+  'Outil d’analyse et de comparaison de SCPI'
 );
+html = html.replace('Analyse SCPI • Comparaison • Simulation • Suivi', 'Outil d’analyse et de comparaison de SCPI');
 html = html.replace(
   `En 2 minutes, obtenez une première orientation pédagogique selon votre montant, votre fiscalité, votre horizon d'investissement et votre tolérance au risque.`,
   `Ne choisissez pas une SCPI sur son seul rendement. Comparez ses performances, ses risques, sa liquidité et sa trajectoire grâce à des analyses documentées et des simulateurs.`
@@ -62,7 +63,7 @@ if (
 const required = [
   '<a href="/analyses/">Analyses</a>',
   '<a href="/articles/">Comprendre</a>',
-  'Analyse SCPI • Comparaison • Simulation • Suivi',
+  'Outil d’analyse et de comparaison de SCPI',
   `Au-delà du rendement : examinez les frais, la diversification et l'évolution des indicateurs avant toute décision.`,
 ];
 const forbidden = [
