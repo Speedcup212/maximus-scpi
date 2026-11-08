@@ -320,3 +320,41 @@ test('RECOVERY-185 OIDC worker never accepts a financial pass or an arbitrary PD
  assert.match(workflow,/max-parallel: 3/);
  assert.doesNotMatch(workflow,/op:'historical_approve'/);
 });
+
+test('RECOVERY-186 one-time archive retry is exact SCPI/SHA and preserves old run audit',()=>{
+ const sql=readFileSync('supabase/migrations/20261108_recovery186_original_archive_retry.sql','utf8');
+ assert.match(sql,/requeue_historical_archive_retry_v1/);
+ assert.match(sql,/claim_historical_tof_proof_v1/);
+ assert.match(sql,/prepare_historical_tof_proof_batch_v1/);
+ assert.match(sql,/ISSUER_BINARY_PROOF_FAILED/);
+ assert.match(sql,/t\.attempts=1/);
+ assert.match(sql,/t\.payload->'archive_retry_v1' IS NULL/);
+ assert.match(sql,/b\.pdf_sha256=t\.payload->>'pdf_sha256'/);
+ assert.match(sql,/o\.bucket_id='scpi-bulletins'/);
+ assert.match(sql,/LIMIT 2 FOR UPDATE OF t SKIP LOCKED/);
+ assert.match(sql,/x\.attempts<2/);
+ assert.match(sql,/claims_today>=5/);
+ assert.match(sql,/claims_today<3/);
+ assert.match(sql,/no|false/);
+ assert.doesNotMatch(sql,/UPDATE\s+public\.scpi_(indicator_history|metric_certifications|source_registry)/i);
+ assert.doesNotMatch(sql,/DELETE\s+FROM\s+scpi_internal\.tof_policy_quarantine/i);
+ assert.match(sql,/INSERT\s+INTO\s+maximus_agents\.runs/i); // every real retry creates attempt #2 audit
+});
+test('RECOVERY-186 OIDC archive fetch is leased, private and bytes/SHA verified without release',()=>{
+ const edge=readFileSync('supabase/functions/maximus-agent-audit-oidc/index.ts','utf8');
+ const workflow=readFileSync('.github/workflows/maximus-agent-parallel.yml','utf8');
+ assert.match(edge,/historical_archive_pdf/);
+ assert.match(edge,/status='running'/);
+ assert.match(edge,/lease_until>now\(\)/);
+ assert.match(edge,/storage\.objects/);
+ assert.match(edge,/SUPABASE_SERVICE_ROLE_KEY/);
+ assert.match(edge,/crypto\.subtle\.digest\("SHA-256",data\)/);
+ assert.match(edge,/archive_integrity_verified===true/);
+ assert.match(edge,/publisher_live_verified===false/);
+ assert.match(edge,/financial_qa_completed:false/);
+ assert.match(workflow,/op:'historical_archive_pdf'/);
+ assert.match(workflow,/historicalArchiveProof\.py/);
+ assert.match(workflow,/continue-on-error: true/);
+ assert.match(workflow,/financial-certification-does-not-exist|no financial publication|finance=REVIEW|financial_certified/);
+ assert.doesNotMatch(workflow,/SUPABASE_SERVICE_ROLE_KEY|service_role/);
+});

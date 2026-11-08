@@ -125,6 +125,49 @@ Deno.serve(async request=>{
           source_period:e.source_period},manifest,
         deploy_allowed:false,financial_certified:false});
     }
+    if(body.op==="historical_archive_pdf"&&
+       typeof body.task_id==="string"&&typeof body.lease_token==="string"){
+      const [t]=await sql`select id,payload from maximus_agents.tasks
+        where id=${body.task_id}::uuid and lease_token=${body.lease_token}::uuid
+          and role='QA' and kind='audit' and status='running'
+          and lease_until>now() and attempts<=2
+          and payload->>'mode'='historical_tof_source_qa'`;
+      if(!t)return new Response("Forbidden",{status:403});
+      const p=t.payload;
+      const [file]=await sql`select b.pdf_path,b.pdf_sha256,
+           o.metadata->>'size' as archive_bytes
+         from public.scpi_bulletins b
+         join storage.objects o on o.bucket_id='scpi-bulletins' and o.name=b.pdf_path
+         join maximus_agents.scpi_bulletin_replay_documents d
+           on d.scpi_slug=b.scpi_slug and d.source_period=b.period
+           and d.pdf_sha256=b.pdf_sha256 and d.source_url=b.source_url
+           and d.status='extracted' and d.processing_complete is true
+           and d.result->>'identity_verified'='true'
+           and d.result->>'period_verified'='true'
+         where b.scpi_slug=${p.scpi_slug} and b.period=${p.source_period}
+           and b.pdf_sha256=${p.pdf_sha256} and b.source_url=${p.source_url}
+           and b.pdf_path=b.scpi_slug||'/'||b.period||'/'||b.pdf_sha256||'.pdf'
+         limit 1`;
+      const expected=Number(file?.archive_bytes);
+      if(!file||!Number.isSafeInteger(expected)||expected<1024||expected>20000000)
+        return new Response("Exact archived original unavailable",{status:404});
+      const storageKey=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+      if(!storageKey)throw Error("PRIVATE_STORAGE_ACCESS_MISSING");
+      const archiveUrl="https://ygvsddcpohsnaowofuwc.supabase.co/storage/v1/object/authenticated/scpi-bulletins/"
+        +file.pdf_path.split("/").map(encodeURIComponent).join("/");
+      const response=await fetch(archiveUrl,{headers:{
+          apikey:storageKey,Authorization:"Bearer "+storageKey},
+          redirect:"error",signal:AbortSignal.timeout(20000)});
+      if(!response.ok)return new Response("Archive read failed",{status:424});
+      const data=await response.arrayBuffer();
+      if(data.byteLength!==expected)return new Response("Archive size changed",{status:422});
+      const hash=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",data)))
+        .map(x=>x.toString(16).padStart(2,"0")).join("");
+      if(hash!==file.pdf_sha256||hash!==p.pdf_sha256)
+        return new Response("Archive hash changed",{status:422});
+      return new Response(data,{status:200,headers:{
+        "Content-Type":"application/pdf","Cache-Control":"no-store","X-Original-Sha256":hash}});
+    }
     if(body.op==="historical_complete"&&typeof body.task_id==="string"&&
        typeof body.lease_token==="string"&&body.proof&&
        typeof body.proof==="object"&&!Array.isArray(body.proof)){
@@ -144,13 +187,18 @@ Deno.serve(async request=>{
          !["verified","blocked"].includes(p.status)||
          !["verified","blocked"].includes(doc?.status))
         return new Response("Untrusted documentary proof",{status:422});
+      const archived=doc?.origin==="archive_original_binary";
       const accepted=p.status==="verified"&&doc.status==="verified"&&
+        (!archived||(doc.archive_integrity_verified===true&&
+           doc.publisher_live_verified===false))&&
         doc.binary_hash_matches_registered===true&&
         doc.identity_verified===true&&doc.period_verified===true&&
         Array.isArray(doc.reader_engines)&&
         doc.reader_engines.includes("MuPDF")&&doc.reader_engines.includes("Poppler");
       const result={summary:accepted?
-        "Original publisher PDF re-read with exact SHA and two independent readers; TOF metric still requires financial QA.":
+        (archived?
+         "Original archived PDF SHA and two readers verified; publisher inaccessible; financial TOF QA still required.":
+         "Original publisher PDF re-read with exact SHA and two independent readers; TOF metric still requires financial QA."):
         "Publisher PDF/source audit blocked; historical TOF not certified.",
         verdict:"REVIEW",deploy_allowed:false,financial_certified:false,
         independent_pdf_readers:true,financial_qa_completed:false,
