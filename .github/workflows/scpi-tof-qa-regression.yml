@@ -8,6 +8,7 @@ on:
       - 'scpi-ingestion/src/qa.test.ts'
       - 'scpi-ingestion/package.json'
       - 'supabase/migrations/20261107_recovery134_tof_semantic_vacancy_quarantine.sql'
+      - 'supabase/migrations/20261108_recovery189_tof_explicit_vacancy_guard.sql'
       - '.github/workflows/scpi-tof-qa-regression.yml'
   push:
     branches: [main]
@@ -16,6 +17,7 @@ on:
       - 'scpi-ingestion/src/qa.test.ts'
       - 'scpi-ingestion/package.json'
       - 'supabase/migrations/20261107_recovery134_tof_semantic_vacancy_quarantine.sql'
+      - 'supabase/migrations/20261108_recovery189_tof_explicit_vacancy_guard.sql'
       - '.github/workflows/scpi-tof-qa-regression.yml'
   workflow_dispatch:
 
@@ -62,4 +64,29 @@ jobs:
           if(/SECURITY\s+DEFINER/i.test(sql))
             throw Error('Forbidden privileged function');
           console.log('TOF SQL guard contract: PASS');
+          NODE
+
+      - name: Regression — explicit vacancy cannot be relabeled financial TOF
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const sql=fs.readFileSync('../supabase/migrations/20261108_recovery189_tof_explicit_vacancy_guard.sql','utf8');
+          for(const required of [
+            'tof_explicit_vacancy_conflict',
+            'locaux vacants',
+            'trg_zzzz_tof_explicit_vacancy',
+            'invalid_tof_explicit_vacancy_component',
+            'REC189_MUST_BLOCK_VACANCY_10_3',
+            'REC189_MUST_NOT_BLOCK_CORRECT_CHART_TOF_89_7',
+            'value_numeric=10.3',
+            'verification_status LIKE',
+            'REVOKE ALL'
+          ])if(!sql.includes(required))throw Error('Missing TOF safety proof: '+required);
+          for(const forbidden of [/UPDATE\s+public\.scpi_(indicator_history|metric_certifications)/i,
+            /INSERT\s+INTO\s+public\.scpi_metric_certifications/i,
+            /SECURITY\s+DEFINER/i,
+            /GRANT\s+(EXECUTE|SELECT)\s+TO\s+(anon|authenticated)/i]){
+            if(forbidden.test(sql))throw Error('Forbidden TOF certification shortcut');
+          }
+          console.log('RECOVERY-189 fail-closed vacancy/TOF semantic guard PASS');
           NODE
