@@ -68,7 +68,7 @@ try {
           navPosition:nav?getComputedStyle(nav).position:null,
           sourceInDocs:!source||Boolean(source.closest('#scpi-documents')),
           sourcesCollapsed:!details || !details.open,
-          sourcesAfterTitle:!source || Boolean(main && docs && main.compareDocumentPosition(docs)&Node.DOCUMENT_POSITION_FOLLOWING),
+          sourcesAfterTitle:!source || Boolean(main && docs && (main.compareDocumentPosition(docs) & Node.DOCUMENT_POSITION_FOLLOWING)),
         };
         const radar=document.getElementById('radar-scpi');
         const trajectory=document.getElementById('trajectoire-scpi');
