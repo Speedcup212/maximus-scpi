@@ -52,6 +52,7 @@ jobs:
       fail-fast: false
       matrix:
         slug: [sofiboutique, sofipierre, sofidy-europe-invest]
+        document_set: [2026-t2, 2025-ra]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -67,14 +68,14 @@ jobs:
       - name: Read real Sofidy PDF, verify fund, period and original SHA using two readers
         run: |
           python scripts/agents/publisher_family_proof.py \
-            --manifest scripts/agents/publisher-families/sofidy-2026-t2.json \
+            --manifest scripts/agents/publisher-families/sofidy-${{ matrix.document_set }}.json \
             --slug ${{ matrix.slug }} \
-            --output test-results/publisher-families/${{ matrix.slug }}.json
+            --output test-results/publisher-families/${{ matrix.slug }}-${{ matrix.document_set }}.json
       - name: Save actual proof or explicit source failure for independent QA
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: publisher-family-${{ matrix.slug }}-${{ github.run_id }}
-          path: test-results/publisher-families/${{ matrix.slug }}.json
+          name: publisher-family-${{ matrix.slug }}-${{ matrix.document_set }}-${{ github.run_id }}
+          path: test-results/publisher-families/${{ matrix.slug }}-${{ matrix.document_set }}.json
           if-no-files-found: error
           retention-days: 14
