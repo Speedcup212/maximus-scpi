@@ -196,4 +196,30 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
     sourceLabel: 'Praemia REIM, Patrimmo Commerce 2025',
     note: "La PGA est négative malgré la distribution; suspension de variabilité du capital en 2026.",
   },
+  'coeur-de-region': {
+    year: 2025, pgaPct: 6.20, distributionPct: 6.20,
+    sourceUrl: 'https://www.sogenial.fr/societe/scpi-coeur-des-regions/',
+    sourceLabel: 'Sogenial, Cœur de Régions, résultats 2025',
+  },
+  'coeur-de-ville': {
+    year: 2025, pgaPct: 6.20, distributionPct: 6.20,
+    sourceUrl: 'https://www.sogenial.fr/societe/scpi-coeur-de-ville/',
+    sourceLabel: 'Sogenial, Cœur de Ville, résultats 2025',
+  },
+  'atream-hotel': {
+    year: 2025, pgaPct: 5.05, distributionPct: 5.05,
+    sourceUrl: 'https://atream.com/solutions/fonds-ouverts/scpi-atream-hotels/',
+    sourceLabel: 'Atream, Atream Hôtels, résultats 2025',
+  },
+  'edr-europa': {
+    year: 2025, pgaPct: 8.75, distributionPct: 8.75,
+    sourceUrl: 'https://edr-europa.com/wp-content/uploads/2026/02/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-S2-2025.pdf',
+    sourceLabel: 'Edmond de Rothschild REIM, bulletin S2 2025',
+    note: "Performance initiale susceptible de ne pas être représentative des exercices futurs.",
+  },
+  'pierval-sante': {
+    year: 2025, pgaPct: 4.06, distributionPct: 4.06,
+    sourceUrl: 'https://www.euryale-am.fr/wp-content/uploads/2026/01/BT_PIERVAL_SANTE_2025_T4_2026.pdf',
+    sourceLabel: 'Euryale AM, Pierval Santé, bulletin T4 2025',
+  },
 };
