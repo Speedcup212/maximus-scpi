@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "publisher": "Sofidy",
+  "approved_hosts": [
+    "www.sofidy.com"
+  ],
+  "data_mutation": false,
+  "financial_certification": false,
+  "candidates": [
+    {
+      "slug": "sofiboutique",
+      "name": "Sofiboutique",
+      "source_page": "https://www.sofidy.com/solutions/sofiboutique/",
+      "documents": [
+        {
+          "kind": "dic",
+          "source_url": "https://www.sofidy.com/app/uploads/2022/04/DIC-SOB-042026.pdf",
+          "reference_period": "2026-REG"
+        },
+        {
+          "kind": "note",
+          "source_url": "https://www.sofidy.com/app/uploads/2022/04/NI-SOB-042026.pdf",
+          "reference_period": "2026-REG"
+        }
+      ]
+    },
+    {
+      "slug": "sofipierre",
+      "name": "Sofipierre",
+      "source_page": "https://www.sofidy.com/solutions/sofipierre/",
+      "documents": [
+        {
+          "kind": "dic",
+          "source_url": "https://www.sofidy.com/app/uploads/2022/10/DIC-SP-042026.pdf",
+          "reference_period": "2026-REG"
+        },
+        {
+          "kind": "note",
+          "source_url": "https://www.sofidy.com/app/uploads/2022/10/NI-SP-042026.pdf",
+          "reference_period": "2026-REG"
+        }
+      ]
+    },
+    {
+      "slug": "sofidy-europe-invest",
+      "name": "Sofidy Europe Invest",
+      "source_page": "https://www.sofidy.com/solutions/sofidy-europe-invest/",
+      "documents": [
+        {
+          "kind": "dic",
+          "source_url": "https://www.sofidy.com/app/uploads/2022/04/DIC-SEI-042026.pdf",
+          "reference_period": "2026-REG"
+        },
+        {
+          "kind": "note",
+          "source_url": "https://www.sofidy.com/app/uploads/2024/03/NI-SEI-042026.pdf",
+          "reference_period": "2026-REG"
+        }
+      ]
+    }
+  ]
+}
