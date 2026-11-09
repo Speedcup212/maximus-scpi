@@ -21,7 +21,6 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
 
   const partial = scpi.maximusPublicationStatus === 'published_with_reserves';
   const officialPga2025 = getVerifiedPga2025(scpi.name);
-  const displayedAnnualTD = officialPga2025?.distributionPct;
   const isEuropean = isEuropeanSCPI(scpi);
   const showTaxOptimization = shouldOptimizeForTax(userTmi) && isEuropean;
 
@@ -167,11 +166,14 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
         <div className="flex items-center justify-between">
           <div className="flex-1">
             <p className="text-xs font-medium text-emerald-100 uppercase tracking-wide mb-0.5">
-              Taux de distribution brut 2025
+              Performance globale annuelle (PGA) 2025
             </p>
             <div className="flex items-baseline gap-2 flex-wrap">
-              <p className="text-3xl font-bold">{displayedAnnualTD !== undefined ? `${displayedAnnualTD.toFixed(2)}%` : 'Non affiché'}</p>
+              <p className="text-3xl font-bold">{officialPga2025 ? `${officialPga2025.pgaPct.toFixed(2)}%` : 'Non vérifiée'}</p>
             </div>
+            {officialPga2025 && (
+              <p className="mt-1 text-xs text-white/90">Taux de distribution brut 2025 inclus : {officialPga2025.distributionPct.toFixed(2)} %</p>
+            )}
             {(scpi.dataPeriod || scpi.dataDate) && (
               <p className="mt-1 text-[10px] text-emerald-100/80">
                 Autres indicateurs (bulletin) : {scpi.dataPeriod || scpi.dataDate}
@@ -190,7 +192,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
       </div>
 
       <div className="px-3 py-2 bg-slate-800">
-        <ScpiPgaIndicator name={scpi.name} variant="card" />
+        <ScpiPgaIndicator name={scpi.name} variant="source" />
       </div>
 
       {/* Primary Metrics - Compact */}
