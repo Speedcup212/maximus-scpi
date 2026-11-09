@@ -3,8 +3,8 @@ import { OFFICIAL_PGA_2025 } from '../data/scpiPgaOfficial2025';
 import { compareVerified2025Distribution, formatPgaPercent, getVerifiedPga2025 } from '../utils/scpiPga';
 
 describe('PGA annuelle ASPIM – source et période', () => {
-  it('restitue les valeurs officielles du lot de 22 SCPI, sans les recalculer', () => {
-    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(22);
+  it('restitue les valeurs officielles du lot de 35 SCPI, sans les recalculer', () => {
+    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(35);
     expect(getVerifiedPga2025('Iroko Zen')?.pgaPct).toBe(8.13);
     expect(getVerifiedPga2025('Iroko Zen')?.distributionPct).toBe(7.14);
     expect(getVerifiedPga2025('CORUM USA')?.pgaPct).toBe(7.70);
@@ -43,6 +43,7 @@ describe('PGA annuelle ASPIM – source et période', () => {
       'www.corum.fr', 'www.iroko.eu', 'alderan.fr', 'www.arkea-reim.com',
       'wemo-reim.fr', 'atland-voisin.com', 'www.sogenial.fr', 'www.sofidy.com',
       'www.altixia.fr', 'pages.inter-gestion.com', 'www.remake.fr', 'epsicap.fr',
+      'www.aestiam.com', 'paref-gestion.com', 'www.perial.com', 'www.praemia-healthcare.fr',
     ];
     for (const [slug, record] of Object.entries(OFFICIAL_PGA_2025)) {
       expect(allowed.has(slug)).toBe(true);
@@ -50,6 +51,18 @@ describe('PGA annuelle ASPIM – source et période', () => {
       expect(trusted).toContain(new URL(record.sourceUrl).hostname);
       expect(Math.abs(record.pgaPct - record.distributionPct)).toBeLessThanOrEqual(100);
     }
+  });
+
+  it('expose des PGA négatives plutôt que de masquer la baisse du prix de part', () => {
+    expect(getVerifiedPga2025('Paref Hexa')?.pgaPct).toBe(-12.10);
+    expect(getVerifiedPga2025('Paref Hexa')?.distributionPct).toBe(6.00);
+    expect(getVerifiedPga2025('Novapierre Résidentiel')?.pgaPct).toBe(-41.53);
+    expect(getVerifiedPga2025('Novapierre Résidentiel')?.distributionPct).toBe(1.50);
+    expect(getVerifiedPga2025('Primovie')?.pgaPct).toBe(-7.31);
+    expect(getVerifiedPga2025('Primovie')?.distributionPct).toBe(4.04);
+    expect(getVerifiedPga2025('Patrimmo Commerce')?.pgaPct).toBe(-5.71);
+    expect(getVerifiedPga2025('Aestiam Agora')?.distributionPct).toBe(4.50);
+    expect(getVerifiedPga2025('Aestiam Horizon')?.pgaPct).toBe(5.10);
   });
 
   it('classe les valeurs documentées avant les manquantes sans NaN', () => {
