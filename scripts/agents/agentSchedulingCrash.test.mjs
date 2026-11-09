@@ -98,3 +98,22 @@ test('CAPACITY TARGET — 20 distinct SCPI daily, no expansion of code correctio
  assert.equal(Math.ceil(143/20),8);
 });
 
+
+
+test('CRASH H — phantom manual RUNNING tasks are blocked, never counted as agent execution',()=>{
+ const m=read('supabase/migrations/20261109_recovery195_orphan_running_lease_guard.sql');
+ assert.match(m,/orphan\.status='running'/);
+ assert.match(m,/orphan\.kind='execute'/);
+ assert.match(m,/orphan\.payload->>'manual_claim'='authorized_user_mission'/);
+ assert.match(m,/orphan\.attempts=0/);
+ assert.match(m,/orphan\.lease_token IS NULL/);
+ assert.match(m,/orphan\.lease_until IS NULL/);
+ assert.match(m,/NOT EXISTS \(SELECT 1 FROM maximus_agents\.runs r WHERE r\.task_id=orphan\.id\)/);
+ assert.match(m,/FOR UPDATE OF orphan SKIP LOCKED/);
+ assert.match(m,/'recovery_code','ORPHAN_RUNNING_NO_LEASE_NO_RUN'/);
+ assert.match(m,/'financial_certified',false/);
+ assert.match(m,/UPDATE maximus_agents\.tasks SET status='blocked'/);
+ assert.match(m,/REVOKE ALL ON FUNCTION maximus_agents\.reconcile_expired_tasks\(\) FROM PUBLIC,anon,authenticated/);
+ assert.match(m,/LEASE_EXPIRED_RECONCILED/);
+ assert.doesNotMatch(m,/UPDATE\s+public\.scpi_indicator_history|SET\s+status='done'/);
+});
