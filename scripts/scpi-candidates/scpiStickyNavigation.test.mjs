@@ -17,7 +17,11 @@ test('un seul menu sticky de six rubriques sur le gabarit commun', () => {
     assert.ok(navigation.includes("id: '" + id + "'"), 'Menu item missing: ' + id);
   }
   assert.match(navigation, /document\.getElementById\('radar-scpi'\)/);
-  assert.match(navigation, /window\.history\.replaceState/);
+  assert.match(navigation, /window\.history\.pushState/);
+  assert.match(navigation, /window\.location\.hash/);
+  assert.match(navigation, /window\.addEventListener\('hashchange', restoreHash\)/);
+  assert.match(navigation, /scrollToSection\(matchingSection\.id, 'auto'\)/);
+  assert.match(navigation, /atBottom && docs/);
   assert.match(navigation, /MAX_SELECTION_SIZE = 6/);
   assert.match(navigation, /aria-current=/);
 });
