@@ -140,6 +140,9 @@ jobs:
       - name: Existing certified SCPI pages and consumer tools parity
         run: node --test scripts/scpi-candidates/irokoAtlasTemplateParity.test.mjs
 
+      - name: Radar and Trajectory mounted on all SCPI page templates
+        run: node --test scripts/scpi-candidates/scpiVisualChartsWiring.test.mjs
+
       - name: SCPI official PDF exact period handoff and QA status transitions
         run: node --test scripts/scpi-candidates/scpiExactPeriodHandoff.test.mjs
 
@@ -257,6 +260,7 @@ jobs:
           node scripts/scpi-history/trajectory-summary-browser.mjs
           node scripts/scpi-history/edrTrajectoryBrowser.mjs
           node scripts/scpi-history/bnppTrajectoryBrowser.mjs
+          node scripts/scpi-history/scpi-visual-contrast-browser.mjs
 
       - name: CORUM atomic SEO sitemap release verification
         run: node scripts/scpi-candidates/assertCorumReleaseSeo.mjs
@@ -287,6 +291,18 @@ jobs:
 
       - name: Real existing SCPI Chromium pages and sitemap - baseline ONLY
         run: node scripts/scpi-candidates/scpiExistingReferenceBrowserSmoke.mjs
+
+      - name: Radar and Trajectory real SCPI routes in desktop and mobile Chromium
+        run: node scripts/scpi-candidates/scpiVisualChartsBrowser.mjs
+
+      - name: Save Radar and Trajectory browser acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scpi-visual-charts-${{ github.run_id }}
+          path: test-results/scpi-visual-charts-browser/
+          retention-days: 14
+          if-no-files-found: warn
 
       - name: Upload actual baseline browser matrix (not CORUM certification)
         if: always()

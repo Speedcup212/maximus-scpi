@@ -61,7 +61,7 @@ const resolveDecisionTarget = (target: Exclude<DecisionTarget, 'compare'>): HTML
 
   if (target === 'radar') {
     const heading = findHeading('h3', 'Radar Maximus');
-    return heading?.closest<HTMLElement>('div.rounded-2xl') || heading;
+    return document.getElementById('radar-scpi') || heading?.closest<HTMLElement>('div.rounded-2xl') || heading;
   }
 
   if (target === 'analysis') {

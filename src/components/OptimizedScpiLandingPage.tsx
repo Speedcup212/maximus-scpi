@@ -19,7 +19,7 @@ import Header from './Header';
 import { scpiData } from '../data/scpiData';
 import { CookieConsent } from './CookieConsent';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
-import ScpiPremiumAnalysis from './ScpiPremiumAnalysis';
+import ScpiVisualAnalysis from './ScpiVisualAnalysis';
 import ScpiPublicationQualityNotice from './ScpiPublicationQualityNotice';
 import ScpiOfficialFacts from './ScpiOfficialFacts';
 import { getScpiDatedDiscount } from '../utils/scpiDatedDiscount';
@@ -677,12 +677,11 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         />
       )}
 
-      {realScpiData && (
-        <ScpiPremiumAnalysis
-          scpi={realScpiData}
-          landingData={landingData}
-        />
-      )}
+      <ScpiVisualAnalysis
+        scpi={realScpiData}
+        scpiSlug={landingSlug}
+        landingData={landingData}
+      />
 
       {landingData.simulator && !(realScpiData && isFeatureDisabled(realScpiData,'suitability_recommendations')) && (
         <div className="bg-slate-50 py-8">
