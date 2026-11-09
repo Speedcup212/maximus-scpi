@@ -53,8 +53,8 @@ try {
       };
     });
     assert.match(observation.title || '', /Trajectoire historique en cours/);
-    assert.match(observation.background || '', /^rgb\\(2, 6, 23\\)$/);
-    assert.match(observation.foreground || '', /^rgb\\(255, 255, 255\\)$/);
+    assert.equal(observation.background, 'rgb(2, 6, 23)');
+    assert.equal(observation.foreground, 'rgb(255, 255, 255)');
     assert.match(observation.periods || '', /1 période historique admissible/);
     assert.equal(observation.overflow, false, 'Unexpected horizontal overflow: ' + width);
     console.log('SCPI_TRAJECTORY_CONTRAST_QA', JSON.stringify({width, result:'PASS', ...observation}));
