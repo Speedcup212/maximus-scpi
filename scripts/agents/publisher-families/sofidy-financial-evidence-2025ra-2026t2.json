@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "publisher": "Sofidy",
+  "source_proof_only": true,
+  "financial_qa_autoapprove": false,
+  "candidates": [
+    {
+      "slug": "sofiboutique",
+      "name": "Sofiboutique",
+      "publisher": "Sofidy",
+      "documents": [
+        {
+          "document_kind": "annual_report",
+          "source_period": "2025-RA",
+          "source_url": "https://www.sofidy.com/app/uploads/2026/04/sofiboutique-rapport-annuel-2025.pdf",
+          "pdf_sha256": "0aba71d1784148950faf948895ab03cd1d1928322d3bc2760b331fb0e16c8013",
+          "page_count": 88,
+          "metrics": [
+            {
+              "metric": "dividende_global_par_part",
+              "value": "16.39",
+              "unit": "EUR_PER_PART",
+              "value_basis": "DISTRIBUTED_2025_NOT_RATE_NUMERATOR",
+              "source_page": 3,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_parts",
+              "value": "328513",
+              "unit": "PARTS",
+              "value_basis": "STOCK_AT_2025_12_31",
+              "source_page": 29,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "prix_souscription",
+              "value": "320",
+              "unit": "EUR_PER_PART",
+              "value_basis": "PRICE_AT_2025_12_31",
+              "source_page": 29,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "taux_distribution",
+              "value": "5.14",
+              "unit": "PERCENT",
+              "value_basis": "ANNUAL_2025_DISTRIBUTION_RATE",
+              "source_page": 3,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "tof",
+              "value": "94.33",
+              "unit": "PERCENT",
+              "value_basis": "2025_ANNUAL_AVERAGE_NOT_2026_T2",
+              "source_page": 3,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "valeur_realisation_par_part",
+              "value": "250.9",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_12_31_AFTER_ANNUAL_DIVIDEND",
+              "source_page": 29,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "valeur_reconstitution_par_part",
+              "value": "309.05",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_12_31_AFTER_ANNUAL_DIVIDEND",
+              "source_page": 29,
+              "qa_status": "pending_independent_qa"
+            }
+          ]
+        },
+        {
+          "document_kind": "quarterly_bulletin",
+          "source_period": "2026-T2",
+          "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofiboutique_OPTI-1.pdf",
+          "pdf_sha256": "b6450362afe742272d4f453a80d458332e958b0af13aafdab14399fbfe534324",
+          "page_count": 6,
+          "metrics": []
+        }
+      ]
+    },
+    {
+      "slug": "sofidy-europe-invest",
+      "name": "Sofidy Europe Invest",
+      "publisher": "Sofidy",
+      "documents": [
+        {
+          "document_kind": "annual_report",
+          "source_period": "2025-RA",
+          "source_url": "https://www.sofidy.com/app/uploads/2026/04/sei-rapport-annuel-2025.pdf",
+          "pdf_sha256": "3f8db08e9ae661aa79a9180e59987d7b9adc8d207285d6088c7ac20fb53a819a",
+          "page_count": 88,
+          "metrics": [
+            {
+              "metric": "dividende_verse_par_part",
+              "value": "11.04",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_PAID_DIVIDEND_NET_OF_FOREIGN_TAX_DISTINCT_FROM_GROSS_RATE",
+              "source_page": 9,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_associes",
+              "value": "7959",
+              "unit": "COUNT",
+              "value_basis": "STOCK_AT_2025_12_31",
+              "source_page": 9,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_parts",
+              "value": "1728629",
+              "unit": "PARTS",
+              "value_basis": "STOCK_AT_2025_12_31",
+              "source_page": 9,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "prix_souscription",
+              "value": "235",
+              "unit": "EUR_PER_PART",
+              "value_basis": "PRICE_AT_2025_12_31",
+              "source_page": 9,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "taux_distribution",
+              "value": "5.41",
+              "unit": "PERCENT",
+              "value_basis": "ANNUAL_2025_GROSS_FOREIGN_TAX_DISTRIBUTION_RATE",
+              "source_page": 9,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "tof",
+              "value": "95.79",
+              "unit": "PERCENT",
+              "value_basis": "2025_ANNUAL_AVERAGE_NOT_2026_T2",
+              "source_page": 9,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "valeur_realisation_par_part",
+              "value": "196.26",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_12_31_AFTER_ANNUAL_DIVIDEND",
+              "source_page": 9,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "valeur_reconstitution_par_part",
+              "value": "228.77",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_12_31_AFTER_ANNUAL_DIVIDEND",
+              "source_page": 9,
+              "qa_status": "pending_independent_qa"
+            }
+          ]
+        },
+        {
+          "document_kind": "quarterly_bulletin",
+          "source_period": "2026-T2",
+          "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_SEI_OPTI.pdf",
+          "pdf_sha256": "40e1455ef358d3638400632d487421c081b2a703167fa504bf9c7b2fee2b16e0",
+          "page_count": 6,
+          "metrics": []
+        }
+      ]
+    },
+    {
+      "slug": "sofipierre",
+      "name": "Sofipierre",
+      "publisher": "Sofidy",
+      "documents": [
+        {
+          "document_kind": "annual_report",
+          "source_period": "2025-RA",
+          "source_url": "https://www.sofidy.com/app/uploads/2026/04/sofipierre-rapport-annuel-2025.pdf",
+          "pdf_sha256": "e058643c12d271715a6f383d95784d680f3dd90eb0e794c616af1a8800b1ae7d",
+          "page_count": 92,
+          "metrics": [
+            {
+              "metric": "dividende_global_par_part",
+              "value": "35.79",
+              "unit": "EUR_PER_PART",
+              "value_basis": "DISTRIBUTED_2025_NOT_RATE_NUMERATOR",
+              "source_page": 3,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_parts",
+              "value": "247754",
+              "unit": "PARTS",
+              "value_basis": "STOCK_AT_2025_12_31",
+              "source_page": 29,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "prix_souscription",
+              "value": "595",
+              "unit": "EUR_PER_PART",
+              "value_basis": "PRICE_AT_2025_12_31",
+              "source_page": 30,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "taux_distribution",
+              "value": "6.03",
+              "unit": "PERCENT",
+              "value_basis": "ANNUAL_2025_DISTRIBUTION_RATE",
+              "source_page": 3,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "tof",
+              "value": "92.3",
+              "unit": "PERCENT",
+              "value_basis": "2025_ANNUAL_AVERAGE_NOT_2026_T2",
+              "source_page": 3,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "valeur_realisation_par_part",
+              "value": "484.19",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_12_31_AFTER_ANNUAL_DIVIDEND",
+              "source_page": 30,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "valeur_reconstitution_par_part",
+              "value": "588.46",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_12_31_AFTER_ANNUAL_DIVIDEND",
+              "source_page": 30,
+              "qa_status": "pending_independent_qa"
+            }
+          ]
+        },
+        {
+          "document_kind": "quarterly_bulletin",
+          "source_period": "2026-T2",
+          "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofipierre_OPTI.pdf",
+          "pdf_sha256": "574fb1f7d1224c59571abf0d9b11f17d483daf64660f17e1f32a6be409e609e3",
+          "page_count": 6,
+          "metrics": []
+        }
+      ]
+    }
+  ]
+}
