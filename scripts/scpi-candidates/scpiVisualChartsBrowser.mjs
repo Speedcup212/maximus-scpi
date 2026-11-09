@@ -98,8 +98,36 @@ try {
         return nav && Math.abs(nav.getBoundingClientRect().top-64)<=4;
       },{timeout:5000});
       await page.click('nav[aria-label="Navigation dans la fiche SCPI"] a[href="#scpi-documents"]');
-      await page.waitForFunction(()=>window.location.hash==='#scpi-documents',{timeout:5000});
-      assert.equal(await page.evaluate(()=>window.location.hash),'#scpi-documents');
+      await page.waitForFunction(() => {
+        const docs=document.getElementById('scpi-documents');
+        const current=document.querySelector('nav[aria-label="Navigation dans la fiche SCPI"] a[aria-current="location"]');
+        const nav=document.querySelector('[data-testid="scpi-sticky-navigation"]');
+        return window.location.hash==='#scpi-documents'
+          && window.scrollY>100
+          && docs && docs.getBoundingClientRect().top<window.innerHeight
+          && current?.getAttribute('href')==='#scpi-documents'
+          && nav && Math.abs(nav.getBoundingClientRect().top-64)<=4;
+      },{timeout:12000});
+      // A fresh deep link must scroll after React hydration, not only update the URL.
+      await page.goto(origin+'/'+slug+'/?scpi-deep-link-qa='+width+'#scpi-documents',
+        {waitUntil:'domcontentloaded',timeout:30000});
+      await page.waitForFunction(() => {
+        const docs=document.getElementById('scpi-documents');
+        const active=document.querySelector('nav[aria-label="Navigation dans la fiche SCPI"] a[aria-current="location"]');
+        return docs && window.location.hash==='#scpi-documents'
+          && window.scrollY>100
+          && docs.getBoundingClientRect().top<window.innerHeight
+          && docs.getBoundingClientRect().bottom>64
+          && active?.getAttribute('href')==='#scpi-documents';
+      },{timeout:12000});
+      // Browser back to the summary must also navigate and restore the active item.
+      await page.click('nav[aria-label="Navigation dans la fiche SCPI"] a[href="#scpi-synthese"]');
+      await page.waitForFunction(() => {
+        const active=document.querySelector('nav[aria-label="Navigation dans la fiche SCPI"] a[aria-current="location"]');
+        return window.location.hash==='#scpi-synthese'
+          && window.scrollY<120
+          && active?.getAttribute('href')==='#scpi-synthese';
+      },{timeout:12000});
       assert.equal(observed.radarCount,1,'Duplicate Radar: '+slug);
       assert.equal(observed.trajectoryCount,1,'Duplicate Trajectory: '+slug);
       assert.ok(observed.radarVisible,'Hidden Radar: '+slug);
