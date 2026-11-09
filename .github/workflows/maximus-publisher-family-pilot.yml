@@ -72,9 +72,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --silent --show-error --proto '=https' --max-redirs 0 --max-time 25 \
+          # HTTP is the issuer's AIA distribution endpoint, not a trusted issuer PDF.
+          # Treat these CA bytes as UNTRUSTED until OpenSSL verifies their issuer
+          # signature against the already-trusted OS roots (below).
+          curl --fail --silent --show-error --proto '=http' --max-redirs 0 --max-time 25 --max-filesize 25000 \
             --output "$RUNNER_TEMP/tbs-ca4.crt" \
-            'https://crt.sectigo.com/TBSRSAOrganizationValidationSecureServerCA4.crt'
+            'http://crt.sectigo.com/TBSRSAOrganizationValidationSecureServerCA4.crt'
           openssl x509 -inform DER -in "$RUNNER_TEMP/tbs-ca4.crt" -out "$RUNNER_TEMP/tbs-ca4.pem"
           openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -subject -issuer
           openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -subject | grep -F 'TBS RSA Organization Validation Secure Server CA 4'
@@ -123,9 +126,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail --silent --show-error --proto '=https' --max-redirs 0 --max-time 25 \
+          # HTTP is the issuer's AIA distribution endpoint, not a trusted issuer PDF.
+          # Treat these CA bytes as UNTRUSTED until OpenSSL verifies their issuer
+          # signature against the already-trusted OS roots (below).
+          curl --fail --silent --show-error --proto '=http' --max-redirs 0 --max-time 25 --max-filesize 25000 \
             --output "$RUNNER_TEMP/tbs-ca4.crt" \
-            'https://crt.sectigo.com/TBSRSAOrganizationValidationSecureServerCA4.crt'
+            'http://crt.sectigo.com/TBSRSAOrganizationValidationSecureServerCA4.crt'
           openssl x509 -inform DER -in "$RUNNER_TEMP/tbs-ca4.crt" -out "$RUNNER_TEMP/tbs-ca4.pem"
           openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -subject -issuer
           openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -subject | grep -F 'TBS RSA Organization Validation Secure Server CA 4'
