@@ -1,0 +1,64 @@
+name: RECOVERY-200 — relevé des frais DIC/notes (lecture seule)
+
+# Télécharge les DIC et notes d'information depuis les sites officiels des sociétés de
+# gestion, calcule leur SHA-256 et relève les clauses de frais paginées.
+# Aucun taux n'est validé, aucune écriture Supabase, aucune fusion, aucun déploiement :
+# les preuves brutes sont publiées sur la branche de données data/recovery-200-fee-probe.
+
+on:
+  push:
+    branches: [fix/recovery-200-industrial-data-integrity]
+    paths:
+      - 'scripts/industrial/fees/**'
+      - '.github/workflows/recovery200-fee-probe.yml'
+  workflow_dispatch:
+    inputs:
+      only:
+        description: 'Slugs séparés par des espaces (vide = 69 SCPI)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: recovery200-fee-probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install --disable-pip-version-check pymupdf==1.24.10
+      - name: Tests hors réseau
+        run: python -m unittest scripts/industrial/fees/fee_document_probe_test.py -v
+      - name: Relevé des documents officiels
+        env:
+          ONLY: ${{ github.event.inputs.only }}
+        run: |
+          if [ -n "$ONLY" ]; then
+            python scripts/industrial/fees/fee_document_probe.py --out probe-out --workers 8 --only $ONLY
+          else
+            python scripts/industrial/fees/fee_document_probe.py --out probe-out --workers 8
+          fi
+      - name: Publier les preuves brutes sur la branche de données
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          WORK=$(mktemp -d)
+          mkdir -p "$WORK/evidence"
+          cp -r probe-out/. "$WORK/evidence/"
+          cd "$WORK"
+          printf '{"run_id":"%s","head_sha":"%s","ref":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "$GITHUB_REF" > RUN.json
+          git init -q -b pub
+          git config user.name 'maximus-fee-probe[bot]'
+          git config user.email 'actions@users.noreply.github.com'
+          git add .
+          git commit -q -m "RECOVERY-200: fee document probe run $GITHUB_RUN_ID (raw evidence, no validation)"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" pub:refs/heads/data/recovery-200-fee-probe
