@@ -16,8 +16,8 @@ on:
   schedule:
     # UTC; two distinct daily controls, no AI API and no Netlify deployment.
     - cron: "17 6,18 * * *"
-    # Late independent observation of missed candidate20 daily dispatch.
-    - cron: "57 8 * * *"
+    # Late independent observation of missed candidate20 daily dispatch.\n    # RECOVERY-195: refresh cron registration/actor; keep bounded recovery.
+    - cron: "59 8 * * *"
   workflow_dispatch:
 
 permissions:

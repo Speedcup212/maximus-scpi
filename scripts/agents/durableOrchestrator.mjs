@@ -36,7 +36,8 @@ export function decideWorkflowRecovery({ now, runs, target }) {
   }
   const day = parisDay(now);
   const todayRuns = runs.filter(r =>
-    r.event !== 'pull_request' && parisDay(r.created_at) === day);
+    (r.event === 'schedule' || r.event === 'workflow_dispatch') &&
+    parisDay(r.created_at) === day);
   todayRuns.sort((a, b) =>
     new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   const latest = todayRuns[0];

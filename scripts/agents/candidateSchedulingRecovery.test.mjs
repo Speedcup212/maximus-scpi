@@ -22,7 +22,7 @@ test('RECOVERY-129 candidate has two non-hour-boundary daily triggers, plus manu
 });
 
 test('RECOVERY-129 watchdog recovers only missing existing workflows, no blind retry',()=>{
-  assert.match(watchdog,/cron: "57 8 \* \* \*"/);
+  assert.match(watchdog,/cron: "59 8 \* \* \*"/);
   assert.match(watchdog,/  actions: write/);
   assert.match(watchdog,/github\.event_name == 'schedule'/);
   assert.match(watchdog,/github\.ref == 'refs\/heads\/main'/);
