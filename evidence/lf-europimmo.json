@@ -1,0 +1,1152 @@
+{
+ "slug": "lf-europimmo",
+ "name": "LF Europimmo",
+ "manager": "La Française REM",
+ "crawl": [
+  {
+   "url": "https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=LF-Europimmo&amcScpi=16849&code=D1",
+   "depth": 0,
+   "final_url": "https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=LF-Europimmo&amcScpi=16849&code=D1",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://doc.la-francaise.com/documents/note-information-et-statuts-lf-europimmo",
+   "depth": 1,
+   "final_url": "https://doc.la-francaise.com/documents/note-information-et-statuts-lf-europimmo",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://doc.la-francaise.com/documents/document-informations-cles-lf-europimmo",
+   "depth": 1,
+   "final_url": "https://doc.la-francaise.com/documents/document-informations-cles-lf-europimmo",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://doc.la-francaise.com/documents/fiche-commerciale-lf-europimmo",
+   "depth": 1,
+   "final_url": "https://doc.la-francaise.com/documents/fiche-commerciale-lf-europimmo",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://doc.la-francaise.com/documents/_11",
+   "depth": 1,
+   "final_url": "https://doc.la-francaise.com/documents/_11",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://doc.la-francaise.com/documents/document-des-performances-passees-lf-europimmo",
+   "depth": 1,
+   "final_url": "https://doc.la-francaise.com/documents/document-des-performances-passees-lf-europimmo",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-cotes.aspx?tab=docs",
+   "depth": 1,
+   "final_url": "https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-cotes.aspx?tab=docs",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.la-francaise.com/fr-fr/investisseur/actualites-publications/toutes-nos-actualites-reglementaires.html",
+   "depth": 1,
+   "final_url": "https://www.la-francaise.com/fr-fr/investisseur/actualites-publications/toutes-nos-actualites-reglementaires.html",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.la-francaise.com/fr-fr/investisseur/actualites-publications/documentation-esg.html",
+   "depth": 1,
+   "final_url": "https://www.la-francaise.com/fr-fr/investisseur/actualites-publications/documentation-esg.html",
+   "http_status": 200,
+   "pdf_links": 0
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://doc.la-francaise.com/documents/note-information-et-statuts-lf-europimmo",
+   "final_url": "https://doc.la-francaise.com/documents/note-information-et-statuts-lf-europimmo",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1405355,
+   "sha256": "0e13c025953e25cbd142b15ded5b0efd846a1ed3a273abc312d752e1035deed9",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "GALVANI Ghislaine",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260727095242+02'00'",
+    "modDate": "D:20260727095414+02'00'"
+   },
+   "page_count": 67,
+   "text_characters": 202697,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "lf europimmo",
+   "title_excerpt": "LF EUROPIMMO Société Civile de Placement Immobilier à capital variable Siège social : 128, boulevard Raspail- 75006 PARIS 803 857 846 RCS PARIS NOTE D'INFORMATION JUIN 2026",
+   "dates": [
+    "16 juillet 2015",
+    "1er janvier 2019",
+    "21 JANVIER 2019",
+    "24 juillet 2014",
+    "27 juin 2019",
+    "31 décembre 2018",
+    "31 juillet 2014",
+    "JUIN 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 5,
+     "label": "commission de cession",
+     "snippet": "ociés par tout moyen approprié (bulletin d'information, sur le site internet, courrier), dès lors qu'elle constate que le prix d'exécution payé par l'acquéreur commission de cession et droits d'enregistrement inclus au cours de quatre périodes consécutives de confrontation s'inscrit dans les limites légales prévues par l'article L.214- 94 du Code monétaire et financier. Dans l'hypothèse où la Société de gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent, et après huit périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier, elle a",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 5,
+     "label": "commission de cession",
+     "snippet": " précédent, et après huit périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier). Si, trois ans après la décision de suspendre la variabilité, cette variabilité n'a pas repris dans l'une des conditions ci-dessus, la variabilité du capital est rétablie sauf décision de la société de gestion de proroger. En cas de reprise de la variabilité et fixation d'un prix de souscription (à un niveau",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 5,
+     "label": "commission de cession",
+     "snippet": "ion de la société de gestion de proroger. En cas de reprise de la variabilité et fixation d'un prix de souscription (à un niveau proche de la moyenne des prix, commission de cession et droits d'enregistrement inclus, payés par les acquéreurs au cours des périodes de confrontation) éloigné de plus de 10% de la valeur de reconstitution (à la hausse ou à la baisse) et/ou tel que le prix de retrait en découlant serait supérieur à la valeur de réalisation ou inférieur à celle-ci diminuée de 10 %, cette reprise de variabilité est sujette à l'obtention préalable d'un visa de l'Autorité des Marchés Financiers. A défaut de l'obtenir, la suspension perdure comme si la variabilité n'avait pas repris. Le rétablissement de la variabilité du capital entraîne : - L'annulation des ordres d'achat et de ven",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "de la valeur de reconstitution (à la hausse"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", cette reprise de variabilité est sujette à"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 5,
+     "label": "commission de cession",
+     "snippet": "u capital entraîne : - L'annulation des ordres d'achat et de vente de parts, - La fixation d'un prix de souscription à un niveau proche de la moyenne des prix, commission de cession et droits d'enregistrement inclus payés par les acquéreurs, au cours des périodes de confrontation prises en référence pour le rétablissement de la variabilité du capital, - La reprise des souscriptions et la possibilité pour la SCPI, en toute cohérence avec les textes légaux et réglementaires, d'émettre des parts nouvelles en vue d'augmenter son capital effectif. - la possibilité d'inscrire de nouvelles demandes de retrait sur le registre de retrait des parts. Il est ici rappelé que, les retraits de parts demandés à la Société de gestion dans le cadre de la variabilité du capital et les cessions de parts par c",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "Frais d'acquisition",
+     "snippet": "mobilières 670 087 827 597,62 Valeur nette des autres actifs retenus pour la valeur de réalisation (10 819 178) (9,65) Valeur de réalisation 659 268 649 587,97 Frais d'acquisition des immeubles 80 579 862 71,87 Commission de souscription 64 334 653 57,38 Valeur de reconstitution 804 183 164 717,21 Compte tenu de ces valeurs, la société de gestion a décidé de maintenir le prix de souscription de la part à 725,00 euros se décomposant comme suit : • nominal 400,00 € • prime d'émission 325,00 € Total 725,00 € Ce prix de souscription s'entend net de tous autres frais. La commission de souscription comme précisé au chapitre III - Frais, correspond à 8 % HT (soit 9,6 % TTC au taux de TVA en vigueur au 1er janvier 2014) du prix de souscription, soit 69,60 € TTC, est prélevée sur la prime d'émissio",
+     "percents": [
+      {
+       "raw": "8 %",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 9,6 % TTC au taux de TVA en vigueur"
+      },
+      {
+       "raw": "9,6 %",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur au 1er janvier"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "Commission de souscription",
+     "snippet": "es actifs retenus pour la valeur de réalisation (10 819 178) (9,65) Valeur de réalisation 659 268 649 587,97 Frais d'acquisition des immeubles 80 579 862 71,87 Commission de souscription 64 334 653 57,38 Valeur de reconstitution 804 183 164 717,21 Compte tenu de ces valeurs, la société de gestion a décidé de maintenir le prix de souscription de la part à 725,00 euros se décomposant comme suit : • nominal 400,00 € • prime d'émission 325,00 € Total 725,00 € Ce prix de souscription s'entend net de tous autres frais. La commission de souscription comme précisé au chapitre III - Frais, correspond à 8 % HT (soit 9,6 % TTC au taux de TVA en vigueur au 1er janvier 2014) du prix de souscription, soit 69,60 € TTC, est prélevée sur la prime d'émission. Ce prix de souscription s'inscrit dans la fourch",
+     "percents": [
+      {
+       "raw": "8 %",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 9,6 % TTC au taux de TVA en vigueur"
+      },
+      {
+       "raw": "9,6 %",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur au 1er janvier"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": "0 euros se décomposant comme suit : • nominal 400,00 € • prime d'émission 325,00 € Total 725,00 € Ce prix de souscription s'entend net de tous autres frais. La commission de souscription comme précisé au chapitre III - Frais, correspond à 8 % HT (soit 9,6 % TTC au taux de TVA en vigueur au 1er janvier 2014) du prix de souscription, soit 69,60 € TTC, est prélevée sur la prime d'émission. Ce prix de souscription s'inscrit dans la fourchette légale de la valeur de reconstitution plus ou moins 10 % et présente par rapport à cette valeur un écart de -1,08 %. Souscription inferieure a 15 % du capital statutaire maximum Conformément à l'article L.214-116 du Code Monétaire et Financier, le capital maximum fixé lors de sa constitution par les statuts, soit 100 000 000 € doit avoir été souscrit par ",
+     "percents": [
+      {
+       "raw": "8 %",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 9,6 % TTC au taux de TVA en vigueur"
+      },
+      {
+       "raw": "9,6 %",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur au 1er janvier"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "et présente par rapport à cette valeur un éc"
+      },
+      {
+       "raw": "1,08 %",
+       "value": 1.08,
+       "tax_hint": null,
+       "after": ". Souscription inferieure a 15 % du capital s"
+      },
+      {
+       "raw": "15 %",
+       "value": 15.0,
+       "tax_hint": null,
+       "after": "du capital statutaire maximum Conformément à"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "commission de souscription",
+     "snippet": "moins égal aux demandes de retrait, le prix de retrait d'une part est plafonné au prix de souscription en vigueur (nominal plus prime d'émission) diminué de la commission de souscription de 8 % HT. Les demandes de retrait sont compensées par des demandes de souscription, l'Associé se retirant perçoit 667 € par part, soit : Prix de souscription 725 € - Commission de souscription de 8 % HT 58 € ------------ Prix de retrait 667 € Demande de retrait non compensée par des demandes de souscription Sous réserve de la constitution et de la dotation du fonds de remboursement, le prix de retrait qui, dans un tel cas, ne peut ni être supérieur à la valeur de réalisation, ni inférieur à cette même valeur moins 10 %, sauf autorisation de l'Autorité des Marchés Financiers, est fixé par la Société de ges",
+     "percents": [
+      {
+       "raw": "8 %",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT. Les demandes de retrait sont compensées"
+      },
+      {
+       "raw": "8 %",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT 58 € ------------ Prix de retrait 667 € D"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'Autorité des Marchés"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "Commission de souscription",
+     "snippet": "HT. Les demandes de retrait sont compensées par des demandes de souscription, l'Associé se retirant perçoit 667 € par part, soit : Prix de souscription 725 € - Commission de souscription de 8 % HT 58 € ------------ Prix de retrait 667 € Demande de retrait non compensée par des demandes de souscription Sous réserve de la constitution et de la dotation du fonds de remboursement, le prix de retrait qui, dans un tel cas, ne peut ni être supérieur à la valeur de réalisation, ni inférieur à cette même valeur moins 10 %, sauf autorisation de l'Autorité des Marchés Financiers, est fixé par la Société de gestion et porté à la connaissance des Associés concernés par tous moyens à sa convenance et notamment au moyen du courrier recommandé mentionné ci-dessus « Modalités de retrait par prélèvement sur",
+     "percents": [
+      {
+       "raw": "8 %",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT 58 € ------------ Prix de retrait 667 € D"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'Autorité des Marchés"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission de cession",
+     "snippet": " précisé que seuls sont recevables les ordres d'achat à prix maximum offert et les ordres de vente à prix minimum proposé ; - les droits d'enregistrement et la commission de cession à la charge de l'acquéreur. L'acquéreur devra exprimer son prix maximum offert, hors les droits d'enregistrement, et la commission de cession dont il est redevable, sachant que le vendeur recevra ce prix offert sous déduction des éventuels frais de traitement administratif dont il pourrait être redevable conformément aux dispositions du chapitre – Frais – ci-après , et que la somme nette revenant ainsi au cédant constituera le prix d'exécution. Le taux de la commission de cession à la charge de l'acquéreur, est 5 %HT augmenté le cas échéant de la TVA en vigueur, tel que stipulé au chapitre – Frais - ci-après. L",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT augmenté le cas échéant de la TVA en vigue"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "commission de cession",
+     "snippet": "egistrement et la commission de cession à la charge de l'acquéreur. L'acquéreur devra exprimer son prix maximum offert, hors les droits d'enregistrement, et la commission de cession dont il est redevable, sachant que le vendeur recevra ce prix offert sous déduction des éventuels frais de traitement administratif dont il pourrait être redevable conformément aux dispositions du chapitre – Frais – ci-après , et que la somme nette revenant ainsi au cédant constituera le prix d'exécution. Le taux de la commission de cession à la charge de l'acquéreur, est 5 %HT augmenté le cas échéant de la TVA en vigueur, tel que stipulé au chapitre – Frais - ci-après. Le prix d'exécution au prix offert par l'acquéreur, base sur laquelle ce dernier acquittera, en supplément de son prix, la commission de cessio",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT augmenté le cas échéant de la TVA en vigue"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "commission de cession",
+     "snippet": "le conformément aux dispositions du chapitre – Frais – ci-après , et que la somme nette revenant ainsi au cédant constituera le prix d'exécution. Le taux de la commission de cession à la charge de l'acquéreur, est 5 %HT augmenté le cas échéant de la TVA en vigueur, tel que stipulé au chapitre – Frais - ci-après. Le prix d'exécution au prix offert par l'acquéreur, base sur laquelle ce dernier acquittera, en supplément de son prix, la commission de cession et les droits d'enregistrement au taux en vigueur. Le vendeur devra exprimer son prix minimum d'exécution proposé. En cas de mise à disposition des associés, par la société de gestion, d'un outil digital permettant de réaliser la confrontation des ordres",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT augmenté le cas échéant de la TVA en vigue"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "commission de cession",
+     "snippet": "pulé au chapitre – Frais - ci-après. Le prix d'exécution au prix offert par l'acquéreur, base sur laquelle ce dernier acquittera, en supplément de son prix, la commission de cession et les droits d'enregistrement au taux en vigueur. Le vendeur devra exprimer son prix minimum d'exécution proposé. En cas de mise à disposition des associés, par la société de gestion, d'un outil digital permettant de réaliser la confrontation des ordres",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commission de cession",
+     "snippet": "eurs d'ordre, dans les conditions définies au paragraphe - Couverture des ordres, du prix auquel leurs ordres pourraient être exécutés en totalité majoré de la commission de cession et des droits d'enregistrement correspondants. Après avoir vérifié que les ordres qui lui sont transmis satisfont aux conditions requises pour leur inscription, la société de gestion les horodate et les inscrit sur le registre de manière chronologique. Mode de transmission des ordres Les ordres peuvent être adressés directement à La Française Finance Services ou à un intermédiaire, c'est-à-dire toute personne morale ou physique qui, à raison de son activité professionnelle, est habilitée à recevoir un mandat d'achat ou de vente portant sur des parts de SCPI. Le donneur d'ordre, quelles que soient les modalités ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commission de cession",
+     "snippet": "s ordres d'achat L'enregistrement de l'ordre d'achat étant subordonné au règlement de la totalité du montant, auquel l'ordre pourrait être exécuté majoré de la commission de cession et des droits d'enregistrement correspondants, le donneur d'ordre devra accompagner son formulaire d'un chèque bancaire de ce même montant majoré des droits, ou de l'ordre de virement. Dans le cadre d'une exécution partielle de l'ordre, les fonds sont virés sur le de la SCPI. Le solde de l'ordre non exécuté sera remboursé à l'issue de sa période de validité si l'ordre n'est pas satisfait dans sa totalité. Dans le cadre d'une exécution totale de l'ordre, les fonds sont virés sur le compte de la SCPI. Uniquement pour les ordres d'achat d'un montant total, droits d'enregistrement inclus, supérieur ou égal à 30 000",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 21,
+     "label": "commission de cession",
+     "snippet": "isponibles en permanence. Confrontation et prix d'exécution Le prix d'exécution est celui auquel peut s'échanger le plus grand nombre de parts. Exprimé hors la commission de cession et hors les droits d'enregistrement à la charge de l'acquéreur, il correspond à la somme revenant au vendeur. Ce prix, le jour de son établissement, et les quantités de parts échangées sont rendus publics (internet www.la-francaise.com, téléphone 01 53 62 40 60). En cas d'impossibilité d'établir un prix d'exécution, le prix d'achat le plus élevé et le prix de vente le plus faible ainsi que les quantités de parts proposées pour chacun de ces prix sont rendus publics de la même façon. La société de gestion procèdera à l'établissement du prix d'exécution selon une fréquence hebdomadaire chaque mercredi à 12 heures",
+     "percents": [],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 21,
+     "label": "commission de cession",
+     "snippet": "élais. Dès l'établissement du prix d'exécution et à ce seul prix, les ordres sont exécutés en prenant en priorité : - les ordres d'achat inscrits au prix, hors commission de cession et droits d'enregistrement, le plus élevé ; - les ordres de vente inscrits au prix, le plus faible. A limite de prix égal, les ordres sont exécutés suivant leur ordre chronologique d'inscription. Les transactions ainsi effectuées sont inscrites sans délai sur le registre des associés. Blocage du marché des parts ▪ Ordres de vente insatisfaits Lorsque la société de gestion constate que les ordres de vente inscrits depuis plus de douze mois sur le registre représentent au moins 10 % des parts émises par la Société, elle en informe sans délai l'Autorité des Marchés Financiers.",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "des parts émises par la Société, elle en inf"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 22,
+     "label": "commission de souscription",
+     "snippet": " la revente des parts. CHAPITRE 3 - FRAIS La société de gestion est rémunérée au titre de ses fonctions moyennant les commissions statutaires suivantes : ▪ une commission de souscription perçue par la Société de gestion correspondant à 8 % HT (soit 9,6 % TTC au taux de TVA en vigueur) du montant de chaque souscription, prime d'émission incluse, afin d'assurer la prospection et la collecte des capitaux ainsi que l'exécution des programmes d'investissement. ▪ une commission de gestion perçue par la Société de gestion pour l'administration de la société et correspondant à : - 10 % HT maximum (12% TTC au taux TVA en vigueur) des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SC",
+     "percents": [
+      {
+       "raw": "8 %",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 9,6 % TTC au taux de TVA en vigueur"
+      },
+      {
+       "raw": "9,6 %",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant de"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (12% TTC au taux TVA en vigueur)"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux TVA en vigueur) des produits loc"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 22,
+     "label": "commission de gestion",
+     "snippet": " souscription, prime d'émission incluse, afin d'assurer la prospection et la collecte des capitaux ainsi que l'exécution des programmes d'investissement. ▪ une commission de gestion perçue par la Société de gestion pour l'administration de la société et correspondant à : - 10 % HT maximum (12% TTC au taux TVA en vigueur) des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI), pour l'administration et la gestion du patrimoine de la SCPI ; - 10 % HT maximum (12% TTC au taux TVA en vigueur) des produits financiers nets encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI). Les pro",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (12% TTC au taux TVA en vigueur)"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux TVA en vigueur) des produits loc"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (12% TTC au taux TVA en vigueur)"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux TVA en vigueur) des produits fin"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 22,
+     "label": "commissions de gestion",
+     "snippet": "n de la SCPI). Les produits de participation payés à la SCPI par les participations contrôlées sont exclus de la base de calcul ; de laquelle sont déduites les commissions de gestion déjà payées par les participations contrôlées, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 23,
+     "label": "Commission d'acquisition",
+     "snippet": "▪ Commission d'acquisition ou de cession calculée sur le montant de l'acquisition ou de la cession immobilière - à 1,25 % HT (soit 1,50% TTC au taux de TVA en vigueur) maximum du prix d'acquisition ou du prix de cession (hors taxes, hors droits et hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) ou cédé, - à 1,25 % HT (soit 1,50% TTC au taux de TVA en vigueur) maximum de la valeur conventionnelle (hors taxes, hors droits et hors frais) des actifs immobiliers retenue pour le calcul du prix d'acquisition des droits sociaux acquis ou cédés des sociétés qui détiennent lesdits actifs immobiliers, au prorata",
+     "percents": [
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (soit 1,50% TTC au taux de TVA en vigueur"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) maximum du pr"
+      },
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (soit 1,50% TTC au taux de TVA en vigueur"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) maximum de la"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 23,
+     "label": "Commission de suivi",
+     "snippet": "es sociétés acquise ou cédée par la Société. La commission sur les acquisitions ne s'applique pas aux acquisitions consécutives à de nouvelles souscriptions. ▪ Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués Il est dû à la Société de gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3 % HT maximum (soit 3,6% TTC au taux de TVA en vigueur) du montant toutes taxes comprises des travaux effectivement réalisés. ▪ en cas de cessions de parts : - Un droit fixe forfaitaire de150 € HT, par bénéficiaire, cessionnaire ou par associé/ héritier retrouvé suite aux diligences ",
+     "percents": [
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 3,6% TTC au taux de TVA en"
+      },
+      {
+       "raw": "3,6%",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant to"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 23,
+     "label": "commission de suivi",
+     "snippet": " calculée sur le montant des travaux effectués Il est dû à la Société de gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3 % HT maximum (soit 3,6% TTC au taux de TVA en vigueur) du montant toutes taxes comprises des travaux effectivement réalisés. ▪ en cas de cessions de parts : - Un droit fixe forfaitaire de150 € HT, par bénéficiaire, cessionnaire ou par associé/ héritier retrouvé suite aux diligences de la société de gestion, sera dû à la Société de gestion, pour : • toute mutation de parts à titre gratuit, • toute cession directe et • toute recherche d'associés/héritiers dans le cadre du traitement des parts en déshérence de la SCPI, Ce droit fixe ",
+     "percents": [
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 3,6% TTC au taux de TVA en"
+      },
+      {
+       "raw": "3,6%",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant to"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 23,
+     "label": "commission de cession",
+     "snippet": "dans le cas des parts en déshérence. - Pour toutes cessions réalisées par confrontation des ordres d'achat et de vente : il est dû à la société de gestion, une commission de cession calculée au taux de 5 % HT (augmenté, le cas échéant, de la TVA en vigueur) sur le prix total, hors droits d'enregistrement, payé par l'acquéreur. En cas de mise à disposition des associés, par la société de gestion, d'un outil digital permettant de réaliser la confrontation des ordres d'achat et de vente, des frais de traitement administratif correspondant à 1% TTC du montant de ladite cession (hors commission, taxes et droits) avec un minimum de 75 € TTC seront payés à la Société de gestion par l'associé vendeur pour toute transmission des ordres de vente par courrier ou par email. CHAPITRE 4 - FONCTIONNEMENT",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (augmenté, le cas échéant, de la TVA en v"
+      },
+      {
+       "raw": "1%",
+       "value": 1.0,
+       "tax_hint": "TTC",
+       "after": "TTC du montant de ladite cession (hors commi"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 32,
+     "label": "frais d'acquisition",
+     "snippet": "érale, la plus-value, lors de la revente des parts de la SCPI, est égale à la différence entre le prix de cession et le prix d'acquisition des parts majoré des frais d'acquisition (pris en compte pour leur montant réel). Cette plus-value est réduite par l'application d'un abattement progressif, fixé ainsi qu'il suit : Durée de détention (date à date) Taux d'abattement applicable chaque année de détention Assiette pour l'impôt sur le revenu Assiette pour les prélèvements sociaux visés au 5.1.5 ci- dessous Moins de 6 ans 0% 0% De la 6ème année à la 21ème année 6% 1,65% 22ème année révolue 4% 1,60% Au-delà de la 22ème année 9% Ainsi, la plus-value immobilière est exonérée : - Au bout de 22 ans de détention pour l'impôt sur le revenu, - Au bout de 30 ans de détention pour les prélèvements soci",
+     "percents": [
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "0% De la 6ème année à la 21ème année 6% 1,65"
+      },
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "De la 6ème année à la 21ème année 6% 1,65% 2"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "1,65% 22ème année révolue 4% 1,60% Au-delà d"
+      },
+      {
+       "raw": "1,65%",
+       "value": 1.65,
+       "tax_hint": null,
+       "after": "22ème année révolue 4% 1,60% Au-delà de la 2"
+      },
+      {
+       "raw": "4%",
+       "value": 4.0,
+       "tax_hint": null,
+       "after": "1,60% Au-delà de la 22ème année 9% Ainsi, la"
+      },
+      {
+       "raw": "1,60%",
+       "value": 1.6,
+       "tax_hint": null,
+       "after": "Au-delà de la 22ème année 9% Ainsi, la plus-"
+      },
+      {
+       "raw": "9%",
+       "value": 9.0,
+       "tax_hint": null,
+       "after": "Ainsi, la plus-value immobilière est exonéré"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 33,
+     "label": "frais d'acquisition",
+     "snippet": "- des frais d'acquisition qui, tels que définis par décret, sont retenus soit pour leur montant réel sur justification, soit pour un montant forfaitaire correspondant à 7,50 % du prix d'acquisition, - des dépenses de construction, reconstruction, agrandissement et amélioration pour leur montant réel (ou d'un montant forfaitaire de 15 % du prix d'acquisition si l'immeuble est cédé plus de cinq ans après son acquisition). La plus-value brute est réduite de l'abattement progressif tel que précisé au paragraphe ci-dessus relatif aux plus-values sur cession de parts de la SCPI. L'établissement de la déclaration et le paiement de l'impôt corres",
+     "percents": [
+      {
+       "raw": "7,50 %",
+       "value": 7.5,
+       "tax_hint": null,
+       "after": "du prix d'acquisition, - des dépenses de con"
+      },
+      {
+       "raw": "15 %",
+       "value": 15.0,
+       "tax_hint": null,
+       "after": "du prix d'acquisition si l'immeuble est cédé"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 49,
+     "label": "commission de souscription",
+     "snippet": " un montant égal ou supérieur aux demandes de retrait, le retrait est réalisé au prix de souscription en vigueur (nominal plus prime d'émission), diminué de la commission de souscription hors taxes. Le solde des souscriptions et retraits s'analyse sur les douze derniers mois. b) si le retrait n'a pas pu avoir lieu dans un délai de trois mois en raison de l'insuffisance des souscriptions, et sous réserve de la dotation du fonds de remboursement, le retrait est réalisé, après accord de l'associé, à un prix fixé par la société de gestion entre la valeur de réalisation en vigueur et celle-ci diminuée de 10 %. c) si, le fonds de remboursement étant vide, les demandes de retrait en attente depuis plus de douze mois excèdent 10 % des parts, la société de gestion en informe l'Autorité des Marchés ",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ". c) si, le fonds de remboursement étant vide"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "des parts, la société de gestion en informe"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 50,
+     "label": "commission de cession",
+     "snippet": "ociés par tout moyen approprié (bulletin d'information, sur le site internet, courrier), dès lors qu'elle constate que le prix d'exécution payé par l'acquéreur commission de cession et droits d'enregistrement inclus au cours de quatre périodes consécutives de confrontation s'inscrit dans les limites légales prévues par l'article L.214- 94 du Code monétaire et financier. Dans l'hypothèse où la société de gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent, et après huit périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier, elle a",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 50,
+     "label": "commission de cession",
+     "snippet": " précédent, et après huit périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier). Si, trois ans après la décision de suspendre la variabilité, cette variabilité n'a pas repris dans l'une des conditions ci-dessus, la variabilité du capital est rétablie sauf décision de la société de gestion de proroger. En cas de reprise de la variabilité et fixation d'un prix de souscription (à un niveau",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 50,
+     "label": "commission de cession",
+     "snippet": "ion de la société de gestion de proroger. En cas de reprise de la variabilité et fixation d'un prix de souscription (à un niveau proche de la moyenne des prix, commission de cession et droits d'enregistrement inclus, payés par les acquéreurs au cours des périodes de confrontation) éloigné de plus de 10% de la valeur de reconstitution (à la hausse ou à la baisse) et/ou tel que le prix de retrait en découlant serait supérieur à la valeur de réalisation ou inférieur à celle-ci diminuée de 10 %, cette reprise de variabilité est sujette à l'obtention préalable d'un visa de l'Autorité des Marchés Financiers. A défaut de l'obtenir, la suspension perdure comme si la variabilité n'avait pas repris. Le rétablissement de la variabilité du capital entraîne : - l'annulation des ordres d'achat et de ven",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "de la valeur de reconstitution (à la hausse"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", cette reprise de variabilité est sujette à"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 50,
+     "label": "commission de cession",
+     "snippet": " capital entraîne : - l'annulation des ordres d'achat et de vente de parts ; - la fixation d'un prix de souscription à un niveau proche de la moyenne des prix, commission de cession et droits d'enregistrement inclus, payés par les acquéreurs au cours des périodes de confrontation prises en référence pour le rétablissement de la variabilité du capital ; - la reprise des souscriptions et la possibilité pour la SCPI, en toute cohérence avec les textes légaux et réglementaires, d'émettre des parts nouvelles en vue d'augmenter son capital effectif ; - la possibilité d'inscrire de nouvelles demandes de retrait sur le registre de retrait des parts. Les retraits de parts demandés à la société de gestion dans le cadre de la variabilité du capital et les cessions de parts par confrontation par la so",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 56,
+     "label": "Commission de souscription",
+     "snippet": "bles sociaux, les honoraires de syndics de copropriété, de gestion des indivisions et les cotisations à tout organisme de tutelle ou professionnel des SCPI. 2. Commission de souscription Il est dû à la Société de Gestion, pour la recherche des capitaux ainsi que pour l'étude et la recherche des investissements, une commission de souscription égale à 8% HT du montant, prime d'émission incluse, de chaque souscription. Au fur et à mesure des souscriptions la Société de Gestion pourra prélever pour ses besoins, les sommes correspondantes sur les fonds sociaux. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime de souscription. 3. Commission de gestion La Société de Gestion règle tous les frais administratifs et de gestion propremen",
+     "percents": [
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT du montant, prime d'émission incluse, de"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 56,
+     "label": "commission de souscription",
+     "snippet": "2. Commission de souscription Il est dû à la Société de Gestion, pour la recherche des capitaux ainsi que pour l'étude et la recherche des investissements, une commission de souscription égale à 8% HT du montant, prime d'émission incluse, de chaque souscription. Au fur et à mesure des souscriptions la Société de Gestion pourra prélever pour ses besoins, les sommes correspondantes sur les fonds sociaux. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime de souscription. 3. Commission de gestion La Société de Gestion règle tous les frais administratifs et de gestion proprement dite ayant trait à la gestion des biens sociaux (à l'exception des honoraires de location et de relocation des immeubles sociaux), d'une part, et d'autre p",
+     "percents": [
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT du montant, prime d'émission incluse, de"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 56,
+     "label": "Commission de gestion",
+     "snippet": "es sur les fonds sociaux. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime de souscription. 3. Commission de gestion La Société de Gestion règle tous les frais administratifs et de gestion proprement dite ayant trait à la gestion des biens sociaux (à l'exception des honoraires de location et de relocation des immeubles sociaux), d'une part, et d'autre part, à la perception des loyers, charges, indemnités d'occupation ou autres, et leur répartition entre tous les Associés, ainsi que la gestion de la Société Civile. La commission de gestion de la SCPI est fixée comme suit : • 10 % HT maximum des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à l",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum des produits locatifs HT encaissé"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 56,
+     "label": "commission de gestion",
+     "snippet": "a perception des loyers, charges, indemnités d'occupation ou autres, et leur répartition entre tous les Associés, ainsi que la gestion de la Société Civile. La commission de gestion de la SCPI est fixée comme suit : • 10 % HT maximum des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI), pour l'administration et la gestion du patrimoine de la SCPI ; • 10 % HT maximum des produits financiers nets encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI). Les produits de participation payés à la SCPI par les participations contrôlées sont exclus de la base de calcul ;",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum des produits locatifs HT encaissé"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum des produits financiers nets enca"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 57,
+     "label": "commissions de gestion",
+     "snippet": "12 de laquelle sont déduites les commissions de gestion déjà payées par les participations contrôlées, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées.",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 58,
+     "label": "Commission d'acquisition",
+     "snippet": "13 4. Commission d'acquisition ou de cession calculée sur le montant de l'acquisition ou de la cession immobilière Il est dû à la Société de Gestion à titre de rémunération de sa mission dans le cadre des acquisitions ou des cessions d'actifs immobiliers, une commission égale : - à 1,25 % HT maximum du prix d'acquisition ou du prix de cession (hors taxes, hors droits et hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) ou cédé, - à 1,25 % HT maximum de la valeur conventionnelle (hors taxes, hors droits et hors frais) des actifs immobiliers retenue pour le calcul du prix d'acquisition des droits sociaux acqu",
+     "percents": [
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT maximum du prix d'acquisition ou du prix"
+      },
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT maximum de la valeur conventionnelle (hor"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 58,
+     "label": "Commission de suivi",
+     "snippet": "ptions, la rémunération correspondante à cette mission d'investissement ayant déjà été perçue par la société de gestion en application du point 2 ci-dessus. 5. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3 % HT maximum du montant toutes taxes comprises des travaux effectivement réalisés. 6. Commission de cession Un droit fixe forfaitaire de150 € HT, par bénéficiaire, cessionnaire ou par associé/héritier retrouvé suite aux diligences de la société de gestion, sera dû à la Société de ge",
+     "percents": [
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant toutes taxes comprises"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 58,
+     "label": "commission de suivi",
+     "snippet": " calculée sur le montant des travaux effectués Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3 % HT maximum du montant toutes taxes comprises des travaux effectivement réalisés. 6. Commission de cession Un droit fixe forfaitaire de150 € HT, par bénéficiaire, cessionnaire ou par associé/héritier retrouvé suite aux diligences de la société de gestion, sera dû à la Société de gestion, pour : • toute mutation de parts à titre gratuit ; • toute cession directe ; • toute recherche d'associés/héritiers dans le cadre du traitement des parts en déshérence de la SCPI. Ce droit fixe de 150 € HT ne s'applique pas lorsque le cessionnair",
+     "percents": [
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant toutes taxes comprises"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 58,
+     "label": "Commission de cession",
+     "snippet": "tage de la réalisation des travaux sur le patrimoine immobilier égale à 3 % HT maximum du montant toutes taxes comprises des travaux effectivement réalisés. 6. Commission de cession Un droit fixe forfaitaire de150 € HT, par bénéficiaire, cessionnaire ou par associé/héritier retrouvé suite aux diligences de la société de gestion, sera dû à la Société de gestion, pour : • toute mutation de parts à titre gratuit ; • toute cession directe ; • toute recherche d'associés/héritiers dans le cadre du traitement des parts en déshérence de la SCPI. Ce droit fixe de 150 € HT ne s'applique pas lorsque le cessionnaire, le bénéficiaire ou l'héritier est déjà associé de la SCPI, sauf dans le cas des parts en déshérence. Le règlement de ce droit fixe s'effectuera exclusivement par virement bancaire. Tout a",
+     "percents": [
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant toutes taxes comprises"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 58,
+     "label": "commission de cession",
+     "snippet": "res d'achat et de vente, en application de l'article L 214-93-I du Code Monétaire et Financier, il est dû à la Société de Gestion, par l'Associé acquéreur, une commission de cession calculée au taux de 5% hors taxes sur le prix total, hors les droits d'enregistrement. En cas de mise à disposition des associés, par la société de gestion, d'un outil digital permettant de réaliser la confrontation des ordres d'achat et de vente, des frais de traitement administratif correspondant à 1% TTC du montant de ladite cession (hors commission, taxes et droits) avec un minimum de 75 € TTC seront payés à la Société de gestion par l'associé vendeur pour toute transmission des ordres de vente par courrier ou par email. 7. Versement Conformément à l'article XVII des présents statuts, tout ou partie de chac",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes sur le prix total, hors les droit"
+      },
+      {
+       "raw": "1%",
+       "value": 1.0,
+       "tax_hint": "TTC",
+       "after": "TTC du montant de ladite cession (hors commi"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 66,
+     "label": "commission de souscription",
+     "snippet": "prélèvement sur ce poste, sans application d'un quelconque prorata. Tous frais liés aux augmentations de capital, à la recherche des capitaux (en ce compris la commission de souscription), à la recherche et à l'acquisition des immeubles (tels que les droits d'enregistrement, la TVA non récupérable, les frais de notaire) pourront être amortis sur la prime d'émission, sur laquelle sera également prélevé, pour chaque part nouvelle souscrite, le montant permettant de maintenir le niveau du report à nouveau existant et/ou le niveau du stock de plus ou moins-values existant. TITRE VII DISSOLUTION - LIQUIDATION Article XXVIII : Liquidation Un an au moins avant la date d'expiration de la Société, la Société de Gestion devra provoquer une réunion de l'Assemblée Générale Extraordinaire, pour décider",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://doc.la-francaise.com/documents/document-informations-cles-lf-europimmo",
+   "final_url": "https://doc.la-francaise.com/documents/document-informations-cles-lf-europimmo",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 141262,
+   "sha256": "82ab3b82a5771155ff8062a812879d5d736c7dd4438d1f74179f9420e8184216",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Fund KIS - https://fundkis.com",
+    "creator": "Fund KIS (https://fundkis.com)",
+    "producer": "Fund KIS (https://fundkis.com)",
+    "creationDate": "D:20260710130645+00'00'",
+    "modDate": "D:20260710130646Z"
+   },
+   "page_count": 3,
+   "text_characters": 13907,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "lf europimmo",
+   "title_excerpt": "LF EUROPIMMO - 02 juillet 2026 1 Objectif Le présent document contient des informations essentielles sur le produit d'investissement. Il ne s'agit pas d'un document à caractère commercial. Ces informations vous sont fournies conformément à une obligation légale, afin de vous aider à comprendre en quoi consiste ce produit et quels risques, coûts, gains et pertes potentiels y sont associés, et de vo",
+   "dates": [
+    "02 juillet 2026",
+    "02/07/2026",
+    "24 juin 2014",
+    "26 juin 2007"
+   ],
+   "fee_clauses": [
+    {
+     "page": 2,
+     "label": "Coûts d'entrée",
+     "snippet": "de 6,1 % avant déduction des coûts et de 2,9 % après cette déduction. Composition des coûts Coûts ponctuels à l'entrée ou à la sortie Si vous sortez après 1 an Coûts d'entrée 8,00 % du montant que vous payez au moment de l'entrée dans l'investissement. La personne qui vous vend le produit vous informera des coûts réels. 800 € Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit. 0 € Coûts récurrents [prélevés chaque année] Frais de gestion et autres frais administratif et d'exploitation 1,99 % de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. Ces frais incluent les charges d'exploitation inhérentes à l'exploitation immobilière des actifs sous-jacents (entretien et réparation, assurances, taxes foncière",
+     "percents": [
+      {
+       "raw": "6,1 %",
+       "value": 6.1,
+       "tax_hint": null,
+       "after": "avant déduction des coûts et de 2,9 % après"
+      },
+      {
+       "raw": "2,9 %",
+       "value": 2.9,
+       "tax_hint": null,
+       "after": "après cette déduction. Composition des coûts"
+      },
+      {
+       "raw": "8,00 %",
+       "value": 8.0,
+       "tax_hint": null,
+       "after": "du montant que vous payez au moment de l'ent"
+      },
+      {
+       "raw": "1,99 %",
+       "value": 1.99,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Coûts récurrents",
+     "snippet": "sement. La personne qui vous vend le produit vous informera des coûts réels. 800 € Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit. 0 € Coûts récurrents [prélevés chaque année] Frais de gestion et autres frais administratif et d'exploitation 1,99 % de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. Ces frais incluent les charges d'exploitation inhérentes à l'exploitation immobilière des actifs sous-jacents (entretien et réparation, assurances, taxes foncières et ordures ménagères…). Ces coûts peuvent différer des coûts réels que l'investisseur de détail peut devoir supporter. 183 € Coûts de transaction 0,11 % de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus",
+     "percents": [
+      {
+       "raw": "1,99 %",
+       "value": 1.99,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "0,11 %",
+       "value": 0.11,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Frais de gestion",
+     "snippet": "uit vous informera des coûts réels. 800 € Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit. 0 € Coûts récurrents [prélevés chaque année] Frais de gestion et autres frais administratif et d'exploitation 1,99 % de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. Ces frais incluent les charges d'exploitation inhérentes à l'exploitation immobilière des actifs sous-jacents (entretien et réparation, assurances, taxes foncières et ordures ménagères…). Ces coûts peuvent différer des coûts réels que l'investisseur de détail peut devoir supporter. 183 € Coûts de transaction 0,11 % de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les inv",
+     "percents": [
+      {
+       "raw": "1,99 %",
+       "value": 1.99,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "0,11 %",
+       "value": 0.11,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Coûts de transaction",
+     "snippet": "ation, assurances, taxes foncières et ordures ménagères…). Ces coûts peuvent différer des coûts réels que l'investisseur de détail peut devoir supporter. 183 € Coûts de transaction 0,11 % de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous-jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 10 € Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats Aucune commission liée aux résultats n'existe pour ce produit. 0 € Combien de temps dois-je le conserver et puis-je retirer de l'argent de façon anticipée ? Durée de placement minimale recommandée : 9 ans. La liquidation de la SCPI ne peut être anticipée à l'initiative de l",
+     "percents": [
+      {
+       "raw": "0,11 %",
+       "value": 0.11,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://doc.la-francaise.com/documents/fiche-commerciale-lf-europimmo",
+   "final_url": "https://doc.la-francaise.com/documents/fiche-commerciale-lf-europimmo",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 4958361,
+   "sha256": "64d20e8e68643fc9afa62eb969a96f8e3d3b920879e9a98161047102eeacfd2f",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.5 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261027145645+01'00'",
+    "modDate": "D:20261027145652+01'00'"
+   },
+   "page_count": 6,
+   "text_characters": 17997,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "lf europimmo",
+   "title_excerpt": "Octobre 2025 Octobre 2025 Source : 30/09/2026. Risque de perte en capital, de liquidité et de variation des revenus potentiels. Durée de placement recommandée : 9 ans. COMMUNICATION À CARACTÈRE PROMOTIONNEL DESTINÉE AUX CLIENTS NON PROFESSIONNELS AU SENS DE LA DIRECTIVE MIF. Donnez une dimension européenne à votre immobilier LF Europimmo SCPI Equivalent à une part. Une SCPI accessible dès 725€",
+   "dates": [
+    "30/09/2026",
+    "Octobre 2025"
+   ],
+   "fee_clauses": [
+    {
+     "page": 5,
+     "label": "COMMISSION DE SOUSCRIPTION",
+     "snippet": "anvier de l'année N+1 divisée par le prix de souscription au 1er janvier de l'année N. 4Avec fiscalité. 5HT : Hors Taxes et TTC : Toutes Taxes Comprises. FRAIS COMMISSION DE SOUSCRIPTION 8% HT5 MAX. soit 9,6% TTC5 (incluse dans le prix de souscription) Frais couvrant les coûts liés à la commercialisation, à la collecte du fonds et à l'acquisition des biens immobiliers pour le compte de la SCPI. COMMISSION DE GESTION 10% HT MAX. soit 12% TTC du montant hors taxes des produits locatifs encaissés et des produits financiers nets encaissés par la société. Frais couvrant la gestion quotidienne des actifs et la commercialisation des parts. COMMISSION ACQUISITION/CESSION 1,25% HT soit 1,50% TTC max. du prix (hors taxes, droits et frais) de l'actif immobilier, ou, en cas d'acquisition ou de cession",
+     "percents": [
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": null,
+       "after": "HT5 MAX. soit 9,6% TTC5 (incluse dans le pri"
+      },
+      {
+       "raw": "9,6%",
+       "value": 9.6,
+       "tax_hint": null,
+       "after": "TTC5 (incluse dans le prix de souscription)"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT MAX. soit 12% TTC du montant hors taxes d"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC du montant hors taxes des produits locat"
+      },
+      {
+       "raw": "1,25%",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT soit 1,50% TTC max. du prix (hors taxes,"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": "TTC",
+       "after": "TTC max. du prix (hors taxes, droits et frai"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 5,
+     "label": "COMMISSION DE GESTION",
+     "snippet": " souscription) Frais couvrant les coûts liés à la commercialisation, à la collecte du fonds et à l'acquisition des biens immobiliers pour le compte de la SCPI. COMMISSION DE GESTION 10% HT MAX. soit 12% TTC du montant hors taxes des produits locatifs encaissés et des produits financiers nets encaissés par la société. Frais couvrant la gestion quotidienne des actifs et la commercialisation des parts. COMMISSION ACQUISITION/CESSION 1,25% HT soit 1,50% TTC max. du prix (hors taxes, droits et frais) de l'actif immobilier, ou, en cas d'acquisition ou de cession de droits sociaux de sociétés détenant les actifs, de la valeur conventionnelle (hors taxes, droits et frais) des actifs immobiliers retenue pour le calcul du prix des droits sociaux. La commission sur les acquisitions ne s'applique pas ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT MAX. soit 12% TTC du montant hors taxes d"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC du montant hors taxes des produits locat"
+      },
+      {
+       "raw": "1,25%",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT soit 1,50% TTC max. du prix (hors taxes,"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": "TTC",
+       "after": "TTC max. du prix (hors taxes, droits et frai"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    }
+   ]
+  },
+  {
+   "url": "https://doc.la-francaise.com/documents/_11",
+   "final_url": "https://doc.la-francaise.com/documents/_11",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 792838,
+   "sha256": "eaaf53bfeead8eabaca105514cfc67010558dfcd6f042dd3eec650adff79b418",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "LAMBERT Soizic",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20250627111012+02'00'",
+    "modDate": "D:20250627111012+02'00'"
+   },
+   "page_count": 12,
+   "text_characters": 28714,
+   "kind": "rapport_annuel",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "Date SCPI EUROPIMMO Rapport Article 29 relatif à la Loi Energie Climat Juin 2025",
+   "dates": [
+    "Juin 2025"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://doc.la-francaise.com/documents/document-des-performances-passees-lf-europimmo",
+   "final_url": "https://doc.la-francaise.com/documents/document-des-performances-passees-lf-europimmo",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 126324,
+   "sha256": "d4a6e45aa4a8485f1b16febaec7ccc10710677350965abe99d443258da466f93",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "'Document des performances passées' de 'LF EUROPIMMO' - valable au 01/01/2026",
+    "author": "Fund KIS - https://fundkis.com",
+    "keywords": "fkDocumentType=past-perf, fkLanguage=FR, fkShareClass=FR0014006MG3, fkRecordDate=2026-01-01, fkShareName=LF EUROPIMMO, fkFundName=LF EUROPIMMO, fkGenerationId=4e1f48c7-f53f-4073-9813-3a1140f2b5b0",
+    "creator": "Fund KIS (https://fundkis.com)",
+    "producer": "Fund KIS (https://fundkis.com)",
+    "creationDate": "D:20260710195739+00'00'",
+    "modDate": "D:20260710195740Z"
+   },
+   "page_count": 1,
+   "text_characters": 1313,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "lf europimmo",
+   "title_excerpt": "LF EUROPIMMO - 01/01/2026 LF EUROPIMMO - PERFORMANCES PASSEES Ce diagramme affiche la performance du fonds en pourcentage de perte ou de gain par an au cours des 10 dernières années. LF EUROPIMMO La performance correspond : Jusqu'en 2020, au taux de distribution sur valeur de marché qui est la division : (i) de la distribution brute avant prélèvement fiscal obligatoire versée au titre de l'année N",
+   "dates": [
+    "01/01/2026",
+    "31/07/2014"
+   ],
+   "fee_clauses": [
+    {
+     "page": 1,
+     "label": "frais de gestion",
+     "snippet": "tion au 1er janvier de l'année N. 31/07/2014 Performance calculée en EUR La performance du fonds est calculée dividendes et coupons nets réinvestis et nette de frais de gestion directs et indirects et hors frais d'entrée et de sortie. Les performances passées ne préjugent pas des performances futures. Elles ne sont pas constantes dans le temps.",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  }
+ ],
+ "candidate_count": 5,
+ "summary": {
+  "dic_identity_ok": 1,
+  "note_identity_ok": 0,
+  "fee_clauses": 49,
+  "errors": 0
+ }
+}

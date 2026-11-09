@@ -1,0 +1,1461 @@
+{
+ "slug": "fonciere-des-praticiens",
+ "name": "Foncière des Praticiens",
+ "manager": "MAGELLIM REIM",
+ "crawl": [
+  {
+   "url": "https://www.groupemagellim.com/reim/scpi-foncieres-des-praticiens/",
+   "depth": 0,
+   "final_url": "https://www.groupemagellim.com/reim/scpi-foncieres-des-praticiens/",
+   "http_status": 200,
+   "pdf_links": 48
+  },
+  {
+   "url": "https://www.groupemagellim.com/informations-reglementaires/",
+   "depth": 1,
+   "final_url": "https://www.groupemagellim.com/informations-reglementaires/",
+   "http_status": 200,
+   "pdf_links": 6
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/Fonciere-des-Praticiens-DIC.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/Fonciere-des-Praticiens-DIC.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 299530,
+   "sha256": "35c7b74f930747f9dbf2a7e3f4ca75cb8e819f90256f4b9cf59c0049e993b245",
+   "metadata": {
+    "format": "PDF 1.6",
+    "title": "DIC - SCPI Foncière des Praticiens - 2026-06-24",
+    "creator": "Pomdoc by Pomelo-Paradigm",
+    "creationDate": "D:20260624121713+02'00'"
+   },
+   "page_count": 3,
+   "text_characters": 15905,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "1/3 - SCPI Foncière des Praticiens - 24/06/2026 Document d'Informations Clés Objectif Le présent document contient des informations essentielles sur le produit d'investissement. Il ne s'agit pas d'un document à caractère commercial. Ces informations vous sont fournies conformément à une obligation légale, aﬁn de vous aider à comprendre en quoi consiste ce produit et quels risques, coûts, gains et ",
+   "dates": [
+    "24 juillet 2020",
+    "24/06/2026",
+    "décembre 2025",
+    "février 2011",
+    "février 2021",
+    "juin 2023",
+    "novembre 2011",
+    "novembre 2021"
+   ],
+   "fee_clauses": [
+    {
+     "page": 1,
+     "label": "Commission de Gestion",
+     "snippet": "e leurs parts (Cf. Chapitre 6 de la Note d'Information). MAGELLIM REIM contribuera à l'effort solidaire en reversant chaque année aux 3 associations 20 % de sa Commission de Gestion annuelle HT perçue au titre de sa gestion. Investisseurs de détail visés : Tout type d'investisseur privé disposant à la fois d'un horizon d'investissement à long terme (8 à 12 ans au minimum) et d'une épargne sufﬁsamment diversiﬁée. Ce produit ne s'adresse pas aux investisseurs qui recherchent une protection du capital, ou dont l'âge apparaît incompatible avec l'horizon de placement recommandé. Conformément aux dispositions statutaires, les souscriptions de nouvelles parts de la SCPI ne pourront pas être réalisées par une « US Person » telle que déﬁnie par les autorités américaines des marchés ﬁnanciers ou à u",
+     "percents": [
+      {
+       "raw": "20 %",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": "de sa Commission de Gestion annuelle HT perç"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts d'entrée",
+     "snippet": "ces qu'elle vous fournit. Cette personne vous informera du montant. Composition des coûts : Coûts ponctuels à l'entrée ou à la sortie Si vous sortez après 1 an Coûts d'entrée 9.60% du montant que vous payez au moment de l'entrée dans l'investissement. Il s'agit du montant maximal que vous paierez. La personne qui vous vend le produit vous informera des coûts réels. 960 EUR Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. 0 EUR Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 0.46% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 42 EUR Coûts de transaction 1.03% de la valeur de votre i",
+     "percents": [
+      {
+       "raw": "9.60%",
+       "value": 9.6,
+       "tax_hint": null,
+       "after": "du montant que vous payez au moment de l'ent"
+      },
+      {
+       "raw": "0.46%",
+       "value": 0.46,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "1.03%",
+       "value": 1.03,
+       "tax_hint": null,
+       "after": "de la valeur de votre i"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts récurrents",
+     "snippet": "es coûts réels. 960 EUR Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. 0 EUR Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 0.46% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 42 EUR Coûts de transaction 1.03% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous-jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 93 EUR Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats et commission d'intéressement Aucun",
+     "percents": [
+      {
+       "raw": "0.46%",
+       "value": 0.46,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "1.03%",
+       "value": 1.03,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Frais de gestion",
+     "snippet": " Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. 0 EUR Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 0.46% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 42 EUR Coûts de transaction 1.03% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous-jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 93 EUR Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats et commission d'intéressement Aucune commission liée aux résultats n'exist",
+     "percents": [
+      {
+       "raw": "0.46%",
+       "value": 0.46,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "1.03%",
+       "value": 1.03,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts de transaction",
+     "snippet": "stratifs et d'exploitation 0.46% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 42 EUR Coûts de transaction 1.03% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous-jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 93 EUR Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats et commission d'intéressement Aucune commission liée aux résultats n'existe pour ce produit. 0 EUR Combien de temps dois-je le conserver et puis-je retirer de l'argent de façon anticipée ? La SCPI est un placement immobilier qui s'inscrit sur le long terme, la durée de con",
+     "percents": [
+      {
+       "raw": "0.46%",
+       "value": 0.46,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "1.03%",
+       "value": 1.03,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/2026.07.07-Note-dinformation-SCPI-Fonciere-des-Praticiens.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/2026.07.07-Note-dinformation-SCPI-Fonciere-des-Praticiens.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1007273,
+   "sha256": "f0dc043c493c70499ed09dc9e63df2567e6153de2bc2275d95641564911e8ca6",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Florian DU MESNIL",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260707162119+02'00'",
+    "modDate": "D:20260707162119+02'00'"
+   },
+   "page_count": 49,
+   "text_characters": 124191,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "MAGELLIM REIM – 44 avenue de Villiers - 75017 Paris - T. +33 (0)1 40 51 00 49 - www.magellim-reim.com MAGELLIM REIM – SAS au capital de 500.000 € – RCS PARIS n°521 913 772 - Société de Gestion Agrément AMF n°GP-140 000 48 Siège social : 44 avenue de Villiers - CS 40 101 - 75017 Paris - T. +33 (0)1 40 51 00 49 Siège administratif : 6 rue Colbert - CS 94 626 - 44000 Nantes 1 RCS 832 911 507 Siège so",
+   "dates": [
+    "1er juillet 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 2,
+     "label": "Commission de souscription",
+     "snippet": "ssions effectuées dans le cadre du marché par confrontation des ordres d'achat et vente en cas de suspension de la variabilité du capital CHAPITRE 3 : FRAIS 1. Commission de souscription 2. Commission de gestion 3. Commission de cession de parts 4. Commission de cession et d'acquisition d'actifs",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission de gestion",
+     "snippet": "e du marché par confrontation des ordres d'achat et vente en cas de suspension de la variabilité du capital CHAPITRE 3 : FRAIS 1. Commission de souscription 2. Commission de gestion 3. Commission de cession de parts 4. Commission de cession et d'acquisition d'actifs",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission de cession",
+     "snippet": "tion des ordres d'achat et vente en cas de suspension de la variabilité du capital CHAPITRE 3 : FRAIS 1. Commission de souscription 2. Commission de gestion 3. Commission de cession de parts 4. Commission de cession et d'acquisition d'actifs",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission de cession",
+     "snippet": "n cas de suspension de la variabilité du capital CHAPITRE 3 : FRAIS 1. Commission de souscription 2. Commission de gestion 3. Commission de cession de parts 4. Commission de cession et d'acquisition d'actifs",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission de suivi",
+     "snippet": "48 Siège social : 44 avenue de Villiers - CS 40 101 - 75017 Paris - T. +33 (0)1 40 51 00 49 Siège administratif : 6 rue Colbert - CS 94 626 - 44000 Nantes 3 5. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués CHAPITRE 4 : FONCTIONNEMENT DE LA SOCIETE 1. Régime des assemblées générales A) Participation B) Convocation C) Quorum D) Majorité E) Ordre du jour F) Information des associés G) Vote par correspondance H) Consultation par correspondance 2. Dispositions concernant la répartition des bénéfices et les provisions pour gros travaux A) Dispositions concernant la répartition des bénéfices B) Provisions pour gros travaux 3. Dispositions destinées à protéger les droits des associés A) Conventions partic",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 6,
+     "label": "commission de souscription",
+     "snippet": " ont versé chacun, par part souscrite, la valeur nominale de 970 € à laquelle s'ajoute la prime d'émission de 30 € TTC (ne comprenant pas la part relative à la commission de souscription). Les fondateurs ont donc versé la somme unitaire de 1 000 € TTC par part et la somme totale de 1 000 000 €. Les parts détenues par les fondateurs sont inaliénables pendant trois ans à compter de la date de délivrance du visa SCPI de l'Autorité des marchés financiers. Le capital social maximum statutaire de la SCPI est fixé à 500 000 000 € depuis le 28 juin 2023. b) La Société de Gestion MAGELLIM REIM, Société de Gestion de portefeuille agréée le 19 décembre 2014 par l'Autorité des Marchés Financiers sous le numéro GP-14000048, société par actions simplifiée, au capital de 505 550 €, dont le siège est situ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 13,
+     "label": "commission de souscription",
+     "snippet": " des immeubles, b. Les frais de constitution, de recherche et d'investissement, c. Les frais liés aux augmentations de capital et à la collecte, inclus dans la commission de souscription versée à la société de gestion. Le montant de la prime d'émission est déterminé par la Société de Gestion. La prime d'émission inclut la commission de souscription comprenant elle-même les frais de recherche et d'investissement et les frais de collecte. Le prix de souscription et les éléments qui le composent sont communiqués au public dans le bulletin trimestriel, et mentionnés de façon détaillée sur le bulletin de souscription. Il peut être modifié par décision de la Société de Gestion. Le prix de souscription de la part est déterminé sur la base de la valeur de reconstitution de la société. Cette valeur",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 13,
+     "label": "commission de souscription",
+     "snippet": "ission de souscription versée à la société de gestion. Le montant de la prime d'émission est déterminé par la Société de Gestion. La prime d'émission inclut la commission de souscription comprenant elle-même les frais de recherche et d'investissement et les frais de collecte. Le prix de souscription et les éléments qui le composent sont communiqués au public dans le bulletin trimestriel, et mentionnés de façon détaillée sur le bulletin de souscription. Il peut être modifié par décision de la Société de Gestion. Le prix de souscription de la part est déterminé sur la base de la valeur de reconstitution de la société. Cette valeur de reconstitution correspond à la somme qui devrait être déboursée aujourd'hui pour reconstituer le patrimoine de la société à l'identique. Cette valeur de reconst",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 13,
+     "label": "frais d'acquisition",
+     "snippet": "identique. Cette valeur de reconstitution est égale à la valeur de réalisation augmentée du montant des frais afférents à une reconstitution de son patrimoine (frais d'acquisition des immeubles, frais de collecte des capitaux et frais de recherche des investissements…). Le prix de souscription des parts de la SCPI, fixé par la Société de Gestion, constitue pour le souscripteur un élément essentiel de son placement. C'est en effet sur la base de ce prix que s'effectuent habituellement les retraits ainsi qu'indiqué au chapitre II paragraphe 2.",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "commission de souscription",
+     "snippet": "0 € Prime d'émission : 130 € Soit un prix de souscription net de tous autres frais de 1 100 €. La Société de Gestion perçoit de la SCPI, à la souscription, une commission de souscription de 9,60% TTC (au taux de TVA en vigueur) du prix de souscription, prélevée sur la prime d'émission pour la recherche de capitaux et la recherche d'investissement. Ces conditions sont mentionnées dans le bulletin de souscription et font l'objet d'une notice publiée au BALO. Les modifications seront annoncées dans le bulletin trimestriel d'information et feront l'objet d'une actualisation de la présente note d'information et d'une publication au BALO en cas de changement des conditions d'émission. Il ne peut être procédé à la création de parts nouvelles en vue d'augmenter le capital social tant que : • Le ca",
+     "percents": [
+      {
+       "raw": "9,60%",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur) du prix de s"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission de souscription",
+     "snippet": "de parts sont compensées par des souscriptions, le prix de retrait ne peut être supérieur au prix de souscription (nominal plus prime d'émission) diminué de la commission de souscription HT. - Lorsque le retrait n'est pas compensé par les souscriptions et sous réserve des fonds disponibles dans le fonds de remboursement, le remboursement ne peut s'effectuer à un prix supérieur à la valeur de réalisation ni inférieur à celle-ci diminuée de 10 %, sauf autorisation de l'Autorité des marchés financiers. En cas de baisse du prix de retrait, la Société de Gestion informe par lettre recommandée avec demande d'avis de réception les associés ayant demandé leur retrait au plus tard la veille de la date d'effet. En l'absence de réponse de la part des associés dans un délai de 15 jours calendaires à c",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'Autorité des marchés"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "Commission de souscription",
+     "snippet": "ait est compensée par des demandes de souscription, l'associé se retirant perçoit 1 012 euros par part détaillé comme suit : • Prix de souscription : 1 100 € • Commission de souscription de 9,60 % TTC déduction faite de la TVA récupérable : 88 € • Valeur de retrait : 1 012 € Demande de retrait non compensée par des demandes de souscription : Sous réserve de la constitution et de la dotation d'un fonds de remboursement, la valeur de retrait qui, dans un tel cas, ne peut ni être supérieur à la valeur de réalisation, ni inférieur à cette même valeur moins 10 %, sauf autorisation de l'Autorité des marchés financiers, est fixée par la Société de Gestion et est portée à la connaissance des associés inscrits sur le registre du retrait par tous moyens à sa",
+     "percents": [
+      {
+       "raw": "9,60 %",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC déduction faite de la TVA récupérable :"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'Autorité des marchés"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "Commission de cession",
+     "snippet": "é de Gestion préalablement à la transcription sur le registre des cessions. Frais Les frais liés aux cessions sont développés au Chapitre 3 Frais, paragraphe 3 Commission de cession. c) Cessions effectuées dans le cadre du marché par confrontation des ordres d'achat et de vente en cas de suspension de la variabilité du capital En cas de suspension de la variabilité du capital et dans ce seul cas et dans les conditions prévues par la loi et aux textes d'application, il sera tenu au siège de la SCPI Foncière des Praticiens, un registre des ordres d'achat et de vente. La confrontation des ordres d'achat et de vente permettra, dans cette situation de déterminer le prix d'exécution. Enregistrement des ordres La Société de Gestion vérifie la validité des ordres qu'elle reçoit directement ou qui ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 26,
+     "label": "commission de cession",
+     "snippet": " frais, ces frais étant à la charge de l'acquéreur. Les frais comprennent les droits d'enregistrement (5 % du prix d'exécution) revenant au Trésor Public et la commission de cession (1 % HT du prix d'exécution) perçue par la Société de Gestion lors de la cession de chaque part échangée par le biais du registre. Ne sont enregistrés que les ordres d'achat à prix maximum et les prix de vente à prix minimum. Durée de validité des ordres Les ordres d'achat peuvent préciser une durée de validité maximum correspondant à un nombre de périodes de confrontation. Par défaut, la durée de validité des ordres d'achat correspond à trois confrontations (soit trois mois). La durée de validité d'un ordre de vente est de douze mois. L'associé ayant donné ou transmis l'ordre sera préalablement informé de ce d",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "du prix d'exécution) revenant au Trésor Publ"
+      },
+      {
+       "raw": "1 %",
+       "value": 1.0,
+       "tax_hint": "HT",
+       "after": "HT du prix d'exécution) perçue par la Sociét"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 29,
+     "label": "COMMISSION DE SOUSCRIPTION",
+     "snippet": "Gestion lui restent définitivement acquises et ne sauraient faire l'objet d'un remboursement quelconque à quelque moment et pour quelque cause que ce soit. 1 - COMMISSION DE SOUSCRIPTION La commission de souscription est fixée à 9,60 % TTC (au taux de TVA en vigueur) du prix de souscription, prélevée sur la prime d'émission lors des augmentations de capital. 2 - COMMISSION DE GESTION La Société de Gestion perçoit une commission de gestion fixée à 8,50 % HT, soit 10,20 % TTC (au taux de TVA en vigueur), sur les produits locatifs HT encaissés et les produits financiers nets. Cette commission de gestion est réglée trimestriellement. Des acomptes mensuels sont prélevés par la Société de Gestion en fonction du rythme d'encaissement des loyers. Elle couvre tous les frais de bureau et de personne",
+     "percents": [
+      {
+       "raw": "9,60 %",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur) du prix de s"
+      },
+      {
+       "raw": "8,50 %",
+       "value": 8.5,
+       "tax_hint": "HT",
+       "after": "HT, soit 10,20 % TTC (au taux de TVA en vigu"
+      },
+      {
+       "raw": "10,20 %",
+       "value": 10.2,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur), sur les pro"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 29,
+     "label": "commission de souscription",
+     "snippet": "ment acquises et ne sauraient faire l'objet d'un remboursement quelconque à quelque moment et pour quelque cause que ce soit. 1 - COMMISSION DE SOUSCRIPTION La commission de souscription est fixée à 9,60 % TTC (au taux de TVA en vigueur) du prix de souscription, prélevée sur la prime d'émission lors des augmentations de capital. 2 - COMMISSION DE GESTION La Société de Gestion perçoit une commission de gestion fixée à 8,50 % HT, soit 10,20 % TTC (au taux de TVA en vigueur), sur les produits locatifs HT encaissés et les produits financiers nets. Cette commission de gestion est réglée trimestriellement. Des acomptes mensuels sont prélevés par la Société de Gestion en fonction du rythme d'encaissement des loyers. Elle couvre tous les frais de bureau et de personnel nécessaires à l'administrati",
+     "percents": [
+      {
+       "raw": "9,60 %",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur) du prix de s"
+      },
+      {
+       "raw": "8,50 %",
+       "value": 8.5,
+       "tax_hint": "HT",
+       "after": "HT, soit 10,20 % TTC (au taux de TVA en vigu"
+      },
+      {
+       "raw": "10,20 %",
+       "value": 10.2,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur), sur les pro"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 29,
+     "label": "COMMISSION DE GESTION",
+     "snippet": "ouscription est fixée à 9,60 % TTC (au taux de TVA en vigueur) du prix de souscription, prélevée sur la prime d'émission lors des augmentations de capital. 2 - COMMISSION DE GESTION La Société de Gestion perçoit une commission de gestion fixée à 8,50 % HT, soit 10,20 % TTC (au taux de TVA en vigueur), sur les produits locatifs HT encaissés et les produits financiers nets. Cette commission de gestion est réglée trimestriellement. Des acomptes mensuels sont prélevés par la Société de Gestion en fonction du rythme d'encaissement des loyers. Elle couvre tous les frais de bureau et de personnel nécessaires à l'administration de la Société et du patrimoine, à la perception des recettes locatives et à la distribution des bénéfices. Elle ne couvre pas toutes les autres dépenses qui sont prises en ",
+     "percents": [
+      {
+       "raw": "9,60 %",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur) du prix de s"
+      },
+      {
+       "raw": "8,50 %",
+       "value": 8.5,
+       "tax_hint": "HT",
+       "after": "HT, soit 10,20 % TTC (au taux de TVA en vigu"
+      },
+      {
+       "raw": "10,20 %",
+       "value": 10.2,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur), sur les pro"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 29,
+     "label": "commission de gestion",
+     "snippet": "gueur) du prix de souscription, prélevée sur la prime d'émission lors des augmentations de capital. 2 - COMMISSION DE GESTION La Société de Gestion perçoit une commission de gestion fixée à 8,50 % HT, soit 10,20 % TTC (au taux de TVA en vigueur), sur les produits locatifs HT encaissés et les produits financiers nets. Cette commission de gestion est réglée trimestriellement. Des acomptes mensuels sont prélevés par la Société de Gestion en fonction du rythme d'encaissement des loyers. Elle couvre tous les frais de bureau et de personnel nécessaires à l'administration de la Société et du patrimoine, à la perception des recettes locatives et à la distribution des bénéfices. Elle ne couvre pas toutes les autres dépenses qui sont prises en charge par la SCPI qui règle directement : • Les frais r",
+     "percents": [
+      {
+       "raw": "8,50 %",
+       "value": 8.5,
+       "tax_hint": "HT",
+       "after": "HT, soit 10,20 % TTC (au taux de TVA en vigu"
+      },
+      {
+       "raw": "10,20 %",
+       "value": 10.2,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur), sur les pro"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 29,
+     "label": "commission de gestion",
+     "snippet": "ssion de gestion fixée à 8,50 % HT, soit 10,20 % TTC (au taux de TVA en vigueur), sur les produits locatifs HT encaissés et les produits financiers nets. Cette commission de gestion est réglée trimestriellement. Des acomptes mensuels sont prélevés par la Société de Gestion en fonction du rythme d'encaissement des loyers. Elle couvre tous les frais de bureau et de personnel nécessaires à l'administration de la Société et du patrimoine, à la perception des recettes locatives et à la distribution des bénéfices. Elle ne couvre pas toutes les autres dépenses qui sont prises en charge par la SCPI qui règle directement : • Les frais relatifs à l'acquisition des biens et droits immobiliers, et à leur location notamment ceux concernant l'enregistrement, les taxes et frais perçus à l'occasion des ac",
+     "percents": [
+      {
+       "raw": "8,50 %",
+       "value": 8.5,
+       "tax_hint": "HT",
+       "after": "HT, soit 10,20 % TTC (au taux de TVA en vigu"
+      },
+      {
+       "raw": "10,20 %",
+       "value": 10.2,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur), sur les pro"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 29,
+     "label": "frais de gestion",
+     "snippet": "diques…. • Le montant des travaux d'aménagement y compris les honoraires d'architectes ou de bureaux d'études, ainsi que les autres dépenses éventuelles, • Les frais de gestion technique, d'entretien, de réparation ou de modification des immeubles, • Les assurances, les impôts et taxes, consommations d'eau ou d'électricité et, en général, toutes les charges afférentes aux immeubles, • Les frais de convocation, de tenue des assemblées générales et du conseil de surveillance, ainsi que l'information aux associés, • Les frais des membres du conseil de surveillance, • Les frais de comptabilité,",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 30,
+     "label": "COMMISSION DE CESSION",
+     "snippet": "ation, d'impression et d'envoi des documents d'information destinés aux associés, • Les contributions, adhésions ou cotisations aux organismes de tutelles. 3 - COMMISSION DE CESSION DE PARTS Dans le cas des cessions de parts sur le marché secondaire, la Société de Gestion perçoit une commission, à la charge de l'acquéreur, de 1 % HT du montant total de la transaction calculée sur le prix d'exécution de la part, pour son intervention dans la réalisation de la transaction. Dans le cas des mutations à titre gratuit (donations/successions) et des cessions de parts sans l'intervention de la Société de Gestion, la Société de Gestion perçoit au titre des frais de dossier, une commission forfaitaire de 300 € HT (soit 360 € TTC au taux de TVA en vigueur), quel que soit le nombre de parts transférée",
+     "percents": [
+      {
+       "raw": "1 %",
+       "value": 1.0,
+       "tax_hint": "HT",
+       "after": "HT du montant total de la transaction calcul"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 30,
+     "label": "COMMISSION DE CESSION",
+     "snippet": "0 € HT (soit 360 € TTC au taux de TVA en vigueur), quel que soit le nombre de parts transférées. Ces frais sont à la charge des donataires ou ayants droit. 4 - COMMISSION DE CESSION ET D'ACQUISITION D'ACTIFS Pour les acquisitions ou les cessions d'immeubles, la Société de Gestion percevra une commission de cession ou d'acquisition calculée sur le montant de l'acquisition ou de la cession immobilière égale à 2% HT, soit 2,40% TTC pour un taux TVA de 20%, à laquelle sera ajouté en cas de VEFA un taux de +0,50% HT (0,60% TTC) et, en cas d'opération sans intermédiaire +0,50%, (0,60% TTC) soit un maximum de 3% HT (3,60% TTC) en cas de réalisation de VEFA sans intermédiaire de l'actif immobilier acquis ou cédé. 5 - COMMISSION DE SUIVI ET DE PILOTAGE DE LA REALISATION DES TRAVAUX SUR LE PATRIMOIN",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 2,40% TTC pour un taux TVA de 20%,"
+      },
+      {
+       "raw": "2,40%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC pour un taux TVA de 20%, à laquelle sera"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": ", à laquelle sera ajouté en cas de VEFA un ta"
+      },
+      {
+       "raw": "0,50%",
+       "value": 0.5,
+       "tax_hint": "HT",
+       "after": "HT (0,60% TTC) et, en cas d'opération sans i"
+      },
+      {
+       "raw": "0,60%",
+       "value": 0.6,
+       "tax_hint": "TTC",
+       "after": "TTC) et, en cas d'opération sans intermédiai"
+      },
+      {
+       "raw": "0,50%",
+       "value": 0.5,
+       "tax_hint": "TTC",
+       "after": ", (0,60% TTC) soit un maximum de 3% HT (3,60%"
+      },
+      {
+       "raw": "0,60%",
+       "value": 0.6,
+       "tax_hint": "TTC",
+       "after": "TTC) soit un maximum de 3% HT (3,60% TTC) en"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT (3,60% TTC) en cas de réalisation de VEFA"
+      },
+      {
+       "raw": "3,60%",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC) en cas de réalisation de VEFA sans inte"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 30,
+     "label": "commission de cession",
+     "snippet": "ires ou ayants droit. 4 - COMMISSION DE CESSION ET D'ACQUISITION D'ACTIFS Pour les acquisitions ou les cessions d'immeubles, la Société de Gestion percevra une commission de cession ou d'acquisition calculée sur le montant de l'acquisition ou de la cession immobilière égale à 2% HT, soit 2,40% TTC pour un taux TVA de 20%, à laquelle sera ajouté en cas de VEFA un taux de +0,50% HT (0,60% TTC) et, en cas d'opération sans intermédiaire +0,50%, (0,60% TTC) soit un maximum de 3% HT (3,60% TTC) en cas de réalisation de VEFA sans intermédiaire de l'actif immobilier acquis ou cédé. 5 - COMMISSION DE SUIVI ET DE PILOTAGE DE LA REALISATION DES TRAVAUX SUR LE PATRIMOINE IMMOBILIER CALCULEE SUR LE MONTANT DES TRAVAUX EFFECTUÉS En cas de travaux sur le patrimoine immobilier de la SCPI, il est dû à la S",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 2,40% TTC pour un taux TVA de 20%,"
+      },
+      {
+       "raw": "2,40%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC pour un taux TVA de 20%, à laquelle sera"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": ", à laquelle sera ajouté en cas de VEFA un ta"
+      },
+      {
+       "raw": "0,50%",
+       "value": 0.5,
+       "tax_hint": "HT",
+       "after": "HT (0,60% TTC) et, en cas d'opération sans i"
+      },
+      {
+       "raw": "0,60%",
+       "value": 0.6,
+       "tax_hint": "TTC",
+       "after": "TTC) et, en cas d'opération sans intermédiai"
+      },
+      {
+       "raw": "0,50%",
+       "value": 0.5,
+       "tax_hint": "TTC",
+       "after": ", (0,60% TTC) soit un maximum de 3% HT (3,60%"
+      },
+      {
+       "raw": "0,60%",
+       "value": 0.6,
+       "tax_hint": "TTC",
+       "after": "TTC) soit un maximum de 3% HT (3,60% TTC) en"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT (3,60% TTC) en cas de réalisation de VEFA"
+      },
+      {
+       "raw": "3,60%",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC) en cas de réalisation de VEFA sans inte"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 30,
+     "label": "COMMISSION DE SUIVI",
+     "snippet": "termédiaire +0,50%, (0,60% TTC) soit un maximum de 3% HT (3,60% TTC) en cas de réalisation de VEFA sans intermédiaire de l'actif immobilier acquis ou cédé. 5 - COMMISSION DE SUIVI ET DE PILOTAGE DE LA REALISATION DES TRAVAUX SUR LE PATRIMOINE IMMOBILIER CALCULEE SUR LE MONTANT DES TRAVAUX EFFECTUÉS En cas de travaux sur le patrimoine immobilier de la SCPI, il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 1 % HT maximum (soit 1,20 % TTC) du montant toutes taxes comprises des travaux effectivement réalisés.",
+     "percents": [
+      {
+       "raw": "0,50%",
+       "value": 0.5,
+       "tax_hint": "TTC",
+       "after": ", (0,60% TTC) soit un maximum de 3% HT (3,60%"
+      },
+      {
+       "raw": "0,60%",
+       "value": 0.6,
+       "tax_hint": "TTC",
+       "after": "TTC) soit un maximum de 3% HT (3,60% TTC) en"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT (3,60% TTC) en cas de réalisation de VEFA"
+      },
+      {
+       "raw": "3,60%",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC) en cas de réalisation de VEFA sans inte"
+      },
+      {
+       "raw": "1 %",
+       "value": 1.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 1,20 % TTC) du montant tout"
+      },
+      {
+       "raw": "1,20 %",
+       "value": 1.2,
+       "tax_hint": "TTC",
+       "after": "TTC) du montant toutes taxes comprises des t"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 30,
+     "label": "commission de suivi",
+     "snippet": "avaux sur le patrimoine immobilier de la SCPI, il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 1 % HT maximum (soit 1,20 % TTC) du montant toutes taxes comprises des travaux effectivement réalisés.",
+     "percents": [
+      {
+       "raw": "1 %",
+       "value": 1.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 1,20 % TTC) du montant tout"
+      },
+      {
+       "raw": "1,20 %",
+       "value": 1.2,
+       "tax_hint": "TTC",
+       "after": "TTC) du montant toutes taxes comprises des t"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 45,
+     "label": "commission de gestion",
+     "snippet": "duquel la demande a été faite. La Société de Gestion MAGELLIM REIM contribuera à l'effort solidaire en reversant chaque année aux associations une partie de sa commission de gestion annuelle HT perçue au titre de sa gestion de la SCPI Foncière des Praticiens selon le barème suivant :",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 48,
+     "label": "commission de gestion",
+     "snippet": "m et pour le compte de la SCPI elle-même mandatée par les Investisseurs, aux associations sélectionnées les prélèvements sur les dividendes et sa quote-part de commission de gestion, selon la répartition suivante : Le don effectué, soit par prélèvement sur les revenus distribués à l'associé ayant opté en ce sens, soit par reversement d'une partie de sa Commission de Gestion par la Société de Gestion, donne droit, au profit du donateur, à une réduction d'impôt. Dans le cadre du régime fiscal en vigueur au 24 juillet 2020, cette réduction d'impôt est la suivante : - pour les associés personnes physiques : o une réduction d'impôt sur le revenu égale à 66 % des versements effectués retenus dans la limite de 20 % du montant de leur revenu imposable ; ou o pour les dons au profit de certains org",
+     "percents": [
+      {
+       "raw": "66 %",
+       "value": 66.0,
+       "tax_hint": null,
+       "after": "des versements effectués retenus dans la lim"
+      },
+      {
+       "raw": "20 %",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": "du montant de leur revenu imposable ; ou o p"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 48,
+     "label": "Commission de Gestion",
+     "snippet": "artition suivante : Le don effectué, soit par prélèvement sur les revenus distribués à l'associé ayant opté en ce sens, soit par reversement d'une partie de sa Commission de Gestion par la Société de Gestion, donne droit, au profit du donateur, à une réduction d'impôt. Dans le cadre du régime fiscal en vigueur au 24 juillet 2020, cette réduction d'impôt est la suivante : - pour les associés personnes physiques : o une réduction d'impôt sur le revenu égale à 66 % des versements effectués retenus dans la limite de 20 % du montant de leur revenu imposable ; ou o pour les dons au profit de certains organismes, dont les établissements de recherche et les fondations reconnues d'utilité publique, une réduction d'impôt sur la fortune immobilière (IFI) égale à 75 % des versements effectués, cette r",
+     "percents": [
+      {
+       "raw": "66 %",
+       "value": 66.0,
+       "tax_hint": null,
+       "after": "des versements effectués retenus dans la lim"
+      },
+      {
+       "raw": "20 %",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": "du montant de leur revenu imposable ; ou o p"
+      },
+      {
+       "raw": "75 %",
+       "value": 75.0,
+       "tax_hint": null,
+       "after": "des versements effectués, cette r"
+      }
+     ],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/Fonciere-des-Praticiens-Statuts.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/Fonciere-des-Praticiens-Statuts.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 716096,
+   "sha256": "6ebd456b96518d0df8d242ec113a4a7339a6720bb6dbcd7d6d279fc2e752ae55",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Olivier Pouligny",
+    "creator": "Microsoft® Word LTSC",
+    "producer": "PDFKit.NET 12.3.488.0 DMV10",
+    "creationDate": "D:20250724153838+00'00'",
+    "modDate": "D:20250725003416-07'00'"
+   },
+   "page_count": 39,
+   "text_characters": 72068,
+   "kind": "statuts",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "1 Foncière des Praticiens Société Civile de Placement Immobilier à capital variable 6 rue Colbert – 44000 Nantes 832 911 507 RCS Nantes STATUTS MIS A JOUR PAR L'ASSEMBLEE GENERALE EXTRAORDINAIRE DU 11 JUILLET 2025 Certifiés conformes par la Société de Gestion Magellim REIM Représentée par son Président M. Steven PERRON Docusign Envelope ID: 911D91CE-CFAE-410B-BF44-FEC0A157CADD",
+   "dates": [
+    "11 JUILLET 2025"
+   ],
+   "fee_clauses": [
+    {
+     "page": 20,
+     "label": "commission de gestion",
+     "snippet": "toutes les dépenses n'entrant pas dans le cadre de l'administration pure de la SCPI. La société de gestion est rémunérée : - pour la gestion de la SCPI par une commission de gestion d'un montant égal à 8,50 % hors taxes (soit 10,2 % TTC) du montant des produits locatifs hors taxes encaissés et des produits financiers nets de la SCPI. Cette commission vise à couvrir les frais courants d'administration et de gestion de la SCPI ; - pour la collecte des capitaux, la préparation des augmentations de capital et de l'exécution de tous programmes d'investissement par une commission de souscription d'un montant de 8 % HT (soit 9,6 % TTC) du produit de chaque souscription, prime d'émission incluse. Docusign Envelope ID: 911D91CE-CFAE-410B-BF44-FEC0A157CADD",
+     "percents": [
+      {
+       "raw": "8,50 %",
+       "value": 8.5,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes (soit 10,2 % TTC) du montant des"
+      },
+      {
+       "raw": "10,2 %",
+       "value": 10.2,
+       "tax_hint": "TTC",
+       "after": "TTC) du montant des produits locatifs hors t"
+      },
+      {
+       "raw": "8 %",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 9,6 % TTC) du produit de chaque sou"
+      },
+      {
+       "raw": "9,6 %",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC) du produit de chaque souscription, prim"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 20,
+     "label": "commission de souscription",
+     "snippet": "gestion de la SCPI ; - pour la collecte des capitaux, la préparation des augmentations de capital et de l'exécution de tous programmes d'investissement par une commission de souscription d'un montant de 8 % HT (soit 9,6 % TTC) du produit de chaque souscription, prime d'émission incluse. Docusign Envelope ID: 911D91CE-CFAE-410B-BF44-FEC0A157CADD",
+     "percents": [
+      {
+       "raw": "8 %",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 9,6 % TTC) du produit de chaque sou"
+      },
+      {
+       "raw": "9,6 %",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC) du produit de chaque souscription, prim"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 21,
+     "label": "commission de cession",
+     "snippet": "21 - - par une commission de cession ou d'acquisition calculée sur le montant de l'acquisition ou de la cession immobilière sur la base de 2% HT, soit 2,40% TTC pour un taux TVA de 20%, à laquelle sera ajouter en cas de VEFA : un taux de +0,50% HT (0,60% TTC) et, en cas d'opération sans intermédiaire : +0,50%, (0,60% TTC) soit un maximum de 3% HT (3,60% TTC) en cas de réalisation de VEFA sans intermédiaire de l'actif immobilier acquis ou cédé ; - par une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués, égale à 1 % HT maximum (soit 1,20 % TTC) du montant tou",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 2,40% TTC pour un taux TVA de 20%,"
+      },
+      {
+       "raw": "2,40%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC pour un taux TVA de 20%, à laquelle sera"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": ", à laquelle sera ajouter en cas de VEFA : un"
+      },
+      {
+       "raw": "0,50%",
+       "value": 0.5,
+       "tax_hint": "HT",
+       "after": "HT (0,60% TTC) et, en cas d'opération sans i"
+      },
+      {
+       "raw": "0,60%",
+       "value": 0.6,
+       "tax_hint": "TTC",
+       "after": "TTC) et, en cas d'opération sans intermédiai"
+      },
+      {
+       "raw": "0,50%",
+       "value": 0.5,
+       "tax_hint": "TTC",
+       "after": ", (0,60% TTC) soit un maximum de 3% HT (3,60%"
+      },
+      {
+       "raw": "0,60%",
+       "value": 0.6,
+       "tax_hint": "TTC",
+       "after": "TTC) soit un maximum de 3% HT (3,60% TTC) en"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT (3,60% TTC) en cas de réalisation de VEFA"
+      },
+      {
+       "raw": "3,60%",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC) en cas de réalisation de VEFA sans inte"
+      },
+      {
+       "raw": "1 %",
+       "value": 1.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 1,20 % TTC) du montant tou"
+      },
+      {
+       "raw": "1,20 %",
+       "value": 1.2,
+       "tax_hint": "TTC",
+       "after": "TTC) du montant tou"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 21,
+     "label": "commission de suivi",
+     "snippet": "re : +0,50%, (0,60% TTC) soit un maximum de 3% HT (3,60% TTC) en cas de réalisation de VEFA sans intermédiaire de l'actif immobilier acquis ou cédé ; - par une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués, égale à 1 % HT maximum (soit 1,20 % TTC) du montant toutes taxes comprises des travaux effectivement réalisés ; - pour les cessions de parts sur le marché secondaire : une commission, à la charge de l'acquéreur, de 1 % HT du montant total de la transaction, calculée sur le prix d'exécution de la part, pour son intervention dans la réalisation de la transaction ; - pour les mutations à titre gratuit (donations/successions) et les cessions de parts sans son intervention : une commission forfaitai",
+     "percents": [
+      {
+       "raw": "0,50%",
+       "value": 0.5,
+       "tax_hint": "TTC",
+       "after": ", (0,60% TTC) soit un maximum de 3% HT (3,60%"
+      },
+      {
+       "raw": "0,60%",
+       "value": 0.6,
+       "tax_hint": "TTC",
+       "after": "TTC) soit un maximum de 3% HT (3,60% TTC) en"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT (3,60% TTC) en cas de réalisation de VEFA"
+      },
+      {
+       "raw": "3,60%",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC) en cas de réalisation de VEFA sans inte"
+      },
+      {
+       "raw": "1 %",
+       "value": 1.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 1,20 % TTC) du montant tout"
+      },
+      {
+       "raw": "1,20 %",
+       "value": 1.2,
+       "tax_hint": "TTC",
+       "after": "TTC) du montant toutes taxes comprises des t"
+      },
+      {
+       "raw": "1 %",
+       "value": 1.0,
+       "tax_hint": "HT",
+       "after": "HT du montant total de la transaction, calcu"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 22,
+     "label": "commission de gestion",
+     "snippet": "estre civil au cours duquel la demande a été faite ; Magellim REIM contribuera à l'effort solidaire en reversant chaque année aux associations une partie de sa commission de gestion annuelle HT perçue au titre de sa gestion de la SCPI Foncière des Praticiens selon le barème suivant : Docusign Envelope ID: 911D91CE-CFAE-410B-BF44-FEC0A157CADD",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 37,
+     "label": "frais d'acquisition",
+     "snippet": "à couvrir forfaitairement les frais engagés par la SCPI pour la prospection des capitaux, la recherche des immeubles et l'augmentation de capital ainsi que les frais d'acquisition des immeubles notamment droits d'enregistrement ou T.V.A. non récupérable, frais de notaire et commissions. Les frais d'établissement pourront être imputés sur la prime d'émission. Article 14.3. Affectation et répartition des résultats Le bénéfice distribuable est constitué par le bénéfice net de l'exercice, diminué des pertes antérieures et augmenté des reports bénéficiaires. Le bénéfice ainsi déterminé, diminué des sommes que l'assemblée générale a décidé de mettre en réserve ou de reporter à nouveau, est distribué aux associés proportionnellement au nombre de parts possédées par chacun d'eux et compte tenu des",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/Rapport-ESG_SCPI-Fonciere-des-Praticiens_Fonciere-Magellan_0.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/Rapport-ESG_SCPI-Fonciere-des-Praticiens_Fonciere-Magellan_0.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 24794604,
+   "sha256": "6019b6c3a7b7d5ae32d2e06c619d848a70f20385fca80f66ae172d6a33ca11ce",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.4 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20240716115622+02'00'",
+    "modDate": "D:20240716115658+02'00'"
+   },
+   "page_count": 39,
+   "text_characters": 41085,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "1 RAPPORT DE GESTION PRATICIENS FONCIÈRE DES SCPI",
+   "dates": [],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/Rapport-ESG-SCPI-Fonciere-des-Praticiens-31122022.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/Rapport-ESG-SCPI-Fonciere-des-Praticiens-31122022.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 7912255,
+   "sha256": "e9cc727fc978a9c879dcdc75c6224429ba936fa650a13309006760d4323b4ea5",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Florian du Mesnil - FONCIERE MAGELLAN",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20231009172559+02'00'",
+    "modDate": "D:20231009172559+02'00'"
+   },
+   "page_count": 31,
+   "text_characters": 34356,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "RAPPORT ESG 31/12/2022 RAPPORT DE GESTION ESG 1er JUILLET 2022- 31 DECEMBRE 2022",
+   "dates": [
+    "1er JUILLET 2022",
+    "31 DECEMBRE 2022",
+    "31/12/2022"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/2026-06-30-ANNEXE-IV_Fonciere-des-Praticiens_2025.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/2026-06-30-ANNEXE-IV_Fonciere-des-Praticiens_2025.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 582008,
+   "sha256": "a65451752eaa0a719db940952e111d2f4343e473ada7e8b1a1e808931189afbf",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Juliette DELESCLUSE",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260630125610+02'00'",
+    "modDate": "D:20260630125610+02'00'"
+   },
+   "page_count": 8,
+   "text_characters": 24345,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "ANNEXE IV Modèle d'informations périodiques pour les produits financiers visés à l‘article 8, paragraphes 1, 2 et 2 bis, de règlement (EU) 2019/2088 et à l'Article 6, premier alinéa, du règlement (EU) 2020/852 Dénomination du produit : Foncière des praticiens Identifiant d'entité juridique : FDS60156 Caractéristiques environnementales et/ou sociales Dans quelle mesure les caractéristiques environn",
+   "dates": [],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/Fiche-produit-FdP-2T26.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/Fiche-produit-FdP-2T26.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 302571,
+   "sha256": "10f94f7b2a6a36c653192cff48f432ba5fa63c2438ba04d97e8dedca87cc1408",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Stéphanie DE CARVALHO",
+    "creator": "Microsoft® PowerPoint® pour Microsoft 365",
+    "producer": "Microsoft® PowerPoint® pour Microsoft 365",
+    "creationDate": "D:20260805142729+02'00'",
+    "modDate": "D:20260805142729+02'00'"
+   },
+   "page_count": 2,
+   "text_characters": 4456,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "FONCIÈRE DES PRATICIENS La SCPI qui prend soin de votre épargne et de votre santé ! Conjuguez sens et objectif de performance, en investissant dans le développement d'un système de santé accessible à tous. Les performances Les dernières livraisons 5,50 %* 1 100 € 1 048,65 € Performance Globale Annuelle 2025 Prix de souscription au 30/06/2026 Valeur de reconstitution au 31/12/2025 Patrimoine immobi",
+   "dates": [
+    "19/12/2014",
+    "30/06/2026",
+    "31/03/2026",
+    "31/12/2025",
+    "Août 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 2,
+     "label": "Commission de souscription",
+     "snippet": "Caractéristiques 2 935 Associés 9,60 % TTC Commission de souscription 10,20 % TTC Commission de gestion annuelle (du montant des produits locatifs HT encaissés et les produits financiers nets) 3,60 % TTC maximum Commission d'acquisition et de cession sur les actifs immobiliers (du prix d'acquisition HT ou de vente HT) 1,20 % TTC maximum Commission de suivi et de pilotage de la réalisation des travaux (du montant des travaux réalisés) 360 € TTC Frais de dossiers à la charge du vendeur, donateur ou ayant droit en cas de cessions, transferts directs et mutations à titre gratuit 1,20 % TTC Du montant total de la transaction dans le cas de cession de parts sur le marché secondair",
+     "percents": [
+      {
+       "raw": "9,60 %",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC Commission de souscription 10,20 % TTC C"
+      },
+      {
+       "raw": "10,20 %",
+       "value": 10.2,
+       "tax_hint": "TTC",
+       "after": "TTC Commission de gestion annuelle (du monta"
+      },
+      {
+       "raw": "3,60 %",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC maximum Commission d'acquisition et de c"
+      },
+      {
+       "raw": "1,20 %",
+       "value": 1.2,
+       "tax_hint": "TTC",
+       "after": "TTC maximum Commission de suivi et de pilota"
+      },
+      {
+       "raw": "1,20 %",
+       "value": 1.2,
+       "tax_hint": "TTC",
+       "after": "TTC Du montant total de la transaction dans"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 2,
+     "label": "Commission de gestion",
+     "snippet": "Caractéristiques 2 935 Associés 9,60 % TTC Commission de souscription 10,20 % TTC Commission de gestion annuelle (du montant des produits locatifs HT encaissés et les produits financiers nets) 3,60 % TTC maximum Commission d'acquisition et de cession sur les actifs immobiliers (du prix d'acquisition HT ou de vente HT) 1,20 % TTC maximum Commission de suivi et de pilotage de la réalisation des travaux (du montant des travaux réalisés) 360 € TTC Frais de dossiers à la charge du vendeur, donateur ou ayant droit en cas de cessions, transferts directs et mutations à titre gratuit 1,20 % TTC Du montant total de la transaction dans le cas de cession de parts sur le marché secondaire Frais Avertissements L'investissement",
+     "percents": [
+      {
+       "raw": "9,60 %",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC Commission de souscription 10,20 % TTC C"
+      },
+      {
+       "raw": "10,20 %",
+       "value": 10.2,
+       "tax_hint": "TTC",
+       "after": "TTC Commission de gestion annuelle (du monta"
+      },
+      {
+       "raw": "3,60 %",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC maximum Commission d'acquisition et de c"
+      },
+      {
+       "raw": "1,20 %",
+       "value": 1.2,
+       "tax_hint": "TTC",
+       "after": "TTC maximum Commission de suivi et de pilota"
+      },
+      {
+       "raw": "1,20 %",
+       "value": 1.2,
+       "tax_hint": "TTC",
+       "after": "TTC Du montant total de la transaction dans"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 2,
+     "label": "Commission d'acquisition",
+     "snippet": "n de souscription 10,20 % TTC Commission de gestion annuelle (du montant des produits locatifs HT encaissés et les produits financiers nets) 3,60 % TTC maximum Commission d'acquisition et de cession sur les actifs immobiliers (du prix d'acquisition HT ou de vente HT) 1,20 % TTC maximum Commission de suivi et de pilotage de la réalisation des travaux (du montant des travaux réalisés) 360 € TTC Frais de dossiers à la charge du vendeur, donateur ou ayant droit en cas de cessions, transferts directs et mutations à titre gratuit 1,20 % TTC Du montant total de la transaction dans le cas de cession de parts sur le marché secondaire Frais Avertissements L'investissement dans la SCPI Foncière des Praticiens présente notamment un risque de perte en capital, un risque de liquidité et un risque de dur",
+     "percents": [
+      {
+       "raw": "10,20 %",
+       "value": 10.2,
+       "tax_hint": "TTC",
+       "after": "TTC Commission de gestion annuelle (du monta"
+      },
+      {
+       "raw": "3,60 %",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC maximum Commission d'acquisition et de c"
+      },
+      {
+       "raw": "1,20 %",
+       "value": 1.2,
+       "tax_hint": "TTC",
+       "after": "TTC maximum Commission de suivi et de pilota"
+      },
+      {
+       "raw": "1,20 %",
+       "value": 1.2,
+       "tax_hint": "TTC",
+       "after": "TTC Du montant total de la transaction dans"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 2,
+     "label": "Commission de suivi",
+     "snippet": "anciers nets) 3,60 % TTC maximum Commission d'acquisition et de cession sur les actifs immobiliers (du prix d'acquisition HT ou de vente HT) 1,20 % TTC maximum Commission de suivi et de pilotage de la réalisation des travaux (du montant des travaux réalisés) 360 € TTC Frais de dossiers à la charge du vendeur, donateur ou ayant droit en cas de cessions, transferts directs et mutations à titre gratuit 1,20 % TTC Du montant total de la transaction dans le cas de cession de parts sur le marché secondaire Frais Avertissements L'investissement dans la SCPI Foncière des Praticiens présente notamment un risque de perte en capital, un risque de liquidité et un risque de durabilité. Les performances passées ne préjugent pas des performances futures. Les revenus ne sont pas garantis et dépendront de ",
+     "percents": [
+      {
+       "raw": "3,60 %",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC maximum Commission d'acquisition et de c"
+      },
+      {
+       "raw": "1,20 %",
+       "value": 1.2,
+       "tax_hint": "TTC",
+       "after": "TTC maximum Commission de suivi et de pilota"
+      },
+      {
+       "raw": "1,20 %",
+       "value": 1.2,
+       "tax_hint": "TTC",
+       "after": "TTC Du montant total de la transaction dans"
+      }
+     ],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/26-07-10-Rapport-ESG.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/26-07-10-Rapport-ESG.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 7918208,
+   "sha256": "15afb7d2b89adc5b1b28345a7b3bf186db243767043f5c36caa83735bab294fd",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Stéphanie DE CARVALHO",
+    "creator": "Microsoft® PowerPoint® pour Microsoft 365",
+    "producer": "Microsoft® PowerPoint® pour Microsoft 365",
+    "creationDate": "D:20260715080929+02'00'",
+    "modDate": "D:20260715080929+02'00'"
+   },
+   "page_count": 40,
+   "text_characters": 42787,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "SCPI FONCIÈRE DES PRATICIENS. 2026 RAPPORT DE GESTION ESG 2026 Les performances passées ne sont pas un indicateur fiable des performances futures. L'investissement dans cette SCPI comporte des risques, dont le risque de perte en capital. Photo non contractuelle",
+   "dates": [
+    "31/12/2025"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/Rapport-ESG-2025.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/Rapport-ESG-2025.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 6502897,
+   "sha256": "52e9777f10ba58ecee46ed0545b68eea42e69ef6beed69c9353602d8286601bd",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creationDate": "D:20251126144120+00'00'",
+    "modDate": "D:20251126144120+00'00'"
+   },
+   "page_count": 39,
+   "text_characters": 43001,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "SCPI FONCIÈRE DES PRATICIENS. 2025 RAPPORT DE GESTION ESG 2025 Les performances passées ne sont pas un indicateur fiable des performances futures. L'investissement dans cette SCPI comporte des risques, dont le risque de perte en capital. Annule et remplace",
+   "dates": [
+    "juin 2025"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/Rapport-de-Gestion-ESG-SFDR-2022-SCPI-FDP.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/Rapport-de-Gestion-ESG-SFDR-2022-SCPI-FDP.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 16706802,
+   "sha256": "a70d8b190bbc2cf87457134ce65adce494b751bfd4fcef432717ed08c914feda",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 17.3 (Windows)",
+    "producer": "Adobe PDF Library 16.0.7",
+    "creationDate": "D:20220712174226+02'00'",
+    "modDate": "D:20220712174348+02'00'"
+   },
+   "page_count": 18,
+   "text_characters": 32228,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "RAPPORT DE GESTION ESG ET SFDR 1er JUILLET 2021 30 JUIN 2022",
+   "dates": [
+    "1er JUILLET 2021",
+    "30 JUIN 2022",
+    "juin 2021",
+    "septembre 2023"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/26-06-24-Code-de-transparence-SCPI-FDP.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/26-06-24-Code-de-transparence-SCPI-FDP.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 787642,
+   "sha256": "a23b5020c08485f1085ad187cea84febfd817996a8c2905060bb8167c1391fa1",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Alexis GAULIN",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260625070552+02'00'",
+    "modDate": "D:20260625070552+02'00'"
+   },
+   "page_count": 22,
+   "text_characters": 54820,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "MAGELLIM REIM – 44 avenue de Villiers - 75017 Paris - T. +33 (0)1 40 51 00 49 - www.magellim-reim.com MAGELLIM REIM – SAS au capital de 500.000 € – RCS PARIS n°521 913 772 - Société de Gestion Agrément AMF n°GP-140 000 48 Siège social : 44 avenue de Villiers - CS 40 101 - 75017 Paris - T. +33 (0)1 40 51 00 49 Siège administratif : 6 rue Colbert - CS 94 626 - 44000 Nantes 1",
+   "dates": [
+    "24/06/2026",
+    "octobre 2020"
+   ],
+   "fee_clauses": [
+    {
+     "page": 10,
+     "label": "commission de gestion",
+     "snippet": "M contribue à l'effort solidaire en reversant chaque année à 3 associations (Fondation ARSEP, l'Institut Vivalto santé et France tutelle), entre 2 et 20% de sa commission de gestion annuelle (HT) perçue au titre de sa gestion de la SCPI. H. Quel est l'encours total des fonds immobiliers de la Société de Gestion gérés selon une démarche ISR ? Au 31/12/2025, l'encours total des fonds immobiliers gérés par la Société de Gestion selon une démarche ISR, c'est-à-dire la SCPI Foncière des Praticiens, représente 156,2 millions d'euros environ. I. Quel est le pourcentage des encours immobiliers de la Société de Gestion gérés selon une démarche ISR rapporté aux encours immobiliers totaux sous gestion ? Au 31/12/2025, l'encours total des fonds immobiliers gérés par la Société de Gestion selon une dém",
+     "percents": [
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": "de sa commission de gestion annuelle (HT) pe"
+      }
+     ],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/2026-06-25-ESG_Politique-dengagement-des-Parties-Prenantes-2026.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/2026-06-25-ESG_Politique-dengagement-des-Parties-Prenantes-2026.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 524924,
+   "sha256": "d369267e0494efb9c28be0fa92334fd6a964e975375dba9cd801467d88ab33ea",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Alexis GAULIN",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260625092938+02'00'",
+    "modDate": "D:20260625092938+02'00'"
+   },
+   "page_count": 7,
+   "text_characters": 10298,
+   "kind": "rapport_annuel",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "RECUEIL DE PROCEDURES MAGELLIM REIM MAGELLIM REIM – 44 avenue de Villiers - 75017 Paris - T. +33 (0)1 40 51 00 49 - www.magellim-reim.com MAGELLIM REIM – SAS au capital de 500.000 € – RCS PARIS n°521 913 772 - Société de Gestion Agrément AMF n°GP-140 000 48 Siège social : 44 avenue de Villiers - CS 40 101 - 75017 Paris - T. +33 (0)1 40 51 00 49 Siège administratif : 6 rue Colbert - CS 94 626 - 440",
+   "dates": [
+    "01/09/2022",
+    "20/04/2021",
+    "23/09/2021",
+    "25/06/2026",
+    "31/08/2022"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/25-08-27_-ANNEXE-PRECONTRACTUELLE_SFDR_FDP-1.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/25-08-27_-ANNEXE-PRECONTRACTUELLE_SFDR_FDP-1.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 866887,
+   "sha256": "d6d56c77ea31271237022eb24e3d91cf67a8ee74805b2d36c77126e78f3a6fca",
+   "metadata": {
+    "format": "PDF 1.4",
+    "producer": "macOS Version 14.5 (assemblage 23F79) Quartz PDFContext",
+    "creationDate": "D:20250930160042Z00'00'",
+    "modDate": "D:20250930160042Z00'00'"
+   },
+   "page_count": 6,
+   "text_characters": 16209,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "Informations précontractuelles – Annexe SFDR Dénomination du produit: SCPI Foncière des Praticiens (FDP) Identifiant d'entité juridique : FDS60156 Caractéristiques environnementales et/ou sociales Quelles caractéristiques environnementales et/ou sociales sont promues par ce produit financier ? Le fonds a pour caractéristiques environnementales et sociales : - Suivre les consommations énergétiques ",
+   "dates": [],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/2026-06-30-Article-10-SFDR-FDP.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/2026-06-30-Article-10-SFDR-FDP.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 980585,
+   "sha256": "0756adbb0d722f0ac5eccfb2f9462ac23fed7007e01405602123c72cfe7a04c7",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Alexis GAULIN",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260630151349+02'00'",
+    "modDate": "D:20260630151349+02'00'"
+   },
+   "page_count": 12,
+   "text_characters": 25101,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "fonciere des praticiens",
+   "title_excerpt": "MAGELLIM REIM – 44 avenue de Villiers - 75017 Paris - T. +33 (0)1 40 51 00 49 - www.magellim-reim.com MAGELLIM REIM – SAS au capital de 500.000 € – RCS PARIS n°521 913 772 - Socie te de Gestion Agre ment AMF n°GP-140 000 48 1 Siège social : 44 avenue de Villiers - CS 40 101 - 75017 Paris - T. +33 (0)1 40 51 00 49 Siège administratif : 6 rue Colbert - CS 94 6 26 - 44000 Nantes SCPI Foncière des Pra",
+   "dates": [
+    "30.06.2026"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/Politique-de-prevention-et-de-gestion-des-conflits-dinterets_Site-internet.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/Politique-de-prevention-et-de-gestion-des-conflits-dinterets_Site-internet.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 577051,
+   "sha256": "ce9d7d93c41a0e0cc61c0a52c61fbb1401fa7d056e976c9765c1637ac43e997f",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "Microsoft Word - Politique de prévention et de gestion des conflits d'intérêts_Site internet",
+    "author": "Nisrine SAID - MAGELLIM REIM",
+    "producer": "Microsoft: Print To PDF",
+    "creationDate": "D:20260923204306+02'00'",
+    "modDate": "D:20260923204306+02'00'"
+   },
+   "page_count": 14,
+   "text_characters": 34090,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "MAGELLIM REIM – 44 avenue de Villiers - 75017 Paris - T. +33 (0)1 40 51 00 49 - www.magellim-reim.com MAGELLIM REIM – SAS au capital de 505.550 € – RCS PARIS n°521 913 772 - Société de Gestion Agrément AMF n°GP-140 000 48 Siège social : 44 avenue de Villiers - CS 40 101 - 75017 Paris - T. +33 (0)1 40 51 00 49 Siège administratif : 6 rue Colbert - CS 94 626 - 44000 Nantes 1 Politique de prévention ",
+   "dates": [
+    "15 mai 2014",
+    "21 avril 2021"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.groupemagellim.com/wp-content/uploads/Politique-de-traitement-des-reclamations.pdf",
+   "final_url": "https://www.groupemagellim.com/wp-content/uploads/Politique-de-traitement-des-reclamations.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 97199,
+   "sha256": "b30f3194bd5e08a1a9c030fcdaeb33288a6467e58c16eafa99065123e4dca609",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Iheb BRAHMI - MAGELLIM REIM",
+    "creator": "Microsoft Word",
+    "creationDate": "D:20260331095848+00'00'",
+    "modDate": "D:20260331095848+00'00'"
+   },
+   "page_count": 1,
+   "text_characters": 2299,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "MAGELLIM REIM – 44 avenue de Villiers - 75017 Paris - T. +33 (0)1 40 51 00 49 - www.magellim-reim.com MAGELLIM REIM – SAS au capital de 500.000 € – RCS PARIS n°521 913 772 - Société de Gestion Agrément AMF n°GP-140 000 48 Siège social : 44 avenue de Villiers - CS 40 101 - 75017 Paris - T. +33 (0)1 40 51 00 49 Siège administratif : 6 rue Colbert - CS 94 626 - 44000 Nantes 1 Politique de traitement ",
+   "dates": [
+    "mars 2026"
+   ],
+   "fee_clauses": []
+  }
+ ],
+ "candidate_count": 53,
+ "summary": {
+  "dic_identity_ok": 1,
+  "note_identity_ok": 1,
+  "fee_clauses": 44,
+  "errors": 0
+ }
+}

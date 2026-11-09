@@ -1,0 +1,109 @@
+{
+ "slug": "altixia-cadence-12",
+ "name": "Altixia Cadence 12",
+ "manager": "ALTIXIA REIM",
+ "crawl": [
+  {
+   "url": "https://www.altixia.fr/scpi-cadence.php",
+   "depth": 0,
+   "final_url": "https://www.altixia.fr/scpi-cadence.php",
+   "http_status": 200,
+   "pdf_links": 2
+  },
+  {
+   "url": "https://www.altixia.fr/documentation.php?listeProduit=1",
+   "depth": 1,
+   "final_url": "https://www.altixia.fr/documentation.php?listeProduit=1",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.altixia.fr/documentation.php",
+   "depth": 1,
+   "final_url": "https://www.altixia.fr/documentation.php",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.altixia.fr/Informations-reglementaires.php",
+   "depth": 1,
+   "final_url": "https://www.altixia.fr/Informations-reglementaires.php",
+   "http_status": 200,
+   "pdf_links": 0
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://www.altixia.fr/medias/documentations/092023-taxonomie-axii-180.PDF",
+   "final_url": "https://www.altixia.fr/medias/documentations/092023-taxonomie-axii-180.PDF",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 191107,
+   "sha256": "20e7dba6ef44444c5fa7d55ab48c3fdd4f184631712ddf5f1220eacb7acdf12d",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Sophie de Roodenbeke",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20230919183831+02'00'",
+    "modDate": "D:20230919183831+02'00'"
+   },
+   "page_count": 2,
+   "text_characters": 4918,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "cadence xii",
+   "title_excerpt": "SCPI ALTIXIA CADENCE XII Publication sur le site internet d'informations relatives au Règlement (UE) 2020/852 sur l'établissement d'un cadre visant à favoriser les investissements durables dit Taxonomie A L T I X I A C A D E N C E X I I Société Civile de Placement Immobilier à capital variable Siège social : 32 avenue marceau 75008 PARIS Visa AMF SCPI n°19-02 du 12 mars 2019 RCS PARIS 844 615 823 ",
+   "dates": [
+    "12 mars 2019",
+    "18 juin 2020",
+    "septembre 2023"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.altixia.fr/medias/produits/1/scenario-performance-6accde4a38b48-1.pdf",
+   "final_url": "https://www.altixia.fr/medias/produits/1/scenario-performance-6accde4a38b48-1.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 156951,
+   "sha256": "8c268f155371f59a335e93de32f8783212bdebec4d60181c2bbaac8fb3d804dc",
+   "metadata": {
+    "format": "PDF 1.6",
+    "author": "Benoit GIRARDON",
+    "creator": "Acrobat PDFMaker 26 pour Excel",
+    "producer": "Adobe PDF Library 26.2.171",
+    "creationDate": "D:20261012151458+02'00'",
+    "modDate": "D:20261012151500+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 23369,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "Identifiant fonds Devise Date de calcul Fréquence de calcul Durée de détention recommandée Mesure de risque de crédit Indicateur de risque synthétique Volatilité Valeur en euros dans le scénario favorable à 1 an Valeur en pourcentage dans le scénario favorable à 1 an Valeur en euros dans le scénario modéré à 1 an Valeur en pourcentage dans le scénario modéré à 1 an Valeur en euros dans le scénario",
+   "dates": [
+    "28/02/2013",
+    "28/02/2015",
+    "28/02/2022",
+    "28/02/2023",
+    "28/02/2025",
+    "28/02/2026",
+    "29/02/2024",
+    "30/04/2012",
+    "30/04/2013",
+    "30/04/2014",
+    "30/04/2021",
+    "30/04/2022"
+   ],
+   "fee_clauses": []
+  }
+ ],
+ "candidate_count": 2,
+ "summary": {
+  "dic_identity_ok": 0,
+  "note_identity_ok": 1,
+  "fee_clauses": 0,
+  "errors": 0
+ }
+}

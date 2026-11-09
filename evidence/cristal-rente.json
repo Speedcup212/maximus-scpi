@@ -1,0 +1,2847 @@
+{
+ "slug": "cristal-rente",
+ "name": "Cristal Rente",
+ "manager": "Inter Gestion REIM",
+ "crawl": [
+  {
+   "url": "https://www.inter-gestion.com/corpo/cristal-rente",
+   "depth": 0,
+   "final_url": "https://www.inter-gestion.com/corpo/cristal-rente",
+   "http_status": 200,
+   "pdf_links": 54
+  },
+  {
+   "url": "https://www.inter-gestion.com/corpo/mentions-reglementaires",
+   "depth": 1,
+   "final_url": "https://www.inter-gestion.com/corpo/mentions-reglementaires",
+   "http_status": 200,
+   "pdf_links": 3
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_DSPP20241211_Dynamique.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_DSPP20241211_Dynamique.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 305899,
+   "sha256": "3cd275fa6c7218934eb61b4ecf7fa689f3eb77f98b6e0ad817e360ab72949cd7",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.0 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20231031153406+01'00'",
+    "modDate": "D:20241015094849+02'00'"
+   },
+   "page_count": 13,
+   "text_characters": 59656,
+   "kind": "statuts",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "1 PLEINE PROPRIÉTÉ DOSSIER DE SOUSCRIPTION : MODE D'EMPLOI I.IDENTIFICATION DE L'INVESTISSEUR : - Je renseigne les informations demandées (ainsi que celles du conjoint dans le cadre d'une souscription commune dans l'encart co-souscripteur ou celles concernant la personne morale le cas échéant). II. BULLETIN DE SOUSCRIPTION : 1/ J'indique le nombre de parts souscrites et le montant global de l'inve",
+   "dates": [],
+   "fee_clauses": [
+    {
+     "page": 12,
+     "label": "Frais de souscription",
+     "snippet": "iciliée 38 avenue de l'Opéra, 75002 PARIS, RCS Paris 345 004 436 (agrément de l'AMF n° GP 12000008 délivré le 29 février 2012). Prix de souscription : 255,68 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription. VALEUR DE RETRAIT FRAIS DE SOUSCRIPTION PRIX DE SOUSCRIPTION 225 € 30,68 € 255,68 € * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la S",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. VALEUR DE RETR"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": "ément de l'AMF n° GP 12000008 délivré le 29 février 2012). Prix de souscription : 255,68 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription. VALEUR DE RETRAIT FRAIS DE SOUSCRIPTION PRIX DE SOUSCRIPTION 225 € 30,68 € 255,68 € * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la Société de gestion (dossier de souscription complet et réception de l'",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. VALEUR DE RETR"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "FRAIS DE SOUSCRIPTION",
+     "snippet": "255,68 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription. VALEUR DE RETRAIT FRAIS DE SOUSCRIPTION PRIX DE SOUSCRIPTION 225 € 30,68 € 255,68 € * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la Société de gestion (dossier de souscription complet et réception de l'intégralité des fonds), le nombre de parts souscrites correspondra au montant de l",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. VALEUR DE RETR"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "Commission de souscription",
+     "snippet": " SCPI une commission de souscription de 12% TTI* du prix de souscription. VALEUR DE RETRAIT FRAIS DE SOUSCRIPTION PRIX DE SOUSCRIPTION 225 € 30,68 € 255,68 € * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la Société de gestion (dossier de souscription complet et réception de l'intégralité des fonds), le nombre de parts souscrites correspondra au montant de la souscription divisée par le prix de souscription en vigueur lors d",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. VALEUR DE RETR"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": "etrait de la SCPI est de 225 € par part en pleine propriété. Ce prix correspond au montant de souscription en pleine propriété actuel de 255,68 € diminué de la commission de souscription de 30,68 €. L'associé détenteurs de parts en pleine propriété qui souhaite se retirer, adresse sa demande à la Société de gestion. Les modalités des conditions de souscription et de retrait sont précisées dans les statuts de la SCPI disponibles sur le site www.inter-gestion.com ou sur simple demande après de la Société de gestion. La Société de gestion ne garantit pas la revente des parts. Gestion de la trésorerie : Les revenus de capitaux mobiliers (intérêts, revenus distribués et revenus assimilés) perçus ou inscrits en compte à compter du 1er janvier 2018, sont soumis à un prélèvement forfaitaire unique",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCRPlaquetteComFR20261030.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCRPlaquetteComFR20261030.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 5929726,
+   "sha256": "83a5598b60e80f31588eb52e990961b6a4667e40d33e0610b95ddfd48367f239",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.6 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261030175359+01'00'",
+    "modDate": "D:20261030175401+01'00'"
+   },
+   "page_count": 6,
+   "text_characters": 10307,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "cristal rente",
+   "title_excerpt": "La SCPI des Grandes Enseignes",
+   "dates": [
+    "31/03/2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 6,
+     "label": "Frais de souscription",
+     "snippet": "mandée. Ce produit n'est pas à destination de personnes présentant les caractéristiques « d'US Person » (Décret n°2015-1 du 2 janvier 2015 dite « loi Fatca »). Frais de souscription Commission de souscription : 10% TTI de frais de collecte et 2% TTI de frais de recherche foncière soit : 12% TTI du prix de souscription. Frais supportés par la SCPI Commission de gestion annuelle : 13,20% TTC des produits locatifs potentiels hors taxes encaissés. Commission d'acquisition des actifs : 1,20% TTI du prix d'acquisition tous frais inclus. Commission de cession des actifs : 3% TTI du prix de vente net. Commission de suivi et pilotage de la réalisation des travaux : 2,50% HT calculé sur le montant global TTC des travaux réalisés. Classification SFDR Article 8. Indicateur de risque Niveau 3 (sur une ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2% TTI de frais"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de frais de recherche foncière soit : 12"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription. Frais supportés"
+      },
+      {
+       "raw": "13,20%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC des produits locatifs potentiels hors ta"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tous frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. Commission de suiv"
+      },
+      {
+       "raw": "2,50%",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT calculé sur le montant global TTC des tra"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "Commission de souscription",
+     "snippet": "st pas à destination de personnes présentant les caractéristiques « d'US Person » (Décret n°2015-1 du 2 janvier 2015 dite « loi Fatca »). Frais de souscription Commission de souscription : 10% TTI de frais de collecte et 2% TTI de frais de recherche foncière soit : 12% TTI du prix de souscription. Frais supportés par la SCPI Commission de gestion annuelle : 13,20% TTC des produits locatifs potentiels hors taxes encaissés. Commission d'acquisition des actifs : 1,20% TTI du prix d'acquisition tous frais inclus. Commission de cession des actifs : 3% TTI du prix de vente net. Commission de suivi et pilotage de la réalisation des travaux : 2,50% HT calculé sur le montant global TTC des travaux réalisés. Classification SFDR Article 8. Indicateur de risque Niveau 3 (sur une échelle de 1 à 7). Fis",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2% TTI de frais"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de frais de recherche foncière soit : 12"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription. Frais supportés"
+      },
+      {
+       "raw": "13,20%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC des produits locatifs potentiels hors ta"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tous frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. Commission de suiv"
+      },
+      {
+       "raw": "2,50%",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT calculé sur le montant global TTC des tra"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "Commission de gestion",
+     "snippet": "ion de souscription : 10% TTI de frais de collecte et 2% TTI de frais de recherche foncière soit : 12% TTI du prix de souscription. Frais supportés par la SCPI Commission de gestion annuelle : 13,20% TTC des produits locatifs potentiels hors taxes encaissés. Commission d'acquisition des actifs : 1,20% TTI du prix d'acquisition tous frais inclus. Commission de cession des actifs : 3% TTI du prix de vente net. Commission de suivi et pilotage de la réalisation des travaux : 2,50% HT calculé sur le montant global TTC des travaux réalisés. Classification SFDR Article 8. Indicateur de risque Niveau 3 (sur une échelle de 1 à 7). Fiscalité Revenus fonciers et revenus financiers. Plus-values immobilières potentielles en cas de revente. Recours à l'emprunt La SCPI peut recourir à l'emprunt dans la l",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2% TTI de frais"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de frais de recherche foncière soit : 12"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription. Frais supportés"
+      },
+      {
+       "raw": "13,20%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC des produits locatifs potentiels hors ta"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tous frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. Commission de suiv"
+      },
+      {
+       "raw": "2,50%",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT calculé sur le montant global TTC des tra"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "Commission d'acquisition",
+     "snippet": "12% TTI du prix de souscription. Frais supportés par la SCPI Commission de gestion annuelle : 13,20% TTC des produits locatifs potentiels hors taxes encaissés. Commission d'acquisition des actifs : 1,20% TTI du prix d'acquisition tous frais inclus. Commission de cession des actifs : 3% TTI du prix de vente net. Commission de suivi et pilotage de la réalisation des travaux : 2,50% HT calculé sur le montant global TTC des travaux réalisés. Classification SFDR Article 8. Indicateur de risque Niveau 3 (sur une échelle de 1 à 7). Fiscalité Revenus fonciers et revenus financiers. Plus-values immobilières potentielles en cas de revente. Recours à l'emprunt La SCPI peut recourir à l'emprunt dans la limite du tiers de la valeur des actifs immobilisés. Inter Gestion REIM 38 avenue de l'Opéra, 75002 ",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription. Frais supportés"
+      },
+      {
+       "raw": "13,20%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC des produits locatifs potentiels hors ta"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tous frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. Commission de suiv"
+      },
+      {
+       "raw": "2,50%",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT calculé sur le montant global TTC des tra"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_cession",
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "Commission de cession",
+     "snippet": "le : 13,20% TTC des produits locatifs potentiels hors taxes encaissés. Commission d'acquisition des actifs : 1,20% TTI du prix d'acquisition tous frais inclus. Commission de cession des actifs : 3% TTI du prix de vente net. Commission de suivi et pilotage de la réalisation des travaux : 2,50% HT calculé sur le montant global TTC des travaux réalisés. Classification SFDR Article 8. Indicateur de risque Niveau 3 (sur une échelle de 1 à 7). Fiscalité Revenus fonciers et revenus financiers. Plus-values immobilières potentielles en cas de revente. Recours à l'emprunt La SCPI peut recourir à l'emprunt dans la limite du tiers de la valeur des actifs immobilisés. Inter Gestion REIM 38 avenue de l'Opéra, 75002 PARIS • Tél : 01 43 12 52 52 • SA au capital de 240 000 € • Code APE 6630Z • N° SIRET 345",
+     "percents": [
+      {
+       "raw": "13,20%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC des produits locatifs potentiels hors ta"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tous frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. Commission de suiv"
+      },
+      {
+       "raw": "2,50%",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT calculé sur le montant global TTC des tra"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_cession",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "Commission de suivi",
+     "snippet": "issés. Commission d'acquisition des actifs : 1,20% TTI du prix d'acquisition tous frais inclus. Commission de cession des actifs : 3% TTI du prix de vente net. Commission de suivi et pilotage de la réalisation des travaux : 2,50% HT calculé sur le montant global TTC des travaux réalisés. Classification SFDR Article 8. Indicateur de risque Niveau 3 (sur une échelle de 1 à 7). Fiscalité Revenus fonciers et revenus financiers. Plus-values immobilières potentielles en cas de revente. Recours à l'emprunt La SCPI peut recourir à l'emprunt dans la limite du tiers de la valeur des actifs immobilisés. Inter Gestion REIM 38 avenue de l'Opéra, 75002 PARIS • Tél : 01 43 12 52 52 • SA au capital de 240 000 € • Code APE 6630Z • N° SIRET 345 004 436 00076 • Société de gestion agréée en France sous le n° ",
+     "percents": [
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tous frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. Commission de suiv"
+      },
+      {
+       "raw": "2,50%",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT calculé sur le montant global TTC des tra"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_cession"
+     ]
+    }
+   ]
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_CR_DIC20241203.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_CR_DIC20241203.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 100156,
+   "sha256": "8a43a6365090d40ba4da7b60e00cc6db438ba47a9f0f7305dc83fb8721c66eca",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.0 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20241203121226+01'00'",
+    "modDate": "D:20241203121227+01'00'"
+   },
+   "page_count": 3,
+   "text_characters": 15865,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "cristal rente",
+   "title_excerpt": "PRODUIT Nom du produit CRISTAL Rente Site web www.inter-gestion.com, appelez-le 01 43 12 52 52 pour de plus amples informations. Initiateur L'Autorité des marchés financiers (AMF) est chargée du contrôle d'Inter Gestion REIM en ce qui concerne ce document d'informations clés. Inter Gestion REIM, Société de gestion de portefeuille agréée en France sous le n° GP 12000008 et règlementée par l'AMF. Da",
+   "dates": [
+    "13/09/2024",
+    "2 janvier 2015",
+    "Septembre 2024"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Coûts d'entrée",
+     "snippet": "vices qu'elle vous fournit. Cette personne vous informera du montant. Composition des coûts COÛTS PONCTUELS À L'ENTRÉE OU À LA SORTIE SI VOUS SORTEZ APRÈS 1 AN Coûts d'entrée L'incidence des coûts que vous payez lors de l'entrée dans votre investissement. Il s'agit des frais de souscription 12,00% 1 200,00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance 0,00% - € COÛTS RÉCURRENTS (prélevés chaque année) Frais de gestion et autres frais administratifs et d'exploitation L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements 1,12% 112,00 € Coûts de transaction L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs sous-jacents au produit 0,61% 61,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CER",
+     "percents": [
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "1 200,00 € Coûts de sortie L'incidence des c"
+      },
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COÛTS RÉCURRENTS (prélevés chaque année)"
+      },
+      {
+       "raw": "1,12%",
+       "value": 1.12,
+       "tax_hint": null,
+       "after": "112,00 € Coûts de transaction L'incidence de"
+      },
+      {
+       "raw": "0,61%",
+       "value": 0.61,
+       "tax_hint": null,
+       "after": "61,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CER"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "frais de souscription",
+     "snippet": "L'ENTRÉE OU À LA SORTIE SI VOUS SORTEZ APRÈS 1 AN Coûts d'entrée L'incidence des coûts que vous payez lors de l'entrée dans votre investissement. Il s'agit des frais de souscription 12,00% 1 200,00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance 0,00% - € COÛTS RÉCURRENTS (prélevés chaque année) Frais de gestion et autres frais administratifs et d'exploitation L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements 1,12% 112,00 € Coûts de transaction L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs sous-jacents au produit 0,61% 61,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERTAINES CONDITIONS Commissions liées aux résultats et commissions d'intéressement Absence des commissions liées",
+     "percents": [
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "1 200,00 € Coûts de sortie L'incidence des c"
+      },
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COÛTS RÉCURRENTS (prélevés chaque année)"
+      },
+      {
+       "raw": "1,12%",
+       "value": 1.12,
+       "tax_hint": null,
+       "after": "112,00 € Coûts de transaction L'incidence de"
+      },
+      {
+       "raw": "0,61%",
+       "value": 0.61,
+       "tax_hint": null,
+       "after": "61,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERT"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "COÛTS RÉCURRENTS",
+     "snippet": "t des frais de souscription 12,00% 1 200,00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance 0,00% - € COÛTS RÉCURRENTS (prélevés chaque année) Frais de gestion et autres frais administratifs et d'exploitation L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements 1,12% 112,00 € Coûts de transaction L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs sous-jacents au produit 0,61% 61,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERTAINES CONDITIONS Commissions liées aux résultats et commissions d'intéressement Absence des commissions liées aux résultats sur le rendement Absence d'incidence des commissions d'intéressement sur le rendement 0,00% - € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PU",
+     "percents": [
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "1 200,00 € Coûts de sortie L'incidence des c"
+      },
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COÛTS RÉCURRENTS (prélevés chaque année)"
+      },
+      {
+       "raw": "1,12%",
+       "value": 1.12,
+       "tax_hint": null,
+       "after": "112,00 € Coûts de transaction L'incidence de"
+      },
+      {
+       "raw": "0,61%",
+       "value": 0.61,
+       "tax_hint": null,
+       "after": "61,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERT"
+      },
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Frais de gestion",
+     "snippet": "00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance 0,00% - € COÛTS RÉCURRENTS (prélevés chaque année) Frais de gestion et autres frais administratifs et d'exploitation L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements 1,12% 112,00 € Coûts de transaction L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs sous-jacents au produit 0,61% 61,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERTAINES CONDITIONS Commissions liées aux résultats et commissions d'intéressement Absence des commissions liées aux résultats sur le rendement Absence d'incidence des commissions d'intéressement sur le rendement 0,00% - € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PUIS-JE RETIRER DE L'ARGENT DE FAÇON ANTICI",
+     "percents": [
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COÛTS RÉCURRENTS (prélevés chaque année)"
+      },
+      {
+       "raw": "1,12%",
+       "value": 1.12,
+       "tax_hint": null,
+       "after": "112,00 € Coûts de transaction L'incidence de"
+      },
+      {
+       "raw": "0,61%",
+       "value": 0.61,
+       "tax_hint": null,
+       "after": "61,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERT"
+      },
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts de transaction",
+     "snippet": "de gestion et autres frais administratifs et d'exploitation L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements 1,12% 112,00 € Coûts de transaction L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs sous-jacents au produit 0,61% 61,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERTAINES CONDITIONS Commissions liées aux résultats et commissions d'intéressement Absence des commissions liées aux résultats sur le rendement Absence d'incidence des commissions d'intéressement sur le rendement 0,00% - € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PUIS-JE RETIRER DE L'ARGENT DE FAÇON ANTICIPÉE ? Période de détention recommandée : 10 ans au minimum Ce délai est nécessaire pour que la valorisation des parts ait compensé les charges initiales inhérentes à ",
+     "percents": [
+      {
+       "raw": "1,12%",
+       "value": 1.12,
+       "tax_hint": null,
+       "after": "112,00 € Coûts de transaction L'incidence de"
+      },
+      {
+       "raw": "0,61%",
+       "value": 0.61,
+       "tax_hint": null,
+       "after": "61,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERT"
+      },
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET"
+      }
+     ],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCRNoteInfo_StatutsAMFEurope20260115.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCRNoteInfo_StatutsAMFEurope20260115.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2673297,
+   "sha256": "4daee5bc8598779b18cc9f94dbca9f0957d44511df3ddb6683f0a2bc16240be6",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.1 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260115161945+01'00'",
+    "modDate": "D:20260115210403+01'00'"
+   },
+   "page_count": 28,
+   "text_characters": 140619,
+   "kind": "statuts",
+   "identity_match": true,
+   "identity_alias": "cristal rente",
+   "title_excerpt": "Note d'information & statuts",
+   "dates": [
+    "15/01/2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 5,
+     "label": "frais de souscription",
+     "snippet": " recherchant un placement immobilier offrant des revenus mensuels – non garantis – avec une lisibilité des performances améliorée grâce à l'extériorisation des frais de souscription venant en sus du prix de la part. Le souscripteur distingue ainsi directement le montant de l'épargne nette investie du montant total de sa souscription, ce qui simplifie l'appréciation de la rentabilité de son placement. Objectif societal : fonds de partage La SCPI CRISTAL Rente est qualifiée de placement collectif « de partage ». Elle s'inscrit dans une démarche sociétale en prenant l'engagement de reverser un don annuel à un organisme reconnu d'utilité publique, notamment dans le domaine de l'aide alimentaire. Modalités de calcul et de versement du don : Par tranche de 1000 euros de résultat distribuable, 5 ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 7,
+     "label": "commission de souscription",
+     "snippet": " est égale à la valeur de réalisation augmentée des frais afférents à une reconstitution du patrimoine, soit les frais et droits sur acquisition des actifs, la commission de souscription venant en sus de cette valeur suivant le barème des frais prévus pour la souscription des parts, le tout étant ramené à une part. Le prix de souscription est établi sur la base de la valeur de reconstitution telle que définie à l'article L.214-109 du Code monétaire et financier. Tout écart de plus ou moins 10% entre le prix de souscription et la valeur de reconstitution devra être notifié et justifié par la Société de gestion à l'Autorité des marchés financiers. Il s'agit d'un mécanisme ayant pour but d'éviter que le prix de souscription des parts ne s'écarte anormalement de la valeur réelle des parts. Le ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "entre le prix de souscription et la valeur d"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "commissions de souscription",
+     "snippet": " Il s'agit d'un mécanisme ayant pour but d'éviter que le prix de souscription des parts ne s'écarte anormalement de la valeur réelle des parts. Le fait que les commissions de souscription soient demandées en sus du prix de souscription d'une part sociale ne porte pas atteinte à la règle ci-dessus. L'émission des parts se fait à la valeur nominale augmentée d'une prime d'émission destinée à : • amortir les frais, droits et taxes grevant le prix d'acquisition des biens et droits immobiliers, les formalités d'émission des parts et le cas échéant la TVA non récupérable sur les immeubles. • assurer l'égalité entre les associés anciens et nouveaux. La valeur nominale majorée de la prime d'émission constitue le prix de souscription. Modalité de souscription et de versement Dossier remis à tout so",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 8,
+     "label": "frais de souscription",
+     "snippet": "prix de souscription d'une part depuis le 14 juin 2024 est fixé à 255,68 €. Valeur nominale + Prime d'émission + Frais = 180 € + 45 € + 30,68 € = 255,68 €. Les frais de souscription réglés par le souscripteur viendront en sus du prix de souscription de la part comme indiqué au tableau ci-après. Le taux s'applique au montant total de la souscription Valeur de retrait Frais de souscription Prix de souscription TTI* Dont frais collecte TTI** 12,00% 10,00% 225,00 € 30,68 € 255,68 € * Dont commission de recherche foncière de 2% TTI. ** Commission exonérée de TVA conformément à l'article 261 C-1°-e du CGI. Il ne peut être procédé à des émissions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe sur le registre prévu à l'article 422-218 du Règlement général de l'AMF des",
+     "percents": [
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "10,00% 225,00 € 30,68 € 255,68 € * Dont comm"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "225,00 € 30,68 € 255,68 € * Dont commission"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "TVA",
+       "after": "TTI. ** Commission exonérée de TVA conformém"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 8,
+     "label": "Frais de souscription",
+     "snippet": "viendront en sus du prix de souscription de la part comme indiqué au tableau ci-après. Le taux s'applique au montant total de la souscription Valeur de retrait Frais de souscription Prix de souscription TTI* Dont frais collecte TTI** 12,00% 10,00% 225,00 € 30,68 € 255,68 € * Dont commission de recherche foncière de 2% TTI. ** Commission exonérée de TVA conformément à l'article 261 C-1°-e du CGI. Il ne peut être procédé à des émissions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe sur le registre prévu à l'article 422-218 du Règlement général de l'AMF des demandes de retrait non satisfaites à un prix inférieur ou égal au prix de souscription. Agrément Toute souscription d'une personne qui n'est pas déjà associée doit recueillir le consentement de la Société de",
+     "percents": [
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "10,00% 225,00 € 30,68 € 255,68 € * Dont comm"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "225,00 € 30,68 € 255,68 € * Dont commission"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "TVA",
+       "after": "TTI. ** Commission exonérée de TVA conformém"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 8,
+     "label": "frais de souscription",
+     "snippet": "s de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas la valeur de retrait est égale au prix de souscription en vigueur hors frais de souscription. À titre d'exemple, sur la base du prix de souscription hors frais appliqué à la date d'ouverture au public fixé à 255,68 €, le prix de retrait serait égal à 225 €. 2. Lorsqu'il n'y a pas de contrepartie aux dernières demandes de retrait, le retrait s'effectue par diminution du capital. La valeur de retrait établie par la Société de gestion ne peut être supérieure à la valeur de réalisation ni inférieure à celle-ci diminuée de 10% sauf autorisation de l'AMF. 3. La création et la dotation d'un fonds de remboursement sont soumises à l'approbation de l'assemblée générale des associés. 4. Dans le cas où il n'existe",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "sauf autorisation de l'AMF. 3. La création e"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "commission de souscription",
+     "snippet": "iaires. Revente des parts : • La société ne garantit pas la revente des parts. Frais Rémunération de la Société de gestion Lors de l'augmentation du capital La commission de souscription couvre les frais engagés par la Société de gestion pour la recherche des immeubles et la prospection des capitaux. La Société de gestion percevra un honoraire égal à la commission réglée par le souscripteur en sus du prix d'émission de la part comme indiqué au tableau ci-après. Le taux s'applique au montant total de la souscription Valeur de retrait Frais de souscription Prix de souscription TTI* Dont frais collecte TTI** 12,00% 10,00% 225,00 € 30,68 € 255,68 € * Dont commission de recherche foncière de 2% TTI. ** Commission exonérée de TVA conformément à l'article 261 C-1°-e du CGI. Pour la gestion et l'a",
+     "percents": [
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "10,00% 225,00 € 30,68 € 255,68 € * Dont comm"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "225,00 € 30,68 € 255,68 € * Dont commission"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "TVA",
+       "after": "TTI. ** Commission exonérée de TVA conformém"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "Frais de souscription",
+     "snippet": "e souscripteur en sus du prix d'émission de la part comme indiqué au tableau ci-après. Le taux s'applique au montant total de la souscription Valeur de retrait Frais de souscription Prix de souscription TTI* Dont frais collecte TTI** 12,00% 10,00% 225,00 € 30,68 € 255,68 € * Dont commission de recherche foncière de 2% TTI. ** Commission exonérée de TVA conformément à l'article 261 C-1°-e du CGI. Pour la gestion et l'administration de la société • Pour assurer l'administration de la société, la gestion de son patrimoine et la gestion de la trésorerie en attente des investissements, la Société de gestion perçoit des rémunérations qui sont fixées de la manière suivante : • Une commission de gestion de 13,20% TTC des produits locatifs hors taxes encaissés pour son administration et la gestion ",
+     "percents": [
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "10,00% 225,00 € 30,68 € 255,68 € * Dont comm"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "225,00 € 30,68 € 255,68 € * Dont commission"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "TVA",
+       "after": "TTI. ** Commission exonérée de TVA conformém"
+      },
+      {
+       "raw": "13,20%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC des produits locatifs hors taxes encaiss"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "commission de gestion",
+     "snippet": "e et la gestion de la trésorerie en attente des investissements, la Société de gestion perçoit des rémunérations qui sont fixées de la manière suivante : • Une commission de gestion de 13,20% TTC des produits locatifs hors taxes encaissés pour son administration et la gestion de son patrimoine et de la totalité des produits financiers nets de frais de gestion, répartie comme suit : – 8,40% TTI au titre de la gestion administrative couvrant tous les frais de bureau et de personnel nécessaires à l'administration de la société ; – 4% HT, soit 4,80% TTC (au taux de TVA en vigueur) au titre de la gestion afférente à l'exploitation des immeubles. • Pour assurer la gestion de la trésorerie en attente d'investissement le pourcentage de la commission de gestion est fixé à 14,35% TTI de la totalité ",
+     "percents": [
+      {
+       "raw": "13,20%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC des produits locatifs hors taxes encaiss"
+      },
+      {
+       "raw": "8,40%",
+       "value": 8.4,
+       "tax_hint": null,
+       "after": "TTI au titre de la gestion administrative co"
+      },
+      {
+       "raw": "4%",
+       "value": 4.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 4,80% TTC (au taux de TVA en vigueu"
+      },
+      {
+       "raw": "4,80%",
+       "value": 4.8,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur) au titre de"
+      },
+      {
+       "raw": "14,35%",
+       "value": 14.35,
+       "tax_hint": null,
+       "after": "TTI de la totalité"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "frais de gestion",
+     "snippet": "13,20% TTC des produits locatifs hors taxes encaissés pour son administration et la gestion de son patrimoine et de la totalité des produits financiers nets de frais de gestion, répartie comme suit : – 8,40% TTI au titre de la gestion administrative couvrant tous les frais de bureau et de personnel nécessaires à l'administration de la société ; – 4% HT, soit 4,80% TTC (au taux de TVA en vigueur) au titre de la gestion afférente à l'exploitation des immeubles. • Pour assurer la gestion de la trésorerie en attente d'investissement le pourcentage de la commission de gestion est fixé à 14,35% TTI de la totalité des produits financiers nets de frais de gestion. • Une commission d'acquisition d'actif fixée à 1,20% TTI du prix d'acquisition tout frais inclus. • Une commission de cession d'actif f",
+     "percents": [
+      {
+       "raw": "13,20%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC des produits locatifs hors taxes encaiss"
+      },
+      {
+       "raw": "8,40%",
+       "value": 8.4,
+       "tax_hint": null,
+       "after": "TTI au titre de la gestion administrative co"
+      },
+      {
+       "raw": "4%",
+       "value": 4.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 4,80% TTC (au taux de TVA en vigueu"
+      },
+      {
+       "raw": "4,80%",
+       "value": 4.8,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur) au titre de"
+      },
+      {
+       "raw": "14,35%",
+       "value": 14.35,
+       "tax_hint": null,
+       "after": "TTI de la totalité des produits financiers n"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tout frais inclus."
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "commission de gestion",
+     "snippet": "r) au titre de la gestion afférente à l'exploitation des immeubles. • Pour assurer la gestion de la trésorerie en attente d'investissement le pourcentage de la commission de gestion est fixé à 14,35% TTI de la totalité des produits financiers nets de frais de gestion. • Une commission d'acquisition d'actif fixée à 1,20% TTI du prix d'acquisition tout frais inclus. • Une commission de cession d'actif fixée à 3% TTI du prix de vente net. • Une commission d'intermédiation, lorsque la prestation a été fournie par la Société de gestion, calculée sur le montant hors droits de la transaction réalisée conformément au barème ci-dessous : Montant de la transaction hors droits Commission HT Inférieur à 5 000 000 € 3,50% Entre 5 000 000 € et 10 000 000 € 1,75% Entre 10 000 000 € et 15 000 000 € 1,50% ",
+     "percents": [
+      {
+       "raw": "14,35%",
+       "value": 14.35,
+       "tax_hint": null,
+       "after": "TTI de la totalité des produits financiers n"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tout frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. • Une commission d"
+      },
+      {
+       "raw": "3,50%",
+       "value": 3.5,
+       "tax_hint": null,
+       "after": "Entre 5 000 000 € et 10 000 000 € 1,75% Entr"
+      },
+      {
+       "raw": "1,75%",
+       "value": 1.75,
+       "tax_hint": null,
+       "after": "Entre 10 000 000 € et 15 000 000 € 1,50%"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": ""
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "frais de gestion",
+     "snippet": "on de la trésorerie en attente d'investissement le pourcentage de la commission de gestion est fixé à 14,35% TTI de la totalité des produits financiers nets de frais de gestion. • Une commission d'acquisition d'actif fixée à 1,20% TTI du prix d'acquisition tout frais inclus. • Une commission de cession d'actif fixée à 3% TTI du prix de vente net. • Une commission d'intermédiation, lorsque la prestation a été fournie par la Société de gestion, calculée sur le montant hors droits de la transaction réalisée conformément au barème ci-dessous : Montant de la transaction hors droits Commission HT Inférieur à 5 000 000 € 3,50% Entre 5 000 000 € et 10 000 000 € 1,75% Entre 10 000 000 € et 15 000 000 € 1,50% Supérieur à 15 000 000 € 1,25% • Une commission de suivi et de pilotage de réalisation des ",
+     "percents": [
+      {
+       "raw": "14,35%",
+       "value": 14.35,
+       "tax_hint": null,
+       "after": "TTI de la totalité des produits financiers n"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tout frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. • Une commission d"
+      },
+      {
+       "raw": "3,50%",
+       "value": 3.5,
+       "tax_hint": null,
+       "after": "Entre 5 000 000 € et 10 000 000 € 1,75% Entr"
+      },
+      {
+       "raw": "1,75%",
+       "value": 1.75,
+       "tax_hint": null,
+       "after": "Entre 10 000 000 € et 15 000 000 € 1,50% Sup"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "Supérieur à 15 000 000 € 1,25% • Une commiss"
+      },
+      {
+       "raw": "1,25%",
+       "value": 1.25,
+       "tax_hint": null,
+       "after": "• Une commission de suivi et de pilotage de"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "commission d'acquisition",
+     "snippet": "ttente d'investissement le pourcentage de la commission de gestion est fixé à 14,35% TTI de la totalité des produits financiers nets de frais de gestion. • Une commission d'acquisition d'actif fixée à 1,20% TTI du prix d'acquisition tout frais inclus. • Une commission de cession d'actif fixée à 3% TTI du prix de vente net. • Une commission d'intermédiation, lorsque la prestation a été fournie par la Société de gestion, calculée sur le montant hors droits de la transaction réalisée conformément au barème ci-dessous : Montant de la transaction hors droits Commission HT Inférieur à 5 000 000 € 3,50% Entre 5 000 000 € et 10 000 000 € 1,75% Entre 10 000 000 € et 15 000 000 € 1,50% Supérieur à 15 000 000 € 1,25% • Une commission de suivi et de pilotage de réalisation des travaux sur le patrimoin",
+     "percents": [
+      {
+       "raw": "14,35%",
+       "value": 14.35,
+       "tax_hint": null,
+       "after": "TTI de la totalité des produits financiers n"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tout frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. • Une commission d"
+      },
+      {
+       "raw": "3,50%",
+       "value": 3.5,
+       "tax_hint": null,
+       "after": "Entre 5 000 000 € et 10 000 000 € 1,75% Entr"
+      },
+      {
+       "raw": "1,75%",
+       "value": 1.75,
+       "tax_hint": null,
+       "after": "Entre 10 000 000 € et 15 000 000 € 1,50% Sup"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "Supérieur à 15 000 000 € 1,25% • Une commiss"
+      },
+      {
+       "raw": "1,25%",
+       "value": 1.25,
+       "tax_hint": null,
+       "after": "• Une commission de suivi et de pilotage de"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "commission de cession",
+     "snippet": "alité des produits financiers nets de frais de gestion. • Une commission d'acquisition d'actif fixée à 1,20% TTI du prix d'acquisition tout frais inclus. • Une commission de cession d'actif fixée à 3% TTI du prix de vente net. • Une commission d'intermédiation, lorsque la prestation a été fournie par la Société de gestion, calculée sur le montant hors droits de la transaction réalisée conformément au barème ci-dessous : Montant de la transaction hors droits Commission HT Inférieur à 5 000 000 € 3,50% Entre 5 000 000 € et 10 000 000 € 1,75% Entre 10 000 000 € et 15 000 000 € 1,50% Supérieur à 15 000 000 € 1,25% • Une commission de suivi et de pilotage de réalisation des travaux sur le patrimoine immobilier, d'un montant de 2,5% HT, calculé sur le montant global TTC des travaux réalisés. Tou",
+     "percents": [
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tout frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. • Une commission d"
+      },
+      {
+       "raw": "3,50%",
+       "value": 3.5,
+       "tax_hint": null,
+       "after": "Entre 5 000 000 € et 10 000 000 € 1,75% Entr"
+      },
+      {
+       "raw": "1,75%",
+       "value": 1.75,
+       "tax_hint": null,
+       "after": "Entre 10 000 000 € et 15 000 000 € 1,50% Sup"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "Supérieur à 15 000 000 € 1,25% • Une commiss"
+      },
+      {
+       "raw": "1,25%",
+       "value": 1.25,
+       "tax_hint": null,
+       "after": "• Une commission de suivi et de pilotage de"
+      },
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT, calculé sur le montant global TTC des tr"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "commission de suivi",
+     "snippet": "mmission HT Inférieur à 5 000 000 € 3,50% Entre 5 000 000 € et 10 000 000 € 1,75% Entre 10 000 000 € et 15 000 000 € 1,50% Supérieur à 15 000 000 € 1,25% • Une commission de suivi et de pilotage de réalisation des travaux sur le patrimoine immobilier, d'un montant de 2,5% HT, calculé sur le montant global TTC des travaux réalisés. Toutes les sommes dues à la Société de gestion lui restent définitivement acquises et ne sauraient faire l'objet d'un remboursement quelconque, à quelque moment, ou pour quelque cause qui soient, sauf conventions particulières contraires. La société CRISTAL Rente supporte et paie tous les frais nécessaires à l'acquisition, à la gestion et à l'entretien des immeubles. En ce sont compris notamment : • la rémunération des membres du conseil de surveillance, • les ho",
+     "percents": [
+      {
+       "raw": "3,50%",
+       "value": 3.5,
+       "tax_hint": null,
+       "after": "Entre 5 000 000 € et 10 000 000 € 1,75% Entr"
+      },
+      {
+       "raw": "1,75%",
+       "value": 1.75,
+       "tax_hint": null,
+       "after": "Entre 10 000 000 € et 15 000 000 € 1,50% Sup"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "Supérieur à 15 000 000 € 1,25% • Une commiss"
+      },
+      {
+       "raw": "1,25%",
+       "value": 1.25,
+       "tax_hint": null,
+       "after": "• Une commission de suivi et de pilotage de"
+      },
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT, calculé sur le montant global TTC des tr"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 11,
+     "label": "Frais de cession",
+     "snippet": "SCPI CRISTAL RENTE 11 NOTE D'INFORMATION Frais de cession ou de mutation de parts • Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. • Si la cession est réalisée par confrontation des ordres d'achat et de vente, en application des dispositions de l'article L. 214-93 du Code monétaire et financier, la Société de gestion perçoit une commission de 4% TTI du montant revenant au cédant et mis à la charge de l'acquéreur ou de ses ayants droit. Fo",
+     "percents": [
+      {
+       "raw": "4%",
+       "value": 4.0,
+       "tax_hint": null,
+       "after": "TTI du montant revenant au cédant et mis à l"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": "SCPI CRISTAL RENTE 12 NOTE D'INFORMATION Information des investisseurs La Société de gestion est susceptible de rétrocéder une partie de la commission de souscription, dont les conditions sont encadrées dans le dispositif de gestion des conflits d'intérêt disponible sur simple demande. La Société de gestion garantit que ce dispositif n'entraine pas de préjudice pour les autres investisseurs. Régime fiscal des associés Revenus imposables Les sociétés civiles de placement immobilier sont soumises aux dispositions de l'article 8 du Code général des impôts prévoyant l'imposition du revenu au niveau des associés et non à celui de la société elle-même. Chaque associé personne physique (ou société non soumise à l'IS) est imposé non pas sur le revenu qu'il perçoit mais sur la p",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 12,
+     "label": "frais d'acquisition",
+     "snippet": "alue correspond à la différence entre le prix de vente et le prix d'acquisition de l'immeuble. La plus-value brute ainsi déterminée est diminuée du montant des frais d'acquisition et d'un abattement progressif pour une durée de détention telle qu'indiquée dans le tableau ci-dessous. de 0 à 5 ans 0% 14 ans 54% 6 ans 6% 15 ans 60% 7 ans 12% 16 ans 66% 8 ans 18% 17 ans 72% 9 ans 24% 18 ans 78% 10 ans 30% 19 ans 84% 11 ans 36% 20 ans 90% 12 ans 42% 21 ans 96% 13 ans 48% 22 ans 100% L'exonération au titre des prélèvements sociaux (CSG et CRDS) interviendra de manière progressive chaque année jusqu'à la 30ème année de détention. L'abattement en fonction de la durée de détention est de 1,65% par an au- delà de la 5ème et jusqu'à la 21ème année. Au-delà de la 22ème année l'abattement est de 9%, so",
+     "percents": [
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "14 ans 54% 6 ans 6% 15 ans 60% 7 ans 12% 16"
+      },
+      {
+       "raw": "54%",
+       "value": 54.0,
+       "tax_hint": null,
+       "after": "6 ans 6% 15 ans 60% 7 ans 12% 16 ans 66% 8 a"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "15 ans 60% 7 ans 12% 16 ans 66% 8 ans 18% 17"
+      },
+      {
+       "raw": "60%",
+       "value": 60.0,
+       "tax_hint": null,
+       "after": "7 ans 12% 16 ans 66% 8 ans 18% 17 ans 72% 9"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "16 ans 66% 8 ans 18% 17 ans 72% 9 ans 24% 18"
+      },
+      {
+       "raw": "66%",
+       "value": 66.0,
+       "tax_hint": null,
+       "after": "8 ans 18% 17 ans 72% 9 ans 24% 18 ans 78% 10"
+      },
+      {
+       "raw": "18%",
+       "value": 18.0,
+       "tax_hint": null,
+       "after": "17 ans 72% 9 ans 24% 18 ans 78% 10 ans 30% 1"
+      },
+      {
+       "raw": "72%",
+       "value": 72.0,
+       "tax_hint": null,
+       "after": "9 ans 24% 18 ans 78% 10 ans 30% 19 ans 84% 1"
+      },
+      {
+       "raw": "24%",
+       "value": 24.0,
+       "tax_hint": null,
+       "after": "18 ans 78% 10 ans 30% 19 ans 84% 11 ans 36%"
+      },
+      {
+       "raw": "78%",
+       "value": 78.0,
+       "tax_hint": null,
+       "after": "10 ans 30% 19 ans 84% 11 ans 36% 20 ans 90%"
+      },
+      {
+       "raw": "30%",
+       "value": 30.0,
+       "tax_hint": null,
+       "after": "19 ans 84% 11 ans 36% 20 ans 90% 12 ans 42%"
+      },
+      {
+       "raw": "84%",
+       "value": 84.0,
+       "tax_hint": null,
+       "after": "11 ans 36% 20 ans 90% 12 ans 42% 21 ans 96%"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "frais de gestion",
+     "snippet": " Société de gestion les frais de distribution des revenus, les frais de création, d'impression et de distribution des documents d'information obligatoires, les frais de gestion, de comptabilité, de tenue informatique du fichier associés, de bureau et de secrétariat, d'encaissement des recettes et de répartition des bénéfices. Tous les autres frais sont supportés par la société, notamment les frais relatifs à l'acquisition des immeubles, les frais d'entretien du patrimoine et les honoraires afférents, les honoraires de syndics de copropriété et gérants d'immeubles, les primes d'assurance d'immeubles, les frais d'expertise du patrimoine, les frais de convocation et de tenue des assemblées générales et du conseil de surveillance, les frais d'expertise comptable, les frais de mission du Commis",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "commission de souscription",
+     "snippet": "mmissaire aux comptes, les cotisations à l'Autorité des marchés financiers. La Société de gestion est rémunérée de ses fonctions de la manière suivante : • Une commission de souscription prélevée par la Société de gestion en sus du prix de souscription de la part ou de la fraction de part à titre de remboursement de tous les frais exposés pour les études, recherches et démarches en vue de la constitution et de l'extension du patrimoine immobilier de la société et de la prospection des capitaux, dont le taux fixe de 12% s'applique au total de la souscription et est réparti comme suit : – 10% TTI au titre des frais de collecte, – 2% TTI au titre des frais de recherche foncière. • Une commission de gestion fixée à 13,20% TTC des produits locatifs hors taxes encaissés pour son administration e",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "s'applique au total de la souscription et es"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI au titre des frais de collecte, – 2% TTI"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI au titre des frais de recherche foncière"
+      },
+      {
+       "raw": "13,20%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC des produits locatifs hors taxes encaiss"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "commission de gestion",
+     "snippet": "ique au total de la souscription et est réparti comme suit : – 10% TTI au titre des frais de collecte, – 2% TTI au titre des frais de recherche foncière. • Une commission de gestion fixée à 13,20% TTC des produits locatifs hors taxes encaissés pour son administration et la gestion de son patrimoine et de la totalité des produits financiers nets de frais de gestion, répartie comme suit : – 8,40% TTI au titre de la gestion administrative couvrant tous les frais de bureau et de personnel nécessaires à l'administration de la société, – 4% HT, soit 4,80% TTC (au taux de TVA en vigueur) au titre de la gestion afférente à l'exploitation des immeubles. • Pour assurer la gestion de la trésorerie en attente d'investissement le pourcentage de la commission de gestion est fixé à un maximum de 14,35% T",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI au titre des frais de collecte, – 2% TTI"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI au titre des frais de recherche foncière"
+      },
+      {
+       "raw": "13,20%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC des produits locatifs hors taxes encaiss"
+      },
+      {
+       "raw": "8,40%",
+       "value": 8.4,
+       "tax_hint": null,
+       "after": "TTI au titre de la gestion administrative co"
+      },
+      {
+       "raw": "4%",
+       "value": 4.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 4,80% TTC (au taux de TVA en vigueu"
+      },
+      {
+       "raw": "4,80%",
+       "value": 4.8,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur) au titre de"
+      },
+      {
+       "raw": "14,35%",
+       "value": 14.35,
+       "tax_hint": null,
+       "after": "T"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "frais de gestion",
+     "snippet": "13,20% TTC des produits locatifs hors taxes encaissés pour son administration et la gestion de son patrimoine et de la totalité des produits financiers nets de frais de gestion, répartie comme suit : – 8,40% TTI au titre de la gestion administrative couvrant tous les frais de bureau et de personnel nécessaires à l'administration de la société, – 4% HT, soit 4,80% TTC (au taux de TVA en vigueur) au titre de la gestion afférente à l'exploitation des immeubles. • Pour assurer la gestion de la trésorerie en attente d'investissement le pourcentage de la commission de gestion est fixé à un maximum de 14,35% TTI de la totalité des produits financiers nets de frais de gestion. • Une commission d'acquisition d'actif fixée à 1,20% TTI du prix d'acquisition tout frais inclus. • Une commission de cess",
+     "percents": [
+      {
+       "raw": "13,20%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC des produits locatifs hors taxes encaiss"
+      },
+      {
+       "raw": "8,40%",
+       "value": 8.4,
+       "tax_hint": null,
+       "after": "TTI au titre de la gestion administrative co"
+      },
+      {
+       "raw": "4%",
+       "value": 4.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 4,80% TTC (au taux de TVA en vigueu"
+      },
+      {
+       "raw": "4,80%",
+       "value": 4.8,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA en vigueur) au titre de"
+      },
+      {
+       "raw": "14,35%",
+       "value": 14.35,
+       "tax_hint": null,
+       "after": "TTI de la totalité des produits financiers n"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tout frais inclus."
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "commission de gestion",
+     "snippet": "r) au titre de la gestion afférente à l'exploitation des immeubles. • Pour assurer la gestion de la trésorerie en attente d'investissement le pourcentage de la commission de gestion est fixé à un maximum de 14,35% TTI de la totalité des produits financiers nets de frais de gestion. • Une commission d'acquisition d'actif fixée à 1,20% TTI du prix d'acquisition tout frais inclus. • Une commission de cession d'actif fixée à 3% TTI du prix de vente net. • Une commission d'intermédiation, lorsque la prestation a été fournie par la Société de gestion, calculée sur le montant hors droits de la transaction réalisée conformément au barème ci-dessous : Montant de la transaction hors droits Commission HT Inférieur à 5 000 000 € 3,50% Entre 5 000 000 € et 10 000 000 € 1,75% Entre 10 000 000 € et 15 00",
+     "percents": [
+      {
+       "raw": "14,35%",
+       "value": 14.35,
+       "tax_hint": null,
+       "after": "TTI de la totalité des produits financiers n"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tout frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. • Une commission d"
+      },
+      {
+       "raw": "3,50%",
+       "value": 3.5,
+       "tax_hint": null,
+       "after": "Entre 5 000 000 € et 10 000 000 € 1,75% Entr"
+      },
+      {
+       "raw": "1,75%",
+       "value": 1.75,
+       "tax_hint": null,
+       "after": "Entre 10 000 000 € et 15 00"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "frais de gestion",
+     "snippet": "rerie en attente d'investissement le pourcentage de la commission de gestion est fixé à un maximum de 14,35% TTI de la totalité des produits financiers nets de frais de gestion. • Une commission d'acquisition d'actif fixée à 1,20% TTI du prix d'acquisition tout frais inclus. • Une commission de cession d'actif fixée à 3% TTI du prix de vente net. • Une commission d'intermédiation, lorsque la prestation a été fournie par la Société de gestion, calculée sur le montant hors droits de la transaction réalisée conformément au barème ci-dessous : Montant de la transaction hors droits Commission HT Inférieur à 5 000 000 € 3,50% Entre 5 000 000 € et 10 000 000 € 1,75% Entre 10 000 000 € et 15 000 000 € 1,50% Supérieur à 15 000 000 € 1,25% • Une commission de suivi et de pilotage de réalisation des ",
+     "percents": [
+      {
+       "raw": "14,35%",
+       "value": 14.35,
+       "tax_hint": null,
+       "after": "TTI de la totalité des produits financiers n"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tout frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. • Une commission d"
+      },
+      {
+       "raw": "3,50%",
+       "value": 3.5,
+       "tax_hint": null,
+       "after": "Entre 5 000 000 € et 10 000 000 € 1,75% Entr"
+      },
+      {
+       "raw": "1,75%",
+       "value": 1.75,
+       "tax_hint": null,
+       "after": "Entre 10 000 000 € et 15 000 000 € 1,50% Sup"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "Supérieur à 15 000 000 € 1,25% • Une commiss"
+      },
+      {
+       "raw": "1,25%",
+       "value": 1.25,
+       "tax_hint": null,
+       "after": "• Une commission de suivi et de pilotage de"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "commission d'acquisition",
+     "snippet": "tissement le pourcentage de la commission de gestion est fixé à un maximum de 14,35% TTI de la totalité des produits financiers nets de frais de gestion. • Une commission d'acquisition d'actif fixée à 1,20% TTI du prix d'acquisition tout frais inclus. • Une commission de cession d'actif fixée à 3% TTI du prix de vente net. • Une commission d'intermédiation, lorsque la prestation a été fournie par la Société de gestion, calculée sur le montant hors droits de la transaction réalisée conformément au barème ci-dessous : Montant de la transaction hors droits Commission HT Inférieur à 5 000 000 € 3,50% Entre 5 000 000 € et 10 000 000 € 1,75% Entre 10 000 000 € et 15 000 000 € 1,50% Supérieur à 15 000 000 € 1,25% • Une commission de suivi et de pilotage de réalisation des travaux sur le patrimoin",
+     "percents": [
+      {
+       "raw": "14,35%",
+       "value": 14.35,
+       "tax_hint": null,
+       "after": "TTI de la totalité des produits financiers n"
+      },
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tout frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. • Une commission d"
+      },
+      {
+       "raw": "3,50%",
+       "value": 3.5,
+       "tax_hint": null,
+       "after": "Entre 5 000 000 € et 10 000 000 € 1,75% Entr"
+      },
+      {
+       "raw": "1,75%",
+       "value": 1.75,
+       "tax_hint": null,
+       "after": "Entre 10 000 000 € et 15 000 000 € 1,50% Sup"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "Supérieur à 15 000 000 € 1,25% • Une commiss"
+      },
+      {
+       "raw": "1,25%",
+       "value": 1.25,
+       "tax_hint": null,
+       "after": "• Une commission de suivi et de pilotage de"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "commission de cession",
+     "snippet": "alité des produits financiers nets de frais de gestion. • Une commission d'acquisition d'actif fixée à 1,20% TTI du prix d'acquisition tout frais inclus. • Une commission de cession d'actif fixée à 3% TTI du prix de vente net. • Une commission d'intermédiation, lorsque la prestation a été fournie par la Société de gestion, calculée sur le montant hors droits de la transaction réalisée conformément au barème ci-dessous : Montant de la transaction hors droits Commission HT Inférieur à 5 000 000 € 3,50% Entre 5 000 000 € et 10 000 000 € 1,75% Entre 10 000 000 € et 15 000 000 € 1,50% Supérieur à 15 000 000 € 1,25% • Une commission de suivi et de pilotage de réalisation des travaux sur le patrimoine immobilier, d'un montant de 2,5% HT, calculé sur le montant global TTC des travaux réalisés. Tou",
+     "percents": [
+      {
+       "raw": "1,20%",
+       "value": 1.2,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition tout frais inclus."
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix de vente net. • Une commission d"
+      },
+      {
+       "raw": "3,50%",
+       "value": 3.5,
+       "tax_hint": null,
+       "after": "Entre 5 000 000 € et 10 000 000 € 1,75% Entr"
+      },
+      {
+       "raw": "1,75%",
+       "value": 1.75,
+       "tax_hint": null,
+       "after": "Entre 10 000 000 € et 15 000 000 € 1,50% Sup"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "Supérieur à 15 000 000 € 1,25% • Une commiss"
+      },
+      {
+       "raw": "1,25%",
+       "value": 1.25,
+       "tax_hint": null,
+       "after": "• Une commission de suivi et de pilotage de"
+      },
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT, calculé sur le montant global TTC des tr"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "commission de suivi",
+     "snippet": "mmission HT Inférieur à 5 000 000 € 3,50% Entre 5 000 000 € et 10 000 000 € 1,75% Entre 10 000 000 € et 15 000 000 € 1,50% Supérieur à 15 000 000 € 1,25% • Une commission de suivi et de pilotage de réalisation des travaux sur le patrimoine immobilier, d'un montant de 2,5% HT, calculé sur le montant global TTC des travaux réalisés. Toutes les sommes dues à la Société de gestion lui restent définitivement acquises et ne sauraient faire l'objet d'un remboursement quelconque, à quelque moment, ou pour quelque cause qui soient, sauf conventions particulières contraires. • Une commission de cession ou de mutation de parts : – Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre ",
+     "percents": [
+      {
+       "raw": "3,50%",
+       "value": 3.5,
+       "tax_hint": null,
+       "after": "Entre 5 000 000 € et 10 000 000 € 1,75% Entr"
+      },
+      {
+       "raw": "1,75%",
+       "value": 1.75,
+       "tax_hint": null,
+       "after": "Entre 10 000 000 € et 15 000 000 € 1,50% Sup"
+      },
+      {
+       "raw": "1,50%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "Supérieur à 15 000 000 € 1,25% • Une commiss"
+      },
+      {
+       "raw": "1,25%",
+       "value": 1.25,
+       "tax_hint": null,
+       "after": "• Une commission de suivi et de pilotage de"
+      },
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT, calculé sur le montant global TTC des tr"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "commission de cession",
+     "snippet": " ne sauraient faire l'objet d'un remboursement quelconque, à quelque moment, ou pour quelque cause qui soient, sauf conventions particulières contraires. • Une commission de cession ou de mutation de parts : – Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. – Si la cession est réalisée par confrontation des ordres d'achat et de vente, en application des dispositions de l'article L. 214-93 du Code monétaire et financier, la Société de gestion perçoit une commission de 4% TTI du montant revenant au cédant et mis à la charge de l'acquéreur ou de ses ayants dr",
+     "percents": [
+      {
+       "raw": "4%",
+       "value": 4.0,
+       "tax_hint": null,
+       "after": "TTI du montant revenant au cédant et mis à l"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "frais de cession",
+     "snippet": "t financier, la Société de gestion perçoit une commission de 4% TTI du montant revenant au cédant et mis à la charge de l'acquéreur ou de ses ayants droit. Ces frais de cessions de parts sont à la charge des acheteurs, donataires ou des ayants droit. La prise en charge de frais supplémentaires devra être soumise à l'agrément de l'assemblée générale des associés, pour couvrir des charges exceptionnelles qui pourraient résulter notamment de mesures législatives ou réglementaires ou de toutes autres circonstances juridiques, économiques ou sociales. La décision de l'assemblée générale devra être prise conformément aux dispositions de l'article L.214-106 du Code monétaire et financier. ARTICLE 19 Conseil de surveillance 19.1 : Missions du conseil de surveillance Le conseil de surveillance exer",
+     "percents": [
+      {
+       "raw": "4%",
+       "value": 4.0,
+       "tax_hint": null,
+       "after": "TTI du montant revenant au cédant et mis à l"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 27,
+     "label": "frais d'acquisition",
+     "snippet": "ices” et notamment les frais de constitution de la société, les frais d'augmentation de capital, les commissions de placement dues à la Société de gestion, les frais d'acquisition des immobilisations locatives et éventuellement les dépréciations d'immeubles. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d'évaluation que les années précédentes. Toutefois, la Société de gestion peut proposer à l'assemblée générale ordinaire des modifications dans la présentation des comptes dans les conditions prévues par le Code monétaire et financier. ARTICLE 29 Affectation et répartition des résultats Les produits nets de l'exercice déduction faite des frais généraux et autres charges de la société y compris toutes provisions et éventuellement les amortissements consti",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCRArticle1020240531.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCRArticle1020240531.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 736682,
+   "sha256": "c8dc9e49b7a79476f4655f44594e82a769e15952c9cfa0004a02a8be683ae4dc",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.4 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20240531181229+02'00'",
+    "modDate": "D:20240531181229+02'00'"
+   },
+   "page_count": 10,
+   "text_characters": 25008,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "cristal rente",
+   "title_excerpt": "ARTICLE 10",
+   "dates": [],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_DSNPT20241011.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_DSNPT20241011.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 432040,
+   "sha256": "86537fc38f06f1b329e130009b35b1b2df6af182fb4f0cfbcc46b75e03c4dca9",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.0 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20231031153411+01'00'",
+    "modDate": "D:20241015112505+02'00'"
+   },
+   "page_count": 17,
+   "text_characters": 70176,
+   "kind": "statuts",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "1 NUE-PROPRIÉTÉ TEMPORAIRE DOSSIER DE SOUSCRIPTION : MODE D'EMPLOI I.IDENTIFICATION DE L'INVESTISSEUR : - Je renseigne les informations demandées (ainsi que celles du conjoint dans le cadre d'une souscription commune dans l'encart co-souscripteur ou celles concernant la personne morale le cas échéant). II. BULLETIN DE SOUSCRIPTION : 1/ J'indique le nombre de parts souscrites et le montant global d",
+   "dates": [],
+   "fee_clauses": [
+    {
+     "page": 16,
+     "label": "Frais de souscription",
+     "snippet": "4 ANS 63,00% 161,08 € 15 ANS 61,50% 157,24 € 16 ANS 61,00% 155,96 € 17 ANS 60,00% 153,41 € 18 ANS 59,00% 150,85 € 19 ANS 58,00% 148,29 € 20 ANS 57,50% 147,02 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription. * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la Société de gestion (dossier de souscription complet et réception de l'intégralité des",
+     "percents": [
+      {
+       "raw": "63,00%",
+       "value": 63.0,
+       "tax_hint": null,
+       "after": "161,08 € 15 ANS 61,50% 157,24 € 16 ANS 61,00"
+      },
+      {
+       "raw": "61,50%",
+       "value": 61.5,
+       "tax_hint": null,
+       "after": "157,24 € 16 ANS 61,00% 155,96 € 17 ANS 60,00"
+      },
+      {
+       "raw": "61,00%",
+       "value": 61.0,
+       "tax_hint": null,
+       "after": "155,96 € 17 ANS 60,00% 153,41 € 18 ANS 59,00"
+      },
+      {
+       "raw": "60,00%",
+       "value": 60.0,
+       "tax_hint": null,
+       "after": "153,41 € 18 ANS 59,00% 150,85 € 19 ANS 58,00"
+      },
+      {
+       "raw": "59,00%",
+       "value": 59.0,
+       "tax_hint": null,
+       "after": "150,85 € 19 ANS 58,00% 148,29 € 20 ANS 57,50"
+      },
+      {
+       "raw": "58,00%",
+       "value": 58.0,
+       "tax_hint": null,
+       "after": "148,29 € 20 ANS 57,50% 147,02 € Frais de sou"
+      },
+      {
+       "raw": "57,50%",
+       "value": 57.5,
+       "tax_hint": null,
+       "after": "147,02 € Frais de souscription : La Société"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. * Commission d"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "commission de souscription",
+     "snippet": "7 ANS 60,00% 153,41 € 18 ANS 59,00% 150,85 € 19 ANS 58,00% 148,29 € 20 ANS 57,50% 147,02 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription. * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la Société de gestion (dossier de souscription complet et réception de l'intégralité des fonds), le nombre de parts souscrites correspondra au montant de la ",
+     "percents": [
+      {
+       "raw": "60,00%",
+       "value": 60.0,
+       "tax_hint": null,
+       "after": "153,41 € 18 ANS 59,00% 150,85 € 19 ANS 58,00"
+      },
+      {
+       "raw": "59,00%",
+       "value": 59.0,
+       "tax_hint": null,
+       "after": "150,85 € 19 ANS 58,00% 148,29 € 20 ANS 57,50"
+      },
+      {
+       "raw": "58,00%",
+       "value": 58.0,
+       "tax_hint": null,
+       "after": "148,29 € 20 ANS 57,50% 147,02 € Frais de sou"
+      },
+      {
+       "raw": "57,50%",
+       "value": 57.5,
+       "tax_hint": null,
+       "after": "147,02 € Frais de souscription : La Société"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. * Commission d"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "Commission de souscription",
+     "snippet": "€ 20 ANS 57,50% 147,02 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription. * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la Société de gestion (dossier de souscription complet et réception de l'intégralité des fonds), le nombre de parts souscrites correspondra au montant de la souscription divisée par le prix de souscription en vigueur lors d",
+     "percents": [
+      {
+       "raw": "57,50%",
+       "value": 57.5,
+       "tax_hint": null,
+       "after": "147,02 € Frais de souscription : La Société"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. * Commission d"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "commission de souscription",
+     "snippet": "etrait de la SCPI est de 225 € par part en pleine propriété. Ce prix correspond au montant de souscription en pleine propriété actuel de 255,68 € diminué de la commission de souscription de 30,68 €. L'associé détenteurs de parts en pleine propriété qui souhaite se retirer, adresse sa demande à la Société de gestion. Les modalités des conditions de souscription et de retrait sont précisées dans les statuts de la SCPI disponibles sur le site www.inter-gestion.com ou sur simple demande après de la Société de gestion. La Société de gestion ne garantit pas la revente des parts. Gestion de la trésorerie : Les revenus de capitaux mobiliers (intérêts, revenus distribués et revenus assimilés) perçus ou inscrits en compte à compter du 1er janvier 2018, sont soumis à un prélèvement forfaitaire unique",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_DSDTL20241211_Dynamique.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_DSDTL20241211_Dynamique.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 501755,
+   "sha256": "c910c37e70caf94c65f4d8859dff17377587fd811e880b8b4c35d11383fdd07f",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.0 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20231031153421+01'00'",
+    "modDate": "D:20241211105621+01'00'"
+   },
+   "page_count": 19,
+   "text_characters": 89193,
+   "kind": "statuts",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "1 DÉMEMBREMENT TEMPORAIRE LIBRE DOSSIER DE SOUSCRIPTION : MODE D'EMPLOI I.IDENTIFICATION DE L'INVESTISSEUR : - Je renseigne les informations demandées (ainsi que celles du conjoint dans le cadre d'une souscription commune dans l'encart co-souscripteur ou celles concernant la personne morale le cas échéant). II. BULLETIN DE SOUSCRIPTION : 1/ J'indique le nombre de parts souscrites et le montant glo",
+   "dates": [],
+   "fee_clauses": [
+    {
+     "page": 18,
+     "label": "Frais de souscription",
+     "snippet": "4 ANS 63,00% 161,08 € 15 ANS 61,50% 157,24 € 16 ANS 61,00% 155,96 € 17 ANS 60,00% 153,41 € 18 ANS 59,00% 150,85 € 19 ANS 58,00% 148,29 € 20 ANS 57,50% 147,02 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription. * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la Société de gestion (dossier de souscription complet et réception de l'intégralité des",
+     "percents": [
+      {
+       "raw": "63,00%",
+       "value": 63.0,
+       "tax_hint": null,
+       "after": "161,08 € 15 ANS 61,50% 157,24 € 16 ANS 61,00"
+      },
+      {
+       "raw": "61,50%",
+       "value": 61.5,
+       "tax_hint": null,
+       "after": "157,24 € 16 ANS 61,00% 155,96 € 17 ANS 60,00"
+      },
+      {
+       "raw": "61,00%",
+       "value": 61.0,
+       "tax_hint": null,
+       "after": "155,96 € 17 ANS 60,00% 153,41 € 18 ANS 59,00"
+      },
+      {
+       "raw": "60,00%",
+       "value": 60.0,
+       "tax_hint": null,
+       "after": "153,41 € 18 ANS 59,00% 150,85 € 19 ANS 58,00"
+      },
+      {
+       "raw": "59,00%",
+       "value": 59.0,
+       "tax_hint": null,
+       "after": "150,85 € 19 ANS 58,00% 148,29 € 20 ANS 57,50"
+      },
+      {
+       "raw": "58,00%",
+       "value": 58.0,
+       "tax_hint": null,
+       "after": "148,29 € 20 ANS 57,50% 147,02 € Frais de sou"
+      },
+      {
+       "raw": "57,50%",
+       "value": 57.5,
+       "tax_hint": null,
+       "after": "147,02 € Frais de souscription : La Société"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. * Commission d"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de souscription",
+     "snippet": "7 ANS 60,00% 153,41 € 18 ANS 59,00% 150,85 € 19 ANS 58,00% 148,29 € 20 ANS 57,50% 147,02 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription. * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la Société de gestion (dossier de souscription complet et réception de l'intégralité des fonds), le nombre de parts souscrites correspondra au montant de la ",
+     "percents": [
+      {
+       "raw": "60,00%",
+       "value": 60.0,
+       "tax_hint": null,
+       "after": "153,41 € 18 ANS 59,00% 150,85 € 19 ANS 58,00"
+      },
+      {
+       "raw": "59,00%",
+       "value": 59.0,
+       "tax_hint": null,
+       "after": "150,85 € 19 ANS 58,00% 148,29 € 20 ANS 57,50"
+      },
+      {
+       "raw": "58,00%",
+       "value": 58.0,
+       "tax_hint": null,
+       "after": "148,29 € 20 ANS 57,50% 147,02 € Frais de sou"
+      },
+      {
+       "raw": "57,50%",
+       "value": 57.5,
+       "tax_hint": null,
+       "after": "147,02 € Frais de souscription : La Société"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. * Commission d"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "Commission de souscription",
+     "snippet": "€ 20 ANS 57,50% 147,02 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription. * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la Société de gestion (dossier de souscription complet et réception de l'intégralité des fonds), le nombre de parts souscrites correspondra au montant de la souscription divisée par le prix de souscription en vigueur lors d",
+     "percents": [
+      {
+       "raw": "57,50%",
+       "value": 57.5,
+       "tax_hint": null,
+       "after": "147,02 € Frais de souscription : La Société"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. * Commission d"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de souscription",
+     "snippet": "etrait de la SCPI est de 225 € par part en pleine propriété. Ce prix correspond au montant de souscription en pleine propriété actuel de 255,68 € diminué de la commission de souscription de 30,68 €. L'associé détenteurs de parts en pleine propriété qui souhaite se retirer, adresse sa demande à la Société de gestion. Les modalités des conditions de souscription et de retrait sont précisées dans les statuts de la SCPI disponibles sur le site www.inter-gestion.com ou sur simple demande après de la Société de gestion. La Société de gestion ne garantit pas la revente des parts. Gestion de la trésorerie : Les revenus de capitaux mobiliers (intérêts, revenus distribués et revenus assimilés) perçus ou inscrits en compte à compter du 1er janvier 2018, sont soumis à un prélèvement forfaitaire unique",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_DSDV20241011.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_DSDV20241011.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 479685,
+   "sha256": "16fa818a52f1f90156a23d3b59f8d95f875a5e805a2b7cae25f5ae3e6e9b97f5",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.0 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20231031153416+01'00'",
+    "modDate": "D:20241015111829+02'00'"
+   },
+   "page_count": 19,
+   "text_characters": 88616,
+   "kind": "statuts",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "1 DÉMEMBREMENT VIAGER DOSSIER DE SOUSCRIPTION : MODE D'EMPLOI I.IDENTIFICATION DE L'INVESTISSEUR : - Je renseigne les informations demandées (ainsi que celles du conjoint dans le cadre d'une souscription commune dans l'encart co-souscripteur ou celles concernant la personne morale le cas échéant). II. BULLETIN DE SOUSCRIPTION : 1/ J'indique le nombre de parts souscrites et le montant global de l'i",
+   "dates": [],
+   "fee_clauses": [
+    {
+     "page": 18,
+     "label": "Frais de souscription",
+     "snippet": " € INFÉRIEUR À 61 ANS 50% 127,84 € INFÉRIEUR À 71 ANS 40% 102,27 € INFÉRIEUR À 81 ANS 30% 76,70 € INFÉRIEUR À 91 ANS 20% 51,14 € SUPÉRIEUR À 91 ANS 10% 25,57 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription. * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la Société de gestion (dossier de souscription complet et réception de l'intégralité des",
+     "percents": [
+      {
+       "raw": "50%",
+       "value": 50.0,
+       "tax_hint": null,
+       "after": "127,84 € INFÉRIEUR À 71 ANS 40% 102,27 € INF"
+      },
+      {
+       "raw": "40%",
+       "value": 40.0,
+       "tax_hint": null,
+       "after": "102,27 € INFÉRIEUR À 81 ANS 30% 76,70 € INFÉ"
+      },
+      {
+       "raw": "30%",
+       "value": 30.0,
+       "tax_hint": null,
+       "after": "76,70 € INFÉRIEUR À 91 ANS 20% 51,14 € SUPÉR"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": "51,14 € SUPÉRIEUR À 91 ANS 10% 25,57 € Frais"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "25,57 € Frais de souscription : La Société d"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. * Commission d"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de souscription",
+     "snippet": "FÉRIEUR À 81 ANS 30% 76,70 € INFÉRIEUR À 91 ANS 20% 51,14 € SUPÉRIEUR À 91 ANS 10% 25,57 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription. * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la Société de gestion (dossier de souscription complet et réception de l'intégralité des fonds), le nombre de parts souscrites correspondra au montant de la ",
+     "percents": [
+      {
+       "raw": "30%",
+       "value": 30.0,
+       "tax_hint": null,
+       "after": "76,70 € INFÉRIEUR À 91 ANS 20% 51,14 € SUPÉR"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": "51,14 € SUPÉRIEUR À 91 ANS 10% 25,57 € Frais"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "25,57 € Frais de souscription : La Société d"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. * Commission d"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "Commission de souscription",
+     "snippet": "EUR À 91 ANS 10% 25,57 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription. * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI. En cas de modification du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de souscription et l'enregistrement de la souscription par la Société de gestion (dossier de souscription complet et réception de l'intégralité des fonds), le nombre de parts souscrites correspondra au montant de la souscription divisée par le prix de souscription en vigueur lors d",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "25,57 € Frais de souscription : La Société d"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription. * Commission d"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de souscription",
+     "snippet": "etrait de la SCPI est de 225 € par part en pleine propriété. Ce prix correspond au montant de souscription en pleine propriété actuel de 255,68 € diminué de la commission de souscription de 30,68 €. L'associé détenteurs de parts en pleine propriété qui souhaite se retirer, adresse sa demande à la Société de gestion. Les modalités des conditions de souscription et de retrait sont précisées dans les statuts de la SCPI disponibles sur le site www.inter-gestion.com ou sur simple demande après de la Société de gestion. La Société de gestion ne garantit pas la revente des parts. Gestion de la trésorerie : Les revenus de capitaux mobiliers (intérêts, revenus distribués et revenus assimilés) perçus ou inscrits en compte à compter du 1er janvier 2018, sont soumis à un prélèvement forfaitaire unique",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGClesDeRepartitionCR20240625.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGClesDeRepartitionCR20240625.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 75974,
+   "sha256": "58493625b8da7876da6fb662a3150f75e7313356106766bacfd1f2efd6c0bc6d",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.4 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20240625171603+02'00'",
+    "modDate": "D:20240701094558+02'00'"
+   },
+   "page_count": 1,
+   "text_characters": 1581,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "Clés de répartition Démembrement temporaire NUE-PROPRIÉTÉ USUFRUIT Durée Clés de répartition Prix de souscription Clés de répartition Prix de souscription 1 an 96,00% 245,45 € 4,00% 10,23 € 2 ans 92,00% 235,23 € 8,00% 20,45 € 3 ans 87,50% 223,72 € 12,50% 31,96 € 4 ans 85,00% 217,33 € 15,00% 38,35 € 5 ans 80,00% 204,54 € 20,00% 51,14 € 6 ans 78,00% 199,43 € 22,00% 56,25 € 7 ans 75,00% 191,76 € 25,0",
+   "dates": [
+    "29 Février 2012"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_FCDRP20250324.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_FCDRP20250324.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 43068,
+   "sha256": "722fdd770631464f997ce5a1c4a0117a1936f54de9b652314099bcb573d86137",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.2 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20250324104523+01'00'",
+    "modDate": "D:20250324104523+01'00'"
+   },
+   "page_count": 2,
+   "text_characters": 12205,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "cristal rente",
+   "title_excerpt": "DEMANDE DE RETRAIT Nombre de parts Prix de retrait de la part Montant total revenant au (*rayer la mention inutile) 225 € Propriétaire / Indivisaire* € Nu propriétaire / Indivisaire* € Usufruitier / Indivisaire* € Fait à :. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . le : KiLiKiLiKiLiLiLiKL Signatures Souscripteur Co-souscripteur Cadre réservé à Inte",
+   "dates": [
+    "13/09/2024",
+    "27 avril 2016"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_FCMMEP20241031.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_FCMMEP20241031.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 81867,
+   "sha256": "1392acee54791ac0933882f68fece21d3192f639a22e7ba684a6cf1b4c0cb40d",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.0 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20241031101151+01'00'",
+    "modDate": "D:20241031101152+01'00'"
+   },
+   "page_count": 4,
+   "text_characters": 28046,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "cristal rente",
+   "title_excerpt": "MISE EN PLACE OU MODIFICATION DE MON ÉPARGNE PROGRAMMÉE MISE EN PLACE D'UNE ÉPARGNE PROGRAMMÉE (COCHER LA CASE) JE SOUHAITE INVESTIR LA SOMME DE : . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . € Minimum de 25 € par mois / 75 € par trim. / 150 € par sem. ou 300 € par an. AVEC LA FRÉQUENCE SUIVANTE : ❒ Mensuelle (p",
+   "dates": [
+    "1er janvier 2018",
+    "29 février 2012"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Frais de souscription",
+     "snippet": "ciliée 38 avenue de l'Opéra, 75002 PARIS, RCS Paris 345 004 436 (agrément de l'AMF n° GP 12000008 délivré le 29 février 2012) . Prix de souscription : 255,68 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription . VALEUR DE RETRAIT FRAIS DE SOUSCRIPTION PRIX DE SOUSCRIPTION 225 € 30,68 € 255,68 € * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI . En cas de modi ication du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la réception par la Société de gestion de l'intégralité des fonds d'un versement dans ",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription . VALEUR DE RET"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "commission de souscription",
+     "snippet": "ment de l'AMF n° GP 12000008 délivré le 29 février 2012) . Prix de souscription : 255,68 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription . VALEUR DE RETRAIT FRAIS DE SOUSCRIPTION PRIX DE SOUSCRIPTION 225 € 30,68 € 255,68 € * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI . En cas de modi ication du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la réception par la Société de gestion de l'intégralité des fonds d'un versement dans le cadre de l'épargne programmée, le nombre de parts souscrites corre",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription . VALEUR DE RET"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "FRAIS DE SOUSCRIPTION",
+     "snippet": "55,68 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription . VALEUR DE RETRAIT FRAIS DE SOUSCRIPTION PRIX DE SOUSCRIPTION 225 € 30,68 € 255,68 € * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI . En cas de modi ication du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la réception par la Société de gestion de l'intégralité des fonds d'un versement dans le cadre de l'épargne programmée, le nombre de parts souscrites correspondra au montant de la souscription divisée par le prix de souscription en vigueu",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription . VALEUR DE RET"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "Commission de souscription",
+     "snippet": "SCPI une commission de souscription de 12% TTI* du prix de souscription . VALEUR DE RETRAIT FRAIS DE SOUSCRIPTION PRIX DE SOUSCRIPTION 225 € 30,68 € 255,68 € * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI . En cas de modi ication du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la réception par la Société de gestion de l'intégralité des fonds d'un versement dans le cadre de l'épargne programmée, le nombre de parts souscrites correspondra au montant de la souscription divisée par le prix de souscription en vigueur lors de l'enregistrement . Minimum de souscription : 1 part . Moda",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription . VALEUR DE RET"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "commission de souscription",
+     "snippet": "trait de la SCPI est de 225 € par part en pleine propriété . Ce prix correspond au montant de souscription en pleine propriété actuel de 255,68 € diminué de la commission de souscription de 30,68 € . L'associé détenteurs de parts en pleine propriété qui souhaite se retirer, adresse sa demande à la Société de gestion . Les modalités des conditions de souscription et de retrait sont précisées dans les statuts de la SCPI disponibles sur le site www .inter-gestion .com ou sur simple demande après de la Société de gestion . La Société de gestion ne garantit pas la revente des parts . Gestion de la trésorerie : Les revenus de capitaux mobiliers (intérêts, revenus distribués et revenus assimilés) perçus ou inscrits en compte à compter du 1er janvier 2018, sont soumis à un prélèvement forfaitaire ",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_FCRVE20251008.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCR_FCRVE20251008.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 81772,
+   "sha256": "32f8547f2cb75f1460577b6fc4543621f681f10a8e6b14419636e27fb7ede2fb",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.5 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20251008113802+02'00'",
+    "modDate": "D:20251008113802+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 27051,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "cristal rente",
+   "title_excerpt": "PERCEPTION DES DIVIDENDES ET/OU RÉINVESTISSEMENT RÉINVESTISSEMENT DES DIVIDENDES* JE SOUHAITE : ❒ Réinvestir mes dividendes ❒ Percevoir mes dividendes VERSEMENT EXCEPTIONNEL* JE SOUHAITE EFFECTUER UN VERSEMENT EXCEPTIONNEL D'UN MONTANT DE : . . . . . . . . . . . . . . . . . . . . . . . . . . . . . € (Minimum de 50 €) PRÉLÈVEMENT SEPA OBLIGATOIRE ATTESTATION D'ORIGINE DES FONDS i \u0007L'attestation d'o",
+   "dates": [
+    "1er janvier 2018",
+    "29 février 2012"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Frais de souscription",
+     "snippet": "ciliée 38 avenue de l'Opéra, 75002 PARIS, RCS Paris 345 004 436 (agrément de l'AMF n° GP 12000008 délivré le 29 février 2012) . Prix de souscription : 255,68 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription . VALEUR DE RETRAIT FRAIS DE SOUSCRIPTION PRIX DE SOUSCRIPTION 225 € 30,68 € 255,68 € * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI . En cas de modi ication du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de versement exceptionnel et son enregistrement par la Sociét",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription . VALEUR DE RET"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "commission de souscription",
+     "snippet": "ment de l'AMF n° GP 12000008 délivré le 29 février 2012) . Prix de souscription : 255,68 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription . VALEUR DE RETRAIT FRAIS DE SOUSCRIPTION PRIX DE SOUSCRIPTION 225 € 30,68 € 255,68 € * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI . En cas de modi ication du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de versement exceptionnel et son enregistrement par la Société de gestion (réception du bulletin de versement exceptionnel complet",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription . VALEUR DE RET"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "FRAIS DE SOUSCRIPTION",
+     "snippet": "55,68 € Frais de souscription : La Société de gestion perçoit de la SCPI une commission de souscription de 12% TTI* du prix de souscription . VALEUR DE RETRAIT FRAIS DE SOUSCRIPTION PRIX DE SOUSCRIPTION 225 € 30,68 € 255,68 € * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI . En cas de modi ication du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de versement exceptionnel et son enregistrement par la Société de gestion (réception du bulletin de versement exceptionnel complet et réception de l'intégralité des fonds), le nombre de parts souscrites correspond",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription . VALEUR DE RET"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "Commission de souscription",
+     "snippet": "SCPI une commission de souscription de 12% TTI* du prix de souscription . VALEUR DE RETRAIT FRAIS DE SOUSCRIPTION PRIX DE SOUSCRIPTION 225 € 30,68 € 255,68 € * Commission de souscription de 12,00% TTI dont 10,00% TTI de frais de collecte et 2,00% TTI de commission de recherche foncière - Commissions exonérées de TVA conformément à l'article 261 C-1°-e du CGI . En cas de modi ication du prix de la part : Dans l'hypothèse où le prix de souscription de la part serait modifié entre le jour de la signature du bulletin de versement exceptionnel et son enregistrement par la Société de gestion (réception du bulletin de versement exceptionnel complet et réception de l'intégralité des fonds), le nombre de parts souscrites correspondra au montant de la souscription divisée par le prix de souscription",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI* du prix de souscription . VALEUR DE RET"
+      },
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI dont 10,00% TTI de frais de collecte et"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI de frais de collecte et 2,00% TTI de com"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI de commission de recherche foncière - Co"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "commission de souscription",
+     "snippet": "trait de la SCPI est de 225 € par part en pleine propriété . Ce prix correspond au montant de souscription en pleine propriété actuel de 255,68 € diminué de la commission de souscription de 30,68 € . L'associé détenteurs de parts en pleine propriété qui souhaite se retirer, adresse sa demande à la Société de gestion . Les modalités des conditions de souscription et de retrait sont précisées dans les statuts de la SCPI disponibles sur le site www .inter-gestion .com ou sur simple demande après de la Société de gestion . La Société de gestion ne garantit pas la revente des parts . Gestion de la trésorerie : Les revenus de capitaux mobiliers (intérêts, revenus distribués et revenus assimilés) perçus ou inscrits en compte à compter du 1er janvier 2018, sont soumis à un prélèvement forfaitaire ",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/pg_remuneration.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/pg_remuneration.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 57169,
+   "sha256": "6453405b7f9728036d6e8b652b082dae1f1e63075286a3926e8766818865d13e",
+   "metadata": {
+    "format": "PDF 1.4",
+    "title": "Microsoft Word - Politique de gestion de rémunération (site internet).docx",
+    "creator": "Word",
+    "producer": "macOS Version 10.14.6 (assemblage 18G9323) Quartz PDFContext",
+    "creationDate": "D:20220722140618Z00'00'",
+    "modDate": "D:20220722140618Z00'00'"
+   },
+   "page_count": 1,
+   "text_characters": 1569,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "Politique de rémunération Conformément aux dispositions de l'article 319-10 du règlement général de l'Autorité des Marchés Financiers, Inter Gestion REIM dispose d'une politique de rémunération des dirigeants et des collaborateurs conforme aux exigences de la directive AIFM, aux recommandations de l'ESMA, et au principe de proportionnalité. Inter Gestion REIM a conscience que la gestion des risque",
+   "dates": [],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/compliance_127714_2_2_Proce_dure_CI.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/compliance_127714_2_2_Proce_dure_CI.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 127278,
+   "sha256": "93b3679e374a190e39a68c1c271936bf27b6c70631d179bc1e8c9e0cc00be690",
+   "metadata": {
+    "format": "PDF 1.4",
+    "title": "2.2_Procédure_CI",
+    "author": "Lucie BRUNEAU",
+    "creator": "PowerPoint",
+    "producer": "macOS Version 15.5 (assemblage 24F74) Quartz PDFContext",
+    "creationDate": "D:20250703114614Z",
+    "modDate": "D:20261104104917+01'00'"
+   },
+   "page_count": 8,
+   "text_characters": 15127,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "Position Recommandation AMF DOC-2011-24 Référence : 2.2 Type de document : Procédure Date de création : 07/2025 N° de version : V1 Date de la dernière mise à jour : 07/2025 Historique des modifications Périmètre La procédure s'applique à tous les collaborateurs d'Inter Gestion REIM, les SCPI gérées, les associés, les partenaires, les prestataires intervenant sur des processus LCB/FT. Procédure de ",
+   "dates": [
+    "19 décembre 2012"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/compliance_163042_6_POLITIQUE_DE_TRAITEMENT_DES_RECLAMATIONS.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/compliance_163042_6_POLITIQUE_DE_TRAITEMENT_DES_RECLAMATIONS.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 160886,
+   "sha256": "a39ffda942398d54df064693d714eb2f81e46c4949ce7fc754c3db6339c4b048",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creationDate": "D:20241121100313Z",
+    "modDate": "D:20261104104900+01'00'"
+   },
+   "page_count": 2,
+   "text_characters": 3416,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "Position Recommandation AMF DOC-2011-24 Date de la dernière mise à jour : Novembre 2024 Politique de traitement des réclamations Références règlementaires Politique I. Définition d'une réclamation On entend par réclamation, une déclaration actant du mécontentement du client envers le professionnel quel que soit l'interlocuteur auprès duquel elle est formulée. Elle peut émaner de toute personne aya",
+   "dates": [
+    "Novembre 2024"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_CRBulletin_Trimestriel2026_T3.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_CRBulletin_Trimestriel2026_T3.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1228479,
+   "sha256": "488f01a3ca7af93ac2e7e099f48d2ea830b1f503d20132946729b83a369d0a69",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 22.0 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261106152204+01'00'",
+    "modDate": "D:20261106152206+01'00'"
+   },
+   "page_count": 6,
+   "text_characters": 17640,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "cristal rente",
+   "title_excerpt": "N°58 Éditorial Entre juin et septembre 2026, le marché immobilier et financier européen a évolué sous contrainte. Le baril de Brent a fluctué entre 80 et 106 dollars, tandis que l'euro, après avoir atteint un pic à 1,16 dollar, est retombé à 1,13 dollar en septembre, d'après Covéa Finance. Cette double pression a contraint la Banque Centrale Européenne et la Fed à relever leurs taux directeurs, re",
+   "dates": [
+    "01/07/2026",
+    "01/10/2026",
+    "10 septembre 2026",
+    "16 septembre 2026",
+    "25 août 2026",
+    "25 janvier 2027",
+    "25 novembre 2026",
+    "25 septembre 2026",
+    "26 octobre 2026",
+    "28 décembre 2026",
+    "30/06/2026",
+    "31/12/2026"
+   ],
+   "fee_clauses": []
+  }
+ ],
+ "candidate_count": 30,
+ "summary": {
+  "dic_identity_ok": 3,
+  "note_identity_ok": 1,
+  "fee_clauses": 51,
+  "errors": 0
+ }
+}

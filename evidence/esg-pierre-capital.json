@@ -1,0 +1,20 @@
+{
+ "slug": "esg-pierre-capital",
+ "name": "ESG Pierre Capitale",
+ "manager": "Swiss Life AM France",
+ "crawl": [
+  {
+   "url": "https://fr.swisslife-am.com/fr/particuliers/documentation/scpi-pierre-capitale.html",
+   "depth": 0,
+   "error": "HTTPError: HTTP Error 403: Forbidden"
+  }
+ ],
+ "documents": [],
+ "candidate_count": 0,
+ "summary": {
+  "dic_identity_ok": 0,
+  "note_identity_ok": 0,
+  "fee_clauses": 0,
+  "errors": 1
+ }
+}

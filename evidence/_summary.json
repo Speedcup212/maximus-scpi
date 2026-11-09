@@ -1,0 +1,561 @@
+{
+ "generated_at": "2026-11-09T17:37:41Z",
+ "funds": 69,
+ "with_dic": 52,
+ "with_note": 46,
+ "rates_validated": 0,
+ "rows": [
+  {
+   "slug": "acces-valeur-pierre",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 3,
+   "fee_clauses": 100,
+   "errors": 2,
+   "documents": 6
+  },
+  {
+   "slug": "accimmo-pierre",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 65,
+   "errors": 2,
+   "documents": 6
+  },
+  {
+   "slug": "activimmo",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 5,
+   "fee_clauses": 40,
+   "errors": 1,
+   "documents": 16
+  },
+  {
+   "slug": "aestiam-agora",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 0,
+   "fee_clauses": 18,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "aestiam-horizon",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 0,
+   "fee_clauses": 18,
+   "errors": 1,
+   "documents": 16
+  },
+  {
+   "slug": "alta-convictions",
+   "dic_identity_ok": 2,
+   "note_identity_ok": 5,
+   "fee_clauses": 123,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "altixia-cadence-12",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 1,
+   "fee_clauses": 0,
+   "errors": 0,
+   "documents": 2
+  },
+  {
+   "slug": "altixia-commerces",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 1,
+   "fee_clauses": 1,
+   "errors": 0,
+   "documents": 7
+  },
+  {
+   "slug": "atream-hotel",
+   "dic_identity_ok": 2,
+   "note_identity_ok": 1,
+   "fee_clauses": 49,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "buroboutic-metropoles",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 2,
+   "fee_clauses": 56,
+   "errors": 0,
+   "documents": 4
+  },
+  {
+   "slug": "coeur-d-europe",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 23,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "coeur-de-region",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 47,
+   "errors": 1,
+   "documents": 16
+  },
+  {
+   "slug": "coeur-de-ville",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 24,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "comete",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 4,
+   "fee_clauses": 46,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "corum-eurion",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 31,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "corum-origin",
+   "dic_identity_ok": 2,
+   "note_identity_ok": 1,
+   "fee_clauses": 35,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "corum-usa",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 31,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "corum-xl",
+   "dic_identity_ok": 2,
+   "note_identity_ok": 1,
+   "fee_clauses": 35,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "credit-mutuel-pierre-1",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 0,
+   "fee_clauses": 47,
+   "errors": 0,
+   "documents": 5
+  },
+  {
+   "slug": "cristal-life",
+   "dic_identity_ok": 2,
+   "note_identity_ok": 3,
+   "fee_clauses": 44,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "cristal-rente",
+   "dic_identity_ok": 3,
+   "note_identity_ok": 1,
+   "fee_clauses": 51,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "edissimo",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 0,
+   "errors": 0,
+   "documents": 0
+  },
+  {
+   "slug": "edr-europa",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 3,
+   "fee_clauses": 72,
+   "errors": 1,
+   "documents": 11
+  },
+  {
+   "slug": "efimmo-1",
+   "dic_identity_ok": 2,
+   "note_identity_ok": 1,
+   "fee_clauses": 33,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "epargne-fonciere",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 0,
+   "fee_clauses": 50,
+   "errors": 0,
+   "documents": 5
+  },
+  {
+   "slug": "epargne-pierre",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 5,
+   "errors": 0,
+   "documents": 10
+  },
+  {
+   "slug": "epargne-pierre-europe",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 1,
+   "fee_clauses": 1,
+   "errors": 0,
+   "documents": 10
+  },
+  {
+   "slug": "epsicap-nano",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 2,
+   "fee_clauses": 51,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "esg-pierre-capital",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 0,
+   "errors": 1,
+   "documents": 0
+  },
+  {
+   "slug": "ficommerce-proximite",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 2,
+   "fee_clauses": 60,
+   "errors": 0,
+   "documents": 4
+  },
+  {
+   "slug": "fonciere-des-praticiens",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 44,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "grand-paris-residentiel",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 5,
+   "fee_clauses": 54,
+   "errors": 0,
+   "documents": 11
+  },
+  {
+   "slug": "immorente",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 34,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "iroko-atlas",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 0,
+   "errors": 1,
+   "documents": 0
+  },
+  {
+   "slug": "iroko-zen",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 0,
+   "errors": 1,
+   "documents": 0
+  },
+  {
+   "slug": "kyaneos-pierre",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 4,
+   "fee_clauses": 65,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "lf-avenir-sante",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 0,
+   "fee_clauses": 48,
+   "errors": 0,
+   "documents": 5
+  },
+  {
+   "slug": "lf-europimmo",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 0,
+   "fee_clauses": 49,
+   "errors": 0,
+   "documents": 5
+  },
+  {
+   "slug": "lf-grand-paris-patrimoine",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 0,
+   "fee_clauses": 52,
+   "errors": 0,
+   "documents": 6
+  },
+  {
+   "slug": "log-in",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 0,
+   "errors": 0,
+   "documents": 0
+  },
+  {
+   "slug": "ncap-continent",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 2,
+   "fee_clauses": 67,
+   "errors": 3,
+   "documents": 5
+  },
+  {
+   "slug": "ncap-education-sante",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 41,
+   "errors": 3,
+   "documents": 5
+  },
+  {
+   "slug": "ncap-regions",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 24,
+   "errors": 3,
+   "documents": 5
+  },
+  {
+   "slug": "novapierre-1",
+   "dic_identity_ok": 2,
+   "note_identity_ok": 2,
+   "fee_clauses": 57,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "novapierre-residentiel",
+   "dic_identity_ok": 3,
+   "note_identity_ok": 3,
+   "fee_clauses": 63,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "novaxia-neo",
+   "dic_identity_ok": 2,
+   "note_identity_ok": 5,
+   "fee_clauses": 200,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "opportunite-immo",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 44,
+   "errors": 0,
+   "documents": 5
+  },
+  {
+   "slug": "optimale",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 2,
+   "fee_clauses": 53,
+   "errors": 1,
+   "documents": 16
+  },
+  {
+   "slug": "paref-evo",
+   "dic_identity_ok": 2,
+   "note_identity_ok": 1,
+   "fee_clauses": 59,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "paref-hexa",
+   "dic_identity_ok": 2,
+   "note_identity_ok": 2,
+   "fee_clauses": 60,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "patrimmo-commerce",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 5,
+   "fee_clauses": 81,
+   "errors": 0,
+   "documents": 8
+  },
+  {
+   "slug": "patrimmo-croissance-impact",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 0,
+   "errors": 1,
+   "documents": 0
+  },
+  {
+   "slug": "perial-grand-paris",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 0,
+   "errors": 5,
+   "documents": 5
+  },
+  {
+   "slug": "perial-hospitalite-europe",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 0,
+   "errors": 5,
+   "documents": 5
+  },
+  {
+   "slug": "perial-o2",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 0,
+   "errors": 5,
+   "documents": 5
+  },
+  {
+   "slug": "perial-opportunites-europe",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 0,
+   "errors": 5,
+   "documents": 5
+  },
+  {
+   "slug": "pierval-sante",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 4,
+   "fee_clauses": 115,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "praemia-hotels-europe",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 0,
+   "fee_clauses": 17,
+   "errors": 0,
+   "documents": 7
+  },
+  {
+   "slug": "primovie",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 2,
+   "fee_clauses": 64,
+   "errors": 0,
+   "documents": 8
+  },
+  {
+   "slug": "remake-live",
+   "dic_identity_ok": 2,
+   "note_identity_ok": 2,
+   "fee_clauses": 61,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "remake-uk-2025",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 39,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "rivoli-avenir-patrimoine",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 0,
+   "errors": 0,
+   "documents": 0
+  },
+  {
+   "slug": "selectinvest-1",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 0,
+   "fee_clauses": 46,
+   "errors": 1,
+   "documents": 5
+  },
+  {
+   "slug": "selectipierre-2",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 64,
+   "errors": 0,
+   "documents": 3
+  },
+  {
+   "slug": "sofidynamic",
+   "dic_identity_ok": 2,
+   "note_identity_ok": 0,
+   "fee_clauses": 115,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "sofiprime",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 3,
+   "fee_clauses": 27,
+   "errors": 0,
+   "documents": 16
+  },
+  {
+   "slug": "transitions-europe",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 0,
+   "fee_clauses": 0,
+   "errors": 16,
+   "documents": 16
+  },
+  {
+   "slug": "urban-coeur-de-commerce",
+   "dic_identity_ok": 0,
+   "note_identity_ok": 3,
+   "fee_clauses": 45,
+   "errors": 1,
+   "documents": 16
+  },
+  {
+   "slug": "wemo-one",
+   "dic_identity_ok": 1,
+   "note_identity_ok": 1,
+   "fee_clauses": 54,
+   "errors": 0,
+   "documents": 12
+  }
+ ]
+}

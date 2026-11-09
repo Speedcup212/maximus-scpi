@@ -1,0 +1,41 @@
+{
+ "slug": "iroko-zen",
+ "name": "Iroko Zen",
+ "manager": "Iroko",
+ "crawl": [
+  {
+   "url": "https://www.iroko.eu/scpi/zen",
+   "depth": 0,
+   "final_url": "https://www.iroko.eu/scpi/zen",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.iroko.eu/documents",
+   "depth": 0,
+   "error": "HTTPError: HTTP Error 404: Not Found"
+  },
+  {
+   "url": "https://www.iroko.eu/documentation",
+   "depth": 1,
+   "final_url": "https://www.iroko.eu/documentation",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.iroko.eu/telecharger-guides",
+   "depth": 1,
+   "final_url": "https://www.iroko.eu/telecharger-guides",
+   "http_status": 200,
+   "pdf_links": 0
+  }
+ ],
+ "documents": [],
+ "candidate_count": 0,
+ "summary": {
+  "dic_identity_ok": 0,
+  "note_identity_ok": 0,
+  "fee_clauses": 0,
+  "errors": 1
+ }
+}

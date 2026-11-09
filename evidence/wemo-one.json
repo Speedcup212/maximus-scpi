@@ -1,0 +1,1254 @@
+{
+ "slug": "wemo-one",
+ "name": "Wemo One",
+ "manager": "Wemo REIM",
+ "crawl": [
+  {
+   "url": "https://wemo-reim.fr/documents-et-bulletins/",
+   "depth": 0,
+   "final_url": "https://wemo-reim.fr/documents-et-bulletins/",
+   "http_status": 200,
+   "pdf_links": 17
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://wemo-reim.fr/wp-content/uploads/2026/06/3-SCPI-WEMO-ONE-DIC-2026-06-19.pdf",
+   "final_url": "https://wemo-reim.fr/wp-content/uploads/2026/06/3-SCPI-WEMO-ONE-DIC-2026-06-19.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 201643,
+   "sha256": "c9fe8458da9e455f4069764d0110ba1b2df1742998305facdbcdac063016daa3",
+   "metadata": {
+    "format": "PDF 1.6",
+    "title": "Microsoft Word - 2026.06.18 - SCPI WEMO ONE - DIC à jour clean (1)",
+    "author": "ccanneau",
+    "creator": "PScript5.dll Version 5.2.2",
+    "producer": "Acrobat Distiller 25.0 (Windows)",
+    "creationDate": "D:20260619144542+02'00'",
+    "modDate": "D:20260619144542+02'00'"
+   },
+   "page_count": 3,
+   "text_characters": 16200,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "wemo one",
+   "title_excerpt": "SCPI WEMO ONE - FR001400P9J8 - 22/04/2026 - 1/3 SCPI WEMO ONE Fonds d'investissement alternatif (FIA) géré par Wemo Real Estate Investment Management Objectif Le présent document contient des informations essentielles sur le produit d'investissement. Il ne s'agit pas d'un document à caractère commercial. Ces informations vous sont fournies conformément à une obligation légale, afin de vous aider à",
+   "dates": [
+    "17/04/2024",
+    "22/04/2026",
+    "décembre 2025",
+    "février 2014",
+    "février 2022",
+    "juin 2023",
+    "mai 2013",
+    "mai 2021"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Coûts d'entrée",
+     "snippet": " avec la personne qui vous vend le produit afin de couvrir les services qu'elle vous fournit. Cette personne vous informera du montant. Composition des coûts : Coûts d'entrée 10.00% du montant que vous payez au moment de l'entrée dans l'investissement. Il s'agit du montant maximal que vous paierez. La personne qui vous vend le produit vous informera des coûts réels. Ceci est le coût réel hors taxe supporté par le souscripteur et inclut les coûts de distribution de votre produit. Jusqu'à 1 000 EUR Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. 0 EUR Frais de gestion et autres frais administratifs et d'exploitation Coûts de transaction 0.65% de la valeur de votre investissement par an. Cette estimation se base",
+     "percents": [
+      {
+       "raw": "10.00%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "du montant que vous payez au moment de l'ent"
+      },
+      {
+       "raw": "0.65%",
+       "value": 0.65,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Frais de gestion",
+     "snippet": "duit. Jusqu'à 1 000 EUR Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. 0 EUR Frais de gestion et autres frais administratifs et d'exploitation Coûts de transaction 0.65% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 2.95% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous-jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 58 EUR 265 EUR Commissions liées aux résultats et commission d'intéressement Aucune commission liée aux résultats n'existe pour ce produit. 0 EUR Combien de temps dois-je le",
+     "percents": [
+      {
+       "raw": "0.65%",
+       "value": 0.65,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "2.95%",
+       "value": 2.95,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts de transaction",
+     "snippet": "oût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. 0 EUR Frais de gestion et autres frais administratifs et d'exploitation Coûts de transaction 0.65% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 2.95% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous-jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 58 EUR 265 EUR Commissions liées aux résultats et commission d'intéressement Aucune commission liée aux résultats n'existe pour ce produit. 0 EUR Combien de temps dois-je le conserver et puis-je retirer de l'argent de façon anticipée ? La ",
+     "percents": [
+      {
+       "raw": "0.65%",
+       "value": 0.65,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "2.95%",
+       "value": 2.95,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts récurrents",
+     "snippet": "des marchés financiers - 17, place de la Bourse - 75082 PARIS CEDEX 02 - www.amf-france.org Coûts ponctuels à l'entrée ou à la sortie Si vous sortez après 1 an Coûts récurrents prélevés chaque année Coûts accessoires prélevés sous certaines conditions",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://wemo-reim.fr/wp-content/uploads/2026/10/Note-dinformation-octobre-2026.pdf",
+   "final_url": "https://wemo-reim.fr/wp-content/uploads/2026/10/Note-dinformation-octobre-2026.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 694545,
+   "sha256": "e0ae691efee01589403961d57d43b224ccfc4010444340d66fe4a8f8b837b8f5",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Gurvan Mahéo",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20261028174120+01'00'",
+    "modDate": "D:20261028174120+01'00'"
+   },
+   "page_count": 29,
+   "text_characters": 130255,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "wemo one",
+   "title_excerpt": "NOTE D'INFORMATION Octobre 2026 Société Civile de Placement Immobilier à capital variable (SCPI) Siège social : 217 rue du Faubourg Saint Honoré, 75008 Paris Code ISIN : FR001400P9J8 (Ci-après la « Société » ou la « SCPI ») UNE SCPI DE WEMO REIM",
+   "dates": [
+    "Octobre 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 2,
+     "label": "Commission de souscription",
+     "snippet": "....................................................................................................................................................... 19 5.1. Commission de souscription ....................................................................................................................... 19 5.2 Commission de cession ............................................................................................................................... 19 5.3. Commission de gestion ............................................................................................................................... 19 5.4. Commission d'acquisition et de cession d'actifs immobiliers .................................................................... 20 5.5. Commission de suivi et de pilotag",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission de cession",
+     "snippet": " 5.1. Commission de souscription ....................................................................................................................... 19 5.2 Commission de cession ............................................................................................................................... 19 5.3. Commission de gestion ............................................................................................................................... 19 5.4. Commission d'acquisition et de cession d'actifs immobiliers .................................................................... 20 5.5. Commission de suivi et de pilotage de la réalisation des travaux ............................................................. 20 5.6. Information concernant les différentes commissions .",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission de gestion",
+     "snippet": "2 Commission de cession ............................................................................................................................... 19 5.3. Commission de gestion ............................................................................................................................... 19 5.4. Commission d'acquisition et de cession d'actifs immobiliers .................................................................... 20 5.5. Commission de suivi et de pilotage de la réalisation des travaux ............................................................. 20 5.6. Information concernant les différentes commissions ............................................................................... 20 5.7. Versement .............................................................",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission d'acquisition",
+     "snippet": ". Commission de gestion ............................................................................................................................... 19 5.4. Commission d'acquisition et de cession d'actifs immobiliers .................................................................... 20 5.5. Commission de suivi et de pilotage de la réalisation des travaux ............................................................. 20 5.6. Information concernant les différentes commissions ............................................................................... 20 5.7. Versement ................................................................................................................................................... 20 6. FONCTIONNEMENT DE LA SCPI .......................................",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission de suivi",
+     "snippet": ".............. 19 5.4. Commission d'acquisition et de cession d'actifs immobiliers .................................................................... 20 5.5. Commission de suivi et de pilotage de la réalisation des travaux ............................................................. 20 5.6. Information concernant les différentes commissions ............................................................................... 20 5.7. Versement ................................................................................................................................................... 20 6. FONCTIONNEMENT DE LA SCPI ........................................................................................................................................... 20 6.1. Assemblées générales .......",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 10,
+     "label": "frais d'acquisition",
+     "snippet": " Comptes, ● La valeur de reconstitution, soit la valeur de réalisation, ci-dessus, augmentée des frais afférents à une reconstitution du patrimoine de la SCPI (frais d'acquisition des immeubles et commission de souscription). Tout écart entre le prix de souscription et la valeur de reconstitution des parts supérieurs à 10% doit être justifié par la Société de Gestion et notifié à l'AMF dans des conditions fixées par arrêté du Ministre de l'Economie.",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "doit être justifié par la Société de Gestion"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "commission de souscription",
+     "snippet": "on, soit la valeur de réalisation, ci-dessus, augmentée des frais afférents à une reconstitution du patrimoine de la SCPI (frais d'acquisition des immeubles et commission de souscription). Tout écart entre le prix de souscription et la valeur de reconstitution des parts supérieurs à 10% doit être justifié par la Société de Gestion et notifié à l'AMF dans des conditions fixées par arrêté du Ministre de l'Economie.",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "doit être justifié par la Société de Gestion"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 11,
+     "label": "commission de souscription",
+     "snippet": "pose de la manière suivante : ➢ Valeur nominale des parts : 150 € ➢ Prime d'émission : 60 € dont 21,00 € HT (25,20 € TTC), soit 10% HT (12% TTC) au titre de la commission de souscription __________________________________________ __ Prix de souscription net de tous autres frais : 210 € La prime d'émission est destinée : ● D'une part, à couvrir : o Les frais engagés par la SCPI pour la collecte des capitaux et la recherche des actifs immobiliers, les frais et honoraires d'intermédiaires et d'experts, d'études, d'audits et de diagnostics ; o Les frais engagés par la SCPI pour sa constitution (en ce compris les frais de garantie) et les frais directement payés par cette dernière pour les augmentations de capital ; et o Les frais et droits grevant le prix d'acquisition des actifs immobiliers, ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12% TTC) au titre de la commission de so"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) au titre de la commission de souscripti"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 11,
+     "label": "commission de souscription",
+     "snippet": "rt à nouveau existant par prélèvement sur la prime d'émission décidée par l'Assemblée Générale Ordinaire des associés. La prime d'émission intègre également la commission de souscription. Celle-ci est de 10% HT, soit 12% TTC, comme indiqué au Chapitre 5 - Commissions ci-dessous. Le montant de la prime d'émission est fixé et peut être modifié par la Société de Gestion. Il est indiqué dans le bulletin de souscription et le bulletin d'information périodique. Le paiement de la souscription s'effectue au jour de la souscription pour la totalité du prix de souscription. Le prix de souscription s'entend net de tous autres frais. Il ne peut être procédé à des émissions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe, sur le registre prévu à l'article 422-220 du RG AMF,",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 12% TTC, comme indiqué au Chapitre"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC, comme indiqué au Chapitre 5 - Commissio"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 14,
+     "label": "commission de souscription",
+     "snippet": "s de souscription existent pour un montant au moins égal aux demandes de retrait, le prix de retrait correspond au prix de souscription du moment diminué de la commission de souscription hors taxes, étant rappelé qu'au cas présent, la commission de souscription de la SCPI est de 10% HT (12% TTC). Prix de retrait à compter du 1er avril 2026 L'associé se retirant perçoit, dans le cadre des conditions de souscription en vigueur au jour de la constitution de la SCPI, 189 € par part se décomposant : ➢ Prix de souscription 210 € ➢ Commission de souscription - 21 € __________________________________________ __ Prix de retrait net de tous autres frais 189€ En cas de baisse du prix de retrait, la Société de Gestion informe les associés ayant demandé le retrait, par envoi recommandé électronique, au",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12% TTC). Prix de retrait à compter du 1"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC). Prix de retrait à compter du 1er avril"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 14,
+     "label": "commission de souscription",
+     "snippet": "trait, le prix de retrait correspond au prix de souscription du moment diminué de la commission de souscription hors taxes, étant rappelé qu'au cas présent, la commission de souscription de la SCPI est de 10% HT (12% TTC). Prix de retrait à compter du 1er avril 2026 L'associé se retirant perçoit, dans le cadre des conditions de souscription en vigueur au jour de la constitution de la SCPI, 189 € par part se décomposant : ➢ Prix de souscription 210 € ➢ Commission de souscription - 21 € __________________________________________ __ Prix de retrait net de tous autres frais 189€ En cas de baisse du prix de retrait, la Société de Gestion informe les associés ayant demandé le retrait, par envoi recommandé électronique, au plus tard la veille de la date d'effet. En l'absence de réaction de la par",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12% TTC). Prix de retrait à compter du 1"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC). Prix de retrait à compter du 1er avril"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 14,
+     "label": "Commission de souscription",
+     "snippet": ", dans le cadre des conditions de souscription en vigueur au jour de la constitution de la SCPI, 189 € par part se décomposant : ➢ Prix de souscription 210 € ➢ Commission de souscription - 21 € __________________________________________ __ Prix de retrait net de tous autres frais 189€ En cas de baisse du prix de retrait, la Société de Gestion informe les associés ayant demandé le retrait, par envoi recommandé électronique, au plus tard la veille de la date d'effet. En l'absence de réaction de la part des associés dans un délai de quinze (15) jours à compter de la date de réception de la lettre recommandée avec accusé de réception, la demande de retrait est réputée maintenue au nouveau prix. Cette information est contenue dans la lettre de notification. Si les demandes de retrait ne sont pa",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "commission de cession",
+     "snippet": "s lors qu'elle constate que le prix d'exécution a conduit, au cours de quatre (4) périodes consécutives de confrontation, à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription. Dans l'hypothèse où la Société de Gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent et après huit (8) périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés. Préalablement au rétablissement de la variabilité du cap",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "commission de cession",
+     "snippet": "a précédent et après huit (8) périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés. Préalablement au rétablissement de la variabilité du capital, la Société de Gestion devra informer l'AMF, les souscripteurs et les associés ainsi que le dépositaire par tous moyens appropriés et en se conformant aux prescriptions légales et réglementaires en la matière. Le rétablissement de la variabilité du capital entraîne : ● L'annulation des ordres d'achat et de vente de parts, ● La fixation d'un prix de souscription par la S",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 17,
+     "label": "commission de cession",
+     "snippet": "les ordres de vente à prix minimum proposé net de tous frais ; ● Les droits d'enregistrement (au taux actuel en vigueur de 5%) à la charge de l'acquéreur et la commission de cession supportée par le vendeur.",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": ") à la charge de l'acquéreur et la commission"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "Commission de souscription",
+     "snippet": "t les donneurs d'ordre et les intermédiaires et assure la diffusion effective et intégrale de cette décision motivée dans le public. 5. POLITIQUE DE FRAIS 5.1. Commission de souscription Il est dû à la Société de Gestion une commission de souscription dont le taux maximum est fixé à 10% HT, soit 12% TTC du montant de la souscription. Cette commission est destinée à rémunérer la recherche des capitaux. Elle peut être reversée, en totalité ou partiellement, aux distributeurs. 5.2 Commission de cession Néant. 5.3. Commission de gestion Il est dû à la Société de Gestion une commission de gestion égale à 11.0% HT maximum (soit 13.2% TTC au taux de TVA applicable au 1er janvier 2024) des produits locatifs encaissés directement ou indirectement et des autres produits encaissés par la Société.",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 12% TTC du montant de la souscripti"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC du montant de la souscription. Cette com"
+      },
+      {
+       "raw": "11.0%",
+       "value": 11.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 13.2% TTC au taux de TVA ap"
+      },
+      {
+       "raw": "13.2%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA applicable au 1er janvier"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission de souscription",
+     "snippet": "on effective et intégrale de cette décision motivée dans le public. 5. POLITIQUE DE FRAIS 5.1. Commission de souscription Il est dû à la Société de Gestion une commission de souscription dont le taux maximum est fixé à 10% HT, soit 12% TTC du montant de la souscription. Cette commission est destinée à rémunérer la recherche des capitaux. Elle peut être reversée, en totalité ou partiellement, aux distributeurs. 5.2 Commission de cession Néant. 5.3. Commission de gestion Il est dû à la Société de Gestion une commission de gestion égale à 11.0% HT maximum (soit 13.2% TTC au taux de TVA applicable au 1er janvier 2024) des produits locatifs encaissés directement ou indirectement et des autres produits encaissés par la Société.",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 12% TTC du montant de la souscripti"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC du montant de la souscription. Cette com"
+      },
+      {
+       "raw": "11.0%",
+       "value": 11.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 13.2% TTC au taux de TVA ap"
+      },
+      {
+       "raw": "13.2%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA applicable au 1er janvier"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "Commission de cession",
+     "snippet": "ouscription. Cette commission est destinée à rémunérer la recherche des capitaux. Elle peut être reversée, en totalité ou partiellement, aux distributeurs. 5.2 Commission de cession Néant. 5.3. Commission de gestion Il est dû à la Société de Gestion une commission de gestion égale à 11.0% HT maximum (soit 13.2% TTC au taux de TVA applicable au 1er janvier 2024) des produits locatifs encaissés directement ou indirectement et des autres produits encaissés par la Société.",
+     "percents": [
+      {
+       "raw": "11.0%",
+       "value": 11.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 13.2% TTC au taux de TVA ap"
+      },
+      {
+       "raw": "13.2%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA applicable au 1er janvier"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "Commission de gestion",
+     "snippet": "destinée à rémunérer la recherche des capitaux. Elle peut être reversée, en totalité ou partiellement, aux distributeurs. 5.2 Commission de cession Néant. 5.3. Commission de gestion Il est dû à la Société de Gestion une commission de gestion égale à 11.0% HT maximum (soit 13.2% TTC au taux de TVA applicable au 1er janvier 2024) des produits locatifs encaissés directement ou indirectement et des autres produits encaissés par la Société.",
+     "percents": [
+      {
+       "raw": "11.0%",
+       "value": 11.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 13.2% TTC au taux de TVA ap"
+      },
+      {
+       "raw": "13.2%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA applicable au 1er janvier"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission de gestion",
+     "snippet": "re reversée, en totalité ou partiellement, aux distributeurs. 5.2 Commission de cession Néant. 5.3. Commission de gestion Il est dû à la Société de Gestion une commission de gestion égale à 11.0% HT maximum (soit 13.2% TTC au taux de TVA applicable au 1er janvier 2024) des produits locatifs encaissés directement ou indirectement et des autres produits encaissés par la Société.",
+     "percents": [
+      {
+       "raw": "11.0%",
+       "value": 11.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 13.2% TTC au taux de TVA ap"
+      },
+      {
+       "raw": "13.2%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA applicable au 1er janvier"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 20,
+     "label": "commission de gestion",
+     "snippet": "Page 20 sur 29 www.wemo-reim.fr NOTE D'INFORMATIONS – Octobre 2026 Cette commission de gestion est réglée trimestriellement. 5.4. Commission d'acquisition et de cession d'actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'un montant maximum de 2 % HT (soit 2,4 % TTC) calculée soit sur le prix d'acquisition de l'actif immobilier (hors taxes, hors droits et hors frais) acquis directement ou indirectement par la SCPI, y compris en l'état futur d'achèvement ; soit sur la valeur conventionnelle retenue pour le calcul du prix d'acquisition des droits sociaux des sociétés détenant les actifs immobiliers, au prorata de la participation acquise par la SCPI. Une commission de cession ",
+     "percents": [
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 2,4 % TTC) calculée soit sur le pri"
+      },
+      {
+       "raw": "2,4 %",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC) calculée soit sur le prix d'acquisition"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "Commission d'acquisition",
+     "snippet": "Page 20 sur 29 www.wemo-reim.fr NOTE D'INFORMATIONS – Octobre 2026 Cette commission de gestion est réglée trimestriellement. 5.4. Commission d'acquisition et de cession d'actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'un montant maximum de 2 % HT (soit 2,4 % TTC) calculée soit sur le prix d'acquisition de l'actif immobilier (hors taxes, hors droits et hors frais) acquis directement ou indirectement par la SCPI, y compris en l'état futur d'achèvement ; soit sur la valeur conventionnelle retenue pour le calcul du prix d'acquisition des droits sociaux des sociétés détenant les actifs immobiliers, au prorata de la participation acquise par la SCPI. Une commission de cession des actifs immobiliers ou des participations dans des soc",
+     "percents": [
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 2,4 % TTC) calculée soit sur le pri"
+      },
+      {
+       "raw": "2,4 %",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC) calculée soit sur le prix d'acquisition"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commission d'acquisition",
+     "snippet": "6 Cette commission de gestion est réglée trimestriellement. 5.4. Commission d'acquisition et de cession d'actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'un montant maximum de 2 % HT (soit 2,4 % TTC) calculée soit sur le prix d'acquisition de l'actif immobilier (hors taxes, hors droits et hors frais) acquis directement ou indirectement par la SCPI, y compris en l'état futur d'achèvement ; soit sur la valeur conventionnelle retenue pour le calcul du prix d'acquisition des droits sociaux des sociétés détenant les actifs immobiliers, au prorata de la participation acquise par la SCPI. Une commission de cession des actifs immobiliers ou des participations dans des sociétés détenant directement ou indirectement des actifs immobiliers d'un montant maximum de 2 % ",
+     "percents": [
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 2,4 % TTC) calculée soit sur le pri"
+      },
+      {
+       "raw": "2,4 %",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC) calculée soit sur le prix d'acquisition"
+      },
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": ""
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commission de cession",
+     "snippet": "e pour le calcul du prix d'acquisition des droits sociaux des sociétés détenant les actifs immobiliers, au prorata de la participation acquise par la SCPI. Une commission de cession des actifs immobiliers ou des participations dans des sociétés détenant directement ou indirectement des actifs immobiliers d'un montant maximum de 2 % HT (soit 2,4 % TTC) calculée sur le prix de cession net vendeur, pourra être prélevée par la Société de Gestion uniquement en cas de réalisation d'une plus-value lors de la cession de l'actif ou des titres de la société concernée. La plus-value est déterminée par la différence entre le prix de cession de l'actif (hors taxes, hors droits et hors frais) et le prix d'acquisition retenu en comptabilité. En l'absence de plus-value, aucune commission de cession ne ser",
+     "percents": [
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 2,4 % TTC) calculée sur le prix de"
+      },
+      {
+       "raw": "2,4 %",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC) calculée sur le prix de cession net ven"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 20,
+     "label": "commission de cession",
+     "snippet": "entre le prix de cession de l'actif (hors taxes, hors droits et hors frais) et le prix d'acquisition retenu en comptabilité. En l'absence de plus-value, aucune commission de cession ne sera due à la Société de Gestion. 5.5. Commission de suivi et de pilotage de la réalisation des travaux Néant. 5.6. Information concernant les différentes commissions En tant que de besoin, il est précisé que, s'agissant des actifs détenus au travers de sociétés dans lesquelles la Société détient une participation, pour chaque nature de commissions détaillées ci-avant, la somme des commissions perçues par la Société de Gestion en sa qualité de gérant desdites sociétés et de celles perçues par la Société de Gestion au titre de ses fonctions au sein de la Société ne pourra pas se cumuler et dépasser les taux f",
+     "percents": [],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 20,
+     "label": "Commission de suivi",
+     "snippet": "hors frais) et le prix d'acquisition retenu en comptabilité. En l'absence de plus-value, aucune commission de cession ne sera due à la Société de Gestion. 5.5. Commission de suivi et de pilotage de la réalisation des travaux Néant. 5.6. Information concernant les différentes commissions En tant que de besoin, il est précisé que, s'agissant des actifs détenus au travers de sociétés dans lesquelles la Société détient une participation, pour chaque nature de commissions détaillées ci-avant, la somme des commissions perçues par la Société de Gestion en sa qualité de gérant desdites sociétés et de celles perçues par la Société de Gestion au titre de ses fonctions au sein de la Société ne pourra pas se cumuler et dépasser les taux fixés ci-avant. 5.7. Versement Conformément à l'article 18 des St",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "commissions de souscription",
+     "snippet": "ur une période qui ne peut excéder cinq (5) ans ou vingt (20) ans selon leur nature, les frais suivants (liste non limitative) : les frais d'établissement, les commissions de souscription, les frais de fusion autres que ceux inscrits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la Société, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire.",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "commissions d'acquisition",
+     "snippet": "(liste non limitative) : les frais d'établissement, les commissions de souscription, les frais de fusion autres que ceux inscrits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la Société, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire.",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "frais d'acquisition",
+     "snippet": "rits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la Société, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire.",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://wemo-reim.fr/wp-content/uploads/2024/12/wemo-one-cle-demembrement-viager.pdf",
+   "final_url": "https://wemo-reim.fr/wp-content/uploads/2024/12/wemo-one-cle-demembrement-viager.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 61483,
+   "sha256": "8b178916cb83b696dea2e2713aae2c2317ba78ce080546a12a55b4fb45c5e3b9",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "REIM - Gurvan Maheo",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20240625154316+02'00'",
+    "modDate": "D:20240625154316+02'00'"
+   },
+   "page_count": 1,
+   "text_characters": 374,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "wemo one",
+   "title_excerpt": "SCPI WEMO ONE www.wemo-reim.fr DÉMEMBREMENT VIAGER CLÉS DE RÉPARTITION NUE-PROPRIÉTÉ USUFRUIT Jusqu'à 20 ans 10,0% 90,0% De 21 à 30 ans 20,0% 80,0% De 31 à 40 ans 30,0% 70% De 41 à 50 ans 40,0% 60% De 51 à 60 ans 50,0% 50% De 61 à 70 ans 60,0% 40% De 71 à 80 ans 70,0% 30% De 81 à 90 ans 80,0% 20% 91 ans et plus 90,0% 10%",
+   "dates": [],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://wemo-reim.fr/wp-content/uploads/2026/04/4-SCPI-WEMO-ONE-Statuts-17.04.2026.pdf",
+   "final_url": "https://wemo-reim.fr/wp-content/uploads/2026/04/4-SCPI-WEMO-ONE-Statuts-17.04.2026.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 677988,
+   "sha256": "f0eb95c0899b1b74ad677e12a08e3ff286ad935e43ecd2cdd99682d83e9943cc",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Gurvan Mahéo",
+    "creator": "Microsoft® Word LTSC",
+    "producer": "Docusign DMv10",
+    "creationDate": "D:20260417163409+00'00'",
+    "modDate": "D:20260420161359+00'00'"
+   },
+   "page_count": 26,
+   "text_characters": 98275,
+   "kind": "statuts",
+   "identity_match": true,
+   "identity_alias": "wemo one",
+   "title_excerpt": "Page 1 sur 26 SCPI WEMO ONE STATUTS Statuts à jour au 17 avril 2026 Certifiés conformes par : La société WEMO REAL ESTATE INVESTMENT MANAGEMENT Représentée par M. Ivan VAGIC Société Civile de Placement Immobilier à capital variable Siège social : 217 rue du Faubourg Saint Honoré - 75008 Paris (Ci-après la « Société » ou la « SCPI ») Docusign Envelope ID: E1429158-9C9B-49D0-8D67-9E4F552C8A49",
+   "dates": [
+    "17 avril 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 7,
+     "label": "commission de souscription",
+     "snippet": " de parts sont compensées par des souscriptions, la valeur de retrait est plafonnée au prix d'émission en vigueur (nominal plus prime d'émission) diminué de la commission de souscription hors taxes. Lorsque les demandes de retrait de parts ne sont pas compensées par des souscriptions, et sous réserve de la création et de la dotation du fonds de remboursement, le prix de retrait ne pourra être supérieur à la valeur de réalisation, ni inférieur à cette même valeur moins 10%, sauf autorisation de l'AMF. En cas de baisse du prix de retrait, la Société de Gestion informe les associés ayant demandé le retrait, par envoi recommandé électronique, au plus tard la veille de la date d'effet. En l'absence de réaction de la part des associés dans un délai de quinze (15) jours à compter de la date de ré",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'AMF. En cas de baiss"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "Commission de retrait",
+     "snippet": "n est contenue dans la lettre de notification. Si les demandes de retrait ne sont pas compensées par des demandes de souscription : Blocage des retraits 9.2.3. Commission de retrait En cas de retrait de parts détenues, la Société de Gestion ne prélèvera pas de commission de retrait. 9.3. Suspension de la variabilité du capital La Société de Gestion a la faculté, sous sa responsabilité, de suspendre à tout moment les effets de la variabilité du capital, dès lors qu'elle constate que des demandes de retrait de parts au prix en vigueur demeurent non satisfaites et inscrites sur le registre depuis au moins six (6) mois, après en avoir informé les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier, courriel), pour mettre en place, en substitution, le march",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 7,
+     "label": "commission de retrait",
+     "snippet": "des demandes de souscription : Blocage des retraits 9.2.3. Commission de retrait En cas de retrait de parts détenues, la Société de Gestion ne prélèvera pas de commission de retrait. 9.3. Suspension de la variabilité du capital La Société de Gestion a la faculté, sous sa responsabilité, de suspendre à tout moment les effets de la variabilité du capital, dès lors qu'elle constate que des demandes de retrait de parts au prix en vigueur demeurent non satisfaites et inscrites sur le registre depuis au moins six (6) mois, après en avoir informé les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier, courriel), pour mettre en place, en substitution, le marché secondaire par confrontation des ordres d'achat et de vente, La prise de cette décision entraîne : ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 8,
+     "label": "commission de cession",
+     "snippet": "s lors qu'elle constate que le prix d'exécution a conduit, au cours de quatre (4) périodes consécutives de confrontation, à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription. Dans l'hypothèse où la Société de Gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent et après huit (8) périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés. Préalablement au rétablissement de la variabilité du cap",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 8,
+     "label": "commission de cession",
+     "snippet": "a précédent et après huit (8) périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés. Préalablement au rétablissement de la variabilité du capital, la Société de Gestion devra informer l'Autorité des Marchés Financiers, les souscripteurs et les associés ainsi que le dépositaire par tous moyens appropriés et en se conformant aux prescriptions légales et réglementaires en la matière. Le rétablissement de la variabilité du capital entraîne : • l'annulation des ordres d'achat et de vente de parts, • la fixation d'un p",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 8,
+     "label": "commission de cession",
+     "snippet": "u capital entraîne : • l'annulation des ordres d'achat et de vente de parts, • la fixation d'un prix de souscription à un niveau proche de la moyenne des prix, commission de cession et droits d'enregistrement inclus, payés par les acquéreurs au cours des périodes de confrontation prises en référence pour le rétablissement de la variabilité du capital, • l'inscription des demandes de retrait de parts sur le registre des retraits, • la reprise des souscriptions et la possibilité pour la SCPI, en toute cohérence avec les textes légaux et réglementaires, d'émettre des parts nouvelles en vue d'augmenter son capital effectif. 9.5. Augmentation du capital 9.5.1. Pouvoirs de la Société de Gestion La Société de Gestion a tous pouvoirs pour réaliser les augmentations de capital, en ﬁxer les modalité",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 8,
+     "label": "commission de souscription",
+     "snippet": "ur de reconstitution de la Société est égale à la somme de la valeur vénale des immeubles et de la valeur nette des autres actifs de la Société augmentée de la commission de souscription et de l'estimation des frais qui seraient nécessaires pour l'acquisition du patrimoine à la date de clôture de l'exercice. Docusign Envelope ID: E1429158-9C9B-49D0-8D67-9E4F552C8A49",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "Commission de souscription",
+     "snippet": "es non récupérables sur les locataires. La Société de Gestion pourra, si elle le décide, prendre en charge tout ou partie des frais mentionnés ci-dessus. 19.2. Commission de souscription Il est dû à la Société de Gestion une commission de souscription dont le taux maximum est fixé à 10% HT, soit 12% TTC du montant de la souscription. Cette commission est destinée à rémunérer la recherche des capitaux. Elle peut être reversée, en totalité ou partiellement, aux distributeurs. 19.3. Commission de cession Néant. 19.4. Commission de gestion Il est dû à la Société de Gestion une commission de gestion égale à 11.0% HT maximum (soit 13.2% TTC au taux de TVA applicable au 1er janvier 2024) des produits locatifs encaissés directement ou indirectement et des autres produits encaissés par la Société. ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 12% TTC du montant de la souscripti"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC du montant de la souscription. Cette com"
+      },
+      {
+       "raw": "11.0%",
+       "value": 11.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 13.2% TTC au taux de TVA ap"
+      },
+      {
+       "raw": "13.2%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA applicable au 1er janvier"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "commission de souscription",
+     "snippet": "rra, si elle le décide, prendre en charge tout ou partie des frais mentionnés ci-dessus. 19.2. Commission de souscription Il est dû à la Société de Gestion une commission de souscription dont le taux maximum est fixé à 10% HT, soit 12% TTC du montant de la souscription. Cette commission est destinée à rémunérer la recherche des capitaux. Elle peut être reversée, en totalité ou partiellement, aux distributeurs. 19.3. Commission de cession Néant. 19.4. Commission de gestion Il est dû à la Société de Gestion une commission de gestion égale à 11.0% HT maximum (soit 13.2% TTC au taux de TVA applicable au 1er janvier 2024) des produits locatifs encaissés directement ou indirectement et des autres produits encaissés par la Société. Cette commission de gestion est réglée trimestriellement. 19.5. C",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 12% TTC du montant de la souscripti"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC du montant de la souscription. Cette com"
+      },
+      {
+       "raw": "11.0%",
+       "value": 11.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 13.2% TTC au taux de TVA ap"
+      },
+      {
+       "raw": "13.2%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA applicable au 1er janvier"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "Commission de cession",
+     "snippet": "scription. Cette commission est destinée à rémunérer la recherche des capitaux. Elle peut être reversée, en totalité ou partiellement, aux distributeurs. 19.3. Commission de cession Néant. 19.4. Commission de gestion Il est dû à la Société de Gestion une commission de gestion égale à 11.0% HT maximum (soit 13.2% TTC au taux de TVA applicable au 1er janvier 2024) des produits locatifs encaissés directement ou indirectement et des autres produits encaissés par la Société. Cette commission de gestion est réglée trimestriellement. 19.5. Commission d'acquisition et de cession d'actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'un montant maximum de 2% HT (soit 2,4% TTC) calculée : • Soit sur le prix d'acquisition de l'actif immobilier (hors taxes, hors droits et h",
+     "percents": [
+      {
+       "raw": "11.0%",
+       "value": 11.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 13.2% TTC au taux de TVA ap"
+      },
+      {
+       "raw": "13.2%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA applicable au 1er janvier"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 2,4% TTC) calculée : • Soit sur le"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC) calculée : • Soit sur le prix d'acquisi"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "Commission de gestion",
+     "snippet": "tinée à rémunérer la recherche des capitaux. Elle peut être reversée, en totalité ou partiellement, aux distributeurs. 19.3. Commission de cession Néant. 19.4. Commission de gestion Il est dû à la Société de Gestion une commission de gestion égale à 11.0% HT maximum (soit 13.2% TTC au taux de TVA applicable au 1er janvier 2024) des produits locatifs encaissés directement ou indirectement et des autres produits encaissés par la Société. Cette commission de gestion est réglée trimestriellement. 19.5. Commission d'acquisition et de cession d'actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'un montant maximum de 2% HT (soit 2,4% TTC) calculée : • Soit sur le prix d'acquisition de l'actif immobilier (hors taxes, hors droits et hors frais) acquis directement ou in",
+     "percents": [
+      {
+       "raw": "11.0%",
+       "value": 11.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 13.2% TTC au taux de TVA ap"
+      },
+      {
+       "raw": "13.2%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA applicable au 1er janvier"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 2,4% TTC) calculée : • Soit sur le"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC) calculée : • Soit sur le prix d'acquisi"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "commission de gestion",
+     "snippet": "reversée, en totalité ou partiellement, aux distributeurs. 19.3. Commission de cession Néant. 19.4. Commission de gestion Il est dû à la Société de Gestion une commission de gestion égale à 11.0% HT maximum (soit 13.2% TTC au taux de TVA applicable au 1er janvier 2024) des produits locatifs encaissés directement ou indirectement et des autres produits encaissés par la Société. Cette commission de gestion est réglée trimestriellement. 19.5. Commission d'acquisition et de cession d'actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'un montant maximum de 2% HT (soit 2,4% TTC) calculée : • Soit sur le prix d'acquisition de l'actif immobilier (hors taxes, hors droits et hors frais) acquis directement ou indirectement par la SCPI, y compris en l'état futur d'achèvem",
+     "percents": [
+      {
+       "raw": "11.0%",
+       "value": 11.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 13.2% TTC au taux de TVA ap"
+      },
+      {
+       "raw": "13.2%",
+       "value": 13.2,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA applicable au 1er janvier"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 2,4% TTC) calculée : • Soit sur le"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC) calculée : • Soit sur le prix d'acquisi"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "commission de gestion",
+     "snippet": "taux de TVA applicable au 1er janvier 2024) des produits locatifs encaissés directement ou indirectement et des autres produits encaissés par la Société. Cette commission de gestion est réglée trimestriellement. 19.5. Commission d'acquisition et de cession d'actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'un montant maximum de 2% HT (soit 2,4% TTC) calculée : • Soit sur le prix d'acquisition de l'actif immobilier (hors taxes, hors droits et hors frais) acquis directement ou indirectement par la SCPI, y compris en l'état futur d'achèvement ; • Soit sur la valeur conventionnelle retenue pour le calcul du prix d'acquisition des droits sociaux des sociétés détenant les actifs immobiliers, au prorata de la participation acquise par la SCPI. Une commission de ces",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 2,4% TTC) calculée : • Soit sur le"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC) calculée : • Soit sur le prix d'acquisi"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "Commission d'acquisition",
+     "snippet": "ocatifs encaissés directement ou indirectement et des autres produits encaissés par la Société. Cette commission de gestion est réglée trimestriellement. 19.5. Commission d'acquisition et de cession d'actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'un montant maximum de 2% HT (soit 2,4% TTC) calculée : • Soit sur le prix d'acquisition de l'actif immobilier (hors taxes, hors droits et hors frais) acquis directement ou indirectement par la SCPI, y compris en l'état futur d'achèvement ; • Soit sur la valeur conventionnelle retenue pour le calcul du prix d'acquisition des droits sociaux des sociétés détenant les actifs immobiliers, au prorata de la participation acquise par la SCPI. Une commission de cession des actifs immobiliers ou des participations dans des",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 2,4% TTC) calculée : • Soit sur le"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC) calculée : • Soit sur le prix d'acquisi"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "commission d'acquisition",
+     "snippet": " Cette commission de gestion est réglée trimestriellement. 19.5. Commission d'acquisition et de cession d'actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'un montant maximum de 2% HT (soit 2,4% TTC) calculée : • Soit sur le prix d'acquisition de l'actif immobilier (hors taxes, hors droits et hors frais) acquis directement ou indirectement par la SCPI, y compris en l'état futur d'achèvement ; • Soit sur la valeur conventionnelle retenue pour le calcul du prix d'acquisition des droits sociaux des sociétés détenant les actifs immobiliers, au prorata de la participation acquise par la SCPI. Une commission de cession des actifs immobiliers ou des participations dans des sociétés détenant directement ou indirectement des actifs immobiliers d'un montant maximum de ",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 2,4% TTC) calculée : • Soit sur le"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC) calculée : • Soit sur le prix d'acquisi"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "commission de cession",
+     "snippet": "e pour le calcul du prix d'acquisition des droits sociaux des sociétés détenant les actifs immobiliers, au prorata de la participation acquise par la SCPI. Une commission de cession des actifs immobiliers ou des participations dans des sociétés détenant directement ou indirectement des actifs immobiliers d'un montant maximum de 2% HT (soit 2,4% TTC) pourra être prélevée par la Société de Gestion uniquement en cas de réalisation d'une plus-value lors de la cession de l'actif ou des titres de la société concernée. La plus-value est déterminée par la différence entre le prix de cession de l'actif (hors taxes, hors droits et hors frais) et le prix d'acquisition retenu en comptabilité. En l'absence de plus-value, aucune commission de cession ne sera due à la Société de Gestion. 19.6. Commission",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 2,4% TTC) pourra être prélevée par"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC) pourra être prélevée par la Société de"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "commission de cession",
+     "snippet": "entre le prix de cession de l'actif (hors taxes, hors droits et hors frais) et le prix d'acquisition retenu en comptabilité. En l'absence de plus-value, aucune commission de cession ne sera due à la Société de Gestion. 19.6. Commission de suivi et de pilotage de la réalisation des travaux Néant. 19.7. Information concernant les différentes commissions En tant que de besoin, il est précisé que, s'agissant des actifs détenus au travers de sociétés dans lesquelles la Société détient une participation, pour chaque nature de commissions détaillées ci-avant, la somme des commissions perçues par la Société de Gestion en sa qualité de gérant desdites sociétés et de celles perçues par la Société de Gestion au titre de ses fonctions au sein de la Société ne pourra pas se cumuler et dépasser les taux",
+     "percents": [],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "Commission de suivi",
+     "snippet": "ors frais) et le prix d'acquisition retenu en comptabilité. En l'absence de plus-value, aucune commission de cession ne sera due à la Société de Gestion. 19.6. Commission de suivi et de pilotage de la réalisation des travaux Néant. 19.7. Information concernant les différentes commissions En tant que de besoin, il est précisé que, s'agissant des actifs détenus au travers de sociétés dans lesquelles la Société détient une participation, pour chaque nature de commissions détaillées ci-avant, la somme des commissions perçues par la Société de Gestion en sa qualité de gérant desdites sociétés et de celles perçues par la Société de Gestion au titre de ses fonctions au sein de la Société ne pourra pas se cumuler et dépasser les taux fixés ci-avant. 19.8. Versement Docusign Envelope ID: E1429158-9",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 25,
+     "label": "commissions de souscription",
+     "snippet": "ur une période qui ne peut excéder cinq (5) ans ou vingt (20) ans selon leur nature, les frais suivants (liste non limitative) : les frais d'établissement, les commissions de souscription, les frais de fusion autres que ceux inscrits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la Société, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire. TITRE VII DISSOLUTION – LIQUIDATION ARTICLE 31 – DISSOLUTION – LIQUIDATION Un (1) an au moins avant la date d'expiration de la Société, la Société de Gestion devra provoquer une réunion de l'Assemblée Générale Ext",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 25,
+     "label": "commissions d'acquisition",
+     "snippet": "(liste non limitative) : les frais d'établissement, les commissions de souscription, les frais de fusion autres que ceux inscrits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la Société, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire. TITRE VII DISSOLUTION – LIQUIDATION ARTICLE 31 – DISSOLUTION – LIQUIDATION Un (1) an au moins avant la date d'expiration de la Société, la Société de Gestion devra provoquer une réunion de l'Assemblée Générale Extraordinaire, pour décider si la Société doit être prorogée ou non. Faute pour elle d'avoir provoqué cett",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 25,
+     "label": "frais d'acquisition",
+     "snippet": "rits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la Société, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire. TITRE VII DISSOLUTION – LIQUIDATION ARTICLE 31 – DISSOLUTION – LIQUIDATION Un (1) an au moins avant la date d'expiration de la Société, la Société de Gestion devra provoquer une réunion de l'Assemblée Générale Extraordinaire, pour décider si la Société doit être prorogée ou non. Faute pour elle d'avoir provoqué cette décision, tout associé, après mise en demeure par lettre recommandée restée infructueuse, pourra demander au Président du T",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://wemo-reim.fr/wp-content/uploads/2026/06/260630-WEMO_REIM-_RAPPORT_LEC_29.pdf",
+   "final_url": "https://wemo-reim.fr/wp-content/uploads/2026/06/260630-WEMO_REIM-_RAPPORT_LEC_29.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 327866,
+   "sha256": "2f203093f63263beb4f4f44920a441cb9c516995645d93ec8dad44e1ee822dc2",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Wilfrid WITMEYER",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260630143947+02'00'",
+    "modDate": "D:20260630143947+02'00'"
+   },
+   "page_count": 8,
+   "text_characters": 16480,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "WEMO REIM – RAPPORT LEC 29 2025 – JUIN 2026 1 / 8 ARTICLE 29 LOI ENERGIE CLIMAT LOI N°2019-1147 DU 8 NOVEMBRE 2019 DECRET N°2021-663 DU 27 MAI 2021 SOCIETE : WEMO REAL ESTATE INVESTMENT MANAGEMENT ADRESSE : 217, rue du Faubourg Saint-Honoré, 75008 Paris N° AGREMENT : GP-20240003",
+   "dates": [
+    "27 MAI 2021",
+    "8 NOVEMBRE 2019",
+    "8 novembre 2019",
+    "JUIN 2026"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://wemo-reim.fr/wp-content/uploads/2025/12/WemoONE-demembrement.dec25.pdf",
+   "final_url": "https://wemo-reim.fr/wp-content/uploads/2025/12/WemoONE-demembrement.dec25.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 160108,
+   "sha256": "a1719cc718c9155c1fe631600287c265967b8376ba7560da66b7869aa6e66f29",
+   "metadata": {
+    "format": "PDF 1.4",
+    "title": "Clé De Démembrement Wemo ONE",
+    "author": "Thibault Geay",
+    "keywords": "DAG6jksGkn8,BACMgNB03jU,0",
+    "creator": "Canva",
+    "producer": "Canva",
+    "creationDate": "D:20251204144714+00'00'",
+    "modDate": "D:20251204144713+00'00'"
+   },
+   "page_count": 1,
+   "text_characters": 546,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "wemo one",
+   "title_excerpt": "SCPI WEMO ONE www.wemo-reim.fr DÉMEMBREMENT TEMPORAIRE CLÉS DE RÉPARTITION 3 ans 4 ans 5 ans 6 ans 7 ans 8 ans 9 ans 10 ans 11 ans 12 ans 13 ans 14 ans 15 ans 16 ans 17 ans 18 ans 19 ans 20 ans NUE-PROPRIÉTÉ 85,0% 81,0% 77,0% 75,5% 72,5% 70,0% 68,0% 65,5% 64,5% 63,5% 62,5% 61,5% 60,5% 59,5% 58,5% 57,5% 56,5% 56,0% USUFRUIT 15,0% 19,0% 23,0% 24,5% 27,5% 30,0% 32,0% 34,5% 35,5% 36,5% 37,5% 38,5% 39,",
+   "dates": [
+    "05/12/2025"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://wemo-reim.fr/wp-content/uploads/2025/05/BULLETIN-TRIMESTRIEL-WEMO-ONE-1T-2025-1-05-25.pdf",
+   "final_url": "https://wemo-reim.fr/wp-content/uploads/2025/05/BULLETIN-TRIMESTRIEL-WEMO-ONE-1T-2025-1-05-25.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 4512992,
+   "sha256": "cdd6538182ddf1551f1fc0181e8fd4f6523c59bfe296a01d1eb20fdce4af102a",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.3 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20250502152718+02'00'",
+    "modDate": "D:20250502152815+02'00'",
+    "encryption": "Standard V5 R6 256-bit AES"
+   },
+   "page_count": 16,
+   "text_characters": 37376,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "wemo one",
+   "title_excerpt": "PAGE 1 BULLETIN TRIMESTRIEL D'INFORMATION 1ER TRIMESTRE 2025 valable du 1er avril au 30 juin 2025 N°3 Ivan Vagic Président WEMO REIM LES CHIFFRES CLÉS dividende brut par part en pleine jouissance du trimestre 5,00 € capitalisation 18,1 M€ collecte nette du trimestre 5,4 M€ prix de part 200 € taux de distribution cible 2025 9,5 %(1) (1) Cette performance à court terme est non garantie. Le taux de d",
+   "dates": [
+    "29 avril 2025",
+    "30 juin 2025",
+    "avril 2024"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://wemo-reim.fr/wp-content/uploads/2025/07/SCPI-WEMO-ONE-Bulletin-trimestriel-2T-2025.pdf",
+   "final_url": "https://wemo-reim.fr/wp-content/uploads/2025/07/SCPI-WEMO-ONE-Bulletin-trimestriel-2T-2025.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 5788211,
+   "sha256": "e4f31c18e1106fc735fe7eca23abe7f73631226bb81fc43f12065db2bc3dd9fc",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.5 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20250728122058+02'00'",
+    "modDate": "D:20250728122121+02'00'",
+    "encryption": "Standard V5 R6 256-bit AES"
+   },
+   "page_count": 19,
+   "text_characters": 47070,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "wemo one",
+   "title_excerpt": "BULLETIN TRIMESTRIEL D'INFORMATION N°4 2E TRIMESTRE 2025 DONNÉES AU 30 JUIN 2025 Valide du 1er juillet au 30 septembre 2025 by WEMO REIM",
+   "dates": [
+    "1er juillet 2024",
+    "1er juillet 2025",
+    "30 JUIN 2025",
+    "30 juin 2025",
+    "30 septembre 2025",
+    "30/06/2025",
+    "juillet 2025"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://wemo-reim.fr/wp-content/uploads/2025/11/SCPI-WEMO-ONE-Bulletin-trimestriel-3T-2025.pdf",
+   "final_url": "https://wemo-reim.fr/wp-content/uploads/2025/11/SCPI-WEMO-ONE-Bulletin-trimestriel-3T-2025.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 5588707,
+   "sha256": "c6858d1b3ded21659e7d73ecf7c33a8b045a6437427f47f47791c446f1e091b6",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.0 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20251118161457+01'00'",
+    "modDate": "D:20251118161659+01'00'",
+    "encryption": "Standard V5 R6 256-bit AES"
+   },
+   "page_count": 20,
+   "text_characters": 51730,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "wemo one",
+   "title_excerpt": "by WEMO REIM BULLETIN TRIMESTRIEL D'INFORMATION N°5 3E TRIMESTRE 2025 DONNÉES AU 30 SEPTEMBRE 2025 Valide du 1er octobre au 31 décembre 2025",
+   "dates": [
+    "30 SEPTEMBRE 2025",
+    "30 septembre 2025",
+    "30/06/2025",
+    "31 décembre 2025"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://wemo-reim.fr/wp-content/uploads/2026/04/SCPI-WEMO-ONE-Bulletin-Trimestriel-4T-2025.pdf",
+   "final_url": "https://wemo-reim.fr/wp-content/uploads/2026/04/SCPI-WEMO-ONE-Bulletin-Trimestriel-4T-2025.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2691412,
+   "sha256": "eb44bd2ab067fec3ed72094c4c0ba3b4643dd0031ad95a669fc9b0305dfb110c",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.1 (Macintosh)",
+    "producer": "iLovePDF",
+    "creationDate": "D:20260119175215+01'00'",
+    "modDate": "D:20260331172808+02'00'"
+   },
+   "page_count": 22,
+   "text_characters": 56016,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "wemo one",
+   "title_excerpt": "by WEMO REIM BULLETIN TRIMESTRIEL D'INFORMATION N°6 4e TRIMESTRE 2025 DONNÉES AU 31 DÉCEMBRE 2025 Valide du 1er janvier au 31 mars 2026",
+   "dates": [
+    "31 DÉCEMBRE 2025",
+    "31 décembre 2025",
+    "31 mars 2026",
+    "31/12/2025"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://wemo-reim.fr/wp-content/uploads/2025/02/0-SCPI-WEMO-ONE-Bulletin-Trimestriel-3T2024.pdf",
+   "final_url": "https://wemo-reim.fr/wp-content/uploads/2025/02/0-SCPI-WEMO-ONE-Bulletin-Trimestriel-3T2024.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 4721989,
+   "sha256": "e9f69b33b6b19ee054025f71916a7c5f5c6a27bb14de37e0224041a9c57f78b8",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 19.5 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20241009115006+02'00'",
+    "modDate": "D:20241009120132+02'00'"
+   },
+   "page_count": 12,
+   "text_characters": 30381,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "wemo one",
+   "title_excerpt": "PAGE 1 BULLETIN TRIMESTRIEL D'INFORMATION 3E TRIMESTRE 2024 valable du 1er octobre au 31 décembre 2024 N°1 Chers Associés, Nous avons le plaisir de vous présenter le premier bulletin trimestriel d'information de votre SCPI, WEMO ONE. Depuis son lancement, 6,8 millions d'euros ont été collectés. Cette dynamique encourageante reflète votre confiance et témoigne de l'attractivité de notre stratégie. ",
+   "dates": [
+    "31 décembre 2024",
+    "Juillet 2024",
+    "Septembre 2024",
+    "janvier 2025",
+    "octobre 2024",
+    "septembre 2024"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://wemo-reim.fr/wp-content/uploads/2025/04/SCPI-WEMO-ONE-RAPPORT-ANNUEL-2024.pdf",
+   "final_url": "https://wemo-reim.fr/wp-content/uploads/2025/04/SCPI-WEMO-ONE-RAPPORT-ANNUEL-2024.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2635738,
+   "sha256": "183036308b60523e1d041316512b3896d214bd3d04188ec7235e85ce81371353",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.2 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20250404121019+02'00'",
+    "modDate": "D:20250404121110+02'00'",
+    "encryption": "Standard V5 R6 256-bit AES"
+   },
+   "page_count": 52,
+   "text_characters": 128008,
+   "kind": "rapport_annuel",
+   "identity_match": true,
+   "identity_alias": "wemo one",
+   "title_excerpt": "RAPPORT ANNUEL 2024 EXERCICE DU 17/04/2024 AU 31/12/2024 wemo-reim.fr L a S C P I d e s S m a r t C a p s E u r o p é e n n e SCPI WEMO ONE",
+   "dates": [
+    "17/04/2024",
+    "31 décembre 2024",
+    "31/12/2024"
+   ],
+   "fee_clauses": []
+  }
+ ],
+ "candidate_count": 17,
+ "summary": {
+  "dic_identity_ok": 1,
+  "note_identity_ok": 1,
+  "fee_clauses": 54,
+  "errors": 0
+ }
+}

@@ -1,0 +1,158 @@
+{
+ "slug": "transitions-europe",
+ "name": "Transitions Europe",
+ "manager": "Arkéa REIM",
+ "crawl": [
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/scpi-transitions-europe",
+   "depth": 0,
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/scpi-transitions-europe",
+   "http_status": 200,
+   "pdf_links": 26
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/informations-reglementaires",
+   "depth": 1,
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/informations-reglementaires",
+   "http_status": 200,
+   "pdf_links": 26
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_note_d_information.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_note_d_information.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130221,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_dic.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_dic.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130181,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_note_d_information.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_note_d_information.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130281,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_dic.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_dic.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130239,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_brochure_commerciale.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_brochure_commerciale.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130229,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2025-09/scpi_transitions_europe_-_article_10_sfdr.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2025-09/scpi_transitions_europe_-_article_10_sfdr.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130217,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_objectifs_et_indicateurs.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_objectifs_et_indicateurs.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130237,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2026-08/politique_dengagement_des_parties_prenantes_-_scpi_transitions_europe.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2026-08/politique_dengagement_des_parties_prenantes_-_scpi_transitions_europe.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130295,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_brochure_commerciale.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_brochure_commerciale.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130287,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2025-09/scpi_transitions_europe_-_article_10_sfdr.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2025-09/scpi_transitions_europe_-_article_10_sfdr.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130271,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_objectifs_et_indicateurs.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_objectifs_et_indicateurs.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130291,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2026-08/politique_dengagement_des_parties_prenantes_-_scpi_transitions_europe.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2026-08/politique_dengagement_des_parties_prenantes_-_scpi_transitions_europe.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130355,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2025-02/document_dinformations_pre-contractuelles_sfdr_te_vf.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2025-02/document_dinformations_pre-contractuelles_sfdr_te_vf.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130249,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2024-11/code_de_transparence_te_1.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/upload/docs/application/pdf/2024-11/code_de_transparence_te_1.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130173,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2025-02/document_dinformations_pre-contractuelles_sfdr_te_vf.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2025-02/document_dinformations_pre-contractuelles_sfdr_te_vf.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130305,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2024-11/code_de_transparence_te_1.pdf",
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/immobilier/fme_58821/upload/docs/application/pdf/2024-11/code_de_transparence_te_1.pdf",
+   "http_status": 200,
+   "content_type": "text/html;charset=UTF-8",
+   "bytes": 130225,
+   "error": "not_a_pdf"
+  }
+ ],
+ "candidate_count": 46,
+ "summary": {
+  "dic_identity_ok": 0,
+  "note_identity_ok": 0,
+  "fee_clauses": 0,
+  "errors": 16
+ }
+}

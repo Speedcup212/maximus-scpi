@@ -1,0 +1,1053 @@
+{
+ "slug": "buroboutic-metropoles",
+ "name": "Buroboutic Métropoles",
+ "manager": "FIDUCIAL Gérance",
+ "crawl": [
+  {
+   "url": "https://www.fiducial-gerance.fr/investir-en-scpi/nos-scpi/buroboutic-metropoles",
+   "depth": 0,
+   "final_url": "https://www.fiducial-gerance.fr/investir-en-scpi/nos-scpi/buroboutic-metropoles",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.fiducial-gerance.fr/content/download/546/12633?version=6",
+   "depth": 1,
+   "final_url": "https://www.fiducial-gerance.fr/content/download/546/file/DIC%20BUROBOUTIC%2031.12.2025.pdf?version=6",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.fiducial-gerance.fr/content/download/547/12637?version=6",
+   "depth": 1,
+   "final_url": "https://www.fiducial-gerance.fr/content/download/547/file/Note%20d%27information%20et%20statuts%20Buroboutic%20-%2001.2026.pdf?version=6",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.fiducial-gerance.fr/content/download/1634/43668?version=4",
+   "depth": 1,
+   "final_url": "https://www.fiducial-gerance.fr/content/download/1634/file/Note%20d%27information%20et%20statuts%20Buroboutic%20-%20Actualisation%20-%2002.01.2026.pdf?version=4",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.fiducial-gerance.fr/investir-en-scpi/nos-scpi/buroboutic-metropoles?tab=Documentation",
+   "depth": 1,
+   "final_url": "https://www.fiducial-gerance.fr/investir-en-scpi/nos-scpi/buroboutic-metropoles?tab=Documentation",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.fiducial-gerance.fr/fiducial-gerance/dispositifs-reglementaires",
+   "depth": 1,
+   "final_url": "https://www.fiducial-gerance.fr/fiducial-gerance/dispositifs-reglementaires",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.fiducial-gerance.fr/content/download/1262/37254?version=9",
+   "depth": 1,
+   "final_url": "https://www.fiducial-gerance.fr/content/download/1262/file/BTI%20Buroboutic%20T4%202025.pdf?version=9",
+   "http_status": 200,
+   "is_pdf": true
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://www.fiducial-gerance.fr/content/download/546/file/DIC%20BUROBOUTIC%2031.12.2025.pdf?version=6",
+   "final_url": "https://www.fiducial-gerance.fr/content/download/546/file/DIC%20BUROBOUTIC%2031.12.2025.pdf?version=6",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 273908,
+   "sha256": "4d983a7492deccf828af6d8b1db32b8d5f9ced243b399c9506e561cc9c4d10f9",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 21.3 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260528114616+02'00'",
+    "modDate": "D:20260528114618+02'00'"
+   },
+   "page_count": 3,
+   "text_characters": 14487,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "buroboutic metropoles",
+   "title_excerpt": "1/3 Objectif Le présent document contient des informations essentielles sur le produit d'investissement. Il ne s'agit pas d'un document à caractère commercial. Ces informations vous sont fournies conformément à une obligation légale, afin de vous aider à comprendre en quoi consiste ce produit et quels risques, coûts, gains et pertes potentiels y sont associés, et de vous aider à le comparer à d'au",
+   "dates": [
+    "26 janvier 2037",
+    "27 janvier 2017",
+    "27 mai 2008",
+    "28 mai 2026",
+    "30 juin 2014",
+    "31 décembre 2025",
+    "mai 2024"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Coûts récurrents",
+     "snippet": "ous paierez ; il se pourrait que vous payiez moins. Coût de sortie 0 € L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance. Coûts récurrents Coûts de transaction de portefeuille 6 € L'incidence des coûts encourus lorsque nous achetons ou vendons des investissements sous-jacents au produit. Autres coûts récurrents 123 € L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements et les coûts présentés à la section II. Coûts accessoires Commissions liées aux résultats 0 € L'incidence des commissions liées aux résultats. Nous ne prélevons pas de commission. Commissions d'intéressement 0 € Commissions d'intéressement : L'incidence des commissions d'intéressement. Nous ne prélevons pas de montant. Si votre réclamation concerne une per",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts de transaction",
+     "snippet": "se pourrait que vous payiez moins. Coût de sortie 0 € L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance. Coûts récurrents Coûts de transaction de portefeuille 6 € L'incidence des coûts encourus lorsque nous achetons ou vendons des investissements sous-jacents au produit. Autres coûts récurrents 123 € L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements et les coûts présentés à la section II. Coûts accessoires Commissions liées aux résultats 0 € L'incidence des commissions liées aux résultats. Nous ne prélevons pas de commission. Commissions d'intéressement 0 € Commissions d'intéressement : L'incidence des commissions d'intéressement. Nous ne prélevons pas de montant. Si votre réclamation concerne une personne qui fournit",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "coûts récurrents",
+     "snippet": "ts Coûts de transaction de portefeuille 6 € L'incidence des coûts encourus lorsque nous achetons ou vendons des investissements sous-jacents au produit. Autres coûts récurrents 123 € L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements et les coûts présentés à la section II. Coûts accessoires Commissions liées aux résultats 0 € L'incidence des commissions liées aux résultats. Nous ne prélevons pas de commission. Commissions d'intéressement 0 € Commissions d'intéressement : L'incidence des commissions d'intéressement. Nous ne prélevons pas de montant. Si votre réclamation concerne une personne qui fournit des conseils sur le produit ou qui le vend, veuillez contacter cette personne en direct. FIDUCIAL Gérance s'engage à accuser réception de votre demande sous",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "frais de souscription",
+     "snippet": "ance dans le cadre de la gestion et/ou de l'administration des FIA, lesdits collaborateurs bénéficient d'un remboursement partiel par la Société de Gestion des frais de souscription H.T. à hauteur maximum de 50 %. De manière générale, la Société de Gestion s'assure du traitement équitable de l'ensemble des investisseurs du fonds géré.",
+     "percents": [
+      {
+       "raw": "50 %",
+       "value": 50.0,
+       "tax_hint": null,
+       "after": ". De manière générale, la Société de Gestion"
+      }
+     ],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://www.fiducial-gerance.fr/content/download/547/file/Note%20d%27information%20et%20statuts%20Buroboutic%20-%2001.2026.pdf?version=6",
+   "final_url": "https://www.fiducial-gerance.fr/content/download/547/file/Note%20d%27information%20et%20statuts%20Buroboutic%20-%2001.2026.pdf?version=6",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 4490249,
+   "sha256": "bfb7c365e2a89a3fd25bc1515d282cf5bb07466daf9aa94c9bafb7464ad49396",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 21.1 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260107145322+01'00'",
+    "modDate": "D:20260107145330+01'00'"
+   },
+   "page_count": 57,
+   "text_characters": 255300,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "buroboutic",
+   "title_excerpt": "www.fiducial-gerance.fr L'investissement réalisé ne préjuge pas des investissements futurs Note d'information et statuts Buroboutic",
+   "dates": [
+    "11 juillet 2023",
+    "11 juin 2025",
+    "12 mars 2025",
+    "1er janvier 2024",
+    "1er janvier 2026",
+    "1er juillet 2024",
+    "1er octobre 2023",
+    "2 janvier 2026",
+    "22 juin 2017",
+    "24 JUIN 2025",
+    "24 juin 2025",
+    "27 JANVIER 2017"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "commission de gestion",
+     "snippet": "ires portant sur : • L'intégration des nouvelles dispositions issues des ordonnances n°2024-662 du 3 juillet 2024 et n°2025-230 du 12 mars 2025 • Le taux de la commission de gestion allouée à la Société de Gestion ...........................................................................……………… page 6 3. Actualisation de la note d'information au 11 juin 2025 Fixation du montant de la limite maximale de dotation du fonds de remboursement Sursis d'application des clauses statutaires relatives aux outils de gestion de la liquidité du marché des parts, adoptés aux termes des délibérations de l'Assemblée Générale Extraordinaire en date du 8 juillet 2024 Désignation d'un nouvel expert externe en évaluation sur la base d'un appel d'offres ..........................................................",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 7,
+     "label": "commission de souscription",
+     "snippet": " souscription se décompose de la manière suivante : Valeur nominale par part : 50,00 euros Prime d'émission : 27,00 euros Prix de souscription : 77,00 euros La commission de souscription, incluse dans le prix de souscription, s'établit à 10% hors taxes du montant de chaque souscription soit 7,70 euros H.T., prime d'émission incluse. Ce prix de souscription de 77,00 euros s'entend net de tout autre frais. Toute modification de ce nouveau prix de souscription de 77,00 euros fera l'objet, après information de l'Autorité des marchés financiers, d'une publication sur le site internet de FIDUCIAL Gérance : www.fiducial-gerance.fr. Nouveau prix de retrait à compter du 1er janvier 2026 Conformément au chapitre 2 de la note d'information ayant reçu de l'Autorité des marchés financiers le visa SCPI ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant de chaque souscription"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "Commission de souscription",
+     "snippet": " 2017, le nouveau prix de retrait au 1er janvier 2026 et jusqu'à nouvel avis est de 69,30 euros et se décompose comme suit : Prix de souscription : 77,00 euros Commission de souscription de 10% : - 7,70 euros Prix de retrait : 69,30 euros * En considération de la divisibilité par trois (3) du prix de souscription de 230 euros entraînant des rompus, le nouveau prix de souscription a été arrondi à l'euro supérieur pour être fixé à 77,00 euros",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ": - 7,70 euros Prix de retrait : 69,30 euros"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de gestion",
+     "snippet": "1 du Code monétaire et financier. L'article 20-1 – Assemblées Générales – Convocation des statuts a été modifié en conséquence. 6°/ Actualisation du taux de la commission de gestion en cohérence avec la pratique de marché et l'accroissement des obligations de reporting extra-financier liées au développement durable internaliser En considération de l'analyse de la pratique de marché et de l'accroissement des obligations de reporting extra-financier liées au développement durable dont les prestations sont internalisées progressivement par la Société de Gestion, le taux de la commission de gestion a été porté de 9% à 9,5% entraînant la modification corrélative du point 2° de l'article 17 des statuts comme suit : « 2° Pour la gestion des biens sociaux, l'administration de la SCPI, l'informatio",
+     "percents": [
+      {
+       "raw": "9%",
+       "value": 9.0,
+       "tax_hint": null,
+       "after": "à 9,5% entraînant la modification corrélativ"
+      },
+      {
+       "raw": "9,5%",
+       "value": 9.5,
+       "tax_hint": null,
+       "after": "entraînant la modification corrélative du po"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 9,
+     "label": "commission de gestion",
+     "snippet": "ns de reporting extra-financier liées au développement durable dont les prestations sont internalisées progressivement par la Société de Gestion, le taux de la commission de gestion a été porté de 9% à 9,5% entraînant la modification corrélative du point 2° de l'article 17 des statuts comme suit : « 2° Pour la gestion des biens sociaux, l'administration de la SCPI, l'information des associés, l'encaissement des loyers et la répartition des résultats, une commission de gestion de 9,5% hors taxes des produits locatifs hors taxes encaissés et des produits financiers nets. » Dans le cadre de la lecture de la note d'information, il convient également de prendre acte de ladite actualisation en procédant au remplacement au sein du Chapitre 3 – Commissions – 1. Commission de gestion comme suit : «",
+     "percents": [
+      {
+       "raw": "9%",
+       "value": 9.0,
+       "tax_hint": null,
+       "after": "à 9,5% entraînant la modification corrélativ"
+      },
+      {
+       "raw": "9,5%",
+       "value": 9.5,
+       "tax_hint": null,
+       "after": "entraînant la modification corrélative du po"
+      },
+      {
+       "raw": "9,5%",
+       "value": 9.5,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes des produits locatifs hors taxes"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de gestion",
+     "snippet": "« 2° Pour la gestion des biens sociaux, l'administration de la SCPI, l'information des associés, l'encaissement des loyers et la répartition des résultats, une commission de gestion de 9,5% hors taxes des produits locatifs hors taxes encaissés et des produits financiers nets. » Dans le cadre de la lecture de la note d'information, il convient également de prendre acte de ladite actualisation en procédant au remplacement au sein du Chapitre 3 – Commissions – 1. Commission de gestion comme suit : « Pour la gestion des biens sociaux, l'administration de la SCPI, l'information des associés, l'encaissement des loyers et la répartition des résultats, la Société de Gestion percevra une commission de gestion de 9,5% hors taxes des produits locatifs hors taxes encaissés et des produits financiers n",
+     "percents": [
+      {
+       "raw": "9,5%",
+       "value": 9.5,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes des produits locatifs hors taxes"
+      },
+      {
+       "raw": "9,5%",
+       "value": 9.5,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes des produits locatifs hors taxes"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "Commission de gestion",
+     "snippet": "e de la note d'information, il convient également de prendre acte de ladite actualisation en procédant au remplacement au sein du Chapitre 3 – Commissions – 1. Commission de gestion comme suit : « Pour la gestion des biens sociaux, l'administration de la SCPI, l'information des associés, l'encaissement des loyers et la répartition des résultats, la Société de Gestion percevra une commission de gestion de 9,5% hors taxes des produits locatifs hors taxes encaissés et des produits financiers nets, TVA en sus au taux en vigueur. La Société de Gestion prélèvera les sommes correspondantes sur une base mensuelle. ».",
+     "percents": [
+      {
+       "raw": "9,5%",
+       "value": 9.5,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes des produits locatifs hors taxes"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de gestion",
+     "snippet": "sociaux, l'administration de la SCPI, l'information des associés, l'encaissement des loyers et la répartition des résultats, la Société de Gestion percevra une commission de gestion de 9,5% hors taxes des produits locatifs hors taxes encaissés et des produits financiers nets, TVA en sus au taux en vigueur. La Société de Gestion prélèvera les sommes correspondantes sur une base mensuelle. ».",
+     "percents": [
+      {
+       "raw": "9,5%",
+       "value": 9.5,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes des produits locatifs hors taxes"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 11,
+     "label": "frais de souscription",
+     "snippet": "ANCE dans le cadre de la gestion et/ou de l'administration des FIA, lesdits collaborateurs bénéficient d'un remboursement partiel par la Société de Gestion des frais de souscription H.T. à hauteur maximum de 50%. De manière générale, la Société de Gestion s'assure du traitement équitable de l'ensemble des investisseurs du fonds géré.",
+     "percents": [
+      {
+       "raw": "50%",
+       "value": 50.0,
+       "tax_hint": null,
+       "after": ". De manière générale, la Société de Gestion"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "commission de souscription",
+     "snippet": "ouscription se décompose de la manière suivante : Valeur nominale par part : 150,00 euros Prime d'émission : 80,00 euros Prix de souscription : 230,00 euros La commission de souscription, incluse dans le prix de souscription, s'établit à 10 % hors taxes du montant de chaque souscription soit 23,00 euros H.T., prime d'émission incluse. Ce prix de souscription de 230,00 euros s'entend net de tout autre frais. Toute modification de ce nouveau prix de souscription de 230,00 euros fera l'objet, après information de l'Autorité des marchés financiers, d'une publication sur le site internet de FIDUCIAL Gérance : www.fiducial-gerance.fr. Nouveau prix de retrait à compter du 1er octobre 2023 Conformément au chapitre 2 de la note d'information ayant reçu de l'Autorité des marchés financiers le visa S",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant de chaque souscription"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 17,
+     "label": "Commission de souscription",
+     "snippet": "nciers le visa SCPI n°17-01 du 27 janvier 2017, le nouveau prix de retrait est de 207,00 euros et se décompose comme suit : Prix de souscription : 230,00 euros Commission de souscription de 10 % : - 23,00 euros Prix de retrait : 207,00 euros",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ": - 23,00 euros Prix de retrait : 207,00 eur"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 22,
+     "label": "commission de cession",
+     "snippet": "rnet, courrier), dès lors que le prix d'exécution conduit à constater, au cours de quatre périodes consécutives de confrontation, un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier. la cession directe des parts sans intervention de la Société de Gestion à des conditions librement débattues entre le cédant et le cessionnaire. Information sur les modalités de sortie du produit",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "Commission de gestion",
+     "snippet": " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . page 32 1. Commission de gestion . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - 2. Commission de souscription de parts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - 3. Commission de cession de parts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "Commission de souscription",
+     "snippet": " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - 2. Commission de souscription de parts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - 3. Commission de cession de parts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - 3.1 Commission en cas de cession intervenant sur le marché secondaire . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "Commission de cession",
+     "snippet": " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - 3. Commission de cession de parts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - 3.1 Commission en cas de cession intervenant sur le marché secondaire . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - 3.2 Commission en cas de cession résultant d'une cession à titre gratuit ou en cas de décès . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "Commission de Cession",
+     "snippet": "ré à gré . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - 4. Commission de Cession et d'Acquisition d'actifs immobiliers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - 5. Commission de suivi et de pilotage des travaux . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - Chapitre 4 - Fonctionnement de la Société . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . page 3",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "Commission de suivi",
+     "snippet": "obiliers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - 5. Commission de suivi et de pilotage des travaux . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . - Chapitre 4 - Fonctionnement de la Société . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . page 33 1. Régime des assemblées générales . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 27,
+     "label": "commission de cession",
+     "snippet": "rnet, courrier), dès lors que le prix d'exécution conduit à constater, au cours de quatre périodes consécutives de confrontation, un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier. Dans l'hypothèse où la Société de Gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent, et après huit périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 30,
+     "label": "commission de souscription",
+     "snippet": "0 € Prime d'émission : 117 € Prix de souscription : 267 € A cette date, l'écart entre le prix de souscription et la valeur de reconstitution est de -2,67 %. La commission de souscription, incluse dans le prix de souscription, s'établit à 10 % hors taxes du montant de chaque souscription soit 26,70 € HT, prime d'émission incluse. Cette commission comporte : les frais de collecte des capitaux; les frais de recherche des investissements. Le prix de souscription s'entend net de tous autres frais. La prime d'émission ainsi que la prime de fusion sont destinées : à couvrir forfaitairement les frais engagés par la SCPI pour la prospection des capitaux, la recherche des actifs immobiliers et les augmentations de capital ainsi que les frais d'acquisition des actifs immobiliers notamment droits d'en",
+     "percents": [
+      {
+       "raw": "2,67 %",
+       "value": 2.67,
+       "tax_hint": null,
+       "after": ". La commission de souscription, incluse dans"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant de chaque souscription"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 30,
+     "label": "frais d'acquisition",
+     "snippet": "rfaitairement les frais engagés par la SCPI pour la prospection des capitaux, la recherche des actifs immobiliers et les augmentations de capital ainsi que les frais d'acquisition des actifs immobiliers notamment droits d'enregistrement ou T.V.A. non récupérable des actifs immobiliers commerciaux ou professionnels, frais de notaire et commissions ; à préserver l'égalité des associés, en usant de la faculté éventuelle de maintenir le montant unitaire du report à nouveau existant par prélèvement sur lesdites primes. Il ne peut être procédé à des émissions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe, sur le registre prévu à l'article 422-218 du Règlement général de l'Autorité des marchés financiers, des demandes de retrait non satisfaites à un prix inférieur o",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 32,
+     "label": "commission de souscription",
+     "snippet": "ond au montant du nominal majoré de la prime d'émission (soit le prix de souscription en vigueur à la date de retrait), diminué d'un montant correspondant à la commission de souscription hors taxes (HT). La demande de retrait est compensée par des demandes de souscription. Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. L'associé se retirant perçoit 240,30 € par part, soit : Prix de souscription depuis le 17 février 2017 : 267 € Commission de souscription de 10 % HT : 26,70 € HT Prix de retrait : 240,30 € HT En cas de baisse du prix de retrait, la Société de Gestion informe les associés ayant demandé le retrait, par lettre recommandée avec demande d'avis de réception, au plus tard la veille",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT : 26,70 € HT Prix de retrait : 240,30 € H"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 32,
+     "label": "commission de souscription",
+     "snippet": "nsée par des demandes de souscription. Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. L'associé se retirant perçoit 240,30 € par part, soit : Prix de souscription depuis le 17 février 2017 : 267 € Commission de souscription de 10 % HT : 26,70 € HT Prix de retrait : 240,30 € HT En cas de baisse du prix de retrait, la Société de Gestion informe les associés ayant demandé le retrait, par lettre recommandée avec demande d'avis de réception, au plus tard la veille de la date d'effet. En l'absence de réaction de la part des associés dans un délai de 15 jours à compter de la date de réception de la lettre recommandée avec accusé de réception, la demande de retrait est réputée maintenue au nouveau",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT : 26,70 € HT Prix de retrait : 240,30 € H"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 32,
+     "label": "Commission de souscription",
+     "snippet": "iption diminué de la commission de souscription. L'associé se retirant perçoit 240,30 € par part, soit : Prix de souscription depuis le 17 février 2017 : 267 € Commission de souscription de 10 % HT : 26,70 € HT Prix de retrait : 240,30 € HT En cas de baisse du prix de retrait, la Société de Gestion informe les associés ayant demandé le retrait, par lettre recommandée avec demande d'avis de réception, au plus tard la veille de la date d'effet. En l'absence de réaction de la part des associés dans un délai de 15 jours à compter de la date de réception de la lettre recommandée avec accusé de réception, la demande de retrait est réputée maintenue au nouveau prix. Cette information est contenue dans la lettre de notification. 1.6 Publication des retraits Le nombre de retraits est rendu public t",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT : 26,70 € HT Prix de retrait : 240,30 € H"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 34,
+     "label": "COMMISSION DE GESTION",
+     "snippet": "issent s'y opposer. Chapitre 3 - Commissions La Société de Gestion est rémunérée au titre de ses fonctions moyennant les commissions statutaires suivantes : 1. COMMISSION DE GESTION Pour la gestion des biens sociaux, l'administration de la SCPI, l'information des associés, l'encaissement des loyers et la répartition des résultats, la Société de Gestion percevra une commission de gestion de 9 % hors taxes des produits locatifs hors taxes encaissés et des produits financiers nets, TVA en sus au taux en vigueur. La Société de Gestion prélèvera les sommes correspondantes sur une base mensuelle. 2. COMMISSION DE SOUSCRIPTION DE PARTS La Société de Gestion percevra une commission de souscription qui ne pourra excéder 10 % hors taxes du montant de chaque souscription, prime d'émission incluse, TV",
+     "percents": [
+      {
+       "raw": "9 %",
+       "value": 9.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes des produits locatifs hors taxes"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant de chaque souscription"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 34,
+     "label": "commission de gestion",
+     "snippet": "sociaux, l'administration de la SCPI, l'information des associés, l'encaissement des loyers et la répartition des résultats, la Société de Gestion percevra une commission de gestion de 9 % hors taxes des produits locatifs hors taxes encaissés et des produits financiers nets, TVA en sus au taux en vigueur. La Société de Gestion prélèvera les sommes correspondantes sur une base mensuelle. 2. COMMISSION DE SOUSCRIPTION DE PARTS La Société de Gestion percevra une commission de souscription qui ne pourra excéder 10 % hors taxes du montant de chaque souscription, prime d'émission incluse, TVA en sus au taux en vigueur. La commission de souscription versée par la SCPI à la Société de Gestion supporte : les frais de collecte des capitaux ; les frais de recherche des investissements. 3. COMMISSION ",
+     "percents": [
+      {
+       "raw": "9 %",
+       "value": 9.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes des produits locatifs hors taxes"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant de chaque souscription"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 34,
+     "label": "COMMISSION DE SOUSCRIPTION",
+     "snippet": "encaissés et des produits financiers nets, TVA en sus au taux en vigueur. La Société de Gestion prélèvera les sommes correspondantes sur une base mensuelle. 2. COMMISSION DE SOUSCRIPTION DE PARTS La Société de Gestion percevra une commission de souscription qui ne pourra excéder 10 % hors taxes du montant de chaque souscription, prime d'émission incluse, TVA en sus au taux en vigueur. La commission de souscription versée par la SCPI à la Société de Gestion supporte : les frais de collecte des capitaux ; les frais de recherche des investissements. 3. COMMISSION DE CESSION DE PARTS 3.1 Commission en cas de cession intervenant sur le marché secondaire En cas de suspension de la variabilité du capital social et lorsque les cessions de parts s'effectuent à partir du registre prévu à l'article L",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant de chaque souscription"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 34,
+     "label": "commission de souscription",
+     "snippet": "r. La Société de Gestion prélèvera les sommes correspondantes sur une base mensuelle. 2. COMMISSION DE SOUSCRIPTION DE PARTS La Société de Gestion percevra une commission de souscription qui ne pourra excéder 10 % hors taxes du montant de chaque souscription, prime d'émission incluse, TVA en sus au taux en vigueur. La commission de souscription versée par la SCPI à la Société de Gestion supporte : les frais de collecte des capitaux ; les frais de recherche des investissements. 3. COMMISSION DE CESSION DE PARTS 3.1 Commission en cas de cession intervenant sur le marché secondaire En cas de suspension de la variabilité du capital social et lorsque les cessions de parts s'effectuent à partir du registre prévu à l'article L. 214-93 du Code monétaire et financier, la Société de Gestion perçoit ",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant de chaque souscription"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 34,
+     "label": "commission de souscription",
+     "snippet": "commission de souscription qui ne pourra excéder 10 % hors taxes du montant de chaque souscription, prime d'émission incluse, TVA en sus au taux en vigueur. La commission de souscription versée par la SCPI à la Société de Gestion supporte : les frais de collecte des capitaux ; les frais de recherche des investissements. 3. COMMISSION DE CESSION DE PARTS 3.1 Commission en cas de cession intervenant sur le marché secondaire En cas de suspension de la variabilité du capital social et lorsque les cessions de parts s'effectuent à partir du registre prévu à l'article L. 214-93 du Code monétaire et financier, la Société de Gestion perçoit une commission de cession de 5 % hors taxes, TVA en sus au taux en vigueur, à la charge de l'acquéreur sur le montant total de la transaction (hors frais), calc",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant de chaque souscription"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes, TVA en sus au taux en vigueur, à"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 34,
+     "label": "COMMISSION DE CESSION",
+     "snippet": "ssion de souscription versée par la SCPI à la Société de Gestion supporte : les frais de collecte des capitaux ; les frais de recherche des investissements. 3. COMMISSION DE CESSION DE PARTS 3.1 Commission en cas de cession intervenant sur le marché secondaire En cas de suspension de la variabilité du capital social et lorsque les cessions de parts s'effectuent à partir du registre prévu à l'article L. 214-93 du Code monétaire et financier, la Société de Gestion perçoit une commission de cession de 5 % hors taxes, TVA en sus au taux en vigueur, à la charge de l'acquéreur sur le montant total de la transaction (hors frais), calculé sur le prix d'exécution de la part, en sus des droits d'enregistrement de 5 % versés au Trésor Public. 3.2 Commission en cas de cession résultant d'une cession à",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes, TVA en sus au taux en vigueur, à"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "versés au Trésor Public. 3.2 Commission en c"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 34,
+     "label": "commission de cession",
+     "snippet": "t lorsque les cessions de parts s'effectuent à partir du registre prévu à l'article L. 214-93 du Code monétaire et financier, la Société de Gestion perçoit une commission de cession de 5 % hors taxes, TVA en sus au taux en vigueur, à la charge de l'acquéreur sur le montant total de la transaction (hors frais), calculé sur le prix d'exécution de la part, en sus des droits d'enregistrement de 5 % versés au Trésor Public. 3.2 Commission en cas de cession résultant d'une cession à titre gratuit ou en cas de décès La Société de Gestion perçoit la somme de 200 € hors taxes, TVA en sus au taux en vigueur, au titre des frais de dossier pour les cessions et transferts directs ainsi que les mutations à titre gratuit (donations/ successions), quel que soit le nombre de parts transférées, à la charge ",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes, TVA en sus au taux en vigueur, à"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "versés au Trésor Public. 3.2 Commission en c"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 34,
+     "label": "COMMISSION DE CESSION",
+     "snippet": " sus au taux en vigueur, au titre des frais de dossier pour les cessions de gré à gré, quel que soit le nombre de parts transférées, à la charge du vendeur. 4. COMMISSION DE CESSION ET D'ACQUISITION D'ACTIFS IMMOBILIERS En rémunération de l'analyse et du suivi des dossiers de cessions et d'acquisitions d'actifs immobiliers, la Société de Gestion peut percevoir une commission dont le niveau sera fixé comme suit : 1% hors taxes du prix net vendeur des actifs cédés, TVA en sus au taux en vigueur, payable après signature des actes de vente. Cette commission pourra être prélevée sur la réserve de plus ou moins-value sur cessions d'actifs immobiliers ; 1,5% hors taxes du prix d'acquisition, hors droits et hors frais de mutation, des actifs immobiliers qui ne seraient pas financés par la création",
+     "percents": [
+      {
+       "raw": "1%",
+       "value": 1.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du prix net vendeur des actifs cé"
+      },
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du prix d'acquisition, hors droit"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 34,
+     "label": "frais de mutation",
+     "snippet": "ssion pourra être prélevée sur la réserve de plus ou moins-value sur cessions d'actifs immobiliers ; 1,5% hors taxes du prix d'acquisition, hors droits et hors frais de mutation, des actifs immobiliers qui ne seraient pas financés par la création de parts nouvelles, TVA en sus aux taux en vigueur, payable après signature des actes d'acquisition. Cette commission pourra être prélevée sur la prime d'émission. 5. COMMISSION DE SUIVI ET DE PILOTAGE DES TRAVAUX La Société de Gestion perçoit une commission de suivi et de pilotage de la réalisation de travaux sur le patrimoine immobilier au taux de 2 % hors taxes du montant hors taxes des travaux effectués, TVA en sus au taux en vigueur, sous réserve que ces travaux concernent des constructions, agrandissements, reconstruction ou travaux de rénov",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du prix d'acquisition, hors droit"
+      },
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant hors taxes des travaux"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 34,
+     "label": "COMMISSION DE SUIVI",
+     "snippet": "s nouvelles, TVA en sus aux taux en vigueur, payable après signature des actes d'acquisition. Cette commission pourra être prélevée sur la prime d'émission. 5. COMMISSION DE SUIVI ET DE PILOTAGE DES TRAVAUX La Société de Gestion perçoit une commission de suivi et de pilotage de la réalisation de travaux sur le patrimoine immobilier au taux de 2 % hors taxes du montant hors taxes des travaux effectués, TVA en sus au taux en vigueur, sous réserve que ces travaux concernent des constructions, agrandissements, reconstruction ou travaux de rénovation lourde en ce compris les mises aux normes environnementales et énergétiques qui soient générateurs de revenus complémentaires ou de plus-values en cas de vente du bien après travaux. Cette commission pourra être prélevée sur la prime d'émission.",
+     "percents": [
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant hors taxes des travaux"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 34,
+     "label": "commission de suivi",
+     "snippet": "acquisition. Cette commission pourra être prélevée sur la prime d'émission. 5. COMMISSION DE SUIVI ET DE PILOTAGE DES TRAVAUX La Société de Gestion perçoit une commission de suivi et de pilotage de la réalisation de travaux sur le patrimoine immobilier au taux de 2 % hors taxes du montant hors taxes des travaux effectués, TVA en sus au taux en vigueur, sous réserve que ces travaux concernent des constructions, agrandissements, reconstruction ou travaux de rénovation lourde en ce compris les mises aux normes environnementales et énergétiques qui soient générateurs de revenus complémentaires ou de plus-values en cas de vente du bien après travaux. Cette commission pourra être prélevée sur la prime d'émission.",
+     "percents": [
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant hors taxes des travaux"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 37,
+     "label": "frais d'acquisition",
+     "snippet": "érale, la plus-value, lors de la revente des parts de la SCPI, est égale à la différence entre le prix de cession et le prix d'acquisition des parts majoré des frais d'acquisition (pris en compte pour leur montant réel). Cette plus-value est déduite par l'application d'un abattement progressif, fixé ainsi qu'il suit : Durée de détention (date à date) Taux d'abattement applicable chaque année de détention Assiette pour l'IR Assiette pour les prélèvements sociaux Moins de 6 ans 0 % 0 % De la 6ème à la 21ème année 6 % 1,65 % 22ème année révolue 4 % 1,60 % Au-delà de la 22ème année révolue - 9 % Ainsi la plus-value immobilière est exonérée : Au bout de 22 ans de détention pour l'impôt sur le revenu ; Au bout de 30 ans de détention pour les prélèvements sociaux. La plus-value nette, après abatt",
+     "percents": [
+      {
+       "raw": "0 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "0 % De la 6ème à la 21ème année 6 % 1,65 % 2"
+      },
+      {
+       "raw": "0 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "De la 6ème à la 21ème année 6 % 1,65 % 22ème"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "1,65 % 22ème année révolue 4 % 1,60 % Au-del"
+      },
+      {
+       "raw": "1,65 %",
+       "value": 1.65,
+       "tax_hint": null,
+       "after": "22ème année révolue 4 % 1,60 % Au-delà de la"
+      },
+      {
+       "raw": "4 %",
+       "value": 4.0,
+       "tax_hint": null,
+       "after": "1,60 % Au-delà de la 22ème année révolue - 9"
+      },
+      {
+       "raw": "1,60 %",
+       "value": 1.6,
+       "tax_hint": null,
+       "after": "Au-delà de la 22ème année révolue - 9 % Ains"
+      },
+      {
+       "raw": "9 %",
+       "value": 9.0,
+       "tax_hint": null,
+       "after": "Ainsi la plus-value immobilière est exonérée"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 37,
+     "label": "frais d'acquisition",
+     "snippet": " s'appréciant opération par opération ; si ce montant est dépassé, le prix d'acquisition du bien cédé est, pour la détermination de la plus-value, majoré : des frais d'acquisition qui, tels que définis par décret, sont retenus soit pour leur montant réel sur justification, soit pour un montant forfaitaire correspondant à 7,50 % du prix d'acquisition,",
+     "percents": [
+      {
+       "raw": "7,50 %",
+       "value": 7.5,
+       "tax_hint": null,
+       "after": "du prix d'acquisition,"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 44,
+     "label": "commission de gestion",
+     "snippet": "s, (ii) sur l'intégration des nouvelles dispositions issues des ordonnances n°2024-662 du 3 juillet 2024 et n°2025-230 du 12 mars 2025, (iii) sur le taux de la commission de gestion allouée à la Société de Gestion et (iv) sur l'actualisation de textes codifiés ou des harmonisations statutaires BUROBOUTIC Société Civile de Placement Immobilier à capital variable faisant offre au public de ses parts sociales Au capital social effectif de 207 731 550 euros au 31 décembre 2024 Siège social : 41 rue du Capitaine Guynemer - 92400 COURBEVOIE 339 967 473 RCS NANTERRE Copie certifiée conforme La Société de Gestion",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 46,
+     "label": "commission de cession",
+     "snippet": "ion des cessions de parts sur le marché secondaire conduit à constater, au cours d'une période définie par la note d'information, un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier. Dans l'hypothèse où la Société de Gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent, et après une période définie par la note d'information, au cours de laquelle le prix d'exécution des cessions de parts sur le marché secondaire aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier, elle aura ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 46,
+     "label": "commission de cession",
+     "snippet": "e d'information, au cours de laquelle le prix d'exécution des cessions de parts sur le marché secondaire aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés par tout moyen approprié (bulletin périodique d'information, site internet, courrier...). Le rétablissement de la variabilité du capital social entraîne : L'annulation des ordres d'achat et de vente de parts, sauf si la Société de Gestion décide de maintenir actif le marché secondaire, La fixation d'un prix de souscription conformément à la réglementation, L'inscription sur le registre de",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 47,
+     "label": "commission de souscription",
+     "snippet": "onstitution de la Société est égale à la somme de la valeur vénale des actifs immobiliers et de la valeur nette des autres actifs de la Société augmentée de la commission de souscription et de l'estimation des frais qui seraient nécessaires pour l'acquisition du patrimoine à la date de clôture de l'exercice. 7° - Prime d'émission ou de fusion La prime d'émission ou la prime de fusion sont, notamment, destinées : à couvrir forfaitairement les frais engagés par la Société pour la prospection des capitaux, la recherche des actifs immobiliers et l'augmentation de capital ainsi que les frais d'acquisition des actifs immobiliers notamment droits d'enregistrement ou T.V.A. non récupérable des actifs immobiliers commerciaux ou professionnels, frais de notaire et commissions; à préserver l'égalité ",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur"
+     ]
+    },
+    {
+     "page": 47,
+     "label": "frais d'acquisition",
+     "snippet": "rfaitairement les frais engagés par la Société pour la prospection des capitaux, la recherche des actifs immobiliers et l'augmentation de capital ainsi que les frais d'acquisition des actifs immobiliers notamment droits d'enregistrement ou T.V.A. non récupérable des actifs immobiliers commerciaux ou professionnels, frais de notaire et commissions; à préserver l'égalité des associés, en usant de la faculté éventuelle de maintenir le montant unitaire du report à nouveau existant par prélèvement sur lesdites primes. La préservation des intérêts des associés pourra être également assurée, sur décision de la Société de Gestion, par la fixation de la date de jouissance des parts. Ces modalités seront publiées dans chaque bulletin périodique d'information. ARTICLE 8 - RETRAIT DES ASSOCIÉS - FONDS",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 48,
+     "label": "commission de souscription",
+     "snippet": "ond au montant du nominal majoré de la prime d'émission (soit le prix de souscription en vigueur à la date de retrait), diminué d'un montant correspondant à la commission de souscription hors taxes (HT). La demande de retrait est compensée par des demandes de souscription. Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. En cas de modification du prix de souscription des parts au cours de la Période de Compensation, le prix de retrait ne peut être ni supérieur à la valeur de réalisation, ni au prix de souscription, diminué des commissions de souscription, le moins élevé constaté durant la Période de Compensation. En cas de baisse du prix de retrait, la Société de Gestion informe les associés",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 48,
+     "label": "commission de souscription",
+     "snippet": "nsée par des demandes de souscription. Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. En cas de modification du prix de souscription des parts au cours de la Période de Compensation, le prix de retrait ne peut être ni supérieur à la valeur de réalisation, ni au prix de souscription, diminué des commissions de souscription, le moins élevé constaté durant la Période de Compensation. En cas de baisse du prix de retrait, la Société de Gestion informe les associés ayant demandé le retrait, par lettre recommandée avec demande d'avis de réception, au plus tard la veille de la date d'effet. En l'absence de réaction de la part des associés dans un délai de quinze (15) jours à compter de la date de ",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 48,
+     "label": "commissions de souscription",
+     "snippet": " parts au cours de la Période de Compensation, le prix de retrait ne peut être ni supérieur à la valeur de réalisation, ni au prix de souscription, diminué des commissions de souscription, le moins élevé constaté durant la Période de Compensation. En cas de baisse du prix de retrait, la Société de Gestion informe les associés ayant demandé le retrait, par lettre recommandée avec demande d'avis de réception, au plus tard la veille de la date d'effet. En l'absence de réaction de la part des associés dans un délai de quinze (15) jours à compter de la date de réception de la lettre recommandée avec accusé de réception, la demande de retrait est réputée maintenue au nouveau prix, conformément aux dispositions de l'article 422-219 du Règlement Général de l'Autorité des marchés financiers. Cette ",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 51,
+     "label": "commission de souscription",
+     "snippet": "es SCPI et de manière générale, toutes les dépenses n'entrant pas dans le cadre de l'administration pure de la Société. La Société de Gestion percevra : 1° Une commission de souscription qui ne pourra excéder 10 % hors taxes du montant de chaque souscription, prime d'émission incluse. La commission de souscription versée par la SCPI à la Société de Gestion supporte : les frais de collecte des capitaux; les frais de recherche des investissements. 2° Pour la gestion des biens sociaux, l'administration de la SCPI, l'information des associés, l'encaissement des loyers et la répartition des résultats, une commission de gestion de 9 % hors taxes des produits locatifs hors taxes encaissés et des produits financiers nets. La Société de Gestion pourra prélever les sommes correspondantes conformémen",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant de chaque souscription"
+      },
+      {
+       "raw": "9 %",
+       "value": 9.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes des produits locatifs hors taxes"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 51,
+     "label": "commission de souscription",
+     "snippet": "é de Gestion percevra : 1° Une commission de souscription qui ne pourra excéder 10 % hors taxes du montant de chaque souscription, prime d'émission incluse. La commission de souscription versée par la SCPI à la Société de Gestion supporte : les frais de collecte des capitaux; les frais de recherche des investissements. 2° Pour la gestion des biens sociaux, l'administration de la SCPI, l'information des associés, l'encaissement des loyers et la répartition des résultats, une commission de gestion de 9 % hors taxes des produits locatifs hors taxes encaissés et des produits financiers nets. La Société de Gestion pourra prélever les sommes correspondantes conformément aux modalités prévues par la note d'information. 3° Pour toute cession de parts s'effectuant à partir du registre prévu à l'art",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant de chaque souscription"
+      },
+      {
+       "raw": "9 %",
+       "value": 9.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes des produits locatifs hors taxes"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 51,
+     "label": "commission de gestion",
+     "snippet": ". 2° Pour la gestion des biens sociaux, l'administration de la SCPI, l'information des associés, l'encaissement des loyers et la répartition des résultats, une commission de gestion de 9 % hors taxes des produits locatifs hors taxes encaissés et des produits financiers nets. La Société de Gestion pourra prélever les sommes correspondantes conformément aux modalités prévues par la note d'information. 3° Pour toute cession de parts s'effectuant à partir du registre prévu à l'article L.214-93 du Code Monétaire et Financier, une commission de cession de 5 % hors taxes, à la charge de l'acquéreur, sur le montant total de la transaction (hors frais), calculé sur le prix d'exécution de la part, en sus des droits d'enregistrement de 5 % versés au Trésor Public. 4° Pour les cessions de parts social",
+     "percents": [
+      {
+       "raw": "9 %",
+       "value": 9.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes des produits locatifs hors taxes"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes, à la charge de l'acquéreur, sur"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "versés au Trésor Public. 4° Pour les cession"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 51,
+     "label": "commission de cession",
+     "snippet": "vues par la note d'information. 3° Pour toute cession de parts s'effectuant à partir du registre prévu à l'article L.214-93 du Code Monétaire et Financier, une commission de cession de 5 % hors taxes, à la charge de l'acquéreur, sur le montant total de la transaction (hors frais), calculé sur le prix d'exécution de la part, en sus des droits d'enregistrement de 5 % versés au Trésor Public. 4° Pour les cessions de parts sociales sans son intervention ainsi que pour tout autre motif de transfert de parts sociales, des frais de dossier forfaitaires dont les modalités sont publiées dans le bulletin périodique en vigueur et fixées dans la note d'information, étant observé que lesdites modalités ne pourront être modifiées qu'après consultation du Conseil de Surveillance. 5° En rémunération de l'",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes, à la charge de l'acquéreur, sur"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "versés au Trésor Public. 4° Pour les cession"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 51,
+     "label": "frais de mutation",
+     "snippet": "sion pourra être prélevée sur la réserve de plus ou moins-value sur cessions d'actifs immobiliers ; 1,5 % hors taxes du prix d'acquisition, hors droits et hors frais de mutation, des actifs immobiliers qui ne seraient pas financés par la création de parts nouvelles, payable après signature des actes d'acquisition. Cette commission pourra être prélevée sur la prime d'émission. 6° Une commission de suivi et de pilotage de la réalisation de travaux sur le patrimoine immobilier au taux de 2 % hors taxes du montant hors taxes des travaux effectués pourra être perçue sous réserve que ces travaux concernent des constructions, agrandissements, reconstruction ou travaux de rénovation lourde en ce compris les mises aux normes environnementales et énergétiques qui soient générateurs de revenus complé",
+     "percents": [
+      {
+       "raw": "1,5 %",
+       "value": 1.5,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du prix d'acquisition, hors droit"
+      },
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant hors taxes des travaux"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 51,
+     "label": "commission de suivi",
+     "snippet": "ncés par la création de parts nouvelles, payable après signature des actes d'acquisition. Cette commission pourra être prélevée sur la prime d'émission. 6° Une commission de suivi et de pilotage de la réalisation de travaux sur le patrimoine immobilier au taux de 2 % hors taxes du montant hors taxes des travaux effectués pourra être perçue sous réserve que ces travaux concernent des constructions, agrandissements, reconstruction ou travaux de rénovation lourde en ce compris les mises aux normes environnementales et énergétiques qui soient générateurs de revenus complémentaires ou de plus-values en cas de vente du bien après travaux. Cette commission pourra être prélevée sur la prime d'émission. A toutes sommes et taux indiqués ci-dessus s'ajoute la TVA au taux en vigueur. Titre 4 - Contrôl",
+     "percents": [
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant hors taxes des travaux"
+      }
+     ],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://www.fiducial-gerance.fr/content/download/1634/file/Note%20d%27information%20et%20statuts%20Buroboutic%20-%20Actualisation%20-%2002.01.2026.pdf?version=4",
+   "final_url": "https://www.fiducial-gerance.fr/content/download/1634/file/Note%20d%27information%20et%20statuts%20Buroboutic%20-%20Actualisation%20-%2002.01.2026.pdf?version=4",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 40549,
+   "sha256": "cdcbef9488a16eb7bba36ba6eec72cde84881ab10a558d302ec4158bdecb2278",
+   "metadata": {
+    "format": "PDF 1.6",
+    "creator": "Adobe InDesign 21.1 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260107144254+01'00'",
+    "modDate": "D:20260107144254+01'00'"
+   },
+   "page_count": 1,
+   "text_characters": 2564,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "buroboutic",
+   "title_excerpt": "5 BUROBOUTIC Société Civile de Placement Immobilier à capital variable faisant offre au public de ses parts sociales Au capital social de 207 731 550 € au 31 décembre 2024 Siège Social : 41, Rue du Capitaine Guynemer - 92400 COURBEVOIE 339.967.473 RCS NANTERRE Visa de l'Autorité des marchés financiers SCPI n°17-01 du 27 janvier 2017 portant sur la note d'information Actualisation au 2 janvier 2026",
+   "dates": [
+    "1er janvier 2026",
+    "2 janvier 2026",
+    "27 janvier 2017",
+    "31 décembre 2024"
+   ],
+   "fee_clauses": [
+    {
+     "page": 1,
+     "label": "commission de souscription",
+     "snippet": " souscription se décompose de la manière suivante : Valeur nominale par part : 50,00 euros Prime d'émission : 27,00 euros Prix de souscription : 77,00 euros La commission de souscription, incluse dans le prix de souscription, s'établit à 10% hors taxes du montant de chaque souscription soit 7,70 euros H.T., prime d'émission incluse. Ce prix de souscription de 77,00 euros s'entend net de tout autre frais. Toute modification de ce nouveau prix de souscription de 77,00 euros fera l'objet, après information de l'Autorité des marchés financiers, d'une publication sur le site internet de FIDUCIAL Gérance : www.fiducial-gerance.fr. Nouveau prix de retrait à compter du 1er janvier 2026 Conformément au chapitre 2 de la note d'information ayant reçu de l'Autorité des marchés financiers le visa SCPI ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant de chaque souscription"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 1,
+     "label": "Commission de souscription",
+     "snippet": " 2017, le nouveau prix de retrait au 1er janvier 2026 et jusqu'à nouvel avis est de 69,30 euros et se décompose comme suit : Prix de souscription : 77,00 euros Commission de souscription de 10% : - 7,70 euros Prix de retrait : 69,30 euros * En considération de la divisibilité par trois (3) du prix de souscription de 230 euros entraînant des rompus, le nouveau prix de souscription a été arrondi à l'euro supérieur pour être fixé à 77,00 euros",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ": - 7,70 euros Prix de retrait : 69,30 euros"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    }
+   ]
+  },
+  {
+   "url": "https://www.fiducial-gerance.fr/content/download/1262/file/BTI%20Buroboutic%20T4%202025.pdf?version=9",
+   "final_url": "https://www.fiducial-gerance.fr/content/download/1262/file/BTI%20Buroboutic%20T4%202025.pdf?version=9",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3683527,
+   "sha256": "8aa075d4caefc6be47ebb4f22da8c2ea79f9d2a23c32fd74e745a710be9536a3",
+   "metadata": {
+    "format": "PDF 1.6",
+    "creator": "Adobe InDesign 21.2 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260202173524+01'00'",
+    "modDate": "D:20260202173642+01'00'"
+   },
+   "page_count": 6,
+   "text_characters": 28160,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "buroboutic metropoles",
+   "title_excerpt": "BUROBOUTIC Métropoles Bulletin Trimestriel d'Information de la Société Civile de Placement Immobilier N° 2025 – T4 | Période analysée : 4ème trimestre 2025 - Période de validité du 01.01.2026 au 31.03.2026 Exemple d'un investissement déjà réalisé par la SCPI BUROBOUTIC - ne préjuge pas des investissements futurs. Communication publicitaire",
+   "dates": [
+    "01.01.2026",
+    "1/01/2026",
+    "1er janvier 2026",
+    "25 avril 2025",
+    "25 juillet 2025",
+    "27 janvier 2026",
+    "27 octobre 2025",
+    "31 décembre 2025",
+    "31.03.2026",
+    "31.12.2025",
+    "31/12/2025",
+    "juin 2025"
+   ],
+   "fee_clauses": []
+  }
+ ],
+ "candidate_count": 4,
+ "summary": {
+  "dic_identity_ok": 1,
+  "note_identity_ok": 2,
+  "fee_clauses": 56,
+  "errors": 0
+ }
+}

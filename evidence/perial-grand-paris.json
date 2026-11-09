@@ -1,0 +1,77 @@
+{
+ "slug": "perial-grand-paris",
+ "name": "Perial Grand Paris",
+ "manager": "PERIAL Asset Management",
+ "crawl": [
+  {
+   "url": "https://www.perial.com/scpi/perial-grand-paris",
+   "depth": 0,
+   "final_url": "https://www.perial.com/scpi/perial-grand-paris",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.perial.com/epargnant/produits/perial-grand-paris",
+   "depth": 0,
+   "final_url": "https://www.perial.com/scpi/perial-grand-paris",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.perial.com/documentation",
+   "depth": 1,
+   "final_url": "https://www.perial.com/documentation",
+   "http_status": 200,
+   "pdf_links": 5
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://www.perial.com/documentations/note-dinformation-perial-grand-paris",
+   "final_url": "https://www.perial.com/documentations/note-dinformation-perial-grand-paris",
+   "http_status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "bytes": 116284,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.perial.com/documentations/note-dinformation-perial-opportunites-europe",
+   "final_url": "https://www.perial.com/documentations/note-dinformation-perial-opportunites-europe",
+   "http_status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "bytes": 116402,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.perial.com/documentations/note-dinformation-perial-opportunites-territoires",
+   "final_url": "https://www.perial.com/documentations/note-dinformation-perial-opportunites-territoires",
+   "http_status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "bytes": 116452,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.perial.com/documentations/note-dinformation-perial-hospitalite-europe",
+   "final_url": "https://www.perial.com/documentations/note-dinformation-perial-hospitalite-europe",
+   "http_status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "bytes": 116392,
+   "error": "not_a_pdf"
+  },
+  {
+   "url": "https://www.perial.com/documentations/note-dinformation-perial-o2",
+   "final_url": "https://www.perial.com/documentations/note-dinformation-perial-o2",
+   "http_status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "bytes": 116185,
+   "error": "not_a_pdf"
+  }
+ ],
+ "candidate_count": 5,
+ "summary": {
+  "dic_identity_ok": 0,
+  "note_identity_ok": 0,
+  "fee_clauses": 0,
+  "errors": 5
+ }
+}

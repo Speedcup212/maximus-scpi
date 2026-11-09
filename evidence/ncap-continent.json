@@ -1,0 +1,1359 @@
+{
+ "slug": "ncap-continent",
+ "name": "NCap Continent",
+ "manager": "Norma Capital",
+ "crawl": [
+  {
+   "url": "https://www.normacapital.fr/nos-offres-grand-public/scpi-ncap-continent/",
+   "depth": 0,
+   "final_url": "https://www.normacapital.fr/nos-offres-grand-public/scpi-ncap-continent/",
+   "http_status": 200,
+   "pdf_links": 1
+  },
+  {
+   "url": "https://www.normacapital.fr/documentation/document-dinformations-cles/",
+   "depth": 1,
+   "final_url": "https://www.normacapital.fr/documentation/document-dinformations-cles/",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.normacapital.fr/documentation/plaquette-ncap-continent/",
+   "depth": 1,
+   "error": "ValueError: document_too_large"
+  },
+  {
+   "url": "https://www.normacapital.fr/documentation/charte-dinvestissement-isr/",
+   "depth": 1,
+   "final_url": "https://www.normacapital.fr/documentation/charte-dinvestissement-isr/",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.normacapital.fr/mentions-reglementaires/",
+   "depth": 1,
+   "final_url": "https://www.normacapital.fr/mentions-reglementaires/",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.normacapital.fr/documentation/code-de-transparence/",
+   "depth": 1,
+   "final_url": "https://www.normacapital.fr/documentation/code-de-transparence/",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.normacapital.fr/documentation/statuts/",
+   "depth": 1,
+   "final_url": "https://www.normacapital.fr/documentation/statuts/",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.normacapital.fr/documentation/rapport-isr-2025/",
+   "depth": 1,
+   "error": "ValueError: document_too_large"
+  },
+  {
+   "url": "https://www.normacapital.fr/documentation/rapport-isr-2024-3/",
+   "depth": 1,
+   "error": "ValueError: document_too_large"
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://www.normacapital.fr/documentation/document-dinformations-cles/",
+   "final_url": "https://www.normacapital.fr/documentation/document-dinformations-cles/",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 614808,
+   "sha256": "3423c7480f8a4fe6c742402e17f41794c0d7f5207ccca7916c11f03cbd79df6d",
+   "metadata": {
+    "format": "PDF 1.6",
+    "title": "DIC - NCap Continent - SCPI00004909 - 2026-10-21",
+    "creator": "Pomdoc by Pomelo-Paradigm",
+    "creationDate": "D:20261021170521+02'00'"
+   },
+   "page_count": 3,
+   "text_characters": 15575,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "ncap continent",
+   "title_excerpt": "1/3 - Norma Capital - NCap Continent - SCPI00004909 - 21/10/2026 Document d'Informations Clés Objectif Le présent document contient des informations essentielles sur le produit d'investissement. Il ne s'agit pas d'un document à caractère commercial. Ces informations vous sont fournies conformément à une obligation légale, afin de vous aider à comprendre en quoi consiste ce produit et quels risques",
+   "dates": [
+    "17 mars 2023",
+    "21/10/2026",
+    "août 2013",
+    "août 2021",
+    "février 2014",
+    "février 2022",
+    "janvier 2026",
+    "juin 2023"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Coûts d'entrée",
+     "snippet": "ces qu'elle vous fournit. Cette personne vous informera du montant. Composition des coûts : Coûts ponctuels à l'entrée ou à la sortie Si vous sortez après 1 an Coûts d'entrée 12.00% du montant que vous payez au moment de l'entrée dans l'investissement. Il s'agit du montant maximal que vous paierez. La personne qui vous vend le produit vous informera des coûts réels. Ceci inclut les coûts de distribution de votre produit. Jusqu'à 1 200 EUR Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. 0 EUR Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 0.28% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année ",
+     "percents": [
+      {
+       "raw": "12.00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "du montant que vous payez au moment de l'ent"
+      },
+      {
+       "raw": "0.28%",
+       "value": 0.28,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts récurrents",
+     "snippet": "duit. Jusqu'à 1 200 EUR Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. 0 EUR Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 0.28% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 25 EUR Coûts de transaction 3.39% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous- jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 298 EUR Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats et commission d'intéressement Auc",
+     "percents": [
+      {
+       "raw": "0.28%",
+       "value": 0.28,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "3.39%",
+       "value": 3.39,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Frais de gestion",
+     "snippet": " Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. 0 EUR Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 0.28% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 25 EUR Coûts de transaction 3.39% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous- jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 298 EUR Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats et commission d'intéressement Aucune commission liée aux résultats n'exi",
+     "percents": [
+      {
+       "raw": "0.28%",
+       "value": 0.28,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "3.39%",
+       "value": 3.39,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts de transaction",
+     "snippet": "stratifs et d'exploitation 0.28% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 25 EUR Coûts de transaction 3.39% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous- jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 298 EUR Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats et commission d'intéressement Aucune commission liée aux résultats n'existe pour ce produit. 0 EUR Combien de temps dois-je le conserver et puis-je retirer de l'argent de façon anticipée ? La durée de placement minimum recommandée est de huit (8) ans En raison de la natu",
+     "percents": [
+      {
+       "raw": "0.28%",
+       "value": 0.28,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "3.39%",
+       "value": 3.39,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://www.normacapital.fr/documentation/charte-dinvestissement-isr/",
+   "final_url": "https://www.normacapital.fr/documentation/charte-dinvestissement-isr/",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 402752,
+   "sha256": "a30e43dc6f7e0b3329939da4c1ac383aed22d08454b6de338d0be830827e3a9d",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Microsoft Office User",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260923180316+02'00'",
+    "modDate": "D:20260923180316+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 10576,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "ncap continent",
+   "title_excerpt": "CHARTE D'INVESTISSEMENT ISR Date de l'édition Sept embre 2026 Ce document concerne le pilotage de la stratégie d'investissement socialement responsable (ISR) de : SCPI NCap Continent Société Civile de Placement Immobilier à capital variable, immatriculée au RCS de Paris sous le numéro 921 431 854. Visa AMF SCPI n°23-01 en date du 10 janvier 2023 (ci-après la « Société » ou « NCap Continent »). La ",
+   "dates": [
+    "08/10/2025",
+    "09/06/2016",
+    "10 janvier 2023",
+    "13/12/2024",
+    "20/03/2026",
+    "20/12/2022",
+    "23/09/2026",
+    "27 novembre 2019",
+    "Décembre 2024",
+    "Mars 2026",
+    "Novembre 2022",
+    "Septembre 2025"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.normacapital.fr/documentation/code-de-transparence/",
+   "final_url": "https://www.normacapital.fr/documentation/code-de-transparence/",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1078068,
+   "sha256": "16136b2879283c93adb749841af8db73beb2cd9ceeac2e8b2c064b6e555b3f9c",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Microsoft Office User",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260923175817+02'00'",
+    "modDate": "D:20260923175817+02'00'"
+   },
+   "page_count": 24,
+   "text_characters": 73700,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "ncap continent",
+   "title_excerpt": "CODE DE TRANSPARENCE Date de l'édition Septembre 2026 Ce document concerne le pilotage de la stratégie d'investissement socialement responsable (ISR) de : SCPI NCap Continent Société Civile de Placement Immobilier à capital variable, immatriculée au RCS de Paris sous le numéro 921 431 854. Visa AMF SCPI n°23-01 en date du 10 janvier 2023 (ci-après la « Société » ou « NCap Continent »). La Société ",
+   "dates": [
+    "08/10/2025",
+    "09/06/2016",
+    "10 janvier 2023",
+    "13/12/2024",
+    "20/03/2026",
+    "20/12/2022",
+    "23/09/2026",
+    "Mars 2026",
+    "Novembre 2022",
+    "Octobre 2024",
+    "Septembre 2025",
+    "Septembre 2026"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.normacapital.fr/documentation/statuts/",
+   "final_url": "https://www.normacapital.fr/documentation/statuts/",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 306006,
+   "sha256": "898b7dde5998588b264fd9ed8cfb87be95da177ff6ffaab558aed44157ee7cf2",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.5 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260907174224+02'00'",
+    "modDate": "D:20260907174226+02'00'"
+   },
+   "page_count": 18,
+   "text_characters": 79350,
+   "kind": "statuts",
+   "identity_match": true,
+   "identity_alias": "ncap continent",
+   "title_excerpt": "1 STATUTS - SCPI NCAP CONTINENT STATUTS Société Civile de Placement Immobilier à Capital Variable Mise à jour en date du 28 avril 2026 Siège social : 18-20, place de la Madeleine– 75008 Paris Immatriculée au Registre du Commerce et des Sociétés de Paris sous le n° 921 431 854 Visa AMF n° 23-01 en date du 10 janvier 2023 (ci-après la « Société ») Source photo : Libre de droit.",
+   "dates": [
+    "10 janvier 2023",
+    "28 avril 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 6,
+     "label": "commission de souscription",
+     "snippet": "été rachète les parts pour les faire annuler. Dans ce cas, le prix de retrait d'une part correspond au prix de souscription en vigueur diminué du montant de la commission de souscription soit 10 % HT correspondant à la recherche des capitaux et à l'exécution des programmes d'investissement ainsi que des frais de dossier forfaitaires liés aux cessions. Les demandes de règlement de l'associé qui se retire ont lieu dans un délai maximum de trente (30) jours. • Cas 2 : Après un délai d'un (1) mois, dans le cas où les demandes de souscription ne permettent pas de compenser les demandes de retrait et s'il existe un fonds de remboursement constitué par l'assemblée générale et suffisamment doté, alors la Société de Gestion propose à l'associé un retrait à la valeur de réalisation en vigueur. Le rè",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT correspondant à la recherche des capitaux"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "icle 18 - Rémunération de la Société de Gestion Dans le cadre de ses fonctions, la Société de Gestion est rémunérée moyennant les commissions suivantes : • Une commission de souscription calculée sur les sommes recueillies lors des augmentations de capital ; • Une commission de gestion assise sur les produits locatifs hors taxes, les produits financiers nets et plus généralement tout produit provenant de l'utilisation et/ou de l'exploitation des actifs immobiliers encaissés ; • Une commission de cession, calculée sur le montant de la transaction lorsque la cession s'effectue à partir du registre prévu à l'article 422-205 du RG AMF, ou forfaitaire ; • Une commission d'acquisition ou de cession d'actifs immobiliers calculée sur le montant de l'acquisition ou de la cession immobilière ; • Une",
+     "percents": [],
+     "basis_tags": [
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de gestion",
+     "snippet": " rémunérée moyennant les commissions suivantes : • Une commission de souscription calculée sur les sommes recueillies lors des augmentations de capital ; • Une commission de gestion assise sur les produits locatifs hors taxes, les produits financiers nets et plus généralement tout produit provenant de l'utilisation et/ou de l'exploitation des actifs immobiliers encaissés ; • Une commission de cession, calculée sur le montant de la transaction lorsque la cession s'effectue à partir du registre prévu à l'article 422-205 du RG AMF, ou forfaitaire ; • Une commission d'acquisition ou de cession d'actifs immobiliers calculée sur le montant de l'acquisition ou de la cession immobilière ; • Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée s",
+     "percents": [],
+     "basis_tags": [
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de cession",
+     "snippet": "xes, les produits financiers nets et plus généralement tout produit provenant de l'utilisation et/ou de l'exploitation des actifs immobiliers encaissés ; • Une commission de cession, calculée sur le montant de la transaction lorsque la cession s'effectue à partir du registre prévu à l'article 422-205 du RG AMF, ou forfaitaire ; • Une commission d'acquisition ou de cession d'actifs immobiliers calculée sur le montant de l'acquisition ou de la cession immobilière ; • Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués et sur le suivi des acquisitions en état futur d'achèvement. 18.1 Commission de souscription (i) Principe Une commission de souscription est versée à la Société de Gestion afin de couvri",
+     "percents": [],
+     "basis_tags": [
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission d'acquisition",
+     "snippet": "ssion, calculée sur le montant de la transaction lorsque la cession s'effectue à partir du registre prévu à l'article 422-205 du RG AMF, ou forfaitaire ; • Une commission d'acquisition ou de cession d'actifs immobiliers calculée sur le montant de l'acquisition ou de la cession immobilière ; • Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués et sur le suivi des acquisitions en état futur d'achèvement. 18.1 Commission de souscription (i) Principe Une commission de souscription est versée à la Société de Gestion afin de couvrir les frais engagés liés à la prospection de capitaux, la recherche d'immeubles ainsi que les augmentations de capital. (ii) Montant et modalités La Société de Gestion perçoit ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 9,
+     "label": "commission de suivi",
+     "snippet": "u forfaitaire ; • Une commission d'acquisition ou de cession d'actifs immobiliers calculée sur le montant de l'acquisition ou de la cession immobilière ; • Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués et sur le suivi des acquisitions en état futur d'achèvement. 18.1 Commission de souscription (i) Principe Une commission de souscription est versée à la Société de Gestion afin de couvrir les frais engagés liés à la prospection de capitaux, la recherche d'immeubles ainsi que les augmentations de capital. (ii) Montant et modalités La Société de Gestion perçoit une commission de souscription fixée à 10 % HT soit 12 % TTC (au taux de TVA actuellement en vigueur) du prix de souscription, prime d'émi",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT soit 12 % TTC (au taux de TVA actuellemen"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA actuellement en vigueur)"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "Commission de souscription",
+     "snippet": "sation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués et sur le suivi des acquisitions en état futur d'achèvement. 18.1 Commission de souscription (i) Principe Une commission de souscription est versée à la Société de Gestion afin de couvrir les frais engagés liés à la prospection de capitaux, la recherche d'immeubles ainsi que les augmentations de capital. (ii) Montant et modalités La Société de Gestion perçoit une commission de souscription fixée à 10 % HT soit 12 % TTC (au taux de TVA actuellement en vigueur) du prix de souscription, prime d'émission incluse. Etant précisé que 8% HT (9,60% TTC au taux de TVA actuellement en vigueur) du prix de souscription prime d'émission incluse est destiné à rémunérer la préparation des augmentations de capital",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT soit 12 % TTC (au taux de TVA actuellemen"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT (9,60% TTC au taux de TVA actuellement en"
+      },
+      {
+       "raw": "9,60%",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "ier calculée sur le montant des travaux effectués et sur le suivi des acquisitions en état futur d'achèvement. 18.1 Commission de souscription (i) Principe Une commission de souscription est versée à la Société de Gestion afin de couvrir les frais engagés liés à la prospection de capitaux, la recherche d'immeubles ainsi que les augmentations de capital. (ii) Montant et modalités La Société de Gestion perçoit une commission de souscription fixée à 10 % HT soit 12 % TTC (au taux de TVA actuellement en vigueur) du prix de souscription, prime d'émission incluse. Etant précisé que 8% HT (9,60% TTC au taux de TVA actuellement en vigueur) du prix de souscription prime d'émission incluse est destiné à rémunérer la préparation des augmentations de capital et la recherche des capitaux et 2% HT (2,40",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT soit 12 % TTC (au taux de TVA actuellemen"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT (9,60% TTC au taux de TVA actuellement en"
+      },
+      {
+       "raw": "9,60%",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (2,40"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "liés à la prospection de capitaux, la recherche d'immeubles ainsi que les augmentations de capital. (ii) Montant et modalités La Société de Gestion perçoit une commission de souscription fixée à 10 % HT soit 12 % TTC (au taux de TVA actuellement en vigueur) du prix de souscription, prime d'émission incluse. Etant précisé que 8% HT (9,60% TTC au taux de TVA actuellement en vigueur) du prix de souscription prime d'émission incluse est destiné à rémunérer la préparation des augmentations de capital et la recherche des capitaux et 2% HT (2,40 % TTC au taux de TVA actuellement en vigueur) est destiné à rémunérer la préparation et l'exécution des programmes d'investissement. La commission de souscription sera imputée sur la prime d'émission et la Société de Gestion est autorisée à prélever ses h",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT soit 12 % TTC (au taux de TVA actuellemen"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT (9,60% TTC au taux de TVA actuellement en"
+      },
+      {
+       "raw": "9,60%",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (2,40 % TTC au taux de TVA actuellement e"
+      },
+      {
+       "raw": "2,40 %",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "capitaux et 2% HT (2,40 % TTC au taux de TVA actuellement en vigueur) est destiné à rémunérer la préparation et l'exécution des programmes d'investissement. La commission de souscription sera imputée sur la prime d'émission et la Société de Gestion est autorisée à prélever ses honoraires lors de la souscription. 18.2 Commission de gestion (i) Principe Une commission de gestion est versée à la Société de Gestion afin notamment de couvrir les frais administratifs et de gestion liés notamment aux frais de bureau et de personnel nécessaires à l'administration et à la gestion de la Société, à la perception des recettes locatives et à la distribution des bénéfices. (ii) Montant et modalités La Société de Gestion perçoit une commission de gestion fixée à 12 % HT soit 14,40 % TTC maximum (au taux ",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (2,40 % TTC au taux de TVA actuellement e"
+      },
+      {
+       "raw": "2,40 %",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT soit 14,40 % TTC maximum (au taux"
+      },
+      {
+       "raw": "14,40 %",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC maximum (au taux"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "Commission de gestion",
+     "snippet": " commission de souscription sera imputée sur la prime d'émission et la Société de Gestion est autorisée à prélever ses honoraires lors de la souscription. 18.2 Commission de gestion (i) Principe Une commission de gestion est versée à la Société de Gestion afin notamment de couvrir les frais administratifs et de gestion liés notamment aux frais de bureau et de personnel nécessaires à l'administration et à la gestion de la Société, à la perception des recettes locatives et à la distribution des bénéfices. (ii) Montant et modalités La Société de Gestion perçoit une commission de gestion fixée à 12 % HT soit 14,40 % TTC maximum (au taux de TVA actuellement en vigueur), sur les produits locatifs HT, les produits financiers nets encaissés par la SCPI et par les sociétés qu'elle contrôle au sens ",
+     "percents": [
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT soit 14,40 % TTC maximum (au taux de TVA"
+      },
+      {
+       "raw": "14,40 %",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC maximum (au taux de TVA actuellement en"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de gestion",
+     "snippet": "e sur la prime d'émission et la Société de Gestion est autorisée à prélever ses honoraires lors de la souscription. 18.2 Commission de gestion (i) Principe Une commission de gestion est versée à la Société de Gestion afin notamment de couvrir les frais administratifs et de gestion liés notamment aux frais de bureau et de personnel nécessaires à l'administration et à la gestion de la Société, à la perception des recettes locatives et à la distribution des bénéfices. (ii) Montant et modalités La Société de Gestion perçoit une commission de gestion fixée à 12 % HT soit 14,40 % TTC maximum (au taux de TVA actuellement en vigueur), sur les produits locatifs HT, les produits financiers nets encaissés par la SCPI et par les sociétés qu'elle contrôle au sens des critères de l'alinéa I de l'article",
+     "percents": [
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT soit 14,40 % TTC maximum (au taux de TVA"
+      },
+      {
+       "raw": "14,40 %",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC maximum (au taux de TVA actuellement en"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de gestion",
+     "snippet": "a gestion de la Société, à la perception des recettes locatives et à la distribution des bénéfices. (ii) Montant et modalités La Société de Gestion perçoit une commission de gestion fixée à 12 % HT soit 14,40 % TTC maximum (au taux de TVA actuellement en vigueur), sur les produits locatifs HT, les produits financiers nets encaissés par la SCPI et par les sociétés qu'elle contrôle au sens des critères de l'alinéa I de l'article R. 214-156 du CMF, et plus généralement tous produits provenant de l'utilisation et/ou l'exploitation des actifs immobiliers encaissés. Cette commission de gestion est réglée trimestriellement. Cette rémunération sera acquise à la Société de Gestion au fur et à mesure de la constatation par la Société de ses recettes. Elle sera prélevée directement par la Société de ",
+     "percents": [
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT soit 14,40 % TTC maximum (au taux de TVA"
+      },
+      {
+       "raw": "14,40 %",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC maximum (au taux de TVA actuellement en"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de gestion",
+     "snippet": "éa I de l'article R. 214-156 du CMF, et plus généralement tous produits provenant de l'utilisation et/ou l'exploitation des actifs immobiliers encaissés. Cette commission de gestion est réglée trimestriellement. Cette rémunération sera acquise à la Société de Gestion au fur et à mesure de la constatation par la Société de ses recettes. Elle sera prélevée directement par la Société de Gestion, lors de l'encaissement des revenus bruts par la Société, sous forme d'acomptes mensuels. Elle ne couvre pas toutes les autres dépenses qui sont prises en charge par la SCPI qui règle directement :",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 10,
+     "label": "frais de gestion",
+     "snippet": " et droits immobiliers, et notamment les honoraires à verser à des cabinets de commercialisation au titre de la relocation des immeubles ou lots vacants, • Les frais de gestion technique, d'entretien et les travaux d'aménagement, de réparation, de mise aux normes, d'agrandissement, de modification ou de reconstruction des immeubles, • Les frais et honoraires d'architectes, de maitrise d'œuvre, de conseil ou de bureaux d'études, ainsi que les autres dépenses éventuelles se rapportant aux travaux sur les immeubles, • Les assurances, en particulier celles des immeubles constituant le patrimoine, • Les impôts et taxes diverses, • Les consommations d'eau ou d'électricité, de gaz, et de combustibles et, en général, toutes les charges afférentes aux immeubles, honoraires des syndics, des gestionn",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 10,
+     "label": "Commission de cession",
+     "snippet": " organismes de tutelles et associations professionnelles, • Toutes les autres dépenses n'entrant pas dans le cadre de l'administration directe de la SCPI. 18.3 Commission de cession (i) Principe Une commission de cession est versée à la Société de Gestion afin de couvrir les frais liés aux cessions ou retraits de parts ainsi que pour les mutations à titre gratuit (donations, successions). (ii) Montant et modalités La Société de Gestion perçoit une commission forfaitaire de 100 euros HT, soit 120 euros TTC (au taux de TVA en vigueur), quel que soit le nombre de parts transférées à la charge du vendeur, donateur ou ayant droits. 18.4 \u0007Commission d'acquisition ou de cession d'actifs immobiliers (i) Principe Une commission d'acquisition ou de cession d'actifs immobiliers ou de parts de société",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 10,
+     "label": "commission de cession",
+     "snippet": " professionnelles, • Toutes les autres dépenses n'entrant pas dans le cadre de l'administration directe de la SCPI. 18.3 Commission de cession (i) Principe Une commission de cession est versée à la Société de Gestion afin de couvrir les frais liés aux cessions ou retraits de parts ainsi que pour les mutations à titre gratuit (donations, successions). (ii) Montant et modalités La Société de Gestion perçoit une commission forfaitaire de 100 euros HT, soit 120 euros TTC (au taux de TVA en vigueur), quel que soit le nombre de parts transférées à la charge du vendeur, donateur ou ayant droits. 18.4 \u0007Commission d'acquisition ou de cession d'actifs immobiliers (i) Principe Une commission d'acquisition ou de cession d'actifs immobiliers ou de parts de société que la SCPI contrôle au sens de l'alin",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 10,
+     "label": "Commission d'acquisition",
+     "snippet": " euros HT, soit 120 euros TTC (au taux de TVA en vigueur), quel que soit le nombre de parts transférées à la charge du vendeur, donateur ou ayant droits. 18.4 \u0007Commission d'acquisition ou de cession d'actifs immobiliers (i) Principe Une commission d'acquisition ou de cession d'actifs immobiliers ou de parts de société que la SCPI contrôle au sens de l'alinéa I de l'article R. 214-156 du Code monétaire et financier est versée à la Société de Gestion afin de la rémunérer lors de la vente ou de l'achat en réemploi des fonds issus de la vente d'un immeuble, ou de titres de sociétés immobilières pour le compte de la Société. (ii) Montant et modalités La Société de Gestion perçoit une commission égale à : • 2,5 % HT maximum du prix d'acquisition ou du prix de cession (hors taxes, hors droits et ",
+     "percents": [
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT maximum du prix d'acquisition ou du prix"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "commission d'acquisition",
+     "snippet": "ombre de parts transférées à la charge du vendeur, donateur ou ayant droits. 18.4 \u0007Commission d'acquisition ou de cession d'actifs immobiliers (i) Principe Une commission d'acquisition ou de cession d'actifs immobiliers ou de parts de société que la SCPI contrôle au sens de l'alinéa I de l'article R. 214-156 du Code monétaire et financier est versée à la Société de Gestion afin de la rémunérer lors de la vente ou de l'achat en réemploi des fonds issus de la vente d'un immeuble, ou de titres de sociétés immobilières pour le compte de la Société. (ii) Montant et modalités La Société de Gestion perçoit une commission égale à : • 2,5 % HT maximum du prix d'acquisition ou du prix de cession (hors taxes, hors droits et hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvem",
+     "percents": [
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT maximum du prix d'acquisition ou du prix"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "commission de souscription",
+     "snippet": "ouvelles souscriptions, la rémunération correspondante à cette mission d'investissement ayant déjà été perçue par la Société de Gestion par la perception de la commission de souscription.",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 11,
+     "label": "Commission de suivi",
+     "snippet": "11 STATUTS - SCPI NCAP CONTINENT 18.5 \u0007Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier (i) Principe Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier est versée à la Société de Gestion afin de la rémunérer lorsque des travaux, en ce compris le suivi des VEFA, sont réalisés dans les immeubles de la Société. (ii) Montant et modalités La Société de Gestion perçoit une commission égale à 1,5% HT maximum du montant toutes taxes comprises des travaux effectivement réalisés. Une commission est également due lors des acquisitions en état futur d'achèvement pour le suivi des travaux de c",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant toutes taxes comprises"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 11,
+     "label": "commission de suivi",
+     "snippet": "11 STATUTS - SCPI NCAP CONTINENT 18.5 \u0007Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier (i) Principe Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier est versée à la Société de Gestion afin de la rémunérer lorsque des travaux, en ce compris le suivi des VEFA, sont réalisés dans les immeubles de la Société. (ii) Montant et modalités La Société de Gestion perçoit une commission égale à 1,5% HT maximum du montant toutes taxes comprises des travaux effectivement réalisés. Une commission est également due lors des acquisitions en état futur d'achèvement pour le suivi des travaux de construction jusqu'à la livraison de l'immeuble, égale à 1% du montant de la VEFA. TITRE IV Contrôle de la Socié",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant toutes taxes comprises"
+      },
+      {
+       "raw": "1%",
+       "value": 1.0,
+       "tax_hint": null,
+       "after": "du montant de la VEFA. TITRE IV Contrôle de"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "commission de souscription",
+     "snippet": " présent article sont mis à la disposition des commissaires aux comptes dans les conditions déterminées par le CMF. Les frais d'augmentation de capital dont la commission de souscription, les frais de recherche d'immeubles et les frais d'acquisition de ces derniers, versées à la Société de Gestion, pourront être prélevés sur la prime d'émission. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d'évaluation que les années précédentes. Toutefois, la Société de Gestion peut proposer à l'assemblée générale ordinaire des modifications dans la présentation des comptes, dans les conditions prévues par les dispositions légales et réglementaires. Article 30 - Détermination des bénéfices Le compte de résultat qui récapitule les produits et charges de l'exercice fait",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "frais d'acquisition",
+     "snippet": "s dans les conditions déterminées par le CMF. Les frais d'augmentation de capital dont la commission de souscription, les frais de recherche d'immeubles et les frais d'acquisition de ces derniers, versées à la Société de Gestion, pourront être prélevés sur la prime d'émission. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d'évaluation que les années précédentes. Toutefois, la Société de Gestion peut proposer à l'assemblée générale ordinaire des modifications dans la présentation des comptes, dans les conditions prévues par les dispositions légales et réglementaires. Article 30 - Détermination des bénéfices Le compte de résultat qui récapitule les produits et charges de l'exercice fait apparaître par différence, après déduction des amortissements et des ",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://www.normacapital.fr/documentation/note-dinformation-4/",
+   "final_url": "https://www.normacapital.fr/documentation/note-dinformation-4/",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1212394,
+   "sha256": "bafa2743fa4a81dea69793396ed3d6c09c4c4ba4fccf423952a7f7421aa9efdb",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.6 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261002154339+02'00'",
+    "modDate": "D:20261006103737+02'00'"
+   },
+   "page_count": 37,
+   "text_characters": 160993,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "ncap continent",
+   "title_excerpt": "Siège social : 18-20, place de la Madeleine– 75008 Paris Immatriculée au Registre du Commerce et des Sociétés de Paris sous le n° 921 431 854 Visa AMF n° 23-01 en date du 10 janvier 2023 (la « Société ») Note d'information Société Civile de Placement Immobilier à Capital Variable Mise à jour en date du 21 septembre 2026 Source photo : Libre de droits.",
+   "dates": [
+    "10 janvier 2023",
+    "21 septembre 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 2,
+     "label": "Commission de souscription",
+     "snippet": "rdres \b 17 5. Délai de versement des fonds\b 17 6. \u0007Informations générales\b 17 7. \u0007Suspension des inscriptions sur le registre \b 17 \b Chapitre 3 : Frais\b 18 I. \u0007Commission de souscription\b 18 II. \u0007Commission de gestion\b 18 III. \u0007Commission de cession et de mutation des parts\b 19 IV. \u0007Commission d'acquisition ou de cession d'actifs immobiliers\b 19",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission de gestion",
+     "snippet": " fonds\b 17 6. \u0007Informations générales\b 17 7. \u0007Suspension des inscriptions sur le registre \b 17 \b Chapitre 3 : Frais\b 18 I. \u0007Commission de souscription\b 18 II. \u0007Commission de gestion\b 18 III. \u0007Commission de cession et de mutation des parts\b 19 IV. \u0007Commission d'acquisition ou de cession d'actifs immobiliers\b 19",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission de cession",
+     "snippet": "rales\b 17 7. \u0007Suspension des inscriptions sur le registre \b 17 \b Chapitre 3 : Frais\b 18 I. \u0007Commission de souscription\b 18 II. \u0007Commission de gestion\b 18 III. \u0007Commission de cession et de mutation des parts\b 19 IV. \u0007Commission d'acquisition ou de cession d'actifs immobiliers\b 19",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission d'acquisition",
+     "snippet": "e \b 17 \b Chapitre 3 : Frais\b 18 I. \u0007Commission de souscription\b 18 II. \u0007Commission de gestion\b 18 III. \u0007Commission de cession et de mutation des parts\b 19 IV. \u0007Commission d'acquisition ou de cession d'actifs immobiliers\b 19",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission de suivi",
+     "snippet": "3 NOTE D'INFORMATION - SCPI NCAP CONTINENT V. \u0007Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier\b 19 Chapitre 4 : Fonctionnement de la Société\b 19 I. \u0007Régime des Assemblées Générales\b 19 1. Convocation\b 19 2. Ordre du jour\b 20 3. \u0007Participation des associés aux assemblées – Procurations – Votes électroniques à distance – Votes électroniques à distance\b 20 4. Réunion de l'Assemblée\b 21 5. Quorum et majorité\b 21 6. Feuille de présence\b 21 7. Pouvoirs des Assemblées générales\b 21 8. Consultations écrites \b 22 9. Procès-verbaux\b 22 10. Information des associés\b 22 II. \u0007Dispositions concernant la répartition des bénéfices et les provisions ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 11,
+     "label": "commission de souscription",
+     "snippet": "des immeubles, • les frais de constitution, de recherche et d'investissement, • les frais liés aux augmentations de capital (frais de collecte), inclus dans la commission de souscription versée à la Société de Gestion. Le montant de la prime d'émission est déterminé par la Société de Gestion. La prime d'émission inclut la commission de souscription comprenant elle-même les frais de recherche et d'investissement et les frais de collecte. Le prix de souscription et les éléments qui le composent sont communiqués au public dans le bulletin trimestriel et mentionnés clairement sur le bulletin de souscription. Il peut être modifié par décision de la Société de Gestion. Le prix de souscription de la part est déterminé sur la base de la valeur de reconstitution de la Société, soit la somme qui dev",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 11,
+     "label": "commission de souscription",
+     "snippet": "ission de souscription versée à la Société de Gestion. Le montant de la prime d'émission est déterminé par la Société de Gestion. La prime d'émission inclut la commission de souscription comprenant elle-même les frais de recherche et d'investissement et les frais de collecte. Le prix de souscription et les éléments qui le composent sont communiqués au public dans le bulletin trimestriel et mentionnés clairement sur le bulletin de souscription. Il peut être modifié par décision de la Société de Gestion. Le prix de souscription de la part est déterminé sur la base de la valeur de reconstitution de la Société, soit la somme qui devrait être déboursée pour reconstituer, au jour du calcul de cette valeur, le patrimoine de la société à l'identique. Cette valeur de reconstitution est égale à la v",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 11,
+     "label": "frais d'acquisition",
+     "snippet": "identique. Cette valeur de reconstitution est égale à la valeur de réalisation augmentée du montant des frais afférents à une reconstitution de son patrimoine (frais d'acquisition des immeubles, frais de collecte des capitaux et frais de recherche des investissements…). La valeur vénale des immeubles résulte d'une expertise du patrimoine réalisée tous les cinq (5) ans avec actualisations annuelles dans l'intervalle, par un expert indépendant, après acceptation par l'AMF de sa candidature présentée par la Société de Gestion. Il est nommé par l'Assemblée Générale. La valeur de réalisation est égale à la somme de la valeur vénale des immeubles et de la valeur nette des autres actifs de la société. Selon la réglementation en vigueur (article L.214-94 du CMF), tout écart entre le prix de souscr",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur"
+     ]
+    },
+    {
+     "page": 11,
+     "label": "commission de souscription",
+     "snippet": "CAP CONTINENT. Lors de toute souscription, les parts doivent être entièrement libérées de leur montant nominal, du montant de la prime d'émission comprenant la commission de souscription. À défaut, la souscription sera réputée comme nulle et le",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": ", composé comme suit : • Valeur nominale : cent cinquante euros (150) € • Prime d'émission : soixante euros (60) € Ce prix s'entend net de tout autre frais. La commission de souscription, comme précisé au chapitre 3 « Frais », correspond à 10 % HT (soit 12 % TTC au taux de TVA en vigueur) du prix de souscription, soit vingt-cinq euros et vingt centimes (25,20) € TTC, prélevée sur la prime d'émission. À compter du visa de l'AMF, pendant 180 jours et dans la limite d'un montant de collecte de vingt-cinq millions d'euros, les premiers souscripteurs pourront souscrire, dans les mêmes conditions que les associés fondateurs, à un prix de souscription de 199,50 € TTC au lieu du prix de souscription de 210 € TTC qui sera proposé à tous les investisseurs qui souscriront par la suite. Cette réductio",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 12 % TTC au taux de TVA en vigueur)"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du prix de so"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": "iront par la suite. Cette réduction de 10,50 euros de la prime d'émission est supportée par la Société de Gestion qui accepte de réduire à 5 % le montant de la commission de souscription. b. Modalités de souscription Le paiement de la souscription s'effectue au jour de la souscription pour la totalité du prix d'émission, prime d'émission incluse. Les conditions de souscription sont mentionnées dans le bulletin de souscription et font l'objet d'une notice publiée au Bulletin des Annonces Légales Obligatoires (« BALO ») au moins six (6) jours avant la date d'ouverture de l'offre au public. Les modifications seront annoncées dans le bulletin trimestriel d'information et feront l'objet d'une actualisation de la présente note d'information et d'une publication au BALO en cas de changement des c",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "le montant de la commission de souscription."
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 13,
+     "label": "commission de souscription",
+     "snippet": "ieu de 210 € TTC. Cette réduction de 10,50 euros de la prime d'émission est supportée par la Société de Gestion qui accepte de réduire à 5 %HT le montant de la commission de souscription. A compter du visa de l'AMF, pendant 180 jours et dans la limite d'un montant de collecte de vingt-cinq millions d'euros, les premiers souscripteurs pourront souscrire, dans ces mêmes conditions.",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT le montant de la commission de souscriptio"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 15,
+     "label": "commission de souscription",
+     "snippet": "s demandes de souscription pour un montant équivalent ou supérieur, alors l'associé sera remboursé sur la base du prix de souscription en vigueur diminué de la commission de souscription versée à la Société de Gestion ainsi que des frais de dossier forfaitaires liés aux cessions, développés au Chapitre 3 Frais, III) Commission de cession. Par exemple, un associé ayant acquis 10 parts (prime d'émission incluse), se verra rembourser et ce, par part, le montant calculé comme suit : Montant remboursé = [(Prix de souscription d'une part - commission de souscription HT) x nombre de parts] – (frais de retrait) Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. 2ème cas : les retraits non compensés Ap",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "Commission de cession",
+     "snippet": "a commission de souscription versée à la Société de Gestion ainsi que des frais de dossier forfaitaires liés aux cessions, développés au Chapitre 3 Frais, III) Commission de cession. Par exemple, un associé ayant acquis 10 parts (prime d'émission incluse), se verra rembourser et ce, par part, le montant calculé comme suit : Montant remboursé = [(Prix de souscription d'une part - commission de souscription HT) x nombre de parts] – (frais de retrait) Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. 2ème cas : les retraits non compensés Après un délai d'un (1) mois, dans le cas où les demandes de souscription ne permettent pas de compenser les demandes de retrait et s'il existe un fonds de remb",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "commission de souscription",
+     "snippet": " parts (prime d'émission incluse), se verra rembourser et ce, par part, le montant calculé comme suit : Montant remboursé = [(Prix de souscription d'une part - commission de souscription HT) x nombre de parts] – (frais de retrait) Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. 2ème cas : les retraits non compensés Après un délai d'un (1) mois, dans le cas où les demandes de souscription ne permettent pas de compenser les demandes de retrait et s'il existe un fonds de remboursement constitué par l'assemblée générale et suffisamment doté, alors la Société de Gestion propose à l'associé un retrait à la valeur de réalisation en vigueur. Le règlement de l'associé qui se retire a lieu dans un dé",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "frais de retrait",
+     "snippet": "r et ce, par part, le montant calculé comme suit : Montant remboursé = [(Prix de souscription d'une part - commission de souscription HT) x nombre de parts] – (frais de retrait) Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. 2ème cas : les retraits non compensés Après un délai d'un (1) mois, dans le cas où les demandes de souscription ne permettent pas de compenser les demandes de retrait et s'il existe un fonds de remboursement constitué par l'assemblée générale et suffisamment doté, alors la Société de Gestion propose à l'associé un retrait à la valeur de réalisation en vigueur. Le règlement de l'associé qui se retire a lieu dans un délai maximum de trente (30) jours à compter de sa déci",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "commission de souscription",
+     "snippet": " nombre de parts] – (frais de retrait) Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. 2ème cas : les retraits non compensés Après un délai d'un (1) mois, dans le cas où les demandes de souscription ne permettent pas de compenser les demandes de retrait et s'il existe un fonds de remboursement constitué par l'assemblée générale et suffisamment doté, alors la Société de Gestion propose à l'associé un retrait à la valeur de réalisation en vigueur. Le règlement de l'associé qui se retire a lieu dans un délai maximum de trente (30) jours à compter de sa décision de se retirer à « la valeur de réalisation ». Cette valeur est calculée lors de chaque arrêté de compte annuel et figure au rapport an",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de souscription",
+     "snippet": "es fonctions, la Société de Gestion est rémunérée par les commissions suivantes, dans les conditions de l'article 422-224 du règlement général de l'AMF : • une commission de souscription, • une commission de gestion, • une commission de cession ou de retrait, • une commission d'acquisition ou de cession d'actifs immobiliers, • une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier. Toute somme due à la Société lui reste définitivement acquise et ne saurait faire l'objet d'un remboursement quelconque à quelque moment et pour quelque cause que ce soit. I. Commission de souscription Une commission de souscription est versée à la Société de Gestion afin de couvrir les frais engagés liés à la prospection de capitaux, la recherche d'immeubles ainsi que ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "commission de gestion",
+     "snippet": "n est rémunérée par les commissions suivantes, dans les conditions de l'article 422-224 du règlement général de l'AMF : • une commission de souscription, • une commission de gestion, • une commission de cession ou de retrait, • une commission d'acquisition ou de cession d'actifs immobiliers, • une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier. Toute somme due à la Société lui reste définitivement acquise et ne saurait faire l'objet d'un remboursement quelconque à quelque moment et pour quelque cause que ce soit. I. Commission de souscription Une commission de souscription est versée à la Société de Gestion afin de couvrir les frais engagés liés à la prospection de capitaux, la recherche d'immeubles ainsi que les augmentations de capital. La S",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "commission de cession",
+     "snippet": "ssions suivantes, dans les conditions de l'article 422-224 du règlement général de l'AMF : • une commission de souscription, • une commission de gestion, • une commission de cession ou de retrait, • une commission d'acquisition ou de cession d'actifs immobiliers, • une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier. Toute somme due à la Société lui reste définitivement acquise et ne saurait faire l'objet d'un remboursement quelconque à quelque moment et pour quelque cause que ce soit. I. Commission de souscription Une commission de souscription est versée à la Société de Gestion afin de couvrir les frais engagés liés à la prospection de capitaux, la recherche d'immeubles ainsi que les augmentations de capital. La Société de Gestion perçoit une",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "commission d'acquisition",
+     "snippet": "article 422-224 du règlement général de l'AMF : • une commission de souscription, • une commission de gestion, • une commission de cession ou de retrait, • une commission d'acquisition ou de cession d'actifs immobiliers, • une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier. Toute somme due à la Société lui reste définitivement acquise et ne saurait faire l'objet d'un remboursement quelconque à quelque moment et pour quelque cause que ce soit. I. Commission de souscription Une commission de souscription est versée à la Société de Gestion afin de couvrir les frais engagés liés à la prospection de capitaux, la recherche d'immeubles ainsi que les augmentations de capital. La Société de Gestion perçoit une commission de souscription fixée à 10 % HT",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "commission de suivi",
+     "snippet": " souscription, • une commission de gestion, • une commission de cession ou de retrait, • une commission d'acquisition ou de cession d'actifs immobiliers, • une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier. Toute somme due à la Société lui reste définitivement acquise et ne saurait faire l'objet d'un remboursement quelconque à quelque moment et pour quelque cause que ce soit. I. Commission de souscription Une commission de souscription est versée à la Société de Gestion afin de couvrir les frais engagés liés à la prospection de capitaux, la recherche d'immeubles ainsi que les augmentations de capital. La Société de Gestion perçoit une commission de souscription fixée à 10 % HT soit 12 % TTC (au taux de TVA actuellement en vigueur) du prix de ",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT soit 12 % TTC (au taux de TVA actuellemen"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA actuellement en vigueur)"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "Commission de souscription",
+     "snippet": " à la Société lui reste définitivement acquise et ne saurait faire l'objet d'un remboursement quelconque à quelque moment et pour quelque cause que ce soit. I. Commission de souscription Une commission de souscription est versée à la Société de Gestion afin de couvrir les frais engagés liés à la prospection de capitaux, la recherche d'immeubles ainsi que les augmentations de capital. La Société de Gestion perçoit une commission de souscription fixée à 10 % HT soit 12 % TTC (au taux de TVA actuellement en vigueur) du prix de souscription, prime d'émission incluse. Etant précisé que 8% HT (9,60% TTC au taux de TVA actuellement en vigueur) du prix de souscription prime d'émission incluse est destiné à rémunérer la préparation des augmentations de capital et la recherche des capitaux et 2% HT ",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT soit 12 % TTC (au taux de TVA actuellemen"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT (9,60% TTC au taux de TVA actuellement en"
+      },
+      {
+       "raw": "9,60%",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de souscription",
+     "snippet": "ivement acquise et ne saurait faire l'objet d'un remboursement quelconque à quelque moment et pour quelque cause que ce soit. I. Commission de souscription Une commission de souscription est versée à la Société de Gestion afin de couvrir les frais engagés liés à la prospection de capitaux, la recherche d'immeubles ainsi que les augmentations de capital. La Société de Gestion perçoit une commission de souscription fixée à 10 % HT soit 12 % TTC (au taux de TVA actuellement en vigueur) du prix de souscription, prime d'émission incluse. Etant précisé que 8% HT (9,60% TTC au taux de TVA actuellement en vigueur) du prix de souscription prime d'émission incluse est destiné à rémunérer la préparation des augmentations de capital et la recherche des capitaux et 2% HT (2,40 % TTC au taux de TVA actu",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT soit 12 % TTC (au taux de TVA actuellemen"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT (9,60% TTC au taux de TVA actuellement en"
+      },
+      {
+       "raw": "9,60%",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (2,40 % TTC au taux de TVA actu"
+      },
+      {
+       "raw": "2,40 %",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actu"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de souscription",
+     "snippet": "couvrir les frais engagés liés à la prospection de capitaux, la recherche d'immeubles ainsi que les augmentations de capital. La Société de Gestion perçoit une commission de souscription fixée à 10 % HT soit 12 % TTC (au taux de TVA actuellement en vigueur) du prix de souscription, prime d'émission incluse. Etant précisé que 8% HT (9,60% TTC au taux de TVA actuellement en vigueur) du prix de souscription prime d'émission incluse est destiné à rémunérer la préparation des augmentations de capital et la recherche des capitaux et 2% HT (2,40 % TTC au taux de TVA actuellement en vigueur) est destiné à rémunérer la préparation et l'exécution des programmes d'investissement. La commission de souscription sera imputée sur la prime d'émission et la Société de Gestion est autorisée à prélever ses h",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT soit 12 % TTC (au taux de TVA actuellemen"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "HT",
+       "after": "HT (9,60% TTC au taux de TVA actuellement en"
+      },
+      {
+       "raw": "9,60%",
+       "value": 9.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (2,40 % TTC au taux de TVA actuellement e"
+      },
+      {
+       "raw": "2,40 %",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de souscription",
+     "snippet": "capitaux et 2% HT (2,40 % TTC au taux de TVA actuellement en vigueur) est destiné à rémunérer la préparation et l'exécution des programmes d'investissement. La commission de souscription sera imputée sur la prime d'émission et la Société de Gestion est autorisée à prélever ses honoraires lors de la souscription. II. Commission de gestion Une commission de gestion est versée à la Société de Gestion afin notamment de couvrir les frais administratifs et de gestion liés notamment aux frais de bureau et de personnel nécessaires à l'administration et à la gestion de la Société, à la perception des recettes locatives et à la distribution des bénéfices. La Société de Gestion perçoit une commission de gestion fixée à 12 % HT soit 14,40 % TTC maximum (au taux de TVA actuellement en vigueur), sur les",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT (2,40 % TTC au taux de TVA actuellement e"
+      },
+      {
+       "raw": "2,40 %",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT soit 14,40 % TTC maximum (au taux de TVA"
+      },
+      {
+       "raw": "14,40 %",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC maximum (au taux de TVA actuellement en"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "Commission de gestion",
+     "snippet": "a commission de souscription sera imputée sur la prime d'émission et la Société de Gestion est autorisée à prélever ses honoraires lors de la souscription. II. Commission de gestion Une commission de gestion est versée à la Société de Gestion afin notamment de couvrir les frais administratifs et de gestion liés notamment aux frais de bureau et de personnel nécessaires à l'administration et à la gestion de la Société, à la perception des recettes locatives et à la distribution des bénéfices. La Société de Gestion perçoit une commission de gestion fixée à 12 % HT soit 14,40 % TTC maximum (au taux de TVA actuellement en vigueur), sur les produits locatifs HT, les produits financiers encaissés par la SCPI et par les sociétés qu'elle contrôle au sens des critères de l'alinéa I de l'article R. 2",
+     "percents": [
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT soit 14,40 % TTC maximum (au taux de TVA"
+      },
+      {
+       "raw": "14,40 %",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC maximum (au taux de TVA actuellement en"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de gestion",
+     "snippet": "on sera imputée sur la prime d'émission et la Société de Gestion est autorisée à prélever ses honoraires lors de la souscription. II. Commission de gestion Une commission de gestion est versée à la Société de Gestion afin notamment de couvrir les frais administratifs et de gestion liés notamment aux frais de bureau et de personnel nécessaires à l'administration et à la gestion de la Société, à la perception des recettes locatives et à la distribution des bénéfices. La Société de Gestion perçoit une commission de gestion fixée à 12 % HT soit 14,40 % TTC maximum (au taux de TVA actuellement en vigueur), sur les produits locatifs HT, les produits financiers encaissés par la SCPI et par les sociétés qu'elle contrôle au sens des critères de l'alinéa I de l'article R. 214-156 du CMF, et plus gén",
+     "percents": [
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT soit 14,40 % TTC maximum (au taux de TVA"
+      },
+      {
+       "raw": "14,40 %",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC maximum (au taux de TVA actuellement en"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de gestion",
+     "snippet": " à l'administration et à la gestion de la Société, à la perception des recettes locatives et à la distribution des bénéfices. La Société de Gestion perçoit une commission de gestion fixée à 12 % HT soit 14,40 % TTC maximum (au taux de TVA actuellement en vigueur), sur les produits locatifs HT, les produits financiers encaissés par la SCPI et par les sociétés qu'elle contrôle au sens des critères de l'alinéa I de l'article R. 214-156 du CMF, et plus généralement tout produit provenant de l'utilisation et/ou l'exploitation des actifs immobiliers encaissés. Cette commission de gestion est réglée trimestriellement. Cette rémunération sera acquise à la Société de Gestion au fur et à mesure de la constatation par la Société de ses recettes. Elle sera prélevée directement par la Société de Gestio",
+     "percents": [
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT soit 14,40 % TTC maximum (au taux de TVA"
+      },
+      {
+       "raw": "14,40 %",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC maximum (au taux de TVA actuellement en"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de gestion",
+     "snippet": "néa I de l'article R. 214-156 du CMF, et plus généralement tout produit provenant de l'utilisation et/ou l'exploitation des actifs immobiliers encaissés. Cette commission de gestion est réglée trimestriellement. Cette rémunération sera acquise à la Société de Gestion au fur et à mesure de la constatation par la Société de ses recettes. Elle sera prélevée directement par la Société de Gestion, lors de l'encaissement des revenus bruts par la Société, sous forme d'acomptes mensuels. Elle ne couvre pas toutes les autres dépenses qui sont prises en charge par la SCPI qui règle directement : • Le prix d'acquisition de son patrimoine, • Tous honoraires, droits et taxes inclus, frais et études y compris en cas de non-aboutissement de l'acquisition, • Les frais, droits et honoraires liés à l'acquis",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "frais de gestion",
+     "snippet": " et droits immobiliers, et notamment les honoraires à verser à des cabinets de commercialisation au titre de la relocation des immeubles ou lots vacants, • les frais de gestion technique, d'entretien et les travaux d'aménagement, de réparation, de mise aux normes, d'agrandissement, de modification ou de reconstruction des immeubles, • les frais et honoraires d'architectes, de maitrise d'oeuvre, de conseil ou de bureaux d'études, ainsi que les autres dépenses éventuelles se rapportant aux travaux sur les immeubles, • les assurances, en particulier celles des immeubles constituant le patrimoine, • les impôts et taxes diverses, • les consommations d'eau ou d'électricité, de gaz, et de combustibles et, en général, toutes les charges afférentes aux immeubles, honoraires des syndics, des gestion",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "Commission de cession",
+     "snippet": ",organismes de tutelles et associations professionnelles, • toutes les autres dépenses n'entrant pas dans le cadre de l'administration directe de la SCPI. III. Commission de cession et de mutation des parts Une commission de cession est versée à la Société de Gestion afin de couvrir les frais liés aux cessions ou retraits de parts ainsi que pour les mutations à titre gratuit (donations, successions). Cette commission forfaitaire est fixée 100 euros HT, soit 120 euros TTC (au taux de TVA actuellement en vigueur), quel que soit le nombre de parts transférées à la charge du vendeur, donateur ou ayant droits. Ces frais fixes correspondent à des frais de traitement de dossier. IV. Commission d'acquisition ou de cession d'actifs immobiliers Une commission d'acquisition ou de cession d'actifs imm",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "commission de cession",
+     "snippet": "elles, • toutes les autres dépenses n'entrant pas dans le cadre de l'administration directe de la SCPI. III. Commission de cession et de mutation des parts Une commission de cession est versée à la Société de Gestion afin de couvrir les frais liés aux cessions ou retraits de parts ainsi que pour les mutations à titre gratuit (donations, successions). Cette commission forfaitaire est fixée 100 euros HT, soit 120 euros TTC (au taux de TVA actuellement en vigueur), quel que soit le nombre de parts transférées à la charge du vendeur, donateur ou ayant droits. Ces frais fixes correspondent à des frais de traitement de dossier. IV. Commission d'acquisition ou de cession d'actifs immobiliers Une commission d'acquisition ou de cession d'actifs immobiliers ou de parts de société que la SCPI contrôl",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "Commission d'acquisition",
+     "snippet": "e soit le nombre de parts transférées à la charge du vendeur, donateur ou ayant droits. Ces frais fixes correspondent à des frais de traitement de dossier. IV. Commission d'acquisition ou de cession d'actifs immobiliers Une commission d'acquisition ou de cession d'actifs immobiliers ou de parts de société que la SCPI contrôle au sens de l'alinéa I de l'article R. 214-156 du Code monétaire et financier est versée à la Société de Gestion afin de la rémunérer lors de la vente ou de l'achat en réemploi des fonds issus de la vente d'un immeuble, ou de titres de sociétés immobilières pour le compte de la Société. La Société de Gestion perçoit une commission égale à : • 2,5 % HT maximum du prix d'acquisition ou du prix de cession (hors taxes, hors droits et hors frais) de l'actif immobilier acqui",
+     "percents": [
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT maximum du prix d'acquisition ou du prix"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission d'acquisition",
+     "snippet": "nateur ou ayant droits. Ces frais fixes correspondent à des frais de traitement de dossier. IV. Commission d'acquisition ou de cession d'actifs immobiliers Une commission d'acquisition ou de cession d'actifs immobiliers ou de parts de société que la SCPI contrôle au sens de l'alinéa I de l'article R. 214-156 du Code monétaire et financier est versée à la Société de Gestion afin de la rémunérer lors de la vente ou de l'achat en réemploi des fonds issus de la vente d'un immeuble, ou de titres de sociétés immobilières pour le compte de la Société. La Société de Gestion perçoit une commission égale à : • 2,5 % HT maximum du prix d'acquisition ou du prix de cession (hors taxes, hors droits et hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) ou cédé, • 2,5 % HT m",
+     "percents": [
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT maximum du prix d'acquisition ou du prix"
+      },
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT m"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission de souscription",
+     "snippet": "ouvelles souscriptions, la rémunération correspondante à cette mission d'investissement ayant déjà été perçue par la Société de Gestion par la perception de la commission de souscription. V. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier est versée à la Société de Gestion afin de la rémunérer lorsque des travaux, en ce compris le suivi des VEFA, sont réalisés dans les immeubles de la Société. La Société de Gestion perçoit une commission égale à 1,5% HT maximum du montant toutes taxes comprises des travaux effectivement réalisés. Une commission est également due lors des acquisitions en état futur d'achèvement pour le suivi des travaux de construct",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant toutes taxes comprises"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "Commission de suivi",
+     "snippet": "nération correspondante à cette mission d'investissement ayant déjà été perçue par la Société de Gestion par la perception de la commission de souscription. V. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier est versée à la Société de Gestion afin de la rémunérer lorsque des travaux, en ce compris le suivi des VEFA, sont réalisés dans les immeubles de la Société. La Société de Gestion perçoit une commission égale à 1,5% HT maximum du montant toutes taxes comprises des travaux effectivement réalisés. Une commission est également due lors des acquisitions en état futur d'achèvement pour le suivi des travaux de construction jusqu'à la livraison de l'i",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant toutes taxes comprises"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "commission de suivi",
+     "snippet": "estion par la perception de la commission de souscription. V. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier est versée à la Société de Gestion afin de la rémunérer lorsque des travaux, en ce compris le suivi des VEFA, sont réalisés dans les immeubles de la Société. La Société de Gestion perçoit une commission égale à 1,5% HT maximum du montant toutes taxes comprises des travaux effectivement réalisés. Une commission est également due lors des acquisitions en état futur d'achèvement pour le suivi des travaux de construction jusqu'à la livraison de l'immeuble, égale à 1% du montant de la VEFA. Toute autre rémunération ne peut être qu'exceptionnelle",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant toutes taxes comprises"
+      },
+      {
+       "raw": "1%",
+       "value": 1.0,
+       "tax_hint": null,
+       "after": "du montant de la VEFA. Toute autre rémunérat"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "frais d'acquisition",
+     "snippet": "rincipe imposable en France (assiette, abattement pour durée de détention). Pour le calcul de la plus-value, le prix d'acquisition de l'immeuble est majoré des frais d'acquisition (montant réel ou montant forfaitaire de 7,5% du prix d'acquisition) et des dépenses de construction, reconstruction, agrandissement et amélioration (montant réel ou montant forfaitaire de 15% Taux d'abattement applicable pour chaque année de détention Durée de détention (date à date) pour l'impôt sur le revenu pour les prélèvement sociaux Moins de 6 ans 0 % 0 % De la 6ème année à la 21ème année 6 % 1,65 % 22ème année révolue 4 % 1,60 % Au-delà de la 22ème année 9 %",
+     "percents": [
+      {
+       "raw": "7,5%",
+       "value": 7.5,
+       "tax_hint": null,
+       "after": "du prix d'acquisition) et des dépenses de co"
+      },
+      {
+       "raw": "15%",
+       "value": 15.0,
+       "tax_hint": null,
+       "after": "Taux d'abattement applicable pour chaque ann"
+      },
+      {
+       "raw": "0 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "0 % De la 6ème année à la 21ème année 6 % 1,"
+      },
+      {
+       "raw": "0 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "De la 6ème année à la 21ème année 6 % 1,65 %"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "1,65 % 22ème année révolue 4 % 1,60 % Au-del"
+      },
+      {
+       "raw": "1,65 %",
+       "value": 1.65,
+       "tax_hint": null,
+       "after": "22ème année révolue 4 % 1,60 % Au-delà de la"
+      },
+      {
+       "raw": "4 %",
+       "value": 4.0,
+       "tax_hint": null,
+       "after": "1,60 % Au-delà de la 22ème année 9 %"
+      },
+      {
+       "raw": "1,60 %",
+       "value": 1.6,
+       "tax_hint": null,
+       "after": "Au-delà de la 22ème année 9 %"
+      },
+      {
+       "raw": "9 %",
+       "value": 9.0,
+       "tax_hint": null,
+       "after": ""
+      }
+     ],
+     "basis_tags": []
+    }
+   ]
+  }
+ ],
+ "candidate_count": 5,
+ "summary": {
+  "dic_identity_ok": 1,
+  "note_identity_ok": 2,
+  "fee_clauses": 67,
+  "errors": 3
+ }
+}

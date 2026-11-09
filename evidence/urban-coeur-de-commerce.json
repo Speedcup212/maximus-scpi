@@ -1,0 +1,1498 @@
+{
+ "slug": "urban-coeur-de-commerce",
+ "name": "Urban Coeur de Commerce",
+ "manager": "Urban Premium",
+ "crawl": [
+  {
+   "url": "https://www.urban-coeurcommerce.com/documentation/",
+   "depth": 0,
+   "final_url": "https://www.urban-coeurcommerce.com/documentation/",
+   "http_status": 200,
+   "pdf_links": 33
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/documentation/Se connecter, https:/www.urban-premium.com/devenir-partenaire/, _blank",
+   "depth": 1,
+   "error": "HTTPError: HTTP Error 404: Not Found"
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/informations-reglementaires/",
+   "depth": 1,
+   "final_url": "https://www.urban-coeurcommerce.com/informations-reglementaires/",
+   "http_status": 200,
+   "pdf_links": 1
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/documentation",
+   "depth": 1,
+   "final_url": "https://www.urban-coeurcommerce.com/documentation/",
+   "http_status": 200,
+   "pdf_links": 33
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/documentation/?annee=2026 ",
+   "depth": 1,
+   "final_url": "https://www.urban-coeurcommerce.com/documentation/?annee=2026%20",
+   "http_status": 200,
+   "pdf_links": 33
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/documentation/?annee=2025 ",
+   "depth": 1,
+   "final_url": "https://www.urban-coeurcommerce.com/documentation/?annee=2025%20",
+   "http_status": 200,
+   "pdf_links": 33
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/documentation/?annee=2024 ",
+   "depth": 1,
+   "final_url": "https://www.urban-coeurcommerce.com/documentation/?annee=2024%20",
+   "http_status": 200,
+   "pdf_links": 33
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/documentation/?annee=2023 ",
+   "depth": 1,
+   "final_url": "https://www.urban-coeurcommerce.com/documentation/?annee=2023%20",
+   "http_status": 200,
+   "pdf_links": 33
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2025/12/Urban-Coeur-Commerce_NI-Statuts-public.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2025/12/Urban-Coeur-Commerce_NI-Statuts-public.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1779690,
+   "sha256": "def235c1b194b377a0a45bfb23e7819bb4c4f632ec105488c7961816e03bff55",
+   "metadata": {
+    "format": "PDF 1.6",
+    "creator": "Adobe InDesign 21.2 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260731111211+02'00'",
+    "modDate": "D:20260804100746+02'00'"
+   },
+   "page_count": 20,
+   "text_characters": 194054,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "urban coeur de commerce",
+   "title_excerpt": "SCPI URBAN CŒUR COMMERCE Société Civile de Placement Immobilier à capital variable ayant reçu le visa n°18-30 de l'AMF en date du 14/11/2018 CŒUR COMMERCE URBAN PREMIUM Siège social : 160 boulevard Haussmann - 75008 PARIS • Tél. : 01 82 28 99 99 • Mail : infos@urban-premium.com Agréée par l'AMF sous le n°GP-10000021 en date du 08/06/2010 • RCS Paris : 521 473 017 Note d'Information et Statuts à di",
+   "dates": [
+    "07/09/2018",
+    "08/06/2010",
+    "14/11/2018",
+    "8 juin 2010",
+    "JUILLET 2026",
+    "juillet 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 4,
+     "label": "commission de souscription",
+     "snippet": "iés fondateurs ont versé pour chaque part souscrite et intégralement libérée, en sus, une prime d'émission de 35 EUROS sur laquelle sera, notamment, amortie la commission de souscription de 6,21 % HT soit 6,38 % TTC (au taux de TVA actuellement en vigueur et sur la base du prix de souscription fondateur) au titre de : des frais de collecte de capitaux à hauteur de 5,32 % TTI (commission exonérée de TVA en application de l'article 261-C-1°-e du Code Général des Impôts) soit 15 EUROS TTI ; des frais de recherche d'investissements, de préparation et de réalisation des augmen­ tations de capital, à hauteur de 0,89 % HT (2,50 EUROS HT) soit 1,06 % TTC (3 EUROS TTC). Le solde de la prime d'émission sert à couvrir les frais d'acquisition des actifs immobiliers. Les parts détenues par les fondateu",
+     "percents": [
+      {
+       "raw": "6,21 %",
+       "value": 6.21,
+       "tax_hint": "HT",
+       "after": "HT soit 6,38 % TTC (au taux de TVA actuellem"
+      },
+      {
+       "raw": "6,38 %",
+       "value": 6.38,
+       "tax_hint": "TTC",
+       "after": "TTC (au taux de TVA actuellement en vigueur"
+      },
+      {
+       "raw": "5,32 %",
+       "value": 5.32,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      },
+      {
+       "raw": "0,89 %",
+       "value": 0.89,
+       "tax_hint": "HT",
+       "after": "HT (2,50 EUROS HT) soit 1,06 % TTC (3 EUROS"
+      },
+      {
+       "raw": "1,06 %",
+       "value": 1.06,
+       "tax_hint": "TTC",
+       "after": "TTC (3 EUROS TTC). Le solde de la prime d'ém"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 4,
+     "label": "frais d'acquisition",
+     "snippet": "sation des augmen­ tations de capital, à hauteur de 0,89 % HT (2,50 EUROS HT) soit 1,06 % TTC (3 EUROS TTC). Le solde de la prime d'émission sert à couvrir les frais d'acquisition des actifs immobiliers. Les parts détenues par les fondateurs sont inaliénables pendant 3 ans à compter de la délivrance du visa de l'Autorité des Marchés Financiers, conformément à l'article L214-86 du Code Monétaire et Financier. Capital social maximum statutaire Le capital social maximum statutaire est le plafond en deçà duquel les souscriptions pourront être reçues. Ce montant pourra être modifié par décision des associés réunis en assemblée générale extraordinaire. Le capital social maximum statutaire est fixé à 83 510 700 EUROS (hors prime d'émission), divisé en 338 100 parts de 247 EUROS de valeur nominal ",
+     "percents": [
+      {
+       "raw": "0,89 %",
+       "value": 0.89,
+       "tax_hint": "HT",
+       "after": "HT (2,50 EUROS HT) soit 1,06 % TTC (3 EUROS"
+      },
+      {
+       "raw": "1,06 %",
+       "value": 1.06,
+       "tax_hint": "TTC",
+       "after": "TTC (3 EUROS TTC). Le solde de la prime d'ém"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 6,
+     "label": "commission de souscription",
+     "snippet": "Les sous­ criptions seront reçues jusqu'à concurrence du plafond de 83 510 700 EUROS hors prime d'émission. Sur la prime d'émission sera, notamment, amortie la commission de souscription de 11,833 % TTI au titre : des frais de collecte de capitaux à hauteur de 11% TTI (commission exonérée de TVA en application de l'article 261-C-1°-e du code Général des Impôts) soit 33,33 EUROS TTI des frais de recherche d'investissements, de préparation et de réalisation des augmen­ tations de capital, à hauteur de 0,833% TTI (commission exonérée de TVA en application de l'article 261-C-1°-f du Code Général des Impôts) soit 2,52 EUROS TTI. Ainsi, le prix de souscription d'une part se compose de : La valeur nominale : . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+     "percents": [
+      {
+       "raw": "11,833 %",
+       "value": 11.833,
+       "tax_hint": null,
+       "after": "TTI au titre : des frais de collecte de capi"
+      },
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      },
+      {
+       "raw": "0,833%",
+       "value": 0.833,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "commission de souscription",
+     "snippet": ". . . . 247 EUROS La prime d'émission : . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 56 EUROS • dont une commission de souscription due au titre : . . . . . . . 35,85 EUROS - des frais de collecte : . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 33,33 EUROS - des frais de recherche d'investissements, de préparation et de réalisation des augmentations de capital : . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2,52 EUROS • dont des frais d'acquisition des actifs immobilier : . . . . . . . . . 20,15 EUROS Soit un prix de souscription de 303 EUROS TTC. Le prix de souscription s'entend net de tous autres frais. Date d'ouverture de la souscription : 30/11/2018 9. GARANTIE B",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "frais d'acquisition",
+     "snippet": "réparation et de réalisation des augmentations de capital : . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2,52 EUROS • dont des frais d'acquisition des actifs immobilier : . . . . . . . . . 20,15 EUROS Soit un prix de souscription de 303 EUROS TTC. Le prix de souscription s'entend net de tous autres frais. Date d'ouverture de la souscription : 30/11/2018 9. GARANTIE BANCAIRE – SOUSCRIPTION INFERIEURE A 15 % DU CAPITAL STATUTAIRE MAXIMAL Le capital social maximum statutaire fixé par les statuts à 166 255 700 EU­ ROS, doit avoir été souscrit par le public à concurrence de 15 % au moins, soit 24 938 355 EUROS, dans le délai d'une année après la date d'ouverture de la souscription. S'il n'est pas satisfait à cette obligation, la société est dissoute et les assoc",
+     "percents": [
+      {
+       "raw": "15 %",
+       "value": 15.0,
+       "tax_hint": null,
+       "after": "DU CAPITAL STATUTAIRE MAXIMAL Le capital soc"
+      },
+      {
+       "raw": "15 %",
+       "value": 15.0,
+       "tax_hint": null,
+       "after": "au moins, soit 24 938 355 EUROS, dans le dél"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "commission de souscription",
+     "snippet": "r un montant au moins égal aux demandes de retrait, le prix de retrait correspond au prix de souscription en vigueur (nominal + prime d'émission) diminué de la commission de souscription de 11,833% TTI Prix de retrait à date de l'ouverture au public : L'Associé se retirant perçoit sur la base d'un prix de souscription de 303 EUROS, une somme de 267,15 EUROS par part se décomposant de la façon suivante : Prix de souscription : 303 EUROS Commission de souscription TTC TTI déduite : 35,85 EUROS (11,833% TTI du prix de souscription) Prix de retrait : 267,15 EUROS Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. Demande de retrait non compensée par des demandes de souscription : Si le retrait n'e",
+     "percents": [
+      {
+       "raw": "11,833%",
+       "value": 11.833,
+       "tax_hint": null,
+       "after": "TTI Prix de retrait à date de l'ouverture au"
+      },
+      {
+       "raw": "11,833%",
+       "value": 11.833,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription) Prix de retrait"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "Commission de souscription",
+     "snippet": "t sur la base d'un prix de souscription de 303 EUROS, une somme de 267,15 EUROS par part se décomposant de la façon suivante : Prix de souscription : 303 EUROS Commission de souscription TTC TTI déduite : 35,85 EUROS (11,833% TTI du prix de souscription) Prix de retrait : 267,15 EUROS Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. Demande de retrait non compensée par des demandes de souscription : Si le retrait n'est pas compensé, le remboursement ne peut s'effectuer à un prix supérieur à la valeur de réalisation, ni inférieur à la valeur de réalisation diminuée de 10 %, sauf autorisation de l'Autorité des Marchés Financiers. Le prix de retrait est fixé par la Société de Gestion et porté à",
+     "percents": [
+      {
+       "raw": "11,833%",
+       "value": 11.833,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription) Prix de retrait"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'Autorité des Marchés"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "commission de souscription",
+     "snippet": "iption) Prix de retrait : 267,15 EUROS Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. Demande de retrait non compensée par des demandes de souscription : Si le retrait n'est pas compensé, le remboursement ne peut s'effectuer à un prix supérieur à la valeur de réalisation, ni inférieur à la valeur de réalisation diminuée de 10 %, sauf autorisation de l'Autorité des Marchés Financiers. Le prix de retrait est fixé par la Société de Gestion et porté à la connaissance des Associés concernés par tous moyens à sa convenance et notamment au moyen d'un courrier recommandé tel que précisé ci-dessus au paragraphe « Fonds de remboursement ». En cas de baisse du prix de retrait, la Société de Gestion i",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'Autorité des Marchés"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "frais de gestion",
+     "snippet": " ses mandataires, la bonne administration de la société URBAN CŒUR COMMERCE y compris la perception des recettes et la répartition des bénéfices, ainsi que les frais de gestion locative. La société URBAN CŒUR COMMERCE supporte et paie tous les autres frais nécessaires à l'acquisition, la rénovation complète et l'entretien des immeubles en ce compris les honoraires de gestionnaires et d'intervenants techniques, impôts et droits, frais d'enregistrement, TVA immobilière, frais d'actes, les honoraires des Commissaires aux comptes, les honoraires d'Assistance à Maîtrise d'Ouvrage, les honoraires de maître d'œuvre ou de bureau d'études, les frais d'expertise, les frais d'expert-comptable, les frais de dépositaire, les frais de tenue des registres associés, les frais entraînés par les conseils et",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "24 du règlement général de l'AMF, la Société de Gestion percevra une rémunération sous la forme de commissions de cinq sortes pour assurer ses missions. 1- Une commission de souscription au titre de la collecte des capitaux et de la recherche d'investissements. Il est dû à la Société de Gestion, pour la recherche des capitaux ainsi que pour l'étude et la recherche des investissements en vue de la constitution et de l'extension du patri­ moine immobilier, une commission de souscription, comprise dans la prime d'émission, égale à 11,833% TTI du montant de chaque souscription, prime d'émission incluse. La commission de souscription se décompose de la manière suivante : les frais de collecte de capitaux à hauteur de 11% TTI (commission exonérée de TVA en application de l'article 261-C-1°-e du ",
+     "percents": [
+      {
+       "raw": "11,833%",
+       "value": 11.833,
+       "tax_hint": null,
+       "after": "TTI du montant de chaque souscription, prime"
+      },
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "a recherche des capitaux ainsi que pour l'étude et la recherche des investissements en vue de la constitution et de l'extension du patri­ moine immobilier, une commission de souscription, comprise dans la prime d'émission, égale à 11,833% TTI du montant de chaque souscription, prime d'émission incluse. La commission de souscription se décompose de la manière suivante : les frais de collecte de capitaux à hauteur de 11% TTI (commission exonérée de TVA en application de l'article 261-C-1°-e du Code Général des Impôts), soit 33,33 € TTI. les frais de recherche d'investissements, de préparation et de réalisations des augmen­ tations de capital, à hauteur de 0,833% TTI (commission exonérée de TVA en application de l'article 261-C-1°-f du Code Général des Impôts), soit 2,52 € TTI. La commission ",
+     "percents": [
+      {
+       "raw": "11,833%",
+       "value": 11.833,
+       "tax_hint": null,
+       "after": "TTI du montant de chaque souscription, prime"
+      },
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      },
+      {
+       "raw": "0,833%",
+       "value": 0.833,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "obilier, une commission de souscription, comprise dans la prime d'émission, égale à 11,833% TTI du montant de chaque souscription, prime d'émission incluse. La commission de souscription se décompose de la manière suivante : les frais de collecte de capitaux à hauteur de 11% TTI (commission exonérée de TVA en application de l'article 261-C-1°-e du Code Général des Impôts), soit 33,33 € TTI. les frais de recherche d'investissements, de préparation et de réalisations des augmen­ tations de capital, à hauteur de 0,833% TTI (commission exonérée de TVA en application de l'article 261-C-1°-f du Code Général des Impôts), soit 2,52 € TTI. La commission de souscription sera prélevée par la Société de Gestion dans le mois de la libération des fonds par l'associé. 2- Une commission de gestion Il est ",
+     "percents": [
+      {
+       "raw": "11,833%",
+       "value": 11.833,
+       "tax_hint": null,
+       "after": "TTI du montant de chaque souscription, prime"
+      },
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      },
+      {
+       "raw": "0,833%",
+       "value": 0.833,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "tations de capital, à hauteur de 0,833% TTI (commission exonérée de TVA en application de l'article 261-C-1°-f du Code Général des Impôts), soit 2,52 € TTI. La commission de souscription sera prélevée par la Société de Gestion dans le mois de la libération des fonds par l'associé. 2- Une commission de gestion Il est dû à la Société, à titre de remboursement des frais administratifs ainsi qu'à titre d'honoraires de gestion (à l'exception des honoraires de location et de relocation des immeubles sociaux), une rémunération de 12% TTI, calculée comme suit : 6 % TTI (commission exonérée de TVA en application de l'article 261-C-1°–e et -f du Code Général des Impôts) au titre de la gestion administrative de la société (couvrant tous les frais de bureau et de personnel nécessaires à l'administrati",
+     "percents": [
+      {
+       "raw": "0,833%",
+       "value": 0.833,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI, calculée comme suit : 6 % TTI (commissi"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 9,
+     "label": "commission de gestion",
+     "snippet": "s Impôts), soit 2,52 € TTI. La commission de souscription sera prélevée par la Société de Gestion dans le mois de la libération des fonds par l'associé. 2- Une commission de gestion Il est dû à la Société, à titre de remboursement des frais administratifs ainsi qu'à titre d'honoraires de gestion (à l'exception des honoraires de location et de relocation des immeubles sociaux), une rémunération de 12% TTI, calculée comme suit : 6 % TTI (commission exonérée de TVA en application de l'article 261-C-1°–e et -f du Code Général des Impôts) au titre de la gestion administrative de la société (couvrant tous les frais de bureau et de personnel nécessaires à l'administration de la Société) et la distribution des bénéfices ; 5 % HT (soit 6% TTC au taux de TVA en vigueur) du montant des produits locat",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI, calculée comme suit : 6 % TTI (commissi"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6% TTC au taux de TVA en vigueur) d"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant de"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 9,
+     "label": "commission de cession",
+     "snippet": "sements et du financement des travaux. La rémunération de la Société de Gestion sera due par trimestre civil. Le paiement s'effectue par trimestre échu. 3- Une commission de cession de parts pour toute cession de parts résultant d'une transaction réalisée par confrontation des ordres d'achat et de vente en application de l'article L214-93 du Code Monétaire et Financier, la Société de Gestion, percevra une commission d'intervention de 5 % HT (soit 6 % TTC au taux de TVA en vigueur) du montant revenant au cédant et à la charge de l'acquéreur. L'acquéreur supportera par ailleurs le paiement des droits d'enregistrement, au taux de 5 % (taux de TVA en vigueur), calculés sur le prix de cession des parts au taux en vigueur au moment de la cession. En cas de transmission de parts, la Société de Ge",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6 % TTC au taux de TVA en vigueur)"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant re"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "TVA",
+       "after": "(taux de TVA en vigueur), calculés sur le pr"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission d'arbitrage",
+     "snippet": "it 120 EUROS TTC) quel que soit le nombre de parts cédées et par ayants droit. Ces frais sont à la charge des acheteurs, donataires ou des ayants droit. 4- Une commission d'arbitrage sur les cessions et acquisitions d'actifs immo­ biliers. Une commission d'arbitrage sur les cessions et acquisitions d'actifs immobiliers calculée sur le montant de l'acquisition ou de la cession immobilière perçue par la Société de Gestion à titre de rémunération de sa mission dans le cadre des acquisitions ou des",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 9,
+     "label": "commission d'arbitrage",
+     "snippet": "rais sont à la charge des acheteurs, donataires ou des ayants droit. 4- Une commission d'arbitrage sur les cessions et acquisitions d'actifs immo­ biliers. Une commission d'arbitrage sur les cessions et acquisitions d'actifs immobiliers calculée sur le montant de l'acquisition ou de la cession immobilière perçue par la Société de Gestion à titre de rémunération de sa mission dans le cadre des acquisitions ou des",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 10,
+     "label": "commission de suivi",
+     "snippet": " à la date de la cession de l'immeuble. La commission sur les acquisitions ne s'applique pas aux acquisitions consécutives à de nouvelles souscriptions. 5- Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier, perçue par la Société de Gestion, d'un montant de 2.5 % HT (soit 3 % TTC au taux de TVA en vigueur), calculée sur le montant des travaux réalisés. La Société de Gestion prélèvera les sommes qui lui sont dues au titre des commissions, directement sur les fonds sociaux de la SCPI. Toutes les sommes dues à la Société de Gestion lui restent définitivement acquises et ne sauraient faire l'objet d'un remboursement quelconque, à quelque moment ou pour quelque cause que ce soit, sauf conventions particulières contraires. Toute autre rémunération n",
+     "percents": [
+      {
+       "raw": "2.5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT (soit 3 % TTC au taux de TVA en vigueur),"
+      },
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur), calculée sur"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 11,
+     "label": "frais d'acquisition",
+     "snippet": "lus-values dégagées lors de la vente des parts de la SCPI, sont calculées par différence entre le prix de cession et le prix d'acquisition des parts majoré des frais d'acquisition retenus pour leur montant réel. Pour la détermination de la plus-value, le prix d'acquisition des parts cédées est majoré des frais d'acquisition pour leur montant réel. Par ailleurs, le prix d'acquisition peut faire l'objet de certains ajustements et corrections. Les plus-values immobilières sont soumises à une imposition au taux forfaitaire de 19 % au titre de l'impôt sur le revenu et 17,2 % de prélèvements sociaux. Les plus-values sont diminuées d'un abattement pour la durée de détention, lorsque la cession porte sur des titres détenus depuis plus de cinq ans, qui s'établit de la manière suivante : Pour l'impô",
+     "percents": [
+      {
+       "raw": "19 %",
+       "value": 19.0,
+       "tax_hint": null,
+       "after": "au titre de l'impôt sur le revenu et 17,2 %"
+      },
+      {
+       "raw": "17,2 %",
+       "value": 17.2,
+       "tax_hint": null,
+       "after": "de prélèvements sociaux. Les plus-values son"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 11,
+     "label": "frais d'acquisition",
+     "snippet": "ts majoré des frais d'acquisition retenus pour leur montant réel. Pour la détermination de la plus-value, le prix d'acquisition des parts cédées est majoré des frais d'acquisition pour leur montant réel. Par ailleurs, le prix d'acquisition peut faire l'objet de certains ajustements et corrections. Les plus-values immobilières sont soumises à une imposition au taux forfaitaire de 19 % au titre de l'impôt sur le revenu et 17,2 % de prélèvements sociaux. Les plus-values sont diminuées d'un abattement pour la durée de détention, lorsque la cession porte sur des titres détenus depuis plus de cinq ans, qui s'établit de la manière suivante : Pour l'impôt sur le revenu : 6 % pour chaque année de détention au-delà de la cinquième et jusqu'à la vingt- et-unième ; 4 % pour la vingt-deuxième année rév",
+     "percents": [
+      {
+       "raw": "19 %",
+       "value": 19.0,
+       "tax_hint": null,
+       "after": "au titre de l'impôt sur le revenu et 17,2 %"
+      },
+      {
+       "raw": "17,2 %",
+       "value": 17.2,
+       "tax_hint": null,
+       "after": "de prélèvements sociaux. Les plus-values son"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "pour chaque année de détention au-delà de la"
+      },
+      {
+       "raw": "4 %",
+       "value": 4.0,
+       "tax_hint": null,
+       "after": "pour la vingt-deuxième année rév"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 11,
+     "label": "frais d'acquisition",
+     "snippet": "ence entre le prix de revente et le prix d'acquisition de l'immeuble. Pour la détermination de la plus-value, le prix d'acquisition du bien cédé est majoré des frais d'acquisition pour leur montant réel ou du montant forfaitaire de 7,5 % si celui-ci est favorable, ainsi que d'un montant forfaitaire de 15 %, pour les travaux effectués sur le bien à la condition que le bien cédé soit détenu depuis plus de cinq ans par le contribuable.",
+     "percents": [
+      {
+       "raw": "7,5 %",
+       "value": 7.5,
+       "tax_hint": null,
+       "after": "si celui-ci est favorable, ainsi que d'un mo"
+      },
+      {
+       "raw": "15 %",
+       "value": 15.0,
+       "tax_hint": null,
+       "after": ", pour les travaux effectués sur le bien à la"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 14,
+     "label": "commission de souscription",
+     "snippet": "e souscription existent, pour un montant au moins égal aux de­ mandes de retrait, le prix de retrait correspond au prix de souscription du moment diminué de la commission de souscription. Le règlement des associés qui se retirent a lieu sans autre délai que le délai administratif normal de régularisation, de 10 jours ouvrés. Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la com­ mission de souscription. Si le retrait n'est pas compensé, le remboursement ne peut s'effectuer à un prix supé­ rieur à la valeur de réalisation ni inférieur à celle-ci diminuée de 10 %, sauf autorisation de l'Autorité des Marchés Financiers. - S'il s'avérait qu'une ou plusieurs demandes de retrait inscrites sur le registre et représentant au mo",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'Autorité des Marchés"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "frais d'acquisition",
+     "snippet": "ciété civile pour la prospection des capitaux, la re­ cherche d'investissements, la préparation et la réalisation des augmentations de capi­ tal, ainsi que les frais d'acquisition des immeubles. préserver les droits des associés anciens en sauvegardant par son évolution les inté­ rêts des associés anciens. Lors de toute souscription, les parts doivent être entièrement libérés de leur montant nominal et du montant de la prime d'émission stipulée. Le prix de souscription des parts est déterminé sur la base de la valeur de reconstitution définie à l'article XXIX des statuts. Article XIII – Représentation des parts sociales Les parts sociales sont nominatives. A la demande de l'Associé, des certificats représentatifs des parts sociales pourront être établis au nom de chacun des associés, préci",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "frais de gestion",
+     "snippet": " ses mandataires, la bonne administration de la société URBAN CŒUR COMMERCE y compris la perception des recettes et la répartition des bénéfices, ainsi que les frais de gestion locative. La société URBAN CŒUR COMMERCE supporte et paie tous les autres frais nécessaires à l'acquisition, la rénovation complète et l'entretien des immeubles en ce compris les honoraires de gestionnaires et d'intervenants techniques, impôts et droits, frais d'enregistrement, TVA immobilière, frais d'actes, les honoraires des Commissaires aux comptes, les honoraires d'Assistance à Maîtrise d'Ouvrage, les frais d'expertise, les frais d'expert-comptable, les frais de dépositaire, les frais de tenue des registres associés, les frais entraînés par les conseils et les assemblées (à l'exception des frais de personnel), ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "Commission de souscription",
+     "snippet": "elle ou professionnel des SCPI. 2. Commissions de la Société de Gestion La Société de Gestion est rémunérée de ses fonctions dans les conditions suivantes : a. Commission de souscription : Il est dû à la Société de Gestion, pour la recherche des capitaux ainsi que pour l'étude et la recherche des investissements en vue de la constitution et de l'extension du patri­ moine immobilier, une commission de souscription, comprise dans la prime d'émis­ sion, égale à 11,833% TTI du montant de chaque souscription, prime d'émission incluse. La commission de souscription se décompose de la manière suivante : les frais de collecte de capitaux à hauteur de 11% TTI (commission exonérée de TVA en application de l'article 261-C-1°-e du Code Général des Impôts), soit 33,33 € TTI. les frais de recherche d'in",
+     "percents": [
+      {
+       "raw": "11,833%",
+       "value": 11.833,
+       "tax_hint": null,
+       "after": "TTI du montant de chaque souscription, prime"
+      },
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "commission de souscription",
+     "snippet": "a recherche des capitaux ainsi que pour l'étude et la recherche des investissements en vue de la constitution et de l'extension du patri­ moine immobilier, une commission de souscription, comprise dans la prime d'émis­ sion, égale à 11,833% TTI du montant de chaque souscription, prime d'émission incluse. La commission de souscription se décompose de la manière suivante : les frais de collecte de capitaux à hauteur de 11% TTI (commission exonérée de TVA en application de l'article 261-C-1°-e du Code Général des Impôts), soit 33,33 € TTI. les frais de recherche d'investissements, de préparation et de réalisations des aug­ mentations de capital, à hauteur de 0,833% TTI (commission exonérée de TVA en appli­ cation de l'article 261-C-1°-f du Code Général des Impôts), soit 2,52 € TTI. La commiss",
+     "percents": [
+      {
+       "raw": "11,833%",
+       "value": 11.833,
+       "tax_hint": null,
+       "after": "TTI du montant de chaque souscription, prime"
+      },
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      },
+      {
+       "raw": "0,833%",
+       "value": 0.833,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en appli­ ca"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "commission de souscription",
+     "snippet": "ilier, une commission de souscription, comprise dans la prime d'émis­ sion, égale à 11,833% TTI du montant de chaque souscription, prime d'émission incluse. La commission de souscription se décompose de la manière suivante : les frais de collecte de capitaux à hauteur de 11% TTI (commission exonérée de TVA en application de l'article 261-C-1°-e du Code Général des Impôts), soit 33,33 € TTI. les frais de recherche d'investissements, de préparation et de réalisations des aug­ mentations de capital, à hauteur de 0,833% TTI (commission exonérée de TVA en appli­ cation de l'article 261-C-1°-f du Code Général des Impôts), soit 2,52 € TTI. La commission de souscription sera prélevée par la Société de Gestion dans le mois de la libération des fonds par l'associé. b. Commission de Gestion : Il est ",
+     "percents": [
+      {
+       "raw": "11,833%",
+       "value": 11.833,
+       "tax_hint": null,
+       "after": "TTI du montant de chaque souscription, prime"
+      },
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      },
+      {
+       "raw": "0,833%",
+       "value": 0.833,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en appli­ ca"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "commission de souscription",
+     "snippet": "tions de capital, à hauteur de 0,833% TTI (commission exonérée de TVA en appli­ cation de l'article 261-C-1°-f du Code Général des Impôts), soit 2,52 € TTI. La commission de souscription sera prélevée par la Société de Gestion dans le mois de la libération des fonds par l'associé. b. Commission de Gestion : Il est dû à la Société, à titre de remboursement des frais administratifs ainsi qu'à titre d'honoraires de gestion (à l'exception des honoraires de location et de relocation des immeubles sociaux), une rémunération de 12% TTI, calculée comme suit : 6 % TTI (commission exonérée de TVA en application de l'article 261-C-1°–e et -f du Code Général des Impôts) au titre de la gestion administrative de la société (couvrant tous les frais de bureau et de personnel nécessaires à l'administration",
+     "percents": [
+      {
+       "raw": "0,833%",
+       "value": 0.833,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en appli­ ca"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI, calculée comme suit : 6 % TTI (commissi"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "Commission de Gestion",
+     "snippet": "l des Impôts), soit 2,52 € TTI. La commission de souscription sera prélevée par la Société de Gestion dans le mois de la libération des fonds par l'associé. b. Commission de Gestion : Il est dû à la Société, à titre de remboursement des frais administratifs ainsi qu'à titre d'honoraires de gestion (à l'exception des honoraires de location et de relocation des immeubles sociaux), une rémunération de 12% TTI, calculée comme suit : 6 % TTI (commission exonérée de TVA en application de l'article 261-C-1°–e et -f du Code Général des Impôts) au titre de la gestion administrative de la société (couvrant tous les frais de bureau et de personnel nécessaires à l'administration de la Société) et la distribution des bénéfices ; 5 % HT (soit 6% TTC au taux de TVA en vigueur) du montant des produits loc",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI, calculée comme suit : 6 % TTI (commissi"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6% TTC au taux de TVA en vigueur) d"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant de"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "Commission de cession",
+     "snippet": "is­ sements et du financement des travaux. La rémunération de la Société de Gestion sera due par trimestre civil. Le paiement s'effectue par trimestre échu. c. Commission de cession de parts Pour toute cession de parts sociales, il est perçu par la Société de Gestion des hono­ raires : lorsque la cession n'intervient pas dans le cadre des dispositions de l'article L214- 59 du Code Monétaire et Financier, la Société de Gestion percevra, à titre de frais de dossier, un forfait de 100 EUROS HT, soit 120 EUROS TTC au taux actuel de TVA. Ce montant sera indexé le 1er janvier de chaque année N, et pour la 1re fois le 1er janvier 2019, sur la variation au cours des douze derniers mois de l'année N-1, de l'indice géné­ ral INSEE du coût des services (indice 4009 E des prix à la consommation) lorsq",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "frais de cession",
+     "snippet": "sitions de l'article L214- 93 du Code Monétaire et Financier, la Société de Gestion percevra une commission de 5 % HT (soit 6 % TTC au taux actuel de TVA). Ces frais de cession, en ce compris les droits d'enregistrement, seront à la charge des acheteurs, donataires ou des ayants droit. d. Commission d'arbitrage sur les cessions et acquisitions d'actifs immobiliers. Une commission d'arbitrage sur les cessions et acquisitions d'actifs immobiliers calcu­ lée sur le montant de l'acquisition ou de la cession immobilière perçue par la Société de Gestion à titre de rémunération de sa mission dans le cadre des acquisitions ou des cessions d'actifs immobiliers, égale à 1,25 % HT (soit 1,5 % TTC au taux de TVA en",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6 % TTC au taux actuel de TVA). Ces"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux actuel de TVA). Ces frais de ces"
+      },
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (soit 1,5 % TTC au taux de TVA en"
+      },
+      {
+       "raw": "1,5 %",
+       "value": 1.5,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "Commission d'arbitrage",
+     "snippet": "C au taux actuel de TVA). Ces frais de cession, en ce compris les droits d'enregistrement, seront à la charge des acheteurs, donataires ou des ayants droit. d. Commission d'arbitrage sur les cessions et acquisitions d'actifs immobiliers. Une commission d'arbitrage sur les cessions et acquisitions d'actifs immobiliers calcu­ lée sur le montant de l'acquisition ou de la cession immobilière perçue par la Société de Gestion à titre de rémunération de sa mission dans le cadre des acquisitions ou des cessions d'actifs immobiliers, égale à 1,25 % HT (soit 1,5 % TTC au taux de TVA en",
+     "percents": [
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (soit 1,5 % TTC au taux de TVA en"
+      },
+      {
+       "raw": "1,5 %",
+       "value": 1.5,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "commission d'arbitrage",
+     "snippet": "trement, seront à la charge des acheteurs, donataires ou des ayants droit. d. Commission d'arbitrage sur les cessions et acquisitions d'actifs immobiliers. Une commission d'arbitrage sur les cessions et acquisitions d'actifs immobiliers calcu­ lée sur le montant de l'acquisition ou de la cession immobilière perçue par la Société de Gestion à titre de rémunération de sa mission dans le cadre des acquisitions ou des cessions d'actifs immobiliers, égale à 1,25 % HT (soit 1,5 % TTC au taux de TVA en",
+     "percents": [
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (soit 1,5 % TTC au taux de TVA en"
+      },
+      {
+       "raw": "1,5 %",
+       "value": 1.5,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "commission de suivi",
+     "snippet": "isition ou de la cession de l'immeuble. La commission sur les acquisitions ne s'applique pas aux acquisitions consécutives à de nouvelles souscriptions. e. Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier. La Société de Gestion perçoit une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier, d'un montant de 2,5 % HT (soit 3 % TTC au taux de TVA en vigueur), calculée sur le montant des travaux réalisés. La prise en charge de frais supplémentaires devra être soumise à l'agrément de l'as­ semblée générale des associés, pour couvrir des charges exceptionnelles, qui pour­ raient résulter notamment de mesures législatives ou réglementaires ou de toutes autres circonstances, juridiques, économiques ou socia",
+     "percents": [
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT (soit 3 % TTC au taux de TVA en vigueur),"
+      },
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur), calculée sur"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "commission de suivi",
+     "snippet": "ouvelles souscriptions. e. Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier. La Société de Gestion perçoit une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier, d'un montant de 2,5 % HT (soit 3 % TTC au taux de TVA en vigueur), calculée sur le montant des travaux réalisés. La prise en charge de frais supplémentaires devra être soumise à l'agrément de l'as­ semblée générale des associés, pour couvrir des charges exceptionnelles, qui pour­ raient résulter notamment de mesures législatives ou réglementaires ou de toutes autres circonstances, juridiques, économiques ou sociales. La décision de l'assemblée générale devra être prise conformément aux dispositions de l'article L214-106 du Code monétaire e",
+     "percents": [
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT (soit 3 % TTC au taux de TVA en vigueur),"
+      },
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur), calculée sur"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "commissions de souscription",
+     "snippet": "nt l'arrêté du 26 avril 1995, tels qu'intégrés dans le plan comptable applicable aux SCPI, et les textes modificatifs éventuels. Les frais d'établissement, les commissions de souscription, les frais de fusion, les frais de recherche d'immeubles directement réglés par la SCPI et les frais d'acquisition des immeubles (notamment droits d'enregistrement, TVA non récupérable, frais de notaire) pourront être imputés sur la prime d'émission et/ou sur la prime de fusion. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d'évaluation que les années précédentes. Toutefois, la Société de Gestion peut proposer à l'assemblée générale ordinaire des modifications dans la présentation des comptes dans les conditions prévues par le Code monétaire et financier. Article XXX –",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "frais d'acquisition",
+     "snippet": "uels. Les frais d'établissement, les commissions de souscription, les frais de fusion, les frais de recherche d'immeubles directement réglés par la SCPI et les frais d'acquisition des immeubles (notamment droits d'enregistrement, TVA non récupérable, frais de notaire) pourront être imputés sur la prime d'émission et/ou sur la prime de fusion. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d'évaluation que les années précédentes. Toutefois, la Société de Gestion peut proposer à l'assemblée générale ordinaire des modifications dans la présentation des comptes dans les conditions prévues par le Code monétaire et financier. Article XXX – Affectation et Répartition des résultats Les produits nets de l'exercice, déduction faite des frais généraux et autres cha",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/11/UCC_BT_T3-2026.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/11/UCC_BT_T3-2026.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1019719,
+   "sha256": "0655a664b92c3ef9e7d5aeb74699d0d4b3b784e0f80deda0fe171553d7ee974e",
+   "metadata": {
+    "format": "PDF 1.6",
+    "creator": "Adobe InDesign 21.0 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261106111051+01'00'",
+    "modDate": "D:20261106111852+01'00'"
+   },
+   "page_count": 7,
+   "text_characters": 20748,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "Chers associés, Ce bulletin d'information du 3ème trimestre 2026 de la SCPI URBAN COEUR COMMERCE permet de suivre l'évolution de votre investissement. Nous poursuivons notre politique d'investissement sélective en saisis­ sant les meilleures opportunités du marché, avec une vision résolument tournée vers le long terme. La qualité locative du patrimoine de votre SCPI en est le socle et confirme la ",
+   "dates": [
+    "12 août 2026",
+    "30 octobre 2026",
+    "30/06/2026",
+    "janvier 2027"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/09/UCC_BT_2T-2026.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/09/UCC_BT_2T-2026.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 9417984,
+   "sha256": "f3c10bc90cc5d36ac785d3eae7eb593903a09259978a7f4fb2183cc024583bc1",
+   "metadata": {
+    "format": "PDF 1.6",
+    "creator": "Adobe InDesign 21.0 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260904164258+02'00'",
+    "modDate": "D:20261106113556+01'00'"
+   },
+   "page_count": 7,
+   "text_characters": 20897,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "Chers associés, Ce bulletin d'information du 2ème trimestre 2026 de la SCPI URBAN COEUR COMMERCE permet de suivre l'évolution de votre investissement. Nous continuons de saisir les meilleures opportunités du marché, en mi­ sant sur le long terme et la qualité locative de notre patrimoine. La pé­ riode actuelle confirme la pertinence de la stratégie menée par votre SCPI URBAN COEUR COMMERCE. La col",
+   "dates": [
+    "29 juin 2026",
+    "30/06/2026",
+    "31 juillet 2026"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/09/UCC_BT_1T2026.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/09/UCC_BT_1T2026.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2452641,
+   "sha256": "d491562111c8dee5067ee106cae6edd8272b70a34a94d9bc27a357d7379af278",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.0 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260430235259+02'00'",
+    "modDate": "D:20261106114125+01'00'"
+   },
+   "page_count": 8,
+   "text_characters": 22671,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "La SCPI URBAN COEUR COMMERCE récompensée aux Victoires de la Pierre Papier 2026 À l'occasion des Victoires Pierre Papier, la SCPI URBAN COEUR COMMERCE s'est vu décerner le prix de la : Meilleure SCPI à capital variable - Catégorie Commerces Une récompense qui constitue une véritable marque de confiance de la part des professionnels de secteur et renforce la position d'URBAN PREMIUM comme acteur de",
+   "dates": [
+    "30 avril 2026",
+    "30/12/2025",
+    "31/12/2025"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/02/UCC_BT-4T-2025.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/02/UCC_BT-4T-2025.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1458947,
+   "sha256": "ab0faf367530cbe82231588c8ad4500e0ce2a83123dde3899527f7e2beb9a3d9",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.0 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260209190403+01'00'",
+    "modDate": "D:20260210120853+01'00'"
+   },
+   "page_count": 8,
+   "text_characters": 20948,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "Chers associés, Ce bulletin d'information du 4e trimestre 2025 de la SCPI URBAN CŒUR COMMERCE vous permet de suivre l'évolution de votre investissement. Votre SCPI URBAN CŒUR COMMERCE poursuit sa stratégie d'investisse- ment rigoureuse, en s'appuyant sur une sélection des emplacements et une attention particulière à la qualité des locataires. Cette stratégie se reflète ainsi dans les valeurs d'exp",
+   "dates": [
+    "30 décembre 2025",
+    "30/06/2025",
+    "30/12/2025",
+    "31 janvier 2026",
+    "31/12/2025",
+    "avril 2026"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2025/11/UCC_BT-3T.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2025/11/UCC_BT-3T.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 9002150,
+   "sha256": "c8cbf5b1d097f0855303c4a213bc427c27d11d141dc66f786902495283283e8c",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.4 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20251030155736+01'00'",
+    "modDate": "D:20251030155743+01'00'"
+   },
+   "page_count": 6,
+   "text_characters": 17565,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "Chers associés, Ce bulletin d'information du 3ème trimestre 2025 de la SCPI URBAN CŒUR COMMERCE vous permet de suivre l'évolution de votre investissement. Votre SCPI URBAN CŒUR COMMERCE poursuit sa stratégie d'investisse- ment rigoureuse, en s'appuyant sur une sélection des emplacements et une attention particulière à la qualité des locataires. La collecte nette du 3ème trimestre 2025 s'élève à 3 ",
+   "dates": [
+    "29 septembre 2025",
+    "30/06/2025",
+    "31 octobre 2025",
+    "4 septembre 2025",
+    "janvier 2025"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2025/08/UCC_BT-2T25.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2025/08/UCC_BT-2T25.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2405519,
+   "sha256": "cab874e8a0b682b11f1d4761d19b129be00d77cd57236b3509ffcea9136eb13d",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 20.4 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20250811164054+02'00'",
+    "modDate": "D:20250811164057+02'00'"
+   },
+   "page_count": 6,
+   "text_characters": 18200,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "Chers associés, Ce bulletin d'information du 2ème trimestre 2025 de la SCPI URBAN CŒUR COMMERCE vous permet de suivre l'évolution de votre investissement. Votre SCPI URBAN CŒUR COMMERCE poursuit sa stratégie d'investisse­ ment rigoureuse, en s'appuyant sur une sélection des emplacements et une attention particulière à la qualité des locataires. La collecte nette du 2ème trimestre 2025 s'élève à 4 ",
+   "dates": [
+    "01/09/2025",
+    "05/08/2025",
+    "19 juin 2025",
+    "30/06/2024",
+    "30/06/2025",
+    "30/09/2024",
+    "31 juillet 2025",
+    "31/03/2025",
+    "31/12/2024"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2025/05/UCC_BT_1T25.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2025/05/UCC_BT_1T25.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1051114,
+   "sha256": "4321d1b23fe35684ce3e18af391d57674c8a43de96dd7aacfc867503d6d2ff44",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.0 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20250514160234+02'00'",
+    "modDate": "D:20250515113729+02'00'"
+   },
+   "page_count": 7,
+   "text_characters": 19533,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "Chers associés, Ce bulletin d'information du 1er trimestre 2025 de la SCPI URBAN CŒUR COMMERCE vous permet de suivre l'évolution de votre investissement dans un contexte de marché en pleine mutation. Le marché français de l'investissement en immobilier de commerce a en- registré une forte reprise au 1er trimestre 2025, avec 1,3 milliard d'euros investis dans le secteur du commerce, soit près de tr",
+   "dates": [
+    "30 avril 2025",
+    "30/06/2024",
+    "30/09/2024",
+    "31 janvier 2025",
+    "31/03/2024",
+    "31/12/2024"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2025/02/UCC_BT_4T24.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2025/02/UCC_BT_4T24.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 4232969,
+   "sha256": "0e900cc5c69441a0e765638ac4b10d0cf65d392a77cacc798e05becf293b287a",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 18.1 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20250214142259+01'00'",
+    "modDate": "D:20250214142315+01'00'"
+   },
+   "page_count": 4,
+   "text_characters": 21055,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "Nombre d'associés 1 454 Collecte du trimestre 4 545 900 € Prix de souscription 300,00 € Valeur de reconstitution 316,57 €** Valeur de retrait 264,50 € *TD (Taux de distribution), soit le dividende brut versé au titre de l'année n (y compris les acomptes exceptionnels et quote-part de plus-values distribués) divisé par le prix de souscription au 1er janvier de l'année n. **Valeurs au 31/12/2024. *E",
+   "dates": [
+    "08/06/2010",
+    "15/10/2018",
+    "18 décembre 2024",
+    "22/07/2014",
+    "26 décembre 2024",
+    "30 juin 2024",
+    "30/06/2024",
+    "30/09/2024",
+    "31 juillet 2024",
+    "31 mars 2025",
+    "31 octobre 2024",
+    "31/03/2024"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2024/11/UCC_BT_3T24.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2024/11/UCC_BT_3T24.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3799425,
+   "sha256": "3af98069074c815a1dfc73da9cfe2991f560cc46478b510b5debdd9cfd7760cf",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 18.1 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20241108093933+01'00'",
+    "modDate": "D:20241108094011+01'00'"
+   },
+   "page_count": 4,
+   "text_characters": 19087,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "Information : Une modification de la pré­ sentation de l'évolution du dividende par trimestre, a été apporté dans le présent bul­ letin, dorénavant le graphe d'évolution du dividende présentera le dividende brut. La différence entre les montants de distribu­ tion bruts et nets résulte d'une retenue à la source s'appliquant sur les revenus de place­ ments à taux fixe. TD 2024* 5,07 % Acompte sur di",
+   "dates": [
+    "08/06/2010",
+    "15/10/2018",
+    "1er juillet 2024",
+    "20 septembre 2024",
+    "22/07/2024",
+    "24 juillet 2024",
+    "30 septembre 2024",
+    "30/06/2024",
+    "30/09/2024",
+    "31 juillet 2024",
+    "31 octobre 2024",
+    "31/03/2024"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2024/09/UCC_BT-2T24.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2024/09/UCC_BT-2T24.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1025826,
+   "sha256": "25e1d022a6754a5b40ad7d318fe8b19d64c0b7944d8ae7c98ec57813b64b43e5",
+   "metadata": {
+    "format": "PDF 1.5",
+    "creator": "Adobe InDesign 18.5 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20240802133636+02'00'",
+    "modDate": "D:20240802133641+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 18241,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "TD 2024* 5,06 % Acompte sur dividende au titre du T2 2024 3,80 € Capitalisation nette 64 367 154 € Nombre d'associés 1 239 Collecte du trimestre 5 208 300 € Loyers quittancés sur le trimestre 910 972 € Prix de souscription 300,00 € Valeur de reconstitution 311,87 €** Valeur de retrait 264,50 € *TD (Taux de distribution), soit le dividende brut versé au titre de l'année n (y compris les acomptes ex",
+   "dates": [
+    "08/06/2010",
+    "15/10/2018",
+    "17 mai 2024",
+    "2 mai 2024",
+    "21 mai 2024",
+    "30 juin 2024",
+    "30/06/2024",
+    "31 juillet 2024",
+    "31/03/2024",
+    "31/12/2023",
+    "5 juin 2024",
+    "octobre 2024"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2024/05/UCC_BT_1T24.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2024/05/UCC_BT_1T24.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 4006798,
+   "sha256": "249716beee6645e44e02903c9be7694a874ca53df07d31f70d4d03e75dbb44ff",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 18.1 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20240517164111+02'00'",
+    "modDate": "D:20240517164128+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 16834,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "TD 2024* 5,04 % Acompte sur dividende au titre du T1 2024 3,78 € Capitalisation nette 59 486 454 € Nombre d'associés 1 014 Collecte du trimestre 5 265 595 € Loyers quittancés sur le trimestre 750 103 € Prix de souscription 300,00 € Valeur de reconstitution 311,87 €** Valeur de retrait 264,50 € *TD (Taux de distribution), soit le dividende brut versé au titre de l'année n (y compris les acomptes ex",
+   "dates": [
+    "08/06/2010",
+    "15/10/2018",
+    "2 mai 2024",
+    "25 mars 2024",
+    "31 janvier 2023",
+    "31 mars 2024",
+    "31/03/2024",
+    "31/12/2021",
+    "31/12/2022",
+    "31/12/2023",
+    "juillet 2024"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2024/02/UCC_BT_4T23-1.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2024/02/UCC_BT_4T23-1.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3877655,
+   "sha256": "8c385f5782657d947ad8e55e91b0b0a336055d950128aea10bb23eeaef59cefd",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 18.1 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20240229161559+01'00'",
+    "modDate": "D:20240229161613+01'00'"
+   },
+   "page_count": 4,
+   "text_characters": 19107,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "TD 2023* 5,02 % Acompte sur dividende au titre du T4 2023 3,75 € Capitalisation nette 54 436 254 € Nombre d'associés 1 014 Collecte du trimestre 5 001 000 € Loyers quittancés sur le trimestre 750 103 € Prix de souscription 300,00 € Valeur de reconstitution 310,20 €** Valeur de retrait 264,50 € *TD (Taux de distribution), soit le dividende brut versé au titre de l'année n (y compris les acomptes ex",
+   "dates": [
+    "08/06/2010",
+    "15/10/2018",
+    "20 décembre 2023",
+    "20/12/2023",
+    "30/06/2023",
+    "30/09/2023",
+    "31 décembre 2023",
+    "31 janvier 2024",
+    "31 octobre 2023",
+    "31/03/2023",
+    "31/12/2021",
+    "31/12/2022"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2023/11/UCC_BT-3T23.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2023/11/UCC_BT-3T23.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 922959,
+   "sha256": "80da15a7de7d3950ff6d872e245dff2e019f9fb087bf4b974f58b009c2ccae19",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 18.1 (Macintosh)",
+    "producer": "iLovePDF",
+    "creationDate": "D:20231113093604+01'00'",
+    "modDate": "D:20231113135018Z"
+   },
+   "page_count": 4,
+   "text_characters": 20391,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "TD 2023* 5 % Acompte sur dividende au titre du T3 2023 3,75 € Capitalisation nette 49 795 476 € Nombre d'associés 942 Collecte du trimestre 3 722 400 € Loyers quittancés sur le trimestre 750 103 € Prix de souscription 300,00 € Valeur de reconstitution 310,20 € Valeur de retrait 264,50 € *TD (Taux de distribution), soit le dividende brut versé au titre de l'année n (y compris les acomptes exception",
+   "dates": [
+    "03 aout 2023",
+    "08/06/2010",
+    "10 octobre 2023",
+    "15/10/2018",
+    "19 août 2023",
+    "1er juin 2023",
+    "30 juin 2023",
+    "30 septembre 2023",
+    "30/06/2023",
+    "30/09/2023",
+    "31 juillet 2023",
+    "31 octobre 2023"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "frais de souscription",
+     "snippet": "ée des frais affé- rents à une reconstitution du patrimoine. › Valeur de retrait : il s'agit du prix de souscription de la part au jour du retrait, diminué des frais de souscription. CARACTÉRISTIQUES DE LA SCPI Forme juridique ........................ \u0007SCPI à capital variable Date d'immatriculation ............ 15/10/2018 N° RCS ....................................... \u0007Paris 843 119 322 Date d'expiration ..................... 14/10/2117 Durée de vie ............................. N/A lexique B U L L E T I N T R I M E S T R I E L D ' I N F O R M AT I O N N °15 P É R I O D E D E VA L I D I T É : 3 e T R I M E S T R E 2 0 2 3 Capital maximum statutaire .... \u000783 510 700 euros (hors prime d'émission) Visa AMF ................................... n°18-30 du 14/11/18 Société de Gestion ............",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 4,
+     "label": "commission de souscription",
+     "snippet": "aleur nominale :...................................................247 € Prime d'émission :....................................................53 € 1. Dont une commission de souscription :...11,833% TTI du prix de la part - Des frais de collecte de :...11% TTI du prix de la part - Des frais de recherche d'investissements, de préparation et de réalisation des augmentations de capital de :....................0,833% TTI du prix de la part 2. Dont des frais d'acquisition des actifs immobiliers de :....... 5,833% du prix de la part DÉLAI DE JOUISSANCE Les parts souscrites porteront jouissance avec effet au premier jour du 4e mois qui suit la souscription, accom- pagnée du versement du prix. RETRAIT DES ASSOCIÉS Conformément aux dispositions régissant les sociétés à capital variable, tout associ",
+     "percents": [
+      {
+       "raw": "11,833%",
+       "value": 11.833,
+       "tax_hint": null,
+       "after": "TTI du prix de la part - Des frais de collec"
+      },
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": null,
+       "after": "TTI du prix de la part - Des frais de recher"
+      },
+      {
+       "raw": "0,833%",
+       "value": 0.833,
+       "tax_hint": null,
+       "after": "TTI du prix de la part 2. Dont des frais d'a"
+      },
+      {
+       "raw": "5,833%",
+       "value": 5.833,
+       "tax_hint": null,
+       "after": "du prix de la part DÉLAI DE JOUISSANCE Les p"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 4,
+     "label": "frais d'acquisition",
+     "snippet": "de recherche d'investissements, de préparation et de réalisation des augmentations de capital de :....................0,833% TTI du prix de la part 2. Dont des frais d'acquisition des actifs immobiliers de :....... 5,833% du prix de la part DÉLAI DE JOUISSANCE Les parts souscrites porteront jouissance avec effet au premier jour du 4e mois qui suit la souscription, accom- pagnée du versement du prix. RETRAIT DES ASSOCIÉS Conformément aux dispositions régissant les sociétés à capital variable, tout associé a le droit de se retirer de la société, partiellement ou en totalité, dans la limite des clauses de variabilité fixées par les statuts. La demande de retrait doit être faite par lettre recom- mandée avec demande d'avis de réception adressée à la Société de Gestion. Les demandes de retrait ",
+     "percents": [
+      {
+       "raw": "0,833%",
+       "value": 0.833,
+       "tax_hint": null,
+       "after": "TTI du prix de la part 2. Dont des frais d'a"
+      },
+      {
+       "raw": "5,833%",
+       "value": 5.833,
+       "tax_hint": null,
+       "after": "du prix de la part DÉLAI DE JOUISSANCE Les p"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 4,
+     "label": "Commission de Gestion",
+     "snippet": "uspendre à tout moment les effets de la variabilité du capital pour mettre en place en substitution le marché par confrontation des ordres d'achat et de vente. Commission de Gestion : 12% TTI basés sur les pro- duits locatifs HT encaissés et les produits financiers nets. FACTEURS DE RISQUES Les parts de SCPI sont des supports de placement à long terme et doivent être acquises dans une optique de di- versification de votre patrimoine. Risque de perte en capital : La SCPI comporte un risque de perte en capital et le montant du capital investi n'est pas garanti. Risque de marché immobilier : le placement étant in- vesti uniquement en immobilier, les conditions de sorties peuvent varier de manière importante en fonction de l'évolution du marché immobilier à la hausse comme à la baisse. Risque ",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI basés sur les pro- duits locatifs HT enc"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers"
+     ]
+    }
+   ]
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2023/07/UCC_BT-2T23.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2023/07/UCC_BT-2T23.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2944018,
+   "sha256": "32e39d3c6714c2372f8d9381b3da5c388b7119b48b382de1fa2a25a0c02987a2",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 18.1 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20230726121137+02'00'",
+    "modDate": "D:20230728150459+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 19666,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "URBAN CŒUR COMMERCE SOCIÉTÉ CIVILE DE PLACEMENT EN IMMOBILIER Bulletin Trimestriel d'Information n°14 PÉRIODE ANALYSÉE : 2e trimestre 2023 | PÉRIODE DE VALIDITÉ : 3e trimestre 2023 TD 2023* 5 % Acompte sur dividende au titre du T2 2023 3,75 € Capitalisation nette 46 515 498 € Nombre d'associés 931 Collecte du trimestre 5 436 300 € Loyers quittancés sur le trimestre 670 040 € Prix de souscription 3",
+   "dates": [
+    "08/06/2010",
+    "15 juin 2023",
+    "15/10/2018",
+    "1er juillet 2023",
+    "22 mai 2023",
+    "28 avril 2023",
+    "30 juin 2023",
+    "30/06/2023",
+    "31 juillet 2023",
+    "31 mai 2023",
+    "31/03/2023",
+    "31/12/2021"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "frais de souscription",
+     "snippet": "ée des frais affé­ rents à une reconstitution du patrimoine. › Valeur de retrait : il s'agit du prix de souscription de la part au jour du retrait, diminué des frais de souscription. CARACTÉRISTIQUES DE LA SCPI Forme juridique ........................ \u0007SCPI à capital variable Date d'immatriculation ............ 15/10/2018 N° RCS ....................................... \u0007Paris 843 119 322 Date d'expiration ..................... 14/10/2117 Durée de vie ............................. N/A lexique B U L L E T I N T R I M E S T R I E L D ' I N F O R M AT I O N N °14 P É R I O D E D E VA L I D I T É : 2 e T R I M E S T R E 2 0 2 3 Capital maximum statutaire .... \u000783 510 700 euros (hors prime d'émission) Visa AMF ................................... n°18-30 du 14/11/18 Société de Gestion ............",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 4,
+     "label": "commission de souscription",
+     "snippet": "aleur nominale :...................................................247 € Prime d'émission :....................................................53 € 1. Dont une commission de souscription :...11,833% TTI du prix de la part - Des frais de collecte de :...11% TTI du prix de la part - Des frais de recherche d'investissements, de préparation et de réalisation des augmentations de capital de :....................0,833% TTI du prix de la part 2. Dont des frais d'acquisition des actifs immobiliers de :....... 5,833% du prix de la part DÉLAI DE JOUISSANCE Les parts souscrites porteront jouissance avec effet au premier jour du 4e mois qui suit la souscription, accom­ pagnée du versement du prix. RETRAIT DES ASSOCIÉS Conformément aux dispositions régissant les sociétés à capital variable, tout associ",
+     "percents": [
+      {
+       "raw": "11,833%",
+       "value": 11.833,
+       "tax_hint": null,
+       "after": "TTI du prix de la part - Des frais de collec"
+      },
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": null,
+       "after": "TTI du prix de la part - Des frais de recher"
+      },
+      {
+       "raw": "0,833%",
+       "value": 0.833,
+       "tax_hint": null,
+       "after": "TTI du prix de la part 2. Dont des frais d'a"
+      },
+      {
+       "raw": "5,833%",
+       "value": 5.833,
+       "tax_hint": null,
+       "after": "du prix de la part DÉLAI DE JOUISSANCE Les p"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 4,
+     "label": "frais d'acquisition",
+     "snippet": "de recherche d'investissements, de préparation et de réalisation des augmentations de capital de :....................0,833% TTI du prix de la part 2. Dont des frais d'acquisition des actifs immobiliers de :....... 5,833% du prix de la part DÉLAI DE JOUISSANCE Les parts souscrites porteront jouissance avec effet au premier jour du 4e mois qui suit la souscription, accom­ pagnée du versement du prix. RETRAIT DES ASSOCIÉS Conformément aux dispositions régissant les sociétés à capital variable, tout associé a le droit de se retirer de la société, partiellement ou en totalité, dans la limite des clauses de variabilité fixées par les statuts. La demande de retrait doit être faite par lettre recom­ mandée avec demande d'avis de réception adressée à la Société de Gestion. Les demandes de retrait ",
+     "percents": [
+      {
+       "raw": "0,833%",
+       "value": 0.833,
+       "tax_hint": null,
+       "after": "TTI du prix de la part 2. Dont des frais d'a"
+      },
+      {
+       "raw": "5,833%",
+       "value": 5.833,
+       "tax_hint": null,
+       "after": "du prix de la part DÉLAI DE JOUISSANCE Les p"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 4,
+     "label": "Commission de Gestion",
+     "snippet": "uspendre à tout moment les effets de la variabilité du capital pour mettre en place en substitution le marché par confrontation des ordres d'achat et de vente. Commission de Gestion : 12% TTI basés sur les pro­ duits locatifs HT encaissés et les produits financiers nets. FACTEURS DE RISQUES Les parts de SCPI sont des supports de placement à long terme et doivent être acquises dans une optique de di­ versification de votre patrimoine. Risque de perte en capital : La SCPI comporte un risque de perte en capital et le montant du capital investi n'est pas garanti. Risque de marché immobilier : le placement étant in­ vesti uniquement en immobilier, les conditions de sorties peuvent varier de manière importante en fonction de l'évolution du marché immobilier à la hausse comme à la baisse. Risque ",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI basés sur les pro­ duits locatifs HT enc"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers"
+     ]
+    }
+   ]
+  },
+  {
+   "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2023/05/UCC_BT-1T23.pdf",
+   "final_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2023/05/UCC_BT-1T23.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3171822,
+   "sha256": "7ad0ab2cbdb1aeaccddb7723726dc085cf996c6547e937da1cdb9740d55c2949",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 18.1 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20230512150902+02'00'",
+    "modDate": "D:20230512150916+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 19645,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "urban coeur commerce",
+   "title_excerpt": "URBAN CŒUR COMMERCE SOCIÉTÉ CIVILE DE PLACEMENT EN IMMOBILIER Bulletin Trimestriel d'Information n°13 PÉRIODE ANALYSÉE : 1er trimestre 2023 | PÉRIODE DE VALIDITÉ : 2e trimestre 2023 TD 2023* 5 % Acompte sur dividende au titre du T1 2023 3,75 € Capitalisation nette 41 588 598 € Nombre d'associés 739 Collecte du trimestre 3 015 000 € Loyers quittancés sur le trimestre 489 560 € Prix de souscription ",
+   "dates": [
+    "08/06/2010",
+    "15/10/2018",
+    "21 mars 2023",
+    "26 janvier 2023",
+    "28 avril 2023",
+    "28 mars 2023",
+    "31 janvier 2023",
+    "31 mars 2023",
+    "31/03/2023",
+    "31/12/2021",
+    "31/12/2022",
+    "décembre 2030"
+   ],
+   "fee_clauses": []
+  }
+ ],
+ "candidate_count": 32,
+ "summary": {
+  "dic_identity_ok": 0,
+  "note_identity_ok": 3,
+  "fee_clauses": 45,
+  "errors": 1
+ }
+}

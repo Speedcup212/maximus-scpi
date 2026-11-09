@@ -1,0 +1,495 @@
+{
+ "slug": "epargne-pierre",
+ "name": "Épargne Pierre",
+ "manager": "Atland Voisin",
+ "crawl": [
+  {
+   "url": "https://atland-voisin.com/scpi/epargne-pierre/",
+   "depth": 0,
+   "final_url": "https://atland-voisin.com/scpi/epargne-pierre/",
+   "http_status": 200,
+   "pdf_links": 8
+  },
+  {
+   "url": "https://atland-voisin.com/priips-epargne-pierre/",
+   "depth": 1,
+   "final_url": "https://atland-voisin.com/priips-epargne-pierre/",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://atland-voisin.com/priips-epargne-pierre-europe/",
+   "depth": 1,
+   "final_url": "https://atland-voisin.com/priips-epargne-pierre-europe/",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://atland-voisin.com/priips-epargne-pierre-sophia/",
+   "depth": 1,
+   "final_url": "https://atland-voisin.com/priips-epargne-pierre-sophia/",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://atland-voisin.com/priips-immo-placement/",
+   "depth": 1,
+   "final_url": "https://atland-voisin.com/priips-immo-placement/",
+   "http_status": 200,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://atland-voisin.com/documentation/?category=rapport-extra-financier",
+   "depth": 1,
+   "final_url": "https://atland-voisin.com/documentation/?category=rapport-extra-financier",
+   "http_status": 200,
+   "pdf_links": 16
+  },
+  {
+   "url": "https://atland-voisin.com/documentation/",
+   "depth": 1,
+   "final_url": "https://atland-voisin.com/documentation/",
+   "http_status": 200,
+   "pdf_links": 16
+  },
+  {
+   "url": "https://atland-voisin.com/dispositif-reglementaire/",
+   "depth": 1,
+   "final_url": "https://atland-voisin.com/dispositif-reglementaire/",
+   "http_status": 200,
+   "pdf_links": 0
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://atland-voisin.com/wp-content/uploads/2026/07/Plaquette_Epargne_Pierre_MAJ_2026_WEB.pdf",
+   "final_url": "https://atland-voisin.com/wp-content/uploads/2026/07/Plaquette_Epargne_Pierre_MAJ_2026_WEB.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 822467,
+   "sha256": "6fd500c7d436d436ab56a7f2646b8a17656b1de807dc058e6bcc4e84dbb22986",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 20.1 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20260709151817+02'00'",
+    "modDate": "D:20260730095140+02'00'"
+   },
+   "page_count": 5,
+   "text_characters": 13935,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "epargne pierre",
+   "title_excerpt": "1 La SCPI phare des métropoles régionales Communication publicitaire",
+   "dates": [
+    "01/01/2014",
+    "31 décembre 2025",
+    "31 décembre 2026",
+    "31/12/2025",
+    "décembre 2025"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "commission de gestion",
+     "snippet": "guant notamment la gestion des immeubles (acquisition, entretien, mise en location) à la Société de Gestion. En contrepartie, la Société de Gestion facture une commission de gestion annuelle à la SCPI (12 % TTC des produits locatifs hors taxes encaissés et des produits financiers nets). Le saviez-vous ? La SCPI, un outil patrimonial et complet. Pour un particulier, les SCPI sont soumises aux revenus fonciers et aux plus-values immobilières. Plusieurs modes d'acquisition et de détention sont possibles qui permettent de répondre à vos objectifs patrimoniaux et à votre situation fiscale. Consultez votre conseiller qui vous indiquera comment réaliser votre investissement. Conditions de souscription Délai de jouissance Suppression du délai de jouissance du 1er février au 31 décembre 2026. Distr",
+     "percents": [
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC des produits locatifs hors taxes encaiss"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "Frais de souscription",
+     "snippet": "arantie) Trimestrielle. Orientation d'investissement Immobilier d'entreprise (bureaux, commerces, activités…) en France et Union Européenne selon opportunités. Frais de souscription Commission de 10 % HT (12 % TTC) prélevée sur le montant de la souscription. Frais de gestion Commission annuelle de 10 % HT (12 % TTC) sur les produits locatifs pris en charge par la SCPI (hors taxes encaissés et des produits financiers nets). Frais de cession de parts Forfait de 120 € TTC (pour une TVA à 20 % depuis le 01/01/2014) par bénéficiaire. 1 VOUS ACHETEZ DES PARTS DE SCPI (Durée de détention recommandée de 10 ans) 4 VOUS RECEVEZ DES REVENUS POTENTIELS Il est rappelé que ces revenus peuvent fluctuer à la hausse ou à la baisse et ne sont pas garantis 2 LA SCPI ACQUIERT ET LA SOCIÉTÉ DE GESTION GÈRE & L",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) prélevée sur le montant de la"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) prélevée sur le montant de la souscript"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) sur les produits locatifs pris"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) sur les produits locatifs pris en charg"
+      },
+      {
+       "raw": "20 %",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": "depuis le 01/01/2014) par bénéficiaire. 1 VO"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "Frais de gestion",
+     "snippet": "ctivités…) en France et Union Européenne selon opportunités. Frais de souscription Commission de 10 % HT (12 % TTC) prélevée sur le montant de la souscription. Frais de gestion Commission annuelle de 10 % HT (12 % TTC) sur les produits locatifs pris en charge par la SCPI (hors taxes encaissés et des produits financiers nets). Frais de cession de parts Forfait de 120 € TTC (pour une TVA à 20 % depuis le 01/01/2014) par bénéficiaire. 1 VOUS ACHETEZ DES PARTS DE SCPI (Durée de détention recommandée de 10 ans) 4 VOUS RECEVEZ DES REVENUS POTENTIELS Il est rappelé que ces revenus peuvent fluctuer à la hausse ou à la baisse et ne sont pas garantis 2 LA SCPI ACQUIERT ET LA SOCIÉTÉ DE GESTION GÈRE & LOUE DES ACTIFS* 3 LES LOCATAIRES PAIENT LEURS LOYERS SCPI DE RENDEMENT Associés de la SCPI Bureaux ",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) prélevée sur le montant de la"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) prélevée sur le montant de la souscript"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) sur les produits locatifs pris"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) sur les produits locatifs pris en charg"
+      },
+      {
+       "raw": "20 %",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": "depuis le 01/01/2014) par bénéficiaire. 1 VO"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "Frais de cession",
+     "snippet": " gestion Commission annuelle de 10 % HT (12 % TTC) sur les produits locatifs pris en charge par la SCPI (hors taxes encaissés et des produits financiers nets). Frais de cession de parts Forfait de 120 € TTC (pour une TVA à 20 % depuis le 01/01/2014) par bénéficiaire. 1 VOUS ACHETEZ DES PARTS DE SCPI (Durée de détention recommandée de 10 ans) 4 VOUS RECEVEZ DES REVENUS POTENTIELS Il est rappelé que ces revenus peuvent fluctuer à la hausse ou à la baisse et ne sont pas garantis 2 LA SCPI ACQUIERT ET LA SOCIÉTÉ DE GESTION GÈRE & LOUE DES ACTIFS* 3 LES LOCATAIRES PAIENT LEURS LOYERS SCPI DE RENDEMENT Associés de la SCPI Bureaux Éducation Hôtels Entrepôts Commerces Pourquoi investir dans Épargne Pierre ? Ceci est une communication publicitaire. Veuillez vous référer au document d'informations d",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) sur les produits locatifs pris"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) sur les produits locatifs pris en charg"
+      },
+      {
+       "raw": "20 %",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": "depuis le 01/01/2014) par bénéficiaire. 1 VO"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "frais de gestion",
+     "snippet": "s du FIA et au document d'information clé avant de prendre toute décision d'investissement. *Gestion des actifs assurée par la Société de Gestion moyennant des frais de gestion Investissez dès 2 080 € Rejoignez les près de 53 000 associés d'Épargne Pierre (données au 31/12/2025), en souscrivant 100 parts à 20,80 €* et bénéficiez de potentiels revenus réguliers. Tout en rappelant que l'investissement en SCPI présente des risques dont un risque de perte en capital et de liquidité, le capital investi n'étant pas garanti. La distribution des revenus non garantis peut varier à la hausse comme à la baisse. Diversifiez votre patrimoine Avec plus de 400 immeubles et plus de 1 000 locataires à l'actif d'Épargne Pierre (données au 31/12/2025), vous bénéficiez d'un patrimoine mutualisé et dynamique. ",
+     "percents": [],
+     "basis_tags": []
+    }
+   ]
+  },
+  {
+   "url": "https://atland-voisin.com/wp-content/uploads/2026/05/ATLAND_RA_Epargne_Pierre_2025_OPTI_compresse.pdf",
+   "final_url": "https://atland-voisin.com/wp-content/uploads/2026/05/ATLAND_RA_Epargne_Pierre_2025_OPTI_compresse.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2402068,
+   "sha256": "d6b40189baf0ea94d87cd448dc03be3f07553093084c4b37468389a60b7ff978",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "ATLAND RA Epargne Pierre 2025",
+    "creator": "Pomdoc by Pomelo-Paradigm",
+    "creationDate": "D:20260512143525+02'00'",
+    "modDate": "D:20260512165112+02'00'"
+   },
+   "page_count": 88,
+   "text_characters": 252438,
+   "kind": "rapport_annuel",
+   "identity_match": true,
+   "identity_alias": "epargne pierre",
+   "title_excerpt": "La SCPI phare des métropoles régionales Rapport annuel 2025",
+   "dates": [],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://atland-voisin.com/wp-content/uploads/2026/05/ATLAND_RA_Epargne_Pierre_Sophia_2025_OPTI_compresse.pdf",
+   "final_url": "https://atland-voisin.com/wp-content/uploads/2026/05/ATLAND_RA_Epargne_Pierre_Sophia_2025_OPTI_compresse.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3584513,
+   "sha256": "bf2fd07b1641d65ff36dcb5e7ff7ca5f78cb744790095d4dac7950cfdb0a9b86",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "ATLAND RA Epargne Pierre Sophia 2025",
+    "creator": "Pomdoc by Pomelo-Paradigm",
+    "creationDate": "D:20260512143815+02'00'",
+    "modDate": "D:20260512165616+02'00'"
+   },
+   "page_count": 68,
+   "text_characters": 169816,
+   "kind": "rapport_annuel",
+   "identity_match": true,
+   "identity_alias": "epargne pierre",
+   "title_excerpt": "La SCPI de l'Europe de la santé Rapport annuel 2025",
+   "dates": [],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://atland-voisin.com/wp-content/uploads/2026/05/ATLAND_RA_Epargne_Pierre_Europe_2025_OPTI_compresse-1.pdf",
+   "final_url": "https://atland-voisin.com/wp-content/uploads/2026/05/ATLAND_RA_Epargne_Pierre_Europe_2025_OPTI_compresse-1.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2679580,
+   "sha256": "770cacec7cc42fdbecea8bc6cf723b71eed4ca062314cd6325804d080f95c42e",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "ATLAND RA Epargne Pierre Europe 2025",
+    "creator": "Pomdoc by Pomelo-Paradigm",
+    "creationDate": "D:20260512143704+02'00'",
+    "modDate": "D:20260512171453+02'00'"
+   },
+   "page_count": 72,
+   "text_characters": 187690,
+   "kind": "rapport_annuel",
+   "identity_match": true,
+   "identity_alias": "epargne pierre",
+   "title_excerpt": "La SCPI des métropoles européennes Rapport annuel 2025",
+   "dates": [],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EP-vdef-web-1.pdf",
+   "final_url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EP-vdef-web-1.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 599506,
+   "sha256": "2378adb2b94e956396e415ffa332a6ab7f472cbaa7bea821e337d1cd9c3235b3",
+   "metadata": {
+    "format": "PDF 1.6",
+    "creator": "Adobe InDesign 21.6 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261102101525+01'00'",
+    "modDate": "D:20261102101821+01'00'"
+   },
+   "page_count": 6,
+   "text_characters": 25206,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "epargne pierre",
+   "title_excerpt": "N°03 - 2026 Bulletin d'information 3ÈME TRIMESTRE 2026 - VALABLE DU 1ER OCTOBRE AU 31 DÉCEMBRE 2026 Chers associés, La SCPI Épargne Pierre poursuit son développement pour mieux répondre à vos attentes, tout en restant fidèle aux fondamentaux qui font sa force : un patrimoine diversifié et mutualisé, une sélection rigoureuse des actifs et un faible taux d'endettement. Ces fondamentaux lui ont permi",
+   "dates": [
+    "1er juillet 2026",
+    "24 NOVEMBRE 2026",
+    "30 septembre 2026",
+    "30/09/2026",
+    "31 DÉCEMBRE 2026",
+    "31 décembre 2026",
+    "janvier 2027"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://atland-voisin.com/wp-content/uploads/2025/08/Rapport-Extra-Financier_EP_EPE_2024_WEB.pdf",
+   "final_url": "https://atland-voisin.com/wp-content/uploads/2025/08/Rapport-Extra-Financier_EP_EPE_2024_WEB.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 5666178,
+   "sha256": "174ed54c2470b0619486ddf34a8d4212ccb0662dcf0e7f4d20b74ea410dc009f",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.4 (Macintosh)",
+    "producer": "iLovePDF",
+    "creationDate": "D:20250801101718+02'00'",
+    "modDate": "D:20250902151509+02'00'"
+   },
+   "page_count": 61,
+   "text_characters": 124544,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "epargne pierre",
+   "title_excerpt": "Rapport extra-financier 2024 2024 : l'énergie, le carbone et la biodiversité comme cap",
+   "dates": [
+    "AVRIL 2025",
+    "FÉVRIER 2025",
+    "JANVIER 2025",
+    "JUIN 2025",
+    "SEPTEMBRE 2025"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://atland-voisin.com/wp-content/uploads/2026/05/ATLAND_RA_Immo_Placement_2025_OPTI_compresse.pdf",
+   "final_url": "https://atland-voisin.com/wp-content/uploads/2026/05/ATLAND_RA_Immo_Placement_2025_OPTI_compresse.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3369575,
+   "sha256": "e9eb1598b63027f0cebda91761267a5fcc3f5d8268b68024b1aac5e61f0c11c0",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "ATLAND RA Immo Placement 2025",
+    "creator": "Pomdoc by Pomelo-Paradigm",
+    "creationDate": "D:20260512144030+02'00'",
+    "modDate": "D:20260512165845+02'00'"
+   },
+   "page_count": 68,
+   "text_characters": 168502,
+   "kind": "rapport_annuel",
+   "identity_match": true,
+   "identity_alias": "epargne pierre",
+   "title_excerpt": "Depuis 1968, votre SCPI de génération en génération Rapport annuel 2025",
+   "dates": [],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EPS-vdef-web-1.pdf",
+   "final_url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EPS-vdef-web-1.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 688002,
+   "sha256": "75ed3c2c4bd0e2e54859065af57b9dfd5addcfebbd04696d44ae8973c58fe6b0",
+   "metadata": {
+    "format": "PDF 1.6",
+    "creator": "Adobe InDesign 21.6 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261102101649+01'00'",
+    "modDate": "D:20261102102034+01'00'"
+   },
+   "page_count": 6,
+   "text_characters": 25390,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "epargne pierre",
+   "title_excerpt": "N°03 - 2026 Bulletin d'information 3ÈME TRIMESTRE 2026 - VALABLE DU 1ER OCTOBRE AU 31 DÉCEMBRE 2026 Distribution des revenus JANVIER 2027 Date de la prochaine distribution 1,29 M€ COLLECTE NETTE 22 €/part PRIX DE SOUSCRIPTION (AU 1ER JUILLET 2026) 25,8 M€ CAPITALISATION T4 T1 REVENU DISTRIBUÉ NET (€/part) 2,96 €* T2 712 ASSOCIÉS 1,29 M€ COLLECTE BRUTE 100 % TAUX D'OCCUPATION FINANCIER Les performa",
+   "dates": [
+    "1ER JUILLET 2026",
+    "1er janvier 2026",
+    "1er juillet 2026",
+    "30 juin 2026",
+    "30 septembre 2026",
+    "30/09/2026",
+    "31 DÉCEMBRE 2026",
+    "JANVIER 2027",
+    "janvier 2027",
+    "mai 2023"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EPE-vdef-web-1.pdf",
+   "final_url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EPE-vdef-web-1.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 712830,
+   "sha256": "de973a520cc02b75947bf57da18dbd6f03498219f11a2527be7a6d15703fa024",
+   "metadata": {
+    "format": "PDF 1.6",
+    "creator": "Adobe InDesign 21.6 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261102101630+01'00'",
+    "modDate": "D:20261102101918+01'00'"
+   },
+   "page_count": 6,
+   "text_characters": 23430,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "epargne pierre",
+   "title_excerpt": "N°03 - 2026 Bulletin d'information 3ÈME TRIMESTRE 2026 - VALABLE DU 1ER OCTOBRE AU 31 DÉCEMBRE 2026 Chers associés, La force d'Épargne Pierre Europe tient à une stratégie claire : construire dans la durée un patrimoine immobilier diversifié à l'échelle européenne, en privilégiant des actifs de qualité et un équilibre entre rendement et risque. Cette ambition se poursuit avec une sélection rigoureu",
+   "dates": [
+    "01/07/2026",
+    "01/09/2026",
+    "1ER JUILLET 2026",
+    "1er juillet 2026",
+    "24/08/2026",
+    "25/09/2026",
+    "30/09/2026",
+    "31 DÉCEMBRE 2026",
+    "JANVIER 2027",
+    "janvier 2027"
+   ],
+   "fee_clauses": []
+  },
+  {
+   "url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-IP-vdef-web.pdf",
+   "final_url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-IP-vdef-web.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 578498,
+   "sha256": "5537f6c6d832d3d31505adc8e90b1917702cefe600f3e0c2873150282acf002d",
+   "metadata": {
+    "format": "PDF 1.6",
+    "creator": "Adobe InDesign 21.6 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261102101608+01'00'",
+    "modDate": "D:20261102102120+01'00'"
+   },
+   "page_count": 6,
+   "text_characters": 19812,
+   "kind": "bulletin",
+   "identity_match": false,
+   "identity_alias": null,
+   "title_excerpt": "À la une chez ATLAND Voisin Distribution : les revenus du 3ème trimestre ont été distribués le 23 octobre. Chers associés, Dans un marché immobilier en évolution, la SCPI Immo Placement poursuit sa stratégie d'investissement au plus près des territoires et des dynamiques économiques locales. Le troisième trimestre 2026 en offre une illustration avec l'acquisition de deux magasins exploités sous en",
+   "dates": [
+    "01/09/2026",
+    "04/09/2026",
+    "10/07/2026",
+    "10/09/2026",
+    "11/08/2026",
+    "14/08/2026",
+    "15/07/2026",
+    "15/09/2026",
+    "17/09/2026",
+    "21/09/2026",
+    "30 juin 2026",
+    "30 septembre 2026"
+   ],
+   "fee_clauses": []
+  }
+ ],
+ "candidate_count": 10,
+ "summary": {
+  "dic_identity_ok": 0,
+  "note_identity_ok": 0,
+  "fee_clauses": 5,
+  "errors": 0
+ }
+}
