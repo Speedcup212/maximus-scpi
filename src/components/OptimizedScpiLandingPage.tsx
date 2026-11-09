@@ -547,6 +547,12 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         canSimulate={Boolean(landingData.simulator && !(realScpiData && isFeatureDisabled(realScpiData, 'suitability_recommendations')))}
       />
 
+      <ScpiVisualAnalysis
+        scpi={realScpiData}
+        scpiSlug={landingSlug}
+        landingData={landingData}
+      />
+
       {useMaximusBrand && (
         <div
           aria-hidden="true"
@@ -672,19 +678,13 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         </div>
       </div>
 
+
       {useMaximusBrand && (
         <div
           aria-hidden="true"
           className="h-16 sm:h-20 bg-gradient-to-b from-[#F8FAFC] via-[#E2F1EC] to-slate-950"
         />
       )}
-
-      <ScpiVisualAnalysis
-        scpi={realScpiData}
-        scpiSlug={landingSlug}
-        landingData={landingData}
-      />
-
 
       <section id="scpi-risques-frais" className="scroll-mt-36 bg-slate-950 text-white">
         <div className="mx-auto max-w-7xl px-4 pt-9 sm:px-6">
