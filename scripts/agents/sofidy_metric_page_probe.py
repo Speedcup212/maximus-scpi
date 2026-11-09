@@ -49,7 +49,10 @@ DISCOVERY_TERMS = [
     "taux d occupation", "taux d'occupation", "tof", "dividende",
     "distribution", "nombre de parts", "associés", "associés",
     "parts en attente", "retrait", "endettement",
-    "collecte nette", "taux d'endettement", "locataires"
+    "collecte nette", "taux d'endettement", "locataires",
+    "répartition du patrimoine", "repartition du patrimoine", "répartition sectorielle",
+    "répartition géographique", "secteurs d activité", "géographie", "géographique",
+    "geographie", "ventilation du patrimoine", "répartition par typologie"
 ]
 
 def flat(value):
@@ -175,7 +178,7 @@ def pdf_quarterly_discovery(pdf, path, out_dir):
         if hits:
             metadata={"source_page":page_no,"raw_label_contexts":hits,
                       "no_financial_approval":True}
-            if page_no in (1,4,5):
+            if page_no in (1,2,3,4,5):
                 visual=out_dir/"visual"/(f"2026-T2-page-{page_no}.png")
                 visual.parent.mkdir(parents=True,exist_ok=True)
                 if not visual.is_file():
