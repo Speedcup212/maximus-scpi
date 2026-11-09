@@ -76,6 +76,6 @@ BEGIN
  END LOOP;
  RETURN jsonb_build_object('audits_queued',recovered,'executions_blocked_for_review',blocked);
 END
-$function$
+$function$;
 
 REVOKE ALL ON FUNCTION maximus_agents.reconcile_expired_tasks() FROM PUBLIC,anon,authenticated;
