@@ -17,7 +17,8 @@ export function getVerifiedPga2025(name: string): Readonly<OfficialPga2025> | nu
   const slug = aliases[derived] ?? derived;
   const result = OFFICIAL_PGA_2025[slug];
   if (!result || result.year !== 2025) return null;
-  if (![result.pgaPct, result.distributionPct].every(Number.isFinite)) return null;
+  if (!Number.isFinite(result.pgaPct)) return null;
+  if (result.distributionPct !== null && !Number.isFinite(result.distributionPct)) return null;
   if (!result.sourceUrl.startsWith('https://')) return null;
   return result;
 }
@@ -31,8 +32,8 @@ export function getVerifiedPga2025(name: string): Readonly<OfficialPga2025> | nu
 export function compareVerified2025Distribution(aName: string, bName: string): number {
   const a = getVerifiedPga2025(aName)?.distributionPct;
   const b = getVerifiedPga2025(bName)?.distributionPct;
-  if (a === undefined) return b === undefined ? 0 : 1;
-  if (b === undefined) return -1;
+  if (a == null) return b == null ? 0 : 1;
+  if (b == null) return -1;
   return b - a;
 }
 
