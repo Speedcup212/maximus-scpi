@@ -362,4 +362,10 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
     sourceLabel: "Amundi Immobilier, bulletin Rivoli Avenir Patrimoine S2 2025 (copie du document officiel)",
     note: "Bulletin émis par Amundi Immobilier et conservé chez un diffuseur ; retrouver et empreinter le PDF hébergé chez l'émetteur avant admission industrielle.",
   },
+  'credit-mutuel-pierre-1': {
+    year: 2025, pgaPct: 4.49, distributionPct: 4.49,
+    sourceUrl: 'https://www.lafrancaise-am-partenaires.com/Document/rapport-annuel-credit-mutuel-pierre-1-2025',
+    sourceLabel: 'La Française REM, rapport annuel Crédit Mutuel Pierre 1, exercice 2025, p. 4',
+    note: 'La baisse de 265 € à 215 € par part est intervenue au 1er janvier 2025 ; elle relève de la PGA 2024, non de la PGA 2025. Ne pas mélanger les millésimes.',
+  },
 };
