@@ -115,7 +115,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
 
     if (filters.minYield > 0) {
       const verifiedAnnualTD = getVerifiedPga2025(scpi.name)?.distributionPct;
-      if (verifiedAnnualTD === undefined || verifiedAnnualTD < filters.minYield) return false;
+      if (verifiedAnnualTD == null || verifiedAnnualTD < filters.minYield) return false;
     }
 
     if (filters.priceRange !== 'all') {
