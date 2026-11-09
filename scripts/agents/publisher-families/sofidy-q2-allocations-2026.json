@@ -1,0 +1,171 @@
+{
+  "version": 1,
+  "publisher": "Sofidy",
+  "financial_autoapprove": false,
+  "release_allowed": false,
+  "candidates": [
+    {
+      "scpi_slug": "sofiboutique",
+      "scpi_name": "Sofiboutique",
+      "source_period": "2026-T2",
+      "document_kind": "quarterly_bulletin",
+      "source_page": 2,
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofiboutique_OPTI-1.pdf",
+      "pdf_sha256": "b6450362afe742272d4f453a80d458332e958b0af13aafdab14399fbfe534324",
+      "pdf_page_count": 6,
+      "page_raster_sha256": "2320624d72426755d9f62594fcc215ec83eed744c2dfa317be5491730d14a480",
+      "axes": {
+        "geography": [
+          {
+            "label": "Autres villes régionales (< 300 000 habitants)",
+            "pct": "23.100"
+          },
+          {
+            "label": "Étranger",
+            "pct": "1.800"
+          },
+          {
+            "label": "Lyon",
+            "pct": "12.900"
+          },
+          {
+            "label": "Paris",
+            "pct": "39.100"
+          },
+          {
+            "label": "Région parisienne",
+            "pct": "5.000"
+          },
+          {
+            "label": "Villes régionales (> 300 000 habitants)",
+            "pct": "18.100"
+          }
+        ],
+        "sector": [
+          {
+            "label": "Commerces de centre-ville",
+            "pct": "100.000"
+          }
+        ]
+      }
+    },
+    {
+      "scpi_slug": "sofidy-europe-invest",
+      "scpi_name": "Sofidy Europe Invest",
+      "source_period": "2026-T2",
+      "document_kind": "quarterly_bulletin",
+      "source_page": 2,
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_SEI_OPTI.pdf",
+      "pdf_sha256": "40e1455ef358d3638400632d487421c081b2a703167fa504bf9c7b2fee2b16e0",
+      "pdf_page_count": 6,
+      "page_raster_sha256": "af4da4212bb0061b82bc10c73552432c8872e11284e209ff3ebfead6863b3c53",
+      "axes": {
+        "geography": [
+          {
+            "label": "Allemagne",
+            "pct": "12.800"
+          },
+          {
+            "label": "Belgique",
+            "pct": "1.700"
+          },
+          {
+            "label": "Espagne",
+            "pct": "33.800"
+          },
+          {
+            "label": "Irlande",
+            "pct": "9.200"
+          },
+          {
+            "label": "Pays-Bas",
+            "pct": "32.900"
+          },
+          {
+            "label": "Royaume-Uni",
+            "pct": "9.600"
+          }
+        ],
+        "sector": [
+          {
+            "label": "Bureaux",
+            "pct": "36.700"
+          },
+          {
+            "label": "Commerces de centre-ville",
+            "pct": "13.700"
+          },
+          {
+            "label": "Galeries et centres commerciaux",
+            "pct": "5.000"
+          },
+          {
+            "label": "Hôtels",
+            "pct": "19.200"
+          },
+          {
+            "label": "Logistique",
+            "pct": "4.600"
+          },
+          {
+            "label": "Moyennes surfaces de périphérie",
+            "pct": "20.800"
+          }
+        ]
+      }
+    },
+    {
+      "scpi_slug": "sofipierre",
+      "scpi_name": "Sofipierre",
+      "source_period": "2026-T2",
+      "document_kind": "quarterly_bulletin",
+      "source_page": 2,
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofipierre_OPTI.pdf",
+      "pdf_sha256": "574fb1f7d1224c59571abf0d9b11f17d483daf64660f17e1f32a6be409e609e3",
+      "pdf_page_count": 6,
+      "page_raster_sha256": "ce1921c9bd4e83f5be333560e025076898759504ca0d1ba6054205400a9a0300",
+      "axes": {
+        "geography": [
+          {
+            "label": "Étranger",
+            "pct": "2.100"
+          },
+          {
+            "label": "Paris",
+            "pct": "16.700"
+          },
+          {
+            "label": "Région",
+            "pct": "65.400"
+          },
+          {
+            "label": "Région parisienne",
+            "pct": "15.800"
+          }
+        ],
+        "sector": [
+          {
+            "label": "Activités / Logistique",
+            "pct": "18.500"
+          },
+          {
+            "label": "Bureaux",
+            "pct": "20.400"
+          },
+          {
+            "label": "Commerces de centre-ville et milieu urbain",
+            "pct": "53.800"
+          },
+          {
+            "label": "Commerces de périphérie",
+            "pct": "4.500"
+          },
+          {
+            "label": "Galeries de centre commercial",
+            "pct": "2.800"
+          }
+        ]
+      }
+    }
+  ]
+}
