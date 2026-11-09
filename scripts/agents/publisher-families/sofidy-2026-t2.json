@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "publisher": "Sofidy",
+  "approved_hosts": [
+    "www.sofidy.com"
+  ],
+  "documents": [
+    {
+      "slug": "sofiboutique",
+      "name": "Sofiboutique",
+      "source_page": "https://www.sofidy.com/solutions/sofiboutique/",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofiboutique_OPTI-1.pdf",
+      "period": "2026-T2",
+      "kind": "quarterly_bulletin"
+    },
+    {
+      "slug": "sofipierre",
+      "name": "Sofipierre",
+      "source_page": "https://www.sofidy.com/solutions/sofipierre/",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofipierre_OPTI.pdf",
+      "period": "2026-T2",
+      "kind": "quarterly_bulletin"
+    },
+    {
+      "slug": "sofidy-europe-invest",
+      "name": "Sofidy Europe Invest",
+      "source_page": "https://www.sofidy.com/solutions/sofidy-europe-invest/",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_SEI_OPTI.pdf",
+      "period": "2026-T2",
+      "kind": "quarterly_bulletin"
+    }
+  ]
+}
