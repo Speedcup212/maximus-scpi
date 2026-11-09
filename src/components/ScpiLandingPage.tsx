@@ -12,6 +12,8 @@ import EricAvatar from './EricAvatar';
 import ThematicSimulator from './ThematicSimulator';
 import Header from './Header';
 import { submitLead } from '../utils/leadSubmitter';
+import { createSlugFromName } from '../utils/scpiSlugMapper';
+import ScpiVisualAnalysis from './ScpiVisualAnalysis';
 
 interface ScpiLandingPageProps {
   scpiKey: string;
@@ -799,6 +801,11 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
           </div>
         </div>
       </div>
+
+      <ScpiVisualAnalysis
+        scpi={scpiDataArray.find((item) => createSlugFromName(item.name) === createSlugFromName(scpiData.nom))}
+        scpiSlug={createSlugFromName(scpiData.nom)}
+      />
 
       {/* CTA Final */}
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 py-16">
