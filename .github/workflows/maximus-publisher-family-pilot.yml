@@ -64,6 +64,10 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
           python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Diagnose issuer certificate chain with OpenSSL (read-only)
+        run: |
+          printf '\n' | openssl s_client -connect www.sofidy.com:443 -servername www.sofidy.com -showcerts 2>&1 | grep -E 'verify error|Verify return code|depth=|subject=|issuer=' | tail -n 18 || true
+          printf '\n' | openssl s_client -connect www.sofidy.com:443 -servername www.sofidy.com 2>/dev/null | openssl x509 -noout -subject -issuer -ext authorityInfoAccess || true
       - name: Prove original Sofiboutique PDF over trusted TLS (read-only)
         run: |
           python scripts/agents/publisher_family_proof.py \
