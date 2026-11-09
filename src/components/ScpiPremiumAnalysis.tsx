@@ -529,7 +529,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          <div className="rounded-2xl border border-slate-700/80 bg-slate-900/75 p-5 sm:p-6 shadow-[0_18px_50px_rgba(2,6,23,0.28)]">
+          <div id="radar-scpi" data-testid="scpi-radar-chart" className="rounded-2xl border border-slate-700/80 bg-slate-900/75 p-5 sm:p-6 shadow-[0_18px_50px_rgba(2,6,23,0.28)]">
             <div className="flex items-center justify-between gap-4 mb-4">
               <div>
                 <h3 className="text-2xl font-bold">Radar Maximus</h3>
