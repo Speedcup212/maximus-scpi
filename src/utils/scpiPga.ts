@@ -7,7 +7,14 @@ export function getVerifiedPga2025(name: string): Readonly<OfficialPga2025> | nu
   // (Cœur d'Europe, Altixia Cadence XII). Ne pas modifier le routage global.
   const normalized = name.replace(/œ/gi, 'oe').replace(/æ/gi, 'ae');
   const derived = createSlugFromName(normalized);
-  const slug = derived === 'altixia-cadence-xii' ? 'altixia-cadence-12' : derived;
+  const aliases: Readonly<Record<string, string>> = {
+    'altixia-cadence-xii': 'altixia-cadence-12',
+    'coeur-de-regions': 'coeur-de-region',
+    'atream-hotels': 'atream-hotel',
+    'atream-hotels-scpi': 'atream-hotel',
+    'edmond-de-rothschild-europa': 'edr-europa',
+  };
+  const slug = aliases[derived] ?? derived;
   const result = OFFICIAL_PGA_2025[slug];
   if (!result || result.year !== 2025) return null;
   if (![result.pgaPct, result.distributionPct].every(Number.isFinite)) return null;
