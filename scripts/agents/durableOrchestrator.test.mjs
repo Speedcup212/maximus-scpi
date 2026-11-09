@@ -57,3 +57,11 @@ test('workflow contract keeps existing queue, no AI calls or financial overrides
     'maximus-agent-parallel.yml','maximus-all-bulletins-replay.yml','scpi-auto-remediation.yml'
   ]);
 });
+
+test('push-only CI must not impersonate a scheduled independent agent cycle',()=>{
+ const pushRun=run('2026-11-07T10:00:00Z','success','completed','push');
+ assert.equal(decideWorkflowRecovery({now,runs:[pushRun],target}).decision,'DISPATCH_ONCE');
+ assert.equal(decideWorkflowRecovery({now:'2026-11-07T06:00:00Z',runs:[pushRun],target}).decision,'NOT_DUE');
+ assert.equal(decideWorkflowRecovery({now,runs:[pushRun,run('2026-11-07T07:30:00Z')],target}).decision,'HEALTHY');
+ assert.equal(decideWorkflowRecovery({now,runs:[pushRun,run('2026-11-07T08:00:00Z','failure')],target}).decision,'FAILED');
+});
