@@ -15,6 +15,7 @@ export function getVerifiedPga2025(name: string): Readonly<OfficialPga2025> | nu
     'edmond-de-rothschild-europa': 'edr-europa',
     'edissimmo': 'edissimo',
     'esg-pierre-capitale': 'esg-pierre-capital',
+    'grand-paris-residentiels': 'grand-paris-residentiel',
   };
   const slug = aliases[derived] ?? derived;
   const result = OFFICIAL_PGA_2025[slug];
@@ -22,6 +23,16 @@ export function getVerifiedPga2025(name: string): Readonly<OfficialPga2025> | nu
   if (!Number.isFinite(result.pgaPct)) return null;
   if (result.distributionPct !== null && !Number.isFinite(result.distributionPct)) return null;
   if (!result.sourceUrl.startsWith('https://')) return null;
+  if (result.verificationMethod === 'calculated_from_official_indicators') {
+    const proof = result.calculationEvidence;
+    if (!proof || result.distributionPct === null || proof.startingSubscriptionPrice <= 0 ||
+        ![proof.grossDividendPerShare, proof.startingSubscriptionPrice, proof.followingSubscriptionPrice].every(Number.isFinite)) return null;
+    const pgaCalculated = 100 * (proof.grossDividendPerShare +
+      proof.followingSubscriptionPrice - proof.startingSubscriptionPrice) / proof.startingSubscriptionPrice;
+    const tdCalculated = 100 * proof.grossDividendPerShare / proof.startingSubscriptionPrice;
+    if (Math.abs(pgaCalculated - result.pgaPct) > 0.005 ||
+        Math.abs(tdCalculated - result.distributionPct) > 0.005) return null;
+  }
   return result;
 }
 
