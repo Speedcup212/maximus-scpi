@@ -1,0 +1,75 @@
+name: MaximusSCPI - Sofidy DIC and notice exact original proof (no release)
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/maximus-sofidy-regulatory-proof.yml'
+      - 'scripts/agents/sofidy_regulatory_proof.py'
+      - 'scripts/agents/sofidy_regulatory_proof_test.py'
+      - 'scripts/agents/publisher-families/sofidy-regulatory-documents-2026.json'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/maximus-sofidy-regulatory-proof.yml'
+      - 'scripts/agents/sofidy_regulatory_proof.py'
+      - 'scripts/agents/sofidy_regulatory_proof_test.py'
+      - 'scripts/agents/publisher-families/sofidy-regulatory-documents-2026.json'
+permissions:
+  contents: read
+concurrency:
+  group: sofidy-regulatory-provenance-${{ github.event_name == 'pull_request' && format('pr-{0}',github.event.pull_request.number) || 'main' }}
+  cancel-in-progress: false
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install native PDF engine
+        run: python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Validate six official fund and kind links, SHA gates and no publication
+        run: python -m unittest scripts/agents/sofidy_regulatory_proof_test.py -v
+  verify-original:
+    needs: contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        scpi_slug: [sofiboutique, sofipierre, sofidy-europe-invest]
+        kind: [dic, note]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install MuPDF and independent Poppler
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Extend Sofidy TLS chain with intermediate verified against pretrusted OS roots
+        run: bash scripts/agents/prepare_verified_sofidy_ca.sh
+      - name: Download and independently verify exact DIC or note original
+        run: |
+          python scripts/agents/sofidy_regulatory_proof.py \
+            --manifest scripts/agents/publisher-families/sofidy-regulatory-documents-2026.json \
+            --slug ${{ matrix.scpi_slug }} \
+            --kind ${{ matrix.kind }} \
+            --output test-results/sofidy-regulatory/${{ matrix.scpi_slug }}-${{ matrix.kind }}.json
+      - name: Archive exact PDF identity proof or explicit block
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: regulatory-${{ matrix.scpi_slug }}-${{ matrix.kind }}-${{ github.run_id }}
+          path: test-results/sofidy-regulatory/${{ matrix.scpi_slug }}-${{ matrix.kind }}.json
+          if-no-files-found: error
+          retention-days: 14
