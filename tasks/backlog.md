@@ -167,3 +167,12 @@ mais le nouveau statut n'est PAS encore raccordé à l'affichage public.
 État : EN COURS ; cette PR ne clôture pas la mission A–D.
 Les frais documentaires, promotions T3, validation navigateur des parcours,
 CI distante et contrôle post-déploiement restent requis. Aucun export Supabase joint au dépôt.
+
+### RECOVERY-200 — Passe données du 09/11/2026 (session Claude, branche existante)
+
+- A : relevé officiel DIC/notes des 69 SCPI (run 42665958628, 2 min 57 s ; 52 DIC, 46 notes d'identité vérifiée), revue sémantique outillée **non humaine** (`scripts/industrial/fees/fee-review-20261109.json`), garde : aucun taux accepté s'il n'apparaît pas dans la clause paginée citée (0 rejet).
+- Supabase : table privée `scpi_fee_evidence` (migration `20261109_recovery200_scpi_fee_evidence`), 138 lignes (63 verified / 49 partial / 26 blocked) chargées depuis le commit `95c00d0` après contrôle SHA-256 du fichier. Projection publique : souscription TTC/TTI et gestion HT/exonérée uniquement, champ vide ou identique, provenance complète : `frais_souscription` 9 → 33/69, `frais_gestion` 4 → 19/69. 26 SCPI concernées sont lues en direct par le site (cohorte publique), 15 hors cohorte attendent le catalogue réconcilié.
+- Catalogue : 29 valeurs corrigées avec provenance, 11 « frais de gestion » qui étaient des coûts PRIIPs du DIC retirés (inconnu ≠ zéro). Conflits conservés pour arbitrage : Accimmo 10,72/10,716 ; AVP gestion (décision antérieure) ; Sofidynamic ; EdR.
+- B : diagnostic par SCPI des 25 T3 non transférés (promotion atomique par bulletin, preuves paginées manquantes, gardes d'identité PDF). Aucune promotion T3 ni modification de la fonction de publication dans cette passe.
+- Tests : 39/39 node (dont non-régression catalogue), 6/6 unittest relevé, Vitest 280/280, build Vite PASS. Livrable : `reports/industrial-20261109/RECOVERY-200-livrable.md`.
+- État : EN COURS. Restent : 13 SCPI sans document découvert, 49 frais partiels, T3 par métrique (décision requise), états publics raccordés à l'UI, revue humaine des frais, build Netlify et contrôle post-release des pages statiques.
