@@ -19,7 +19,7 @@ import Header from './Header';
 import { scpiData } from '../data/scpiData';
 import { CookieConsent } from './CookieConsent';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
-import ScpiPremiumAnalysis from './ScpiPremiumAnalysis';
+import ScpiVisualAnalysis from './ScpiVisualAnalysis';
 import ScpiPublicationQualityNotice from './ScpiPublicationQualityNotice';
 import ScpiOfficialFacts from './ScpiOfficialFacts';
 import { getScpiDatedDiscount } from '../utils/scpiDatedDiscount';
