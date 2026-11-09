@@ -369,3 +369,18 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
     note: 'La baisse de 265 € à 215 € par part est intervenue au 1er janvier 2025 ; elle relève de la PGA 2024, non de la PGA 2025. Ne pas mélanger les millésimes.',
   },
 };
+
+// Exceptions documentaires : le statut est connu, la PGA ne l'est pas.
+// Aucune valeur 0, aucune projection ou conversion de rendement cible.
+export const PGA_2025_DOCUMENTARY_EXCEPTIONS = {
+  'grand-paris-residentiel': {
+    status: 'not_documented' as const,
+    reason: 'PGA 2025 non identifiée dans les documents officiellement accessibles ; vérifier le rapport annuel et le bulletin S2 2025 sans extrapolation.',
+    sourceUrl: 'https://www.inter-gestion.com/corpo/scpi-gerees/grand-paris-residentiels',
+  },
+  'remake-uk-2025': {
+    status: 'first_exercise_not_comparable' as const,
+    reason: 'Premier exercice 2025 écourté pour une SCPI millésimée à capital fixe : aucune PGA 2025 officielle comparable confirmée ; les objectifs de distribution ne sont pas des performances réalisées.',
+    sourceUrl: 'https://www.remake.fr/remake-uk-2025',
+  },
+} as const;
