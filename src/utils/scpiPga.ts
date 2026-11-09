@@ -15,5 +15,19 @@ export function getVerifiedPga2025(name: string): Readonly<OfficialPga2025> | nu
   return result;
 }
 
+
+/**
+ * Tri par TD 2025 indissociable de sa PGA 2025 vérifiée.
+ * Les SCPI sans couple documenté sont toujours à la fin.
+ * N'utilise jamais un TD du bulletin courant pour départager une année 2025.
+ */
+export function compareVerified2025Distribution(aName: string, bName: string): number {
+  const a = getVerifiedPga2025(aName)?.distributionPct;
+  const b = getVerifiedPga2025(bName)?.distributionPct;
+  if (a === undefined) return b === undefined ? 0 : 1;
+  if (b === undefined) return -1;
+  return b - a;
+}
+
 export const formatPgaPercent = (value: number): string =>
   value.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
