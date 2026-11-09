@@ -54,7 +54,7 @@ class TestPublisherFamily(unittest.TestCase):
             calls.append([name,period,kind,pages,path.read_bytes()])
             return pages
         m=fixture()
-        with patch.object(family.proof,"download_official",return_value=(data,m["documents"][0]["source_url"])):
+        with patch.object(family,"fetch_verified_curl",return_value=(data,m["documents"][0]["source_url"])):
             result=family.verify_one(m,"sofiboutique",auditor=auditor,reader=check)
         self.assertEqual(len(calls),1)
         self.assertEqual(calls[0][2],"quarterly_bulletin")
@@ -62,6 +62,41 @@ class TestPublisherFamily(unittest.TestCase):
         self.assertFalse(result["financial_certified"])
         self.assertFalse(result["publication_authorized"])
         self.assertFalse(result["staging_written"])
+
+    def test_curl_reuses_system_trust_and_refuses_redirects(self):
+        import subprocess
+        from unittest.mock import Mock
+        m=fixture()
+        url=m["documents"][0]["source_url"]
+        data=b"%PDF-test" + b"x"*900
+        checked=[]
+        def command_runner(command,**opts):
+            checked.append(command)
+            self.assertIn("--max-redirs",command)
+            self.assertEqual(command[command.index("--max-redirs")+1],"0")
+            self.assertNotIn("--insecure",command)
+            self.assertNotIn("-k",command)
+            self.assertNotIn("verify=False"," ".join(command))
+            Path(command[command.index("--output")+1]).write_bytes(data)
+            return subprocess.CompletedProcess(command,0,stdout=url,stderr="")
+        with patch.object(family.proof,"public_host_addresses") as dns, patch.object(family.subprocess,"run",side_effect=command_runner):
+            got,final=family.fetch_verified_curl(url,["www.sofidy.com"])
+        self.assertEqual((got,final),(data,url))
+        dns.assert_called_once_with("www.sofidy.com")
+        self.assertEqual(len(checked),1)
+        with patch.object(family.subprocess,"run") as runner:
+            with self.assertRaisesRegex(ValueError,"UNAPPROVED_ISSUER_URL"):
+                family.fetch_verified_curl("https://www.sofidy.com.attacker.org/a.pdf",["www.sofidy.com"])
+            runner.assert_not_called()
+
+    def test_failed_tls_never_falls_back_to_insecure(self):
+        import subprocess
+        m=fixture()
+        url=m["documents"][0]["source_url"]
+        error=subprocess.CompletedProcess(["curl"],60,stdout="",stderr="SSL certificate problem: unable to get local issuer certificate")
+        with patch.object(family.proof,"public_host_addresses"), patch.object(family.subprocess,"run",return_value=error):
+            with self.assertRaisesRegex(ValueError,"TLS_VERIFIED_ISSUER_FETCH_FAILED"):
+                family.fetch_verified_curl(url,["www.sofidy.com"])
 
     def test_no_original_pdf_or_unknown_fund_is_blocked(self):
         def no_archive(doc,issuer,fetcher):

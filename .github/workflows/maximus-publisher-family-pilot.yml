@@ -43,6 +43,63 @@ jobs:
       - name: Existing independent binary evidence security tests
         run: python -m unittest scripts/agents/candidate_pdf_binary_proof_test.py -v
 
+  publisher-tls-pr-probe:
+    needs: unit
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        document_set: [2026-t2, 2025-ra]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent issuer PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Diagnose issuer certificate chain with OpenSSL (read-only)
+        run: |
+          printf '\n' | openssl s_client -connect www.sofidy.com:443 -servername www.sofidy.com -showcerts 2>&1 | grep -E 'verify error|Verify return code|depth=|subject=|issuer=' | tail -n 18 || true
+          printf '\n' | openssl s_client -connect www.sofidy.com:443 -servername www.sofidy.com 2>/dev/null | openssl x509 -noout -subject -issuer -ext authorityInfoAccess || true
+      - name: Verify Sectigo intermediate against system roots (no new trust anchor)
+        shell: bash
+        run: |
+          set -euo pipefail
+          # HTTP is the issuer's AIA distribution endpoint, not a trusted issuer PDF.
+          # Treat these CA bytes as UNTRUSTED until OpenSSL verifies their issuer
+          # signature against the already-trusted OS roots (below).
+          curl --fail --silent --show-error --proto '=http' --max-redirs 0 --max-time 25 --max-filesize 25000 \
+            --output "$RUNNER_TEMP/tbs-ca4.crt" \
+            'http://crt.sectigo.com/TBSRSAOrganizationValidationSecureServerCA4.crt'
+          openssl x509 -inform DER -in "$RUNNER_TEMP/tbs-ca4.crt" -out "$RUNNER_TEMP/tbs-ca4.pem"
+          openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -subject -issuer
+          openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -subject | grep -F 'TBS RSA Organization Validation Secure Server CA 4'
+          openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -text | grep -F 'CA:TRUE'
+          openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt "$RUNNER_TEMP/tbs-ca4.pem"
+          cat /etc/ssl/certs/ca-certificates.crt "$RUNNER_TEMP/tbs-ca4.pem" > "$RUNNER_TEMP/sofidy-ca-chain.pem"
+          echo "SCPI_PUBLISHER_CA_BUNDLE=$RUNNER_TEMP/sofidy-ca-chain.pem" >> "$GITHUB_ENV"
+      - name: Prove original Sofiboutique PDF over trusted TLS (read-only)
+        run: |
+          python scripts/agents/publisher_family_proof.py \
+            --manifest scripts/agents/publisher-families/sofidy-${{ matrix.document_set }}.json \
+            --slug sofiboutique \
+            --output test-results/publisher-families/sofidy-pr-${{ matrix.document_set }}.json
+      - name: Retain independent original proof or explicit blocker
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: publisher-tls-pr-${{ matrix.document_set }}-${{ github.run_id }}
+          path: test-results/publisher-families/sofidy-pr-${{ matrix.document_set }}.json
+          if-no-files-found: error
+          retention-days: 7
+
   live:
     needs: unit
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
@@ -65,6 +122,23 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
           python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Verify Sectigo intermediate against system roots (no new trust anchor)
+        shell: bash
+        run: |
+          set -euo pipefail
+          # HTTP is the issuer's AIA distribution endpoint, not a trusted issuer PDF.
+          # Treat these CA bytes as UNTRUSTED until OpenSSL verifies their issuer
+          # signature against the already-trusted OS roots (below).
+          curl --fail --silent --show-error --proto '=http' --max-redirs 0 --max-time 25 --max-filesize 25000 \
+            --output "$RUNNER_TEMP/tbs-ca4.crt" \
+            'http://crt.sectigo.com/TBSRSAOrganizationValidationSecureServerCA4.crt'
+          openssl x509 -inform DER -in "$RUNNER_TEMP/tbs-ca4.crt" -out "$RUNNER_TEMP/tbs-ca4.pem"
+          openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -subject -issuer
+          openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -subject | grep -F 'TBS RSA Organization Validation Secure Server CA 4'
+          openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -text | grep -F 'CA:TRUE'
+          openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt "$RUNNER_TEMP/tbs-ca4.pem"
+          cat /etc/ssl/certs/ca-certificates.crt "$RUNNER_TEMP/tbs-ca4.pem" > "$RUNNER_TEMP/sofidy-ca-chain.pem"
+          echo "SCPI_PUBLISHER_CA_BUNDLE=$RUNNER_TEMP/sofidy-ca-chain.pem" >> "$GITHUB_ENV"
       - name: Read real Sofidy PDF, verify fund, period and original SHA using two readers
         run: |
           python scripts/agents/publisher_family_proof.py \

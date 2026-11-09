@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """RECOVERY-196: independent technical proof of a publisher-family PDF (no finance approval)."""
-import argparse,hashlib,json,os,re,sys,tempfile
+import argparse,hashlib,json,os,re,sys,tempfile,subprocess
+from urllib.parse import urlsplit
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scpi-onboarding"))
 import publisherPdfAudit as original
@@ -41,6 +42,40 @@ def validate(m):
             raise ValueError("EXPECTED_ISSUER_PDF_LINK")
     return m
 
+def fetch_verified_curl(url,approved_hosts):
+    """Use OS CA trust store if Python urllib lacks publisher's CA chain.
+
+    HTTPS verification is mandatory. No redirects, no arbitrary issuer, no
+    disabled TLS checks and no use of a supplied host/IP without public DNS.
+    """
+    if not original.official_url(url,approved_hosts):
+        raise ValueError("UNAPPROVED_ISSUER_URL")
+    proof.public_host_addresses(urlsplit(url).hostname)
+    with tempfile.TemporaryDirectory(prefix="scpi-curl-tls-") as path:
+        target=Path(path)/"official.pdf"
+        command=["curl","--fail","--silent","--show-error",
+                 "--proto","=https","--proto-redir","=https",
+                 "--location","--max-redirs","0",
+                 "--connect-timeout","15","--max-time","75",
+                 "--max-filesize",str(original.MAX_BYTES),
+                 "--output",str(target),"--write-out","%{url_effective}",url]
+        bundle=os.environ.get("SCPI_PUBLISHER_CA_BUNDLE")
+        if bundle:
+            if not Path(bundle).is_file():
+                raise ValueError("VERIFIED_CA_BUNDLE_NOT_FOUND")
+            command[1:1]=["--cacert",bundle]
+        result=subprocess.run(command,capture_output=True,text=True,timeout=82,check=False)
+        if result.returncode!=0:
+            raise ValueError("TLS_VERIFIED_ISSUER_FETCH_FAILED:"+result.stderr.strip()[:180])
+        final=result.stdout.strip()
+        if final!=url or not original.official_url(final,approved_hosts):
+            raise ValueError("UNTRUSTED_ISSUER_REDIRECT")
+        data=target.read_bytes()
+        if len(data)>original.MAX_BYTES or len(data)<800 or not data.startswith(b"%PDF"):
+            raise ValueError("INVALID_PUBLISHER_PDF_BINARY")
+        return data,final
+
+
 def verify_one(manifest,slug,auditor=None,reader=None):
     manifest=validate(manifest)
     docs=[d for d in manifest["documents"] if d["slug"]==slug]
@@ -54,7 +89,7 @@ def verify_one(manifest,slug,auditor=None,reader=None):
         try:
             doc={"kind":KINDS[d["kind"]][0],"reference_period":d["period"],"url":d["source_url"]}
             issuer={"name":d["name"],"issuer_hosts":manifest["approved_hosts"]}
-            audited=auditor(doc,issuer,fetcher=lambda u:proof.download_official(u,manifest["approved_hosts"]))
+            audited=auditor(doc,issuer,fetcher=lambda u:fetch_verified_curl(u,manifest["approved_hosts"]))
             digest=audited.get("sha256")
             if not isinstance(digest,str) or not re.fullmatch(r"[a-f0-9]{64}",digest):
                 raise ValueError("NO_VERIFIED_SHA256")
@@ -92,6 +127,8 @@ def main():
         dest.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
         print(json.dumps(result,ensure_ascii=False));raise SystemExit(1)
     dest.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
-    print(json.dumps({"scpi_slug":a.slug,"status":result["status"],"financial_certified":False}))
+    # Public non-sensitive proof summary for independently checking and staging
+    # exact official PDF identity / SHA / page count without artifact guessing.
+    print(json.dumps(result,ensure_ascii=False))
 
 if __name__=="__main__":main()

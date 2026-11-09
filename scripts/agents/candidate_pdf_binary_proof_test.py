@@ -223,5 +223,16 @@ class CandidateProofTests(unittest.TestCase):
             self.assertEqual(result["status"],"no_candidate")
             self.assertFalse(result["financial_certified"])
 
+    def test_poppler_preserves_physical_page_count_including_blank_visual_pages(self):
+        from unittest.mock import patch
+        content=("Sofiboutique Bulletin 2e trimestre 2026 " +
+                 "Bulletin trimestriel de gestion. "*24)
+        output=content+"\f\n\f"+("Sofiboutique Données de gestion. "*24)+"\f"+("Sofiboutique patrimonial. "*24)+"\f"+("Sofiboutique organisation. "*24)+"\f"
+        result=subprocess.CompletedProcess(args=["pdftotext"],returncode=0,stdout=output,stderr="")
+        with patch.object(proof.subprocess,"run",return_value=result):
+            self.assertEqual(proof.independent_poppler("source.pdf","Sofiboutique","2026-T2","quarterly_bulletin",5),5)
+            with self.assertRaisesRegex(ValueError,"PDF_PAGE_COUNT_ENGINE_DISAGREEMENT"):
+                proof.independent_poppler("source.pdf","Sofiboutique","2026-T2","quarterly_bulletin",6)
+
 if __name__=="__main__":
     unittest.main()
