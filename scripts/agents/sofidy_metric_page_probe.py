@@ -35,6 +35,12 @@ LABELS = {
     "nombre_associes": ("nombre d associes", "nombre d'associés"),
     "dividende_global_par_part": ("dividende global",),
     "dividende_verse_par_part": ("dividende",),
+    "tof_quarterly": ("taux d occupation financier", "tof 2t26"),
+    "capitalisation": ("capitalisation",),
+    "nombre_immeubles": ("nombre d immeubles", "nombre immeubles"),
+    "prix_retrait": ("prix de retrait",),
+    "parts_attente_retrait": ("parts en attente",),
+    "distribution_brute_par_part": ("acompte du trimestre", "acompte trimestriel", "distribution de l exercice"),
 }
 
 DISCOVERY_TERMS = [
@@ -172,8 +178,9 @@ def pdf_quarterly_discovery(pdf, path, out_dir):
             if page_no in (1,4,5):
                 visual=out_dir/"visual"/(f"2026-T2-page-{page_no}.png")
                 visual.parent.mkdir(parents=True,exist_ok=True)
-                visual.write_bytes(pdf[index].get_pixmap(
-                    matrix=fitz.Matrix(1.25,1.25),alpha=False).tobytes("png"))
+                if not visual.is_file():
+                    visual.write_bytes(pdf[index].get_pixmap(
+                        matrix=fitz.Matrix(1.25,1.25),alpha=False).tobytes("png"))
                 metadata["rendered_page_sha256"]=hashlib.sha256(visual.read_bytes()).hexdigest()
             results.append(metadata)
     return results
@@ -198,9 +205,9 @@ def scan_candidate(manifest,slug,out):
                 scanned={"source_url":d["source_url"],"source_period":d["source_period"],
                          "pdf_sha256":d["pdf_sha256"],"page_count":d["page_count"],
                          "reader_engines":["MuPDF","Poppler"],"financial_certified":False}
-                if d["document_kind"]=="annual_report":
+                if d["metrics"]:
                     scanned["metric_review"]=pdf_annual_metrics(pdf,path,d,out)
-                else:
+                if d["document_kind"]=="quarterly_bulletin":
                     scanned["quarterly_page_hints"]=pdf_quarterly_discovery(pdf,path,out)
                 result["documents"].append(scanned)
     return result
@@ -225,15 +232,14 @@ def main():
         if "metric_review" in doc:
             data=doc["metric_review"]
             success=sum(x["technical_status"]=="TWO_ENGINE_VALUE_AND_LABEL_FOUND" for x in data)
-            print(f"FINANCIAL_PAGE_AUDIT {a.slug} annual_2025: values+labels two-engine={success}/{len(data)}; financial_certified=false")
+            print(f"FINANCIAL_PAGE_AUDIT {a.slug} {doc['source_period']}: values+labels two-engine={success}/{len(data)}; financial_certified=false")
             for m in data:
                 print("PAGE_FIELD "+json.dumps({k:m[k] for k in
                   ["metric","value","source_page","technical_status",
                    "mupdf_numeric_present","poppler_numeric_present",
                    "mupdf_label_present","poppler_label_present"]},ensure_ascii=False))
-        else:
-            for page in doc["quarterly_page_hints"]:
-                print("T2_PAGE_HINT "+json.dumps({"slug":a.slug,**page},ensure_ascii=False))
+        for page in doc.get("quarterly_page_hints",[]):
+            print("T2_PAGE_HINT "+json.dumps({"slug":a.slug,**page},ensure_ascii=False))
     print("PUBLISHER_FINANCIAL_STAGE_ONLY qa_status=pending_independent_qa publication_authorized=false")
 
 if __name__=="__main__":
