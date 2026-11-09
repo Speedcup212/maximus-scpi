@@ -35,7 +35,9 @@ const ScpiPgaIndicator: React.FC<ScpiPgaIndicatorProps> = ({ name, variant = 'ca
       {official ? (
         <>
           <p className="mt-1 text-[10px] leading-snug text-slate-300">
-            Le taux de distribution 2025 de {formatPgaPercent(official.distributionPct)} est inclus dans la PGA.
+            {official.distributionPct !== null
+              ? `Le taux de distribution brut 2025 de ${formatPgaPercent(official.distributionPct)} est inclus dans la PGA.`
+              : 'Aucun taux de distribution publié pour 2025 : PGA fondée sur la variation du prix de la part.'}
           </p>
           {!compact && (
             <a
