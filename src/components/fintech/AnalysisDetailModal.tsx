@@ -230,7 +230,7 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-emerald-400">
-                  {(officialPga2025?.distributionPct ?? scpiForAnalysis?.yield ?? scpi.yield).toFixed(2)}%
+                  {officialPga2025 ? `${officialPga2025.distributionPct.toFixed(2)}%` : 'Non affiché'}
                 </div>
                 <div className="mt-2 pt-2 border-t border-slate-600">
                   <div className="text-[10px] text-slate-500 leading-tight">
