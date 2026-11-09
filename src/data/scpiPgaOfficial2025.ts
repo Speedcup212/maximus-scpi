@@ -127,4 +127,73 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
     sourceUrl: 'https://epsicap.fr/document/bulletin-trimestriel-4t-2025-epsicap-nano/',
     sourceLabel: 'Epsicap REIM, bulletin T4 2025',
   },
+  'aestiam-agora': {
+    year: 2025, pgaPct: 4.50, distributionPct: 4.50,
+    sourceUrl: 'https://www.aestiam.com/doc/agora/periodique/2025-4t-bti-aestiam-agora.pdf',
+    sourceLabel: 'Aestiam Agora, bulletin T4 2025',
+  },
+  'aestiam-horizon': {
+    year: 2025, pgaPct: 5.10, distributionPct: 5.10,
+    sourceUrl: 'https://www.aestiam.com/doc/horizon/periodique/2025-4t-bti-aestiam-horizon.pdf',
+    sourceLabel: 'Aestiam Horizon, bulletin T4 2025',
+  },
+  'paref-hexa': {
+    year: 2025, pgaPct: -12.10, distributionPct: 6.00,
+    sourceUrl: 'https://paref-gestion.com/nos-scpi/paref-hexa/',
+    sourceLabel: 'Paref Gestion, Paref Hexa 2025',
+    note: "La baisse du prix de part dépasse le taux de distribution annuel.",
+  },
+  'paref-evo': {
+    year: 2025, pgaPct: 4.72, distributionPct: 4.72,
+    sourceUrl: 'https://paref-gestion.com/nos-scpi/paref-evo/',
+    sourceLabel: 'Paref Gestion, Paref Evo 2025',
+  },
+  'novapierre-1': {
+    year: 2025, pgaPct: 5.00, distributionPct: 5.00,
+    sourceUrl: 'https://paref-gestion.com/nos-scpi/novapierre-1/',
+    sourceLabel: 'Paref Gestion, Novapierre 1 2025',
+  },
+  'novapierre-residentiel': {
+    year: 2025, pgaPct: -41.53, distributionPct: 1.50,
+    sourceUrl: 'https://paref-gestion.com/wp-content/uploads/2026/02/9e26dc14-bb90-414e-8010-8a1a5e11cd03-BTI-T4-2025-Novapierre-Residentiel.pdf',
+    sourceLabel: 'Paref Gestion, Novapierre Résidentiel, bulletin T4 2025',
+    note: "PGA fortement affectée par le passage au marché secondaire, après suspension de la variabilité du capital.",
+  },
+  'perial-opportunites-europe': {
+    year: 2025, pgaPct: 6.10, distributionPct: 6.10,
+    sourceUrl: 'https://www.perial.com/scpi/perial-opportunites-europe',
+    sourceLabel: 'PERIAL AM, Opportunités Europe 2025',
+  },
+  'perial-hospitalite-europe': {
+    year: 2025, pgaPct: 4.11, distributionPct: 4.11,
+    sourceUrl: 'https://www.perial.com/scpi/perial-hospitalite-europe',
+    sourceLabel: 'PERIAL AM, Hospitalité Europe 2025',
+  },
+  'perial-grand-paris': {
+    year: 2025, pgaPct: 4.80, distributionPct: 4.80,
+    sourceUrl: 'https://www.perial.com/scpi/perial-grand-paris',
+    sourceLabel: 'PERIAL AM, Grand Paris 2025',
+  },
+  'perial-o2': {
+    year: 2025, pgaPct: 4.65, distributionPct: 4.65,
+    sourceUrl: 'https://www.perial.com/scpi/perial-o2',
+    sourceLabel: 'PERIAL AM, O₂ 2025',
+  },
+  'praemia-hotels-europe': {
+    year: 2025, pgaPct: 3.90, distributionPct: 3.90,
+    sourceUrl: 'https://www.praemia-healthcare.fr/fr/web/preim-fr/scpi-praemia-hotels-europe',
+    sourceLabel: 'Praemia REIM, Hotels Europe 2025',
+  },
+  'primovie': {
+    year: 2025, pgaPct: -7.31, distributionPct: 4.04,
+    sourceUrl: 'https://www.praemia-healthcare.fr/fr/web/preim-fr/scpi-primovie',
+    sourceLabel: 'Praemia REIM, Primovie 2025',
+    note: "La PGA négative traduit une dépréciation du prix de part malgré la distribution; la SCPI a changé de régime de liquidité en 2026.",
+  },
+  'patrimmo-commerce': {
+    year: 2025, pgaPct: -5.71, distributionPct: 3.38,
+    sourceUrl: 'https://www.praemia-healthcare.fr/fr/web/preim-fr/scpi-patrimmo-commerce',
+    sourceLabel: 'Praemia REIM, Patrimmo Commerce 2025',
+    note: "La PGA est négative malgré la distribution; suspension de variabilité du capital en 2026.",
+  },
 };
