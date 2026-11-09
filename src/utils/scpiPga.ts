@@ -1,4 +1,4 @@
-import { OFFICIAL_PGA_2025, type OfficialPga2025 } from '../data/scpiPgaOfficial2025';
+import { OFFICIAL_PGA_2025, PGA_2025_DOCUMENTARY_EXCEPTIONS, type OfficialPga2025 } from '../data/scpiPgaOfficial2025';
 import { createSlugFromName } from './scpiSlugMapper';
 
 /** Valeur volontairement absente tant que la PGA officielle n'est pas documentée. */
@@ -37,6 +37,12 @@ export function compareVerified2025Distribution(aName: string, bName: string): n
   if (a == null) return b == null ? 0 : 1;
   if (b == null) return -1;
   return b - a;
+}
+
+export function getPgaDocumentaryException(name: string): { reason: string; sourceUrl: string } | null {
+  const normalized = createSlugFromName(name.replace(/œ/gi, 'oe').replace(/æ/gi, 'ae'));
+  const exception = PGA_2025_DOCUMENTARY_EXCEPTIONS[normalized as keyof typeof PGA_2025_DOCUMENTARY_EXCEPTIONS];
+  return exception ?? null;
 }
 
 export const formatPgaPercent = (value: number): string =>
