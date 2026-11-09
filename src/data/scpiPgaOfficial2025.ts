@@ -282,4 +282,20 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
     sourceUrl: 'https://www.fiducial-gerance.fr/investir-en-scpi/nos-scpi/selectipierre-2-paris',
     sourceLabel: 'Fiducial Gérance, Sélectipierre 2 Paris 2025',
   },
+  'ncap-regions': {
+    year: 2025, pgaPct: 7.51, distributionPct: 5.72,
+    sourceUrl: 'https://www.normacapital.fr/documentation/rapport-annuel-2025/',
+    sourceLabel: 'Norma Capital, rapport annuel NCap Régions 2025, p. 22',
+    note: "La PGA inclut une hausse du prix de part, contrairement au seul taux de distribution.",
+  },
+  'ncap-education-sante': {
+    year: 2025, pgaPct: 4.52, distributionPct: 4.52,
+    sourceUrl: 'https://www.normacapital.fr/nos-engagements/',
+    sourceLabel: 'Norma Capital, NCap Éducation Santé 2025',
+  },
+  'ncap-continent': {
+    year: 2025, pgaPct: 7.10, distributionPct: 7.10,
+    sourceUrl: 'https://www.normacapital.fr/documentation/rapport-annuel-2025-2/',
+    sourceLabel: 'Norma Capital, rapport annuel NCap Continent 2025',
+  },
 };
