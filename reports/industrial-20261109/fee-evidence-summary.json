@@ -1,0 +1,10 @@
+{
+ "funds": 69,
+ "verified": 63,
+ "partial": 49,
+ "blocked": 26,
+ "verified_subscription": 37,
+ "verified_management": 26,
+ "indicator_patches": 52,
+ "rejected_by_guard": []
+}
