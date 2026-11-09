@@ -345,4 +345,21 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
     sourceLabel: 'Praemia REIM, rapport annuel 2025 Patrimmo Croissance Impact',
     note: "Aucun TD publié (SCPI de capitalisation en nue-propriété). PGA de -7,68 % issue de la variation du prix de part ; ne pas lui attribuer un TD de 0 %.",
   },
+  'sofiprime': {
+    year: 2025, pgaPct: 0.54, distributionPct: 0.54,
+    sourceUrl: 'https://www.sofidy.com/app/uploads/2026/02/Sofiprime-BT-4T-2025.pdf',
+    sourceLabel: "Sofidy, bulletin Sofiprime T4 2025",
+    note: "SCPI à capital fixe : variation du prix acquéreur moyen ; ne pas assimiler le prix d’exécution à celui d’une SCPI à capital variable.",
+  },
+  'edissimo': {
+    year: 2025, pgaPct: -6.31, distributionPct: 3.63,
+    sourceUrl: 'https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz%3A%3AsfForwardFront%3A%3AparamsList%3Dservice%3DProxyGedApi%26routeId%3D_dl_05dd8d96-770e-40ad-b786-f1482ab0a0b1',
+    sourceLabel: "Amundi Immobilier, bulletin Edissimmo S2 2025",
+  },
+  'rivoli-avenir-patrimoine': {
+    year: 2025, pgaPct: -5.34, distributionPct: 3.46,
+    sourceUrl: 'https://www.primaliance.com/sites/default/files/products/1664/RIVOLI_AVENIR_PATRIMOINE-Bulletin_trimestriel-2025-4T.pdf',
+    sourceLabel: "Amundi Immobilier, bulletin Rivoli Avenir Patrimoine S2 2025 (copie du document officiel)",
+    note: "Bulletin émis par Amundi Immobilier et conservé chez un diffuseur ; retrouver et empreinter le PDF hébergé chez l'émetteur avant admission industrielle.",
+  },
 };
