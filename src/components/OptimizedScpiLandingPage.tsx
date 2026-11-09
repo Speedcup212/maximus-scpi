@@ -677,12 +677,11 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         />
       )}
 
-      {realScpiData && (
-        <ScpiPremiumAnalysis
-          scpi={realScpiData}
-          landingData={landingData}
-        />
-      )}
+      <ScpiVisualAnalysis
+        scpi={realScpiData}
+        scpiSlug={landingSlug}
+        landingData={landingData}
+      />
 
       {landingData.simulator && !(realScpiData && isFeatureDisabled(realScpiData,'suitability_recommendations')) && (
         <div className="bg-slate-50 py-8">
