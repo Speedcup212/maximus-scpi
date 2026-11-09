@@ -689,7 +689,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
       <section id="scpi-risques-frais" className="scroll-mt-36 bg-slate-950 text-white">
         <div className="mx-auto max-w-7xl px-4 pt-9 sm:px-6">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">Prudence et coûts</p>
-          <h2 className="mt-2 text-2xl font-bold sm:text-3xl">Risques et frais de {landingData.nom{'}'}</h2>
+          <h2 className="mt-2 text-2xl font-bold sm:text-3xl">Risques et frais de {landingData.nom}</h2>
           {realScpiData && isPublishedWithReserves(realScpiData) && (
             <details data-testid="scpi-financial-details" className="mt-5 rounded-xl border border-white/15 bg-white/5">
               <summary className="cursor-pointer px-5 py-4 text-sm font-semibold text-slate-100 hover:text-emerald-200">
