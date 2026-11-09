@@ -19,6 +19,10 @@ class TestPublisherFamily(unittest.TestCase):
         self.assertEqual(len(plan["documents"]),3)
         self.assertEqual(len({x["slug"] for x in plan["documents"]}),3)
         self.assertEqual({x["period"] for x in plan["documents"]},{"2026-T2"})
+        annual=json.loads((Path(__file__).resolve().parent/"publisher-families/sofidy-2025-ra.json").read_text(encoding="utf-8"))
+        family.validate(annual)
+        self.assertEqual({x["slug"] for x in annual["documents"]},{x["slug"] for x in plan["documents"]})
+        self.assertEqual({x["period"] for x in annual["documents"]},{"2025-RA"})
 
     def test_refuse_cross_issuer_url_and_false_kind(self):
         for url in ("http://www.sofidy.com/x.pdf",
