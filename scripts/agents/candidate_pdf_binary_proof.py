@@ -60,11 +60,17 @@ def independent_poppler(pdf_path,fund_name,reference_period,kind,expected_page_c
                      text=True,check=False,timeout=35)
     if p.returncode!=0 or len(p.stdout)<300:
         raise ValueError("POPPLER_SOURCE_UNREADABLE")
-    pages=[x for x in p.stdout.split("\f") if x.strip()]
+    # Poppler emits a form-feed per PDF page, including visual/blank pages.
+    # Never use count(nonempty_text_pages) as the physical page count: an annual
+    # report with full-page artwork is not a truncated PDF.
+    pages=p.stdout.split("\f")
+    if pages and not pages[-1].strip():
+        pages.pop()  # trailing post-final-page separator, not a real PDF page
     if len(pages)!=expected_page_count:
         raise ValueError("PDF_PAGE_COUNT_ENGINE_DISAGREEMENT")
-    opening=normalize(" ".join(pages[:2]))
-    alltext=normalize(" ".join(pages))
+    text_pages=[value for value in pages if value.strip()]
+    opening=normalize(" ".join(text_pages[:2]))
+    alltext=normalize(" ".join(text_pages))
     name=normalize(fund_name)
     if name not in alltext and name.replace(" ","") not in alltext.replace(" ",""):
         raise ValueError("POPPLER_SCPI_IDENTITY_NOT_FOUND")
@@ -87,7 +93,7 @@ def independent_poppler(pdf_path,fund_name,reference_period,kind,expected_page_c
             raise ValueError("INVALID_ANNUAL_PERIOD")
         # Keep the title on the cover, but accept fiscal-year evidence in the
         # next two pages: AEW's cover and management page omit the fiscal year.
-        fiscal_window=normalize(" ".join(pages[:4]))
+        fiscal_window=normalize(" ".join(text_pages[:4]))
         fiscal_year=reference_period[:4]
         fiscal_date=re.search(r"\b31\s+decembre\s+"+fiscal_year+r"\b",fiscal_window)
         if not re.search(r"rapport annuel|rapport de gestion|exercice",opening) or (
