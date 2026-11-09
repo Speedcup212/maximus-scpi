@@ -3,8 +3,8 @@ import { OFFICIAL_PGA_2025 } from '../data/scpiPgaOfficial2025';
 import { compareVerified2025Distribution, formatPgaPercent, getVerifiedPga2025 } from '../utils/scpiPga';
 
 describe('PGA annuelle ASPIM – source et période', () => {
-  it('restitue les valeurs officielles du lot de 66 SCPI, sans les recalculer', () => {
-    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(66);
+  it('restitue les valeurs officielles du lot de 67 SCPI, sans les recalculer', () => {
+    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(67);
     expect(getVerifiedPga2025('Iroko Zen')?.pgaPct).toBe(8.13);
     expect(getVerifiedPga2025('Iroko Zen')?.distributionPct).toBe(7.14);
     expect(getVerifiedPga2025('CORUM USA')?.pgaPct).toBe(7.70);
@@ -49,7 +49,7 @@ describe('PGA annuelle ASPIM – source et période', () => {
       'www.altarea-im.com', 'www.fiducial-gerance.fr', 'www.normacapital.fr',
       'fr.swisslife-am.com', 'www.consultim-am.com', 'www.novaxia-investissement.fr', 'theoreim.com',
       'kyaneosam.com', 'www.groupemagellim.com', 'www.urban-coeurcommerce.com', 'www.praemiareim.fr',
-      'www.amundi-immobilier.com', 'www.primaliance.com',
+      'www.amundi-immobilier.com', 'www.primaliance.com', 'www.lafrancaise-am-partenaires.com',
     ];
     for (const [slug, record] of Object.entries(OFFICIAL_PGA_2025)) {
       expect(allowed.has(slug)).toBe(true);
@@ -134,6 +134,8 @@ describe('PGA annuelle ASPIM – source et période', () => {
     expect(getVerifiedPga2025('Edissimmo')?.distributionPct).toBe(3.63);
     expect(getVerifiedPga2025('Rivoli Avenir Patrimoine')?.pgaPct).toBe(-5.34);
     expect(getVerifiedPga2025('Rivoli Avenir Patrimoine')?.distributionPct).toBe(3.46);
+    expect(getVerifiedPga2025('Crédit Mutuel Pierre 1')?.pgaPct).toBe(4.49);
+    expect(getVerifiedPga2025('Crédit Mutuel Pierre 1')?.distributionPct).toBe(4.49);
   });
 
   it('classe les valeurs documentées avant les manquantes sans NaN', () => {
