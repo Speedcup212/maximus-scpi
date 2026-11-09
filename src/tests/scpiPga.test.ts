@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { OFFICIAL_PGA_2025 } from '../data/scpiPgaOfficial2025';
-import { compareVerified2025Distribution, formatPgaPercent, getVerifiedPga2025 } from '../utils/scpiPga';
+import { OFFICIAL_PGA_2025, PGA_2025_DOCUMENTARY_EXCEPTIONS } from '../data/scpiPgaOfficial2025';
+import { compareVerified2025Distribution, formatPgaPercent, getVerifiedPga2025, getPgaDocumentaryException } from '../utils/scpiPga';
 
 describe('PGA annuelle ASPIM – source et période', () => {
   it('restitue les valeurs officielles du lot de 67 SCPI, sans les recalculer', () => {
@@ -145,6 +145,23 @@ describe('PGA annuelle ASPIM – source et période', () => {
     expect(compareVerified2025Distribution('Iroko Atlas', 'Iroko Zen')).toBeLessThan(0);
     expect(compareVerified2025Distribution('Cœur d’Europe', 'SCPI inconnue')).toBe(-1);
     expect(getVerifiedPga2025('Altixia Cadence XII')?.distributionPct).toBe(5.15);
+  });
+
+  it('garantit une situation explicite pour les 69 SCPI sans PGA inventée', async () => {
+    const cohort = (await import('../data/certified_scpi_cohort.json')).default;
+    const official = Object.keys(OFFICIAL_PGA_2025);
+    const exceptions = Object.keys(PGA_2025_DOCUMENTARY_EXCEPTIONS);
+    expect(official.length).toBe(67);
+    expect(exceptions).toHaveLength(2);
+    expect(new Set([...official, ...exceptions]).size).toBe(69);
+    expect([...official, ...exceptions].sort()).toEqual([...cohort.slugs].sort());
+    for (const slug of exceptions) {
+      expect(getVerifiedPga2025(slug)).toBeNull();
+      expect(getPgaDocumentaryException(slug)?.sourceUrl).toMatch(/^https:\/\//);
+      expect(getPgaDocumentaryException(slug)?.reason.length).toBeGreaterThan(40);
+    }
+    expect(getVerifiedPga2025('Remake UK 2025')).toBeNull();
+    expect(getPgaDocumentaryException('Remake UK 2025')?.reason).toContain('écourté');
   });
 
   it('formate les performances négatives sans masquer le signe', () => {
