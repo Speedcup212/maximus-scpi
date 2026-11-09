@@ -1,0 +1,24 @@
+{
+  "exists": true,
+  "candidate_slug": "sofiboutique",
+  "candidate_name": "Sofiboutique",
+  "allowed_hosts": [
+    "www.sofidy.com"
+  ],
+  "documents": [
+    {
+      "source_url": "https://www.sofidy.com/app/uploads/2026/04/sofiboutique-rapport-annuel-2025.pdf",
+      "source_period": "2025-RA",
+      "document_kind": "annual_report",
+      "pdf_sha256": "0aba71d1784148950faf948895ab03cd1d1928322d3bc2760b331fb0e16c8013",
+      "page_count": 88
+    },
+    {
+      "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofiboutique_OPTI-1.pdf",
+      "source_period": "2026-T2",
+      "document_kind": "quarterly_bulletin",
+      "pdf_sha256": "b6450362afe742272d4f453a80d458332e958b0af13aafdab14399fbfe534324",
+      "page_count": 6
+    }
+  ]
+}
