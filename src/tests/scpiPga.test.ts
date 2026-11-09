@@ -3,8 +3,8 @@ import { OFFICIAL_PGA_2025 } from '../data/scpiPgaOfficial2025';
 import { compareVerified2025Distribution, formatPgaPercent, getVerifiedPga2025 } from '../utils/scpiPga';
 
 describe('PGA annuelle ASPIM – source et période', () => {
-  it('restitue les valeurs officielles du lot de 51 SCPI, sans les recalculer', () => {
-    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(51);
+  it('restitue les valeurs officielles du lot de 52 SCPI, sans les recalculer', () => {
+    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(52);
     expect(getVerifiedPga2025('Iroko Zen')?.pgaPct).toBe(8.13);
     expect(getVerifiedPga2025('Iroko Zen')?.distributionPct).toBe(7.14);
     expect(getVerifiedPga2025('CORUM USA')?.pgaPct).toBe(7.70);
@@ -90,6 +90,7 @@ describe('PGA annuelle ASPIM – source et période', () => {
     expect(getVerifiedPga2025('Alta Convictions')?.distributionPct).toBe(6.57);
     expect(getVerifiedPga2025('Buroboutic Métropoles')?.pgaPct).toBe(5.10);
     expect(getVerifiedPga2025('Ficommerce Proximité')?.distributionPct).toBe(5.10);
+    expect(getVerifiedPga2025('Sélectipierre 2')?.pgaPct).toBe(4.14);
   });
 
   it('classe les valeurs documentées avant les manquantes sans NaN', () => {
