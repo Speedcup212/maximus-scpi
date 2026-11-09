@@ -68,6 +68,20 @@ jobs:
         run: |
           printf '\n' | openssl s_client -connect www.sofidy.com:443 -servername www.sofidy.com -showcerts 2>&1 | grep -E 'verify error|Verify return code|depth=|subject=|issuer=' | tail -n 18 || true
           printf '\n' | openssl s_client -connect www.sofidy.com:443 -servername www.sofidy.com 2>/dev/null | openssl x509 -noout -subject -issuer -ext authorityInfoAccess || true
+      - name: Verify Sectigo intermediate against system roots (no new trust anchor)
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --proto '=https' --max-redirs 0 --max-time 25 \
+            --output "$RUNNER_TEMP/tbs-ca4.crt" \
+            'https://crt.sectigo.com/TBSRSAOrganizationValidationSecureServerCA4.crt'
+          openssl x509 -inform DER -in "$RUNNER_TEMP/tbs-ca4.crt" -out "$RUNNER_TEMP/tbs-ca4.pem"
+          openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -subject -issuer
+          openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -subject | grep -F 'TBS RSA Organization Validation Secure Server CA 4'
+          openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -text | grep -F 'CA:TRUE'
+          openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt "$RUNNER_TEMP/tbs-ca4.pem"
+          cat /etc/ssl/certs/ca-certificates.crt "$RUNNER_TEMP/tbs-ca4.pem" > "$RUNNER_TEMP/sofidy-ca-chain.pem"
+          echo "SCPI_PUBLISHER_CA_BUNDLE=$RUNNER_TEMP/sofidy-ca-chain.pem" >> "$GITHUB_ENV"
       - name: Prove original Sofiboutique PDF over trusted TLS (read-only)
         run: |
           python scripts/agents/publisher_family_proof.py \
@@ -105,6 +119,20 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends poppler-utils
           python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Verify Sectigo intermediate against system roots (no new trust anchor)
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --proto '=https' --max-redirs 0 --max-time 25 \
+            --output "$RUNNER_TEMP/tbs-ca4.crt" \
+            'https://crt.sectigo.com/TBSRSAOrganizationValidationSecureServerCA4.crt'
+          openssl x509 -inform DER -in "$RUNNER_TEMP/tbs-ca4.crt" -out "$RUNNER_TEMP/tbs-ca4.pem"
+          openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -subject -issuer
+          openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -subject | grep -F 'TBS RSA Organization Validation Secure Server CA 4'
+          openssl x509 -in "$RUNNER_TEMP/tbs-ca4.pem" -noout -text | grep -F 'CA:TRUE'
+          openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt "$RUNNER_TEMP/tbs-ca4.pem"
+          cat /etc/ssl/certs/ca-certificates.crt "$RUNNER_TEMP/tbs-ca4.pem" > "$RUNNER_TEMP/sofidy-ca-chain.pem"
+          echo "SCPI_PUBLISHER_CA_BUNDLE=$RUNNER_TEMP/sofidy-ca-chain.pem" >> "$GITHUB_ENV"
       - name: Read real Sofidy PDF, verify fund, period and original SHA using two readers
         run: |
           python scripts/agents/publisher_family_proof.py \
