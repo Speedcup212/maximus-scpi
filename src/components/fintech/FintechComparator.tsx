@@ -17,7 +17,7 @@ import { computeClientScores } from '../../utils/computeClientScores';
 import ComparisonWarning from '../ComparisonWarning';
 import Toast from '../Toast';
 import { getLiveScpiDataBatch } from '../../utils/scpiLiveData';
-import { getVerifiedPga2025 } from '../../utils/scpiPga';
+import { compareVerified2025Distribution, getVerifiedPga2025 } from '../../utils/scpiPga';
 
 const SelectionSidebar = lazy(() => import('./SelectionSidebar'));
 const AnalysisDetailModal = lazy(() => import('./AnalysisDetailModal'));
@@ -189,8 +189,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
       .sort((a, b) => {
         if (a.taxScore !== b.taxScore) return b.taxScore - a.taxScore;
         if (a.sectorScore !== b.sectorScore) return b.sectorScore - a.sectorScore;
-        if (sortBy === 'yield') return (getVerifiedPga2025(b.scpi.name)?.distributionPct ?? -Infinity) -
-          (getVerifiedPga2025(a.scpi.name)?.distributionPct ?? -Infinity);
+        if (sortBy === 'yield') return compareVerified2025Distribution(a.scpi.name, b.scpi.name);
         return a.scpi.price - b.scpi.price;
       })
       .map(item => item.scpi);
@@ -198,9 +197,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     filteredData = sortSCPIByTaxOptimization(filteredData, filters.tmi, sortBy);
     if (sortBy === 'yield') {
       // Les TD sans PGA comparable ne peuvent pas être mis en avant par le classement.
-      filteredData.sort((a, b) =>
-        (getVerifiedPga2025(b.name)?.distributionPct ?? -Infinity) -
-        (getVerifiedPga2025(a.name)?.distributionPct ?? -Infinity));
+      filteredData.sort((a, b) => compareVerified2025Distribution(a.name, b.name));
     }
   }
 
