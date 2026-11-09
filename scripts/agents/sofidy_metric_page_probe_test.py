@@ -41,8 +41,10 @@ class SofidyPageProofTests(unittest.TestCase):
             candidate.validate_manifest(m,"sofiboutique")
 
     def test_normalization_and_precise_french_number_matches(self):
-        self.assertEqual(candidate.flat("  Taux d’occupation  FINANCIER"),"taux d’occupation financier")
+        self.assertEqual(candidate.flat("  Taux d’occupation  FINANCIER"),"taux d occupation financier")
         self.assertTrue(candidate.number_regex("309.05").search(candidate.flat("309,05 €")))
+        self.assertTrue(candidate.number_regex("250.9").search(candidate.flat("250,90 €")))
+        self.assertFalse(candidate.number_regex("250.9").search(candidate.flat("250,91 €")))
         self.assertTrue(candidate.number_regex("1728629").search(candidate.flat("1\u202f728\u202f629")))
         self.assertTrue(candidate.number_regex("320").search(candidate.flat("320 €")))
         self.assertFalse(candidate.number_regex("309.05").search(candidate.flat("308,74 €")))
