@@ -3,8 +3,8 @@ import { OFFICIAL_PGA_2025, PGA_2025_DOCUMENTARY_EXCEPTIONS } from '../data/scpi
 import { compareVerified2025Distribution, formatPgaPercent, getVerifiedPga2025, getPgaDocumentaryException } from '../utils/scpiPga';
 
 describe('PGA annuelle ASPIM – source et période', () => {
-  it('restitue les valeurs officielles du lot de 67 SCPI, sans les recalculer', () => {
-    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(67);
+  it('restitue les valeurs officielles du lot de 68 SCPI, sans les recalculer', () => {
+    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(68);
     expect(getVerifiedPga2025('Iroko Zen')?.pgaPct).toBe(8.13);
     expect(getVerifiedPga2025('Iroko Zen')?.distributionPct).toBe(7.14);
     expect(getVerifiedPga2025('CORUM USA')?.pgaPct).toBe(7.70);
@@ -16,6 +16,7 @@ describe('PGA annuelle ASPIM – source et période', () => {
     expect(getVerifiedPga2025('')).toBeNull();
   });
 
+  // Le 0 du Grand Paris est prouvé, tandis qu'une PGA non calculable reste null.
   it('n’autorise que la période 2025, des valeurs finies et des sources HTTPS', () => {
     for (const record of Object.values(OFFICIAL_PGA_2025)) {
       expect(record.year).toBe(2025);
@@ -50,6 +51,7 @@ describe('PGA annuelle ASPIM – source et période', () => {
       'fr.swisslife-am.com', 'www.consultim-am.com', 'www.novaxia-investissement.fr', 'theoreim.com',
       'kyaneosam.com', 'www.groupemagellim.com', 'www.urban-coeurcommerce.com', 'www.praemiareim.fr',
       'www.amundi-immobilier.com', 'www.primaliance.com', 'www.lafrancaise-am-partenaires.com',
+      'www.inter-gestion.com',
     ];
     for (const [slug, record] of Object.entries(OFFICIAL_PGA_2025)) {
       expect(allowed.has(slug)).toBe(true);
@@ -147,12 +149,37 @@ describe('PGA annuelle ASPIM – source et période', () => {
     expect(getVerifiedPga2025('Altixia Cadence XII')?.distributionPct).toBe(5.15);
   });
 
+  it('contrôle le 0% de Grand Paris Résidentiels sans le confondre avec une donnée inventée', () => {
+    const record = getVerifiedPga2025('Grand Paris Résidentiels');
+    expect(record?.pgaPct).toBe(0);
+    expect(record?.distributionPct).toBe(0);
+    expect(record?.verificationMethod).toBe('calculated_from_official_indicators');
+    expect(record?.sourceUrl).toContain('inter-gestion.com');
+    expect(record?.calculationEvidence).toEqual({
+      grossDividendPerShare: 0,
+      startingSubscriptionPrice: 200,
+      followingSubscriptionPrice: 200,
+    });
+    const e = record!.calculationEvidence!;
+    expect(100 * (e.grossDividendPerShare + e.followingSubscriptionPrice -
+      e.startingSubscriptionPrice) / e.startingSubscriptionPrice).toBe(0);
+    expect(getPgaDocumentaryException('Grand Paris Résidentiels')).toBeNull();
+  });
+
+  it('n’invente pas une PGA 2025 pour une SCPI à capital fixe créée en 2025', () => {
+    expect(getVerifiedPga2025('Remake UK 2025')).toBeNull();
+    const exception = getPgaDocumentaryException('Remake UK 2025');
+    expect(exception?.sourceUrl).toBe('https://www.remake.fr/telecharger/remake-uk-2025/rapport-annuel/62');
+    expect(exception?.reason).toContain('90,90');
+    expect(exception?.reason).toContain('prix acquéreur moyen de 2024');
+  });
+
   it('garantit une situation explicite pour les 69 SCPI sans PGA inventée', async () => {
     const cohort = (await import('../data/certified_scpi_cohort.json')).default;
     const official = Object.keys(OFFICIAL_PGA_2025);
     const exceptions = Object.keys(PGA_2025_DOCUMENTARY_EXCEPTIONS);
-    expect(official.length).toBe(67);
-    expect(exceptions).toHaveLength(2);
+    expect(official.length).toBe(68);
+    expect(exceptions).toHaveLength(1);
     expect(new Set([...official, ...exceptions]).size).toBe(69);
     expect([...official, ...exceptions].sort()).toEqual([...cohort.slugs].sort());
     for (const slug of exceptions) {
@@ -161,7 +188,7 @@ describe('PGA annuelle ASPIM – source et période', () => {
       expect(getPgaDocumentaryException(slug)?.reason.length).toBeGreaterThan(40);
     }
     expect(getVerifiedPga2025('Remake UK 2025')).toBeNull();
-    expect(getPgaDocumentaryException('Remake UK 2025')?.reason).toContain('écourté');
+    expect(getPgaDocumentaryException('Remake UK 2025')?.reason).toContain('prix acquéreur moyen de 2024');
   });
 
   it('formate les performances négatives sans masquer le signe', () => {
