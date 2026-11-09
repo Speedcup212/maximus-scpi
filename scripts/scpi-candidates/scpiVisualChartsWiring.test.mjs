@@ -34,3 +34,11 @@ test('lien du Radar et états indisponibles restent explicites', () => {
   assert.match(navigation, /getElementById\('radar-scpi'\)/);
   assert.match(trajectory, /scpi-trajectory-insufficient-history/);
 });
+
+test('la Trajectoire sans historique reste lisible sur un fond clair', () => {
+  const trajectory = read('src/components/trajectory/ScpiTrajectoryPanel.tsx');
+  assert.match(trajectory, /data-testid="scpi-trajectory-insufficient-history" className="border-y border-slate-800 bg-slate-950 py-8 text-white"/);
+  assert.match(trajectory, /<h3 className="text-sm font-semibold text-white">Trajectoire historique en cours de constitution<\/h3>/);
+  assert.match(trajectory, /<p className="mt-2 text-xs leading-5 text-slate-300">/);
+  assert.match(read('.github/workflows/build-verification.yml'), /scpi-visual-contrast-browser\.mjs/);
+});
