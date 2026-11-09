@@ -1,0 +1,79 @@
+name: MaximusSCPI - Sofidy original page financial proof (review only)
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/agents/sofidy_metric_page_probe.py'
+      - 'scripts/agents/sofidy_metric_page_probe_test.py'
+      - 'scripts/agents/publisher-families/sofidy-financial-evidence-2025ra-2026t2.json'
+      - '.github/workflows/maximus-sofidy-financial-page-probe.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/agents/sofidy_metric_page_probe.py'
+      - 'scripts/agents/sofidy_metric_page_probe_test.py'
+      - 'scripts/agents/publisher-families/sofidy-financial-evidence-2025ra-2026t2.json'
+      - '.github/workflows/maximus-sofidy-financial-page-probe.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sofidy-source-page-review-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'main' }}
+  cancel-in-progress: false
+
+jobs:
+  local-qa-guards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned native PDF parser for tests
+        run: python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Test exact issuer / period / page / numeric and no auto-certification
+        run: python -m unittest scripts/agents/sofidy_metric_page_probe_test.py -v
+
+  inspect-original-financial-pages:
+    needs: local-qa-guards
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        slug: [sofiboutique, sofipierre, sofidy-europe-invest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent PDF engines
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Authenticate the missing Sofidy TLS intermediate against already trusted OS roots
+        run: bash scripts/agents/prepare_verified_sofidy_ca.sh
+      - name: Read exact six-page trimestrial and full annual original PDF, cross-check registered SHA
+        run: |
+          python scripts/agents/sofidy_metric_page_probe.py \
+            --manifest scripts/agents/publisher-families/sofidy-financial-evidence-2025ra-2026t2.json \
+            --slug ${{ matrix.slug }} \
+            --out test-results/sofidy-financial-review/${{ matrix.slug }}
+      - name: Archive page-labeled review and rendered pages (NO financial QA admission)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sofidy-page-evidence-${{ matrix.slug }}-${{ github.run_id }}
+          path: test-results/sofidy-financial-review/${{ matrix.slug }}/
+          if-no-files-found: warn
+          retention-days: 14
