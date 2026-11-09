@@ -48,7 +48,7 @@ DISCOVERY_TERMS = [
 
 def flat(value):
     v = unicodedata.normalize("NFKC", value).lower()
-    v = v.replace("\u00a0", " ").replace("\u202f", " ")
+    v = v.replace("\u00a0", " ").replace("\u202f", " ").replace("’", " ").replace("‘", " ").replace("\u0027", " ")
     v = unicodedata.normalize("NFD", v)
     v = "".join(c for c in v if unicodedata.category(c) != "Mn")
     return re.sub(r"\s+", " ", v).strip()
@@ -68,7 +68,7 @@ def number_regex(number):
         return re.compile(r"(?<![0-9])(?:"+"|".join(variants)+r")(?![0-9])")
     normalized = format(decimal, "f").rstrip("0").rstrip(".")
     whole, fract = normalized.split(".")
-    return re.compile(r"(?<![0-9])"+re.escape(whole)+r"[,.]"+re.escape(fract)+r"(?![0-9])")
+    return re.compile(r"(?<![0-9])"+re.escape(whole)+r"[,.]"+re.escape(fract)+r"0*(?![0-9])")
 
 def read_page_poppler(path, page_num):
     run = subprocess.run(
@@ -153,7 +153,7 @@ def pdf_annual_metrics(pdf, path, doc, output_dir):
             })
     return metrics
 
-def pdf_quarterly_discovery(pdf, path):
+def pdf_quarterly_discovery(pdf, path, out_dir):
     results=[]
     for index in range(len(pdf)):
         page_no=index+1
@@ -167,8 +167,15 @@ def pdf_quarterly_discovery(pdf, path):
                 if context not in hits: hits.append(context)
             if len(hits)>=15:break
         if hits:
-            results.append({"source_page":page_no,"raw_label_contexts":hits,
-                            "no_financial_approval":True})
+            metadata={"source_page":page_no,"raw_label_contexts":hits,
+                      "no_financial_approval":True}
+            if page_no in (1,4,5):
+                visual=out_dir/"visual"/(f"2026-T2-page-{page_no}.png")
+                visual.parent.mkdir(parents=True,exist_ok=True)
+                visual.write_bytes(pdf[index].get_pixmap(
+                    matrix=fitz.Matrix(1.25,1.25),alpha=False).tobytes("png"))
+                metadata["rendered_page_sha256"]=hashlib.sha256(visual.read_bytes()).hexdigest()
+            results.append(metadata)
     return results
 
 def scan_candidate(manifest,slug,out):
@@ -194,7 +201,7 @@ def scan_candidate(manifest,slug,out):
                 if d["document_kind"]=="annual_report":
                     scanned["metric_review"]=pdf_annual_metrics(pdf,path,d,out)
                 else:
-                    scanned["quarterly_page_hints"]=pdf_quarterly_discovery(pdf,path)
+                    scanned["quarterly_page_hints"]=pdf_quarterly_discovery(pdf,path,out)
                 result["documents"].append(scanned)
     return result
 
