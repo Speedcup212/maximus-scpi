@@ -80,7 +80,80 @@
           "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofiboutique_OPTI-1.pdf",
           "pdf_sha256": "b6450362afe742272d4f453a80d458332e958b0af13aafdab14399fbfe534324",
           "page_count": 6,
-          "metrics": []
+          "metrics": [
+            {
+              "metric": "capitalisation",
+              "value": "105124160",
+              "unit": "EUR",
+              "value_basis": "EXACT_MARKET_CAPITALIZATION_2026_06_30",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "distribution_brute_par_part",
+              "value": "3.09",
+              "unit": "EUR_PER_PART",
+              "value_basis": "Q2_2026_COUPON_PAID_JULY_NON_ANNUALIZED",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_associes",
+              "value": "835",
+              "unit": "COUNT",
+              "value_basis": "SHAREHOLDERS_AT_2026_06_30",
+              "source_page": 1,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_immeubles",
+              "value": "117",
+              "unit": "COUNT",
+              "value_basis": "PROPERTIES_AT_2026_06_30",
+              "source_page": 1,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_parts",
+              "value": "328513",
+              "unit": "PARTS",
+              "value_basis": "OUTSTANDING_SHARES_AT_2026_06_30",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "parts_attente_retrait",
+              "value": "3938",
+              "unit": "PARTS",
+              "value_basis": "WITHDRAWAL_QUEUE_STOCK_2026_06_30",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "prix_retrait",
+              "value": "288",
+              "unit": "EUR_PER_PART",
+              "value_basis": "ISSUER_Q2_2026_WITHDRAWAL_PRICE",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "prix_souscription",
+              "value": "320",
+              "unit": "EUR_PER_PART",
+              "value_basis": "ISSUER_Q2_2026_SUBSCRIPTION_PRICE",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "tof_quarterly",
+              "value": "96.69",
+              "unit": "PERCENT",
+              "value_basis": "FINANCIAL_OCCUPANCY_Q2_2026_POINT_IN_TIME",
+              "source_page": 1,
+              "qa_status": "pending_independent_qa"
+            }
+          ]
         }
       ]
     },
@@ -168,7 +241,80 @@
           "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_SEI_OPTI.pdf",
           "pdf_sha256": "40e1455ef358d3638400632d487421c081b2a703167fa504bf9c7b2fee2b16e0",
           "page_count": 6,
-          "metrics": []
+          "metrics": [
+            {
+              "metric": "capitalisation",
+              "value": "420651175",
+              "unit": "EUR",
+              "value_basis": "EXACT_MARKET_CAPITALIZATION_2026_06_30",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "distribution_brute_par_part",
+              "value": "2.4",
+              "unit": "EUR_PER_PART",
+              "value_basis": "Q2_2026_COUPON_PAID_JULY_NON_ANNUALIZED",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_associes",
+              "value": "8438",
+              "unit": "COUNT",
+              "value_basis": "SHAREHOLDERS_AT_2026_06_30",
+              "source_page": 1,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_immeubles",
+              "value": "38",
+              "unit": "COUNT",
+              "value_basis": "PROPERTIES_AT_2026_06_30",
+              "source_page": 1,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_parts",
+              "value": "1790005",
+              "unit": "PARTS",
+              "value_basis": "OUTSTANDING_SHARES_AT_2026_06_30",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "parts_attente_retrait",
+              "value": "0",
+              "unit": "PARTS",
+              "value_basis": "WITHDRAWAL_QUEUE_STOCK_2026_06_30",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "prix_retrait",
+              "value": "213.85",
+              "unit": "EUR_PER_PART",
+              "value_basis": "ISSUER_Q2_2026_WITHDRAWAL_PRICE",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "prix_souscription",
+              "value": "235",
+              "unit": "EUR_PER_PART",
+              "value_basis": "ISSUER_Q2_2026_SUBSCRIPTION_PRICE",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "tof_quarterly",
+              "value": "96",
+              "unit": "PERCENT",
+              "value_basis": "FINANCIAL_OCCUPANCY_Q2_2026_POINT_IN_TIME",
+              "source_page": 1,
+              "qa_status": "pending_independent_qa"
+            }
+          ]
         }
       ]
     },
@@ -248,9 +394,83 @@
           "source_url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofipierre_OPTI.pdf",
           "pdf_sha256": "574fb1f7d1224c59571abf0d9b11f17d483daf64660f17e1f32a6be409e609e3",
           "page_count": 6,
-          "metrics": []
+          "metrics": [
+            {
+              "metric": "capitalisation",
+              "value": "147413630",
+              "unit": "EUR",
+              "value_basis": "EXACT_MARKET_CAPITALIZATION_2026_06_30",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "distribution_brute_par_part",
+              "value": "6.75",
+              "unit": "EUR_PER_PART",
+              "value_basis": "ORDINARY_Q2_2026_COUPON_PAID_JULY_EXCLUDES_LATER_SPECIAL_DIVIDEND",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_associes",
+              "value": "2365",
+              "unit": "COUNT",
+              "value_basis": "SHAREHOLDERS_AT_2026_06_30",
+              "source_page": 1,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_immeubles",
+              "value": "156",
+              "unit": "COUNT",
+              "value_basis": "PROPERTIES_AT_2026_06_30",
+              "source_page": 1,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "nombre_parts",
+              "value": "247754",
+              "unit": "PARTS",
+              "value_basis": "OUTSTANDING_SHARES_AT_2026_06_30",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "parts_attente_retrait",
+              "value": "1730",
+              "unit": "PARTS",
+              "value_basis": "WITHDRAWAL_QUEUE_STOCK_2026_06_30",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "prix_retrait",
+              "value": "535.5",
+              "unit": "EUR_PER_PART",
+              "value_basis": "ISSUER_Q2_2026_WITHDRAWAL_PRICE",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "prix_souscription",
+              "value": "595",
+              "unit": "EUR_PER_PART",
+              "value_basis": "ISSUER_Q2_2026_SUBSCRIPTION_PRICE",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "tof_quarterly",
+              "value": "89.15",
+              "unit": "PERCENT",
+              "value_basis": "FINANCIAL_OCCUPANCY_Q2_2026_POINT_IN_TIME",
+              "source_page": 1,
+              "qa_status": "pending_independent_qa"
+            }
+          ]
         }
       ]
     }
-  ]
+  ],
+  "original_annual_review_checkpoint": "2026-11-09: annual 22 fields QA_PASS in private Supabase by explicitly labeled GPT6 visual second pass; this static technical manifest keeps its original non-authorizing source claims; do not infer live DB status from it."
 }
