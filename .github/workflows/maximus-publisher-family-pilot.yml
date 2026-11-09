@@ -1,0 +1,81 @@
+name: MaximusSCPI - family PDF binary proof (not financial certification)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '18 9 * * 1,4'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/maximus-publisher-family-pilot.yml'
+      - 'scripts/agents/publisher_family_proof.py'
+      - 'scripts/agents/publisher_family_proof_test.py'
+      - 'scripts/agents/publisher-families/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/maximus-publisher-family-pilot.yml'
+      - 'scripts/agents/publisher_family_proof.py'
+      - 'scripts/agents/publisher_family_proof_test.py'
+      - 'scripts/agents/publisher-families/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scpi-publisher-family-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'main' }}
+  cancel-in-progress: false
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned MuPDF
+        run: python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Validate issuer allowlist and fail-closed source proof
+        run: python -m unittest scripts/agents/publisher_family_proof_test.py -v
+      - name: Existing independent binary evidence security tests
+        run: python -m unittest scripts/agents/candidate_pdf_binary_proof_test.py -v
+
+  live:
+    needs: unit
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 13
+    strategy:
+      fail-fast: false
+      matrix:
+        slug: [sofiboutique, sofipierre, sofidy-europe-invest]
+        document_set: [2026-t2, 2025-ra]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Read real Sofidy PDF, verify fund, period and original SHA using two readers
+        run: |
+          python scripts/agents/publisher_family_proof.py \
+            --manifest scripts/agents/publisher-families/sofidy-${{ matrix.document_set }}.json \
+            --slug ${{ matrix.slug }} \
+            --output test-results/publisher-families/${{ matrix.slug }}-${{ matrix.document_set }}.json
+      - name: Save actual proof or explicit source failure for independent QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: publisher-family-${{ matrix.slug }}-${{ matrix.document_set }}-${{ github.run_id }}
+          path: test-results/publisher-families/${{ matrix.slug }}-${{ matrix.document_set }}.json
+          if-no-files-found: error
+          retention-days: 14
