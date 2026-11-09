@@ -43,6 +43,42 @@ jobs:
       - name: Existing independent binary evidence security tests
         run: python -m unittest scripts/agents/candidate_pdf_binary_proof_test.py -v
 
+  publisher-tls-pr-probe:
+    needs: unit
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        document_set: [2026-t2, 2025-ra]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent issuer PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Prove original Sofiboutique PDF over trusted TLS (read-only)
+        run: |
+          python scripts/agents/publisher_family_proof.py \
+            --manifest scripts/agents/publisher-families/sofidy-${{ matrix.document_set }}.json \
+            --slug sofiboutique \
+            --output test-results/publisher-families/sofidy-pr-${{ matrix.document_set }}.json
+      - name: Retain independent original proof or explicit blocker
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: publisher-tls-pr-${{ matrix.document_set }}-${{ github.run_id }}
+          path: test-results/publisher-families/sofidy-pr-${{ matrix.document_set }}.json
+          if-no-files-found: error
+          retention-days: 7
+
   live:
     needs: unit
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
