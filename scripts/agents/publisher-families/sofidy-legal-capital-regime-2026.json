@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "publisher": "Sofidy",
+  "check_only": true,
+  "financial_certified": false,
+  "candidates": [
+    {
+      "scpi_slug": "sofiboutique",
+      "name": "Sofiboutique",
+      "source_url": "https://www.sofidy.com/app/uploads/2022/04/DIC-SOB-042026.pdf",
+      "pdf_sha256": "f7f5a2336d48ccf5774da2b69bc19cc7f3ac8cdf464685f973c576cb1a84f5d1",
+      "page_count": 3,
+      "official_page_url": "https://www.sofidy.com/solutions/sofiboutique/"
+    },
+    {
+      "scpi_slug": "sofidy-europe-invest",
+      "name": "Sofidy Europe Invest",
+      "source_url": "https://www.sofidy.com/app/uploads/2022/04/DIC-SEI-042026.pdf",
+      "pdf_sha256": "392288afb2228da8113d6e3b748423b178bb08dac248ac17e0a94615ccf2e22a",
+      "page_count": 3,
+      "official_page_url": "https://www.sofidy.com/solutions/sofidy-europe-invest/"
+    },
+    {
+      "scpi_slug": "sofipierre",
+      "name": "Sofipierre",
+      "source_url": "https://www.sofidy.com/app/uploads/2022/10/DIC-SP-042026.pdf",
+      "pdf_sha256": "ba8ae9b8a2a28df1d41733ebbe01436abdd2d840bd63b5926889e25fb1e49205",
+      "page_count": 3,
+      "official_page_url": "https://www.sofidy.com/solutions/sofipierre/"
+    }
+  ]
+}
