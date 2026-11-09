@@ -129,7 +129,6 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
 
   // Annual distribution and debt belong to the source-year, not the current bulletin.
   const countryGeography = aggregateCountryGeographyRows(scpi.geography);
-  const distributionYear=annualReferenceYear(scpiForAnalysis?.distributionReferencePeriod);
   const debtYear=annualReferenceYear(scpiForAnalysis?.debtReferencePeriod);
   const officialPga2025 = getVerifiedPga2025(scpi.name);
 
@@ -221,23 +220,25 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
               Chiffres clés
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              {/* Taux de distribution */}
+              {/* PGA 2025 : affichée avant le TD, même période et preuve */}
               <div className="bg-slate-800/50 rounded-lg p-5 border border-slate-600 hover:bg-slate-800/70 transition-colors">
                 <div className="flex items-center gap-2 mb-2">
                   <TrendingUp className="w-4 h-4 text-emerald-400" />
                   <div className="text-xs text-slate-400">
-                    Taux de distribution brut{officialPga2025 ? ' 2025' : distributionYear!==null ? ` ${distributionYear}` : ''}
+                    Performance globale annuelle (PGA) 2025
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-emerald-400">
-                  {officialPga2025 ? `${officialPga2025.distributionPct.toFixed(2)}%` : 'Non affiché'}
+                  {officialPga2025 ? `${officialPga2025.pgaPct.toFixed(2)}%` : 'Non vérifiée'}
                 </div>
                 <div className="mt-2 pt-2 border-t border-slate-600">
                   <div className="text-[10px] text-slate-500 leading-tight">
-                    Taux brut avant fiscalité – la fiscalité dépend de la situation personnelle de l'investisseur.
+                    {officialPga2025
+                      ? `Taux de distribution brut 2025 inclus : ${officialPga2025.distributionPct.toFixed(2)} %. Avant fiscalité personnelle.`
+                      : 'PGA et taux de distribution annuel non affichés faute de couple 2025 vérifié.'}
                   </div>
                 </div>
-                <div className="mt-3"><ScpiPgaIndicator name={scpi.name} variant="detail" /></div>
+                <div className="mt-3"><ScpiPgaIndicator name={scpi.name} variant="source" /></div>
               </div>
 
               {/* TOF */}
