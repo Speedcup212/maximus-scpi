@@ -3,8 +3,8 @@ import { OFFICIAL_PGA_2025 } from '../data/scpiPgaOfficial2025';
 import { compareVerified2025Distribution, formatPgaPercent, getVerifiedPga2025 } from '../utils/scpiPga';
 
 describe('PGA annuelle ASPIM – source et période', () => {
-  it('restitue les valeurs officielles du lot de 52 SCPI, sans les recalculer', () => {
-    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(52);
+  it('restitue les valeurs officielles du lot de 55 SCPI, sans les recalculer', () => {
+    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(55);
     expect(getVerifiedPga2025('Iroko Zen')?.pgaPct).toBe(8.13);
     expect(getVerifiedPga2025('Iroko Zen')?.distributionPct).toBe(7.14);
     expect(getVerifiedPga2025('CORUM USA')?.pgaPct).toBe(7.70);
@@ -46,7 +46,7 @@ describe('PGA annuelle ASPIM – source et période', () => {
       'www.aestiam.com', 'paref-gestion.com', 'www.perial.com', 'www.praemia-healthcare.fr',
       'www.sogenial.fr', 'atream.com', 'edr-europa.com', 'www.euryale-am.fr',
       'reim.bnpparibas-am.com', 'www.la-francaise.com',
-      'www.altarea-im.com', 'www.fiducial-gerance.fr',
+      'www.altarea-im.com', 'www.fiducial-gerance.fr', 'www.normacapital.fr',
     ];
     for (const [slug, record] of Object.entries(OFFICIAL_PGA_2025)) {
       expect(allowed.has(slug)).toBe(true);
@@ -91,6 +91,13 @@ describe('PGA annuelle ASPIM – source et période', () => {
     expect(getVerifiedPga2025('Buroboutic Métropoles')?.pgaPct).toBe(5.10);
     expect(getVerifiedPga2025('Ficommerce Proximité')?.distributionPct).toBe(5.10);
     expect(getVerifiedPga2025('Sélectipierre 2')?.pgaPct).toBe(4.14);
+  });
+
+  it('ne confond jamais le TD 2025 et la PGA 2025 de NCAP Régions', () => {
+    expect(getVerifiedPga2025('NCap Régions')?.pgaPct).toBe(7.51);
+    expect(getVerifiedPga2025('NCap Régions')?.distributionPct).toBe(5.72);
+    expect(getVerifiedPga2025('NCap Education Santé')?.distributionPct).toBe(4.52);
+    expect(getVerifiedPga2025('NCap Continent')?.pgaPct).toBe(7.10);
   });
 
   it('classe les valeurs documentées avant les manquantes sans NaN', () => {
