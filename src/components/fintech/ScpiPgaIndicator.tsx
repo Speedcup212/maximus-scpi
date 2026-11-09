@@ -1,7 +1,7 @@
 import React from 'react';
 import { getVerifiedPga2025, formatPgaPercent } from '../../utils/scpiPga';
 
-type Variant = 'card' | 'row' | 'detail' | 'radar';
+type Variant = 'card' | 'row' | 'detail' | 'radar' | 'source';
 
 interface ScpiPgaIndicatorProps {
   name: string;
@@ -15,6 +15,7 @@ interface ScpiPgaIndicatorProps {
 const ScpiPgaIndicator: React.FC<ScpiPgaIndicatorProps> = ({ name, variant = 'card' }) => {
   const official = getVerifiedPga2025(name);
   const compact = variant === 'row';
+  const sourceOnly = variant === 'source';
   return (
     <div
       data-testid="scpi-pga-2025"
@@ -23,12 +24,14 @@ const ScpiPgaIndicator: React.FC<ScpiPgaIndicatorProps> = ({ name, variant = 'ca
         ? 'mt-1 text-[10px] leading-snug text-slate-300'
         : 'rounded-lg border border-slate-600/70 bg-slate-900/30 px-3 py-2 text-xs text-slate-200'}
     >
-      <div className={compact ? '' : 'flex items-center justify-between gap-2'}>
-        <span className="font-semibold">PGA 2025</span>
-        <span className={official ? 'ml-2 font-bold text-cyan-300' : 'ml-2 text-amber-300'}>
-          {official ? formatPgaPercent(official.pgaPct) : 'Non vérifiée'}
-        </span>
-      </div>
+      {!sourceOnly && (
+        <div className={compact ? '' : 'flex items-center justify-between gap-2'}>
+          <span className="font-semibold">PGA 2025</span>
+          <span className={official ? (compact ? 'ml-2 text-base font-bold text-cyan-300' : 'ml-2 font-bold text-cyan-300') : 'ml-2 text-amber-300'}>
+            {official ? formatPgaPercent(official.pgaPct) : 'Non vérifiée'}
+          </span>
+        </div>
+      )}
       {official ? (
         <>
           <p className="mt-1 text-[10px] leading-snug text-slate-300">
