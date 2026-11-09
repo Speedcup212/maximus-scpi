@@ -259,7 +259,7 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
   },
   'opportunite-immo': {
     year: 2025, pgaPct: 5.68, distributionPct: 5.68,
-    sourceUrl: 'https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=LF-Opportunite-Immo',
+    sourceUrl: 'https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier.aspx',
     sourceLabel: 'La Française, LF Opportunité Immo 2025',
   },
 };
