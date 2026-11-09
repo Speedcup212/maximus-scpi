@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "publisher": "Sofidy",
+  "allowed_hosts": [
+    "www.sofidy.com"
+  ],
+  "proof_only": true,
+  "autoapprove": false,
+  "candidates": [
+    {
+      "scpi_slug": "sofiboutique",
+      "name": "Sofiboutique",
+      "official_page_url": "https://www.sofidy.com/solutions/sofiboutique/",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/02/ST-SOB-072025-FR-2-2303_statut_SOFIBOUTIQUE_v4.pdf",
+      "edition_period": "2025-REG"
+    },
+    {
+      "scpi_slug": "sofipierre",
+      "name": "Sofipierre",
+      "official_page_url": "https://www.sofidy.com/solutions/sofipierre/",
+      "source_url": "https://www.sofidy.com/app/uploads/2022/04/sofipierre-statuts-0624.pdf",
+      "edition_period": "2024-REG"
+    },
+    {
+      "scpi_slug": "sofidy-europe-invest",
+      "name": "Sofidy Europe Invest",
+      "official_page_url": "https://www.sofidy.com/solutions/sofidy-europe-invest/",
+      "source_url": "https://www.sofidy.com/app/uploads/2022/04/ST-SEI-072025-FR-3-2355.pdf",
+      "edition_period": "2025-REG"
+    }
+  ]
+}
