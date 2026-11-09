@@ -20,6 +20,7 @@ import { scpiData } from '../data/scpiData';
 import { CookieConsent } from './CookieConsent';
 import LeadMagnetEmailForm from './LeadMagnetEmailForm';
 import ScpiVisualAnalysis from './ScpiVisualAnalysis';
+import ScpiDecisionHubPortal from './ScpiDecisionHubPortal';
 import ScpiPublicationQualityNotice from './ScpiPublicationQualityNotice';
 import ScpiOfficialFacts from './ScpiOfficialFacts';
 import { getScpiDatedDiscount } from '../utils/scpiDatedDiscount';
@@ -320,9 +321,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         onArticlesClick={onArticlesClick}
         currentView="scpi-landing"
       />
-      {realScpiData && <div className="mx-auto max-w-7xl px-4 py-3"><ScpiPublicationQualityNotice scpi={realScpiData}/></div>}
-
-      <div className={`bg-gradient-to-br ${colors.primary} text-white`}>
+      <div id="scpi-synthese" className={`bg-gradient-to-br ${colors.primary} text-white`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
           <div className="grid lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.65fr)] gap-8 lg:gap-10 items-start">
             <div className="space-y-8">
@@ -543,6 +542,11 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         </div>
       </div>
 
+      <ScpiDecisionHubPortal
+        scpiSlug={landingSlug}
+        canSimulate={Boolean(landingData.simulator && !(realScpiData && isFeatureDisabled(realScpiData, 'suitability_recommendations')))}
+      />
+
       {useMaximusBrand && (
         <div
           aria-hidden="true"
@@ -554,9 +558,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         <div data-testid="scpi-history-restricted" className="mx-auto max-w-6xl rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300">Évolution historique détaillée : non calculée pour cette période. Les données officielles restent consultables avec leurs dates de référence.</div>
       ) : <ScpiIndicatorHistory scpiSlug={landingSlug} scpiName={landingData.nom} />}
 
-      {realScpiData && isPublishedWithReserves(realScpiData) && <div className="mx-auto max-w-7xl px-4 py-3"><ScpiOfficialFacts scpi={realScpiData}/></div>}
-
-      <div className={useMaximusBrand ? 'bg-[#F8FAFC] pb-12 sm:pb-14' : 'bg-white py-10 sm:py-12'}>
+      <div id="scpi-patrimoine" className={useMaximusBrand ? 'bg-[#F8FAFC] pb-12 sm:pb-14' : 'bg-white py-10 sm:py-12'}>
         <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ${useMaximusBrand ? 'relative z-10 -mt-7 sm:-mt-9 pt-2' : ''}`}>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7">
             <div>
@@ -683,8 +685,59 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         landingData={landingData}
       />
 
+
+      <section id="scpi-risques-frais" className="scroll-mt-36 bg-slate-950 text-white">
+        <div className="mx-auto max-w-7xl px-4 pt-9 sm:px-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">Prudence et coûts</p>
+          <h2 className="mt-2 text-2xl font-bold sm:text-3xl">Risques et frais de {landingData.nom{'}'}</h2>
+          {realScpiData && isPublishedWithReserves(realScpiData) && (
+            <details data-testid="scpi-financial-details" className="mt-5 rounded-xl border border-white/15 bg-white/5">
+              <summary className="cursor-pointer px-5 py-4 text-sm font-semibold text-slate-100 hover:text-emerald-200">
+                Consulter les données financières et patrimoniales détaillées
+              </summary>
+              <div className="border-t border-white/10 px-3 pb-4 pt-4 sm:px-5">
+                <ScpiOfficialFacts scpi={realScpiData} />
+              </div>
+            </details>
+          )}
+        </div>
+
+      <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-start gap-4">
+            <Shield className="w-8 h-8 text-yellow-400 flex-shrink-0 mt-1" />
+            <div>
+              <h3 className="text-xl font-bold mb-4">Informations importantes</h3>
+              <div className="space-y-3 text-gray-300 text-sm">
+                <p>
+                  <strong>Risques :</strong> L'investissement en SCPI présente des risques de perte en capital et de liquidité. Les performances passées ne préjugent pas des performances futures.
+                </p>
+                <p>
+                  <strong>Durée recommandée :</strong> 8 à 10 ans minimum. Les SCPI sont des placements de long terme.
+                </p>
+                <p>
+                  <strong>Frais :</strong> Frais de souscription : {landingData.frais_souscription} TTC.
+                  {realScpiData?.fraisGestionDetails?.kind === 'geographic_tiers' && (
+                    <span> Frais de gestion sur les loyers encaissés :
+                      {' '}{realScpiData.fraisGestionDetails.euro_zone_percent.toFixed(2).replace('.', ',')} % HT (zone euro) /
+                      {' '}{realScpiData.fraisGestionDetails.outside_euro_zone_percent.toFixed(2).replace('.', ',')} % HT (hors zone euro).
+                      Aucun taux moyen unique ne peut être indiqué.
+                    </span>
+                  )}{' '}Consultez la note d'information complète avant tout investissement.
+                </p>
+                <p>
+                  <strong>Conseiller :</strong> Eric Bellaiche - CIF enregistré à l'ORIAS sous le numéro 13001580.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </section>
+
       {landingData.simulator && !(realScpiData && isFeatureDisabled(realScpiData,'suitability_recommendations')) && (
-        <div className="bg-slate-50 py-8">
+        <div id="scpi-simulateur" className="bg-slate-50 py-8 scroll-mt-36">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <details className="group rounded-2xl border border-slate-200 bg-white shadow-sm">
               <summary className="cursor-pointer list-none p-5 sm:p-6 flex items-center justify-between gap-4">
@@ -867,37 +920,27 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
         </div>
       </section>
 
-      <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-start gap-4">
-            <Shield className="w-8 h-8 text-yellow-400 flex-shrink-0 mt-1" />
-            <div>
-              <h3 className="text-xl font-bold mb-4">Informations importantes</h3>
-              <div className="space-y-3 text-gray-300 text-sm">
-                <p>
-                  <strong>Risques :</strong> L'investissement en SCPI présente des risques de perte en capital et de liquidité. Les performances passées ne préjugent pas des performances futures.
-                </p>
-                <p>
-                  <strong>Durée recommandée :</strong> 8 à 10 ans minimum. Les SCPI sont des placements de long terme.
-                </p>
-                <p>
-                  <strong>Frais :</strong> Frais de souscription : {landingData.frais_souscription} TTC.
-                  {realScpiData?.fraisGestionDetails?.kind === 'geographic_tiers' && (
-                    <span> Frais de gestion sur les loyers encaissés :
-                      {' '}{realScpiData.fraisGestionDetails.euro_zone_percent.toFixed(2).replace('.', ',')} % HT (zone euro) /
-                      {' '}{realScpiData.fraisGestionDetails.outside_euro_zone_percent.toFixed(2).replace('.', ',')} % HT (hors zone euro).
-                      Aucun taux moyen unique ne peut être indiqué.
-                    </span>
-                  )}{' '}Consultez la note d'information complète avant tout investissement.
-                </p>
-                <p>
-                  <strong>Conseiller :</strong> Eric Bellaiche - CIF enregistré à l'ORIAS sous le numéro 13001580.
-                </p>
+      <section id="scpi-documents" data-testid="scpi-documents-section" className="scroll-mt-36 bg-[#EAF5F0] py-10 text-slate-900">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-800">Traçabilité</p>
+          <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">Documents et sources officielles</h2>
+          <p className="mt-2 max-w-3xl text-sm text-slate-700">
+            Les périodes et les sources restent consultables. Chaque indicateur conserve sa propre date de référence.
+          </p>
+          {realScpiData ? (
+            <details data-testid="scpi-sources-details" className="mt-5 rounded-xl border border-emerald-900/15 bg-white shadow-sm">
+              <summary className="cursor-pointer px-5 py-4 text-sm font-bold text-slate-900">
+                Voir les références documentaires et dates de publication
+              </summary>
+              <div className="border-t border-slate-200 p-3 sm:p-5">
+                <ScpiPublicationQualityNotice scpi={realScpiData} />
               </div>
-            </div>
-          </div>
+            </details>
+          ) : (
+            <p className="mt-4 text-sm text-slate-700">Références détaillées non disponibles pour cette fiche.</p>
+          )}
         </div>
-      </div>
+      </section>
 
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
