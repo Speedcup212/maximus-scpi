@@ -49,7 +49,7 @@ const ScpiPgaIndicator: React.FC<ScpiPgaIndicatorProps> = ({ name, variant = 'ca
         </>
       ) : (
         <p className="mt-1 text-[10px] leading-snug text-amber-200">
-          PGA 2025 non intégrée : aucun chiffre estimé. Comparaison TD/PGA à vérifier.
+          PGA 2025 non intégrée : TD annuel masqué en attendant le couple TD/PGA documenté sur le même exercice.
         </p>
       )}
       {variant === 'radar' && (
