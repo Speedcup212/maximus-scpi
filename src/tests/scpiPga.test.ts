@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { OFFICIAL_PGA_2025 } from '../data/scpiPgaOfficial2025';
-import { formatPgaPercent, getVerifiedPga2025 } from '../utils/scpiPga';
+import { compareVerified2025Distribution, formatPgaPercent, getVerifiedPga2025 } from '../utils/scpiPga';
 
 describe('PGA annuelle ASPIM – source et période', () => {
   it('restitue les valeurs officielles du lot de 22 SCPI, sans les recalculer', () => {
@@ -50,6 +50,15 @@ describe('PGA annuelle ASPIM – source et période', () => {
       expect(trusted).toContain(new URL(record.sourceUrl).hostname);
       expect(Math.abs(record.pgaPct - record.distributionPct)).toBeLessThanOrEqual(100);
     }
+  });
+
+  it('classe les valeurs documentées avant les manquantes sans NaN', () => {
+    expect(compareVerified2025Distribution('SCPI inconnue A', 'SCPI inconnue B')).toBe(0);
+    expect(compareVerified2025Distribution('Iroko Zen', 'SCPI inconnue A')).toBe(-1);
+    expect(compareVerified2025Distribution('SCPI inconnue A', 'Iroko Zen')).toBe(1);
+    expect(compareVerified2025Distribution('Iroko Atlas', 'Iroko Zen')).toBeLessThan(0);
+    expect(compareVerified2025Distribution('Cœur d’Europe', 'SCPI inconnue')).toBe(-1);
+    expect(getVerifiedPga2025('Altixia Cadence XII')?.distributionPct).toBe(5.15);
   });
 
   it('formate les performances négatives sans masquer le signe', () => {
