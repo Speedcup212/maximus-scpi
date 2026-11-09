@@ -53,3 +53,17 @@ test('aucune altération des gates et données financières', () => {
   assert.match(page, /<ScpiPublicationQualityNotice scpi=\{realScpiData\}/);
   assert.match(page, /<ThematicSimulator/);
 });
+
+test('les liens profonds mobiles sont recalés après hydratation sans capter la navigation utilisateur', () => {
+  const navigation = read('src/components/ScpiDecisionHubPortal.tsx');
+  assert.match(navigation, /window\.setTimeout\(reconcileScroll, delay\)/);
+  assert.match(navigation, /\[120, 420, 1100, 2400\]/);
+  assert.match(navigation, /window\.location\.hash !== expectedHash/);
+  assert.match(navigation, /userInteracted \|\|/);
+  assert.match(navigation, /window\.addEventListener\('wheel', suspendAutoRestore/);
+  assert.match(navigation, /window\.addEventListener\('touchstart', suspendAutoRestore/);
+  assert.match(navigation, /window\.addEventListener\('pointerdown', suspendAutoRestore/);
+  assert.match(navigation, /cancelPendingCorrections\(\)/);
+  assert.match(navigation, /window\.removeEventListener\('load', restoreHash\)/);
+  assert.doesNotMatch(navigation, /setInterval\(/);
+});
