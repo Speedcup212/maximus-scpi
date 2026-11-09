@@ -222,4 +222,44 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
     sourceUrl: 'https://www.euryale-am.fr/wp-content/uploads/2026/01/BT_PIERVAL_SANTE_2025_T4_2026.pdf',
     sourceLabel: 'Euryale AM, Pierval Santé, bulletin T4 2025',
   },
+  'acces-valeur-pierre': {
+    year: 2025, pgaPct: 3.85, distributionPct: 3.85,
+    sourceUrl: 'https://reim.bnpparibas-am.com/fr-fr/produits/scpi/acces-valeur-pierre',
+    sourceLabel: 'BNP Paribas REIM, Accès Valeur Pierre 2025',
+  },
+  'accimmo-pierre': {
+    year: 2025, pgaPct: 4.77, distributionPct: 4.77,
+    sourceUrl: 'https://reim.bnpparibas-am.com/fr-fr/produits/scpi/accimmo-pierre',
+    sourceLabel: 'BNP Paribas REIM, Accimmo Pierre 2025',
+  },
+  'selectinvest-1': {
+    year: 2025, pgaPct: 4.44, distributionPct: 4.44,
+    sourceUrl: 'https://www.la-francaise.com/fr-fr/nos-solutions-pour-vous/nos-produits/product/Scpi/i9-selectinvest-1/',
+    sourceLabel: 'La Française, Sélectinvest 1 2025',
+  },
+  'lf-avenir-sante': {
+    year: 2025, pgaPct: 5.08, distributionPct: 5.08,
+    sourceUrl: 'https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=LF-Avenir-Sante&amcScpi=18149&code=Q1',
+    sourceLabel: 'La Française, LF Avenir Santé 2025',
+  },
+  'lf-europimmo': {
+    year: 2025, pgaPct: 4.63, distributionPct: 4.63,
+    sourceUrl: 'https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=LF-Europimmo&amcScpi=16849&code=D1',
+    sourceLabel: 'La Française, LF Europimmo 2025',
+  },
+  'epargne-fonciere': {
+    year: 2025, pgaPct: 4.86, distributionPct: 4.86,
+    sourceUrl: 'https://www.la-francaise.com/fr-ch/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=Epargne-Fonciere&amcScpi=16969&code=EE',
+    sourceLabel: 'La Française, Épargne Foncière 2025',
+  },
+  'lf-grand-paris-patrimoine': {
+    year: 2025, pgaPct: 4.66, distributionPct: 4.66,
+    sourceUrl: 'https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier.aspx',
+    sourceLabel: 'La Française, LF Grand Paris Patrimoine 2025',
+  },
+  'opportunite-immo': {
+    year: 2025, pgaPct: 5.68, distributionPct: 5.68,
+    sourceUrl: 'https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier/scpi.aspx?Scpi=LF-Opportunite-Immo',
+    sourceLabel: 'La Française, LF Opportunité Immo 2025',
+  },
 };
