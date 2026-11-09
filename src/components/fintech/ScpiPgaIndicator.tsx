@@ -20,7 +20,9 @@ const ScpiPgaIndicator: React.FC<ScpiPgaIndicatorProps> = ({ name, variant = 'ca
   return (
     <div
       data-testid="scpi-pga-2025"
-      data-pga-status={official ? 'issuer_verified' : 'not_verified'}
+      data-pga-status={official
+        ? (official.verificationMethod === 'calculated_from_official_indicators' ? 'source_calculated' : 'issuer_verified')
+        : (exception ? 'non_calculable' : 'not_verified')}
       className={compact
         ? 'mt-1 text-[10px] leading-snug text-slate-300'
         : 'rounded-lg border border-slate-600/70 bg-slate-900/30 px-3 py-2 text-xs text-slate-200'}
@@ -29,7 +31,7 @@ const ScpiPgaIndicator: React.FC<ScpiPgaIndicatorProps> = ({ name, variant = 'ca
         <div className={compact ? '' : 'flex items-center justify-between gap-2'}>
           <span className="font-semibold">PGA 2025</span>
           <span className={official ? (compact ? 'ml-2 text-base font-bold text-cyan-300' : 'ml-2 font-bold text-cyan-300') : 'ml-2 text-amber-300'}>
-            {official ? formatPgaPercent(official.pgaPct) : 'Non vérifiée'}
+            {official ? formatPgaPercent(official.pgaPct) : (exception ? 'Non calculable' : 'Non vérifiée')}
           </span>
         </div>
       )}
@@ -48,7 +50,10 @@ const ScpiPgaIndicator: React.FC<ScpiPgaIndicatorProps> = ({ name, variant = 'ca
               className="mt-1 inline-block text-[10px] underline underline-offset-2 text-cyan-300 hover:text-cyan-100"
               title={official.sourceLabel}
             >
-              Source officielle : {official.sourceLabel}
+              {official.verificationMethod === 'calculated_from_official_indicators'
+                ? 'PGA calculée depuis les données de la société de gestion : '
+                : 'Source officielle : '}
+              {official.sourceLabel}
             </a>
           )}
           {official.note && !compact && <p className="mt-1 text-[10px] text-amber-200">{official.note}</p>}
