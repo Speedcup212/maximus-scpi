@@ -234,5 +234,27 @@ class CandidateProofTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"PDF_PAGE_COUNT_ENGINE_DISAGREEMENT"):
                 proof.independent_poppler("source.pdf","Sofiboutique","2026-T2","quarterly_bulletin",6)
 
+    def test_verified_issuer_bundle_is_passed_to_tls_context_without_disabling_ssl(self):
+        import os
+        import tempfile
+        from unittest.mock import patch
+        url="https://www.sofidy.com/official.pdf"
+        with tempfile.NamedTemporaryFile(suffix=".pem") as ca:
+            with patch.dict(os.environ,{"SCPI_PUBLISHER_CA_BUNDLE":ca.name}):
+                with patch.object(proof,"public_host_addresses"):
+                    with patch.object(proof.ssl,"create_default_context",return_value=object()) as context:
+                        with patch.object(proof.urllib.request,"build_opener",side_effect=RuntimeError("STOP_BEFORE_NETWORK")) as opener:
+                            with self.assertRaisesRegex(RuntimeError,"STOP_BEFORE_NETWORK"):
+                                proof.download_official(url,["www.sofidy.com"])
+                            context.assert_called_once_with(cafile=ca.name)
+                            self.assertEqual(opener.call_count,1)
+                            self.assertEqual(opener.call_args.args[0].__class__.__name__,"NoRedirect")
+        with patch.dict(os.environ,{"SCPI_PUBLISHER_CA_BUNDLE":"/tmp/missing-verification-only-ca-XXXXXX.pem"}):
+            with patch.object(proof,"public_host_addresses"):
+                with patch.object(proof.urllib.request,"build_opener") as opener:
+                    with self.assertRaisesRegex(ValueError,"VERIFIED_CA_BUNDLE_NOT_FOUND"):
+                        proof.download_official(url,["www.sofidy.com"])
+                    opener.assert_not_called()
+
 if __name__=="__main__":
     unittest.main()
