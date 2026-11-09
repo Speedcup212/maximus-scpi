@@ -233,9 +233,11 @@ const AnalysisDetailModal: React.FC<AnalysisDetailModalProps> = ({ isOpen, onClo
                 </div>
                 <div className="mt-2 pt-2 border-t border-slate-600">
                   <div className="text-[10px] text-slate-500 leading-tight">
-                    {officialPga2025
+                    {officialPga2025?.distributionPct != null
                       ? `Taux de distribution brut 2025 inclus : ${officialPga2025.distributionPct.toFixed(2)} %. Avant fiscalité personnelle.`
-                      : 'PGA et taux de distribution annuel non affichés faute de couple 2025 vérifié.'}
+                      : officialPga2025
+                        ? 'SCPI de capitalisation : aucun taux de distribution publié pour 2025.'
+                        : 'PGA et taux de distribution annuel non affichés faute de données 2025 vérifiées.'}
                   </div>
                 </div>
                 <div className="mt-3"><ScpiPgaIndicator name={scpi.name} variant="source" /></div>
