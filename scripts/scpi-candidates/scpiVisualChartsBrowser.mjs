@@ -46,7 +46,8 @@ try {
     try {
       await page.setViewport({width,height:920,deviceScaleFactor:1});
       const response=await page.goto(origin+'/'+slug+'/',{waitUntil:'domcontentloaded',timeout:30000});
-      assert.equal(response?.status(),200, 'SCPI route HTTP: '+slug);
+      // 304 is an expected conditional revalidation when revisiting the same page at another width.
+      assert.ok([200,304].includes(response?.status()), 'SCPI route HTTP: '+slug+' ('+response?.status()+')');
       await page.waitForSelector('[data-testid="scpi-visual-analysis"]',{timeout:15000});
       await page.waitForSelector('#radar-scpi',{timeout:15000});
       await page.waitForSelector('#trajectoire-scpi',{timeout:20000});
