@@ -1,0 +1,49 @@
+name: MaximusSCPI - verified publisher proof to existing agents handoff
+
+on:
+  workflow_run:
+    workflows:
+      - 'MaximusSCPI - family PDF binary proof (not financial certification)'
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: maximus-source-proof-agent-handoff-main
+  cancel-in-progress: false
+
+jobs:
+  trigger-existing-controlled-audit:
+    if: >-
+      github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main' &&
+       (github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'schedule')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Dispatch existing OIDC-protected 20-SCPI audit, never grant publication
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner,repo}=context.repo;
+            const head=await github.rest.repos.getBranch({owner,repo,branch:'main'});
+            const commit=head.data.commit.sha;
+            if(context.eventName==='workflow_run'){
+              const upstream=context.payload.workflow_run;
+              if(upstream.head_sha!==commit){
+                core.notice('Skipping stale source proof '+upstream.head_sha+'; current main '+commit);
+                return;
+              }
+              if(upstream.conclusion!=='success'||upstream.head_branch!=='main'){
+                throw Error('Source proof not admissible for handoff');
+              }
+              core.notice('Source proof passed, run '+upstream.id+'; finance remains unaudited');
+            }
+            await github.rest.actions.createWorkflowDispatch({
+              owner,repo,workflow_id:'maximus-agent-parallel.yml',ref:'main'
+            });
+            core.notice('Dispatched existing CONTROL→SEARCH/DATA/ANALYST→QA OIDC flow; no financial GO');

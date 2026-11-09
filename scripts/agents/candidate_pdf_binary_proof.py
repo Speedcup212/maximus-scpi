@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import re
 import socket
+import ssl
 import subprocess
 import sys
 import urllib.error
@@ -40,7 +41,18 @@ def download_official(url,allowed_hosts):
         raise ValueError("UNAPPROVED_ISSUER_HOST")
     host=urlsplit(url).hostname
     public_host_addresses(host)
-    opener=urllib.request.build_opener(NoRedirect())
+    # Publishers can omit an intermediate CA. The only optional trust bundle is
+    # assembled by GitHub Actions after verifying the intermediate signature
+    # against the existing OS root CA store (never an unverified trust anchor).
+    bundle=os.environ.get("SCPI_PUBLISHER_CA_BUNDLE")
+    if bundle:
+        if not Path(bundle).is_file():
+            raise ValueError("VERIFIED_CA_BUNDLE_NOT_FOUND")
+        tls=ssl.create_default_context(cafile=bundle)
+    else:
+        tls=ssl.create_default_context()
+    opener=urllib.request.build_opener(NoRedirect(),
+        urllib.request.HTTPSHandler(context=tls))
     req=urllib.request.Request(url,headers={
         "User-Agent":"Mozilla/5.0 (compatible; MaximusSCPI-DocumentProof/1.0)",
         "Accept":"application/pdf"

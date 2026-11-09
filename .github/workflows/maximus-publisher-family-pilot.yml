@@ -8,6 +8,9 @@ on:
     paths:
       - '.github/workflows/maximus-publisher-family-pilot.yml'
       - 'scripts/agents/publisher_family_proof.py'
+      - 'scripts/agents/candidate_pdf_binary_proof.py'
+      - 'scripts/agents/candidate_pdf_binary_proof_test.py'
+      - 'scripts/agents/prepare_verified_sofidy_ca.sh'
       - 'scripts/agents/publisher_family_proof_test.py'
       - 'scripts/agents/publisher-families/**'
   pull_request:
@@ -15,6 +18,9 @@ on:
     paths:
       - '.github/workflows/maximus-publisher-family-pilot.yml'
       - 'scripts/agents/publisher_family_proof.py'
+      - 'scripts/agents/candidate_pdf_binary_proof.py'
+      - 'scripts/agents/candidate_pdf_binary_proof_test.py'
+      - 'scripts/agents/prepare_verified_sofidy_ca.sh'
       - 'scripts/agents/publisher_family_proof_test.py'
       - 'scripts/agents/publisher-families/**'
 
@@ -100,6 +106,43 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+  candidate-daily-tls-pr-probe:
+    needs: unit
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Verify issuer intermediate against pretrusted OS roots
+        run: bash scripts/agents/prepare_verified_sofidy_ca.sh
+      - name: Prove daily agent reader accepts two exact registered Sofiboutique originals
+        run: |
+          python scripts/agents/candidate_pdf_binary_proof.py \
+            --manifest scripts/agents/publisher-families/sofidy-independent-candidate-probe.json \
+            --out "$RUNNER_TEMP/sofidy-daily-agent-proof"
+      - name: Verify proof status and no financial admission
+        run: |
+          python -c 'import json,os,pathlib; x=json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"sofidy-daily-agent-proof/proof.json").read_text()); assert x["status"]=="verified" and len(x["documents"])==2 and all(y["status"]=="verified" and y["binary_hash_matches_registered"] and y["reader_engines"]==["MuPDF","Poppler"] and not y["financial_certified"] for y in x["documents"]) and x["financial_certified"] is False and x["deploy_allowed"] is False'
+      - name: Retain read-only daily candidate source proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sofidy-candidate-daily-tls-${{ github.run_id }}
+          path: ${{ runner.temp }}/sofidy-daily-agent-proof/proof.json
+          if-no-files-found: warn
+          retention-days: 7
   live:
     needs: unit
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
