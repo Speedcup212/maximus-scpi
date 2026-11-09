@@ -78,6 +78,15 @@ const ScpiDecisionHubPortal: React.FC<ScpiDecisionHubPortalProps> = ({
             }
           }
         }
+        // The last section cannot always reach the sticky threshold because
+        // the footer is shorter than the viewport. Keep Documents active at
+        // the bottom instead of incorrectly highlighting Risks & fees.
+        const docs = document.getElementById('scpi-documents');
+        const atBottom = window.scrollY + window.innerHeight >=
+          document.documentElement.scrollHeight - 24;
+        if (atBottom && docs && docs.getBoundingClientRect().top < window.innerHeight) {
+          closest = 'scpi-documents';
+        }
         setActive(closest);
       });
     };
@@ -91,10 +100,38 @@ const ScpiDecisionHubPortal: React.FC<ScpiDecisionHubPortalProps> = ({
     };
   }, [scpiSlug]);
 
+  useEffect(() => {
+    let frame = 0;
+    // On a directly opened /scpi/#scpi-documents URL the browser first parses
+    // the static shell. Its native anchor jump fires before React has mounted
+    // the target sections. Restore the deep link AFTER the hydrated DOM exists.
+    const restoreHash = () => {
+      const id = decodeURIComponent(window.location.hash.slice(1));
+      const matchingSection = SECTIONS.find(section => section.id === id);
+      if (!matchingSection) return;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        if (scrollToSection(matchingSection.id, 'auto')) {
+          setActive(matchingSection.id);
+        }
+      });
+    };
+    restoreHash();
+    window.addEventListener('hashchange', restoreHash);
+    window.addEventListener('popstate', restoreHash);
+    window.addEventListener('load', restoreHash);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('hashchange', restoreHash);
+      window.removeEventListener('popstate', restoreHash);
+      window.removeEventListener('load', restoreHash);
+    };
+  }, [scpiSlug]);
+
   const navigate = (event: React.MouseEvent<HTMLAnchorElement>, id: SectionId) => {
     if (!document.getElementById(id)) return;
     event.preventDefault();
-    window.history.replaceState(null, '', window.location.pathname + window.location.search + '#' + id);
+    window.history.pushState(null, '', window.location.pathname + window.location.search + '#' + id);
     scrollToSection(id);
     setActive(id);
   };
