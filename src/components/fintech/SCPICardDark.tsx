@@ -171,7 +171,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
             <div className="flex items-baseline gap-2 flex-wrap">
               <p className="text-3xl font-bold">{officialPga2025 ? `${officialPga2025.pgaPct.toFixed(2)}%` : 'Non vérifiée'}</p>
             </div>
-            {officialPga2025 && (
+            {officialPga2025?.distributionPct != null && (
               <p className="mt-1 text-xs text-white/90">Taux de distribution brut 2025 inclus : {officialPga2025.distributionPct.toFixed(2)} %</p>
             )}
             {(scpi.dataPeriod || scpi.dataDate) && (
