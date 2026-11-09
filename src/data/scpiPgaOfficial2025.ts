@@ -277,4 +277,9 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
     sourceUrl: 'https://www.fiducial-gerance.fr/investir-en-scpi/nos-scpi/ficommerce-proximite',
     sourceLabel: 'Fiducial Gérance, Ficommerce Proximité 2025',
   },
+  'selectipierre-2': {
+    year: 2025, pgaPct: 4.14, distributionPct: 4.14,
+    sourceUrl: 'https://www.fiducial-gerance.fr/investir-en-scpi/nos-scpi/selectipierre-2-paris',
+    sourceLabel: 'Fiducial Gérance, Sélectipierre 2 Paris 2025',
+  },
 };
