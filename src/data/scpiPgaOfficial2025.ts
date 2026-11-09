@@ -6,7 +6,8 @@
 export interface OfficialPga2025 {
   year: 2025;
   pgaPct: number;
-  distributionPct: number;
+  /** Null when the manager reports a PGA but no TD for this capitalization SCPI. */
+  distributionPct: number | null;
   sourceUrl: string;
   sourceLabel: string;
   note?: string;
