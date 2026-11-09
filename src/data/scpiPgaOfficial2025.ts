@@ -11,6 +11,14 @@ export interface OfficialPga2025 {
   sourceUrl: string;
   sourceLabel: string;
   note?: string;
+  /** Source-reviewed derivation is distinguished from PGA explicitly reported by issuer. */
+  verificationMethod?: 'issuer_reported' | 'calculated_from_official_indicators';
+  /** Required and checked when verificationMethod = calculated_from_official_indicators. */
+  calculationEvidence?: {
+    grossDividendPerShare: number;
+    startingSubscriptionPrice: number;
+    followingSubscriptionPrice: number;
+  };
 }
 
 export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025>>> = {
@@ -368,19 +376,26 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
     sourceLabel: 'La Française REM, rapport annuel Crédit Mutuel Pierre 1, exercice 2025, p. 4',
     note: 'La baisse de 265 € à 215 € par part est intervenue au 1er janvier 2025 ; elle relève de la PGA 2024, non de la PGA 2025. Ne pas mélanger les millésimes.',
   },
+  'grand-paris-residentiel': {
+    year: 2025, pgaPct: 0.00, distributionPct: 0.00,
+    sourceUrl: 'https://www.inter-gestion.com/corpo/scpi-gerees/grand-paris-residentiels',
+    sourceLabel: 'Inter Gestion REIM, Grand Paris Résidentiels : rapport annuel 2025 et bulletins 2025/2026',
+    verificationMethod: 'calculated_from_official_indicators',
+    calculationEvidence: {
+      grossDividendPerShare: 0,
+      startingSubscriptionPrice: 200,
+      followingSubscriptionPrice: 200,
+    },
+    note: 'PGA 2025 de 0,00 % CALCULÉE selon la formule ASPIM à partir du dividende effectivement nul et du prix de souscription de 200 € inchangé du 01/01/2025 au 01/01/2026. Ne pas présenter comme une PGA explicitement publiée par la société de gestion.',
+  },
 };
 
 // Exceptions documentaires : le statut est connu, la PGA ne l'est pas.
 // Aucune valeur 0, aucune projection ou conversion de rendement cible.
 export const PGA_2025_DOCUMENTARY_EXCEPTIONS = {
-  'grand-paris-residentiel': {
-    status: 'not_documented' as const,
-    reason: 'PGA 2025 non identifiée dans les documents officiellement accessibles ; vérifier le rapport annuel et le bulletin S2 2025 sans extrapolation.',
-    sourceUrl: 'https://www.inter-gestion.com/corpo/scpi-gerees/grand-paris-residentiels',
-  },
   'remake-uk-2025': {
     status: 'first_exercise_not_comparable' as const,
-    reason: 'Premier exercice 2025 écourté pour une SCPI millésimée à capital fixe : aucune PGA 2025 officielle comparable confirmée ; les objectifs de distribution ne sont pas des performances réalisées.',
-    sourceUrl: 'https://www.remake.fr/remake-uk-2025',
+    reason: 'SCPI à capital fixe créée en 2025 : le prix acquéreur moyen de 2024 nécessaire au calcul ASPIM de la PGA 2025 n’existe pas. Le rapport annuel constate 90,90 € bruts distribués par part sur le premier exercice, non annualisé, mais ne publie aucune PGA 2025. Ne pas substituer le taux de distribution ou le TRI cible à la PGA.',
+    sourceUrl: 'https://www.remake.fr/telecharger/remake-uk-2025/rapport-annuel/62',
   },
 } as const;
