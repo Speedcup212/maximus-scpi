@@ -106,7 +106,12 @@ const ScpiDecisionHubPortal: React.FC<ScpiDecisionHubPortalProps> = ({
     // the static shell. Its native anchor jump fires before React has mounted
     // the target sections. Restore the deep link AFTER the hydrated DOM exists.
     const restoreHash = () => {
-      const id = decodeURIComponent(window.location.hash.slice(1));
+      let id: string;
+      try {
+        id = decodeURIComponent(window.location.hash.slice(1));
+      } catch {
+        return; // Malformed, user-controlled hash must not crash the navigation.
+      }
       const matchingSection = SECTIONS.find(section => section.id === id);
       if (!matchingSection) return;
       cancelAnimationFrame(frame);
