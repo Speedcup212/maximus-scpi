@@ -83,8 +83,8 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelec
       </div>
       <div>
         <div className="flex flex-col gap-0.5">
-          <div className="text-base font-bold text-emerald-400">{(officialPga2025?.distributionPct ?? scpi.yield).toFixed(2)}%</div>
-          <div className="text-xs text-slate-500">Taux de distribution brut{officialPga2025 ? ' 2025' : ''}</div>
+          <div className="text-base font-bold text-emerald-400">{officialPga2025 ? `${officialPga2025.distributionPct.toFixed(2)}%` : 'Non affiché'}</div>
+          <div className="text-xs text-slate-500">Taux de distribution brut 2025</div>
           <ScpiPgaIndicator name={scpi.name} variant="row" />
         </div>
       </div>
