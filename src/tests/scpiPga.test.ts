@@ -3,8 +3,8 @@ import { OFFICIAL_PGA_2025 } from '../data/scpiPgaOfficial2025';
 import { compareVerified2025Distribution, formatPgaPercent, getVerifiedPga2025 } from '../utils/scpiPga';
 
 describe('PGA annuelle ASPIM – source et période', () => {
-  it('restitue les valeurs officielles du lot de 59 SCPI, sans les recalculer', () => {
-    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(59);
+  it('restitue les valeurs officielles du lot de 63 SCPI, sans les recalculer', () => {
+    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(63);
     expect(getVerifiedPga2025('Iroko Zen')?.pgaPct).toBe(8.13);
     expect(getVerifiedPga2025('Iroko Zen')?.distributionPct).toBe(7.14);
     expect(getVerifiedPga2025('CORUM USA')?.pgaPct).toBe(7.70);
@@ -20,7 +20,7 @@ describe('PGA annuelle ASPIM – source et période', () => {
     for (const record of Object.values(OFFICIAL_PGA_2025)) {
       expect(record.year).toBe(2025);
       expect(Number.isFinite(record.pgaPct)).toBe(true);
-      expect(Number.isFinite(record.distributionPct)).toBe(true);
+      expect(record.distributionPct === null || Number.isFinite(record.distributionPct)).toBe(true);
       expect(record.sourceUrl).toMatch(/^https:\/\//);
     }
   });
@@ -48,12 +48,15 @@ describe('PGA annuelle ASPIM – source et période', () => {
       'reim.bnpparibas-am.com', 'www.la-francaise.com',
       'www.altarea-im.com', 'www.fiducial-gerance.fr', 'www.normacapital.fr',
       'fr.swisslife-am.com', 'www.consultim-am.com', 'www.novaxia-investissement.fr', 'theoreim.com',
+      'kyaneosam.com', 'www.groupemagellim.com', 'www.urban-coeurcommerce.com', 'www.praemiareim.fr',
     ];
     for (const [slug, record] of Object.entries(OFFICIAL_PGA_2025)) {
       expect(allowed.has(slug)).toBe(true);
       expect(record.sourceLabel.length).toBeGreaterThan(5);
       expect(trusted).toContain(new URL(record.sourceUrl).hostname);
-      expect(Math.abs(record.pgaPct - record.distributionPct)).toBeLessThanOrEqual(100);
+      if (record.distributionPct !== null) {
+        expect(Math.abs(record.pgaPct - record.distributionPct)).toBeLessThanOrEqual(100);
+      }
     }
   });
 
@@ -109,6 +112,18 @@ describe('PGA annuelle ASPIM – source et période', () => {
     expect(getVerifiedPga2025('Novaxia NEO')?.pgaPct).toBe(5.50);
     expect(getVerifiedPga2025('LOG IN')?.pgaPct).toBe(8.21);
     expect(getVerifiedPga2025('LOG IN')?.distributionPct).toBe(6.21);
+  });
+
+  it('conserve les PGA 2025 sourcées, y compris quand le TD est non applicable', () => {
+    expect(getVerifiedPga2025('Kyaneos Pierre')?.pgaPct).toBe(5.25);
+    expect(getVerifiedPga2025('Kyaneos Pierre')?.distributionPct).toBe(4.35);
+    expect(getVerifiedPga2025('Foncière des Praticiens')?.pgaPct).toBe(5.50);
+    expect(getVerifiedPga2025('Urban Cœur de Commerce')?.pgaPct).toBe(6.30);
+    expect(getVerifiedPga2025('Urban Cœur de Commerce')?.distributionPct).toBe(5.30);
+    expect(getVerifiedPga2025('Patrimmo Croissance Impact')?.pgaPct).toBe(-7.68);
+    expect(getVerifiedPga2025('Patrimmo Croissance Impact')?.distributionPct).toBeNull();
+    expect(compareVerified2025Distribution('Patrimmo Croissance Impact', 'Iroko Zen')).toBe(1);
+    expect(compareVerified2025Distribution('Patrimmo Croissance Impact', 'SCPI inconnue')).toBe(0);
   });
 
   it('classe les valeurs documentées avant les manquantes sans NaN', () => {
