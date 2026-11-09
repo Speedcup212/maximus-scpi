@@ -3,8 +3,8 @@ import { OFFICIAL_PGA_2025 } from '../data/scpiPgaOfficial2025';
 import { compareVerified2025Distribution, formatPgaPercent, getVerifiedPga2025 } from '../utils/scpiPga';
 
 describe('PGA annuelle ASPIM – source et période', () => {
-  it('restitue les valeurs officielles du lot de 55 SCPI, sans les recalculer', () => {
-    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(55);
+  it('restitue les valeurs officielles du lot de 59 SCPI, sans les recalculer', () => {
+    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(59);
     expect(getVerifiedPga2025('Iroko Zen')?.pgaPct).toBe(8.13);
     expect(getVerifiedPga2025('Iroko Zen')?.distributionPct).toBe(7.14);
     expect(getVerifiedPga2025('CORUM USA')?.pgaPct).toBe(7.70);
@@ -47,6 +47,7 @@ describe('PGA annuelle ASPIM – source et période', () => {
       'www.sogenial.fr', 'atream.com', 'edr-europa.com', 'www.euryale-am.fr',
       'reim.bnpparibas-am.com', 'www.la-francaise.com',
       'www.altarea-im.com', 'www.fiducial-gerance.fr', 'www.normacapital.fr',
+      'fr.swisslife-am.com', 'www.consultim-am.com', 'www.novaxia-investissement.fr', 'theoreim.com',
     ];
     for (const [slug, record] of Object.entries(OFFICIAL_PGA_2025)) {
       expect(allowed.has(slug)).toBe(true);
@@ -98,6 +99,16 @@ describe('PGA annuelle ASPIM – source et période', () => {
     expect(getVerifiedPga2025('NCap Régions')?.distributionPct).toBe(5.72);
     expect(getVerifiedPga2025('NCap Education Santé')?.distributionPct).toBe(4.52);
     expect(getVerifiedPga2025('NCap Continent')?.pgaPct).toBe(7.10);
+  });
+
+  it('prend les pertes de prix en compte et vérifie les quatre sources additionnelles', () => {
+    expect(getVerifiedPga2025('ESG Pierre Capitale')?.pgaPct).toBe(-3.24);
+    expect(getVerifiedPga2025('ESG Pierre Capitale')?.distributionPct).toBe(5.05);
+    expect(getVerifiedPga2025('Optimale')?.pgaPct).toBe(8.50);
+    expect(getVerifiedPga2025('Optimale')?.distributionPct).toBe(6.50);
+    expect(getVerifiedPga2025('Novaxia NEO')?.pgaPct).toBe(5.50);
+    expect(getVerifiedPga2025('LOG IN')?.pgaPct).toBe(8.21);
+    expect(getVerifiedPga2025('LOG IN')?.distributionPct).toBe(6.21);
   });
 
   it('classe les valeurs documentées avant les manquantes sans NaN', () => {
