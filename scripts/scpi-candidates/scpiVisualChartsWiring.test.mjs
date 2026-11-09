@@ -17,6 +17,8 @@ test('pages publiques et vues secondaires utilisent le composant commun', () => 
   const legacyLanding = read('src/components/ScpiLandingPage.tsx');
   const exampleLanding = read('src/components/ScpiExamplePage.tsx');
   const staticApp = read('src/ScpiApp.tsx');
+  assert.match(publicPage, /import ScpiVisualAnalysis from '\.\/ScpiVisualAnalysis';/);
+  assert.match(detailPage, /import ScpiVisualAnalysis from '\.\/ScpiVisualAnalysis';/);
   assert.match(publicPage, /<ScpiVisualAnalysis\s+scpi=\{realScpiData\}/);
   assert.match(detailPage, /<ScpiVisualAnalysis scpi=\{scpi\}/);
   assert.match(legacyLanding, /<ScpiVisualAnalysis/);
