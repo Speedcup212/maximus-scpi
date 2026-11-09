@@ -1,5 +1,5 @@
 import React from 'react';
-import { getVerifiedPga2025, formatPgaPercent } from '../../utils/scpiPga';
+import { getVerifiedPga2025, getPgaDocumentaryException, formatPgaPercent } from '../../utils/scpiPga';
 
 type Variant = 'card' | 'row' | 'detail' | 'radar' | 'source';
 
@@ -14,6 +14,7 @@ interface ScpiPgaIndicatorProps {
  */
 const ScpiPgaIndicator: React.FC<ScpiPgaIndicatorProps> = ({ name, variant = 'card' }) => {
   const official = getVerifiedPga2025(name);
+  const exception = !official ? getPgaDocumentaryException(name) : null;
   const compact = variant === 'row';
   const sourceOnly = variant === 'source';
   return (
@@ -54,8 +55,14 @@ const ScpiPgaIndicator: React.FC<ScpiPgaIndicatorProps> = ({ name, variant = 'ca
         </>
       ) : (
         <p className="mt-1 text-[10px] leading-snug text-amber-200">
-          PGA 2025 non intégrée : TD annuel masqué en attendant le couple TD/PGA documenté sur le même exercice.
+          {exception?.reason ?? 'PGA 2025 non intégrée : TD annuel masqué en attendant le couple TD/PGA documenté sur le même exercice.'}
         </p>
+      )}
+      {!official && exception && !compact && (
+        <a href={exception.sourceUrl} target="_blank" rel="noopener noreferrer"
+          className="mt-1 inline-block text-[10px] underline underline-offset-2 text-cyan-300 hover:text-cyan-100">
+          Voir les documents du gestionnaire
+        </a>
       )}
       {variant === 'radar' && (
         <p className="mt-1 text-[10px] text-slate-400">
