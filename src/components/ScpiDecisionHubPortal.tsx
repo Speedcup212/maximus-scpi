@@ -102,34 +102,68 @@ const ScpiDecisionHubPortal: React.FC<ScpiDecisionHubPortalProps> = ({
 
   useEffect(() => {
     let frame = 0;
-    // On a directly opened /scpi/#scpi-documents URL the browser first parses
-    // the static shell. Its native anchor jump fires before React has mounted
-    // the target sections. Restore the deep link AFTER the hydrated DOM exists.
+    const pendingCorrections: number[] = [];
+    let userInteracted = false;
+
+    const cancelPendingCorrections = () => {
+      for (const timer of pendingCorrections) window.clearTimeout(timer);
+      pendingCorrections.length = 0;
+    };
+    // Never fight a user's intentional scroll/click after the initial deep link.
+    const suspendAutoRestore = () => {
+      userInteracted = true;
+      cancelPendingCorrections();
+    };
+    // On a directly opened /scpi/#scpi-documents URL the browser parses
+    // the static shell before React mounts all sections. In addition, images
+    // and asynchronously mounted blocks can shift the document after hydration.
     const restoreHash = () => {
       let id: string;
       try {
         id = decodeURIComponent(window.location.hash.slice(1));
       } catch {
-        return; // Malformed, user-controlled hash must not crash the navigation.
+        return; // Malformed, user-controlled hash must not crash navigation.
       }
       const matchingSection = SECTIONS.find(section => section.id === id);
       if (!matchingSection) return;
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
+      cancelPendingCorrections();
+      userInteracted = false;
+      const expectedHash = '#' + matchingSection.id;
+      const reconcileScroll = () => {
+        if (userInteracted || window.location.hash !== expectedHash) return;
         if (scrollToSection(matchingSection.id, 'auto')) {
           setActive(matchingSection.id);
         }
+      };
+      frame = requestAnimationFrame(() => {
+        reconcileScroll();
+        // Bounded re-alignment on late image/font/chart layout changes, not
+        // an infinite polling loop or a replacement for the browser QA gate.
+        for (const delay of [120, 420, 1100, 2400]) {
+          pendingCorrections.push(window.setTimeout(reconcileScroll, delay));
+        }
       });
     };
+
     restoreHash();
     window.addEventListener('hashchange', restoreHash);
     window.addEventListener('popstate', restoreHash);
     window.addEventListener('load', restoreHash);
+    window.addEventListener('wheel', suspendAutoRestore, { passive: true });
+    window.addEventListener('touchstart', suspendAutoRestore, { passive: true });
+    window.addEventListener('pointerdown', suspendAutoRestore, { passive: true });
+    window.addEventListener('keydown', suspendAutoRestore);
     return () => {
       cancelAnimationFrame(frame);
+      cancelPendingCorrections();
       window.removeEventListener('hashchange', restoreHash);
       window.removeEventListener('popstate', restoreHash);
       window.removeEventListener('load', restoreHash);
+      window.removeEventListener('wheel', suspendAutoRestore);
+      window.removeEventListener('touchstart', suspendAutoRestore);
+      window.removeEventListener('pointerdown', suspendAutoRestore);
+      window.removeEventListener('keydown', suspendAutoRestore);
     };
   }, [scpiSlug]);
 
