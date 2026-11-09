@@ -262,4 +262,19 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
     sourceUrl: 'https://www.la-francaise.com/fr-fr/investisseur/nos-fonds/actifs-non-cotes/immobilier.aspx',
     sourceLabel: 'La Française, LF Opportunité Immo 2025',
   },
+  'alta-convictions': {
+    year: 2025, pgaPct: 7.55, distributionPct: 6.57,
+    sourceUrl: 'https://www.altarea-im.com/wp-content/uploads/2026/02/260112_ALTA_BUL_TRIMESTRIEL_T4_25_PPP_WEB.pdf',
+    sourceLabel: 'Altarea IM, Alta Convictions bulletin T4 2025',
+  },
+  'buroboutic-metropoles': {
+    year: 2025, pgaPct: 5.10, distributionPct: 5.10,
+    sourceUrl: 'https://www.fiducial-gerance.fr/content/download/1886/file/Buroboutic%20M%C3%A9tropoles%20-%20Rapport%20annuel%202025.pdf?version=3',
+    sourceLabel: 'Fiducial Gérance, Buroboutic Métropoles rapport annuel 2025',
+  },
+  'ficommerce-proximite': {
+    year: 2025, pgaPct: 5.10, distributionPct: 5.10,
+    sourceUrl: 'https://www.fiducial-gerance.fr/investir-en-scpi/nos-scpi/ficommerce-proximite',
+    sourceLabel: 'Fiducial Gérance, Ficommerce Proximité 2025',
+  },
 };
