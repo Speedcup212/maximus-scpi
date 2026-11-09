@@ -147,3 +147,23 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Catalogue des réparations sans risque de falsification : recalcul de capitalisation **affichée** M€ à partir des valeurs officielles EUR et de l'égalité exacte prix x parts, après SHA et période vérifiés ; ordre chronologique des données trimestrielles sans altérer leurs valeurs ; réessai réseau borné sur erreurs transitoires de téléchargement PDF, TLS toujours activé.
 - Toutes les autres anomalies (statuts à jour, contre-preuves contradictoires, QA indépendantes, document manquant, fuite de comparaison historique, contraintes de sécurité) sont inscrites comme blocages à preuve et jamais auto-approuvées.
 - Workflow quotidien / à la demande `.github/workflows/scpi-auto-remediation.yml`, ouvertures de PR de correction et issue unique de blocages ; pas de merge, Supabase public, déploiement ni validation fabriquée. Tests de régression dans CI de préflight.
+
+## RECOVERY-200 — Intégrité industrielle frais/T3 et préparation 225 (09/11/2026)
+
+Mission explicite Eric : A frais réglementaires, B actualisation T3 par métrique,
+C trois états publics, D registre canonique et admission par lots.
+Branche isolée depuis la version courante : `fix/recovery-200-industrial-data-integrity`.
+L'ancienne branche Recovery n'est pas utilisée comme base afin de ne pas réintroduire un état antérieur du produit.
+
+Périmètre de cette première correction : `scpiFeeEvidence.mjs`, synchronisation du
+catalogue, fusion live, transformateur/scoring, tests et workflow ciblés ; outils
+de contrôle en lecture seule ; exports de données livrés séparément en privé.
+Aucune migration, aucune écriture financière, aucune admission ni publication.
+Les taux sans preuve HT/TTC concordante ne remplacent plus le catalogue local ;
+les zéros explicites sont préservés et les inconnus n'obtiennent plus le bonus zéro frais.
+Les contrats `verified/partial/blocked` et le registre sont préparés et testés,
+mais le nouveau statut n'est PAS encore raccordé à l'affichage public.
+
+État : EN COURS ; cette PR ne clôture pas la mission A–D.
+Les frais documentaires, promotions T3, validation navigateur des parcours,
+CI distante et contrôle post-déploiement restent requis. Aucun export Supabase joint au dépôt.

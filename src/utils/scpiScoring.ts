@@ -140,10 +140,10 @@ function scoreRendement(scpi: ScpiInput, allRendements: number[], audit: string[
   }
   const p = percentRank(allRendements, r);
   let score = 40 * p;
-  const fg = Number(scpi.frais_gestion) || 0;
-  const malus = Math.max(fg - 10, 0) * 0.5;
+  const fg = scpi.frais_gestion == null ? null : Number(scpi.frais_gestion);
+  const malus = Math.max((fg ?? 10) - 10, 0) * 0.5;
   score -= malus;
-  const fs = Number(scpi.frais_souscription) || 0;
+  const fs = scpi.frais_souscription == null ? null : Number(scpi.frais_souscription);
   if (fs === 0) score += 1;
 
   audit.push(`Rendement p=${p.toFixed(2)} → 40*p=${(40*p).toFixed(2)} ; frais_gestion=${fg} ⇒ −${malus.toFixed(2)} ; frais_souscription=${fs} ⇒ ${fs===0?'+1':'0'}`);

@@ -1,3 +1,4 @@
+import { selectProvenFee } from '../src/utils/scpiFeeEvidence.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
@@ -157,6 +158,10 @@ for (const scpi of catalog) {
     delete scpi.maximus_prix_retrait_definition;
   }
   assign(scpi, 'Valeur de réalisation (€)', row.valeur_realisation);
+  const previousFeeProvenance = {
+    frais_souscription: scpi.maximus_metric_provenance?.frais_souscription,
+    frais_gestion: scpi.maximus_metric_provenance?.frais_gestion,
+  };
   assign(scpi, 'maximus_metric_provenance', row.metric_provenance);
   assign(scpi, 'maximus_valeur_realisation_reference_date', row.metric_provenance?.valeur_realisation?.reference_date);
   assign(scpi, 'maximus_valeur_realisation_source_url', row.metric_provenance?.valeur_realisation?.source_url);
@@ -164,8 +169,17 @@ for (const scpi of catalog) {
   assign(scpi, 'maximus_walb_reference_date', row.metric_provenance?.walb?.reference_date);
   assign(scpi, 'maximus_walb_source_url', row.metric_provenance?.walb?.source_url);
 
-  assign(scpi, 'Frais de souscription (TTC/%)', row.frais_souscription);
-  assign(scpi, 'Frais de gestion (HT/%)', row.frais_gestion);
+  for (const [metric, label, tax] of [
+    ['frais_souscription', 'Frais de souscription (TTC/%)', 'TTC'],
+    ['frais_gestion', 'Frais de gestion (HT/%)', 'HT'],
+  ]) {
+    const selected = selectProvenFee(row[metric], row.metric_provenance?.[metric], tax,
+      scpi[label], previousFeeProvenance[metric]);
+    if (selected.applied) {
+      scpi[label] = selected.value;
+    }
+    scpi.maximus_metric_provenance = { ...scpi.maximus_metric_provenance, [metric]: selected.proof };
+  }
   assign(scpi, 'Endettement (%)', row.endettement);
   assign(scpi, 'Délai de jouissance (mois)', row.delai_jouissance);
   assign(scpi, 'WALT', row.walt);
