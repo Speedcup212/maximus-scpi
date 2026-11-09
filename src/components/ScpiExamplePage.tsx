@@ -9,6 +9,8 @@ import Header from './Header';
 import { submitLead } from '../utils/leadSubmitter';
 import { scpiData as scpiDataArray } from '../data/scpiData';
 import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from '../utils/scpiDiscountPremium';
+import { createSlugFromName } from '../utils/scpiSlugMapper';
+import ScpiVisualAnalysis from './ScpiVisualAnalysis';
 
 interface ScpiExamplePageProps {
   onNavigateHome?: () => void;
@@ -798,6 +800,11 @@ const ScpiExamplePage: React.FC<ScpiExamplePageProps> = ({
           </div>
         </div>
       </div>
+
+      <ScpiVisualAnalysis
+        scpi={scpiDataArray.find((item) => createSlugFromName(item.name) === 'comete')}
+        scpiSlug="comete"
+      />
 
       {/* CTA Final */}
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 py-16">
