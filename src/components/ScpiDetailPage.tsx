@@ -19,6 +19,7 @@ import PieChart from './PieChart';
 import SEOHead from './SEOHead';
 import ScpiPublicationQualityNotice from './ScpiPublicationQualityNotice';
 import ScpiOfficialFacts from './ScpiOfficialFacts';
+import ScpiVisualAnalysis from './ScpiVisualAnalysis';
 import { getScpiDatedDiscount } from '../utils/scpiDatedDiscount';
 import {isFeatureDisabled,isPublishedWithReserves} from '../utils/scpiPublicationQuality';
 
