@@ -51,7 +51,25 @@ try {
       await page.waitForSelector('[data-testid="scpi-visual-analysis"]',{timeout:15000});
       await page.waitForSelector('#radar-scpi',{timeout:15000});
       await page.waitForSelector('#trajectoire-scpi',{timeout:20000});
+      await page.waitForSelector('[data-testid="scpi-sticky-navigation"]',{timeout:15000});
       const observed=await page.evaluate(()=>{
+        const ids=['scpi-synthese','radar-scpi','trajectoire-scpi','scpi-patrimoine','scpi-risques-frais','scpi-documents'];
+        const nav=document.querySelector('[data-testid="scpi-sticky-navigation"]');
+        const navLinks=nav?.querySelectorAll('nav[aria-label="Navigation dans la fiche SCPI"] a')||[];
+        const allAnchorsPresent=ids.every(id=>document.querySelectorAll('#'+id).length===1);
+        const source=document.querySelector('[data-testid="scpi-source-references"]');
+        const docs=document.getElementById('scpi-documents');
+        const details=document.querySelector('[data-testid="scpi-sources-details"]');
+        const main=document.getElementById('scpi-synthese');
+        const navigable={navCount:document.querySelectorAll('[data-testid="scpi-sticky-navigation"]').length,
+          navLinks:navLinks.length,
+          labels:Array.from(navLinks).map(x=>x.textContent?.trim()),
+          allAnchorsPresent,
+          navPosition:nav?getComputedStyle(nav).position:null,
+          sourceInDocs:!source||Boolean(source.closest('#scpi-documents')),
+          sourcesCollapsed:!details || !details.open,
+          sourcesAfterTitle:!source || Boolean(main && docs && (main.compareDocumentPosition(docs) & Node.DOCUMENT_POSITION_FOLLOWING)),
+        };
         const radar=document.getElementById('radar-scpi');
         const trajectory=document.getElementById('trajectoire-scpi');
         const radarVisible=!!radar && radar.getBoundingClientRect().height>30;
@@ -63,9 +81,25 @@ try {
           trajectoryCount:document.querySelectorAll('#trajectoire-scpi').length,
           radarVisible,trajectoryVisible,fallback,
           bg:trajectory?getComputedStyle(trajectory).backgroundColor:null,
-          headingColor:trajectory?.querySelector('h3')?getComputedStyle(trajectory.querySelector('h3')).color:null
+          headingColor:trajectory?.querySelector('h3')?getComputedStyle(trajectory.querySelector('h3')).color:null,
+          ...navigable
         };
       });
+      assert.equal(observed.navCount,1,'Duplicate SCPI navigation: '+slug);
+      assert.equal(observed.navLinks,6,'SCPI menu must have six tabs: '+slug);
+      assert.deepEqual(observed.labels,['Synthèse','Radar','Trajectoire','Patrimoine','Risques & frais','Documents']);
+      assert.ok(observed.allAnchorsPresent,'Missing or duplicated section anchor: '+slug);
+      assert.equal(observed.navPosition,'sticky','Navigation must be sticky: '+slug);
+      assert.ok(observed.sourceInDocs && observed.sourcesAfterTitle && observed.sourcesCollapsed,
+        'SCPI official source panel must be under Documents, not above hero: '+slug);
+      await page.evaluate(()=>{window.scrollTo({top:Math.min(document.body.scrollHeight/2,document.body.scrollHeight-1000),behavior:'instant'});});
+      await page.waitForFunction(()=> {
+        const nav=document.querySelector('[data-testid="scpi-sticky-navigation"]');
+        return nav && Math.abs(nav.getBoundingClientRect().top-64)<=4;
+      },{timeout:5000});
+      await page.click('nav[aria-label="Navigation dans la fiche SCPI"] a[href="#scpi-documents"]');
+      await page.waitForFunction(()=>window.location.hash==='#scpi-documents',{timeout:5000});
+      assert.equal(await page.evaluate(()=>window.location.hash),'#scpi-documents');
       assert.equal(observed.radarCount,1,'Duplicate Radar: '+slug);
       assert.equal(observed.trajectoryCount,1,'Duplicate Trajectory: '+slug);
       assert.ok(observed.radarVisible,'Hidden Radar: '+slug);

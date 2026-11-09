@@ -1,7 +1,6 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import OptimizedScpiLandingPage from './components/OptimizedScpiLandingPage';
 import ScpiQuarterlyAnalysis from './components/ScpiQuarterlyAnalysis';
-import ScpiDecisionHubPortal from './components/ScpiDecisionHubPortal';
 import ScpiPageVisualPolish from './components/ScpiPageVisualPolish';
 
 const RdvModal = lazy(() => import('./components/RdvModal'));
@@ -47,7 +46,6 @@ const ScpiApp: React.FC = () => {
       />
 
       <ScpiPageVisualPolish scpiSlug={scpiKey} />
-      <ScpiDecisionHubPortal scpiSlug={scpiKey} />
       <ScpiQuarterlyAnalysis scpiKey={scpiKey} />
 
       <Suspense fallback={null}>

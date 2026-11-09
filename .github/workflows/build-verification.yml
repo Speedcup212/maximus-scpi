@@ -143,6 +143,9 @@ jobs:
       - name: Radar and Trajectory mounted on all SCPI page templates
         run: node --test scripts/scpi-candidates/scpiVisualChartsWiring.test.mjs
 
+      - name: SCPI sticky navigation and six on-page sections
+        run: node --test scripts/scpi-candidates/scpiStickyNavigation.test.mjs
+
       - name: SCPI official PDF exact period handoff and QA status transitions
         run: node --test scripts/scpi-candidates/scpiExactPeriodHandoff.test.mjs
 

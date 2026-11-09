@@ -1,310 +1,162 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { createPortal } from 'react-dom';
-import {
-  Activity,
-  BarChart3,
-  Calculator,
-  Check,
-  ChevronRight,
-  LineChart,
-  Plus,
-  SearchCheck,
-} from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
 const SELECTION_STORAGE_KEY = 'maximus:scpi-selection:v1';
 const MAX_SELECTION_SIZE = 6;
 
-type DecisionTarget = 'radar' | 'trajectory' | 'analysis' | 'compare' | 'simulate';
+type SectionId =
+  | 'scpi-synthese'
+  | 'radar-scpi'
+  | 'trajectoire-scpi'
+  | 'scpi-patrimoine'
+  | 'scpi-risques-frais'
+  | 'scpi-documents';
 
-type ScpiDecisionHubPortalProps = {
+interface ScpiDecisionHubPortalProps {
   scpiSlug: string;
-};
+  canSimulate?: boolean;
+}
+
+const SECTIONS: ReadonlyArray<{ id: SectionId; label: string }> = [
+  { id: 'scpi-synthese', label: 'Synthèse' },
+  { id: 'radar-scpi', label: 'Radar' },
+  { id: 'trajectoire-scpi', label: 'Trajectoire' },
+  { id: 'scpi-patrimoine', label: 'Patrimoine' },
+  { id: 'scpi-risques-frais', label: 'Risques & frais' },
+  { id: 'scpi-documents', label: 'Documents' },
+];
+
+// Header: 64px; the sticky section navigation sits immediately beneath it.
+const NAV_OFFSET = 132;
 
 const readSelection = (): string[] => {
-  if (typeof window === 'undefined') return [];
-
   try {
-    const raw = window.localStorage.getItem(SELECTION_STORAGE_KEY);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed)
-      ? parsed.filter((value): value is string => typeof value === 'string' && value.length > 0)
+    const value = JSON.parse(window.localStorage.getItem(SELECTION_STORAGE_KEY) || '[]');
+    return Array.isArray(value)
+      ? value.filter((item): item is string => typeof item === 'string' && item.length > 0)
       : [];
   } catch {
     return [];
   }
 };
 
-const writeSelection = (selection: string[]) => {
-  window.localStorage.setItem(SELECTION_STORAGE_KEY, JSON.stringify(selection));
-  window.dispatchEvent(new CustomEvent('maximus:scpi-selection-changed', { detail: selection }));
+const scrollToSection = (id: SectionId, behavior: ScrollBehavior = 'smooth') => {
+  const target = id === 'radar-scpi'
+    ? document.getElementById('radar-scpi')
+    : document.getElementById(id);
+  if (!target) return false;
+  const top = window.scrollY + target.getBoundingClientRect().top - NAV_OFFSET;
+  window.scrollTo({ top: Math.max(0, top), behavior });
+  return true;
 };
 
-const findHeading = (selector: 'h2' | 'h3' | 'summary', startsWith: string) =>
-  Array.from(document.querySelectorAll<HTMLElement>(selector)).find((node) =>
-    node.textContent?.trim().startsWith(startsWith),
-  ) || null;
-
-const scrollIntoViewWithOffset = (target: HTMLElement) => {
-  const top = target.getBoundingClientRect().top + window.scrollY - 96;
-  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
-};
-
-const resolveDecisionTarget = (target: Exclude<DecisionTarget, 'compare'>): HTMLElement | null => {
-  if (target === 'trajectory') {
-    return (
-      document.getElementById('trajectoire-scpi') ||
-      findHeading('h2', 'Trajectoire Maximus')?.closest<HTMLElement>('section') ||
-      document.querySelector<HTMLElement>('[data-maximus-scpi-trajectory-host="true"]') ||
-      null
-    );
-  }
-
-  if (target === 'radar') {
-    const heading = findHeading('h3', 'Radar Maximus');
-    return document.getElementById('radar-scpi') || heading?.closest<HTMLElement>('div.rounded-2xl') || heading;
-  }
-
-  if (target === 'analysis') {
-    const heading = findHeading('h2', 'Analyse Maximus de');
-    return heading?.closest<HTMLElement>('section') || heading;
-  }
-
-  const summary = findHeading('summary', 'Simuler mes revenus');
-  return summary?.closest<HTMLElement>('details') || summary;
-};
-
-const findHeroSection = (): HTMLElement | null => {
-  const h1 = document.querySelector<HTMLHeadingElement>('h1');
-  if (!h1) return null;
-
-  let current: HTMLElement | null = h1.parentElement;
-  while (current && current !== document.body) {
-    const className = typeof current.className === 'string' ? current.className : '';
-    if (className.includes('bg-gradient-to-br') && className.includes('text-white')) {
-      return current;
-    }
-    current = current.parentElement;
-  }
-
-  return h1.parentElement;
-};
-
-const ScpiDecisionHub: React.FC<ScpiDecisionHubPortalProps> = ({ scpiSlug }) => {
-  const [selection, setSelection] = useState<string[]>(() => readSelection());
-
-  const isSelected = selection.includes(scpiSlug);
+/**
+ * The former 5-card decision hub is now a single, compact sticky index.
+ * This component is mounted INLINE in the shared SCPI template: mounting a
+ * sticky element inside a short-lived portal host would prevent it from
+ * remaining sticky throughout the document.
+ */
+const ScpiDecisionHubPortal: React.FC<ScpiDecisionHubPortalProps> = ({
+  scpiSlug,
+  canSimulate = false,
+}) => {
+  const [active, setActive] = useState<SectionId>('scpi-synthese');
 
   useEffect(() => {
-    const syncSelection = () => setSelection(readSelection());
-    window.addEventListener('storage', syncSelection);
-    window.addEventListener('maximus:scpi-selection-changed', syncSelection as EventListener);
-    return () => {
-      window.removeEventListener('storage', syncSelection);
-      window.removeEventListener('maximus:scpi-selection-changed', syncSelection as EventListener);
-    };
-  }, []);
-
-  const items = useMemo(
-    () => [
-      {
-        id: 'radar' as const,
-        eyebrow: 'État actuel',
-        title: 'Radar',
-        description: 'Lire la qualité actuelle sur les dimensions clés.',
-        icon: Activity,
-      },
-      {
-        id: 'trajectory' as const,
-        eyebrow: 'Évolution',
-        title: 'Trajectoire',
-        description: 'Voir ce qui s’améliore, reste stable ou se dégrade.',
-        icon: LineChart,
-      },
-      {
-        id: 'analysis' as const,
-        eyebrow: 'Interprétation',
-        title: 'Analyse',
-        description: 'Comprendre les forces, vigilances et faits utiles.',
-        icon: SearchCheck,
-      },
-      {
-        id: 'compare' as const,
-        eyebrow: 'Face au marché',
-        title: 'Comparer',
-        description: 'Confronter cette SCPI aux alternatives du comparateur.',
-        icon: BarChart3,
-      },
-      {
-        id: 'simulate' as const,
-        eyebrow: 'Impact financier',
-        title: 'Simuler',
-        description: 'Projeter un montant et les revenus associés.',
-        icon: Calculator,
-      },
-    ],
-    [],
-  );
-
-  const ensureSelected = () => {
-    if (selection.includes(scpiSlug)) return selection;
-    const next = [...selection, scpiSlug].slice(-MAX_SELECTION_SIZE);
-    writeSelection(next);
-    setSelection(next);
-    return next;
-  };
-
-  const toggleSelection = () => {
-    const next = isSelected
-      ? selection.filter((slug) => slug !== scpiSlug)
-      : [...selection, scpiSlug].slice(-MAX_SELECTION_SIZE);
-    writeSelection(next);
-    setSelection(next);
-  };
-
-  const navigateToTarget = (target: DecisionTarget) => {
-    if (target === 'compare') {
-      const nextSelection = ensureSelected();
-      const params = new URLSearchParams();
-      params.set('selection', nextSelection.join(','));
-      params.set('source', 'fiche-scpi');
-      window.location.href = `/comparateur-scpi/?${params.toString()}`;
-      return;
-    }
-
-    const resolved = resolveDecisionTarget(target);
-    if (resolved) {
-      if (target === 'simulate' && resolved instanceof HTMLDetailsElement) {
-        resolved.open = true;
-      }
-      scrollIntoViewWithOffset(resolved);
-      return;
-    }
-
-    if (target === 'simulate') {
-      window.location.href = `/simulateurs/?scpi=${encodeURIComponent(scpiSlug)}&source=fiche-scpi`;
-      return;
-    }
-
-    // Les blocs Radar / Analyse / Trajectoire peuvent arriver légèrement après
-    // le premier paint (données live / portal). On retente sans bloquer l'UX.
-    window.setTimeout(() => {
-      const retryTarget = resolveDecisionTarget(target);
-      if (retryTarget) scrollIntoViewWithOffset(retryTarget);
-    }, 350);
-  };
-
-  return (
-    <section className="bg-[#07110e] text-white border-y border-emerald-400/15">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-6">
-          <div>
-            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] text-emerald-300">
-              Parcours d’analyse Maximus
-            </p>
-            <h2 className="mt-2 text-2xl sm:text-3xl font-extrabold text-white">
-              Tout analyser depuis cette fiche
-            </h2>
-            <p className="mt-2 max-w-3xl text-sm sm:text-base text-slate-300">
-              Une seule SCPI, cinq lectures complémentaires : état actuel, évolution, interprétation, comparaison et projection.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={toggleSelection}
-            aria-pressed={isSelected}
-            className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition-colors ${
-              isSelected
-                ? 'bg-emerald-400 text-slate-950 hover:bg-emerald-300'
-                : 'border border-emerald-400/35 bg-emerald-400/10 text-emerald-100 hover:bg-emerald-400/15'
-            }`}
-          >
-            {isSelected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-            {isSelected ? 'Dans ma sélection' : 'Ajouter à ma sélection'}
-            <span className="rounded-full bg-black/15 px-2 py-0.5 text-xs">{selection.length}</span>
-          </button>
-        </div>
-
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-          {items.map((item) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => navigateToTarget(item.id)}
-                className="group text-left rounded-2xl border border-white/10 bg-white/[0.045] p-4 sm:p-5 hover:border-emerald-300/40 hover:bg-emerald-300/[0.08] transition-all focus:outline-none focus:ring-2 focus:ring-emerald-300/60"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/10 text-emerald-300">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <ChevronRight className="h-4 w-4 text-slate-600 transition-transform group-hover:translate-x-1 group-hover:text-emerald-300" />
-                </div>
-                <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-                  {item.eyebrow}
-                </div>
-                <div className="mt-1 text-lg font-extrabold text-white">{item.title}</div>
-                <p className="mt-2 hidden sm:block text-sm leading-snug text-slate-400">
-                  {item.description}
-                </p>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="mt-4 flex items-center gap-2 text-xs text-slate-500">
-          <span>Ma sélection est conservée sur MaximusSCPI.</span>
-          {selection.length > 0 && <span>• {selection.length} SCPI sélectionnée{selection.length > 1 ? 's' : ''}</span>}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const ScpiDecisionHubPortal: React.FC<ScpiDecisionHubPortalProps> = ({ scpiSlug }) => {
-  const [host, setHost] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
-    let mountedHost: HTMLElement | null = null;
-    let observer: MutationObserver | null = null;
-
-    const mount = () => {
-      if (mountedHost) return true;
-
-      const hero = findHeroSection();
-      if (!hero?.parentElement) return false;
-
-      const existing = document.querySelector<HTMLElement>('[data-maximus-decision-hub-host="true"]');
-      if (existing) {
-        mountedHost = existing;
-        setHost(existing);
-        return true;
-      }
-
-      const nextHost = document.createElement('div');
-      nextHost.dataset.maximusDecisionHubHost = 'true';
-      hero.insertAdjacentElement('afterend', nextHost);
-      mountedHost = nextHost;
-      setHost(nextHost);
-      return true;
-    };
-
-    if (!mount()) {
-      observer = new MutationObserver(() => {
-        if (mount()) observer?.disconnect();
+    let frame = 0;
+    const updateActive = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        let closest: SectionId = 'scpi-synthese';
+        for (const item of SECTIONS) {
+          const node = document.getElementById(item.id);
+          if (node && node.getBoundingClientRect().top <= NAV_OFFSET + 18) {
+            // Choose the last section in DOM order, not the visual label order.
+            const top = node.getBoundingClientRect().top + window.scrollY;
+            const previous = document.getElementById(closest);
+            if (!previous || top >= previous.getBoundingClientRect().top + window.scrollY) {
+              closest = item.id;
+            }
+          }
+        }
+        setActive(closest);
       });
-      observer.observe(document.body, { childList: true, subtree: true });
-    }
-
+    };
+    window.addEventListener('scroll', updateActive, { passive: true });
+    window.addEventListener('resize', updateActive);
+    updateActive();
     return () => {
-      observer?.disconnect();
-      if (mountedHost?.parentElement) mountedHost.remove();
-      mountedHost = null;
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', updateActive);
+      window.removeEventListener('resize', updateActive);
     };
   }, [scpiSlug]);
 
-  return host ? createPortal(<ScpiDecisionHub scpiSlug={scpiSlug} />, host) : null;
+  const navigate = (event: React.MouseEvent<HTMLAnchorElement>, id: SectionId) => {
+    if (!document.getElementById(id)) return;
+    event.preventDefault();
+    window.history.replaceState(null, '', window.location.pathname + window.location.search + '#' + id);
+    scrollToSection(id);
+    setActive(id);
+  };
+
+  const compare = () => {
+    const selected = readSelection();
+    const next = selected.includes(scpiSlug)
+      ? selected
+      : [...selected, scpiSlug].slice(-MAX_SELECTION_SIZE);
+    window.localStorage.setItem(SELECTION_STORAGE_KEY, JSON.stringify(next));
+    window.dispatchEvent(new CustomEvent('maximus:scpi-selection-changed', { detail: next }));
+    const params = new URLSearchParams({ selection: next.join(','), source: 'fiche-scpi' });
+    window.location.href = '/comparateur-scpi/?' + params.toString();
+  };
+
+  return (
+    <div data-testid="scpi-sticky-navigation" className="sticky top-16 z-[9980] border-y border-emerald-400/20 bg-[#0D1C25]/95 text-white shadow-lg shadow-slate-950/15 backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl items-center gap-3 px-3 sm:px-6">
+        <nav aria-label="Navigation dans la fiche SCPI" className="min-w-0 flex-1 overflow-x-auto overscroll-x-contain py-2">
+          <div className="flex w-max items-center gap-1.5 whitespace-nowrap sm:gap-2">
+            {SECTIONS.map(({ id, label }) => (
+              <a
+                key={id}
+                href={'#' + id}
+                aria-current={active === id ? 'location' : undefined}
+                onClick={(event) => navigate(event, id)}
+                className={
+                  active === id
+                    ? 'rounded-lg bg-[#00C896] px-3 py-2 text-xs font-semibold text-[#05251e] shadow-sm sm:text-sm'
+                    : 'rounded-lg px-3 py-2 text-xs font-medium text-slate-200 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 sm:text-sm'
+                }
+              >
+                {label}
+              </a>
+            ))}
+          </div>
+        </nav>
+        <div className="hidden shrink-0 items-center gap-2 border-l border-white/10 py-2 pl-3 lg:flex">
+          {canSimulate && (
+            <a href="#scpi-simulateur" onClick={(event) => {
+              const el = document.getElementById('scpi-simulateur');
+              if (el) {
+                event.preventDefault();
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const disclosure = el.querySelector('details');
+                if (disclosure) disclosure.open = true;
+              }
+            }} className="rounded-lg px-3 py-2 text-xs font-semibold text-slate-200 hover:bg-white/10">
+              Simuler
+            </a>
+          )}
+          <button
+            type="button"
+            onClick={compare}
+            className="rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-3 py-2 text-xs font-semibold text-emerald-100 transition hover:bg-emerald-400/20"
+          >
+            Comparer cette SCPI
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ScpiDecisionHubPortal;
