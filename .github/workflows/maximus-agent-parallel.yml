@@ -467,7 +467,7 @@ jobs:
             fs.writeFileSync(process.env.RUNNER_TEMP+'/candidate-manifest.json',
               JSON.stringify(p),{mode:0o600});
             core.setOutput('has_docs',p.documents.length>0?'yes':'no');
-            core.setOutput('needs_sofidy_tls',Array.isArray(p.allowed_hosts)&&p.allowed_hosts.includes('www.sofidy.com')?'yes':'no');
+            core.setOutput('needs_sofidy_tls',p.documents.some(d=>new URL(d.source_url).hostname==='www.sofidy.com')?'yes':'no');
             core.notice('SCPI '+p.candidate_slug+' registered PDF documents: '+p.documents.length);
       - uses: actions/setup-python@v5
         if: steps.manifest.outputs.has_docs == 'yes'
