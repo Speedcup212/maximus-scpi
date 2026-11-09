@@ -127,6 +127,8 @@ def main():
         dest.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
         print(json.dumps(result,ensure_ascii=False));raise SystemExit(1)
     dest.write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
-    print(json.dumps({"scpi_slug":a.slug,"status":result["status"],"financial_certified":False}))
+    # Public non-sensitive proof summary for independently checking and staging
+    # exact official PDF identity / SHA / page count without artifact guessing.
+    print(json.dumps(result,ensure_ascii=False))
 
 if __name__=="__main__":main()
