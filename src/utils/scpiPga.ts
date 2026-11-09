@@ -14,6 +14,7 @@ export function getVerifiedPga2025(name: string): Readonly<OfficialPga2025> | nu
     'atream-hotels-scpi': 'atream-hotel',
     'edmond-de-rothschild-europa': 'edr-europa',
     'edissimmo': 'edissimo',
+    'esg-pierre-capitale': 'esg-pierre-capital',
   };
   const slug = aliases[derived] ?? derived;
   const result = OFFICIAL_PGA_2025[slug];
