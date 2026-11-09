@@ -49,7 +49,6 @@ const ScpiApp: React.FC = () => {
 
       <ScpiPageVisualPolish scpiSlug={scpiKey} />
       <ScpiDecisionHubPortal scpiSlug={scpiKey} />
-      <ScpiTrajectoryPortal scpiSlug={scpiKey} />
       <ScpiQuarterlyAnalysis scpiKey={scpiKey} />
 
       <Suspense fallback={null}>
