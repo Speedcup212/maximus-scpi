@@ -322,4 +322,27 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
     sourceLabel: 'Theoreim, page officielle LOG IN, performances 2025',
     note: "La PGA intègre la hausse de 2 % du prix de la part.",
   },
+  'kyaneos-pierre': {
+    year: 2025, pgaPct: 5.25, distributionPct: 4.35,
+    sourceUrl: 'https://kyaneosam.com/wp-content/uploads/2026/02/SCPI-KP-Bulletin-trimestriel-4T2025.pdf',
+    sourceLabel: 'Kyaneos AM, bulletin T4 2025 Kyaneos Pierre',
+    note: "PGA 2025 intégrant une revalorisation du prix de la part de 0,90 %.",
+  },
+  'fonciere-des-praticiens': {
+    year: 2025, pgaPct: 5.50, distributionPct: 5.50,
+    sourceUrl: 'https://www.groupemagellim.com/reim/scpi-foncieres-des-praticiens/',
+    sourceLabel: 'Magellim REIM, Foncière des Praticiens, performances 2025',
+  },
+  'urban-coeur-de-commerce': {
+    year: 2025, pgaPct: 6.30, distributionPct: 5.30,
+    sourceUrl: 'https://www.urban-coeurcommerce.com/wp-content/uploads/2026/02/UCC_BT-4T-2025.pdf',
+    sourceLabel: 'Urban Premium, bulletin T4 2025 Urban Cœur Commerce',
+    note: "La PGA inclut une revalorisation de 1 % du prix de souscription en décembre 2025.",
+  },
+  'patrimmo-croissance-impact': {
+    year: 2025, pgaPct: -7.68, distributionPct: null,
+    sourceUrl: 'https://www.praemiareim.fr/documents/14836074/14836308/Patrimmo%2BCroissance%2BImpact%2BRapport%2BAnnuel%2B2025.pdf/2c299015-36ea-5440-4ee3-f69d98560711?t=1780652583193',
+    sourceLabel: 'Praemia REIM, rapport annuel 2025 Patrimmo Croissance Impact',
+    note: "Aucun TD publié (SCPI de capitalisation en nue-propriété). PGA de -7,68 % issue de la variation du prix de part ; ne pas lui attribuer un TD de 0 %.",
+  },
 };
