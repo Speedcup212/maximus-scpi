@@ -1,10 +1,6 @@
 name: MaximusSCPI - verified publisher proof to existing agents handoff
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/maximus-source-proof-agent-handoff.yml'
   workflow_run:
     workflows:
       - 'MaximusSCPI - family PDF binary proof (not financial certification)'
@@ -20,8 +16,7 @@ concurrency:
 jobs:
   trigger-existing-controlled-audit:
     if: >-
-      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
+      github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.head_branch == 'main' &&
        (github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'schedule'))
     runs-on: ubuntu-latest
