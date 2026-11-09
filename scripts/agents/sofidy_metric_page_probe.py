@@ -37,6 +37,7 @@ LABELS = {
     "dividende_verse_par_part": ("dividende",),
     "tof_quarterly": ("taux d occupation financier", "tof 2t26"),
     "capitalisation": ("capitalisation",),
+    "endettement": ("dette", "endettement", "patrimoine"),
     "nombre_immeubles": ("nombre d immeubles", "nombre immeubles"),
     "prix_retrait": ("prix de retrait",),
     "parts_attente_retrait": ("parts en attente",),
