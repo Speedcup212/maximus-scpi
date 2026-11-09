@@ -3,8 +3,8 @@ import { OFFICIAL_PGA_2025 } from '../data/scpiPgaOfficial2025';
 import { compareVerified2025Distribution, formatPgaPercent, getVerifiedPga2025 } from '../utils/scpiPga';
 
 describe('PGA annuelle ASPIM – source et période', () => {
-  it('restitue les valeurs officielles du lot de 35 SCPI, sans les recalculer', () => {
-    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(35);
+  it('restitue les valeurs officielles du lot de 40 SCPI, sans les recalculer', () => {
+    expect(Object.keys(OFFICIAL_PGA_2025)).toHaveLength(40);
     expect(getVerifiedPga2025('Iroko Zen')?.pgaPct).toBe(8.13);
     expect(getVerifiedPga2025('Iroko Zen')?.distributionPct).toBe(7.14);
     expect(getVerifiedPga2025('CORUM USA')?.pgaPct).toBe(7.70);
@@ -44,6 +44,7 @@ describe('PGA annuelle ASPIM – source et période', () => {
       'wemo-reim.fr', 'atland-voisin.com', 'www.sogenial.fr', 'www.sofidy.com',
       'www.altixia.fr', 'pages.inter-gestion.com', 'www.remake.fr', 'epsicap.fr',
       'www.aestiam.com', 'paref-gestion.com', 'www.perial.com', 'www.praemia-healthcare.fr',
+      'www.sogenial.fr', 'atream.com', 'edr-europa.com', 'www.euryale-am.fr',
     ];
     for (const [slug, record] of Object.entries(OFFICIAL_PGA_2025)) {
       expect(allowed.has(slug)).toBe(true);
@@ -63,6 +64,14 @@ describe('PGA annuelle ASPIM – source et période', () => {
     expect(getVerifiedPga2025('Patrimmo Commerce')?.pgaPct).toBe(-5.71);
     expect(getVerifiedPga2025('Aestiam Agora')?.distributionPct).toBe(4.50);
     expect(getVerifiedPga2025('Aestiam Horizon')?.pgaPct).toBe(5.10);
+  });
+
+  it('associe les noms des sociétés de gestion aux slugs certifiés', () => {
+    expect(getVerifiedPga2025('Cœur de Régions')?.distributionPct).toBe(6.20);
+    expect(getVerifiedPga2025('Atream Hôtels')?.pgaPct).toBe(5.05);
+    expect(getVerifiedPga2025('Edmond de Rothschild Europa')?.pgaPct).toBe(8.75);
+    expect(getVerifiedPga2025('EdR Europa')?.pgaPct).toBe(8.75);
+    expect(getVerifiedPga2025('Pierval Santé')?.pgaPct).toBe(4.06);
   });
 
   it('classe les valeurs documentées avant les manquantes sans NaN', () => {
