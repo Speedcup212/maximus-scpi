@@ -14,9 +14,13 @@ test('les fiches SCPI partagent un point de montage Radar + Trajectoire', () => 
 test('pages publiques et vues secondaires utilisent le composant commun', () => {
   const publicPage = read('src/components/OptimizedScpiLandingPage.tsx');
   const detailPage = read('src/components/ScpiDetailPage.tsx');
+  const legacyLanding = read('src/components/ScpiLandingPage.tsx');
+  const exampleLanding = read('src/components/ScpiExamplePage.tsx');
   const staticApp = read('src/ScpiApp.tsx');
   assert.match(publicPage, /<ScpiVisualAnalysis\s+scpi=\{realScpiData\}/);
   assert.match(detailPage, /<ScpiVisualAnalysis scpi=\{scpi\}/);
+  assert.match(legacyLanding, /<ScpiVisualAnalysis/);
+  assert.match(exampleLanding, /<ScpiVisualAnalysis/);
   assert.doesNotMatch(staticApp, /ScpiTrajectoryPortal/);
 });
 
