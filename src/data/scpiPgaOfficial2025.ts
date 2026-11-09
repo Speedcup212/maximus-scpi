@@ -298,4 +298,27 @@ export const OFFICIAL_PGA_2025: Readonly<Record<string, Readonly<OfficialPga2025
     sourceUrl: 'https://www.normacapital.fr/documentation/rapport-annuel-2025-2/',
     sourceLabel: 'Norma Capital, rapport annuel NCap Continent 2025',
   },
+  'esg-pierre-capital': {
+    year: 2025, pgaPct: -3.24, distributionPct: 5.05,
+    sourceUrl: 'https://fr.swisslife-am.com/content/dam/slamfr/internet/particuliers/documentation---retail/scpi-pierre-capitale/bulletin-trimestriel/2025/Bulletin_Trimestriel_SCPI_ESG_Pierre_Capitale_T4_2025.pdf',
+    sourceLabel: 'Swiss Life AM, bulletin T4 2025 ESG Pierre Capitale',
+    note: "La PGA est négative malgré un taux de distribution positif, en raison de la baisse du prix de souscription.",
+  },
+  'optimale': {
+    year: 2025, pgaPct: 8.50, distributionPct: 6.50,
+    sourceUrl: 'https://www.consultim-am.com/actualites/information/optimale-acquisitions-belz-plessis-robinson/',
+    sourceLabel: 'Consultim AM, résultats annuels Optimale 2025',
+    note: "La PGA comprend la hausse de 2 % du prix de la part en 2025.",
+  },
+  'novaxia-neo': {
+    year: 2025, pgaPct: 5.50, distributionPct: 5.50,
+    sourceUrl: 'https://www.novaxia-investissement.fr/produits/novaxia-neo/',
+    sourceLabel: 'Novaxia Investissement, reporting annuel 2025 NEO',
+  },
+  'log-in': {
+    year: 2025, pgaPct: 8.21, distributionPct: 6.21,
+    sourceUrl: 'https://theoreim.com/gamme/scpi-login/',
+    sourceLabel: 'Theoreim, page officielle LOG IN, performances 2025',
+    note: "La PGA intègre la hausse de 2 % du prix de la part.",
+  },
 };
