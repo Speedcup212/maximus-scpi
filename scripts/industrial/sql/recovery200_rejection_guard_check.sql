@@ -32,9 +32,20 @@ begin
   returning verification_status into st;
   assert st = 'invalid_value_contradicted_by_evidence', 'rejet levé automatiquement : ' || st;
 
-  -- 3. Une valeur extraite différente n'hérite pas du rejet.
+  -- 3. Une ligne rejetée reste rejetée, valeur comprise, même si l'automate propose une autre valeur.
   update public.scpi_metric_certifications set value_numeric = 1493, verification_status = 'auto_verified_with_evidence'
   where scpi_slug = 'ficommerce-proximite' and source_period = '1999-T1' and metric = 'parts_attente_retrait'
+  returning verification_status into st;
+  assert st = 'invalid_value_contradicted_by_evidence', 'rejet revalidé automatiquement : ' || st;
+  assert (select value_numeric from public.scpi_metric_certifications
+          where scpi_slug = 'ficommerce-proximite' and source_period = '1999-T1' and metric = 'parts_attente_retrait') = 0,
+         'valeur d''une ligne rejetée remplacée automatiquement';
+
+  -- 3 bis. Une nouvelle ligne avec une valeur différente n'hérite pas d'un rejet de valeur.
+  insert into public.scpi_metric_certifications (scpi_slug, source_period, metric, value_numeric, source_url, source_page,
+    evidence_text, verification_status, verification_method, verified_at)
+  values ('ficommerce-proximite', '1999-T1', 'nombre_associes', 1200, 'https://example.invalid/b.pdf', 1,
+    'Nombre d''associés 1 200', 'auto_verified_with_evidence', 'pdf_page_text_match', now())
   returning verification_status into st;
   assert st = 'auto_verified_with_evidence', 'nouvelle valeur bloquée à tort : ' || st;
 
@@ -53,7 +64,7 @@ begin
       and c.verification_status <> x.rejection_status
   ), 'une décision de rejet n''est pas appliquée en base';
 
-  raise notice 'recovery200_rejection_guard_check: 5/5 PASS';
+  raise notice 'recovery200_rejection_guard_check: 8/8 PASS';
 end
 $check$;
 
