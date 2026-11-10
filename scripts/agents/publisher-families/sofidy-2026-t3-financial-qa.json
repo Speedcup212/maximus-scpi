@@ -125,6 +125,14 @@
           "value_basis": "VALUATION_2026_06_30_REPORTED_T3_NOT_2026_09_30",
           "source_page": 5,
           "qa_status": "pending_independent_qa"
+        },
+        {
+          "metric": "endettement",
+          "exact_value": "28.4",
+          "unit": "PERCENT",
+          "value_basis": "DEBT_TO_PORTFOLIO_VALUE_AT_2026_09_30_NOT_AVERAGE_LOAN_INTEREST_RATE",
+          "source_page": 2,
+          "qa_status": "pending_independent_qa"
         }
       ]
     },
@@ -238,6 +246,14 @@
           "unit": "EUR_PER_PART",
           "value_basis": "VALUATION_2026_06_30_REPORTED_T3_NOT_2026_09_30",
           "source_page": 5,
+          "qa_status": "pending_independent_qa"
+        },
+        {
+          "metric": "endettement",
+          "exact_value": "26.5",
+          "unit": "PERCENT",
+          "value_basis": "DEBT_TO_PORTFOLIO_VALUE_AT_2026_09_30_NOT_AVERAGE_LOAN_INTEREST_RATE",
+          "source_page": 2,
           "qa_status": "pending_independent_qa"
         }
       ]
@@ -360,6 +376,14 @@
           "unit": "EUR_PER_PART",
           "value_basis": "VALUATION_2026_06_30_REPORTED_T3_NOT_2026_09_30",
           "source_page": 5,
+          "qa_status": "pending_independent_qa"
+        },
+        {
+          "metric": "endettement",
+          "exact_value": "23.8",
+          "unit": "PERCENT",
+          "value_basis": "DEBT_TO_PORTFOLIO_VALUE_AT_2026_09_30_NOT_AVERAGE_LOAN_INTEREST_RATE",
+          "source_page": 2,
           "qa_status": "pending_independent_qa"
         }
       ]
