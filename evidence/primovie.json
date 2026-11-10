@@ -1,0 +1,1460 @@
+{
+ "slug": "primovie",
+ "name": "Primovie",
+ "manager": "Praemia REIM France",
+ "crawl": [
+  {
+   "url": "https://www.praemiareim.fr/fr/scpi-primovie",
+   "depth": 0,
+   "final_url": "https://www.praemiareim.fr/fr/scpi-primovie",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836317/2026+08+Primovie+Note+information+v2c.pdf/aed80237-f348-2f5c-3eb4-909f6af8b576?t=1785931200659",
+   "depth": 1,
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836317/2026+08+Primovie+Note+information+v2c.pdf/aed80237-f348-2f5c-3eb4-909f6af8b576?t=1785931200659",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836317/2026+08+01+PRIMOVIE+DIC+v1c.pdf/f8bf499c-5aa7-6430-6e66-38ab280d6c62?t=1785931217105",
+   "depth": 1,
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836317/2026+08+01+PRIMOVIE+DIC+v1c.pdf/f8bf499c-5aa7-6430-6e66-38ab280d6c62?t=1785931217105",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836317/2026+08+01+PRIMOVIE+Statuts.pdf/0501cc44-552c-5877-3ad9-b7c36f8c70d7?t=1785931183673",
+   "depth": 1,
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836317/2026+08+01+PRIMOVIE+Statuts.pdf/0501cc44-552c-5877-3ad9-b7c36f8c70d7?t=1785931183673",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836314/PRIMOVIE_brochure+202611.pdf/dac85e39-3bcf-c86d-1dee-ac4b7e787518?t=1793711455481",
+   "depth": 1,
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836314/PRIMOVIE_brochure+202611.pdf/dac85e39-3bcf-c86d-1dee-ac4b7e787518?t=1793711455481",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836317/Primovie+Code+de+Transparence.pdf/89a8bddc-2346-ff27-fe98-4dece6406240?t=1782837033938",
+   "depth": 1,
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836317/Primovie+Code+de+Transparence.pdf/89a8bddc-2346-ff27-fe98-4dece6406240?t=1782837033938",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836317/ARTI10_PRIMOVIE_072026.pdf/adb12d0a-b994-6343-b271-eed3e5efb905?t=1785425431863",
+   "depth": 1,
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836317/ARTI10_PRIMOVIE_072026.pdf/adb12d0a-b994-6343-b271-eed3e5efb905?t=1785425431863",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836317/PRIMOVIE++Annexe+SFR+art+8+072026+v3c.pdf/7152ad2a-9b77-9d20-bbbd-a7be7f7dddbd?t=1785425580166",
+   "depth": 1,
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836317/PRIMOVIE++Annexe+SFR+art+8+072026+v3c.pdf/7152ad2a-9b77-9d20-bbbd-a7be7f7dddbd?t=1785425580166",
+   "http_status": 200,
+   "is_pdf": true
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836320/Rapport+ISR+Primovie+2026_0626_VDEF.pdf/74129691-5af9-1393-559c-b3624dca6900?t=1782836412327",
+   "depth": 1,
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836320/Rapport+ISR+Primovie+2026_0626_VDEF.pdf/74129691-5af9-1393-559c-b3624dca6900?t=1782836412327",
+   "http_status": 200,
+   "is_pdf": true
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836317/2026+08+Primovie+Note+information+v2c.pdf/aed80237-f348-2f5c-3eb4-909f6af8b576?t=1785931200659",
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836317/2026+08+Primovie+Note+information+v2c.pdf/aed80237-f348-2f5c-3eb4-909f6af8b576?t=1785931200659",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 872242,
+   "sha256": "5174bf364c4f65ecf8925a84a3c5118a9969a441f483a3feb306ab21d0be2c88",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Gregoire FRAISSE",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260804155620+02'00'",
+    "modDate": "D:20260804155620+02'00'"
+   },
+   "page_count": 46,
+   "text_characters": 157688,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "primovie",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "PRIMOVIE Société Civile de Placement Immobilier à capital variable avec possibilité de cession sur le marché secondaire en cas de blocage des retraits Siège social : 26 rue Villeneuve - 92110 Clichy 752 924 845 RCS Nanterre NOTE D'INFORMATION Mise à jour : 1er août 2026",
+   "dates": [
+    "1er août 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Commission de souscription",
+     "snippet": "OCIÉTÉ ET LA SOCIÉTÉ DE GESTION ..................... 24 2. RÉMUNÉRATION ET DEFRAIEMENT DE LA SOCIÉTÉ DE GESTION ........................................ 25 A. Commission de souscription ................................................................................................. 25 B. Commission de gestion ........................................................................................................... 25 C. Commission de cession et de mutation ............................................................................ 26 D. Commission d'acquisition et de cession d'actifs ............................................................ 26 E. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectué",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission de gestion",
+     "snippet": "...................... 25 A. Commission de souscription ................................................................................................. 25 B. Commission de gestion ........................................................................................................... 25 C. Commission de cession et de mutation ............................................................................ 26 D. Commission d'acquisition et de cession d'actifs ............................................................ 26 E. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués .................................................. 26 F. Frais supplémentaires ..................................................",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission de cession",
+     "snippet": "................. 25 B. Commission de gestion ........................................................................................................... 25 C. Commission de cession et de mutation ............................................................................ 26 D. Commission d'acquisition et de cession d'actifs ............................................................ 26 E. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués .................................................. 26 F. Frais supplémentaires ............................................................................................................. 27 CHAPITRE IV. FONCTIONNEMENT DE LA SOCIÉTÉ ...............................",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission d'acquisition",
+     "snippet": "................................. 25 C. Commission de cession et de mutation ............................................................................ 26 D. Commission d'acquisition et de cession d'actifs ............................................................ 26 E. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués .................................................. 26 F. Frais supplémentaires ............................................................................................................. 27 CHAPITRE IV. FONCTIONNEMENT DE LA SOCIÉTÉ .................................................................... 27 1. RÉGIME DES ASSEMBLÉES ......................................................",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission de suivi",
+     "snippet": "...................................... 26 D. Commission d'acquisition et de cession d'actifs ............................................................ 26 E. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués .................................................. 26 F. Frais supplémentaires ............................................................................................................. 27 CHAPITRE IV. FONCTIONNEMENT DE LA SOCIÉTÉ .................................................................... 27 1. RÉGIME DES ASSEMBLÉES ............................................................................................................. 27 A. Assemblées Générales Ordinaires .....................",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 11,
+     "label": "commission de souscription",
+     "snippet": "AL Capital social initial : Les fondateurs ont versé chacun la valeur nominale de cent soixante euros (160 €) augmentée de la prime d'émission de 15,24 € (hors commission de souscription servant à rémunérer la collecte des fonds) de chaque part souscrite et intégralement libérée.",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "commission de souscription",
+     "snippet": "ouscription d'une part Prix de souscription de 164€, décomposé en 1 € de valeur nominale et 163 € de prime d'émission. La prime d'émission intègre notamment la commission de souscription versée par la SCPI à la société de gestion de 9 % HT (exonérée de TVA) du prix de souscription prime d'émission incluse, ce qui représente un montant de 14,76 € HT (exonérée de TVA) qui supporte : - les frais de collecte (notamment la préparation et la réalisation des augmentations de capital, le placement des parts de la SCPI lié à l'activité d'entremise des distributeurs) à hauteur de 8,25 % HT (commission exonérée de TVA, la société de gestion n'y ayant pas opté) soit 13,53 HT € (exonérée de TVA) ; - les frais d'étude et d'exécution des programmes d'investissement liés à chaque investissement à hauteur ",
+     "percents": [
+      {
+       "raw": "9 %",
+       "value": 9.0,
+       "tax_hint": "HT",
+       "after": "HT (exonérée de TVA) du prix de souscription"
+      },
+      {
+       "raw": "8,25 %",
+       "value": 8.25,
+       "tax_hint": "HT",
+       "after": "HT (commission exonérée de TVA, la société d"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de souscription",
+     "snippet": "de souscription existent, pour un montant au moins égal aux demandes de retrait : Le prix de retrait correspond au prix de souscription du moment diminué de la commission de souscription. Ainsi, l'associé se retirant perçoit, sur la base du prix de souscription de 164 euros, une somme de 149,24 euros par part qui se décompose de la façon suivante :",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "Commission de souscription",
+     "snippet": "-19- Note d'information SCPI Primovie - Prix de souscription : 164,00 € - Commission de souscription : 14,76 € - Valeur de retrait : 149,24 € Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. b. Dans le cas où les souscriptions nouvelles ne permettent pas d'assurer le retrait demandé : - celui-ci pourra être assuré par prélèvement sur le fonds de remboursement s'il en existe un, dans la limite de celui-ci et dans les conditions qui sont fixées par l'Assemblée Générale ; - le prix de retrait ne peut être supérieur à la valeur de réalisation ni inférieur à celle- ci diminuée de 10 %, sauf autorisation de l'Aut",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'Aut"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission de souscription",
+     "snippet": "14,76 € - Valeur de retrait : 149,24 € Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. b. Dans le cas où les souscriptions nouvelles ne permettent pas d'assurer le retrait demandé : - celui-ci pourra être assuré par prélèvement sur le fonds de remboursement s'il en existe un, dans la limite de celui-ci et dans les conditions qui sont fixées par l'Assemblée Générale ; - le prix de retrait ne peut être supérieur à la valeur de réalisation ni inférieur à celle- ci diminuée de 10 %, sauf autorisation de l'Autorité des Marchés Financiers. En application de l'article 422-219 du RG AMF, en cas de baisse du prix de retrait, la société de gestion informe par lettre recommandée avec demande d'avis de",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'Autorité des Marchés"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "frais de gestion",
+     "snippet": "ns de capital : statuts, note d'information, bulletins de souscription, rapports annuels remis aux souscripteurs, jaquettes et certificats de parts, publicité, frais de gestion locative), la perception des recettes et la répartition des bénéfices. La Société PRIMOVIE supporte et paie tous les autres frais sans exception, notamment prix et frais d'acquisition des biens et droits immobiliers, frais d'actes, frais et honoraires de recherche, d'identification, de présentation, de négociation et de conseil d'opportunité d'investissement dans des actifs immobiliers, frais nécessaires à l'aménagement, l'entretien, la gestion des immeubles y compris les honoraires de gestionnaires non refacturés aux locataires et d'intervenants techniques, impôts et droits, les honoraires des Commissaires aux comp",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "frais d'acquisition",
+     "snippet": "tive), la perception des recettes et la répartition des bénéfices. La Société PRIMOVIE supporte et paie tous les autres frais sans exception, notamment prix et frais d'acquisition des biens et droits immobiliers, frais d'actes, frais et honoraires de recherche, d'identification, de présentation, de négociation et de conseil d'opportunité d'investissement dans des actifs immobiliers, frais nécessaires à l'aménagement, l'entretien, la gestion des immeubles y compris les honoraires de gestionnaires non refacturés aux locataires et d'intervenants techniques, impôts et droits, les honoraires des Commissaires aux comptes, les frais d'expertise, les frais entraînés par les Conseils de Surveillance et les",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 25,
+     "label": "Commission de souscription",
+     "snippet": "ET DEFRAIEMENT DE LA SOCIÉTÉ DE GESTION Pour assurer ses missions, la société de gestion percevra une rémunération sous forme de commission de trois sortes. A. Commission de souscription Une commission de souscription versée par la SCPI à la société de gestion est fixée à 9,00 % HT (exonérée de TVA, la société de gestion n'y ayant pas opté) maximum du prix de souscription, prime d'émission incluse. La commission de souscription rémunère : - les frais de collecte (notamment la préparation et la réalisation des augmentations de capital, le placement des parts de la SCPI lié à l'activité d'entremise des distributeurs) à hauteur de 8,25 % HT (commission exonérée de TVA, la société de gestion n'y ayant pas opté) ; - les frais d'étude et d'exécution des programmes d'investissement liés à chaque ",
+     "percents": [
+      {
+       "raw": "9,00 %",
+       "value": 9.0,
+       "tax_hint": "HT",
+       "after": "HT (exonérée de TVA, la société de gestion n"
+      },
+      {
+       "raw": "8,25 %",
+       "value": 8.25,
+       "tax_hint": "HT",
+       "after": "HT (commission exonérée de TVA, la société d"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 25,
+     "label": "commission de souscription",
+     "snippet": " GESTION Pour assurer ses missions, la société de gestion percevra une rémunération sous forme de commission de trois sortes. A. Commission de souscription Une commission de souscription versée par la SCPI à la société de gestion est fixée à 9,00 % HT (exonérée de TVA, la société de gestion n'y ayant pas opté) maximum du prix de souscription, prime d'émission incluse. La commission de souscription rémunère : - les frais de collecte (notamment la préparation et la réalisation des augmentations de capital, le placement des parts de la SCPI lié à l'activité d'entremise des distributeurs) à hauteur de 8,25 % HT (commission exonérée de TVA, la société de gestion n'y ayant pas opté) ; - les frais d'étude et d'exécution des programmes d'investissement liés à chaque investissement à hauteur de 0,7",
+     "percents": [
+      {
+       "raw": "9,00 %",
+       "value": 9.0,
+       "tax_hint": "HT",
+       "after": "HT (exonérée de TVA, la société de gestion n"
+      },
+      {
+       "raw": "8,25 %",
+       "value": 8.25,
+       "tax_hint": "HT",
+       "after": "HT (commission exonérée de TVA, la société d"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 25,
+     "label": "commission de souscription",
+     "snippet": "iété de gestion est fixée à 9,00 % HT (exonérée de TVA, la société de gestion n'y ayant pas opté) maximum du prix de souscription, prime d'émission incluse. La commission de souscription rémunère : - les frais de collecte (notamment la préparation et la réalisation des augmentations de capital, le placement des parts de la SCPI lié à l'activité d'entremise des distributeurs) à hauteur de 8,25 % HT (commission exonérée de TVA, la société de gestion n'y ayant pas opté) ; - les frais d'étude et d'exécution des programmes d'investissement liés à chaque investissement à hauteur de 0,75 % HT (commission exonérée de TVA, la société de gestion n'y ayant pas opté). B. Commission de gestion La commission de gestion de la SCPI est fixée comme suit : - 10 % HT maximum des produits locatifs HT encaissé",
+     "percents": [
+      {
+       "raw": "9,00 %",
+       "value": 9.0,
+       "tax_hint": "HT",
+       "after": "HT (exonérée de TVA, la société de gestion n"
+      },
+      {
+       "raw": "8,25 %",
+       "value": 8.25,
+       "tax_hint": "HT",
+       "after": "HT (commission exonérée de TVA, la société d"
+      },
+      {
+       "raw": "0,75 %",
+       "value": 0.75,
+       "tax_hint": "HT",
+       "after": "HT (commission exonérée de TVA, la société d"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum des produits locatifs HT encaissé"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 25,
+     "label": "Commission de gestion",
+     "snippet": " des programmes d'investissement liés à chaque investissement à hauteur de 0,75 % HT (commission exonérée de TVA, la société de gestion n'y ayant pas opté). B. Commission de gestion La commission de gestion de la SCPI est fixée comme suit : - 10 % HT maximum des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI), pour l'administration et la gestion du patrimoine de la SCPI, dont, par ordre de priorité, o 10% HT maximum (à majorer de la TVA au taux en vigueur) rémunérant les missions de property management, et o le solde, facturé HT (à majorer de la TVA, la société de gestion y ayant opté), rémunérant les missions d'asset management et de fund management ; - 5 % HT maximum",
+     "percents": [
+      {
+       "raw": "0,75 %",
+       "value": 0.75,
+       "tax_hint": "HT",
+       "after": "HT (commission exonérée de TVA, la société d"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum des produits locatifs HT encaissé"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (à majorer de la TVA au taux en v"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT maximum"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 25,
+     "label": "commission de gestion",
+     "snippet": "ssement liés à chaque investissement à hauteur de 0,75 % HT (commission exonérée de TVA, la société de gestion n'y ayant pas opté). B. Commission de gestion La commission de gestion de la SCPI est fixée comme suit : - 10 % HT maximum des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI), pour l'administration et la gestion du patrimoine de la SCPI, dont, par ordre de priorité, o 10% HT maximum (à majorer de la TVA au taux en vigueur) rémunérant les missions de property management, et o le solde, facturé HT (à majorer de la TVA, la société de gestion y ayant opté), rémunérant les missions d'asset management et de fund management ; - 5 % HT maximum (à majorer de la TVA, la",
+     "percents": [
+      {
+       "raw": "0,75 %",
+       "value": 0.75,
+       "tax_hint": "HT",
+       "after": "HT (commission exonérée de TVA, la société d"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum des produits locatifs HT encaissé"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (à majorer de la TVA au taux en v"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (à majorer de la TVA, la"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 25,
+     "label": "commissions de gestion",
+     "snippet": "es participations contrôlées sont exclus de la base de calcul, rémunérant les missions d'asset management et de fund management ; de laquelle sont déduites les commissions de gestion déjà payées par les participations contrôlées, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. Cette commission de gestion correspond à la gestion des biens sociaux, l'administration de la SCPI, la gestion de la trésorerie et la répartition des bénéfices. Elle couvre les frais de personnel et de siège social de la société de gestion. La société de gestion prélève les sommes correspondantes au fur et à mesure des encaissements par la SCPI de ses recettes. La Société règle directement tous les autres frais sans exception notamment : prix et frais d'acquisition des biens et droit",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 25,
+     "label": "commission de gestion",
+     "snippet": "s commissions de gestion déjà payées par les participations contrôlées, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. Cette commission de gestion correspond à la gestion des biens sociaux, l'administration de la SCPI, la gestion de la trésorerie et la répartition des bénéfices. Elle couvre les frais de personnel et de siège social de la société de gestion. La société de gestion prélève les sommes correspondantes au fur et à mesure des encaissements par la SCPI de ses recettes. La Société règle directement tous les autres frais sans exception notamment : prix et frais d'acquisition des biens et droits immobiliers, frais d'actes (notaires, huissiers, etc.) dépenses",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 25,
+     "label": "frais d'acquisition",
+     "snippet": "ndantes au fur et à mesure des encaissements par la SCPI de ses recettes. La Société règle directement tous les autres frais sans exception notamment : prix et frais d'acquisition des biens et droits immobiliers, frais d'actes (notaires, huissiers, etc.) dépenses",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 26,
+     "label": "Commission de cession",
+     "snippet": " d'envoi relatifs à l'information des associés et à la convocation des Assemblées Générales, frais de contentieux, cotisations des organismes de place, etc. C. Commission de cession et de mutation Pour les cessions et mutations de parts sociales, la société de gestion percevra : - en cas de cession de parts réalisée directement entre vendeur et acheteur, des frais de transfert d'un montant de 50 euros HT (60 euros TTC pour un taux de TVA de 20 %) par dossier. Les frais sont dus par le cessionnaire, sauf convention contraire entre les parties ; - en cas de cession réalisée par confrontation des ordres d'achat et de vente en application de l'article L.214-93 du Code monétaire et financier, une commission de cession, assise sur le montant de la transaction, dont le taux est fixé à 4 % HT (4,8",
+     "percents": [
+      {
+       "raw": "20 %",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": ") par dossier. Les frais sont dus par le cess"
+      },
+      {
+       "raw": "4 %",
+       "value": 4.0,
+       "tax_hint": "HT",
+       "after": "HT (4,8"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 26,
+     "label": "frais de transfert",
+     "snippet": " les cessions et mutations de parts sociales, la société de gestion percevra : - en cas de cession de parts réalisée directement entre vendeur et acheteur, des frais de transfert d'un montant de 50 euros HT (60 euros TTC pour un taux de TVA de 20 %) par dossier. Les frais sont dus par le cessionnaire, sauf convention contraire entre les parties ; - en cas de cession réalisée par confrontation des ordres d'achat et de vente en application de l'article L.214-93 du Code monétaire et financier, une commission de cession, assise sur le montant de la transaction, dont le taux est fixé à 4 % HT (4,80 % TTC) ; - en cas de mutation de parts, des frais de transfert d'un montant de 75 euros HT (soit 90 euros TTC pour un taux de TVA de 20%) par succession et de 50 euros HT (soit 60 euros TTC pour un t",
+     "percents": [
+      {
+       "raw": "20 %",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": ") par dossier. Les frais sont dus par le cess"
+      },
+      {
+       "raw": "4 %",
+       "value": 4.0,
+       "tax_hint": "HT",
+       "after": "HT (4,80 % TTC) ; - en cas de mutation de pa"
+      },
+      {
+       "raw": "4,80 %",
+       "value": 4.8,
+       "tax_hint": "TTC",
+       "after": "TTC) ; - en cas de mutation de parts, des fr"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": ") par succession et de 50 euros HT (soit 60 e"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 26,
+     "label": "commission de cession",
+     "snippet": "arties ; - en cas de cession réalisée par confrontation des ordres d'achat et de vente en application de l'article L.214-93 du Code monétaire et financier, une commission de cession, assise sur le montant de la transaction, dont le taux est fixé à 4 % HT (4,80 % TTC) ; - en cas de mutation de parts, des frais de transfert d'un montant de 75 euros HT (soit 90 euros TTC pour un taux de TVA de 20%) par succession et de 50 euros HT (soit 60 euros TTC pour un taux de TVA de 20%) par dossier pour les autres cas de mutation à titre gratuit (donation notamment). Ces commissions seront réglées, par le bénéficiaire de la cession ou de la mutation, soit par chèque, soit par prélèvement sur le montant du prix de vente, soit par prélèvement sur le montant de la ou des distributions lui revenant. Elles ",
+     "percents": [
+      {
+       "raw": "4 %",
+       "value": 4.0,
+       "tax_hint": "HT",
+       "after": "HT (4,80 % TTC) ; - en cas de mutation de pa"
+      },
+      {
+       "raw": "4,80 %",
+       "value": 4.8,
+       "tax_hint": "TTC",
+       "after": "TTC) ; - en cas de mutation de parts, des fr"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": ") par succession et de 50 euros HT (soit 60 e"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": ") par dossier pour les autres cas de mutation"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 26,
+     "label": "frais de transfert",
+     "snippet": "financier, une commission de cession, assise sur le montant de la transaction, dont le taux est fixé à 4 % HT (4,80 % TTC) ; - en cas de mutation de parts, des frais de transfert d'un montant de 75 euros HT (soit 90 euros TTC pour un taux de TVA de 20%) par succession et de 50 euros HT (soit 60 euros TTC pour un taux de TVA de 20%) par dossier pour les autres cas de mutation à titre gratuit (donation notamment). Ces commissions seront réglées, par le bénéficiaire de la cession ou de la mutation, soit par chèque, soit par prélèvement sur le montant du prix de vente, soit par prélèvement sur le montant de la ou des distributions lui revenant. Elles couvrent l'organisation du marché des parts le cas échéant, et la tenue du registre. D. Commission d'acquisition et de cession d'actifs Pour les ",
+     "percents": [
+      {
+       "raw": "4 %",
+       "value": 4.0,
+       "tax_hint": "HT",
+       "after": "HT (4,80 % TTC) ; - en cas de mutation de pa"
+      },
+      {
+       "raw": "4,80 %",
+       "value": 4.8,
+       "tax_hint": "TTC",
+       "after": "TTC) ; - en cas de mutation de parts, des fr"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": ") par succession et de 50 euros HT (soit 60 e"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": ") par dossier pour les autres cas de mutation"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 26,
+     "label": "Commission d'acquisition",
+     "snippet": "élèvement sur le montant de la ou des distributions lui revenant. Elles couvrent l'organisation du marché des parts le cas échéant, et la tenue du registre. D. Commission d'acquisition et de cession d'actifs Pour les acquisitions et cessions du patrimoine immobilier, la Société de Gestion percevra : - une commission de 1,25 % HT (à majorer de la TVA au taux en vigueur, la société de gestion y ayant opté) du prix de cession net vendeur : (i) des actifs immobiliers détenus en direct par la SCPI, ou des actifs immobiliers détenus par les sociétés dans lesquelles la SCPI détient une participation contrôlée au sens du Code monétaire et financier (limité à la quote-part de détention de la SCPI) (dans le cas de la cession directe ou indirecte d'actifs et de droits immobiliers), ou (ii) de la vale",
+     "percents": [
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 26,
+     "label": "commissions d'acquisition",
+     "snippet": "cession d'autres actifs ou titres des sociétés détenus par la SCPI, y compris en cas de financement complémentaire par emprunt ; - desquelles sont déduites les commissions d'acquisition et de cession déjà payées par les sociétés que la SCPI contrôle, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. E. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 26,
+     "label": "Commission de suivi",
+     "snippet": "quisition et de cession déjà payées par les sociétés que la SCPI contrôle, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. E. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 26,
+     "label": "commission de suivi",
+     "snippet": " calculée sur le montant des travaux effectués Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 31,
+     "label": "frais de gestion",
+     "snippet": "ines impositions (notamment, taxe foncière et taxes annexes à cet impôt), dépenses d'amélioration, primes d'assurances, provisions pour charges de copropriété, frais de gestion comprenant les commissions versées aux intermédiaires pour la location des immeubles, frais de procédure, etc. Les déficits fonciers provenant des dépenses déductibles autres que les intérêts d'emprunt sont imputables sur le revenu global dans la limite annuelle de 10 700 €, sous réserve que l'associé conserve ses parts dans la Société jusqu'au 31 décembre de la 3ème année suivant celle de l'année d'imputation du déficit. La fraction du déficit qui excède cette limite ainsi que celle correspondant aux intérêts d'emprunt ne sont imputables que sur les revenus fonciers des 10 années suivantes. Lorsque le revenu global",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 33,
+     "label": "frais d'acquisition",
+     "snippet": " taux de 18,6 %. La plus-value imposable est en principe égale à la différence entre (i) le prix de cession et (ii) le prix d'acquisition des parts majorés des frais d'acquisition, pris en compte pour leur montant réel conformément à la doctrine administrative (BOI-RFPI-SPI-20 n° 20). La plus-value imposable est diminuée d'un abattement pour durée de détention, calculé à partir de la date d'acquisition des titres de la Société. Le rythme des abattements est différent selon qu'il s'agit de l'assiette de calcul de l'impôt sur la plus-value (19%) ou de celle de calcul des prélèvements sociaux (18,6 %) : Durée de détention des parts Taux d'abattement applicable par année de détention Impôt sur le revenu Prélèvement sociaux Moins de 6 ans 0% 0% De la 6ème année à la 21ème année 6% 1,65% 22ème a",
+     "percents": [
+      {
+       "raw": "18,6 %",
+       "value": 18.6,
+       "tax_hint": null,
+       "after": ". La plus-value imposable est en principe éga"
+      },
+      {
+       "raw": "19%",
+       "value": 19.0,
+       "tax_hint": null,
+       "after": ") ou de celle de calcul des prélèvements soci"
+      },
+      {
+       "raw": "18,6 %",
+       "value": 18.6,
+       "tax_hint": null,
+       "after": ") : Durée de détention des parts Taux d'abatt"
+      },
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "0% De la 6ème année à la 21ème année 6% 1,65"
+      },
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "De la 6ème année à la 21ème année 6% 1,65% 2"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "1,65% 22ème a"
+      },
+      {
+       "raw": "1,65%",
+       "value": 1.65,
+       "tax_hint": null,
+       "after": "22ème a"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 34,
+     "label": "frais d'acquisition",
+     "snippet": "i le montant par opération n'excède pas 15 000 euros et ; - Le prix d'acquisition à retenir pour la détermination de la plus-value imposable est majoré (i) des frais d'acquisition, retenus pour leur montant réel sur justification ou pour un montant forfaitaire égal à 7,5% du prix d'acquisition et (ii) des dépenses de construction, reconstruction, agrandissement et amélioration pour leur montant réel sur justification ou pour un montant forfaitaire de 15% du prix d'acquisition, applicable uniquement si l'immeuble est détenu depuis plus de 5 ans au moment de la cession. La plus-value brute est réduite de l'abattement pour durée de détention dont le rythme diffère selon qu'il s'agit de l'impôt sur le revenu ou des prélèvement sociaux, tel que détaillé ci-dessus (cf. paragraphe relatif à la ce",
+     "percents": [
+      {
+       "raw": "7,5%",
+       "value": 7.5,
+       "tax_hint": null,
+       "after": "du prix d'acquisition et (ii) des dépenses d"
+      },
+      {
+       "raw": "15%",
+       "value": 15.0,
+       "tax_hint": null,
+       "after": "du prix d'acquisition, applicable uniquement"
+      }
+     ],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "3": "-3- Note d'information SCPI Primovie D. Registre des retraits - Rappel ............................................................................................... 22 3. CESSIONS EFFECTUÉE DANS LE CADRE DES DISPOSITIONS DE L'ARTICLE L.214-93 DU CODE MONÉTAIRE ET FINANCIER EN CAS DE BLOCAGE DU MARCHÉ DES PARTS .............. 22 A. Registre des ordres .................................................................................................................. 22 B. Confrontation et prix d'exécution ........................................................................................ 23 C. Délai de versement des fonds .............................................................................................. 23 D. Transmission des ordres d'achat et de vente ................................................................... 23 E. Couverture des ordres ........................................................................................................... 24 CHAPITRE III. FRAIS ...................................................................................................................... 24 1. RÉPARTITION DES FRAIS ENTRE LA SOCIÉTÉ ET LA SOCIÉTÉ DE GESTION ..................... 24 2. RÉMUNÉRATION ET DEFRAIEMENT DE LA SOCIÉTÉ DE GESTION ........................................ 25 A. Commission de souscription ................................................................................................. 25 B. Commission de gestion ........................................................................................................... 25 C. Commission de cession et de mutation ............................................................................ 26 D. Commission d'acquisition et de cession d'actifs ............................................................ 26 E. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués .................................................. 26 F. Frais supplémentaires ............................................................................................................. 27 CHAPITRE IV. FONCTIONNEMENT DE LA SOCIÉTÉ .................................................................... 27 1. RÉGIME DES ASSEMBLÉES ............................................................................................................. 27 A. Assemblées Générales Ordinaires ....................................................................................... 28 B. Assemblées Générales Extraordinaires .............................................................................. 28 C. Consultation écrite ................................................................................................................. 29 2. RÉPARTITION DES BÉNÉFICES ET PROVISION POUR GROS ENTRETIEN ............................ 29 A. Répartition des bénéfices ..................................................................................................... 29 B. Provisions pour gros entretien ............................................................................................. 29 3. DISPOSITIONS DESTINÉES À PROTÉGER LES DROITS DES ASSOCIÉS ............................... 30 A. Conventions particulières ...................................................................................................... 30 B. Démarchage et publicité ....................................................................................................... 30 4. RÉGIME FISCAL DES ASSOCIÉS ................................................................................................... 30 A. Régime fiscal applicable à la Société ................................................................................. 30 B. Associés personnes physiques résidents fiscaux français (agissant dans le cadre de la gestion de leur patrimoine privé) ............................................................................................ 30 - Revenus et déficits fonciers ................................................................................................ 30 - Placements financiers .......................................................................................................... 32 - Plus-values de cession des parts de la Société ................................................................. 33 - Plus-values de cession des immeubles, de droits réels immobiliers ou de titres de sociétés à prépondérance immobilière par la Société .............................................................. 33 - Revenus des immeubles situés hors de France ................................................................. 34 - Impôt sur la fortune immobilière ........................................................................................ 34 C. Associés personnes physiques non-résidents fiscaux français .................................... 35 - Revenus et déficits fonciers ................................................................................................ 35",
+    "11": "-11- Note d'information SCPI Primovie La SCPI est exposée aux risques liés aux spécificités de chaque classe d'actif en raison de leur exposition aux marchés immobiliers qui leurs sont propres, aux influences macroéconomiques et démographiques, à l'évolution des modes de vie et de consommation. 8. EVALUATION DES ACTIFS IMMOBILIERS Dès lors que la SCPI acquiert des actifs immobiliers en direct, ces derniers sont évalués à leur valeur de marché sur la base d'évaluations effectuées par un expert externe en évaluation. Les actifs immobiliers sont évalués sous le contrôle de la Société de Gestion à leur valeur de marché telle que communiquée par l'expert externe en évaluation. Les actifs immobiliers acquis indirectement par la SCPI sont évalués à leur valeur de marché, hors taxes et hors droits. Cette évaluation se fait sur la base de valeurs déterminées d'une part par la Société de Gestion, et d'autre part par l'expert externe en évaluation de la société qui en est directement propriétaire (si elle en a désigné un) ou l'expert de la Société (si la société propriétaire n'en a pas désigné) sous le contrôle de la Société de Gestion. Cette valeur de marché s'apprécie en utilisant dans le cas général une méthode de cash- flows actualisés ou de capitalisation du revenu, parfois confrontée à une évaluation comparative du marché, le cas échéant à une évaluation utilisant les normes professionnelles spécifiques au bien acquis, ou encore une évaluation par la méthode du bilan promoteur. La valeur peut également tenir compte des conditions juridiques et financières de l'occupation de l'actif, de la qualité du ou des occupants de l'actif, de la valeur du bien libre ou de l'évolution du marché immobilier. La Société de Gestion fixe trimestriellement, sous sa responsabilité, la valeur de chacun des actifs immobiliers détenus directement ou indirectement. Les actifs immobiliers difficiles à évaluer (immeubles en cours de construction, immeubles en développement, immeubles en redéveloppement) sont valorisés à leur valeur actuelle représentée par leur valeur de marché en l'état d'achèvement au jour de l'évaluation, de laquelle il convient de déduire le montant restant à décaisser dans le cadre des travaux en cours. 9. CONSEQUENCES JURIDIQUES DE L'ENGAGEMENT CONTRACTUEL PRIS A DES FINS D'INVESTISSEMENT En signant son bulletin de souscription, l'associé s'engage notamment à apporter les sommes convenues à la société selon les instructions de la Société de Gestion en conformité avec cette Note d'information et les Statuts, et certifie comprendre tous les risques décrits dans la présente Note d'information. Tout litige découlant de la souscription de l'associé dans la société est en principe du ressort des juridictions civiles françaises, appliquant la procédure et les principes de droit français. L'attention des associés est attirée sur le fait que le système judiciaire de la République Française reconnaît la possibilité d'exequatur de décisions judiciaires étrangères dans certains cas, c'est-à-dire permettant leur reconnaissance et leur exécution en France comme si elles y avaient été jugées par une juridiction française ; il n'appartient pas à la Société de Gestion de garantir les situations dans lesquelles cette procédure d'exequatur est recevable, et recommande aux associés qui voudraient avoir recours à cette procédure de s'adresser à leur conseiller juridique. 10. CAPITAL SOCIAL Capital social initial : Les fondateurs ont versé chacun la valeur nominale de cent soixante euros (160 €) augmentée de la prime d'émission de 15,24 € (hors commission de souscription servant à rémunérer la collecte des fonds) de chaque part souscrite et intégralement libérée.",
+    "17": "-17- Note d'information SCPI Primovie Prix de souscription d'une part Prix de souscription de 164€, décomposé en 1 € de valeur nominale et 163 € de prime d'émission. La prime d'émission intègre notamment la commission de souscription versée par la SCPI à la société de gestion de 9 % HT (exonérée de TVA) du prix de souscription prime d'émission incluse, ce qui représente un montant de 14,76 € HT (exonérée de TVA) qui supporte : - les frais de collecte (notamment la préparation et la réalisation des augmentations de capital, le placement des parts de la SCPI lié à l'activité d'entremise des distributeurs) à hauteur de 8,25 % HT (commission exonérée de TVA, la société de gestion n'y ayant pas opté) soit 13,53 HT € (exonérée de TVA) ; - les frais d'étude et d'exécution des programmes d'investissement liés à chaque investissement à hauteur de 0,75 % HT (commission exonérée de TVA, la société de gestion n'y ayant pas opté) soit 1,23 € HT (exonérée de TVA). Le prix de souscription s'entend net de tous autres frais. Date d'effet du prix de souscription : 21 janvier 2025. La SCPI ne garantit pas la revente de vos parts, ni le retrait, la sortie n'est possible que s'il existe une contrepartie. 9. AGRÉMENT Une souscription n'est définitivement prise en compte qu'après agrément de la société de gestion. L'agrément est acquis si la société de gestion ne signifie pas son refus dans les deux mois qui suivent la réception de la demande d'agrément, conformément aux statuts de la SCPI. Toutefois, il n'entre pas dans les intentions de la société de gestion de faire jouer cette clause d'agrément sauf situation exceptionnelle, c'est à dire lorsque la souscription ne permet pas le respect de la législation en vigueur, notamment dans le cas de la lutte contre le blanchiment de capitaux et le financement du terrorisme ou en cas de transfert des parts, par voie successorale, au profit d'une « US PERSON » selon la définition de la réglementation américaine. En effet, les parts de cette SCPI n'ont pas été enregistrées en vertu de la loi US Securities Act 1933. En conséquence, elles ne peuvent pas être offertes ou vendues, directement ou indirectement, aux Etats-Unis ou pour le compte ou au bénéfice d'une « US Person » selon la définition de la réglementation américaine. Par ailleurs, les parts de ce fonds ne peuvent pas non plus être offertes ou vendues, directement ou indirectement, à toute entité détenue par une ou plusieurs « US Persons » telles que définies par la réglementation américaine « Foreign Account Tax Compliance Act (FATCA) ». 10. GARANTIE BANCAIRE Conformément à l'article L.214-116 du Code monétaire et financier, le capital maximal statutaire initial, soit 25 130 880 € a été souscrit par le public à concurrence de 15 % au moins, soit 3 769 632 euros dans un délai d'une année après la date d'ouverture de la souscription. Pour faire face à cette obligation, une garantie bancaire, telle que prévue par l'article L.214- 86 du Code monétaire et financier et portant sur 4 500 000 € avait été délivrée par la Banque Palatine le 5 juillet 2012. Elle représentait 15 % du capital maximal statutaire initial majoré de la prime d'émission (et de l'apport des fondateurs). A ce jour, la Société ne présente plus de garantie bancaire, les exigences requises ci-dessus ayant été atteintes.",
+    "18": "-18- Note d'information SCPI Primovie 11. TRAITEMENT EQUITABLE Aucun associé ne bénéficie ni n'est en droit de bénéficier d'un quelconque traitement préférentiel. La Société de Gestion garantit un traitement équitable de tous les associés, dans le respect des procédures établies dans le cadre de son agrément. CHAPITRE II. MODALITÉS DE SORTIE Tout porteur de part qui souhaite se retirer partiellement ou en totalité de la Société dispose des moyens suivants : - le retrait demandé à la société de gestion, ce-dernier n'étant possible que s'il existe une contrepartie. En l'absence de contrepartie, le retrait pourra être honoré par prélèvement sur le fonds de remboursement, dans l'hypothèse où la Société déciderait de le créer et de le doter ; - la cession de gré à gré, réalisée sans intervention de la société de gestion. La Société ne garantit pas le rachat des parts. 1. RETRAIT A. Principe du retrait Conformément aux dispositions régissant les Sociétés à capital variable, tout associé a le droit de se retirer de la Société, partiellement ou en totalité, dans la limite des clauses de variabilité fixée par les statuts. Cette faculté est cependant assujettie à l'exception, prévue par les statuts, selon laquelle la variabilité du capital peut être suspendue et rétablie dans les conditions qu'ils décrivent et qui sont reproduites dans le présent chapitre. B. Modalités de retrait Les demandes de retrait sont portées à la connaissance de la Société de Gestion par écrit ; il incombe à l'expéditeur de se ménager la preuve de son envoi (le contre-envoi du dossier par courrier électronique, par exemple, n'est pas une preuve de l'envoi postal, et n'est pas valable ni recevable pour le traitement du dossier). Le recommandé électronique n'est pas accepté dans la mesure où il ne permet pas la transmission de document originaux. Elles sont, dès réception, inscrites sur le registre des demandes de retrait et sont satisfaites par ordre chronologique d'inscription et dans la limite où la clause de variabilité le permet. Le règlement des associés qui se retirent a lieu sans autre délai que le délai administratif normal de régularisation. Les parts remboursées sont annulées. L'associé qui se retire perd la jouissance de ses parts au premier jour du mois de l'inscription de son retrait sur le registre des associés. Ainsi l'associé qui se retire en décembre perd la jouissance de ses parts au 1er décembre. C. Prix de retrait Le remboursement sera effectué sur la base d'un prix de retrait, déterminé selon les modalités suivantes. a. Si des demandes de souscription existent, pour un montant au moins égal aux demandes de retrait : Le prix de retrait correspond au prix de souscription du moment diminué de la commission de souscription. Ainsi, l'associé se retirant perçoit, sur la base du prix de souscription de 164 euros, une somme de 149,24 euros par part qui se décompose de la façon suivante :",
+    "19": "-19- Note d'information SCPI Primovie - Prix de souscription : 164,00 € - Commission de souscription : 14,76 € - Valeur de retrait : 149,24 € Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. b. Dans le cas où les souscriptions nouvelles ne permettent pas d'assurer le retrait demandé : - celui-ci pourra être assuré par prélèvement sur le fonds de remboursement s'il en existe un, dans la limite de celui-ci et dans les conditions qui sont fixées par l'Assemblée Générale ; - le prix de retrait ne peut être supérieur à la valeur de réalisation ni inférieur à celle- ci diminuée de 10 %, sauf autorisation de l'Autorité des Marchés Financiers. En application de l'article 422-219 du RG AMF, en cas de baisse du prix de retrait, la société de gestion informe par lettre recommandée avec demande d'avis de réception les associés ayant demandé leur retrait au plus tard la veille de la date d'effet. Sans réponse de la part des associés dans un délai de quinze jours à compter de réception de cette information, la demande de retrait est réputée maintenue au nouveau prix. Cette information est contenue dans la lettre de notification. L'attention des associés est attirée sur le fait que, compte tenu de l'encadrement légal du prix de retrait par référence à la valeur de réalisation, dans l'hypothèse où le fonds de remboursement ne serait pas suffisamment doté pour honorer toute demande de remboursement au prix de retrait précédemment communiqué, les demandes de remboursement restant en attente au moment où un nouveau prix de retrait devra entrer en vigueur seront exécutées, sauf si l'associé s'y est opposé, à ce nouveau prix, qui pourrait être inférieur au prix de retrait communiqué précédemment. D. Fonds de remboursement a) Création Afin de pouvoir satisfaire les demandes de retrait dans le cas évoqué ci-dessus, l'Assemblée Générale des associés du 26 juin 2025 a décidé la création et fixé les conditions de la dotation d'un fonds de remboursement destiné à contribuer à la fluidité du marché des parts. b) Dotation L'assemblée générale susvisée a autorisé la société de gestion à procéder à la dotation dudit fonds de remboursement, en une ou plusieurs fois et de façon renouvelable, dans la limite maximum cumulée de cent millions d'euros (100 000 000 €) par affectation du produit de cessions d'éléments du patrimoine. L'assemblée générale susvisée a également délégué à la société de gestion la mise en œuvre effective de la dotation du fonds de remboursement dès lors qu'elle constate qu'il existe, sur le registre des demandes de retraits, des ordres restant en attente depuis plus de 6 mois ou représentant plus de 1 % des parts en circulation c) Limites et critères d'utilisation et de fonctionnement L'assemblée générale susvisée a fixé les limites et critères d'utilisation et de fonctionnement du fonds de remboursement comme suit : − en fonction de la disponibilité des fonds affectés au fonds de remboursement et dans le respect de l'ordre chronologique d'inscription des demandes de retrait de parts en attente, la Société de Gestion peut adresser aux associés (entendus comme les personnes physiques, ou personnes morales titulaires d'une personnalité juridique propre, détenant des parts sociales de la SCPI) en attente de retrait depuis plus de 12 mois une proposition de remboursement par le fonds de remboursement ; − les associés concernés recevront un courrier de la Société de Gestion leur indiquant qu'ils ont la possibilité de demander le remboursement de tout ou partie de leurs",
+    "24": "-24- Note d'information SCPI Primovie - un mandat de vente, conforme au formulaire en vigueur, dûment complété et signé, contenant notamment le nombre de parts à vendre et le prix minimum à recevoir ; - un mandat d'achat, conforme au formulaire en vigueur, dûment complété et signé, contenant notamment le nombre de parts à acheter et le prix maximum, tous frais inclus, à payer. Ces documents peuvent être obtenus auprès de la société de gestion (Direction de la relation clients) au 01 89 20 07 95. Le cas échéant, les ordres d'achat ou de vente sont transmis, dans les meilleurs délais, par l'intermédiaire habilité à la société de gestion selon l'un des moyens indiqués ci-dessus. Cet intermédiaire vérifie, avant leur transmission à la société de gestion, que les ordres présentent les caractéristiques prévues par l'instruction prise en application du règlement général de l'Autorité des Marchés Financiers. L'intermédiaire transmet les ordres sans faire préalablement la somme des ordres de même sens et de même limite, ni compenser les ordres d'achat et de vente. Les ordres de vente ou d'achat peuvent être modifiés ou annulés selon les mêmes modalités, au moyen d'un formulaire spécifique qui peut être obtenu auprès de la société de gestion (Direction de la relation clients) au 01 89 20 07 95. E. Couverture des ordres Dans le cadre de la garantie de bonne fin des transactions attribuée par la loi à la société de gestion, celle-ci est en droit de subordonner l'inscription des ordres d'achat à un versement de fonds, qui doit être effectué, pour le montant maximum souhaité (frais de transaction inclus), soit par virement sur le compte spécifique de la SCPI qui ne porte pas intérêts, soit par chèque de banque émis à son ordre, qui sera remis sur ce compte, reçus au plus tard l'avant-veille de la fixation du prix d'exécution à 16 heures. Dans tous les cas, la société de gestion ou l'intermédiaire restituera l'éventuelle différence après exécution de l'ordre ou le total de la couverture pour les ordres d'achat non exécutés arrivés à échéance. F. Date à partir de laquelle les parts cédées ou retirées cessent de participer aux distributions de revenus Les parts cédées ou retirées cessent de participer aux distributions de revenus le dernier jour du mois précédant la date à laquelle la transaction a été réalisée. L'acheteur a droit aux revenus à compter du 1er jour du mois de la transaction. La Société ne garantit pas la revente des parts. CHAPITRE III. FRAIS 1. RÉPARTITION DES FRAIS ENTRE LA SOCIÉTÉ ET LA SOCIÉTÉ DE GESTION La société de gestion prend à sa charge tous les frais de bureau (locaux et matériels) et de personnel ayant trait à la gestion courante des biens sociaux et assure l'administration de la Société PRIMOVIE (documents nécessaires aux augmentations de capital : statuts, note d'information, bulletins de souscription, rapports annuels remis aux souscripteurs, jaquettes et certificats de parts, publicité, frais de gestion locative), la perception des recettes et la répartition des bénéfices. La Société PRIMOVIE supporte et paie tous les autres frais sans exception, notamment prix et frais d'acquisition des biens et droits immobiliers, frais d'actes, frais et honoraires de recherche, d'identification, de présentation, de négociation et de conseil d'opportunité d'investissement dans des actifs immobiliers, frais nécessaires à l'aménagement, l'entretien, la gestion des immeubles y compris les honoraires de gestionnaires non refacturés aux locataires et d'intervenants techniques, impôts et droits, les honoraires des Commissaires aux comptes, les frais d'expertise, les frais entraînés par les Conseils de Surveillance et les",
+    "25": "-25- Note d'information SCPI Primovie Assemblées Générales, des frais de contentieux, la rémunération des membres du Conseil de Surveillance ainsi que les dépenses afférentes aux documents nécessaires à l'information des associés : bulletin d'information et rapports annuels, frais d'envoi relatifs à l'information des associés et, en général, toutes les charges non récupérables sur les locataires et toutes les dépenses qui n'entrent pas dans le cadre prévu au paragraphe précédent, en ce compris les honoraires de location et de relocation des immeubles, les honoraires de syndic de copropriété, les primes d'assurance des immeubles, les frais d'expertise du patrimoine, de gestion des indivisions et les cotisations à tout organisme de tutelle ou professionnel des SCPI, dont la contribution AMF. 2. RÉMUNÉRATION ET DEFRAIEMENT DE LA SOCIÉTÉ DE GESTION Pour assurer ses missions, la société de gestion percevra une rémunération sous forme de commission de trois sortes. A. Commission de souscription Une commission de souscription versée par la SCPI à la société de gestion est fixée à 9,00 % HT (exonérée de TVA, la société de gestion n'y ayant pas opté) maximum du prix de souscription, prime d'émission incluse. La commission de souscription rémunère : - les frais de collecte (notamment la préparation et la réalisation des augmentations de capital, le placement des parts de la SCPI lié à l'activité d'entremise des distributeurs) à hauteur de 8,25 % HT (commission exonérée de TVA, la société de gestion n'y ayant pas opté) ; - les frais d'étude et d'exécution des programmes d'investissement liés à chaque investissement à hauteur de 0,75 % HT (commission exonérée de TVA, la société de gestion n'y ayant pas opté). B. Commission de gestion La commission de gestion de la SCPI est fixée comme suit : - 10 % HT maximum des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI), pour l'administration et la gestion du patrimoine de la SCPI, dont, par ordre de priorité, o 10% HT maximum (à majorer de la TVA au taux en vigueur) rémunérant les missions de property management, et o le solde, facturé HT (à majorer de la TVA, la société de gestion y ayant opté), rémunérant les missions d'asset management et de fund management ; - 5 % HT maximum (à majorer de la TVA, la société de gestion y ayant opté) des produits financiers nets encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI), les produits de participation payés à la SCPI par les participations contrôlées sont exclus de la base de calcul, rémunérant les missions d'asset management et de fund management ; de laquelle sont déduites les commissions de gestion déjà payées par les participations contrôlées, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. Cette commission de gestion correspond à la gestion des biens sociaux, l'administration de la SCPI, la gestion de la trésorerie et la répartition des bénéfices. Elle couvre les frais de personnel et de siège social de la société de gestion. La société de gestion prélève les sommes correspondantes au fur et à mesure des encaissements par la SCPI de ses recettes. La Société règle directement tous les autres frais sans exception notamment : prix et frais d'acquisition des biens et droits immobiliers, frais d'actes (notaires, huissiers, etc.) dépenses",
+    "26": "-26- Note d'information SCPI Primovie d'aménagement, d'entretien et de réparation des immeubles, assurances, impôts et taxes, frais d'eau, de gaz et d'électricité, frais de déplacement des membres du Conseil de Surveillance, rémunération le cas échéant du Conseil de Surveillance, honoraires des commissaires aux comptes et de l'expert immobilier, frais de dépositaire, honoraires de conseil, honoraires et frais de commercialisation et de relocation, de conseil, de maître d'œuvre ou de bureau d'études, frais d'expertise, frais entraînés par les Conseils de Surveillance, frais afférents aux documents relatifs à l'information des associés (bulletins trimestriels d'information et rapports annuels), frais d'envoi relatifs à l'information des associés et à la convocation des Assemblées Générales, frais de contentieux, cotisations des organismes de place, etc. C. Commission de cession et de mutation Pour les cessions et mutations de parts sociales, la société de gestion percevra : - en cas de cession de parts réalisée directement entre vendeur et acheteur, des frais de transfert d'un montant de 50 euros HT (60 euros TTC pour un taux de TVA de 20 %) par dossier. Les frais sont dus par le cessionnaire, sauf convention contraire entre les parties ; - en cas de cession réalisée par confrontation des ordres d'achat et de vente en application de l'article L.214-93 du Code monétaire et financier, une commission de cession, assise sur le montant de la transaction, dont le taux est fixé à 4 % HT (4,80 % TTC) ; - en cas de mutation de parts, des frais de transfert d'un montant de 75 euros HT (soit 90 euros TTC pour un taux de TVA de 20%) par succession et de 50 euros HT (soit 60 euros TTC pour un taux de TVA de 20%) par dossier pour les autres cas de mutation à titre gratuit (donation notamment). Ces commissions seront réglées, par le bénéficiaire de la cession ou de la mutation, soit par chèque, soit par prélèvement sur le montant du prix de vente, soit par prélèvement sur le montant de la ou des distributions lui revenant. Elles couvrent l'organisation du marché des parts le cas échéant, et la tenue du registre. D. Commission d'acquisition et de cession d'actifs Pour les acquisitions et cessions du patrimoine immobilier, la Société de Gestion percevra : - une commission de 1,25 % HT (à majorer de la TVA au taux en vigueur, la société de gestion y ayant opté) du prix de cession net vendeur : (i) des actifs immobiliers détenus en direct par la SCPI, ou des actifs immobiliers détenus par les sociétés dans lesquelles la SCPI détient une participation contrôlée au sens du Code monétaire et financier (limité à la quote-part de détention de la SCPI) (dans le cas de la cession directe ou indirecte d'actifs et de droits immobiliers), ou (ii) de la valeur conventionnelle des actifs et droits immobiliers ayant servi à la détermination de la valeur des titres (dans le cas de la cession d'une participation) ; - une commission de 1,25 % HT (à majorer de la TVA au taux en vigueur, la société de gestion y ayant opté) du prix d'acquisition des actifs et droits immobiliers, ou des titres de participations contrôlées ou non contrôlées, pour la quote-part de ce prix payée grâce au réinvestissement des produits de cession d'autres actifs ou titres des sociétés détenus par la SCPI, y compris en cas de financement complémentaire par emprunt ; - desquelles sont déduites les commissions d'acquisition et de cession déjà payées par les sociétés que la SCPI contrôle, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. E. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le",
+    "31": "-31- Note d'information SCPI Primovie immeuble donné en location nue, conformément à la doctrine administrative (BOI-RFPI- DECLA-10, n° 50), que les revenus fonciers du foyer fiscal ne proviennent pas d'un monument historique et ne bénéficient pas d'un avantage fiscal spécifique (à l'exception des dispositifs Pinel, Duflot, Denormandie, Scellier classique ou Malraux pour lesquels le micro-foncier est permis). Dans cette hypothèse, les contribuables dont le total du revenu foncier brut annuel est inférieur ou égal à 15 000 € sont soumis de plein droit à un régime d'imposition simplifié dit « régime micro-foncier » conformément à l'article 32 du Code général des impôts. Ils peuvent néanmoins opter pour la déduction des charges réelles si ce régime leur est plus favorable. Cette option n'est soumise à aucun formalisme particulier et résulte de la simple souscription de la déclaration des revenus fonciers n° 2044 dans le délai légal de dépôt de la déclaration des revenus de l'année. L'option pour le régime micro-foncier est globale : elle concerne l'intégralité des revenus fonciers du contribuable et s'applique obligatoirement pour une période de 3 ans durant laquelle l'option est irrévocable conformément à l'article 32, 4 du Code général des impôts. Le régime micro-foncier donne droit à un abattement forfaitaire de 30% sur les revenus fonciers bruts, représentatif de l'ensemble des charges réelles déductibles (aucune autre déduction ne peut être opérée sur le revenu brut). Il convient de noter que le régime micro-foncier n'est pas applicable dans certains cas limitativement énumérés à l'article 32, 2 du Code général des impôts. Le régime du micro-foncier n'ouvre pas droit à l'imputation du déficit foncier. Régime réel : déduction des charges réelles déductibles (régime de droit commun) Pour les contribuables qui n'entrent pas dans le champ d'application du régime micro-foncier ou qui décident d'opter pour l'application du régime réel d'imposition, le revenu foncier imposable à l'impôt sur le revenu est égal, chaque année, à la différence entre le montant des recettes encaissées et le total des frais et des charges acquittés. Les loyers sont ainsi diminués des charges déductibles acquittées par la Société, c'est-à - dire toutes les dépenses engagées en vue de l'acquisition ou de la conservation du revenu foncier, lorsqu'elles ne sont pas expressément exclues des charges foncières déductibles : dépenses de réparation et d'entretien, frais d'administration, certaines impositions (notamment, taxe foncière et taxes annexes à cet impôt), dépenses d'amélioration, primes d'assurances, provisions pour charges de copropriété, frais de gestion comprenant les commissions versées aux intermédiaires pour la location des immeubles, frais de procédure, etc. Les déficits fonciers provenant des dépenses déductibles autres que les intérêts d'emprunt sont imputables sur le revenu global dans la limite annuelle de 10 700 €, sous réserve que l'associé conserve ses parts dans la Société jusqu'au 31 décembre de la 3ème année suivant celle de l'année d'imputation du déficit. La fraction du déficit qui excède cette limite ainsi que celle correspondant aux intérêts d'emprunt ne sont imputables que sur les revenus fonciers des 10 années suivantes. Lorsque le revenu global du contribuable est insuffisant pour absorber le déficit foncier imputable (limité à 10 700€), l'excédent du déficit est imputable dans les conditions de droit commun sur les revenus globaux des six années suivantes, conformément aux dispositions de l'article 156, I du Code général des impôts. Prélèvements sociaux Quel que soit le régime d'imposition (micro-foncier ou régime réel), les associés personnes physiques domiciliés fiscalement en France sont également soumis aux prélèvements sociaux à un taux global de 18,6 % sur les revenus locatifs perçus par la Société. Liquidation de l'impôt et prélèvement à la source",
+    "33": "-33- Note d'information SCPI Primovie S'agissant des plus-values de cession portant sur des valeurs mobilières acquises avant le 1er janvier 2018, elles peuvent être réduites d'un abattement proportionnel pour durée de détention, sous réserve que le contribuable ait opté pour une imposition de l'ensemble de ses revenus mobiliers selon le barème progressif. - Plus-values de cession des parts de la Société Les plus-values immobilières réalisées par ces associés à titre occasionnel sont imposées selon le régime des plus-values-immobilières privées prévu aux articles 150 U à 150 VH du Code général des impôts. Elles sont soumises à l'impôt sur le revenu au taux proportionnel de 19 %, ainsi qu'aux prélèvements sociaux au taux de 18,6 %. La plus-value imposable est en principe égale à la différence entre (i) le prix de cession et (ii) le prix d'acquisition des parts majorés des frais d'acquisition, pris en compte pour leur montant réel conformément à la doctrine administrative (BOI-RFPI-SPI-20 n° 20). La plus-value imposable est diminuée d'un abattement pour durée de détention, calculé à partir de la date d'acquisition des titres de la Société. Le rythme des abattements est différent selon qu'il s'agit de l'assiette de calcul de l'impôt sur la plus-value (19%) ou de celle de calcul des prélèvements sociaux (18,6 %) : Durée de détention des parts Taux d'abattement applicable par année de détention Impôt sur le revenu Prélèvement sociaux Moins de 6 ans 0% 0% De la 6ème année à la 21ème année 6% 1,65% 22ème année révolue 4% 1,60% Au-delà de la 22ème année 9% BOI-RFPI-PVI-20-20 n°60 Ainsi, la plus-value est exonérée : - Au-delà de la 22ème année de détention pour l'impôt sur le revenu ; - Au-delà de la 30ème année de détention pour les prélèvements sociaux. Pour les plus-values nettes imposables supérieures à 50 000 euros (après application de l'abattement pour durée de détention retenu pour le calcul de la plus-value soumise au taux proportionnel de 19%), une surtaxe s'applique également, dont le taux progresse par tranches de 50 000 euros, allant de 2% jusqu'à 6% pour les plus-values supérieures à 260 000 euros (cf. taux du barème publié au BOFIP : BOI-RFPI-TPVIE-20). La règle selon laquelle la plus-value n'est pas imposable lorsque le montant de la cession est inférieur ou égal à 15 000 euros n'est pas applicable en cas de cession de parts de SCPI. Sauf cas particulier, la plus-value réalisée lors de la cession de titres de la Société doit faire l'objet d'une déclaration auprès du service des impôts des entreprises (SIE) territorialement compétent par le cédant, selon le modèle établi par l'administration fiscale pour déclarer les plus-values sur cessions de biens meubles ou de parts de sociétés à prépondérance immobilière (déclaration n° 2048-M, disponible sur www.impots.gouv.fr). Le montant net de la plus-value réalisée doit être reporté dans la déclaration annuelle des revenus du contribuable. Il servira notamment pour le calcul du revenu fiscal de référence ainsi que pour l'assiette de la contribution exceptionnelle sur les hauts revenus, lorsqu'elle est applicable. - Plus-values de cession des immeubles, de droits réels immobiliers ou de titres de sociétés à prépondérance immobilière par la Société S'agissant des cessions d'immeubles, de droits réels immobiliers ou de titres de sociétés à prépondérance immobilière détenus par la Société, le régime d'imposition des plus-values"
+   }
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836317/2026+08+01+PRIMOVIE+DIC+v1c.pdf/f8bf499c-5aa7-6430-6e66-38ab280d6c62?t=1785931217105",
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836317/2026+08+01+PRIMOVIE+DIC+v1c.pdf/f8bf499c-5aa7-6430-6e66-38ab280d6c62?t=1785931217105",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 311993,
+   "sha256": "0218c768d44d2f2fbb63f8259fc315e1394907bc21f52c491cae7bb6b1a4a3c7",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Yann Bouters",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260805122350+02'00'",
+    "modDate": "D:20260805122350+02'00'"
+   },
+   "page_count": 3,
+   "text_characters": 16244,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "primovie",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 Document d'Informations Clés Objectif Le présent document contient des informations essentielles sur le produit d'investissement. Il ne s'agit pas d'un document à caractère commercial. Ces informations vous sont fournies conformément à une obligation légale, afin de vous aider à comprendre en quoi consiste ce produit et quels risques, coûts, gains et pertes potentiels y sont associés, et de vous",
+   "dates": [
+    "01/08/2026",
+    "23 juin 2026",
+    "27 janvier 2022"
+   ],
+   "fee_clauses": [
+    {
+     "page": 2,
+     "label": "frais de souscription",
+     "snippet": "ur percevra une rétrocession comprise entre 5% et 8% du montant total de votre investissement, sur la base du prix de part en pleine propriété, et intégrée aux frais de souscription qui vous ont été présentés par votre distributeur. Coûts au fil du temps Les tableaux présentent les montants prélevés sur votre investissement afin de couvrir les différents types de coûts. Ces montants dépendent du montant que vous investissez, du temps pendant lequel vous détenez le produit et du rendement du produit. Les montants indiqués ici sont des illustrations basées sur un exemple de montant d'investissement et différentes périodes d'investissement possibles. Ces montants n'incluent pas les frais du contrat d'assurance vie ou de capitalisation. Nous avons supposé : - qu'au cours de la première année v",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "et 8% du montant total de votre investisseme"
+      },
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": null,
+       "after": "du montant total de votre investissement, su"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "Coûts d'entrée",
+     "snippet": "tte personne vous informera du montant. Composition des coûts : Incidence des coûts annuels si vous sortez après 1 an Coûts ponctuels à l'entrée ou à la sortie Coûts d'entrée 899,00 € 9,0% du montant que vous payez lors de l'entrée dans votre investissement. L'incidence des coûts déjà inclus dans le prix. Coûts de sortie N/A L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance. Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 118,00 € 1,3% de la valeur de votre investissement. L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements. Pour plus d'information, nous vous invitons à consulter la Note d'Information. Coûts de transaction 48,00 € 0,5% de la valeur de votre invest",
+     "percents": [
+      {
+       "raw": "9,0%",
+       "value": 9.0,
+       "tax_hint": null,
+       "after": "du montant que vous payez lors de l'entrée d"
+      },
+      {
+       "raw": "1,3%",
+       "value": 1.3,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement. L'inci"
+      },
+      {
+       "raw": "0,5%",
+       "value": 0.5,
+       "tax_hint": null,
+       "after": "de la valeur de votre invest"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts récurrents",
+     "snippet": "t. L'incidence des coûts déjà inclus dans le prix. Coûts de sortie N/A L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance. Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 118,00 € 1,3% de la valeur de votre investissement. L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements. Pour plus d'information, nous vous invitons à consulter la Note d'Information. Coûts de transaction 48,00 € 0,5% de la valeur de votre investissement. L'incidence des coûts encourus lorsque nous achetons ou vendons des investissements sous-jacents au produit. Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats N/A Aucune commission liée aux résultats n'existe po",
+     "percents": [
+      {
+       "raw": "1,3%",
+       "value": 1.3,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement. L'inci"
+      },
+      {
+       "raw": "0,5%",
+       "value": 0.5,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement. L'inci"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Frais de gestion",
+     "snippet": "ns le prix. Coûts de sortie N/A L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance. Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 118,00 € 1,3% de la valeur de votre investissement. L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements. Pour plus d'information, nous vous invitons à consulter la Note d'Information. Coûts de transaction 48,00 € 0,5% de la valeur de votre investissement. L'incidence des coûts encourus lorsque nous achetons ou vendons des investissements sous-jacents au produit. Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats N/A Aucune commission liée aux résultats n'existe pour ce produit. Commissions d'intéressem",
+     "percents": [
+      {
+       "raw": "1,3%",
+       "value": 1.3,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement. L'inci"
+      },
+      {
+       "raw": "0,5%",
+       "value": 0.5,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement. L'inci"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts de transaction",
+     "snippet": "idence des coûts que nous prélevons chaque année pour gérer vos investissements. Pour plus d'information, nous vous invitons à consulter la Note d'Information. Coûts de transaction 48,00 € 0,5% de la valeur de votre investissement. L'incidence des coûts encourus lorsque nous achetons ou vendons des investissements sous-jacents au produit. Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats N/A Aucune commission liée aux résultats n'existe pour ce produit. Commissions d'intéressement N/A Aucune commission d'intéressement n'existe pour ce produit. Combien de temps dois-je le conserver et puis-je retirer de l'argent de façon anticipée ? Période de détention recommandée : 10 ans Un désinvestissement avant l'échéance est possible mais n'est pas garanti par l'ini",
+     "percents": [
+      {
+       "raw": "0,5%",
+       "value": 0.5,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement. L'inci"
+      }
+     ],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "2": "2 Risques pertinents qui ne sont pas suffisamment pris en compte par l'indicateur : Le produit présente un risque matériel de liquidité, son actif, essentiellement immobilier, étant par nature illiquide et son rachat n'étant possible que dans la limite des souscriptions qu'il reçoit. Risque lié à l'effet de levier du produit : l'endettement a pour effet d'augmenter la capacité d'investissement de la SCPI mais également le risques de perte. Le risque de contrepartie se caractérise par le risque que des locataires soient dans l'incapacité de payer leurs loyers et diminuer le rendement la SCPI. Le produit présente également les risques suivants : risque de perte en capital, risque lié à la gestion discrétionnaire, risques liés aux aléas de la construction ou de la mise en location, risque de concentration, risque de durabilité, risque de taux et risque de change. Scénarios de performance Les chiffres indiqués comprennent tous les coûts du produit lui-même, mais pas nécessairement tous les frais dus à votre conseiller ou distributeur. Ces chiffres ne tiennent pas compte de votre situation fiscale personnelle, qui peut également influer sur les montants que vous recevrez. Il n'est pas facile de sortir de ce produit. Ce que vous obtiendrez de ce produit dépend des performances futures du marché. L'évolution future du marché est aléatoire et ne peut être prédite avec précision. Les scénarios défavorable, intermédiaire et favorable présentés représentent des exemples utilisant les meilleure et pires performances, ainsi que la performance moyenne du produit et de l'indice de référence approprié au cours des 15 dernières années. Les marchés pourraient évoluer très différemment à l'avenir. Le scénario de tensions montre ce que vous pourriez obtenir dans des situations de marché extrêmes. Investissement de 10 000 euros Scénarios Si vous sortez après 1 an Si vous sortez après 5 ans (Mi-période de détention recommandée) Si vous sortez après 10 ans (Période de détention recommandée) Scénario de tensions Ce que vous pourriez obtenir après déduction des coûts 7 990 € 6 760 € 5 920 € Rendement annuel moyen -20,10% -7,53% -5,11% Scénario défavorable Ce que vous pourriez obtenir après déduction des coûts 8 520 € 8 110 € 8 110 € Rendement annuel moyen -14,80% -4,10% -2,07% Scénario intermédiaire Ce que vous pourriez obtenir après déduction des coûts 9 700 € 12 720 € 17 430 € Rendement annuel moyen -3,00% 4,93% 5,71% Scénario favorable Ce que vous pourriez obtenir après déduction des coûts 10 530 € 13 850 € 19 040 € Rendement annuel moyen 5,30% 6,73% 6,65% Que se passe-t-il si Praemia REIM France n'est pas en mesure d'effectuer les versements ? Une défaillance de la société de gestion qui gère les actifs de votre SCPI serait sans effet pour votre investissement. La garde et conservation des actifs de votre SCPI sont en effet assurées par le dépositaire de votre SCPI. En cas de défaillance du dépositaire, le risque de perte financière du produit est atténué en raison de la ségrégation légale des actifs du dépositaire de ceux du produit. L'investissement dans une SCPI n'est pas garanti ni couvert par un système national de compensation. Que va me coûter cet investissement ? Il se peut que la personne qui vous vend ce produit ou qui vous fournit des conseils à son sujet vous demande de payer des coûts supplémentaires. Si c'est le cas, cette personne vous informera au sujet de ces coûts et vous montrera l'incidence de ces coûts sur votre investissement. Après l'enregistrement de votre souscription, votre distributeur percevra une rétrocession comprise entre 5% et 8% du montant total de votre investissement, sur la base du prix de part en pleine propriété, et intégrée aux frais de souscription qui vous ont été présentés par votre distributeur. Coûts au fil du temps Les tableaux présentent les montants prélevés sur votre investissement afin de couvrir les différents types de coûts. Ces montants dépendent du montant que vous investissez, du temps pendant lequel vous détenez le produit et du rendement du produit. Les montants indiqués ici sont des illustrations basées sur un exemple de montant d'investissement et différentes périodes d'investissement possibles. Ces montants n'incluent pas les frais du contrat d'assurance vie ou de capitalisation. Nous avons supposé : - qu'au cours de la première année vous récupéreriez le montant que vous avez investi (rendement annuel de 0 %). - que pour les autres périodes de détention, le produit évolue de la manière indiquée dans le scénario intermédiaire ; - que 10 000 EUR sont investis.",
+    "3": "3 Investissement de 10 000 euros Scénarios Si vous sortez après 1 an Si vous sortez après 5 ans (Moitié de la période recommandée) Si vous sortez après 10 ans (période de détention recommandée) Coûts totaux 1 066 € 2 582 € 5 530 € Incidence sur le rendement (réduction de rendement) par an (*) 10,66% 3,95% 2,95% (*) Elle montre dans quelle mesure les coûts réduisent annuellement votre rendement au cours de la période de détention. Par exemple, elle montre que si vous sortez à la fin de la période de détention recommandée, il est prévu que votre rendement moyen par an soit de 8,66% avant déduction des coûts et de 5,71% après cette déduction. Il se peut que nous partagions les coûts avec la personne qui vous vend le produit afin de couvrir les services qu'elle vous fournit. Cette personne vous informera du montant. Composition des coûts : Incidence des coûts annuels si vous sortez après 1 an Coûts ponctuels à l'entrée ou à la sortie Coûts d'entrée 899,00 € 9,0% du montant que vous payez lors de l'entrée dans votre investissement. L'incidence des coûts déjà inclus dans le prix. Coûts de sortie N/A L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance. Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 118,00 € 1,3% de la valeur de votre investissement. L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements. Pour plus d'information, nous vous invitons à consulter la Note d'Information. Coûts de transaction 48,00 € 0,5% de la valeur de votre investissement. L'incidence des coûts encourus lorsque nous achetons ou vendons des investissements sous-jacents au produit. Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats N/A Aucune commission liée aux résultats n'existe pour ce produit. Commissions d'intéressement N/A Aucune commission d'intéressement n'existe pour ce produit. Combien de temps dois-je le conserver et puis-je retirer de l'argent de façon anticipée ? Période de détention recommandée : 10 ans Un désinvestissement avant l'échéance est possible mais n'est pas garanti par l'initiateur du produit. A condition que le rachat demandé soit compensé par une souscription permettant d'en couvrir le coût, le rachat a lieu à une valeur de retrait renseignée dans la note d'information et ne donne pas lieu à la perception de frais ou d'honoraires par la SCPI ni par Praemia REIM France. A défaut de souscription permettant de couvrir le rachat, la sortie du produit dépend de l'existence d'un marché secondaire, au prix établi par ce marché si l'offre rencontre la demande ; Praemia REIM France perçoit une rémunération pour les transactions sur le marché secondaire. Bien que le rendement du produit ne soit de toute façon pas garanti, la détention pour une durée inférieure à la période recommandée est d'autant plus susceptible de pénaliser l'investisseur qui demande le retrait que la durée réelle de sa détention aura été courte. En conséquence de la suspension temporaire de la variabilité du capital de la Société, les parts de la Société s'échangent désormais via le marché secondaire sur la base d'un prix d'exécution mensuel. Comment puis-je formuler une réclamation ? Vous pouvez formuler une réclamation concernant le produit ou le comportement (i) de l'initiateur du produit, (ii) d'une personne qui fournit des conseils au sujet de ce produit, ou (iii) d'une personne qui vend ce produit en adressant un courrier électronique ou un courrier postal aux personnes suivantes, selon le cas : · Si votre réclamation concerne le produit lui-même ou le comportement de l'initiateur : serviceclients@praemiareim.com ou bien : Praemia REIM France, Service Associés, 26 rue Villeneuve, 92110 Clichy. Site Internet : www.praemiareim.fr · Si votre réclamation concerne une personne qui fournit des conseils sur le produit ou bien qui le vend, veuillez contacter cette personne en direct. Autres informations pertinentes Avant sa souscription, l'investisseur doit recevoir une copie des statuts de la société, de la note d'information en cours de validité et visée par l'Autorité des Marchés Financiers, du dernier Bulletin Trimestriel d'Information, du dernier rapport annuel, et un bulletin de souscription. Si vous avez souscrit ce produit par le biais d'un distributeur, vous pouvez également vous rapprocher de lui pour obtenir des renseignements sur le produit. La documentation juridique du fonds est disponible en ligne à l'adresse https://www.praemiareim.fr/fr/scpi-primovie Les méthodes de valorisation des actifs immobiliers de la SCPI sont détailllées dans la note d'information disponible en ligne à l'adresse https://www.praemiareim.fr/fr/scpi-primovie La SCPI est classée « Article 8 » au sens du Règlement européen « SFDR ». Les informations relatives à la finance durables sont disponibles à l'adresse https://www.praemiareim.fr/fr/developpement-durable Lorsque ce produit est utilisé comme support en unité de compte d'un contrat d'assurance sur la vie ou de capitalisation, les informations complémentaires sur ce contrat, telles que les coûts du contrat, qui ne sont pas compris dans les coûts indiqués dans le présent document, le contact en cas de réclamation et ce qui se passe en cas de défaillance de l'entreprise d'assurance sont présentées dans le document d'informations clés de ce contrat obligatoirement remis par votre assureur ou courtier ou tout autre intermédiaire d'assurance conformément à son obligation légale."
+   }
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836317/2026+08+01+PRIMOVIE+Statuts.pdf/0501cc44-552c-5877-3ad9-b7c36f8c70d7?t=1785931183673",
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836317/2026+08+01+PRIMOVIE+Statuts.pdf/0501cc44-552c-5877-3ad9-b7c36f8c70d7?t=1785931183673",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 573217,
+   "sha256": "cab926bae60c8cd0450bf99991e1e8519ccacd3673b927e19f960142115c8346",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Gregoire FRAISSE",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260803123539+02'00'",
+    "modDate": "D:20260803123539+02'00'"
+   },
+   "page_count": 27,
+   "text_characters": 80966,
+   "kind": "statuts",
+   "identity_match": true,
+   "identity_alias": "primovie",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "PRIMOVIE Société Civile de Placement Immobilier à capital variable avec possibilité de cession sur le marché secondaire en cas de blocage des retraits Siège social : 26 rue Villeneuve - 92110 Clichy 752 924 845 RCS Nanterre STATUTS Mise à jour : 1er août 2026",
+   "dates": [
+    "1er août 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 8,
+     "label": "commission de cession",
+     "snippet": "lité du capital entraine : - l'annulation des ordres d'achat et de vente de parts, - la fixation d'un prix de souscription par référence à la moyenne des prix, commission de cession et droits d'enregistrement inclus, payés par les acquéreurs au cours des huit (8) périodes de confrontation prises en référence pour le rétablissement de la variabilité du capital, - l'inscription sur le registre des demandes de retrait de parts, - la reprise des souscriptions et la possibilité pour la Société, en toute cohérence avec les textes légaux et réglementaires, d'émettre des parts nouvelles en vue d'augmenter son capital social effectif. ARTICLE VIII. AUGMENTATION ET RÉDUCTION DU CAPITAL La société de gestion est autorisée statutairement à augmenter, en une ou plusieurs fois, le capital social pour le",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "tés suivantes : 1. si des demandes de souscriptions existent, pour un montant au moins égal à la valeur de retrait, égale au prix de souscription diminué de la commission de souscription toutes taxes comprises. Le règlement des associés qui se retirent a lieu sans autre délai que le délai administratif normal de régularisation ; 2. dans le cas où les souscriptions nouvelles ne permettraient pas d'assurer le retrait demandé, celui-ci serait assuré par prélèvement sur le fonds de remboursement s'il en existe un et dans la limite de celui-ci, et dans les conditions qui seraient fixées par l'Assemblée Générale. Le règlement des associés qui se retirent a lieu sans autre délai que le délai administratif normal de régularisation. Les parts remboursées sont annulées. L'associé qui se retire perd ",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "frais de gestion",
+     "snippet": "ns de capital : statuts, note d'information, bulletins de souscription, rapports annuels remis aux souscripteurs, jaquettes et certificats de parts, publicité, frais de gestion locative), la perception des recettes et la répartition des bénéfices. La Société PRIMOVIE supporte et paie tous les autres frais sans exception, notamment prix et frais d'acquisition des biens et droits immobiliers, frais d'actes, frais et honoraires de recherche, d'identification, de présentation, de négociation et de conseil d'opportunité d'investissement dans des actifs immobiliers, frais nécessaires à l'aménagement, l'entretien, la gestion des immeubles y compris les honoraires de gestionnaires non refacturés aux locataires et d'intervenants techniques, impôts et droits, les honoraires des Commissaires aux comp",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 15,
+     "label": "frais d'acquisition",
+     "snippet": "tive), la perception des recettes et la répartition des bénéfices. La Société PRIMOVIE supporte et paie tous les autres frais sans exception, notamment prix et frais d'acquisition des biens et droits immobiliers, frais d'actes, frais et honoraires de recherche, d'identification, de présentation, de négociation et de conseil d'opportunité d'investissement dans des actifs immobiliers, frais nécessaires à l'aménagement, l'entretien, la gestion des immeubles y compris les honoraires de gestionnaires non refacturés aux locataires et d'intervenants techniques, impôts et droits, les honoraires des Commissaires aux comptes, les frais d'expertise, les frais entraînés par les Conseils de Surveillance et les Assemblées Générales, des frais de contentieux, la rémunération des membres du Conseil de Sur",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 15,
+     "label": "Commission de souscription",
+     "snippet": "lle ou professionnel des SCPI. 2. Rémunération de la société de gestion La société de gestion est rémunérée de ses fonctions dans les conditions suivantes : a) Commission de souscription Une commission de souscription versée par la SCPI à la Société de Gestion est fixée à 9,00 % HT maximum (éventuellement augmentée de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts) du prix de souscription, prime d'émission incluse. La commission de souscription rémunère : − les frais de collecte (notamment la préparation et la réalisation des augmentations de capital, le placement des parts de la SCPI lié à l'activité d'entremise des",
+     "percents": [
+      {
+       "raw": "9,00 %",
+       "value": 9.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (éventuellement augmentée de la T"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "commission de souscription",
+     "snippet": "2. Rémunération de la société de gestion La société de gestion est rémunérée de ses fonctions dans les conditions suivantes : a) Commission de souscription Une commission de souscription versée par la SCPI à la Société de Gestion est fixée à 9,00 % HT maximum (éventuellement augmentée de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts) du prix de souscription, prime d'émission incluse. La commission de souscription rémunère : − les frais de collecte (notamment la préparation et la réalisation des augmentations de capital, le placement des parts de la SCPI lié à l'activité d'entremise des",
+     "percents": [
+      {
+       "raw": "9,00 %",
+       "value": 9.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (éventuellement augmentée de la T"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "commission de souscription",
+     "snippet": "tion à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts) du prix de souscription, prime d'émission incluse. La commission de souscription rémunère : − les frais de collecte (notamment la préparation et la réalisation des augmentations de capital, le placement des parts de la SCPI lié à l'activité d'entremise des",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "Commission de gestion",
+     "snippet": "m (éventuellement augmentés de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts). b) Commission de gestion La commission de gestion de la SCPI est fixée comme suit : − 10 % HT maximum des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI), pour l'administration et la gestion du patrimoine de la SCPI, dont, par ordre de priorité, o 10% HT maximum (à majorer de la TVA au taux en vigueur) rémunérant les missions de property management, et o le solde, facturé HT (éventuellement augmenté de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général d",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum des produits locatifs HT encaissé"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (à majorer de la TVA au taux en v"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "commission de gestion",
+     "snippet": "és de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts). b) Commission de gestion La commission de gestion de la SCPI est fixée comme suit : − 10 % HT maximum des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI), pour l'administration et la gestion du patrimoine de la SCPI, dont, par ordre de priorité, o 10% HT maximum (à majorer de la TVA au taux en vigueur) rémunérant les missions de property management, et o le solde, facturé HT (éventuellement augmenté de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts), rémunérant le",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum des produits locatifs HT encaissé"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (à majorer de la TVA au taux en v"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "commissions de gestion",
+     "snippet": "es participations contrôlées sont exclus de la base de calcul, rémunérant les missions d'asset management et de fund management ; de laquelle sont déduites les commissions de gestion déjà payées par les participations contrôlées, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. Cette commission de gestion correspond à la gestion des biens sociaux, l'administration de la SCPI, la gestion de la trésorerie et la répartition des bénéfices. La société de gestion prélève les sommes correspondantes au fur et à mesure des encaissements par la Société de ses recettes. La Société règle directement tous les autres frais sans exception notamment : prix et frais d'acquisition des biens et droits immobiliers, frais d'actes (notaires, huissiers, etc.) dépenses d'aménageme",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "commission de gestion",
+     "snippet": "s commissions de gestion déjà payées par les participations contrôlées, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. Cette commission de gestion correspond à la gestion des biens sociaux, l'administration de la SCPI, la gestion de la trésorerie et la répartition des bénéfices. La société de gestion prélève les sommes correspondantes au fur et à mesure des encaissements par la Société de ses recettes. La Société règle directement tous les autres frais sans exception notamment : prix et frais d'acquisition des biens et droits immobiliers, frais d'actes (notaires, huissiers, etc.) dépenses d'aménagement, d'entretien et de réparation des immeubles, assurances, impôts et taxes, frais d'eau, de gaz et d'électricité, frais de déplacement des membres du Conseil",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "frais d'acquisition",
+     "snippet": "ntes au fur et à mesure des encaissements par la Société de ses recettes. La Société règle directement tous les autres frais sans exception notamment : prix et frais d'acquisition des biens et droits immobiliers, frais d'actes (notaires, huissiers, etc.) dépenses d'aménagement, d'entretien et de réparation des immeubles, assurances, impôts et taxes, frais d'eau, de gaz et d'électricité, frais de déplacement des membres du Conseil de Surveillance, rémunération le cas échéant du Conseil de Surveillance, honoraires des commissaires aux comptes, honoraires de conseil, honoraires et frais de commercialisation et de relocation, de conseil, de maître d'œuvre ou de bureau d'études, frais d'expertise, frais entraînés par les Conseils de Surveillance, frais afférents aux documents relatifs à l'infor",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "Commission de cession",
+     "snippet": " d'envoi relatifs à l'information des associés et à la convocation des Assemblées Générales, frais de contentieux, cotisations des organismes de place, etc. c) Commission de cession et de mutation Pour les cessions et mutations de parts sociales, la société de gestion percevra : − en cas de cession de parts réalisée directement entre vendeur et acheteur, des frais de transfert d'un montant de 50 euros HT (à majorer de la TVA au taux en vigueur, soit 60 euros TTC pour un taux de TVA de 20%) par dossier. Les frais sont dus par le cessionnaire, sauf convention contraire entre les parties ; − en cas de cession réalisée par confrontation des ordres d'achat et de vente en application de l'article L.214-93 du Code monétaire et financier, une commission de",
+     "percents": [
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": ") par dossier. Les frais sont dus par le cess"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "frais de transfert",
+     "snippet": " les cessions et mutations de parts sociales, la société de gestion percevra : − en cas de cession de parts réalisée directement entre vendeur et acheteur, des frais de transfert d'un montant de 50 euros HT (à majorer de la TVA au taux en vigueur, soit 60 euros TTC pour un taux de TVA de 20%) par dossier. Les frais sont dus par le cessionnaire, sauf convention contraire entre les parties ; − en cas de cession réalisée par confrontation des ordres d'achat et de vente en application de l'article L.214-93 du Code monétaire et financier, une commission de",
+     "percents": [
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": ") par dossier. Les frais sont dus par le cess"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "frais de transfert",
+     "snippet": " de la TVA au taux en vigueur), assise sur le montant de la transaction, et dont le taux est fixé par l'Assemblée Générale ; − en cas de mutation de parts, des frais de transfert d'un montant de 75 euros HT (soit 90 euros TTC pour un taux de TVA de 20%) par succession et de 50 euros HT (soit 60 euros TTC pour un taux de TVA de 20%) par dossier pour les autres cas de mutation à titre gratuit (donation notamment). Ces commissions seront réglées, par le bénéficiaire de la cession ou de la mutation, soit par chèque, soit par prélèvement sur le montant du prix de vente, soit par prélèvement sur le montant de la ou des distributions lui revenant. La prise en charge de frais supplémentaires devra être soumise à l'agrément de l'Assemblée Générale, pour couvrir des charges exceptionnelles, et qui p",
+     "percents": [
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": ") par succession et de 50 euros HT (soit 60 e"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": ") par dossier pour les autres cas de mutation"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 17,
+     "label": "Commission d'acquisition",
+     "snippet": "iques ou sociales. La décision de l'Assemblée Générale devra être prise conformément aux dispositions de l'article L.214-106 du Code monétaire et financier. d) Commission d'acquisition ou de cession d'actifs immobiliers Afin de réaliser les acquisitions, cessions ou échanges d'un actif immobilier ou droit immobilier, la société de gestion percevra une commission d'acquisition ou de cession d'actifs immobiliers calculée sur le montant de l'acquisition ou de la cession immobilière de la manière suivante : − une commission de 1,25 % HT (éventuellement augmentée de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts) du prix de cession net vendeur (i) des actifs immobiliers détenus en direct par la SCPI, ou des actifs immo",
+     "percents": [
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (éventuellement augmentée de la TVA, en c"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 17,
+     "label": "commission d'acquisition",
+     "snippet": "sion d'actifs immobiliers Afin de réaliser les acquisitions, cessions ou échanges d'un actif immobilier ou droit immobilier, la société de gestion percevra une commission d'acquisition ou de cession d'actifs immobiliers calculée sur le montant de l'acquisition ou de la cession immobilière de la manière suivante : − une commission de 1,25 % HT (éventuellement augmentée de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts) du prix de cession net vendeur (i) des actifs immobiliers détenus en direct par la SCPI, ou des actifs immobiliers détenus par les sociétés dans lesquelles la SCPI détient une participation contrôlée au sens du Code monétaire et financier (limité à la quote-part de détention de la SCPI) (dans le cas ",
+     "percents": [
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (éventuellement augmentée de la TVA, en c"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 17,
+     "label": "commissions d'acquisition",
+     "snippet": "cession d'autres actifs ou titres des sociétés détenus par la SCPI, y compris en cas de financement complémentaire par emprunt ; − desquelles sont déduites les commissions d'acquisition et de cession déjà payées par les sociétés que la SCPI contrôle, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. e) Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués. Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3 % hors taxes maximum (majorée de la TVA au taux en vigueur) du montant toutes taxes comprises des travaux ",
+     "percents": [
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes maximum (majorée de la TVA au tau"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "Commission de suivi",
+     "snippet": "quisition et de cession déjà payées par les sociétés que la SCPI contrôle, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. e) Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués. Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3 % hors taxes maximum (majorée de la TVA au taux en vigueur) du montant toutes taxes comprises des travaux effectivement réalisés. ARTICLE XXII. CONVENTIONS Toute convention intervenant entre la Société et la société de gestion ou tout associé de la Société doit, sur les rapports du",
+     "percents": [
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes maximum (majorée de la TVA au tau"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "commission de suivi",
+     "snippet": "calculée sur le montant des travaux effectués. Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3 % hors taxes maximum (majorée de la TVA au taux en vigueur) du montant toutes taxes comprises des travaux effectivement réalisés. ARTICLE XXII. CONVENTIONS Toute convention intervenant entre la Société et la société de gestion ou tout associé de la Société doit, sur les rapports du Conseil de Surveillance et du commissaire aux comptes, être approuvée par l'Assemblée Générale des associés. Préalablement à l'achat de tout",
+     "percents": [
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes maximum (majorée de la TVA au tau"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "frais d'acquisition",
+     "snippet": " applicables aux Sociétés Civiles de Placement Immobilier (SCPI). Les frais de fusion, les frais de recherche d'immeubles directement réglés par la SCPI et les frais d'acquisition des immeubles (notamment droits d'enregistrement, TVA non récupérable, frais de notaire) pourront être imputés sur la prime d'émission et/ou sur la prime de fusion. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d'évaluation que les années précédentes. Toutefois, la société de gestion peut proposer à l'Assemblée Générale Ordinaire des modifications dans la présentation des comptes dans les conditions prévues par les dispositions légales et réglementaires.",
+     "percents": [],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "8": "-8- Statuts SCPI Primovie Le rétablissement de la variabilité du capital entraine : - l'annulation des ordres d'achat et de vente de parts, - la fixation d'un prix de souscription par référence à la moyenne des prix, commission de cession et droits d'enregistrement inclus, payés par les acquéreurs au cours des huit (8) périodes de confrontation prises en référence pour le rétablissement de la variabilité du capital, - l'inscription sur le registre des demandes de retrait de parts, - la reprise des souscriptions et la possibilité pour la Société, en toute cohérence avec les textes légaux et réglementaires, d'émettre des parts nouvelles en vue d'augmenter son capital social effectif. ARTICLE VIII. AUGMENTATION ET RÉDUCTION DU CAPITAL La société de gestion est autorisée statutairement à augmenter, en une ou plusieurs fois, le capital social pour le porter à un montant maximal de 5 000 000 000 euros, soit 5 000 000 000 parts de 1 € de valeur nominale chacune, sans qu'il y ait toutefois obligation quelconque d'atteindre ce montant dans un délai déterminé. L'émission de parts nouvelles se fait à la valeur nominale augmentée d'une prime d'émission destinée à : − amortir les frais, droits et taxes grevant le prix d'acquisition des biens et droits immobiliers, ainsi que les frais engagés par la Société pour la collecte des capitaux, la recherche des immeubles, les formalités d'augmentation de capital s'il y a lieu, et la TVA non récupérable sur les immeubles ; − assurer l'égalité entre les associés. Ainsi, pour chaque part nouvelle émise, il sera également prélevé sur la prime d'émission, le montant permettant le maintien du niveau par part du report à nouveau existant. Le prix de souscription est établi sur la base de la valeur de reconstitution telle que définie à l'article L.214-109 du Code monétaire et financier. Tout écart de plus ou moins10 % entre le prix de souscription et la valeur de reconstitution des parts devra être notifié et justifié par la société de gestion à l'Autorité des Marchés Financiers. La société de gestion fixe le montant de la prime d'émission. La valeur nominale majorée de la prime d'émission constitue le prix de souscription. Toute personne étrangère à la Société est tenue de souscrire un minimum de 10 parts, et ce, sous réserve qu'elle ait été préalablement agréée par la société de gestion, ledit agrément étant acquis si la société de gestion ne signifie pas son refus dans les quinze jours qui suivent la réception du bulletin de souscription. Il n'entre pas dans les intentions de la société de gestion de faire jouer cette clause d'agrément sauf situation exceptionnelle. En dehors des retraits, le capital social peut aussi, à toute époque, être réduit par décision extraordinaire des associés pour quelque cause et de quelque manière que ce soit, son montant ne pouvant, toutefois, en aucun cas, être ramené en deçà du minimum légal de 760 000 euros. ARTICLE IX. RETRAIT DES ASSOCIÉS Le capital social effectif de la Société peut être réduit par le retrait total ou partiel d'un ou plusieurs associés, l'exercice de ce droit étant limité dans les conditions prévues à l'article VII ci-dessus et dans la note d'information. Les demandes de retrait sont adressées à la société de gestion par écrit sous les conditions et dans les formes et modalités précisées dans la note d'information ; il incombe à l'expéditeur de se ménager la preuve de la réception de sa demande par la Société de Gestion. Elles sont, dès réception, inscrites sur le registre des demandes de retrait et sont",
+    "9": "-9- Statuts SCPI Primovie satisfaites par ordre chronologique d'inscription et dans la limite où la clause de variabilité le permet. Le remboursement sera effectué sur la base d'un prix de retrait, déterminé selon les modalités suivantes : 1. si des demandes de souscriptions existent, pour un montant au moins égal à la valeur de retrait, égale au prix de souscription diminué de la commission de souscription toutes taxes comprises. Le règlement des associés qui se retirent a lieu sans autre délai que le délai administratif normal de régularisation ; 2. dans le cas où les souscriptions nouvelles ne permettraient pas d'assurer le retrait demandé, celui-ci serait assuré par prélèvement sur le fonds de remboursement s'il en existe un et dans la limite de celui-ci, et dans les conditions qui seraient fixées par l'Assemblée Générale. Le règlement des associés qui se retirent a lieu sans autre délai que le délai administratif normal de régularisation. Les parts remboursées sont annulées. L'associé qui se retire perd la jouissance de ses parts au premier jour du mois de l'inscription de son retrait sur le registre des associés. Ainsi l'associé qui se retire en décembre, perd la jouissance de ses parts au 1er décembre. S'il s'avérait qu'une ou plusieurs demandes de retrait inscrites sur le registre des demandes de retrait et représentant au moins 10 % des parts émises par la Société n'étaient pas satisfaites dans un délai de douze mois, la société de gestion, conformément à l'article L.214- 93 du Code monétaire et financier, en informerait sans délai l'Autorité des Marchés Financiers et convoquerait une Assemblée Générale Extraordinaire dans les deux mois de cette information. La société de gestion proposerait à l'Assemblée Générale la cession partielle ou totale du patrimoine et toute autre mesure appropriée. Notamment, l'inscription d'ordres sur le registre, mentionné à l'article 422-205 du Règlement général de l'AMF, d'une SCPI à capital variable constitue une mesure appropriée au sens du II de l'article L.214-93 du Code monétaire et financier. L'application de cette mesure emporte la suspension des demandes de retrait. Les rapports de la société de gestion, du Commissaire aux Comptes et les projets de résolutions sont transmis à l'Autorité des Marchés Financiers (AMF). ARTICLE X. FONDS DE REMBOURSEMENT Afin de pouvoir satisfaire les demandes de retrait dans le cas évoqué ci-dessus, l'Assemblée Générale des associés pourra décider la création et la dotation d'un fonds de remboursement destiné à contribuer à la fluidité du marché des parts. Les sommes allouées à ce fonds proviendront soit du produit de cessions d'éléments du patrimoine locatif, soit de bénéfices affectés lors de l'approbation de comptes annuels. Les liquidités affectées au fonds de remboursement sont destinées au seul remboursement des associés. Dans les conditions précisées dans la note d'information, le fonds de remboursement, lorsqu'il est doté, est pourvu d'au moins deux des caractéristiques de gestion de la liquidité des parts sociales parmi celles visées par la Directive 2024/927/UE telle que transposée en droit français. La reprise des sommes disponibles sur ce fonds de remboursement doit être autorisée par décision d'une Assemblée Générale des associés, après rapport motivé de la société de gestion et information préalable de l'Autorité des Marchés Financiers.",
+    "15": "-15- Statuts SCPI Primovie qu'ils ne pourront exercer d'actions et de poursuites que contre la Société et sur les biens lui appartenant. La société de gestion ne peut recevoir de fonds pour le compte de la Société. La société de gestion ne contracte en cette qualité et à raison de sa gestion, aucune obligation personnelle relative aux engagements de la Société, et n'est responsable que de son mandat. ARTICLE XX. DÉLÉGATION DE POUVOIRS La société de gestion peut déléguer à telle personne que bon lui semble, et sous sa responsabilité, tous pouvoirs, pour un ou plusieurs objets déterminés, pour une durée limitée et dans le cadre de ceux qui lui sont attribués. Dans ce cas, elle partage avec ses mandataires tout ou partie de ses rémunérations sans que lesdits mandataires puissent à un moment quelconque se considérer comme préposés de la Société, ni exercer d'action directe à l'encontre de ladite Société. ARTICLE XXI. RÉMUNÉRATION DE LA SOCIÉTÉ DE GESTION 1. Répartition des frais entre la Société et la société de gestion La société de gestion prend à sa charge tous les frais de bureau (locaux et matériels) et de personnel ayant trait à la gestion courante des biens sociaux et assure l'administration de la Société PRIMOVIE (documents nécessaires aux augmentations de capital : statuts, note d'information, bulletins de souscription, rapports annuels remis aux souscripteurs, jaquettes et certificats de parts, publicité, frais de gestion locative), la perception des recettes et la répartition des bénéfices. La Société PRIMOVIE supporte et paie tous les autres frais sans exception, notamment prix et frais d'acquisition des biens et droits immobiliers, frais d'actes, frais et honoraires de recherche, d'identification, de présentation, de négociation et de conseil d'opportunité d'investissement dans des actifs immobiliers, frais nécessaires à l'aménagement, l'entretien, la gestion des immeubles y compris les honoraires de gestionnaires non refacturés aux locataires et d'intervenants techniques, impôts et droits, les honoraires des Commissaires aux comptes, les frais d'expertise, les frais entraînés par les Conseils de Surveillance et les Assemblées Générales, des frais de contentieux, la rémunération des membres du Conseil de Surveillance ainsi que les dépenses afférentes aux documents nécessaires à l'information des Associés : bulletin d'information et rapports annuels, frais d'envoi relatifs à l'information des associés et, en général, toutes les charges non récupérables sur les locataires et toutes les dépenses qui n'entrent pas dans le cadre prévu au paragraphe précédent, en ce compris les honoraires de location et de relocation des immeubles, les honoraires de syndic de copropriété, les primes d'assurance des immeubles, les frais d'expertise du patrimoine, de gestion des indivisions et les cotisations à tout organisme de tutelle ou professionnel des SCPI. 2. Rémunération de la société de gestion La société de gestion est rémunérée de ses fonctions dans les conditions suivantes : a) Commission de souscription Une commission de souscription versée par la SCPI à la Société de Gestion est fixée à 9,00 % HT maximum (éventuellement augmentée de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts) du prix de souscription, prime d'émission incluse. La commission de souscription rémunère : − les frais de collecte (notamment la préparation et la réalisation des augmentations de capital, le placement des parts de la SCPI lié à l'activité d'entremise des",
+    "16": "-16- Statuts SCPI Primovie distributeurs) à hauteur de 8,25 % HT maximum (éventuellement augmentés de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts) ; − les frais d'étude et d'exécution des programmes d'investissement liés à chaque investissement à hauteur de 0,75 % HT maximum (éventuellement augmentés de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts). b) Commission de gestion La commission de gestion de la SCPI est fixée comme suit : − 10 % HT maximum des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI), pour l'administration et la gestion du patrimoine de la SCPI, dont, par ordre de priorité, o 10% HT maximum (à majorer de la TVA au taux en vigueur) rémunérant les missions de property management, et o le solde, facturé HT (éventuellement augmenté de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts), rémunérant les missions d'asset management et de fund management ; − 5 % HT maximum (éventuellement augmentée de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts) des produits financiers nets encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI), les produits de participation payés à la SCPI par les participations contrôlées sont exclus de la base de calcul, rémunérant les missions d'asset management et de fund management ; de laquelle sont déduites les commissions de gestion déjà payées par les participations contrôlées, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. Cette commission de gestion correspond à la gestion des biens sociaux, l'administration de la SCPI, la gestion de la trésorerie et la répartition des bénéfices. La société de gestion prélève les sommes correspondantes au fur et à mesure des encaissements par la Société de ses recettes. La Société règle directement tous les autres frais sans exception notamment : prix et frais d'acquisition des biens et droits immobiliers, frais d'actes (notaires, huissiers, etc.) dépenses d'aménagement, d'entretien et de réparation des immeubles, assurances, impôts et taxes, frais d'eau, de gaz et d'électricité, frais de déplacement des membres du Conseil de Surveillance, rémunération le cas échéant du Conseil de Surveillance, honoraires des commissaires aux comptes, honoraires de conseil, honoraires et frais de commercialisation et de relocation, de conseil, de maître d'œuvre ou de bureau d'études, frais d'expertise, frais entraînés par les Conseils de Surveillance, frais afférents aux documents relatifs à l'information des associés (bulletins trimestriels d'information et rapports annuels), frais d'envoi relatifs à l'information des associés et à la convocation des Assemblées Générales, frais de contentieux, cotisations des organismes de place, etc. c) Commission de cession et de mutation Pour les cessions et mutations de parts sociales, la société de gestion percevra : − en cas de cession de parts réalisée directement entre vendeur et acheteur, des frais de transfert d'un montant de 50 euros HT (à majorer de la TVA au taux en vigueur, soit 60 euros TTC pour un taux de TVA de 20%) par dossier. Les frais sont dus par le cessionnaire, sauf convention contraire entre les parties ; − en cas de cession réalisée par confrontation des ordres d'achat et de vente en application de l'article L.214-93 du Code monétaire et financier, une commission de",
+    "17": "-17- Statuts SCPI Primovie cession (à majorer de la TVA au taux en vigueur), assise sur le montant de la transaction, et dont le taux est fixé par l'Assemblée Générale ; − en cas de mutation de parts, des frais de transfert d'un montant de 75 euros HT (soit 90 euros TTC pour un taux de TVA de 20%) par succession et de 50 euros HT (soit 60 euros TTC pour un taux de TVA de 20%) par dossier pour les autres cas de mutation à titre gratuit (donation notamment). Ces commissions seront réglées, par le bénéficiaire de la cession ou de la mutation, soit par chèque, soit par prélèvement sur le montant du prix de vente, soit par prélèvement sur le montant de la ou des distributions lui revenant. La prise en charge de frais supplémentaires devra être soumise à l'agrément de l'Assemblée Générale, pour couvrir des charges exceptionnelles, et qui pourraient résulter notamment de mesures législatives ou réglementaires ou de toutes autres circonstances juridiques, économiques ou sociales. La décision de l'Assemblée Générale devra être prise conformément aux dispositions de l'article L.214-106 du Code monétaire et financier. d) Commission d'acquisition ou de cession d'actifs immobiliers Afin de réaliser les acquisitions, cessions ou échanges d'un actif immobilier ou droit immobilier, la société de gestion percevra une commission d'acquisition ou de cession d'actifs immobiliers calculée sur le montant de l'acquisition ou de la cession immobilière de la manière suivante : − une commission de 1,25 % HT (éventuellement augmentée de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts) du prix de cession net vendeur (i) des actifs immobiliers détenus en direct par la SCPI, ou des actifs immobiliers détenus par les sociétés dans lesquelles la SCPI détient une participation contrôlée au sens du Code monétaire et financier (limité à la quote-part de détention de la SCPI) (dans le cas de la cession directe ou indirecte d'actifs et de droits immobiliers), ou (ii) de la valeur conventionnelle des actifs et droits immobiliers ayant servi à la détermination de la valeur des titres (dans le cas de la cession d'une participation) ; − une commission de 1,25 % HT (éventuellement augmentée de la TVA, en cas d'option à la TVA par la société de gestion opérée conformément à l'article 260 B du Code général des impôts) du prix d'acquisition des actifs et droits immobiliers, ou des titres de participations contrôlées ou non contrôlées, pour la quote-part de ce prix payée grâce au réinvestissement des produits de cession d'autres actifs ou titres des sociétés détenus par la SCPI, y compris en cas de financement complémentaire par emprunt ; − desquelles sont déduites les commissions d'acquisition et de cession déjà payées par les sociétés que la SCPI contrôle, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. e) Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués. Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3 % hors taxes maximum (majorée de la TVA au taux en vigueur) du montant toutes taxes comprises des travaux effectivement réalisés. ARTICLE XXII. CONVENTIONS Toute convention intervenant entre la Société et la société de gestion ou tout associé de la Société doit, sur les rapports du Conseil de Surveillance et du commissaire aux comptes, être approuvée par l'Assemblée Générale des associés. Préalablement à l'achat de tout",
+    "24": "-24- Statuts SCPI Primovie rémunérations globales de gestion ainsi que de surveillance si les organes de surveillance sont rémunérés. Sauf en ce qui concerne l'inventaire, le droit de prendre connaissance comporte celui de prendre copie. Conformément à l'article R.214-138, II du Code monétaire et financier, la Société est tenue de faire figurer à l'ordre du jour de l'Assemblée Générale Ordinaire les projets de résolutions présentés par un ou plusieurs Associés représentant au moins 5 % du capital social. Toutefois, lorsque le capital de la Société est supérieur à 760 000 euros, les Associés doivent représenter une fraction du capital calculée en fonction d'un pourcentage dégressif, conformément au barème suivant : − 4 % pour les 760 000 premiers euros ; − 2,5 % pour la tranche du capital comprise entre 760 000 et 7 600 000 euros ; − 1 % pour la tranche du capital comprise entre 7 600 000 et 15 200 000 euros ; − 0,5 % pour le surplus du capital. Les projets de résolutions devront être adressés à la société de gestion par lettre recommandée avec accusé de réception au plus tard 25 jours avant la date de tenue de l'Assemblée Générale, et la société de gestion devra en accuser réception dans les 5 jours suivant la réception. TITRE VI. DISPOSITIONS COMPTABLES ARTICLE XXVIII. EXERCICE SOCIAL L'exercice social a une durée de douze mois. Il commence le premier janvier pour se terminer le trente et un (31) décembre. Toutefois à titre exceptionnel, le premier exercice social aura une durée inférieure à douze mois et se terminera le 31 décembre 2012. ARTICLE XXIX. ÉTABLISSEMENT DES COMPTES SOCIAUX À la clôture de chaque exercice, soit au 31 décembre de chaque année, la société de gestion dresse l'inventaire des divers éléments de l'actif et du passif existant à cette date. Elle dresse également les comptes annuels conformément aux dispositions du Titre II du livre II du Code de commerce. En outre, elle établit un état annexe aux comptes qui retrace la valeur comptable, la valeur de réalisation et la valeur de reconstitution de la Société. La valeur de réalisation est égale à la somme de la valeur vénale des immeubles et de la valeur nette des autres actifs diminuée des dettes, le tout ramené à une part. La valeur de reconstitution est égale à la valeur de réalisation augmentée des frais afférents à une reconstitution du patrimoine, le tout ramené à une part. Les comptes annuels sont établis suivant les règles et principes comptables définis par le plan comptable applicables aux Sociétés Civiles de Placement Immobilier (SCPI). Les frais de fusion, les frais de recherche d'immeubles directement réglés par la SCPI et les frais d'acquisition des immeubles (notamment droits d'enregistrement, TVA non récupérable, frais de notaire) pourront être imputés sur la prime d'émission et/ou sur la prime de fusion. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d'évaluation que les années précédentes. Toutefois, la société de gestion peut proposer à l'Assemblée Générale Ordinaire des modifications dans la présentation des comptes dans les conditions prévues par les dispositions légales et réglementaires."
+   }
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836314/PRIMOVIE_brochure+202611.pdf/dac85e39-3bcf-c86d-1dee-ac4b7e787518?t=1793711455481",
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836314/PRIMOVIE_brochure+202611.pdf/dac85e39-3bcf-c86d-1dee-ac4b7e787518?t=1793711455481",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 524630,
+   "sha256": "51667ba8202b4f2fbe3a31571cb1cd8ad2334bf58b005e20ab89d9e2557f91f7",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.6 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261103140753+01'00'",
+    "modDate": "D:20261103140754+01'00'"
+   },
+   "page_count": 6,
+   "text_characters": 18075,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "primovie",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "PRIMOVIE Juillet 2026",
+   "dates": [
+    "30/06/2026",
+    "31/12/2025",
+    "Juillet 2026",
+    "Mars 2023"
+   ],
+   "fee_clauses": [
+    {
+     "page": 5,
+     "label": "Commission de souscription",
+     "snippet": "ans le 23 juin 2026. Mode de détention : achat en direct ou comme unité de compte en assurance vie. Délai de jouissance : au 1er jour du mois de la transaction Commission de souscription sur le marché primaire : 9,00 % HT max (exonérée de TVA) du prix de souscription prime d'émission incluse. Commission de cession des parts sur le marché secondaire : commission de 4,80% TTC assise sur le montant de la transaction. Cette commission est à la charge de l'acquéreur. Droits de mutation pour cession de parts : 5% de droits d'enregistrement reversés au Trésor Public. Ces droits sont à la charge de l'acquéreur. Frais de gestion annuels : 10 % HT maximum du montant des produits locatifs encaissés par la société et 5 % HT max (à majorer de la TVA au taux en vigueur) des produits financiers nets. Fra",
+     "percents": [
+      {
+       "raw": "9,00 %",
+       "value": 9.0,
+       "tax_hint": "HT",
+       "after": "HT max (exonérée de TVA) du prix de souscrip"
+      },
+      {
+       "raw": "4,80%",
+       "value": 4.8,
+       "tax_hint": "TTC",
+       "after": "TTC assise sur le montant de la transaction."
+      },
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "de droits d'enregistrement reversés au Tréso"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant des produits locatifs"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT max (à majorer de la TVA au taux en vigue"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 5,
+     "label": "Commission de cession",
+     "snippet": "du mois de la transaction Commission de souscription sur le marché primaire : 9,00 % HT max (exonérée de TVA) du prix de souscription prime d'émission incluse. Commission de cession des parts sur le marché secondaire : commission de 4,80% TTC assise sur le montant de la transaction. Cette commission est à la charge de l'acquéreur. Droits de mutation pour cession de parts : 5% de droits d'enregistrement reversés au Trésor Public. Ces droits sont à la charge de l'acquéreur. Frais de gestion annuels : 10 % HT maximum du montant des produits locatifs encaissés par la société et 5 % HT max (à majorer de la TVA au taux en vigueur) des produits financiers nets. Frais de cession de part : • \u0007Cession de parts réalisée directement entre vendeur et acheteur : 50 € HT / 60 € TTC par dossier. • \u0007Mutati",
+     "percents": [
+      {
+       "raw": "9,00 %",
+       "value": 9.0,
+       "tax_hint": "HT",
+       "after": "HT max (exonérée de TVA) du prix de souscrip"
+      },
+      {
+       "raw": "4,80%",
+       "value": 4.8,
+       "tax_hint": "TTC",
+       "after": "TTC assise sur le montant de la transaction."
+      },
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "de droits d'enregistrement reversés au Tréso"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant des produits locatifs"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT max (à majorer de la TVA au taux en vigue"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 5,
+     "label": "Frais de gestion",
+     "snippet": "de l'acquéreur. Droits de mutation pour cession de parts : 5% de droits d'enregistrement reversés au Trésor Public. Ces droits sont à la charge de l'acquéreur. Frais de gestion annuels : 10 % HT maximum du montant des produits locatifs encaissés par la société et 5 % HT max (à majorer de la TVA au taux en vigueur) des produits financiers nets. Frais de cession de part : • \u0007Cession de parts réalisée directement entre vendeur et acheteur : 50 € HT / 60 € TTC par dossier. • \u0007Mutation de parts : 75 € HT / 90 € TTC par succession ou 50 € HT / 60 € TTC par dossier pour les autres cas de mutation à titre gratuit. Commission d'acquisition d'actifs : 1,25 % HT (à majorer de la TVA au taux en vigueur, la Société de gestion y ayant opté) du prix d'acquisition des actifs acquis en réinvestissement des",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "de droits d'enregistrement reversés au Tréso"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant des produits locatifs"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT max (à majorer de la TVA au taux en vigue"
+      },
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 5,
+     "label": "Frais de cession",
+     "snippet": " 10 % HT maximum du montant des produits locatifs encaissés par la société et 5 % HT max (à majorer de la TVA au taux en vigueur) des produits financiers nets. Frais de cession de part : • \u0007Cession de parts réalisée directement entre vendeur et acheteur : 50 € HT / 60 € TTC par dossier. • \u0007Mutation de parts : 75 € HT / 90 € TTC par succession ou 50 € HT / 60 € TTC par dossier pour les autres cas de mutation à titre gratuit. Commission d'acquisition d'actifs : 1,25 % HT (à majorer de la TVA au taux en vigueur, la Société de gestion y ayant opté) du prix d'acquisition des actifs acquis en réinvestissement des actifs cédés, y compris en cas de financement complémentaire par emprunt. Commission de cession d'actifs : 1,25 % HT (à majorer de la TVA au taux en vigueur, la Société de gestion y aya",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant des produits locatifs"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT max (à majorer de la TVA au taux en vigue"
+      },
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 5,
+     "label": "Commission d'acquisition",
+     "snippet": " € TTC par dossier. • \u0007Mutation de parts : 75 € HT / 90 € TTC par succession ou 50 € HT / 60 € TTC par dossier pour les autres cas de mutation à titre gratuit. Commission d'acquisition d'actifs : 1,25 % HT (à majorer de la TVA au taux en vigueur, la Société de gestion y ayant opté) du prix d'acquisition des actifs acquis en réinvestissement des actifs cédés, y compris en cas de financement complémentaire par emprunt. Commission de cession d'actifs : 1,25 % HT (à majorer de la TVA au taux en vigueur, la Société de gestion y ayant opté) du prix de cession net vendeur. Commission de suivi et de pilotage de la réalisation de travaux : 3 % HT max (majorée de la TVA au taux en vigueur) du montant TTC des travaux effectivement réalisés. 3,2 MDS€ Capitalisation 50 162 Nombre d'associés 297 Nombre ",
+     "percents": [
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT max (majorée de la TVA au taux en vigueur"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 5,
+     "label": "Commission de cession",
+     "snippet": "gestion y ayant opté) du prix d'acquisition des actifs acquis en réinvestissement des actifs cédés, y compris en cas de financement complémentaire par emprunt. Commission de cession d'actifs : 1,25 % HT (à majorer de la TVA au taux en vigueur, la Société de gestion y ayant opté) du prix de cession net vendeur. Commission de suivi et de pilotage de la réalisation de travaux : 3 % HT max (majorée de la TVA au taux en vigueur) du montant TTC des travaux effectivement réalisés. 3,2 MDS€ Capitalisation 50 162 Nombre d'associés 297 Nombre d'actifs 459 Nombre de baux 1 713 237 m2 gérés 1 3 5 2 4 6 7 Échelle de risque Risque le + faible L'indicateur de risque part de l'hypothèse que vous conservez le produit 10 ans. Vous risquez de ne pas pouvoir vendre facilement votre produit, ou de devoir le ve",
+     "percents": [
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT max (majorée de la TVA au taux en vigueur"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 5,
+     "label": "Commission de suivi",
+     "snippet": "mprunt. Commission de cession d'actifs : 1,25 % HT (à majorer de la TVA au taux en vigueur, la Société de gestion y ayant opté) du prix de cession net vendeur. Commission de suivi et de pilotage de la réalisation de travaux : 3 % HT max (majorée de la TVA au taux en vigueur) du montant TTC des travaux effectivement réalisés. 3,2 MDS€ Capitalisation 50 162 Nombre d'associés 297 Nombre d'actifs 459 Nombre de baux 1 713 237 m2 gérés 1 3 5 2 4 6 7 Échelle de risque Risque le + faible L'indicateur de risque part de l'hypothèse que vous conservez le produit 10 ans. Vous risquez de ne pas pouvoir vendre facilement votre produit, ou de devoir le vendre à un prix qui inﬂuera sur le montant que vous percevrez en retour. Risque le + élevé Chiffres clés au 30/06/2026 123,76 € Valeur de réalisation en ",
+     "percents": [
+      {
+       "raw": "1,25 %",
+       "value": 1.25,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT max (majorée de la TVA au taux en vigueur"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_cession"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "5": "Caractéristiques Date de création : 19/07/2012 Durée minimale de placement recommandée : 10 ans Forme juridique : SCPI à capital variable avec possibilité de cession sur le marché secondaire en cas de blocage des retraits La variabilité du capital a été suspendue pour une durée de 2 ans le 23 juin 2026. Mode de détention : achat en direct ou comme unité de compte en assurance vie. Délai de jouissance : au 1er jour du mois de la transaction Commission de souscription sur le marché primaire : 9,00 % HT max (exonérée de TVA) du prix de souscription prime d'émission incluse. Commission de cession des parts sur le marché secondaire : commission de 4,80% TTC assise sur le montant de la transaction. Cette commission est à la charge de l'acquéreur. Droits de mutation pour cession de parts : 5% de droits d'enregistrement reversés au Trésor Public. Ces droits sont à la charge de l'acquéreur. Frais de gestion annuels : 10 % HT maximum du montant des produits locatifs encaissés par la société et 5 % HT max (à majorer de la TVA au taux en vigueur) des produits financiers nets. Frais de cession de part : • \u0007Cession de parts réalisée directement entre vendeur et acheteur : 50 € HT / 60 € TTC par dossier. • \u0007Mutation de parts : 75 € HT / 90 € TTC par succession ou 50 € HT / 60 € TTC par dossier pour les autres cas de mutation à titre gratuit. Commission d'acquisition d'actifs : 1,25 % HT (à majorer de la TVA au taux en vigueur, la Société de gestion y ayant opté) du prix d'acquisition des actifs acquis en réinvestissement des actifs cédés, y compris en cas de financement complémentaire par emprunt. Commission de cession d'actifs : 1,25 % HT (à majorer de la TVA au taux en vigueur, la Société de gestion y ayant opté) du prix de cession net vendeur. Commission de suivi et de pilotage de la réalisation de travaux : 3 % HT max (majorée de la TVA au taux en vigueur) du montant TTC des travaux effectivement réalisés. 3,2 MDS€ Capitalisation 50 162 Nombre d'associés 297 Nombre d'actifs 459 Nombre de baux 1 713 237 m2 gérés 1 3 5 2 4 6 7 Échelle de risque Risque le + faible L'indicateur de risque part de l'hypothèse que vous conservez le produit 10 ans. Vous risquez de ne pas pouvoir vendre facilement votre produit, ou de devoir le vendre à un prix qui inﬂuera sur le montant que vous percevrez en retour. Risque le + élevé Chiffres clés au 30/06/2026 123,76 € Valeur de réalisation en vigueur au 30/06/2026 Valeur de reconstitution en vigueur au 30/06/2026 146,51 € La valeur de réalisation d'une SCPI est égale à la somme de la valeur des immeubles et de la valeur nette des autres actifs de la société. La valeur de reconstitution est égale à la valeur de réalisation augmentée du montant des frais afférents à une reconstitution du patrimoine de la SCPI. 5 Praemia REIM détient environ 33 milliards d'euros d'encours sous gestion. Son allocation de conviction se décompose en : 52 % santé/ éducation, 27 % bureau, 8 % résidentiel, 5 % commerce, 6 % hôtellerie et 1 % logistique. Sa plateforme paneuropéenne gère 61 fonds et réunit environ 80 000 clients investisseurs, dont 42 % particuliers et 58 % institutionnels. Son patrimoine immobilier est composé de plus de 1 700 immeubles répartis entre les principales catégories d'actifs et localisés dans 12 pays européens. Praemia REIM France est une filiale de Praemia REIM. À propos de Praemia REIM (données au 30/06/2026) : Praemia REIM réunit plus de 450 collaborateurs en France, en Allemagne, au Luxembourg, en Italie, à Singapour et en Espagne. La société met ses valeurs de conviction et d'engagement ainsi que ses expertises à l'échelle européenne pour concevoir et gérer des fonds immobiliers au service de ses clients nationaux et internationaux, qu'ils soient particuliers ou institutionnels."
+   }
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836317/Primovie+Code+de+Transparence.pdf/89a8bddc-2346-ff27-fe98-4dece6406240?t=1782837033938",
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836317/Primovie+Code+de+Transparence.pdf/89a8bddc-2346-ff27-fe98-4dece6406240?t=1782837033938",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 520737,
+   "sha256": "260be2d6eb7138e8ca5662661ea58e191b9640d6424f887b52f8d6f16c870964",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Daniel WHILE",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260630163016+02'00'",
+    "modDate": "D:20260630163016+02'00'"
+   },
+   "page_count": 13,
+   "text_characters": 27970,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "primovie",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 CODE DE TRANSPARENCE ISR SCPI PRIMOPIERRE - PRIMOVIE – PRAEMIA REIM FRANCE – JUIN 2026 Juin 2026 CODE DE TRANSPARENCE ISR DES FONDS SCPI PRIMOPIERRE ET SCPI PRIMOVIE GERES PAR PRAEMIA REIM FRANCE",
+   "dates": [
+    "31 décembre 2025",
+    "JUIN 2026",
+    "Juin 2026",
+    "octobre 2020"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836317/ARTI10_PRIMOVIE_072026.pdf/adb12d0a-b994-6343-b271-eed3e5efb905?t=1785425431863",
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836317/ARTI10_PRIMOVIE_072026.pdf/adb12d0a-b994-6343-b271-eed3e5efb905?t=1785425431863",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 256240,
+   "sha256": "bffcbb6d3fced3157d3e8e1d068ca2cc221360e14cf3e3e7bee79ff523e634b4",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "CAILLE Ambre",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260730162205+02'00'",
+    "modDate": "D:20260730162205+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 10237,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "primovie",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Informations relatives à la durabilité – Article 10 SFDR Résumé Créée en 2012, la SCPI Primovie est une Société Civile de Placement Immobilier gérée par Praemia REIM France. Première SCPI du marché à avoir orienté sa politique d'investissement vers l'immobilier de santé et d'éducation, elle est labellisée ISR. Le portefeuille donne ainsi accès à un patrimoine immobilier physique diversifié en Fran",
+   "dates": [
+    "Juillet 2026"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836317/PRIMOVIE++Annexe+SFR+art+8+072026+v3c.pdf/7152ad2a-9b77-9d20-bbbd-a7be7f7dddbd?t=1785425580166",
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836317/PRIMOVIE++Annexe+SFR+art+8+072026+v3c.pdf/7152ad2a-9b77-9d20-bbbd-a7be7f7dddbd?t=1785425580166",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 390564,
+   "sha256": "15d0b6c279980786d8d004a607d9065ef14159d9c23493aaa011acd7b614fafb",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "CAILLE Ambre",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260730002427+02'00'",
+    "modDate": "D:20260730002427+02'00'"
+   },
+   "page_count": 6,
+   "text_characters": 15730,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "primovie",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "ANNEXE A LA NOTE D'INFORMATION Information pré-contractuelle requise par l'article 8 du Règlement (UE) 2019/2088 Dénomination du produit : Primovie LEI : 9695005IC2S5YKU9LI74 CARACTERISTIQUES ENVIRONNEMENTALES ET/OU SOCIALES Quelles caractéristiques environnementales et/ou sociales sont promues par ce produit financier ? Le produit financier promeut trois caractéristiques environnementales liées a",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.praemiareim.fr/documents/14836074/14836320/Rapport+ISR+Primovie+2026_0626_VDEF.pdf/74129691-5af9-1393-559c-b3624dca6900?t=1782836412327",
+   "final_url": "https://www.praemiareim.fr/documents/14836074/14836320/Rapport+ISR+Primovie+2026_0626_VDEF.pdf/74129691-5af9-1393-559c-b3624dca6900?t=1782836412327",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 4837675,
+   "sha256": "fde9c9f34d5607df5f95aef42ec91f0eda96400eec71e7c6de3c4cf0733a84b4",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.4 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260630175009+02'00'",
+    "modDate": "D:20260630175646+02'00'"
+   },
+   "page_count": 23,
+   "text_characters": 32580,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "primovie",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "SCPI Primovie Investisseur responsable Rapport ISR 2025 RAPPORT ISR 2025",
+   "dates": [
+    "31/12/2025"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  }
+ ],
+ "candidate_count": 8,
+ "summary": {
+  "dic_identity_ok": 1,
+  "note_identity_ok": 4,
+  "fee_clauses": 64,
+  "errors": 0
+ }
+}

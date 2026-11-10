@@ -1,0 +1,1083 @@
+{
+ "slug": "iroko-atlas",
+ "name": "Iroko Atlas",
+ "manager": "Iroko",
+ "crawl": [
+  {
+   "url": "https://www.iroko.eu/scpi/atlas",
+   "depth": 0,
+   "final_url": "https://www.iroko.eu/scpi/atlas",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 4
+  },
+  {
+   "url": "https://www.iroko.eu/documentation",
+   "depth": 0,
+   "final_url": "https://www.iroko.eu/documentation",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.iroko.eu/telecharger-guides",
+   "depth": 1,
+   "final_url": "https://www.iroko.eu/telecharger-guides",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 0
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://iroko-documents.s3.eu-west-3.amazonaws.com/Iroko_Atlas_note_information.pdf",
+   "final_url": "https://iroko-documents.s3.eu-west-3.amazonaws.com/Iroko_Atlas_note_information.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1160254,
+   "sha256": "5e3c4597b8fa777fccf611ff686a106678f6d6c09a96f62f7ae9b86f6552ca35",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "Microsoft Word - SCPI Iroko Atlas - Note d'information_V092026 (1)",
+    "author": "Edouard Laubry",
+    "producer": "Microsoft: Print To PDF",
+    "creationDate": "D:20260831213148+02'00'",
+    "modDate": "D:20260831213148+02'00'"
+   },
+   "page_count": 45,
+   "text_characters": 164652,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "iroko atlas",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Page 1 | 45 NOTE D'INFORMATION IROKO ATLAS SOCIETE CIVILE DE PLACEMENT IMMOBILIER A CAPITAL VARIABLE MIS A JOUR AU 1ER SEPTEMBRE 2026 Certifié conforme Le Gérant et Société de Gestion Par : Le Président Nom : Gautier Delabrousse-Mayoux",
+   "dates": [
+    "1ER SEPTEMBRE 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Commission de souscription",
+     "snippet": "2. Rémunération de la Société de Gestion ............................................................................................................ 32 3.2.1. Commission de souscription.............................................................................................................................. 32 3.2.2. Commission de gestion ..................................................................................................................................... 32 3.2.3. Commission sur retrait, cession ou mutation de Parts ..................................................................................... 33 3.2.4. Commission d'arbitrage des actifs immobiliers ................................................................................................ 33 3.2.5. Commissio",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission de gestion",
+     "snippet": "mission de souscription.............................................................................................................................. 32 3.2.2. Commission de gestion ..................................................................................................................................... 32 3.2.3. Commission sur retrait, cession ou mutation de Parts ..................................................................................... 33 3.2.4. Commission d'arbitrage des actifs immobiliers ................................................................................................ 33 3.2.5. Commission de pilotage de la réalisation des travaux sur le patrimoine immobilier ....................................... 34 3.2.6. Commissions de courtage / agent immobili",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission d'arbitrage",
+     "snippet": " 32 3.2.3. Commission sur retrait, cession ou mutation de Parts ..................................................................................... 33 3.2.4. Commission d'arbitrage des actifs immobiliers ................................................................................................ 33 3.2.5. Commission de pilotage de la réalisation des travaux sur le patrimoine immobilier ....................................... 34 3.2.6. Commissions de courtage / agent immobilier................................................................................................... 34 4. CHAPITRE 4 - FONCTIONNEMENT DE LA SOCIETE ............................................................................................. 35 4.1. Régime des assemblées .........................................",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission de pilotage",
+     "snippet": "3.2.4. Commission d'arbitrage des actifs immobiliers ................................................................................................ 33 3.2.5. Commission de pilotage de la réalisation des travaux sur le patrimoine immobilier ....................................... 34 3.2.6. Commissions de courtage / agent immobilier................................................................................................... 34 4. CHAPITRE 4 - FONCTIONNEMENT DE LA SOCIETE ............................................................................................. 35 4.1. Régime des assemblées ..................................................................................................................................... 35 4.1.1 Convocations ......................................",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 14,
+     "label": "commission de souscription",
+     "snippet": "s sur actifs financiers notamment. 6.3. Valeur de reconstitution La valeur de reconstitution d'Iroko Atlas est égale à la valeur de réalisation augmentée de la commission de souscription au moment de la reconstitution, multipliée par le nombre de parts émises, ainsi que de l'estimation des frais qui seraient nécessaires pour l'acquisition du patrimoine d'Iroko Atlas à la date de clôture de l'exercice et à la situation comptable intermédiaire à chaque premier semestre de l'exercice.",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "frais d'acquisition",
+     "snippet": "ssociés anciens en évitant que l'arrivée progressive de nouveaux Associés ne réduise la valeur de leurs Parts par dilution. o Les frais d'établissement, et les frais d'acquisition, directe et indirecte, des immeubles tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire pourront être imputés sur la prime d'émission. Le niveau de collecte de parts Sponsors de 20.000.000 € (vingt millions d'euros) ou par la suite, des parts de Sponsors 2 de 10.000.000 € (dix millions d'euros) pourra toutefois être ajusté à la hausse ou à la baisse, sur décision motivée de la Société de Gestion, en fonction des circonstances de marché ou des besoins spécifiques liés au développement initial du patrimoine d'Iroko Atlas. L'article L",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 27,
+     "label": "Commission de souscription",
+     "snippet": "munération de la Société de Gestion Pour assurer ses missions, la Société de Gestion percevra une rémunération sous la forme des commissions ci- après : 3.2.1. Commission de souscription Il n'y a pas de commission de souscription due au titre de la souscription des Parts. 3.2.2. Commission de gestion La commission de gestion est versée par Iroko Atlas et est fixée comme suit : - Un montant maximum de 12% HT (à majorer de la TVA au taux en vigueur, soit 14,4 % TTC pour un taux de TVA de 20 %) des produits locatifs HT encaissés directement ou indirectement et des produits financiers nets encaissés par la Société concernant les actifs localisés dans la zone Euro ; et - Un montant maximum de 14% HT (à majorer de la TVA au taux en vigueur, soit 16,8% TTC pour un taux de TVA de 20%) des produits",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "14,4 %",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC pour un taux de TVA de 20 %) des produit"
+      },
+      {
+       "raw": "20 %",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": ") des produits locatifs HT encaissés directem"
+      },
+      {
+       "raw": "14%",
+       "value": 14.0,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "16,8%",
+       "value": 16.8,
+       "tax_hint": "TTC",
+       "after": "TTC pour un taux de TVA de 20%) des produits"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": ") des produits"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 27,
+     "label": "commission de souscription",
+     "snippet": "surer ses missions, la Société de Gestion percevra une rémunération sous la forme des commissions ci- après : 3.2.1. Commission de souscription Il n'y a pas de commission de souscription due au titre de la souscription des Parts. 3.2.2. Commission de gestion La commission de gestion est versée par Iroko Atlas et est fixée comme suit : - Un montant maximum de 12% HT (à majorer de la TVA au taux en vigueur, soit 14,4 % TTC pour un taux de TVA de 20 %) des produits locatifs HT encaissés directement ou indirectement et des produits financiers nets encaissés par la Société concernant les actifs localisés dans la zone Euro ; et - Un montant maximum de 14% HT (à majorer de la TVA au taux en vigueur, soit 16,8% TTC pour un taux de TVA de 20%) des produits locatifs HT encaissés directement ou indir",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "14,4 %",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC pour un taux de TVA de 20 %) des produit"
+      },
+      {
+       "raw": "20 %",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": ") des produits locatifs HT encaissés directem"
+      },
+      {
+       "raw": "14%",
+       "value": 14.0,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "16,8%",
+       "value": 16.8,
+       "tax_hint": "TTC",
+       "after": "TTC pour un taux de TVA de 20%) des produits"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": ") des produits locatifs HT encaissés directem"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 27,
+     "label": "Commission de gestion",
+     "snippet": "orme des commissions ci- après : 3.2.1. Commission de souscription Il n'y a pas de commission de souscription due au titre de la souscription des Parts. 3.2.2. Commission de gestion La commission de gestion est versée par Iroko Atlas et est fixée comme suit : - Un montant maximum de 12% HT (à majorer de la TVA au taux en vigueur, soit 14,4 % TTC pour un taux de TVA de 20 %) des produits locatifs HT encaissés directement ou indirectement et des produits financiers nets encaissés par la Société concernant les actifs localisés dans la zone Euro ; et - Un montant maximum de 14% HT (à majorer de la TVA au taux en vigueur, soit 16,8% TTC pour un taux de TVA de 20%) des produits locatifs HT encaissés directement ou indirectement et des produits financiers nets encaissés par la Société concernant ",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "14,4 %",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC pour un taux de TVA de 20 %) des produit"
+      },
+      {
+       "raw": "20 %",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": ") des produits locatifs HT encaissés directem"
+      },
+      {
+       "raw": "14%",
+       "value": 14.0,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "16,8%",
+       "value": 16.8,
+       "tax_hint": "TTC",
+       "after": "TTC pour un taux de TVA de 20%) des produits"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": ") des produits locatifs HT encaissés directem"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 27,
+     "label": "commission de gestion",
+     "snippet": "après : 3.2.1. Commission de souscription Il n'y a pas de commission de souscription due au titre de la souscription des Parts. 3.2.2. Commission de gestion La commission de gestion est versée par Iroko Atlas et est fixée comme suit : - Un montant maximum de 12% HT (à majorer de la TVA au taux en vigueur, soit 14,4 % TTC pour un taux de TVA de 20 %) des produits locatifs HT encaissés directement ou indirectement et des produits financiers nets encaissés par la Société concernant les actifs localisés dans la zone Euro ; et - Un montant maximum de 14% HT (à majorer de la TVA au taux en vigueur, soit 16,8% TTC pour un taux de TVA de 20%) des produits locatifs HT encaissés directement ou indirectement et des produits financiers nets encaissés par la Société concernant les actifs localisés hors",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "14,4 %",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC pour un taux de TVA de 20 %) des produit"
+      },
+      {
+       "raw": "20 %",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": ") des produits locatifs HT encaissés directem"
+      },
+      {
+       "raw": "14%",
+       "value": 14.0,
+       "tax_hint": "HT",
+       "after": "HT (à majorer de la TVA au taux en vigueur,"
+      },
+      {
+       "raw": "16,8%",
+       "value": 16.8,
+       "tax_hint": "TTC",
+       "after": "TTC pour un taux de TVA de 20%) des produits"
+      },
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": "HT",
+       "after": ") des produits locatifs HT encaissés directem"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 28,
+     "label": "commission de gestion",
+     "snippet": "Page 28 | 45 Cette commission de gestion rémunère la Société de Gestion pour la gestion et l'administration de la Société (fund management), la gestion de ses biens sociaux (asset management), ainsi que la gestion de sa trésorerie et la répartition des bénéfices. La TVA est susceptible d'évoluer et est donnée à titre indicatif. Les prestations de fund management couvrent notamment : - l'établissement de la stratégie d'investissement et du business plan général de la Société, - l'allocation des souscriptions entre la poche d'actifs immobiliers et les liquidités (y compris le placement de la trésorerie), - la détermination des modalités de financement d",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 29,
+     "label": "commission de gestion",
+     "snippet": "s du marché. Il est à noter que les informations présentées peuvent être amenées à évoluer pour répondre aux besoins ponctuels d'un actif. Une quote-part de la commission de gestion peut servir à rémunérer les intermédiaires chargés de la distribution des parts de la Société dans les conditions prévues par les conventions signées entre la Société de Gestion et ces intermédiaires et en application de la réglementation en vigueur. Par ailleurs, Iroko Atlas règle directement tous les autres frais sans exception tel que listés à la section 3.1. 3.2.3. Commission sur retrait, cession ou mutation de Parts Pour les retraits, cessions de gré à gré ou mutations de Parts détenues depuis moins de six (6) ans, la Société de Gestion percevra une commission d'un montant maximum de 5% HT (soit 6% TTC) du",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6% TTC) du"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 29,
+     "label": "commission de retrait",
+     "snippet": "de 5% HT (soit 6% TTC) du prix total des Parts concernées par le retrait, la cession ou la mutation. Pour les parts souscrites avant le 1er septembre 2026 : la commission de retrait anticipé de 5 % HT (soit 6 % TTC) s'applique uniquement en cas de retrait intervenant avant cinq (5) ans de détention. En cas de retrait, le montant de la commission sera prélevé directement sur la somme remboursée à l'Associé concerné. En cas de cession ou de mutation, la commission est à la charge de l'Associé récipiendaire des Parts concernées, qu'il soit cessionnaire, donataire ou ayant droit bénéficiaire de l'Associé qui dispose de ses Parts. Conformément à l'article 726, I-2° du Code général des impôts, un droit d'enregistrement s'applique aux cessions directes intervenant sur le marché secondaire au taux",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6% TTC) du prix total des Parts con"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix total des Parts concernées par"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6 % TTC) s'applique uniquement en c"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) s'applique uniquement en cas de retrait"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 29,
+     "label": "Commission d'arbitrage",
+     "snippet": "ondaire au taux actuel de 5%. Ces droits d'enregistrement sont à payer au Trésor Public avant transmission de l'acte de cession à la Société de Gestion. 3.2.4. Commission d'arbitrage des actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'actifs immobilier d'un montant maximum de 4% HT (soit 4,8% TTC) : - du prix d'acquisition (hors taxes, hors droits, hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) directement ou indirectement par la SCPI ; - ou de la valeur conventionnelle (hors taxes, hors droits, hors frais) retenue pour le calcul du prix d'acquisition des droits sociaux des sociétés qui détiennent lesdits actifs immobiliers, au prorata de la participation dans lesdites sociétés acquises par la SCPI. La commission d'acquisi",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": ". Ces droits d'enregistrement sont à payer au"
+      },
+      {
+       "raw": "4%",
+       "value": 4.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 4,8% TTC) : - du prix d'acquisition"
+      },
+      {
+       "raw": "4,8%",
+       "value": 4.8,
+       "tax_hint": "TTC",
+       "after": "TTC) : - du prix d'acquisition (hors taxes,"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 29,
+     "label": "commission d'acquisition",
+     "snippet": "Public avant transmission de l'acte de cession à la Société de Gestion. 3.2.4. Commission d'arbitrage des actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'actifs immobilier d'un montant maximum de 4% HT (soit 4,8% TTC) : - du prix d'acquisition (hors taxes, hors droits, hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) directement ou indirectement par la SCPI ; - ou de la valeur conventionnelle (hors taxes, hors droits, hors frais) retenue pour le calcul du prix d'acquisition des droits sociaux des sociétés qui détiennent lesdits actifs immobiliers, au prorata de la participation dans lesdites sociétés acquises par la SCPI. La commission d'acquisition d'actifs immobiliers couvre notamment les prestations liées à l'identificati",
+     "percents": [
+      {
+       "raw": "4%",
+       "value": 4.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 4,8% TTC) : - du prix d'acquisition"
+      },
+      {
+       "raw": "4,8%",
+       "value": 4.8,
+       "tax_hint": "TTC",
+       "after": "TTC) : - du prix d'acquisition (hors taxes,"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 29,
+     "label": "commission d'acquisition",
+     "snippet": "ition des droits sociaux des sociétés qui détiennent lesdits actifs immobiliers, au prorata de la participation dans lesdites sociétés acquises par la SCPI. La commission d'acquisition d'actifs immobiliers couvre notamment les prestations liées à l'identification et l'évaluation des opportunités d'investissements réalisées par la société de gestion pour le compte de la SCPI. Cette commission sera facturée à la SCPI ou aux sociétés dans lesquelles elle détient une participation le cas échéant par la société de gestion, et prélevée par la société de gestion à la date de l'acquisition de l'immeuble.",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 30,
+     "label": "commission de cession",
+     "snippet": "Page 30 | 45 Une commission de cession d'actifs immobiliers sera prélevée par la Société de Gestion, uniquement en cas de réalisation d'une plus-value (la « Plus-Value »). La commission sera égale à un montant maximum de 4,16% HT (soit 5% TTC) du prix de vente (le « Prix de Vente ») si la plus-value est supérieure à 5% au prix d'acquisition (le « Prix d'Acquisition »).  Le Prix de Vente sera déterminé comme le prix net vendeur auquel seront déduits tous les frais de cession notamment les honoraires de broker, les honoraires de conseil, les honoraires d'avocats, les frais de due diligence et la fiscalité étrangère prélevée à la source.  Le Prix d'A",
+     "percents": [
+      {
+       "raw": "4,16%",
+       "value": 4.16,
+       "tax_hint": "HT",
+       "after": "HT (soit 5% TTC) du prix de vente (le « Prix"
+      },
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix de vente (le « Prix de Vente »)"
+      },
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "au prix d'acquisition (le « Prix d'Acquisiti"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 30,
+     "label": "frais de cession",
+     "snippet": "t supérieure à 5% au prix d'acquisition (le « Prix d'Acquisition »).  Le Prix de Vente sera déterminé comme le prix net vendeur auquel seront déduits tous les frais de cession notamment les honoraires de broker, les honoraires de conseil, les honoraires d'avocats, les frais de due diligence et la fiscalité étrangère prélevée à la source.  Le Prix d'Acquisition sera déterminé comme la valeur comptable immobilisée de l'actif présente à l'actif des comptes de la société au moment de la cession.  La Plus-Value sera calculée comme la différence entre le Prix de Vente et le Prix d'Acquisition. Cette commission pourra être prélevée à partir du jour de la signature de l'acte définitif. 3.2.5. Commission de pilotage de la réalisation des travaux sur le patrimoine immobilier La Société de Gestion",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "au prix d'acquisition (le « Prix d'Acquisiti"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 30,
+     "label": "Commission de pilotage",
+     "snippet": " différence entre le Prix de Vente et le Prix d'Acquisition. Cette commission pourra être prélevée à partir du jour de la signature de l'acte définitif. 3.2.5. Commission de pilotage de la réalisation des travaux sur le patrimoine immobilier La Société de Gestion percevra une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier d'un montant maximum de 5% HT (6 % TTC) maximum du montant des travaux suivis directement par la Société de Gestion. La prise en charge de frais supplémentaires autres que ceux listés dans la Note d'Information, devra être soumise à l'agrément de l'Assemblée Générale Ordinaire des Associés, pour couvrir des charges exceptionnelles, imprévisibles à la date de signature des présents Statuts, et qui pourraient résulter notamment",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (6 % TTC) maximum du montant des travaux"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) maximum du montant des travaux suivis d"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 30,
+     "label": "commission de suivi",
+     "snippet": "e la signature de l'acte définitif. 3.2.5. Commission de pilotage de la réalisation des travaux sur le patrimoine immobilier La Société de Gestion percevra une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier d'un montant maximum de 5% HT (6 % TTC) maximum du montant des travaux suivis directement par la Société de Gestion. La prise en charge de frais supplémentaires autres que ceux listés dans la Note d'Information, devra être soumise à l'agrément de l'Assemblée Générale Ordinaire des Associés, pour couvrir des charges exceptionnelles, imprévisibles à la date de signature des présents Statuts, et qui pourraient résulter notamment de mesures législatives ou réglementaires ou de toutes autres circonstances juridiques, économiques ou sociales. La ",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (6 % TTC) maximum du montant des travaux"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) maximum du montant des travaux suivis d"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 38,
+     "label": "frais d'acquisition",
+     "snippet": "les 150 U à 150 VH du CGI. D'une façon générale, la plus-value est égale à la différence entre le prix de cession et le prix d'acquisition des parts majoré des frais d'acquisition (pris en compte pour leur montant réel). Pour la détermination du montant imposable au titre de l'impôt sur le revenu, la plus-value peut bénéficier des mêmes abattements pour durée de détention qu'en matière de plus-value sur cession d'immeubles (cf. tableau ci-dessus). Ces abattements pour durée de détention sont calculés à compter de la date d'acquisition des parts par l'associé. La règle selon laquelle la plus-value n'est pas imposable lorsque le montant de la cession est inférieur ou égal à quinze mille (15 000) euros n'est pas applicable en cas de cession de parts de la SCPI. 4.4.1.4.3 Surtaxe sur les plus-",
+     "percents": [],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "3": "Page 3 | 45 2.3.1. Registre des ordres ............................................................................................................................................ 28 2.3.2. Confrontation et prix d'exécution ..................................................................................................................... 29 2.3.3. Délai de versement des fonds ........................................................................................................................... 30 2.3.4. Transmission des ordres d'achat et de vente .................................................................................................... 30 2.3.5. Couverture des ordres ....................................................................................................................................... 30 3. CHAPITRE 3 - FRAIS ............................................................................................................................................ 31 3.1. Répartition des frais entre Iroko Atlas et la Société de Gestion ........................................................................ 31 3.2. Rémunération de la Société de Gestion ............................................................................................................ 32 3.2.1. Commission de souscription.............................................................................................................................. 32 3.2.2. Commission de gestion ..................................................................................................................................... 32 3.2.3. Commission sur retrait, cession ou mutation de Parts ..................................................................................... 33 3.2.4. Commission d'arbitrage des actifs immobiliers ................................................................................................ 33 3.2.5. Commission de pilotage de la réalisation des travaux sur le patrimoine immobilier ....................................... 34 3.2.6. Commissions de courtage / agent immobilier................................................................................................... 34 4. CHAPITRE 4 - FONCTIONNEMENT DE LA SOCIETE ............................................................................................. 35 4.1. Régime des assemblées ..................................................................................................................................... 35 4.1.1 Convocations ..................................................................................................................................................... 35 4.1.2 Ordre du jour ..................................................................................................................................................... 36 4.1.3 Information des Associés................................................................................................................................... 36 4.1.4 Représentation .................................................................................................................................................. 37 4.1.5 Bureau ............................................................................................................................................................... 37 4.1.6 Feuille de présence ............................................................................................................................................ 38 4.1.7 Assemblée Générales Ordinaires ...................................................................................................................... 38 4.1.8 Décisions Extraordinaires .................................................................................................................................. 39 4.1.9 Consultation par correspondance ..................................................................................................................... 39 4.1.10 Vote par correspondance .................................................................................................................................. 40 4.1.11 Procès-verbaux .................................................................................................................................................. 40 4.2 Répartition des bénéfices – Provisions pour travaux ........................................................................................ 41 4.2.1 Répartition des bénéfices .................................................................................................................................. 41 4.2.2 Provisions pour travaux ..................................................................................................................................... 41 4.3 Conventions particulières .................................................................................................................................. 42 4.4 Régime fiscal ...................................................................................................................................................... 42 4.4.1 Fiscalité des revenus et des plus-values de source étrangère .......................................................................... 42 4.4.1.1 Imposition des revenus immobiliers à l'étranger ................................................................................... 43 4.4.1.2 Imposition des revenus de source étrangère en France ........................................................................ 43 4.4.1.3 Revenus financiers .................................................................................................................................. 43 4.4.1.4 Plus-values sur cessions de valeurs mobilières ...................................................................................... 44 4.4.1.5 Plus-values immobilières ........................................................................................................................ 44 4.4.1.6 Prélèvements sociaux ............................................................................................................................. 46 4.4.1.7 Impôt sur la fortune immobilière (IFI) .................................................................................................... 46 4.5 Modalités d'information.................................................................................................................................... 47 4.5.1 Rapport annuel .................................................................................................................................................. 47 4.5.2 Bulletins semestriels d'information ................................................................................................................... 48 4.6 Démarchage et publicité ................................................................................................",
+    "14": "Page 14 | 45 6. Procédure d'évaluation La Société de Gestion mentionne, dans un état annexe au rapport de gestion, la valeur comptable, la valeur de réalisation et la valeur de reconstitution d'Iroko Atlas. Conformément aux articles L. 214-109, R. 214-135, R. 214-157-1 du CMF et 422-234 du Règlement Général de l'AMF, ces valeurs sont arrêtées et publiées par la Société de Gestion à la clôture de chaque exercice ainsi qu'à la situation comptable intermédiaire à chaque premier semestre de l'exercice dans la mesure où Iroko Atlas est à capital variable. 6.1. Valeur comptable La valeur comptable d'Iroko Atlas est déterminée selon le plan comptable général adapté suivant les modalités fixées par le règlement du Comité de réglementation comptable n° 2016-03 du 15 avril 2016 relatif aux règles comptables applicables aux sociétés civiles de placement immobilier. 6.2. Valeur de réalisation La valeur de réalisation est égale à la somme de la valeur vénale des immeubles et de la valeur nette des autres actifs d'Iroko Atlas. 6.2.1. Valeur vénale des immeubles La valeur vénale d'un immeuble peut être définie comme le prix qu'accepterait de payer un investisseur pour l'acquisition de cet immeuble dans son état actuel en conservant sa nature d'immeuble locatif, hors droits d'acquisition. La valeur vénale des immeubles et des droits réels détenus directement ou indirectement par Iroko Atlas et par les sociétés mentionnées au 2° du I de l'article L. 214-115 du CMF est appréciée par un expert externe en évaluation et actualisée par ce dernier chaque année. Il réalise une expertise de chaque actif immobilier détenu par Iroko Atlas au moins tous les cinq ans. L'expert externe en évaluation est nommé par la Société de Gestion, dans les conditions prévues à l'article L. 214- 24-16 du CMF, après acceptation de sa candidature par l'Assemblée Générale Ordinaire, pour un mandat d'une durée de cinq (5) ans. 6.2.2. Valeur nette des autres actifs La valeur nette des autres actifs est arrêtée par la Société de Gestion sous le contrôle du commissaire aux comptes. Elle tient compte des plus-values et moins-values latentes sur actifs financiers notamment. 6.3. Valeur de reconstitution La valeur de reconstitution d'Iroko Atlas est égale à la valeur de réalisation augmentée de la commission de souscription au moment de la reconstitution, multipliée par le nombre de parts émises, ainsi que de l'estimation des frais qui seraient nécessaires pour l'acquisition du patrimoine d'Iroko Atlas à la date de clôture de l'exercice et à la situation comptable intermédiaire à chaque premier semestre de l'exercice.",
+    "18": "Page 18 | 45 Dès lors que le premier des évènements suivants a lieu : (i) la Société de Gestion constate que le niveau de collecte de parts Sponsors de 20.000.000 € (vingt millions d'euros) par Iroko Atlas est atteint, ou (ii) la Société de Gestion constate que le délai de 6 mois renouvelables trois mois à compter de l'obtention du visa par l'AMF est échu, et dans la limite d'un montant de collecte de 10.000.000 € (dix millions d'euros) les souscripteurs suivants dits « Sponsors 2 » pourront souscrire à un prix de souscription de 192 € TTC au lieu du prix de souscription de 200 € TTC qui sera proposé à tous les investisseurs qui souscriront par la suite. A compter au plus tôt de (i) l'atteinte du montant de collecte des parts Sponsors de 20.000.000 € (vingt millions d'euros), ou de (ii) la fin du délai de 6 mois renouvelables 3 mois pour la collecte des parts Sponsors le prix de souscription est fixé à 192 euros TTC pour les Sponsors 2 (y compris pour les Associés Fondateurs et Sponsors qui souhaiteraient effectuer de nouvelles souscriptions). Ce prix de souscription s'applique dans la limite d'un montant de collecte de 10.000.000 € (dix millions d'euros), prime d'émission incluse. Il se décompose ainsi : - Valeur nominale de la part sociale : 150 €, - Prime d'émissions : 42 € TTC. Ces réductions correspondent à une prime d'émission moins importante, qui s'explique par une moindre participation aux frais de constitution, d'augmentation de capital et d'acquisition des premiers éléments du patrimoine d'Iroko Atlas. Dès lors que la Société de Gestion constate que le niveau de collecte des parts Sponsors 2 de 10.000.000 € (dix millions d'euros) par Iroko Atlas est atteint, le prix de souscription applicable à l'ensemble des investisseurs (y compris aux Associés Fondateurs, Sponsors et Sponsors 2 qui souhaiteraient effectuer de nouvelles souscriptions) est fixé à 200 € TTC. Les investisseurs seront informés de l'atteinte de ce niveau de collecte et de l'entrée en vigueur de ce prix de souscription par un avis publié au BALO. Le prix de souscription de 200 € TTC se décompose ainsi : - Valeur nominale de la part sociale : 150 € Le capital est divisé en Parts sociales de cent cinquante euros (150€) émises en représentation des apports des Associés, conformément à l'article 6 des Statuts d'Iroko Atlas. - Prime d'émission : 50 € TTC, dont : o La prime d'émission acquise à Iroko Atlas au même titre que la valeur nominale. Elle sert à amortir les frais de constitution, de réalisation d'augmentation de capital et d'acquisition du patrimoine. Son évolution permet de sauvegarder les intérêts des Associés anciens en évitant que l'arrivée progressive de nouveaux Associés ne réduise la valeur de leurs Parts par dilution. o Les frais d'établissement, et les frais d'acquisition, directe et indirecte, des immeubles tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire pourront être imputés sur la prime d'émission. Le niveau de collecte de parts Sponsors de 20.000.000 € (vingt millions d'euros) ou par la suite, des parts de Sponsors 2 de 10.000.000 € (dix millions d'euros) pourra toutefois être ajusté à la hausse ou à la baisse, sur décision motivée de la Société de Gestion, en fonction des circonstances de marché ou des besoins spécifiques liés au développement initial du patrimoine d'Iroko Atlas. L'article L. 214-94 du CMF dispose que le prix de souscription des Parts déterminé par la Société de Gestion doit être compris dans une fourchette de plus ou moins 10 % autour de la valeur de reconstitution d'Iroko Atlas, sauf justification notifiée à l'AMF. 1.6. Restrictions à l'égard des U.S. Persons Les Parts de la SCPI ne peuvent être offertes ou vendues directement ou indirectement aux Etats-Unis d'Amérique (y compris sur ses territoires et possessions), ou au bénéfice de toute « U.S. Person », tel que ce",
+    "27": "Page 27 | 45 Cette rémunération peut également se présenter sous la forme d'un forfait, ou faire l'objet de montants minimums garantis afin d'assurer au gestionnaire une rémunération plancher. Pour certains actifs dont la gestion quotidienne est plus complexe et nécessite des déplacements réguliers, une rémunération spécifique peut s'appliquer (gestion de parcs commerciaux, centres logistiques multi-locataires, etc.). Les contrats de property management ou de nos partenaires locaux peuvent également prévoir des honoraires additionnels pour : - Le suivi opérationnel des travaux sur le parc immobilier (appel d'offres de prestataires locaux en Europe, élaboration et suivi des budgets, suivi des travaux) ; - Des prestations ponctuelles telles que le renouvellement ou la relocation de baux, la gestion de contentieux, les inspections techniques, ou encore l'accompagnement lors de cessions et acquisitions d'actifs. Il est à noter que les informations présentées peuvent être amenées à évoluer pour répondre aux besoins ponctuels d'un actif. 3.1.3 Sélection et contrôle des prestataires La sélection des property managers et des investments managers locaux fait l'objet d'appels d'offres afin de s'assurer du meilleur service et du niveau approprié d'honoraires pour la SCPI. Les contrats prévoient une série de reportings permettant de s'assurer de la bonne exécution par les prestataires de leurs missions. Afin de garantir une bonne qualité de service, la Société de gestion conduit une évaluation annuelle de ses prestataires. Tout dysfonctionnement constaté peut déclencher un nouvel appel d'offres visant à sélectionner un prestataire plus adéquat. Gestion des conflits d'intérêts Dans le cadre de la gestion des conflits d'intérêts, et notamment lorsque la Société de Gestion est amenée à sélectionner des prestataires appartenant au même groupe ou ayant un lien capitalistique avec l'un de ses actionnaires, elle s'assure par des contrôles réguliers que les conditions tarifaires et le niveau des prestations sont en adéquation avec les pratiques du marché, conformément à sa politique de gestion des conflits d'intérêts. Les entreprises liées seront indiquées dans le rapport annuel de la SCPI. 3.2. Rémunération de la Société de Gestion Pour assurer ses missions, la Société de Gestion percevra une rémunération sous la forme des commissions ci- après : 3.2.1. Commission de souscription Il n'y a pas de commission de souscription due au titre de la souscription des Parts. 3.2.2. Commission de gestion La commission de gestion est versée par Iroko Atlas et est fixée comme suit : - Un montant maximum de 12% HT (à majorer de la TVA au taux en vigueur, soit 14,4 % TTC pour un taux de TVA de 20 %) des produits locatifs HT encaissés directement ou indirectement et des produits financiers nets encaissés par la Société concernant les actifs localisés dans la zone Euro ; et - Un montant maximum de 14% HT (à majorer de la TVA au taux en vigueur, soit 16,8% TTC pour un taux de TVA de 20%) des produits locatifs HT encaissés directement ou indirectement et des produits financiers nets encaissés par la Société concernant les actifs localisés hors de la zone Euro.",
+    "28": "Page 28 | 45 Cette commission de gestion rémunère la Société de Gestion pour la gestion et l'administration de la Société (fund management), la gestion de ses biens sociaux (asset management), ainsi que la gestion de sa trésorerie et la répartition des bénéfices. La TVA est susceptible d'évoluer et est donnée à titre indicatif. Les prestations de fund management couvrent notamment : - l'établissement de la stratégie d'investissement et du business plan général de la Société, - l'allocation des souscriptions entre la poche d'actifs immobiliers et les liquidités (y compris le placement de la trésorerie), - la détermination des modalités de financement des actifs immobiliers, - la stratégie de couverture de taux et de change, - l'établissement du rapport annuel de gestion et des bulletins d'informations périodiques, - la gestion des souscriptions et des retraits etc., Les prestations d'asset management permettent d'optimiser la valorisation de l'actif et couvrent notamment : - la définition de la stratégie d'acquisition, de cession et de location, - la supervision de la gestion locative des actifs effectuée par les gestionnaires d'actifs immobiliers (property managers) (facturation et encaissement des loyers, indemnités d'occupation ou autres ou autres, retard, paiement et récupération des charges auprès des spobiens et gérants d'immeubles) - la supervision de la commercialisation et la relation avec les courtiers, la définition de la stratégie en matière de travaux structurants (c'est-à-dire hors travaux courants d'entretien ou de remise en état) et - la définition du plan pluriannuel de travaux, la modélisation des plans d'affaires, le suivi de la performance des actifs et les relations avec les gérants d'actifs immobiliers (property managers). La Société de Gestion prélève les sommes correspondantes au fur et à mesure des encaissements par la Société de ses recettes. Une partie de cette commission pourra être reversée à tout prestataire sur lequel la Société de Gestion pourra s'appuyer pour l'administration de la Société et la gestion de son patrimoine et de sa trésorerie. Les property managers, en charge de la gestion locative, technique, administrative des actifs de la SCPI, sont généralement rémunérés sur la base d'un pourcentage des loyers encaissés, avec des taux qui varient selon le pays concerné, la typologie d'actif, la nombre de locataires et la configuration juridique de l'actif. Cette rémunération peut également se présenter sous la forme d'un forfait, ou faire l'objet de montants minimums garantis afin d'assurer au gestionnaire une rémunération plancher. Pour certains actifs dont la gestion quotidienne est plus complexe et nécessite des déplacements réguliers, une rémunération spécifique peut s'appliquer (gestion de parcs commerciaux). Les contrats de property management peuvent également prévoir des honoraires additionnels pour le suivi opérationnel des travaux sur le parc immobilier (appel d'offres de prestataires locaux en Europe, élaboration et suivi des budgets, suivi des travaux) et de prestations ponctuelles comme le renouvellement ou la relocation de baux, la gestion de contentieux, les inspections techniques, ou encore l'accompagnement lors de cessions et acquisitions d'actifs. La sélection des property managers fait l'objet d'un appel d'offres par la Société de Gestion afin de s'assurer du meilleur service et du niveau approprié d'honoraires pour la SCPI. De plus, les contrats prévoient des reportings permettant de s'assurer de la bonne exécution par les property managers de leurs missions. Afin de garantir une qualité de service optimale, Iroko conduit une évaluation annuelle de ses prestataires. Tout dysfonctionnement constaté peut déclencher un nouvel appel d'offres visant à sélectionner un gestionnaire plus adéquat. Dans le cadre de la gestion des conflits d'intérêts, et notamment lorsqu'Iroko est amenée à sélectionner des prestataires appartenant au même groupe ou ayant un lien capitalistique avec l'un de ses actionnaires, la",
+    "29": "Page 29 | 45 société s'assure par des contrôles réguliers que les conditions tarifaires et le niveau des prestations sont en adéquation avec les pratiques du marché. Il est à noter que les informations présentées peuvent être amenées à évoluer pour répondre aux besoins ponctuels d'un actif. Une quote-part de la commission de gestion peut servir à rémunérer les intermédiaires chargés de la distribution des parts de la Société dans les conditions prévues par les conventions signées entre la Société de Gestion et ces intermédiaires et en application de la réglementation en vigueur. Par ailleurs, Iroko Atlas règle directement tous les autres frais sans exception tel que listés à la section 3.1. 3.2.3. Commission sur retrait, cession ou mutation de Parts Pour les retraits, cessions de gré à gré ou mutations de Parts détenues depuis moins de six (6) ans, la Société de Gestion percevra une commission d'un montant maximum de 5% HT (soit 6% TTC) du prix total des Parts concernées par le retrait, la cession ou la mutation. Pour les parts souscrites avant le 1er septembre 2026 : la commission de retrait anticipé de 5 % HT (soit 6 % TTC) s'applique uniquement en cas de retrait intervenant avant cinq (5) ans de détention. En cas de retrait, le montant de la commission sera prélevé directement sur la somme remboursée à l'Associé concerné. En cas de cession ou de mutation, la commission est à la charge de l'Associé récipiendaire des Parts concernées, qu'il soit cessionnaire, donataire ou ayant droit bénéficiaire de l'Associé qui dispose de ses Parts. Conformément à l'article 726, I-2° du Code général des impôts, un droit d'enregistrement s'applique aux cessions directes intervenant sur le marché secondaire au taux actuel de 5%. Ces droits d'enregistrement sont à payer au Trésor Public avant transmission de l'acte de cession à la Société de Gestion. 3.2.4. Commission d'arbitrage des actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'actifs immobilier d'un montant maximum de 4% HT (soit 4,8% TTC) : - du prix d'acquisition (hors taxes, hors droits, hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) directement ou indirectement par la SCPI ; - ou de la valeur conventionnelle (hors taxes, hors droits, hors frais) retenue pour le calcul du prix d'acquisition des droits sociaux des sociétés qui détiennent lesdits actifs immobiliers, au prorata de la participation dans lesdites sociétés acquises par la SCPI. La commission d'acquisition d'actifs immobiliers couvre notamment les prestations liées à l'identification et l'évaluation des opportunités d'investissements réalisées par la société de gestion pour le compte de la SCPI. Cette commission sera facturée à la SCPI ou aux sociétés dans lesquelles elle détient une participation le cas échéant par la société de gestion, et prélevée par la société de gestion à la date de l'acquisition de l'immeuble.",
+    "30": "Page 30 | 45 Une commission de cession d'actifs immobiliers sera prélevée par la Société de Gestion, uniquement en cas de réalisation d'une plus-value (la « Plus-Value »). La commission sera égale à un montant maximum de 4,16% HT (soit 5% TTC) du prix de vente (le « Prix de Vente ») si la plus-value est supérieure à 5% au prix d'acquisition (le « Prix d'Acquisition »).  Le Prix de Vente sera déterminé comme le prix net vendeur auquel seront déduits tous les frais de cession notamment les honoraires de broker, les honoraires de conseil, les honoraires d'avocats, les frais de due diligence et la fiscalité étrangère prélevée à la source.  Le Prix d'Acquisition sera déterminé comme la valeur comptable immobilisée de l'actif présente à l'actif des comptes de la société au moment de la cession.  La Plus-Value sera calculée comme la différence entre le Prix de Vente et le Prix d'Acquisition. Cette commission pourra être prélevée à partir du jour de la signature de l'acte définitif. 3.2.5. Commission de pilotage de la réalisation des travaux sur le patrimoine immobilier La Société de Gestion percevra une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier d'un montant maximum de 5% HT (6 % TTC) maximum du montant des travaux suivis directement par la Société de Gestion. La prise en charge de frais supplémentaires autres que ceux listés dans la Note d'Information, devra être soumise à l'agrément de l'Assemblée Générale Ordinaire des Associés, pour couvrir des charges exceptionnelles, imprévisibles à la date de signature des présents Statuts, et qui pourraient résulter notamment de mesures législatives ou réglementaires ou de toutes autres circonstances juridiques, économiques ou sociales. La décision de l'Assemblée Générale Ordinaire devra être prise conformément aux dispositions de l'article L. 214-106 du CMF. Toutes sommes dues à la Société de Gestion lui restent définitivement acquises et ne sauraient faire l'objet d'un remboursement quelconque à quelque moment et pour quelque cause que ce soit. CHAPITRE 4 - FONCTIONNEMENT DE LA SOCIETE 4.1 Régime des assemblées La volonté des Associés s'exprime par des décisions collectives qui obligent les Associés, même absents, dissidents ou incapables. Les assemblées générales (ci-après les « Assemblées Générales » et individuellement une « Assemblée Générale ») sont qualifiées « d'extraordinaires » (ci-après les « Assemblées Générales Extraordinaires ») lorsque leur décision se rapporte notamment à une modification des statuts et « d'ordinaires » (les « Assemblées Générales Ordinaires ») lorsque leur décision se rapporte à des faits de gestion ou d'administration, ou encore à un fait quelconque d'application des statuts. Les Associés sont convoqués aux Assemblées Générales conformément à la loi et aux modalités qu'ils ont acceptées par écrit lors de la signature du Bulletin de Souscription ou ultérieurement. 4.1.1 Convocations Les Associés sont réunis, chaque année, en Assemblée Générale dans les six premiers mois suivant la clôture de l'exercice, au jour, heure et lieu indiqués par l'avis de convocation. Les Assemblées Générales sont convoquées par la Société de Gestion. A défaut, elles peuvent être également convoquées : - par le Conseil de Surveillance,",
+    "38": "Page 38 | 45 4.4.1.3 Imposition des revenus provenant de l'exploitation (revente de l'électricité) ou de la location des panneaux photovoltaïques dans la catégorie des revenus industriels et commerciaux (non professionnels) Compte tenu de l'évolution fréquente des règles fiscales dans le temps, le détail de ces règles sera précisé pays par pays au fur et à mesure que la SCPI investira dans les pays concernés. 4.4.1.4 Imposition des plus-values sur cessions d'immeubles ou de parts de la SCPI dans la catégorie des plus- values immobilières Les plus-values immobilières sont déclarées au moment de la vente de l'immeuble par la SCPI ou de la cession de parts par l'associé. 4.4.1.4.1 Plus-values sur cession d'immeubles par la SCPI Compte tenu de l'évolution fréquente des règles fiscales dans le temps, le détail de ces règles sera précisé pays par pays au fur et à mesure que la SCPI investira dans les pays concernés. 4.4.1.4.2 Plus-values sur cession de parts de la SCPI Les plus-values de cessions de parts de la SCPI suivent le régime d'imposition des plus-values des particuliers visé aux articles 150 U à 150 VH du CGI. D'une façon générale, la plus-value est égale à la différence entre le prix de cession et le prix d'acquisition des parts majoré des frais d'acquisition (pris en compte pour leur montant réel). Pour la détermination du montant imposable au titre de l'impôt sur le revenu, la plus-value peut bénéficier des mêmes abattements pour durée de détention qu'en matière de plus-value sur cession d'immeubles (cf. tableau ci-dessus). Ces abattements pour durée de détention sont calculés à compter de la date d'acquisition des parts par l'associé. La règle selon laquelle la plus-value n'est pas imposable lorsque le montant de la cession est inférieur ou égal à quinze mille (15 000) euros n'est pas applicable en cas de cession de parts de la SCPI. 4.4.1.4.3 Surtaxe sur les plus-values d'un montant supérieur à 50 000 euros Une taxe spécifique s'applique sur les plus-values immobilières d'un montant supérieur à cinquante mille (50.000) euros, réalisées par les personnes physiques ou les sociétés et groupements relevant de l'impôt sur le revenu. Montant de la PV imposable (€) Montant de la taxe (€) De 50 001 à 60 000 2% PV-(60 000-PV) x 1/20 De 60 001 à 100 000 2% PV De 100 001 à 110 000 3% PV-(110000-PV) × 1/10 De 110 001 à 150 000 3% PV De 150 001 à 160 000 4% PV-(160000-PV) × 15/100 De 160 001 à 200 000 4% PV De 200 001 à 210 000 5% PV-(210000-PV) × 20/100 De 210 001 à 250 000 5% PV De 250 001 à 260 000 6% PV-(260000-PV) × 25/100 Supérieur à 260 000 6% PV"
+   },
+   "linked_from": "https://www.iroko.eu/scpi/atlas",
+   "off_domain": true
+  },
+  {
+   "url": "https://iroko-documents.s3.eu-west-3.amazonaws.com/Iroko_Zen_note_information.pdf",
+   "final_url": "https://iroko-documents.s3.eu-west-3.amazonaws.com/Iroko_Zen_note_information.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1738463,
+   "sha256": "17220a6866d38eb1cef781f38277e28f8553a562de4adcf0236e3def9dbc2a04",
+   "metadata": {
+    "format": "PDF 1.7",
+    "producer": "iLovePDF; modified using iText® Core 7.2.6 (AGPL version) ©2000-2024 Apryse Group NV; modified using SignServer",
+    "creationDate": "D:20260831204123+02'00'",
+    "modDate": "D:20260909122605Z"
+   },
+   "page_count": 52,
+   "text_characters": 148353,
+   "kind": "note",
+   "identity_match": false,
+   "identity_alias": null,
+   "identity_where": null,
+   "title_excerpt": "1 Note d'information Société civile de placement immobilier à capital variable Mis à jour 01/09/2026",
+   "dates": [
+    "01/09/2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Commission de souscription",
+     "snippet": "e parts sociales 4.2.2 Inscription des transferts de parts sociales 4.2.3 Effet des mutations 4.2.4 Organisation du marché secondaire 5. Politique de frais 5.1 Commission de souscription de parts 5.2 Commission de retrait de parts et mutation de parts 5.3 Commission de gestion 5.4 Commission d'acquisition ou de cession d'actifs immobiliers 5.5 Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier 5.6 Commission de brokerage/agent immobilier 6. Fonctionnement de la SCPI 6.1 Régime des assemblées générales 6.1.1 Convocation 6.1.2 Tenue des assemblées - vote par correspondance et par voie électronique 6.1.3 Télécommunication électronique 6.1.4 Assemblée générale ordinaire 6.1.5 Assemblée générale extraordinaire 6.1.6 Information des associés 6.2 Conseil",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission de retrait",
+     "snippet": "ransferts de parts sociales 4.2.3 Effet des mutations 4.2.4 Organisation du marché secondaire 5. Politique de frais 5.1 Commission de souscription de parts 5.2 Commission de retrait de parts et mutation de parts 5.3 Commission de gestion 5.4 Commission d'acquisition ou de cession d'actifs immobiliers 5.5 Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier 5.6 Commission de brokerage/agent immobilier 6. Fonctionnement de la SCPI 6.1 Régime des assemblées générales 6.1.1 Convocation 6.1.2 Tenue des assemblées - vote par correspondance et par voie électronique 6.1.3 Télécommunication électronique 6.1.4 Assemblée générale ordinaire 6.1.5 Assemblée générale extraordinaire 6.1.6 Information des associés 6.2 Conseil de surveillance 6.2.1 Désignation des m",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission de gestion",
+     "snippet": "2.4 Organisation du marché secondaire 5. Politique de frais 5.1 Commission de souscription de parts 5.2 Commission de retrait de parts et mutation de parts 5.3 Commission de gestion 5.4 Commission d'acquisition ou de cession d'actifs immobiliers 5.5 Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier 5.6 Commission de brokerage/agent immobilier 6. Fonctionnement de la SCPI 6.1 Régime des assemblées générales 6.1.1 Convocation 6.1.2 Tenue des assemblées - vote par correspondance et par voie électronique 6.1.3 Télécommunication électronique 6.1.4 Assemblée générale ordinaire 6.1.5 Assemblée générale extraordinaire 6.1.6 Information des associés 6.2 Conseil de surveillance 6.2.1 Désignation des membres du conseil de surveillance 6.2.2 Pouvoirs du cons",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission d'acquisition",
+     "snippet": " secondaire 5. Politique de frais 5.1 Commission de souscription de parts 5.2 Commission de retrait de parts et mutation de parts 5.3 Commission de gestion 5.4 Commission d'acquisition ou de cession d'actifs immobiliers 5.5 Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier 5.6 Commission de brokerage/agent immobilier 6. Fonctionnement de la SCPI 6.1 Régime des assemblées générales 6.1.1 Convocation 6.1.2 Tenue des assemblées - vote par correspondance et par voie électronique 6.1.3 Télécommunication électronique 6.1.4 Assemblée générale ordinaire 6.1.5 Assemblée générale extraordinaire 6.1.6 Information des associés 6.2 Conseil de surveillance 6.2.1 Désignation des membres du conseil de surveillance 6.2.2 Pouvoirs du conseil de surveillance 6.2.3 ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Commission de suivi",
+     "snippet": " de parts 5.2 Commission de retrait de parts et mutation de parts 5.3 Commission de gestion 5.4 Commission d'acquisition ou de cession d'actifs immobiliers 5.5 Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier 5.6 Commission de brokerage/agent immobilier 6. Fonctionnement de la SCPI 6.1 Régime des assemblées générales 6.1.1 Convocation 6.1.2 Tenue des assemblées - vote par correspondance et par voie électronique 6.1.3 Télécommunication électronique 6.1.4 Assemblée générale ordinaire 6.1.5 Assemblée générale extraordinaire 6.1.6 Information des associés 6.2 Conseil de surveillance 6.2.1 Désignation des membres du conseil de surveillance 6.2.2 Pouvoirs du conseil de surveillance 6.2.3 Organisations - Réunions - Délibérations - Responsabilités et In",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "frais d'acquisition",
+     "snippet": "x comptes • La valeur de reconstitution, soit la valeur de réalisation, ci-dessus, augmentée des frais afférents à une reconstitution du patrimoine de la SCPI (frais d'acquisition des immeubles et commission de souscription) Conformément à l'article L. 214-109 du Code monétaire et ﬁ nancier, tel que modiﬁ é par l'ordonnance n°2024-662 du 3 juillet 2024, ces valeurs pourront également être calculées sur une base semestrielle, au 30 juin de chaque année, sur décision de la Société de Gestion. Celles-ci reposent sur une évaluation interne, réalisée par la Société de Gestion en préservant le caractère indépendant de la fonction de valorisation, ou externe, sur la base d'une évaluation réalisée par l'Expert Externe en Evaluation, du patrimoine immobilier de la SCPI. Tout écart entre le prix de ",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur"
+     ]
+    },
+    {
+     "page": 17,
+     "label": "commission de souscription",
+     "snippet": "on, soit la valeur de réalisation, ci-dessus, augmentée des frais afférents à une reconstitution du patrimoine de la SCPI (frais d'acquisition des immeubles et commission de souscription) Conformément à l'article L. 214-109 du Code monétaire et ﬁ nancier, tel que modiﬁ é par l'ordonnance n°2024-662 du 3 juillet 2024, ces valeurs pourront également être calculées sur une base semestrielle, au 30 juin de chaque année, sur décision de la Société de Gestion. Celles-ci reposent sur une évaluation interne, réalisée par la Société de Gestion en préservant le caractère indépendant de la fonction de valorisation, ou externe, sur la base d'une évaluation réalisée par l'Expert Externe en Evaluation, du patrimoine immobilier de la SCPI. Tout écart entre le prix de souscription et la valeur de reconsti",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de souscription",
+     "snippet": "rt à nouveau existant par prélèvement sur la prime d'émission décidée par l'assemblée générale ordinaire des associés. La prime d'émission intègre également la commission de souscription. Celle-ci est nulle (0 euro), comme indiqué au Chapitre 5 - Commissions ci-dessous. Le montant de la prime d'émission est ﬁ xé et peut être modiﬁ é par la Société de Gestion. Il est indiqué dans le bulletin de souscription et le bulletin d'information périodique. Le paiement de la souscription s'effectue au jour de la souscription pour la totalité du prix de souscription. Le prix de souscription s'entend net de tous autres frais. Il ne peut être procédé à des émissions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe, sur le registre prévu à l'article 422-220 du RG AMF, des dema",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 22,
+     "label": "commission de retrait",
+     "snippet": "s demandes de souscription : Le retrait compensé par une souscription ne peut être effectué à un prix de retrait supérieur au prix de souscription majoré d'une commission de retrait (hors taxes). Il est rappelé qu'au cas présent, la commission de souscription de la SCPI est nulle (0%). Si le retrait n'est pas compensé, le remboursement ne peut s'effectuer à un prix supérieur à la valeur de réalisation ni inférieur à celle-ci diminuée de 10%, sauf autorisation de l'AMF. En cas de baisse du prix de retrait, la Société de Gestion informe par lettre recommandée, le cas échéant électronique, les associés ayant demandé le retrait, au plus tard la veille de la date d'effet. En l'absence de réaction de la part des associés dans un délai de 15 jours à compter de la date de réception de la lettre re",
+     "percents": [
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "). Si le retrait n'est pas compensé, le rembo"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'AMF. En cas de baiss"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 22,
+     "label": "commission de souscription",
+     "snippet": "peut être effectué à un prix de retrait supérieur au prix de souscription majoré d'une commission de retrait (hors taxes). Il est rappelé qu'au cas présent, la commission de souscription de la SCPI est nulle (0%). Si le retrait n'est pas compensé, le remboursement ne peut s'effectuer à un prix supérieur à la valeur de réalisation ni inférieur à celle-ci diminuée de 10%, sauf autorisation de l'AMF. En cas de baisse du prix de retrait, la Société de Gestion informe par lettre recommandée, le cas échéant électronique, les associés ayant demandé le retrait, au plus tard la veille de la date d'effet. En l'absence de réaction de la part des associés dans un délai de 15 jours à compter de la date de réception de la lettre recommandée avec accusé de réception, la demande de retrait est réputée mai",
+     "percents": [
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "). Si le retrait n'est pas compensé, le rembo"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'AMF. En cas de baiss"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "commission de cession",
+     "snippet": ", dès lors qu'elle constate que le prix d'exécution a conduit, au cours de quatre périodes consécutives de confrontation, à ﬁ xer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription. Dans l'hypothèse où la Société de Gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent et après huit périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à ﬁ xer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés par tout moyen approprié (bulletin d'information, sur le site",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "commission de cession",
+     "snippet": "linéa précédent et après huit périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à ﬁ xer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier électronique le cas échéant). • Le rétablissement de la variabilité du capital entraîne : • L'annulation des ordres d'achat et de vente de parts, • La ﬁ xation d'un prix de souscription conforme à la réglementation, • L'inscription sur le registre des demandes de retrait de parts, • La reprise des souscriptions et la possibilité pour la Société, en to",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 31,
+     "label": "Commission de souscription",
+     "snippet": "nt les donneurs d'ordre et les intermédiaires et assure la diffusion effective et intégrale de cette décision motivée dans le public. 5. Politique de frais 5.1 Commission de souscription de parts La commission de souscription est de 0% HT, soit 0% TTC du montant souscrit. 5.2 Commission de retrait de parts et mutation de parts En cas de retrait de parts détenues depuis moins de six (6) ans, la Société de Gestion prélèvera en sus, une commission d'un montant maximum de 5% HT (soit 6% TTC) du montant remboursé. Cette commission sera prélevée directement sur le prix de retrait versé à l'associé retrayant. Ces frais sont applicables même en cas de retrait partiel. Pour les parts souscrites avant le 1er septembre 2026 : la commission de retrait anticipé de 5 % HT (soit 6 % TTC) s'applique uniqu",
+     "percents": [
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 0% TTC du montant souscrit. 5.2 Com"
+      },
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": "TTC",
+       "after": "TTC du montant souscrit. 5.2 Commission de r"
+      },
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6% TTC) du montant remboursé. Cette"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du montant remboursé. Cette commission"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6 % TTC) s'applique uniqu"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) s'applique uniqu"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 31,
+     "label": "commission de souscription",
+     "snippet": "iaires et assure la diffusion effective et intégrale de cette décision motivée dans le public. 5. Politique de frais 5.1 Commission de souscription de parts La commission de souscription est de 0% HT, soit 0% TTC du montant souscrit. 5.2 Commission de retrait de parts et mutation de parts En cas de retrait de parts détenues depuis moins de six (6) ans, la Société de Gestion prélèvera en sus, une commission d'un montant maximum de 5% HT (soit 6% TTC) du montant remboursé. Cette commission sera prélevée directement sur le prix de retrait versé à l'associé retrayant. Ces frais sont applicables même en cas de retrait partiel. Pour les parts souscrites avant le 1er septembre 2026 : la commission de retrait anticipé de 5 % HT (soit 6 % TTC) s'applique uniquement en cas de retrait intervenant ava",
+     "percents": [
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 0% TTC du montant souscrit. 5.2 Com"
+      },
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": "TTC",
+       "after": "TTC du montant souscrit. 5.2 Commission de r"
+      },
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6% TTC) du montant remboursé. Cette"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du montant remboursé. Cette commission"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6 % TTC) s'applique uniquement en c"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) s'applique uniquement en cas de retrait"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 31,
+     "label": "Commission de retrait",
+     "snippet": " dans le public. 5. Politique de frais 5.1 Commission de souscription de parts La commission de souscription est de 0% HT, soit 0% TTC du montant souscrit. 5.2 Commission de retrait de parts et mutation de parts En cas de retrait de parts détenues depuis moins de six (6) ans, la Société de Gestion prélèvera en sus, une commission d'un montant maximum de 5% HT (soit 6% TTC) du montant remboursé. Cette commission sera prélevée directement sur le prix de retrait versé à l'associé retrayant. Ces frais sont applicables même en cas de retrait partiel. Pour les parts souscrites avant le 1er septembre 2026 : la commission de retrait anticipé de 5 % HT (soit 6 % TTC) s'applique uniquement en cas de retrait intervenant avant trois (3) ans de détention. La Société de Gestion percevra une commission d",
+     "percents": [
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": "HT",
+       "after": "HT, soit 0% TTC du montant souscrit. 5.2 Com"
+      },
+      {
+       "raw": "0%",
+       "value": 0.0,
+       "tax_hint": "TTC",
+       "after": "TTC du montant souscrit. 5.2 Commission de r"
+      },
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6% TTC) du montant remboursé. Cette"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du montant remboursé. Cette commission"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6 % TTC) s'applique uniquement en c"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) s'applique uniquement en cas de retrait"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 31,
+     "label": "commission de retrait",
+     "snippet": "x de retrait versé à l'associé retrayant. Ces frais sont applicables même en cas de retrait partiel. Pour les parts souscrites avant le 1er septembre 2026 : la commission de retrait anticipé de 5 % HT (soit 6 % TTC) s'applique uniquement en cas de retrait intervenant avant trois (3) ans de détention. La Société de Gestion percevra une commission de cession de parts en cas de cession de parts de gré à gré, de décès ou de cession à titre gratuit (donation/divorce). La Société de Gestion ne percevra pas de frais de constitution de dossier. Les frais relatifs aux cessions de parts sont à la charge des cessionnaires, des donataires ou des ayant droits bénéﬁ ciaires. Les droits d'enregistrement de 5% du prix de cession (article 726 du Code Général des Impôts) sont à régler au Trésor Public par l",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6 % TTC) s'applique uniquement en c"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) s'applique uniquement en cas de retrait"
+      },
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "du prix de cession (article 726 du Code Géné"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 31,
+     "label": "commission de cession",
+     "snippet": "rait anticipé de 5 % HT (soit 6 % TTC) s'applique uniquement en cas de retrait intervenant avant trois (3) ans de détention. La Société de Gestion percevra une commission de cession de parts en cas de cession de parts de gré à gré, de décès ou de cession à titre gratuit (donation/divorce). La Société de Gestion ne percevra pas de frais de constitution de dossier. Les frais relatifs aux cessions de parts sont à la charge des cessionnaires, des donataires ou des ayant droits bénéﬁ ciaires. Les droits d'enregistrement de 5% du prix de cession (article 726 du Code Général des Impôts) sont à régler au Trésor Public par les parties (le cessionnaire, le cas échéant) avant l'envoi de l'acte de cession à la Société de Gestion. 5.3 Commission de gestion Commission sur les loyers Au titre de la gesti",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6 % TTC) s'applique uniquement en c"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) s'applique uniquement en cas de retrait"
+      },
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "du prix de cession (article 726 du Code Géné"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 31,
+     "label": "Commission de gestion",
+     "snippet": "al des Impôts) sont à régler au Trésor Public par les parties (le cessionnaire, le cas échéant) avant l'envoi de l'acte de cession à la Société de Gestion. 5.3 Commission de gestion Commission sur les loyers Au titre de la gestion de ses actifs, la Société de Gestion percevra une commission de gestion d'un montant maximum de 12% HT (soit 14,4% TTC au taux de TVA en vigueur) du montant : • Des produits locatifs hors taxes encaissés directement ou indirectement (au prorata de la participation de la SCPI diminués des éventuelles commissions facturées par la Société de Gestion aux sociétés) ; • Des autres produits hors taxes encaissés par la SCPI. La commission de gestion couvre ainsi les prestations liées à l'exécution des missions suivantes : • la gestion administrative et ﬁ nancière de la S",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 14,4% TTC au taux de TVA en vigueur"
+      },
+      {
+       "raw": "14,4%",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant :"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 31,
+     "label": "commission de gestion",
+     "snippet": "e cession à la Société de Gestion. 5.3 Commission de gestion Commission sur les loyers Au titre de la gestion de ses actifs, la Société de Gestion percevra une commission de gestion d'un montant maximum de 12% HT (soit 14,4% TTC au taux de TVA en vigueur) du montant : • Des produits locatifs hors taxes encaissés directement ou indirectement (au prorata de la participation de la SCPI diminués des éventuelles commissions facturées par la Société de Gestion aux sociétés) ; • Des autres produits hors taxes encaissés par la SCPI. La commission de gestion couvre ainsi les prestations liées à l'exécution des missions suivantes : • la gestion administrative et ﬁ nancière de la SCPI (fund management immobilier) : l'établissement et la conduite de la stratégie d'investissement, la gestion des emploi",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 14,4% TTC au taux de TVA en vigueur"
+      },
+      {
+       "raw": "14,4%",
+       "value": 14.4,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant :"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 31,
+     "label": "commission de gestion",
+     "snippet": " de la SCPI diminués des éventuelles commissions facturées par la Société de Gestion aux sociétés) ; • Des autres produits hors taxes encaissés par la SCPI. La commission de gestion couvre ainsi les prestations liées à l'exécution des missions suivantes : • la gestion administrative et ﬁ nancière de la SCPI (fund management immobilier) : l'établissement et la conduite de la stratégie d'investissement, la gestion des emplois/ressources (la perception des recettes et la distribution des bénéﬁ ces), la mise en place et le suivi des ﬁ nancements des actifs ainsi que l'ensemble des prestations liées aux obligations d'information de l'AMF et des associés, notamment l'établissement du rapport annuel de gestion et de tous les documents d'information périodique ;",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 32,
+     "label": "commission de gestion",
+     "snippet": " des actifs immobiliers, notamment l'établissement du plan de travaux à cinq ans et de sa mise à jour. La Société de Gestion pourra rétrocéder une partie de la commission de gestion qu'elle aura perçue de la SCPI aux distributeurs au titre des prestations de services fournies aux souscripteurs des parts de la SCPI dans la durée, dans la mesure où ces prestations contribuent à l'amélioration du service rendu aux souscripteurs dans le temps. La Société de Gestion pourra faire payer directement par la SCPI, tout ou partie de la rémunération de ses mandataires ou de ses délégués, à qui elle aurait conféré, sous sa responsabilité, une activité pour les objets déterminés conformément à l'article 17 des Statuts, par déduction sur les sommes lui revenant. La rémunération de la Société de Gestion s",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 32,
+     "label": "Commission d'acquisition",
+     "snippet": " sur les sommes lui revenant. La rémunération de la Société de Gestion sera due par la SCPI par trimestre civil. Le paiement s'effectue par trimestre échu. 5.4 Commission d'acquisition ou de cession d'actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'actifs immobilier d'un montant maximum de 3% HT (soit 3,6% TTC) : Du prix d'acquisition (hors taxes, hors droits, hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) directement ou indirectement par la SCPI ; Ou de la valeur conventionnelle (hors taxes, hors droits, hors frais) retenue pour le calcul du prix d'acquisition des droits sociaux des sociétés qui détiennent lesdits actifs immobiliers, au prorata de la participation dans lesdites sociétés acquises par la SCPI. La commission",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 3,6% TTC) : Du prix d'acquisition ("
+      },
+      {
+       "raw": "3,6%",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC) : Du prix d'acquisition (hors taxes, ho"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 32,
+     "label": "commission d'acquisition",
+     "snippet": " trimestre civil. Le paiement s'effectue par trimestre échu. 5.4 Commission d'acquisition ou de cession d'actifs immobiliers La Société de Gestion percevra une commission d'acquisition d'actifs immobilier d'un montant maximum de 3% HT (soit 3,6% TTC) : Du prix d'acquisition (hors taxes, hors droits, hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) directement ou indirectement par la SCPI ; Ou de la valeur conventionnelle (hors taxes, hors droits, hors frais) retenue pour le calcul du prix d'acquisition des droits sociaux des sociétés qui détiennent lesdits actifs immobiliers, au prorata de la participation dans lesdites sociétés acquises par la SCPI. La commission d'acquisition d'actifs immobiliers couvre notamment les prestations liées à l'identiﬁ cation e",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 3,6% TTC) : Du prix d'acquisition ("
+      },
+      {
+       "raw": "3,6%",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC) : Du prix d'acquisition (hors taxes, ho"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 32,
+     "label": "commission d'acquisition",
+     "snippet": "ition des droits sociaux des sociétés qui détiennent lesdits actifs immobiliers, au prorata de la participation dans lesdites sociétés acquises par la SCPI. La commission d'acquisition d'actifs immobiliers couvre notamment les prestations liées à l'identiﬁ cation et l'évaluation des opportunités d'investissements réalisées par la Société de Gestion pour le compte de la SCPI. Cette commission sera facturée à la SCPI ou aux sociétés dans lesquelles elle détient une participation le cas échéant par la Société de Gestion, et prélevée par la Société de Gestion à partir de la date de l'acquisition de l'immeuble. Une commission de cession d'actifs immobiliers sera prélevée par la Société de Gestion, uniquement en cas de réalisation d'une plus-value (la « Plus-Value »). La commission sera égale à ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 32,
+     "label": "commission de cession",
+     "snippet": "tient une participation le cas échéant par la Société de Gestion, et prélevée par la Société de Gestion à partir de la date de l'acquisition de l'immeuble. Une commission de cession d'actifs immobiliers sera prélevée par la Société de Gestion, uniquement en cas de réalisation d'une plus-value (la « Plus-Value »). La commission sera égale à un montant maximum de 4,16% HT (soit 5% TTC) du prix de vente (le « Prix de Vente ») si la plus-value est supérieure à 5% au prixd'acquisition (le « Prix d'Acquisition »). • Le Prix de Vente sera déterminé comme le prix net vendeur au quel seront déduits tous les frais de cession notamment les honoraires de broker, les honoraires de conseil, les honoraires d'avocats, les frais de due diligence et la fiscalité étrangère prélevée à la source. • Le Prix d'A",
+     "percents": [
+      {
+       "raw": "4,16%",
+       "value": 4.16,
+       "tax_hint": "HT",
+       "after": "HT (soit 5% TTC) du prix de vente (le « Prix"
+      },
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix de vente (le « Prix de Vente »)"
+      },
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "au prixd'acquisition (le « Prix d'Acquisitio"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 32,
+     "label": "frais de cession",
+     "snippet": "t supérieure à 5% au prixd'acquisition (le « Prix d'Acquisition »). • Le Prix de Vente sera déterminé comme le prix net vendeur au quel seront déduits tous les frais de cession notamment les honoraires de broker, les honoraires de conseil, les honoraires d'avocats, les frais de due diligence et la fiscalité étrangère prélevée à la source. • Le Prix d'Acquisition sera déterminé comme la valeur comptable immobilisée de l'actif présente à l'actif des comptes de la société au moment de la cession. • La Plus-Value sera calculée comme la différence entre le Prix de Vente et le Prix d'Acquisition. Cette commission pourra être prélevée à partir de la signature de l'acte définitif. 5.5 Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier La Société de Gestio",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "au prixd'acquisition (le « Prix d'Acquisitio"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 32,
+     "label": "Commission de suivi",
+     "snippet": "ée comme la différence entre le Prix de Vente et le Prix d'Acquisition. Cette commission pourra être prélevée à partir de la signature de l'acte définitif. 5.5 Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier La Société de Gestion percevra une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier, d'un montant maximum de 5% HT (soit 6% TTC) calculée sur l'ensemble des travaux réalisés et pilotés par la Société de Gestion. La SCPI pourrait réaliser les travaux à travers une ﬁ liale ou une société dans laquelle, elle aura des participations, seule ou conjointement avec une société externe. La rémunération de la Société de Gestion par une ﬁ liale ou société de participations se fera au prorata du montant tota",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6% TTC) calculée sur l'ensemble des"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) calculée sur l'ensemble des travaux réa"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 32,
+     "label": "commission de suivi",
+     "snippet": "ature de l'acte définitif. 5.5 Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier La Société de Gestion percevra une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier, d'un montant maximum de 5% HT (soit 6% TTC) calculée sur l'ensemble des travaux réalisés et pilotés par la Société de Gestion. La SCPI pourrait réaliser les travaux à travers une ﬁ liale ou une société dans laquelle, elle aura des participations, seule ou conjointement avec une société externe. La rémunération de la Société de Gestion par une ﬁ liale ou société de participations se fera au prorata du montant total du marché de travaux conﬁ é.",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6% TTC) calculée sur l'ensemble des"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) calculée sur l'ensemble des travaux réa"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 44,
+     "label": "frais d'acquisition",
+     "snippet": " ce seuil s'appréciant opération par opération. Si ce montant est dépassé, la plus-value est imposable et le prix d'acquisition du bien cédé est majoré : • Des frais d'acquisition, soit forfaitairement à hauteur de 7,5% soit pour leur montant réel dûment justiﬁ é",
+     "percents": [
+      {
+       "raw": "7,5%",
+       "value": 7.5,
+       "tax_hint": null,
+       "after": "soit pour leur montant réel dûment justiﬁ é"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 45,
+     "label": "frais d'acquisition",
+     "snippet": "les 150 U à 150 VH du CGI. D'une façon générale, la plus-value est égale à la différence entre le prix de cession et le prix d'acquisition des parts majoré des frais d'acquisition (pris en compte pour leur montant réel). Pour la détermination du montant imposable au titre de l'impôt sur le revenu, la plus-value peut bénéﬁ cier des mêmes abattements pour durée de détention qu'en matière de plus-value sur cession d'immeubles (cf. tableau ci-dessus). Ces abattements pour durée de détention sont calculés à compter de la date d'acquisition des parts par l'associé. La règle selon laquelle la plus-value n'est pas imposable lorsque le montant de la cession est inférieur ou égal à quinze mille (15 000) euros n'est pas applicable en cas de cession de parts de la SCPI. c) Surtaxe sur les plus-values ",
+     "percents": [],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    }
+   ],
+   "fee_pages": {},
+   "linked_from": "https://www.iroko.eu/scpi/atlas",
+   "off_domain": true
+  }
+ ],
+ "candidate_count": 2,
+ "summary": {
+  "dic_identity_ok": 0,
+  "note_identity_ok": 1,
+  "fee_clauses": 21,
+  "errors": 0
+ }
+}

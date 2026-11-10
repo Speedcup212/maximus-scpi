@@ -1,0 +1,1365 @@
+{
+ "slug": "optimale",
+ "name": "Optimale",
+ "manager": "CONSULTIM Asset Management",
+ "crawl": [
+  {
+   "url": "https://www.consultim-am.com/",
+   "depth": 0,
+   "final_url": "https://www.consultim-am.com/",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 2
+  },
+  {
+   "url": "https://www.consultim-am.com/scpi-optimale/",
+   "depth": 0,
+   "error": "HTTPError: HTTP Error 404: Not Found"
+  },
+  {
+   "url": "https://www.consultim-am.com/notre-scpi/",
+   "depth": 1,
+   "final_url": "https://www.consultim-am.com/notre-scpi/",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 90
+  },
+  {
+   "url": "https://www.consultim-am.com/informations-reglementaires/",
+   "depth": 1,
+   "final_url": "https://www.consultim-am.com/informations-reglementaires/",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 0
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2026/11/SCPI-OPTIMALE-Note-information-2026-11.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2026/11/SCPI-OPTIMALE-Note-information-2026-11.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 615158,
+   "sha256": "738decf7e81fbd05a5b26a353962f3e42eeb0e390655b080d62b1bf80a7abd77",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "ATREAM",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20261104150319+01'00'",
+    "modDate": "D:20261104150319+01'00'"
+   },
+   "page_count": 37,
+   "text_characters": 119434,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Note d'Information – novembre 2026 1/37 NOTE D'INFORMATION. Novembre 2026",
+   "dates": [
+    "11 juillet 2014",
+    "4 juin 2024",
+    "9 juillet 2020",
+    "Novembre 2026",
+    "novembre 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 4,
+     "label": "frais d'acquisition",
+     "snippet": "à l'endettement direct et indirect, bancaire et non bancaire, y compris le crédit-bail, à hauteur de 40% maximum de la valeur d'acquisition hors droits et hors frais d'acquisition des actifs immobiliers, soit un niveau de levier maximal de 1,67, avec la possibilité de financer par endettement l'acquisition d'un actif immobilier jusqu'à 100% de sa valeur d'acquisition. Le niveau de levier maximal a été fixé conformément à la décision de l'assemblée générale constitutive du 9 juillet 2020. En toutes circonstances, conformément aux dispositions du RGAMF, le montant de l'endettement devra être compatible avec les capacités de remboursement de la SCPI, sur la base de ses recettes ordinaires pour les emprunts et dettes et avec ses capacités d'engagement pour les acquisitions payables à terme. En",
+     "percents": [
+      {
+       "raw": "40%",
+       "value": 40.0,
+       "tax_hint": null,
+       "after": "maximum de la valeur d'acquisition hors droi"
+      },
+      {
+       "raw": "00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "de sa valeur d'acquisition. Le niveau de lev"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "e montant permettant, pour chaque part nouvelle souscrite, de maintenir le niveau du report à nouveau existant. Le montant de la prime d'émission, intégrant la commission de souscription, est fixé par la Société de Gestion et indiqué dans le bulletin de souscription et le bulletin semestriel d'information. Le montant de la prime d'émission est réduit pour les Associés Fondateurs de la SCPI, qui sont exonérés de la commission de souscription. Voir paragraphe « 4. MODALITES DE CALCUL DU PRIX DE SOUSCRIPTION » ci-après. 3.3. Forme des parts Les parts sociales sont nominatives. Les droits de chaque associé résultent exclusivement de son inscription sur le registre des transferts. Les parts sont numérotées dans l'ordre chronologique de leur émission. Les parts ne sont représentées par aucun tit",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "cription et le bulletin semestriel d'information. Le montant de la prime d'émission est réduit pour les Associés Fondateurs de la SCPI, qui sont exonérés de la commission de souscription. Voir paragraphe « 4. MODALITES DE CALCUL DU PRIX DE SOUSCRIPTION » ci-après. 3.3. Forme des parts Les parts sociales sont nominatives. Les droits de chaque associé résultent exclusivement de son inscription sur le registre des transferts. Les parts sont numérotées dans l'ordre chronologique de leur émission. Les parts ne sont représentées par aucun titre. Toutefois, la Société de Gestion peut délivrer à chaque associé qui en fait la demande, un certificat de parts sociales attestant son inscription sur le registre des associés. Nous attirons l'attention des souscripteurs sur le paragraphe « 10. INFORMATIO",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "RES » ci-après. 4. Modalités de calcul du prix de souscription Le prix de souscription est la somme de la valeur nominale et de la prime d'émission incluant la commission de souscription. À compter du 31 décembre 2025, le prix de souscription de 255 € se décompose ainsi : • Valeur nominale de la part sociale : 187,50 € • Prime d'émission : 67,50 €, dont une commission de souscription de 25,50 €. La commission de souscription, au plus égale à 10 % HT (12 % TTC) du prix de souscription, est acquise à la société de gestion pour couvrir les frais de recherche et d'investissement des capitaux, comme indiqué au",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) du prix de souscription, est a"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix de souscription, est acquise à"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": " 31 décembre 2025, le prix de souscription de 255 € se décompose ainsi : • Valeur nominale de la part sociale : 187,50 € • Prime d'émission : 67,50 €, dont une commission de souscription de 25,50 €. La commission de souscription, au plus égale à 10 % HT (12 % TTC) du prix de souscription, est acquise à la société de gestion pour couvrir les frais de recherche et d'investissement des capitaux, comme indiqué au",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) du prix de souscription, est a"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix de souscription, est acquise à"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": " de 255 € se décompose ainsi : • Valeur nominale de la part sociale : 187,50 € • Prime d'émission : 67,50 €, dont une commission de souscription de 25,50 €. La commission de souscription, au plus égale à 10 % HT (12 % TTC) du prix de souscription, est acquise à la société de gestion pour couvrir les frais de recherche et d'investissement des capitaux, comme indiqué au",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) du prix de souscription, est a"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix de souscription, est acquise à"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "commission de souscription",
+     "snippet": " à la société de gestion tous pouvoirs pour fixer, dans les conditions déterminées par la loi, le prix et les modalités de souscription des parts nouvelles. La commission de souscription n'est pas appliquée aux Associés Fondateurs. Conformément aux dispositions de l'article L. 214-109 du COMOFI, les dirigeants de la Société de Gestion arrêtent et mentionnent chaque année, dans un état annexe au rapport de gestion, les valeurs suivantes : • La valeur comptable ; • La valeur de réalisation, soit la valeur vénale des immeubles majorée de la valeur nette des autres actifs o La valeur vénale résulte d'une expertise quinquennale des immeubles réalisée par un expert immobilier indépendant et actualisée par lui chaque année ; o La valeur nette des autres actifs, qui tient compte des plus-values et",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": " de gestion garantit un traitement équitable des actionnaires A titre exceptionnel, il est précisé que, les Associés Fondateurs sont exonérés du paiement de la commission de souscription en contrepartie de l'inaliénabilité des parts souscrites pendant 3 ans. Par ailleurs, à la date d'obtention du visa, la Société de Gestion a décidé de rétrocéder l'intégralité des commissions de souscription à tout souscripteur dont le montant cumulé souscrit jusqu'au 31 décembre 2021 atteint le seuil de 5 millions d'euros. La Société de Gestion s'assurera à tout moment que chaque associé bénéficie d'un traitement équitable et de droits proportionnels au nombre de parts qu'il possède. Aucun associé ne bénéficie d'un traitement préférentiel qui entraîne un préjudice global important pour les autres associés",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 12,
+     "label": "commissions de souscription",
+     "snippet": "'inaliénabilité des parts souscrites pendant 3 ans. Par ailleurs, à la date d'obtention du visa, la Société de Gestion a décidé de rétrocéder l'intégralité des commissions de souscription à tout souscripteur dont le montant cumulé souscrit jusqu'au 31 décembre 2021 atteint le seuil de 5 millions d'euros. La Société de Gestion s'assurera à tout moment que chaque associé bénéficie d'un traitement équitable et de droits proportionnels au nombre de parts qu'il possède. Aucun associé ne bénéficie d'un traitement préférentiel qui entraîne un préjudice global important pour les autres associés. Dans la mesure où tous les associés ont les mêmes droits, la Société de Gestion considère que l'exigence de traitement égalitaire des associés est respectée. Chapitre II - Modalités de sortie L'associé qui",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 13,
+     "label": "commission de souscription",
+     "snippet": "ond au montant du nominal majoré de la prime d'émission (soit le prix de souscription en vigueur à la date de retrait), diminué d'un montant correspondant à la commission de souscription de 10% HT. Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. À compter du 31 décembre 2025, l'associé se retirant percevra sur la base du prix de souscription, une somme de 229,50 euros par part. Ce prix de retrait se décompose de la manière suivante : Prix de souscription 255,00 € - Commission de souscription (10% HT) 25,50 € Prix de retrait (valeur nette revenant à l'associé) 229,50 € DEMANDE DE RETRAIT NON COMPENSÉE PAR DES DEMANDES DE SOUSCRIPTION Sous réserve de la constitution et de la dotation du fonds",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT. Le retrait compensé par une souscription"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT) 25,50 € Prix de retrait (valeur nette re"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 13,
+     "label": "commission de souscription",
+     "snippet": " commission de souscription de 10% HT. Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. À compter du 31 décembre 2025, l'associé se retirant percevra sur la base du prix de souscription, une somme de 229,50 euros par part. Ce prix de retrait se décompose de la manière suivante : Prix de souscription 255,00 € - Commission de souscription (10% HT) 25,50 € Prix de retrait (valeur nette revenant à l'associé) 229,50 € DEMANDE DE RETRAIT NON COMPENSÉE PAR DES DEMANDES DE SOUSCRIPTION Sous réserve de la constitution et de la dotation du fonds de remboursement, le prix de retrait, qui, dans un tel cas, ne peut ni être supérieur à la valeur de réalisation, ni inférieur à cette même valeur moins 10 %,",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT. Le retrait compensé par une souscription"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT) 25,50 € Prix de retrait (valeur nette re"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ","
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 13,
+     "label": "Commission de souscription",
+     "snippet": "r la base du prix de souscription, une somme de 229,50 euros par part. Ce prix de retrait se décompose de la manière suivante : Prix de souscription 255,00 € - Commission de souscription (10% HT) 25,50 € Prix de retrait (valeur nette revenant à l'associé) 229,50 € DEMANDE DE RETRAIT NON COMPENSÉE PAR DES DEMANDES DE SOUSCRIPTION Sous réserve de la constitution et de la dotation du fonds de remboursement, le prix de retrait, qui, dans un tel cas, ne peut ni être supérieur à la valeur de réalisation, ni inférieur à cette même valeur moins 10 %, sauf autorisation de l'AMF, est fixé par la Société de Gestion et porté à la connaissance des associés concernés par tous moyens à sa convenance et notamment au moyen du courrier recommandé mentionné ci-dessus « Modalités de retrait par prélèvement su",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT) 25,50 € Prix de retrait (valeur nette re"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'AMF, est fixé par la"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "commission de cession",
+     "snippet": "rs qu'elle constate que le prix d'exécution a conduit à constater, au cours de quatre (4) périodes consécutives de confrontation, un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L. 214-94 du COMOFI. Dans l'hypothèse où la Société de Gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent, et après huit (8) périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L. 214-94 du COMOFI, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés par to",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 15,
+     "label": "commission de cession",
+     "snippet": "cédent, et après huit (8) périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L. 214-94 du COMOFI, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier). Le rétablissement de la variabilité du capital entraîne : • l'annulation des ordres d'achat et de vente de parts, • la fixation d'un prix de souscription à un niveau proche de la moyenne des prix acquéreur, commission",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 17,
+     "label": "commission de cession",
+     "snippet": "evables les ordres d'achat à prix maximum offert et les ordres de vente à prix minimum proposé ; • les droits d'enregistrement à la charge de l'acquéreur et la commission de cession supportée par le",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "commission de cession",
+     "snippet": "ndeur. L'acquéreur devra exprimer son prix maximum offert, hors les droits d'enregistrement, sachant que le vendeur recevra ce prix offert sous déduction de la commission de cession dont il est redevable, et que la somme nette revenant ainsi au cédant constituera le prix d'exécution. Le taux de la commission de cession étant de 6,00% HT augmenté le cas échéant de la TVA en vigueur, tel que stipulé au chapitre – Frais - ci-après, le prix d'exécution au prix offert par l'acquéreur diminué de la commission de cession, base sur laquelle ce dernier acquittera, en supplément de son prix, les droits d'enregistrement au taux en vigueur. Le vendeur devra exprimer son prix minimum proposé commission de cession incluse, sachant que la somme lui revenant sera nette de ladite commission de cession et c",
+     "percents": [
+      {
+       "raw": "6,00%",
+       "value": 6.0,
+       "tax_hint": "HT",
+       "after": "HT augmenté le cas échéant de la TVA en vigu"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "commission de cession",
+     "snippet": "sous déduction de la commission de cession dont il est redevable, et que la somme nette revenant ainsi au cédant constituera le prix d'exécution. Le taux de la commission de cession étant de 6,00% HT augmenté le cas échéant de la TVA en vigueur, tel que stipulé au chapitre – Frais - ci-après, le prix d'exécution au prix offert par l'acquéreur diminué de la commission de cession, base sur laquelle ce dernier acquittera, en supplément de son prix, les droits d'enregistrement au taux en vigueur. Le vendeur devra exprimer son prix minimum proposé commission de cession incluse, sachant que la somme lui revenant sera nette de ladite commission de cession et constituera son prix minimum d'exécution. Concernant plus particulièrement les ordres d'achat, leur inscription sera en outre subordonnée au",
+     "percents": [
+      {
+       "raw": "6,00%",
+       "value": 6.0,
+       "tax_hint": "HT",
+       "after": "HT augmenté le cas échéant de la TVA en vigu"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "commission de cession",
+     "snippet": " augmenté le cas échéant de la TVA en vigueur, tel que stipulé au chapitre – Frais - ci-après, le prix d'exécution au prix offert par l'acquéreur diminué de la commission de cession, base sur laquelle ce dernier acquittera, en supplément de son prix, les droits d'enregistrement au taux en vigueur. Le vendeur devra exprimer son prix minimum proposé commission de cession incluse, sachant que la somme lui revenant sera nette de ladite commission de cession et constituera son prix minimum d'exécution. Concernant plus particulièrement les ordres d'achat, leur inscription sera en outre subordonnée au règlement par les donneurs d'ordre, dans les conditions définies au paragraphe - Couverture des ordres -, du prix auquel leurs ordres pourraient être exécutés en totalité majoré des droits d'enregis",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "commission de cession",
+     "snippet": "r laquelle ce dernier acquittera, en supplément de son prix, les droits d'enregistrement au taux en vigueur. Le vendeur devra exprimer son prix minimum proposé commission de cession incluse, sachant que la somme lui revenant sera nette de ladite commission de cession et constituera son prix minimum d'exécution. Concernant plus particulièrement les ordres d'achat, leur inscription sera en outre subordonnée au règlement par les donneurs d'ordre, dans les conditions définies au paragraphe - Couverture des ordres -, du prix auquel leurs ordres pourraient être exécutés en totalité majoré des droits d'enregistrement correspondants. Après avoir vérifié que les ordres qui lui sont transmis satisfont aux conditions requises pour leur inscription, la Société de Gestion les horodate et les inscrit su",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "commission de cession",
+     "snippet": "nt au taux en vigueur. Le vendeur devra exprimer son prix minimum proposé commission de cession incluse, sachant que la somme lui revenant sera nette de ladite commission de cession et constituera son prix minimum d'exécution. Concernant plus particulièrement les ordres d'achat, leur inscription sera en outre subordonnée au règlement par les donneurs d'ordre, dans les conditions définies au paragraphe - Couverture des ordres -, du prix auquel leurs ordres pourraient être exécutés en totalité majoré des droits d'enregistrement correspondants. Après avoir vérifié que les ordres qui lui sont transmis satisfont aux conditions requises pour leur inscription, la Société de Gestion les horodate et les inscrit sur le registre de manière chronologique. Mode de transmission des ordres Les ordres doi",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "commission de cession",
+     "snippet": "ibles en permanence. 2.5. Confrontation et prix d'exécution Le prix d'exécution est celui auquel peut s'échanger le plus grand nombre de parts. Exprimé hors la commission de cession supportée par le vendeur et hors les droits d'enregistrement à la charge de l'acquéreur, il correspond à la somme revenant au vendeur. Ce prix, le jour de son établissement, et les quantités de parts échangées sont rendus publics (site interne, téléphone). En cas d'impossibilité d'établir un prix d'exécution, le prix d'achat le plus élevé et le prix de vente le plus faible ainsi que les quantités de parts proposées pour chacun de ces prix sont rendus publics de la même façon. La Société de Gestion procèdera à l'établissement du prix d'exécution selon une fréquence mensuelle, le 1er mercredi de chaque moi à 16 h",
+     "percents": [],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 20,
+     "label": "commission de cession",
+     "snippet": "Note d'Information – novembre 2026 20/37 • les ordres de vente inscrits au prix, commission de cession incluse, le plus faible. A limite de prix égal, les ordres sont exécutés suivant leur ordre chronologique d'inscription. Les transactions ainsi effectuées sont inscrites sans délai sur le registre des associés. Blocage du marché secondaire par confrontation • Ordres de vente insatisfaits Lorsque la Société de Gestion constate que les ordres de vente inscrits depuis plus de douze mois sur le registre représentent au moins 10 % des parts émises par la Société, elle en informe sans délai l'AMF. Dans les deux mois à compter de cette information, la Société de Gestion convoque une assemblée générale extraordinaire e",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "des parts émises par la Société, elle en inf"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commission de souscription",
+     "snippet": "Rémunération de la société de gestion Pour assurer ses missions, la Société de Gestion percevra une rémunération sous la forme des commissions ci-après : • Une commission de souscription, intégrée à la prime d'émission et perçue par la Société de Gestion. Elle correspond à 10% HT (soit 12% TTC au taux de TVA en vigueur) du montant de chaque souscription, prime d'émission incluse, rémunérant les frais de collecte (notamment la préparation et la réalisation des augmentations de capital, le placement des parts de la SCPI lié à l'activité",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 12% TTC au taux de TVA en vigueur)"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant de"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 21,
+     "label": "commission de souscription",
+     "snippet": "remise des commercialisateurs) ainsi que les frais d'étude liés à chaque investissement. Par exception, les Associés Fondateurs sont exonérés du paiement de la commission de souscription en contrepartie de l'inaliénabilité des parts souscrites pendant 3 ans. Par ailleurs, à la date d'obtention du visa, la Société de Gestion a décidé de rétrocéder l'intégralité des commissions de souscription à tout souscripteur dont le montant cumulé souscrit jusqu'au 31 décembre 2021 atteint le seuil de 5 millions d'euros. • Une commission de gestion correspondant à 10% HT (soit 12% TTC au taux de TVA en vigueur) maximum du montant hors taxes des produits locatifs encaissés par la société et des produits financiers nets encaissés par la Société perçue par la Société de Gestion pour l'administration et la ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 12% TTC au taux de TVA en vigueur)"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) maximum du mo"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 21,
+     "label": "commissions de souscription",
+     "snippet": "'inaliénabilité des parts souscrites pendant 3 ans. Par ailleurs, à la date d'obtention du visa, la Société de Gestion a décidé de rétrocéder l'intégralité des commissions de souscription à tout souscripteur dont le montant cumulé souscrit jusqu'au 31 décembre 2021 atteint le seuil de 5 millions d'euros. • Une commission de gestion correspondant à 10% HT (soit 12% TTC au taux de TVA en vigueur) maximum du montant hors taxes des produits locatifs encaissés par la société et des produits financiers nets encaissés par la Société perçue par la Société de Gestion pour l'administration et la gestion de son patrimoine et assurer la gestion de sa trésorerie. Sont couverts par cette commission, les frais supportés par la Société de Gestion pour l'administration de la Société, la distribution des re",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 12% TTC au taux de TVA en vigueur)"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) maximum du mo"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 21,
+     "label": "commission de gestion",
+     "snippet": "ité des commissions de souscription à tout souscripteur dont le montant cumulé souscrit jusqu'au 31 décembre 2021 atteint le seuil de 5 millions d'euros. • Une commission de gestion correspondant à 10% HT (soit 12% TTC au taux de TVA en vigueur) maximum du montant hors taxes des produits locatifs encaissés par la société et des produits financiers nets encaissés par la Société perçue par la Société de Gestion pour l'administration et la gestion de son patrimoine et assurer la gestion de sa trésorerie. Sont couverts par cette commission, les frais supportés par la Société de Gestion pour l'administration de la Société, la distribution des revenus, la tenue du registre des associés, la gestion des biens sociaux de la Société. • Une commission d'acquisition et de cession calculée sur le monta",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 12% TTC au taux de TVA en vigueur)"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) maximum du mo"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 21,
+     "label": "commission d'acquisition",
+     "snippet": " Gestion pour l'administration de la Société, la distribution des revenus, la tenue du registre des associés, la gestion des biens sociaux de la Société. • Une commission d'acquisition et de cession calculée sur le montant de l'acquisition ou de la cession immobilière égale : - à 1,5% HT (soit 1,8% TTC au taux de TVA en vigueur) maximum du prix d'acquisition ou du prix de cession (hors taxes, hors droits et hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) ou cédé, - à 1,5% HT (soit 1,8% TTC au taux de TVA en vigueur) maximum de la valeur conventionnelle (hors taxes, hors droits et hors frais) des actifs immobiliers retenue pour le calcul du prix d'acquisition des droits sociaux acquis ou cédés des sociétés non contrôlées qui détiennent lesdits actifs immobi",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": "HT",
+       "after": "HT (soit 1,8% TTC au taux de TVA en vigueur)"
+      },
+      {
+       "raw": "1,8%",
+       "value": 1.8,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) maximum du pr"
+      },
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": "HT",
+       "after": "HT (soit 1,8% TTC au taux de TVA en vigueur)"
+      },
+      {
+       "raw": "1,8%",
+       "value": 1.8,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) maximum de la"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 21,
+     "label": "commission de suivi",
+     "snippet": "iétés acquises ou cédées par la Société. La commission sur les acquisitions ne s'applique pas aux acquisitions consécutives à de nouvelles souscriptions. • Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués. Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3% HT maximum (soit 3,60% TTC au taux de TVA en vigueur) du montant HT des travaux effectivement réalisés. • Une commission en cas de cessions de parts : - Pour toutes cessions de parts sans intervention de la Société de Gestion ou pour toutes transmissions de parts à titre gratuit :",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 3,60% TTC au taux de TVA en"
+      },
+      {
+       "raw": "3,60%",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant HT"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 21,
+     "label": "commission de suivi",
+     "snippet": "calculée sur le montant des travaux effectués. Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3% HT maximum (soit 3,60% TTC au taux de TVA en vigueur) du montant HT des travaux effectivement réalisés. • Une commission en cas de cessions de parts : - Pour toutes cessions de parts sans intervention de la Société de Gestion ou pour toutes transmissions de parts à titre gratuit : il est dû à la Société de Gestion, par cessionnaire ou par bénéficiaire, un droit fixe forfaitaire de 75€ HT (soit 90€ TTC au taux de TVA en vigueur), montant qui est indexé chaque année à la date du 1er janvier selon l'indice INSEE du coût de la constr",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 3,60% TTC au taux de TVA en"
+      },
+      {
+       "raw": "3,60%",
+       "value": 3.6,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant HT"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 21,
+     "label": "commission de cession",
+     "snippet": "cessions réalisées par confrontation des ordres d'achat et de vente sur le marché secondaire : il est dû par le vendeur à la société la Société de Gestion, une commission de cession calculée au taux de 6% HT (augmenté, le cas échéant, de la TVA en vigueur) sur le prix total, hors droits d'enregistrement, payé par l'acquéreur. Toute autre rémunération ne peut être qu'exceptionnelle et doit être soumise à la ratification de l'assemblée générale ordinaire. 2. Frais supportés par la société La Société supporte et paie tous les autres frais et dépenses, et notamment : • le prix d'acquisition des biens et droits immobiliers ; • les frais d'acquisition notamment les droits d'enregistrement, honoraires des agents apporteurs",
+     "percents": [
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "HT",
+       "after": "HT (augmenté, le cas échéant, de la TVA en v"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 21,
+     "label": "frais d'acquisition",
+     "snippet": "és par la société La Société supporte et paie tous les autres frais et dépenses, et notamment : • le prix d'acquisition des biens et droits immobiliers ; • les frais d'acquisition notamment les droits d'enregistrement, honoraires des agents apporteurs",
+     "percents": [],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "4": "Note d'Information – novembre 2026 4/37 Il n'existe pas de proportion définie et fixe quant à la répartition géographique et typologique du patrimoine immobilier. La politique d'investissement vise le meilleur équilibre possible entre un rendement satisfaisant et une valorisation à terme du patrimoine, ainsi qu'une diversification dont la mise en œuvre se fera au travers du nombre d'actifs immobiliers acquis, de leur localisation, et de la diversité des locataires. En règle générale, les actifs immobiliers seront acquis avec des locataires en place au moment de la signature de l'acte pour délivrer un rendement potentiel immédiat. Toutefois en fonction des opportunités, des investissements en état futur d'achèvement - productifs de revenus potentiels à compter de leur mise en location - pourront être réalisés. La SCPI pourra, dans le but de financer une partie de ses investissements, avoir recours à l'endettement direct et indirect, bancaire et non bancaire, y compris le crédit-bail, à hauteur de 40% maximum de la valeur d'acquisition hors droits et hors frais d'acquisition des actifs immobiliers, soit un niveau de levier maximal de 1,67, avec la possibilité de financer par endettement l'acquisition d'un actif immobilier jusqu'à 100% de sa valeur d'acquisition. Le niveau de levier maximal a été fixé conformément à la décision de l'assemblée générale constitutive du 9 juillet 2020. En toutes circonstances, conformément aux dispositions du RGAMF, le montant de l'endettement devra être compatible avec les capacités de remboursement de la SCPI, sur la base de ses recettes ordinaires pour les emprunts et dettes et avec ses capacités d'engagement pour les acquisitions payables à terme. Enfin, la Société se réserve la possibilité, dans les limites prévues par la réglementation en vigueur, si une opportunité se présente et que les conditions des marchés de l'investissement immobilier sont raisonnablement favorables, de céder un ou plusieurs actifs dès lors qu'elle ne les a pas achetés en vue de les revendre et que de telles cessions ne présentent pas un caractère habituel. Les parts de SCPI sont des supports de placement de long terme et doivent être acquises dans une optique de diversification du patrimoine. Le montant qu'il est raisonnable d'investir dans la SCPI dépend de votre patrimoine personnel, de votre horizon d'investissement et de votre souhait de prendre les risques spécifiques à ce placement. La société de gestion recommande de conserver les parts pendant une période d'au moins 10 ans. L'objectif de TRI sur la durée de détention recommandée de 10 ans est compris entre 5 et 6 % ; il intègre un objectif de Taux de Distribution annuel de la SCPI OPTIMALE compris entre 5 et 6 %. Il est précisé que cette performance n'est pas garantie et que l'investissement en SCPI est soumis aux risques détaillés ci-après. La stratégie d'investissement de la SCPI est dédiée aux petits actifs et les pratiques Environnementales, Sociales et de bonne Gouvernance (« ESG ») qu'elle déploie s'inscrivent dans une volonté d'étendre une démarche responsable à une catégorie d'actifs généralement exclue de ce type de stratégie du fait de leur taille. La SCPI a pour objectif d'améliorer l'ensemble des aspects Environnementaux, Sociaux et de Gouvernance de son portefeuille en améliorant la note ESG de chacun des actifs détenus au cours de leur gestion. Pour cela, elle procède à une évaluation ESG de tous ses actifs sur la base de 31critères ESG et à la mise en place de plans d'amélioration correspondants sur chaque actif. Le détail et la méthodologie de cette démarche figurent au Code de Transparence de la SCPI consultable auprès de la Société de Gestion sur son site internet : www.aestiam.com La prise en compte de cette démarche ESG pourra occasionner des surcouts d'exploitation ou d'investissements, mais la prise en compte des enjeux ESG permettra globalement de maintenir l'attractivité commerciale et l'adéquation aux futures réglementations du patrimoine géré permettant d'envisager une",
+    "9": "Note d'Information – novembre 2026 9/37 • le document d'information clé ; • le dernier bulletin semestriel d'information ; • le dernier rapport annuel. 2. Modalités de versement du montant des souscriptions Le bulletin de souscription énonce clairement les modalités de souscription, en particulier le prix de souscription des parts nouvelles et leur date d'entrée en jouissance. Le versement du montant de la souscription doit être réalisé en numéraire dans sa totalité le jour de la souscription. Il correspond au prix de souscription multiplié par le nombre de parts souscrites. 3. Parts sociales 3.1. Valeur nominale Le capital est divisé en parts sociales émises en représentation des apports des Associés, conformément aux statuts de la Société. La valeur nominale des parts de la SCPI est fixée à CENT QUATRE VINGT SEPT EUROS ET CINQUANTE CENTIMES (187,50 €). 3.2. Prime d'émission Le prix de souscription comprend la valeur nominale de la part, majorée d'une prime d'émission destinée à préserver, par son évolution, l'égalité entre anciens et nouveaux associés. Outre les frais d'établissement, pourront être amortis sur la prime d'émission divers frais engagés au titre, de la recherche et de l'acquisition des immeubles ainsi que le montant permettant, pour chaque part nouvelle souscrite, de maintenir le niveau du report à nouveau existant. Le montant de la prime d'émission, intégrant la commission de souscription, est fixé par la Société de Gestion et indiqué dans le bulletin de souscription et le bulletin semestriel d'information. Le montant de la prime d'émission est réduit pour les Associés Fondateurs de la SCPI, qui sont exonérés de la commission de souscription. Voir paragraphe « 4. MODALITES DE CALCUL DU PRIX DE SOUSCRIPTION » ci-après. 3.3. Forme des parts Les parts sociales sont nominatives. Les droits de chaque associé résultent exclusivement de son inscription sur le registre des transferts. Les parts sont numérotées dans l'ordre chronologique de leur émission. Les parts ne sont représentées par aucun titre. Toutefois, la Société de Gestion peut délivrer à chaque associé qui en fait la demande, un certificat de parts sociales attestant son inscription sur le registre des associés. Nous attirons l'attention des souscripteurs sur le paragraphe « 10. INFORMATION SUR LA MANIÈRE DONT LA SOCIÉTÉ DE GESTION GARANTIT UN TRAITEMENT ÉQUITABLE DES ACTIONNAIRES » ci-après. 4. Modalités de calcul du prix de souscription Le prix de souscription est la somme de la valeur nominale et de la prime d'émission incluant la commission de souscription. À compter du 31 décembre 2025, le prix de souscription de 255 € se décompose ainsi : • Valeur nominale de la part sociale : 187,50 € • Prime d'émission : 67,50 €, dont une commission de souscription de 25,50 €. La commission de souscription, au plus égale à 10 % HT (12 % TTC) du prix de souscription, est acquise à la société de gestion pour couvrir les frais de recherche et d'investissement des capitaux, comme indiqué au",
+    "10": "Note d'Information – novembre 2026 10/37 Chapitre 3 ci-après. Les statuts donnent à la société de gestion tous pouvoirs pour fixer, dans les conditions déterminées par la loi, le prix et les modalités de souscription des parts nouvelles. La commission de souscription n'est pas appliquée aux Associés Fondateurs. Conformément aux dispositions de l'article L. 214-109 du COMOFI, les dirigeants de la Société de Gestion arrêtent et mentionnent chaque année, dans un état annexe au rapport de gestion, les valeurs suivantes : • La valeur comptable ; • La valeur de réalisation, soit la valeur vénale des immeubles majorée de la valeur nette des autres actifs o La valeur vénale résulte d'une expertise quinquennale des immeubles réalisée par un expert immobilier indépendant et actualisée par lui chaque année ; o La valeur nette des autres actifs, qui tient compte des plus-values et moins-values latentes sur actifs financiers, est arrêtée sous le contrôle du Commissaire aux Comptes ; • La valeur de reconstitution, soit la valeur de réalisation, ci-dessus, augmentée des frais afférents à une reconstitution de son patrimoine. Ces valeurs font l'objet de résolutions soumises à l'approbation de l'Assemblée Générale. En cours d'exercice, et en cas de nécessité, le Conseil de Surveillance peut autoriser la modification de ces valeurs sur rapport motivé de la Société de Gestion. Le prix de souscription des parts est établi sur la base de la valeur de reconstitution. Tout écart de plus ou moins 10 % entre le prix de souscription et la valeur de reconstitution des parts devra être justifié et notifié à l'AMF. Un tel écart nécessitera en outre d'établir une nouvelle note d'information (mise à jour) soumise au visa de l'AMF conformément à l'article 422-193 du RGAMF. Nous attirons l'attention des souscripteurs sur le paragraphe « 10. INFORMATION SUR LA MANIÈRE DONT LA SOCIÉTÉ DE GESTION GARANTIT UN TRAITEMENT ÉQUITABLE DES ACTIONNAIRES » ci-après. 5. Minimum de parts à souscrire • Minimum de souscription pour les associés fondateurs : une (1) part • Minimum de souscription pour tout autre nouvel associé : six (6) parts • Minimum de souscription pour les souscriptions ultérieures des associés : une (1) part 6. Lieu de souscription et de versement Les souscriptions sont reçues au siège de la Société de Gestion et les versements sur le compte bancaire de la SCPI OPTIMALE ouvert à cet effet. La souscription est réalisée lors de (i) la réception par la Société de Gestion du bulletin de souscription dûment complété et signé et (ii) la mise à disposition sur le compte de la SCPI des fonds correspondant au montant de la souscription. Tout bulletin de souscription incomplet sera rejeté. La souscription est cependant subordonnée à l'agrément de la Société dans les conditions prévues à l'Article Erreur ! Source du renvoi introuvable. ci-après. 7. Jouissance des parts Les parts souscrites portent jouissance : • A la constitution de la SCPI : les parts des associés fondateurs portent jouissance au jour de la constitution ; • Dans le cadre d'une demande de souscription en cours de vie de la SCPI reçue avant le 31 décembre 2020 : le premier jour du troisième mois qui suit le mois de souscription ;",
+    "12": "Note d'Information – novembre 2026 12/37 • toute personne physique ayant la nationalité américaine, même si elle ne réside pas aux États-Unis d'Amérique ; • toute personne physique résidant aux Etats-Unis d'Amérique ; • toute entité ou société organisée ou enregistrée en vertu de la réglementation américaine ; • toute succession (ou « trust ») dont l'exécuteur ou l'administrateur est « US Person » ; • toute fiducie dont l'un des fiduciaires est une « US Person » ; • toute agence ou succursale d'une entité non-américaine située aux Etats-Unis d'Amérique ; • tout compte géré de manière non discrétionnaire (autre qu'une succession ou une fiducie) par un intermédiaire financier ou tout autre représentant autorisé, constitué ou (dans le cas d'une personne physique) résidant aux Etats-Unis d'Amérique ; 9. Information sur la manière dont la société de gestion garantit un traitement équitable des actionnaires A titre exceptionnel, il est précisé que, les Associés Fondateurs sont exonérés du paiement de la commission de souscription en contrepartie de l'inaliénabilité des parts souscrites pendant 3 ans. Par ailleurs, à la date d'obtention du visa, la Société de Gestion a décidé de rétrocéder l'intégralité des commissions de souscription à tout souscripteur dont le montant cumulé souscrit jusqu'au 31 décembre 2021 atteint le seuil de 5 millions d'euros. La Société de Gestion s'assurera à tout moment que chaque associé bénéficie d'un traitement équitable et de droits proportionnels au nombre de parts qu'il possède. Aucun associé ne bénéficie d'un traitement préférentiel qui entraîne un préjudice global important pour les autres associés. Dans la mesure où tous les associés ont les mêmes droits, la Société de Gestion considère que l'exigence de traitement égalitaire des associés est respectée. Chapitre II - Modalités de sortie L'associé qui souhaite se séparer de tout ou partie de ses parts dispose de trois moyens : • Le remboursement de ses parts (le retrait qui doit être demandé à la Société de Gestion). Celui-ci n'étant possible que s'il existe une contrepartie. En l'absence de contrepartie, le retrait pourra être honoré par prélèvement sur le fonds de remboursement, dans l'hypothèse où la Société déciderait de le créer et de le doter. • La cession de ses parts sur le marché secondaire par confrontation, consécutivement à une suspension de la variabilité du capital dont les conditions et les modalités sont définies dans les statuts et ci- après au paragraphe « Blocage du marché des parts et suspension de la variabilité du capital ». • Il est ici expressément précisé que les deux possibilités ci-dessus sont distinctes et non cumulatives. • En aucun cas, les mêmes parts d'un associé ne peuvent faire l'objet à la fois d'une demande de retrait et être inscrites sur le registre des ordres de vente sur le marché secondaire. • La vente directe de ses parts (cession de gré à gré par l'associé) sans intervention de la Société de Gestion, à des conditions librement débattues entre le cédant et le cessionnaire La Société ne garantit pas le retrait ni la revente des parts. 1. Dispositions relatives au retrait DEMANDE DE RETRAIT COMPENSÉE PAR DES DEMANDES DE SOUSCRIPTION 1.1. Principe du retrait Conformément aux dispositions régissant les sociétés à capital variable, tout associé a le droit de se retirer",
+    "13": "Note d'Information – novembre 2026 13/37 de la Société, partiellement ou en totalité dans la limite des clauses de variabilité fixée par les statuts. Le capital social de la SCPI ne pourra diminuer du fait des retraits, que s'il existe en contrepartie une souscription correspondante, sauf dans l'hypothèse où la SCPI aurait créé et doté un fonds de remboursement. A la date du visa sur la présente note d'information, aucun fonds de remboursement n'a été mis en place par la Société. Les demandes de retrait doivent être compensées par des souscriptions. Un associé peut obtenir le remboursement de ses parts à condition qu'il y ait, pour faire droit à sa demande de retrait, des demandes de souscriptions d'un montant suffisant. Le remboursement s'opère dans les conditions ci-après. 1.2. Modalités de retrait Les demandes de retrait sont portées à la connaissance de la Société de Gestion par lettre recommandée ou tout autre moyen avec accusé de réception, accompagnées de la copie des pièces d'identité en cours de validité des signataires de l'ordre. Dans certains cas, des justificatifs pourront être demandés afin de répondre aux exigences LCB-FT. En cas de demande de correction ou de complément, la demande de retrait doit être complétée dans un délai de 30 (trente) jours. A défaut de régularisation dans ce délai, la date retenue d'inscription dans le registre correspondra à la date de réception de la dernière pièce nécessaire à la validation de l'ordre. Elles sont, dès réception, inscrites sur le registre des demandes de retrait et sont satisfaites par ordre chronologique d'inscription, et dans la limite où la clause de variabilité le permet. Dans le cas où il existe une contrepartie, le retrait est effectif par son inscription sur le registre des associés. Le règlement du retrait intervient dans un délai maximum de deux mois à compter de la réception de la demande par la Société de Gestion. 1.3. Prix de retrait La valeur de retrait d'une part correspond au montant du nominal majoré de la prime d'émission (soit le prix de souscription en vigueur à la date de retrait), diminué d'un montant correspondant à la commission de souscription de 10% HT. Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. À compter du 31 décembre 2025, l'associé se retirant percevra sur la base du prix de souscription, une somme de 229,50 euros par part. Ce prix de retrait se décompose de la manière suivante : Prix de souscription 255,00 € - Commission de souscription (10% HT) 25,50 € Prix de retrait (valeur nette revenant à l'associé) 229,50 € DEMANDE DE RETRAIT NON COMPENSÉE PAR DES DEMANDES DE SOUSCRIPTION Sous réserve de la constitution et de la dotation du fonds de remboursement, le prix de retrait, qui, dans un tel cas, ne peut ni être supérieur à la valeur de réalisation, ni inférieur à cette même valeur moins 10 %, sauf autorisation de l'AMF, est fixé par la Société de Gestion et porté à la connaissance des associés concernés par tous moyens à sa convenance et notamment au moyen du courrier recommandé mentionné ci-dessus « Modalités de retrait par prélèvement sur le fonds de remboursement ».",
+    "15": "Note d'Information – novembre 2026 15/37 BLOCAGE DU MARCHÉ DES PARTS ET SUSPENSION DE LA VARIABILITÉ DU CAPITAL 1.5. En cas de blocage des retraits dans les conditions prévues à l'article L. 214-93 du CO- MOFI En application des dispositions de l'article L. 214-93-II du COMOFI, lorsque des demandes de retrait de parts non satisfaites dans un délai de douze (12) mois représentent au moins 10% des parts de la SCPI, la Société de Gestion doit en informer l'AMF et convoquer, dans les deux (2) mois de cette information, une assemblée générale extraordinaire à laquelle elle propose la cession partielle ou totale du patrimoine ou toute autre mesure appropriée. En application de l'article 422-205 du RGAMF, l'inscription d'ordres d'achat et de vente de parts sur le registre des ordres d'achat et de vente prévu à cet effet (et donc l'ouverture du marché secondaire) constitue une mesure appropriée au sens de l'article L. 214-93 précité. L'application de cette mesure emporte la suspension des demandes de retrait. 1.6. En cas de blocage des retraits dans les conditions prévues aux statuts Suspension de la variabilité du capital En application des statuts, la Société de Gestion a la faculté, sous sa responsabilité, dès lors qu'elle constate que des demandes de retrait de parts au prix de retrait en vigueur, quel que soit leur volume, demeurent non satisfaites et inscrites sur le registre depuis au moins six (6) mois, de suspendre à tout moment les effets de la variabilité du capital après en avoir informé les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier), pour mettre en place, en substitution, le marché secondaire par confrontation des ordres d'achat et de vente . La prise de cette décision entraîne : • l'annulation des souscriptions et des demandes de retrait de parts existantes inscrites sur le registre, • l'interdiction d'augmenter le capital effectif, • la soumission volontaire aux règles législatives et réglementaires des SCPI découlant de l'article L.214-93 du COMOFI, par la mise en place de la confrontation périodique des ordres d'achat et de vente des parts de la SCPI telle que définie ci-après. Rétablissement de la variabilité du capital La Société de Gestion a la faculté de rétablir à tout moment les effets de la variabilité du capital après en avoir informé les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier), dès lors qu'elle constate que le prix d'exécution a conduit à constater, au cours de quatre (4) périodes consécutives de confrontation, un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L. 214-94 du COMOFI. Dans l'hypothèse où la Société de Gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent, et après huit (8) périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L. 214-94 du COMOFI, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier). Le rétablissement de la variabilité du capital entraîne : • l'annulation des ordres d'achat et de vente de parts, • la fixation d'un prix de souscription à un niveau proche de la moyenne des prix acquéreur, commission",
+    "17": "Note d'Information – novembre 2026 17/37 Modalités de transfert Toute cession (ou transmission) de parts sera considérée comme réalisée et opposable à la Société à la date de son inscription sur les registres sociaux. Pour toute cession réalisée directement par l'associé, l'inscription de la cession se fera à la diligence de l'une ou de l'autre des parties sur présentation ou à réception par lettre recommandée avec avis de réception adressée à la Société de Gestion : • de l'acte de cession et d'un formulaire Cerfa n°2759 signé par le titulaire des parts, comportant l'un comme l'autre, les renseignements de l'état civil du bénéficiaire de la cession, le nombre des parts cédées et de l'acceptation du transfert par le bénéficiaire de la cession ; • de la justification du règlement au Trésor Public de tous droits qui lui seraient dus. Effet de la cession En cas de cession, le vendeur cesse de bénéficier des revenus à partir du premier jour du mois au cours duquel la cession a eu lieu. L'acheteur commence à en bénéficier à la même date. Versement des fonds Le versement des fonds à l'associé intervient directement entre les associés. 2.2. Cession par confrontation des ordres d'achat ou de ventes sur le marché secondaire Lorsque l'Assemblée Générale Extraordinaire réunie en application de l'article L. 214-93-II du COMOFI, en cas de blocage des retraits (des demandes de retrait non satisfaites dans un délai de douze mois et représentant au moins 10 % des parts) prend une telle décision ou lorsque la Société de Gestion décide de suspendre la variabilité du capital, faisant usage de la faculté qui lui est concédée à l'article VIII des statuts (en cas de demandes de retrait non satisfaites depuis six (6) mois), les ordres d'achat et de vente sont, à peine de nullité, inscrits sur un registre tenu au siège de la Société et emportent suspension des demandes de retrait. La Société de Gestion assurera l'animation, le fonctionnement et le traitement du marché des parts, notamment en tenant le registre et en rapprochant les ordres pour déterminer le prix d'exécution. En conséquence, tout associé peut adresser à la Société de Gestion, suivant les formulaires de mandat mis à disposition des intéressés par ladite Société, un ordre de vente pour tout ou partie de ses parts et toute personne peut, de même, adresser un ordre d'achat de parts. Ces ordres d'achat et de vente sont, à peine de nullité, inscrits sur un registre tenu au siège de la Société dans les conditions fixées par l'instruction de l'AMF. Conformément à l'article 422-205 du RGAMF, le délai de validité d'un ordre de vente est d'un (1) an. Ce délai peut être prolongé dans les conditions fixées par la réglementation en vigueur. Conditions d'inscription des ordres sur le registre Pour être valablement inscrits, modifiés ou annulés sur le registre les ordres doivent comporter toutes les caractéristiques prévues par ladite instruction l'Autorité des marchés financiers. Ils doivent notamment indiquer : • le nombre de parts concernées ; • la mention expresse, que ce soit pour la vente ou l'achat, que l'ordre pourra être exécuté partiellement ou s'il ne pourra donner lieu à transaction que pour la totalité ; • la durée de validité pour les ordres d'achat ou de vente ; • le prix limite, étant précisé que seuls sont recevables les ordres d'achat à prix maximum offert et les ordres de vente à prix minimum proposé ; • les droits d'enregistrement à la charge de l'acquéreur et la commission de cession supportée par le",
+    "18": "Note d'Information – novembre 2026 18/37 vendeur. L'acquéreur devra exprimer son prix maximum offert, hors les droits d'enregistrement, sachant que le vendeur recevra ce prix offert sous déduction de la commission de cession dont il est redevable, et que la somme nette revenant ainsi au cédant constituera le prix d'exécution. Le taux de la commission de cession étant de 6,00% HT augmenté le cas échéant de la TVA en vigueur, tel que stipulé au chapitre – Frais - ci-après, le prix d'exécution au prix offert par l'acquéreur diminué de la commission de cession, base sur laquelle ce dernier acquittera, en supplément de son prix, les droits d'enregistrement au taux en vigueur. Le vendeur devra exprimer son prix minimum proposé commission de cession incluse, sachant que la somme lui revenant sera nette de ladite commission de cession et constituera son prix minimum d'exécution. Concernant plus particulièrement les ordres d'achat, leur inscription sera en outre subordonnée au règlement par les donneurs d'ordre, dans les conditions définies au paragraphe - Couverture des ordres -, du prix auquel leurs ordres pourraient être exécutés en totalité majoré des droits d'enregistrement correspondants. Après avoir vérifié que les ordres qui lui sont transmis satisfont aux conditions requises pour leur inscription, la Société de Gestion les horodate et les inscrit sur le registre de manière chronologique. Mode de transmission des ordres Les ordres doivent être adressés directement à la Société de Gestion ou à un intermédiaire, c'est-à-dire toute personne morale ou physique qui, à raison de son activité professionnelle, est habilitée à recevoir un mandat d'achat ou de vente portant sur des parts de SCPI. Le donneur d'ordre, quelles que soient les modalités de transmission de son ordre doit être en mesure de prouver la passation de son ordre et de s'assurer de sa réception. Les ordres doivent être transmis par : • lettre avec avis de réception, • télécopie avec demande d'un accusé de réception. Les ordres d'annulation ou de modification sont soumis aux mêmes modalités de transmission. Les ordres dès leur réception font l'objet d'un enregistrement permettant la reconstitution des étapes de leur traitement et des différentes exécutions. 2.3. Couverture des ordres d'achat L'enregistrement de l'ordre d'achat étant subordonné au règlement de la totalité du montant, auquel l'ordre pourrait être exécuté, majoré des droits d'enregistrement correspondants, le donneur d'ordre devra accompagner son formulaire d'un chèque bancaire de ce même montant majoré des droits, ou de l'ordre de virement. Dans le cadre d'une exécution partielle de l'ordre, les fonds sont virés sur le compte spécifique non rémunéré de la SCPI ouvert à cet effet. Le solde de l'ordre non exécuté sera remboursé à l'issue de sa période de validité si l'ordre n'est pas satisfait dans sa totalité. Dans le cadre d'une exécution totale de l'ordre, les fonds sont virés sur le compte spécifique non rémunéré de la SCPI ouvert à cet effet. Uniquement pour les ordres d'achat d'un montant total, droits d'enregistrement inclus, supérieur ou égal à 30 000€, la couverture de l'ordre sera vérifiée au préalable. L'ordre ne participera à la confrontation que dès lors que les fonds correspondants auront effectivement été encaissés. S'il s'avérait que la couverture de l'ordre ne soit pas, pour quel que motif que ce soit, honorée par la banque du donneur d'ordre, l'ordre d'achat ne pourrait pas participer à la confrontation.",
+    "19": "Note d'Information – novembre 2026 19/37 2.4. Modification d'un ordre La modification d'un ordre inscrit sur le registre emporte la perte de son rang d'inscription, lorsque le donneur d'ordre : • augmente son prix limite s'il s'agit d'un ordre de vente ou le diminue s'il s'agit d'un ordre d'achat, • augmente la quantité de parts concernées, • modifie le sens de son ordre. Diffusion des informations dans le public Toutes les informations relatives : • au registre des ordres : les cinq prix d'achat les plus élevés et les cinq prix de vente les plus faibles inscrits sur le registre ainsi que les quantités de parts demandées et offertes à ces prix, la décision motivée de la suspension, s'il y a lieu, de l'inscription des ordres, • au prix d'exécution : le prix d'exécution de la période et les quantités de parts échangées, la modification, si elle devait intervenir, de la périodicité des prix d'exécution, sont rendues publiques sur le site internet de la Société de Gestion ou sur simple appel téléphonique au01 55 52 53 16, où ces informations seront disponibles en permanence. 2.5. Confrontation et prix d'exécution Le prix d'exécution est celui auquel peut s'échanger le plus grand nombre de parts. Exprimé hors la commission de cession supportée par le vendeur et hors les droits d'enregistrement à la charge de l'acquéreur, il correspond à la somme revenant au vendeur. Ce prix, le jour de son établissement, et les quantités de parts échangées sont rendus publics (site interne, téléphone). En cas d'impossibilité d'établir un prix d'exécution, le prix d'achat le plus élevé et le prix de vente le plus faible ainsi que les quantités de parts proposées pour chacun de ces prix sont rendus publics de la même façon. La Société de Gestion procèdera à l'établissement du prix d'exécution selon une fréquence mensuelle, le 1er mercredi de chaque moi à 16 heures. En cas de jour férié, la confrontation est reportée au jour ouvré suivant. Pour participer à la confrontation, les ordres devront avoir été reçus et horodatés au plus tard la veille de l'établissement du prix d'exécution, le mardi à 16 heures, sauf en ce qui concerne les ordres d'achat supérieurs ou égaux à 30 000€ (couverture des ordres) pour lesquels les fonds devront, en outre, avoir été crédités au préalable sur le compte spécifiquement ouvert par la Société, excepté dans le cas d'un règlement par chèque de banque. Dans l'hypothèse où cette date limite de réception s'avérerait être un jour non ouvrable, la date limite de réception serait automatiquement avancée au plus proche dernier jour ouvré qui précède. Tout ordre reçu et horodaté après cette limite sera considéré comme enregistré pour la période suivante. Tout ordre dont la durée de validité expire au cours d'une période de confrontation, ne participe pas à la confrontation, il est réputé caduc à la clôture de la période précédente. Dans le cas où la périodicité du prix d'exécution devrait être modifiée en raison des contraintes du marché, les donneurs d'ordre et les intermédiaires en seraient informés six (6) jours au moins avant la date d'effet, soit à la faveur du bulletin d'information si possible, soit par tout autre moyen approprié (site internet, courrier). Cette information serait rendue publique (site internet, téléphone) dans les mêmes délais. Dès l'établissement du prix d'exécution et à ce seul prix, les ordres sont exécutés en prenant en priorité : • les ordres d'achat inscrits au prix, hors droits d'enregistrement, le plus élevé ;",
+    "20": "Note d'Information – novembre 2026 20/37 • les ordres de vente inscrits au prix, commission de cession incluse, le plus faible. A limite de prix égal, les ordres sont exécutés suivant leur ordre chronologique d'inscription. Les transactions ainsi effectuées sont inscrites sans délai sur le registre des associés. Blocage du marché secondaire par confrontation • Ordres de vente insatisfaits Lorsque la Société de Gestion constate que les ordres de vente inscrits depuis plus de douze mois sur le registre représentent au moins 10 % des parts émises par la Société, elle en informe sans délai l'AMF. Dans les deux mois à compter de cette information, la Société de Gestion convoque une assemblée générale extraordinaire et lui propose la cession partielle ou totale du patrimoine et toute autre mesure appropriée. • Suspension des inscriptions sur le registre Sur décision motivée et sous sa responsabilité, la Société de Gestion peut suspendre l'inscription des ordres sur le registre après en avoir informé l'Autorité des marchés financiers. Lorsque cette suspension est motivée par un événement qui, s'il était connu du public, serait susceptible d'avoir une incidence significative sur le prix d'exécution des parts ou sur la situation et les droits des associés, la Société de Gestion procède à l'annulation des ordres sur le registre. Elle en informe individuellement les donneurs d'ordre et les intermédiaires et assure la diffusion effective et intégrale de cette décision motivée dans le public. Effet de la cession En cas de cession, le vendeur cesse de bénéficier des revenus à partir du premier jour du mois au cours duquel la cession a eu lieu. L'acheteur commence à en bénéficier à la même date. Agrément L'achat de parts sur le marché secondaire par un acquéreur non associé, est soumis à l'agrément de la Société, exprimée par l'intermédiaire de la Société de Gestion. Cet agrément résulte soit d'une notification, soit du défaut de réponse dans le délai de deux (2) mois à compter de la remise du mandat d'achat de parts dûment complété, signé et accompagné des renseignements et documents requis. La décision de la SCPI n'est pas motivée et ne peut, en cas de refus de l'agrément, donner lieu à une réclamation quelconque contre la Société de Gestion ou la SCPI. Délai de versement des fonds Le versement des fonds à l'associé intervient pour toute cession qui serait réalisée à partir du registre des ordres d'achat et de vente en cas de blocage des retraits : dans un délai de quinze (15) jours maximum après l'exécution de l'ordre. Chapitre III - Frais 1. Rémunération de la société de gestion Pour assurer ses missions, la Société de Gestion percevra une rémunération sous la forme des commissions ci-après : • Une commission de souscription, intégrée à la prime d'émission et perçue par la Société de Gestion. Elle correspond à 10% HT (soit 12% TTC au taux de TVA en vigueur) du montant de chaque souscription, prime d'émission incluse, rémunérant les frais de collecte (notamment la préparation et la réalisation des augmentations de capital, le placement des parts de la SCPI lié à l'activité"
+   }
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2026/11/SCPI-OPTIMALE-DIC-2026-10.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2026/11/SCPI-OPTIMALE-DIC-2026-10.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 290778,
+   "sha256": "91b244db275b392a19ff473a160b0af63efe256ba4536647ddeaa30acd9e5138",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.1 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261105102737+01'00'",
+    "modDate": "D:20261105102737+01'00'"
+   },
+   "page_count": 3,
+   "text_characters": 12807,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "PRODUIT CONCERNÉ Dénomination du produit Nom de l'initiateur Site internet Contact Autorité compétente Devise Date du document SCPI Optimale Aestiam, immatriculée au Registre du Commerce et des Sociétés de Paris, sous le numéro 642 037 162, agréée en France par l'Autorité des Marchés Financiers (AMF) depuis le 11 juillet 2014 (mise à jour le 4 juin 2024). www.aestiam.com +33 (0)1 55 52 53 16 - scp",
+   "dates": [
+    "11 juillet 2014",
+    "27 novembre 2019",
+    "27/10/2026",
+    "4 juin 2024",
+    "février 2014",
+    "février 2024",
+    "juin 2023",
+    "mars 2026",
+    "novembre 2011",
+    "novembre 2021"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Coûts d'entrée",
+     "snippet": "le vous fournit. Cette personne vous informera du montant. Composition des coûts INVESTISSEMENT DE 10 000 € SCÉNARIOS SI VOUS SORTEZ APRÈS 1 AN Coûts ponctuels Coûts d'entrée L'incidence des coûts que vous payerez à l'entrée de l'investissement. Il s'agit des frais de dossier lors de votre souscription. (10,00 %) 1 000,00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement. (0,00 %) 0,00 € Coûts récurrents Coûts de transaction de portefeuille L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs immobiliers (sur la base de votre investissement hors coût d'entrée). (1,96 %) 176,00 € Autres coûts récurrents L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements (hors coût d'entrée). S'agissant d'un pr",
+     "percents": [
+      {
+       "raw": "10,00 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ") 1 000,00 € Coûts de sortie L'incidence des"
+      },
+      {
+       "raw": "0,00 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": ") 0,00 € Coûts récurrents Coûts de transactio"
+      },
+      {
+       "raw": "1,96 %",
+       "value": 1.96,
+       "tax_hint": null,
+       "after": ") 176,00 € Autres coûts récurrents L'incidenc"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts récurrents",
+     "snippet": "er lors de votre souscription. (10,00 %) 1 000,00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement. (0,00 %) 0,00 € Coûts récurrents Coûts de transaction de portefeuille L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs immobiliers (sur la base de votre investissement hors coût d'entrée). (1,96 %) 176,00 € Autres coûts récurrents L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements (hors coût d'entrée). S'agissant d'un produit immobilier, ces coûts incluent les frais d'exploitation immobilière. (1,10 %) 99,00 € Coûts accessoires Commissions liées aux résultats L'incidence des commissions liées aux résultats (0,00 %) 0,00 € Commissions d'intéressement L'incidence des commissions d'intéressem",
+     "percents": [
+      {
+       "raw": "10,00 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ") 1 000,00 € Coûts de sortie L'incidence des"
+      },
+      {
+       "raw": "0,00 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": ") 0,00 € Coûts récurrents Coûts de transactio"
+      },
+      {
+       "raw": "1,96 %",
+       "value": 1.96,
+       "tax_hint": null,
+       "after": ") 176,00 € Autres coûts récurrents L'incidenc"
+      },
+      {
+       "raw": "1,10 %",
+       "value": 1.1,
+       "tax_hint": null,
+       "after": ") 99,00 € Coûts accessoires Commissions liées"
+      },
+      {
+       "raw": "0,00 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": ") 0,00 € Commissions d'intéressement L'incide"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts de transaction",
+     "snippet": "souscription. (10,00 %) 1 000,00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement. (0,00 %) 0,00 € Coûts récurrents Coûts de transaction de portefeuille L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs immobiliers (sur la base de votre investissement hors coût d'entrée). (1,96 %) 176,00 € Autres coûts récurrents L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements (hors coût d'entrée). S'agissant d'un produit immobilier, ces coûts incluent les frais d'exploitation immobilière. (1,10 %) 99,00 € Coûts accessoires Commissions liées aux résultats L'incidence des commissions liées aux résultats (0,00 %) 0,00 € Commissions d'intéressement L'incidence des commissions d'intéressement (0,00 %) 0,00",
+     "percents": [
+      {
+       "raw": "10,00 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ") 1 000,00 € Coûts de sortie L'incidence des"
+      },
+      {
+       "raw": "0,00 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": ") 0,00 € Coûts récurrents Coûts de transactio"
+      },
+      {
+       "raw": "1,96 %",
+       "value": 1.96,
+       "tax_hint": null,
+       "after": ") 176,00 € Autres coûts récurrents L'incidenc"
+      },
+      {
+       "raw": "1,10 %",
+       "value": 1.1,
+       "tax_hint": null,
+       "after": ") 99,00 € Coûts accessoires Commissions liées"
+      },
+      {
+       "raw": "0,00 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": ") 0,00 € Commissions d'intéressement L'incide"
+      },
+      {
+       "raw": "0,00 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": ") 0,00"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "coûts récurrents",
+     "snippet": "e des coûts encourus lorsque nous achetons ou vendons des actifs immobiliers (sur la base de votre investissement hors coût d'entrée). (1,96 %) 176,00 € Autres coûts récurrents L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements (hors coût d'entrée). S'agissant d'un produit immobilier, ces coûts incluent les frais d'exploitation immobilière. (1,10 %) 99,00 € Coûts accessoires Commissions liées aux résultats L'incidence des commissions liées aux résultats (0,00 %) 0,00 € Commissions d'intéressement L'incidence des commissions d'intéressement (0,00 %) 0,00 € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PUIS-JE RETIRER DE L'ARGENT DE FAÇON ANTICIPÉE ? Période de détention recommandée : 10 ans Optimale a été conçue dans une optique de détention long terme, en raiso",
+     "percents": [
+      {
+       "raw": "1,96 %",
+       "value": 1.96,
+       "tax_hint": null,
+       "after": ") 176,00 € Autres coûts récurrents L'incidenc"
+      },
+      {
+       "raw": "1,10 %",
+       "value": 1.1,
+       "tax_hint": null,
+       "after": ") 99,00 € Coûts accessoires Commissions liées"
+      },
+      {
+       "raw": "0,00 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": ") 0,00 € Commissions d'intéressement L'incide"
+      },
+      {
+       "raw": "0,00 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": ") 0,00 € COMBIEN DE TEMPS DOIS-JE LE CONSERVE"
+      }
+     ],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "3": "SASU au capital de 400 000 € – 642 037 162 RCS PARIS – Société de Gestion de Portefeuille – Gestion de FIA au sens de la directive AIFM Agrément AMF n°GP-14000024 délivré le 11 juillet 2014, mis à jour le 4 juin 2024 – 5 rue Cadet, 75009 Paris — 01 55 52 53 16 — www.aestiam.com QUE VA ME COÛTER CET INVESTISSEMENT ? INVESTISSEMENT DE 10 000 € SI VOUS SORTEZ APRÈS : 1 AN 5 ANS 10 ANS Coûts totaux 1 276 € 3 445 € 7 408 € Incidence sur le rendement (%) (réduction du rendement par an) (1) 12,76 % 5,43 % 4,32 % (1) Elle montre dans quelle mesure les coûts réduisent annuellement votre rendement au cours de la période de détention. Par exemple, elle montre que si vous sortez à la fin de la période de détention recommandée, il est prévu que votre rendement moyen par an soit de 8,28 % avant déduction des coûts et de 3,96 % après cette déduction. Il se peut que nous partagions les coûts avec la personne qui vous vend le produit afin de couvrir les services qu'elle vous fournit. Cette personne vous informera du montant. Composition des coûts INVESTISSEMENT DE 10 000 € SCÉNARIOS SI VOUS SORTEZ APRÈS 1 AN Coûts ponctuels Coûts d'entrée L'incidence des coûts que vous payerez à l'entrée de l'investissement. Il s'agit des frais de dossier lors de votre souscription. (10,00 %) 1 000,00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement. (0,00 %) 0,00 € Coûts récurrents Coûts de transaction de portefeuille L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs immobiliers (sur la base de votre investissement hors coût d'entrée). (1,96 %) 176,00 € Autres coûts récurrents L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements (hors coût d'entrée). S'agissant d'un produit immobilier, ces coûts incluent les frais d'exploitation immobilière. (1,10 %) 99,00 € Coûts accessoires Commissions liées aux résultats L'incidence des commissions liées aux résultats (0,00 %) 0,00 € Commissions d'intéressement L'incidence des commissions d'intéressement (0,00 %) 0,00 € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PUIS-JE RETIRER DE L'ARGENT DE FAÇON ANTICIPÉE ? Période de détention recommandée : 10 ans Optimale a été conçue dans une optique de détention long terme, en raison de la nature des actifs sous-jacents et de la stratégie d'investissement. Il est recommandé de conserver votre investissement pendant au moins dix (10) ans. La sortie n'est possible qu'en présence d'une contrepartie à l'achat. La SCPI ne garantit ni le retrait, ni la cession des parts. Vous êtes donc exposé au risque de liquidité décrit précédemment. COMMENT PUIS-JE FORMULER UNE RÉCLAMATION ? La politique de réclamation est disponible sur le site de la Société de Gestion (www.aestiam.com/dispositifs-reglementaires) ou sur simple demande à rcci@aestiam.com. Vous pouvez formuler une réclamation en écrivant à l'adresse rcci@aestiam.com, ou par voie postale en écrivant à : 5 rue Cadet, 75009 Paris. Conformément aux dispositions de l'article L.621-19 du Code monétaire et financier et à la charte de médiation de l'AMF, le porteur de parts pourra saisir, gratuitement, le Médiateur de l'AMF sous réserve que (i) le porteur ait effectivement présenté une demande écrite aux services d'Aestiam et ne soit pas satisfait de la réponse (ii) qu'aucune procédure contentieuse, ni aucune enquête de l'AMF, portant sur les mêmes faits ne soit en cours : Médiateur de l'Autorité des Marchés Financiers 17, place de la Bourse - 75082 Paris Cedex 02 www.amf-france.org AUTRES INFORMATIONS PERTINENTES Optimale relève de l'article 8 du Règlement (UE) 2019/2088 dit SFDR du 27 novembre 2019. La documentation obligatoire (statuts, note d'information, bulletins trimestriels d'information, rapports annuels) et les informations relatives à l'ESG sont disponibles sur www.aestiam.com."
+   }
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2023/01/SCPI-OPTIMALE-Code-de-transparence-012023.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2023/01/SCPI-OPTIMALE-Code-de-transparence-012023.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 935103,
+   "sha256": "ff525c230e56bcb462aa0055d4ab6de9f5057e253e00f4f05b8ac6d296d2507d",
+   "metadata": {
+    "format": "PDF 1.4",
+    "author": "ATREAM",
+    "creator": "Microsoft Word",
+    "producer": "GPL Ghostscript 9.55.0",
+    "creationDate": "D:20230111121111+01'00'",
+    "modDate": "D:20230111121111+01'00'"
+   },
+   "page_count": 14,
+   "text_characters": 49305,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "CODE DE TRANSPARENCE Société Civile de Placement Immobilier à capital variable Siège social : 3, allée alphonse Fillion, 44120 VERTOU RCS Nantes n° 887 629 194 VISA AMF n°20-14 en date du 21 juillet 2020 Version en date du 09/01/2023",
+   "dates": [
+    "09 juillet 2020",
+    "09/01/2023",
+    "21 juillet 2020",
+    "Octobre 2022"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2023/01/SCPI-OPTIMALE-Politique-ISR-012023.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2023/01/SCPI-OPTIMALE-Politique-ISR-012023.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 619738,
+   "sha256": "1ea8e119cf5d7b7f998a25b5f4f1657d081fdff04b62832c6db3df811fceee1b",
+   "metadata": {
+    "format": "PDF 1.4",
+    "author": "ATREAM",
+    "creator": "Microsoft Word",
+    "producer": "GPL Ghostscript 9.55.0",
+    "creationDate": "D:20230111121133+01'00'",
+    "modDate": "D:20230111121133+01'00'"
+   },
+   "page_count": 2,
+   "text_characters": 2871,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "POLITIQUE ISR DU FONDS OPTIMALE Société Civile de Placement Immobilier à capital variable Siège social : 3, allée alphonse Fillion, 44120 VERTOU RCS Nantes n° 887 629 194 VISA AMF n°20-14 en date du 21 juillet 2020 Version en date du 15/11/2022",
+   "dates": [
+    "15/11/2022",
+    "21 juillet 2020"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2023/01/SCPI-OPTIMALE-Politique-Engagement-012023.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2023/01/SCPI-OPTIMALE-Politique-Engagement-012023.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 53282,
+   "sha256": "794d09ea8b5b439a35cd347738b7dd71c07f0157d524e4dc6ced804b9a4016cf",
+   "metadata": {
+    "format": "PDF 1.4",
+    "author": "ATREAM",
+    "creator": "Microsoft Word",
+    "producer": "GPL Ghostscript 9.55.0",
+    "creationDate": "D:20230111121203+01'00'",
+    "modDate": "D:20230111121203+01'00'"
+   },
+   "page_count": 1,
+   "text_characters": 2043,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "POLITIQUE D'ENGAGEMENT VIS-À-VIS DES PARTIES PRENANTES La société Consultim Asset Management, au travers de la SCPI Optimale est engagée pleinement à intégrer les principes du développement durable et la lutte contre le changement climatique au cœur de ses activités de gestion de portefeuille. Notre société, au travers du développement de son patrimoine d'actifs immobiliers accompagne les acteurs ",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2026/01/SCPI-Optimale-Certificat-LABEL-ISR-1.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2026/01/SCPI-Optimale-Certificat-LABEL-ISR-1.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 485859,
+   "sha256": "29cf5b583056c5971363da2de4a0859219049c8a01a5c1f489fcd48c38e1a32f",
+   "metadata": {
+    "format": "PDF 1.5",
+    "title": "CERTI F 1630 Certificat Label ISR",
+    "author": "rodrigues pauline",
+    "creator": "Microsoft® Word 2013",
+    "producer": "Microsoft® Word 2013; modified using iText® 5.5.13.1 ©2000-2019 iText Group NV (AGPL-version)",
+    "creationDate": "D:20251223160218+01'00'",
+    "modDate": "D:20251223161403+01'00'"
+   },
+   "page_count": 1,
+   "text_characters": 1616,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "11 rue Francis de Pressensé - 93571 La Plaine Saint-Denis Cedex - France - T. +33 (0)1 41 62 80 00 - F. +33 (0)1 49 17 90 00 SAS au capital de 18 187 000 € - 479 076 002 RCS Bobigny - www.afnor.org Certificat Certificate N° 2022/102875.4 AFNOR Certification certifie que les fonds d'investissement : AFNOR Certification certifies that the investment fund: SCPI Optimale gérés par : managed by: CONSUL",
+   "dates": [
+    "3 août 2023",
+    "8 janvier 2016"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2023/09/SCPI-OPTIMALE-Politique-PAI.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2023/09/SCPI-OPTIMALE-Politique-PAI.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 344879,
+   "sha256": "a305a9d19acb9fa0610f9b1d7846872565b670c5f922a23cb43478d9c886fef8",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "ATREAM",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20230908151923+02'00'",
+    "modDate": "D:20230908151923+02'00'"
+   },
+   "page_count": 2,
+   "text_characters": 189,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 POLITIQUE PRINCIPAUX IMPACTS NÉGATIFS | SCPI OPTIMALE – En date du 08/08/2023 -",
+   "dates": [
+    "08/08/2023"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2025/02/8.-SCPI-OPTIMALE-Statuts-mis-a-jour-AGM-3008-2024-verison-transfert_sign-EGuy.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2025/02/8.-SCPI-OPTIMALE-Statuts-mis-a-jour-AGM-3008-2024-verison-transfert_sign-EGuy.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 789086,
+   "sha256": "54da4d1d843321232d465f3670df690e014fa1aac0afd29ac169e1d569df1422",
+   "metadata": {
+    "format": "PDF 1.4",
+    "title": "Microsoft Word - 8. SCPI OPTIMALE - Statuts mis à jour AGM 3008 2024 verison transfert_sign EGuy",
+    "author": "Edouard GUYOT | CONSULTIM-AM",
+    "producer": "GPL Ghostscript 10.04.0",
+    "creationDate": "D:20250221102132+01'00'",
+    "modDate": "D:20250221102132+01'00'"
+   },
+   "page_count": 24,
+   "text_characters": 79252,
+   "kind": "statuts",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 STATUTS | SCPI OPTIMALE Société Civile de Placement Immobilier à capital variable (Ci-après la « Société » ou la « SCPI ») STATUTS MIS A JOUR DE L'AGE DU 30 AOUT 2024 CERTIFIES CONFORME CONSULTIM ASSET AMANAGEMENT Directeur Général Monsieur Edouard Guyot",
+   "dates": [
+    "30 AOUT 2024"
+   ],
+   "fee_clauses": [
+    {
+     "page": 6,
+     "label": "commission de souscription",
+     "snippet": " de parts sont compensées par des souscriptions, la valeur de retrait est plafonnée au prix d'émission en vigueur (nominal plus prime d'émission) diminué de la commission de souscription hors taxes. Lorsque les demandes de retrait de parts ne sont pas compensées par des souscriptions, et sous réserve de la création et de la dotation du fonds de remboursement, le prix de retrait ne pourra être supérieur à la valeur de réalisation, ni inférieur à cette même valeur moins 10%, sauf autorisation de l'AMF. 3. Suspension de la variabilité du capital La Société de Gestion a la faculté, sous sa responsabilité, de suspendre à tout moment les effets de la variabilité du capital après en avoir informé les associés, dès lors qu'elle constate que des demandes de retrait de parts au prix en vigueur demeu",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'AMF. 3. Suspension d"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "commission de cession",
+     "snippet": "s lors qu'elle constate que le prix d'exécution a conduit, au cours de quatre (4) périodes consécutives de confrontation, à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription. Dans l'hypothèse où la Société de Gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent et après huit (8) périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés. Le rétablissement de la variabilité du capital entraîne ",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "commission de cession",
+     "snippet": "a précédent et après huit (8) périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés. Le rétablissement de la variabilité du capital entraîne :  l'annulation des ordres d'achat et de vente de parts,  la fixation d'un prix de souscription à un niveau proche de la moyenne des prix, commission de cession et droits d'enregistrement inclus, payés par les acquéreurs au cours des périodes de confrontation prises en référence pour le rétablissement de la variabilité du capital,  l'inscription des demandes de retrait de",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "commission de cession",
+     "snippet": "u capital entraîne :  l'annulation des ordres d'achat et de vente de parts,  la fixation d'un prix de souscription à un niveau proche de la moyenne des prix, commission de cession et droits d'enregistrement inclus, payés par les acquéreurs au cours des périodes de confrontation prises en référence pour le rétablissement de la variabilité du capital,  l'inscription des demandes de retrait de parts sur le registre des retraits,  la reprise des souscriptions et la possibilité pour la SCPI, en toute cohérence avec les textes légaux et réglementaires, d'émettre des parts nouvelles en vue d'augmenter son capital effectif. 5. Augmentation du capital 5.1. Pouvoirs de la Société de Gestion La Société de Gestion a tous pouvoirs pour réaliser les augmentations de capital, en ﬁxer les modalités, n",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "commission de souscription",
+     "snippet": "ur de reconstitution de la Société est égale à la somme de la valeur vénale des immeubles et de la valeur nette des autres actifs de la Société augmentée de la commission de souscription et de l'estimation des frais qui seraient nécessaires pour l'acquisition du patrimoine à la date de clôture de l'exercice. 5.4. Agrément Toute souscription de parts sociales de la Société par un tiers étranger à la Société doit recueillir l'agrément de la Société, exprimé par l'intermédiaire de la Société de Gestion. La remise par le souscripteur du bulletin de souscription accompagné du versement du prix de souscription auprès de la Société de Gestion vaut pour celui-ci demande d'agrément. De même, en cas de suspension de la variabilité du capital et de mise en place d'un marché secondaire, la remise d'un",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 14,
+     "label": "Commission de souscription",
+     "snippet": "toutes les charges non récupérables sur les locataires qui n'entrent pas dans le cadre prévu au paragraphe précédent de l'administration pure de la Société. 2. Commission de souscription Il est dû à la Société de Gestion, pour la recherche des capitaux, l'étude et la recherche des investissements, une commission de souscription égale à 10% HT du montant, prime d'émission incluse, de chaque souscription. A fur et à mesure des souscriptions, la Société de Gestion pourra prélever pour ses besoins, les sommes correspondantes sur les fonds sociaux. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime d'émission. La Société de Gestion se réserve le droit de rétrocéder tout ou partie de la commission de souscription à tout sponsor de la",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT du montant, prime d'émission incluse, de"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 14,
+     "label": "commission de souscription",
+     "snippet": "e la Société. 2. Commission de souscription Il est dû à la Société de Gestion, pour la recherche des capitaux, l'étude et la recherche des investissements, une commission de souscription égale à 10% HT du montant, prime d'émission incluse, de chaque souscription. A fur et à mesure des souscriptions, la Société de Gestion pourra prélever pour ses besoins, les sommes correspondantes sur les fonds sociaux. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime d'émission. La Société de Gestion se réserve le droit de rétrocéder tout ou partie de la commission de souscription à tout sponsor de la Société dont les souscriptions, en phase de lancement de la Société, permettront à la Société de réaliser les premières acquisitions de biens ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT du montant, prime d'émission incluse, de"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 14,
+     "label": "commission de souscription",
+     "snippet": "Gestion à prélever ses honoraires lors de la souscription sur la prime d'émission. La Société de Gestion se réserve le droit de rétrocéder tout ou partie de la commission de souscription à tout sponsor de la Société dont les souscriptions, en phase de lancement de la Société, permettront à la Société de réaliser les premières acquisitions de biens immobiliers. 3. Commission de gestion La Société de Gestion règle tous les frais administratifs et de gestion proprement dite ayant trait à la gestion des biens sociaux (à l'exception des honoraires de location et de relocation des immeubles sociaux), d'une part, et d'autre part, à la perception des loyers, charges, indemnités d'occupation ou autres, et leur répartition entre tous les associés, ainsi que la gestion de la Société. Il est dû à la S",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 14,
+     "label": "Commission de gestion",
+     "snippet": "a Société dont les souscriptions, en phase de lancement de la Société, permettront à la Société de réaliser les premières acquisitions de biens immobiliers. 3. Commission de gestion La Société de Gestion règle tous les frais administratifs et de gestion proprement dite ayant trait à la gestion des biens sociaux (à l'exception des honoraires de location et de relocation des immeubles sociaux), d'une part, et d'autre part, à la perception des loyers, charges, indemnités d'occupation ou autres, et leur répartition entre tous les associés, ainsi que la gestion de la Société. Il est dû à la Société de Gestion à titre de remboursement des frais administratifs ainsi qu'à titre d'honoraires de gestion, une commission de gestion dont le taux maximum est fixé à 10% HT du montant des produits locatif",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT du montant des produits locatif"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 14,
+     "label": "commission de gestion",
+     "snippet": "que la gestion de la Société. Il est dû à la Société de Gestion à titre de remboursement des frais administratifs ainsi qu'à titre d'honoraires de gestion, une commission de gestion dont le taux maximum est fixé à 10% HT du montant des produits locatifs hors taxes encaissés, directement et indirectement, et des produits financiers nets encaissés, directement et indirectement.",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT du montant des produits locatifs hors tax"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "Commission d'acquisition",
+     "snippet": "15 STATUTS | SCPI OPTIMALE 4. Commission d'acquisition ou de cession calculée sur le montant de l'acquisition ou de la cession immobilière Il est dû à la Société de Gestion à titre de rémunération de sa mission dans le cadre des acquisitions ou des cessions d'actifs immobiliers, une commission égale :  à 1,5% HT maximum du prix d'acquisition ou du prix de cession (hors taxes, hors droits et hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) ou cédé, directement ou indirectement par la Société ;  à 1,5% HT maximum de la valeur conventionnelle (hors taxes, hors droits et hors frais) des actifs immobiliers retenue pour le calcul du ",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": "HT",
+       "after": "HT maximum du prix d'acquisition ou du prix"
+      },
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": "HT",
+       "after": "HT maximum de la valeur conventionnelle (hor"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "Commission de suivi",
+     "snippet": "sociétés acquises ou cédées par la Société. La commission sur les acquisitions ne s'applique pas aux acquisitions consécutives à de nouvelles souscriptions. 5. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3% HT maximum du montant toutes taxes comprises des travaux effectivement réalisés. 6. Commission de cession de parts sociales Pour toute mutation de parts à titre gratuit et toute cession directe, il est dû à la Société de Gestion, pour frais de dossier, et ce, quel que soit le nombr",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant toutes taxes comprises"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 15,
+     "label": "commission de suivi",
+     "snippet": " calculée sur le montant des travaux effectués Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3% HT maximum du montant toutes taxes comprises des travaux effectivement réalisés. 6. Commission de cession de parts sociales Pour toute mutation de parts à titre gratuit et toute cession directe, il est dû à la Société de Gestion, pour frais de dossier, et ce, quel que soit le nombre de parts, et ce, par bénéficiaire ou par cessionnaire, un droit fixe de 75 € HT, lequel sera indexé tous les ans à la date du 1er janvier selon l'indice I.N.S.E.E. du coût de la construction, l'indice de référence étant celui du deuxième trimestre de ",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant toutes taxes comprises"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 15,
+     "label": "Commission de cession",
+     "snippet": "otage de la réalisation des travaux sur le patrimoine immobilier égale à 3% HT maximum du montant toutes taxes comprises des travaux effectivement réalisés. 6. Commission de cession de parts sociales Pour toute mutation de parts à titre gratuit et toute cession directe, il est dû à la Société de Gestion, pour frais de dossier, et ce, quel que soit le nombre de parts, et ce, par bénéficiaire ou par cessionnaire, un droit fixe de 75 € HT, lequel sera indexé tous les ans à la date du 1er janvier selon l'indice I.N.S.E.E. du coût de la construction, l'indice de référence étant celui du deuxième trimestre de l'année. Ce droit fixe est également perçu en cas de rachat des parts en vue de la réduction du capital social. Lorsque la cession résulte d'une transaction réalisée par confrontation des o",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant toutes taxes comprises"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 15,
+     "label": "commission de cession",
+     "snippet": "ire, en application de l'article L. 214-93-I du COMOFI et de l'article VIII des présents Statuts, il est dû à la Société de Gestion, par l'associé vendeur, une commission de cession calculée au taux de 6% HT sur le prix total, hors les droits d'enregistrement, payé par l'acquéreur. 7. Information concernant les différentes commissions En tant que de besoin, il est précisé que, s'agissant des actifs détenus au travers de sociétés dans lesquelles la Société détient une participation, pour chaque nature de commissions détaillées ci-avant, la somme des commissions perçues par la Société de Gestion en sa qualité de gérant desdites sociétés et de celles perçues par la Société de Gestion au titre de ses fonctions au sein de la Société ne pourra pas se cumuler et dépasser les taux fixés ci-avant. ",
+     "percents": [
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "HT",
+       "after": "HT sur le prix total, hors les droits d'enre"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 23,
+     "label": "commissions de souscription",
+     "snippet": "ur une période qui ne peut excéder cinq (5) ans ou vingt (20) ans selon leur nature, les frais suivants (liste non limitative) : les frais d'établissement, les commissions de souscription, les frais de fusion autres que ceux inscrits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la SCPI, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire. 7. DISSOLUTION - LIQUIDATION ARTICLE XXVIII. Dissolution - Liquidation Un (1) an au moins avant la date d'expiration de la Société, la Société de Gestion devra provoquer une réunion de l'Assemblée Générale Extraordin",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 23,
+     "label": "commissions d'acquisition",
+     "snippet": "(liste non limitative) : les frais d'établissement, les commissions de souscription, les frais de fusion autres que ceux inscrits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la SCPI, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire. 7. DISSOLUTION - LIQUIDATION ARTICLE XXVIII. Dissolution - Liquidation Un (1) an au moins avant la date d'expiration de la Société, la Société de Gestion devra provoquer une réunion de l'Assemblée Générale Extraordinaire, pour décider si la Société doit être prorogée ou non.",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 23,
+     "label": "frais d'acquisition",
+     "snippet": "nscrits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la SCPI, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire. 7. DISSOLUTION - LIQUIDATION ARTICLE XXVIII. Dissolution - Liquidation Un (1) an au moins avant la date d'expiration de la Société, la Société de Gestion devra provoquer une réunion de l'Assemblée Générale Extraordinaire, pour décider si la Société doit être prorogée ou non.",
+     "percents": [],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "6": "6 STATUTS | SCPI OPTIMALE 2.2. Valeur de retrait Lorsque les demandes de retrait de parts sont compensées par des souscriptions, la valeur de retrait est plafonnée au prix d'émission en vigueur (nominal plus prime d'émission) diminué de la commission de souscription hors taxes. Lorsque les demandes de retrait de parts ne sont pas compensées par des souscriptions, et sous réserve de la création et de la dotation du fonds de remboursement, le prix de retrait ne pourra être supérieur à la valeur de réalisation, ni inférieur à cette même valeur moins 10%, sauf autorisation de l'AMF. 3. Suspension de la variabilité du capital La Société de Gestion a la faculté, sous sa responsabilité, de suspendre à tout moment les effets de la variabilité du capital après en avoir informé les associés, dès lors qu'elle constate que des demandes de retrait de parts au prix en vigueur demeurent non satisfaites et inscrites sur le registre depuis au moins six (6) mois. La prise de cette décision entraîne :  l'annulation des souscriptions et des demandes de retrait de parts existantes,  l'interdiction d'augmenter le capital effectif,  la soumission volontaire aux règles législatives et réglementaires des SCPI découlant de l'article L. 214- 93 du COMOFI, par la mise en place de la confrontation périodique des ordres d'achat et de vente des parts de la SCPI. 4. Rétablissement de la variabilité du capital La Société de Gestion a la faculté de rétablir à tout moment les effets de la variabilité du capital après en avoir informé les associés, dès lors qu'elle constate que le prix d'exécution a conduit, au cours de quatre (4) périodes consécutives de confrontation, à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription. Dans l'hypothèse où la Société de Gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent et après huit (8) périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés. Le rétablissement de la variabilité du capital entraîne :  l'annulation des ordres d'achat et de vente de parts,  la fixation d'un prix de souscription à un niveau proche de la moyenne des prix, commission de cession et droits d'enregistrement inclus, payés par les acquéreurs au cours des périodes de confrontation prises en référence pour le rétablissement de la variabilité du capital,  l'inscription des demandes de retrait de parts sur le registre des retraits,  la reprise des souscriptions et la possibilité pour la SCPI, en toute cohérence avec les textes légaux et réglementaires, d'émettre des parts nouvelles en vue d'augmenter son capital effectif. 5. Augmentation du capital 5.1. Pouvoirs de la Société de Gestion La Société de Gestion a tous pouvoirs pour réaliser les augmentations de capital, en ﬁxer les modalités, notamment le montant de la prime d'émission, la date d'entrée en jouissance des parts nouvelles, les conditions de libération et pour accomplir toutes les formalités prévues par la loi. Il ne peut être procédé à la création de parts nouvelles en vue d'augmenter le capital social, tant que n'ont pas",
+    "7": "7 STATUTS | SCPI OPTIMALE été satisfaites : – les demandes de retraits ﬁgurant sur le registre prévu à cet effet et faites à un prix inférieur ou égal au prix demandé aux nouveaux souscripteurs ; – les offres de cession de parts ﬁgurant depuis plus de trois (3) mois sur le registre prévu à cet effet et faites à un prix majoré des commissions et droits, inférieur ou égal au prix demandé aux nouveaux souscripteurs 5.2. Minimum de souscription Le minimum de souscription de parts est ﬁxé à SIX (6) parts pour tout nouvel associé. 5.3. Prix de souscription En vertu de la législation relative aux Sociétés Civiles de Placement Immobilier, le prix de souscription des parts est déterminé sur la base de la valeur de reconstitution de la Société. Tout écart entre le prix de souscription et la valeur de reconstitution des parts supérieurs à 10 % doit être justiﬁé par la Société de Gestion et notiﬁé à l'AMF. La valeur de reconstitution de la Société est égale à la somme de la valeur vénale des immeubles et de la valeur nette des autres actifs de la Société augmentée de la commission de souscription et de l'estimation des frais qui seraient nécessaires pour l'acquisition du patrimoine à la date de clôture de l'exercice. 5.4. Agrément Toute souscription de parts sociales de la Société par un tiers étranger à la Société doit recueillir l'agrément de la Société, exprimé par l'intermédiaire de la Société de Gestion. La remise par le souscripteur du bulletin de souscription accompagné du versement du prix de souscription auprès de la Société de Gestion vaut pour celui-ci demande d'agrément. De même, en cas de suspension de la variabilité du capital et de mise en place d'un marché secondaire, la remise d'un mandat d'achat par le donneur d'ordre accompagné du versement du montant total de l'ordre auprès de la Société de Gestion vaut pour celui-ci demande d'agrément. L'agrément résulte (i) soit d'une notiﬁcation au souscripteur, par lettre recommandée avec demande d'avis de réception, (ii) soit du défaut de réponse par la Société dans le délai d'une (1) mois à compter de la réception par la Société de Gestion du bulletin de souscription du souscripteur. La décision de la Société n'est pas motivée et ne peut, en cas de refus de l'agrément, donner lieu à une réclamation quelconque contre la Société de Gestion ou la Société. Si la Société n'agrée pas le souscripteur, elle est tenue de rembourser au souscripteur le prix de souscription qu'il lui a versé dans un délai de sept (7) jours ouvrés à compter de la date de la notiﬁcation par la Société du refus d'agrément. Si, à l'expiration du délai de sept (7) jours ouvrés susvisé, la Société n'a pas remboursé au souscripteur le prix de souscription, l'agrément du souscripteur serait considéré comme donné. ARTICLE IX. LIBERATION DES PARTS Lors de leur souscription, les parts doivent être libérées intégralement de leur montant nominal et du montant de la prime stipulée.",
+    "14": "14 STATUTS | SCPI OPTIMALE ARTICLE XVIII. REMUNERATION DE LA SOCIETE DE GESTION 1. Répartition des frais entre la Société et la Société de Gestion La Société de Gestion prend en charge tous les frais administratifs ayant trait à la gestion des biens sociaux ainsi que le coût des documents nécessaires aux augmentations de capital : statuts, note d'information, bulletins de souscription, rapports annuels remis aux souscripteurs, jaquettes et certificats de parts, publicité ; elle assure par son personnel la bonne administration de la Société, y compris la perception des recettes et la répartition des bénéfices. La Société supporte et paiera directement tous les autres frais et dépenses, et notamment le prix d'acquisition des biens, les frais et études y compris en cas de non aboutissement de l'acquisition, les frais d'enregistrement et actes notariés s'y rapprochant, le montant des travaux d'aménagement ou de réparation y compris les frais et honoraires d'architectes ou de bureaux d'étude ou autres intervenants techniques s'y rapportant, la rémunération des membres du Conseil de Surveillance, le cas échéant, les honoraires des Commissaires aux Comptes, les honoraires et frais de l'expert externe en évaluation du patrimoine immobilier, les honoraires des experts comptables, la rémunération et frais du Dépositaire, les frais entraînés par la tenue des Conseils et Assemblées Générales, ainsi que les frais d'expédition des documents, les dépenses afférentes aux documents nécessaires à l'information des associés : bulletins d'information et rapports annuels, les frais de contentieux et de procédure et honoraires d'avocats, les cotisations professionnelles notamment due à une association de défense des intérêts de la Société et due à l'Autorité de marchés financiers, les assurances et, en particulier, celles des immeubles constituant le patrimoine, les frais d'entretien des immeubles, les honoraires de location et de relocation des immeubles, les impôts et taxes diverses, le montant des consommations d'eau, d'électricité et de combustibles et, en général, toutes les charges d'immeubles, honoraires des syndics et gérants et en général toutes les charges non récupérables sur les locataires et, en général, toutes les charges non récupérables sur les locataires qui n'entrent pas dans le cadre prévu au paragraphe précédent de l'administration pure de la Société. 2. Commission de souscription Il est dû à la Société de Gestion, pour la recherche des capitaux, l'étude et la recherche des investissements, une commission de souscription égale à 10% HT du montant, prime d'émission incluse, de chaque souscription. A fur et à mesure des souscriptions, la Société de Gestion pourra prélever pour ses besoins, les sommes correspondantes sur les fonds sociaux. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime d'émission. La Société de Gestion se réserve le droit de rétrocéder tout ou partie de la commission de souscription à tout sponsor de la Société dont les souscriptions, en phase de lancement de la Société, permettront à la Société de réaliser les premières acquisitions de biens immobiliers. 3. Commission de gestion La Société de Gestion règle tous les frais administratifs et de gestion proprement dite ayant trait à la gestion des biens sociaux (à l'exception des honoraires de location et de relocation des immeubles sociaux), d'une part, et d'autre part, à la perception des loyers, charges, indemnités d'occupation ou autres, et leur répartition entre tous les associés, ainsi que la gestion de la Société. Il est dû à la Société de Gestion à titre de remboursement des frais administratifs ainsi qu'à titre d'honoraires de gestion, une commission de gestion dont le taux maximum est fixé à 10% HT du montant des produits locatifs hors taxes encaissés, directement et indirectement, et des produits financiers nets encaissés, directement et indirectement.",
+    "15": "15 STATUTS | SCPI OPTIMALE 4. Commission d'acquisition ou de cession calculée sur le montant de l'acquisition ou de la cession immobilière Il est dû à la Société de Gestion à titre de rémunération de sa mission dans le cadre des acquisitions ou des cessions d'actifs immobiliers, une commission égale :  à 1,5% HT maximum du prix d'acquisition ou du prix de cession (hors taxes, hors droits et hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) ou cédé, directement ou indirectement par la Société ;  à 1,5% HT maximum de la valeur conventionnelle (hors taxes, hors droits et hors frais) des actifs immobiliers retenue pour le calcul du prix des droits sociaux acquis ou cédés des sociétés non contrôlées qui détiennent lesdits actifs immobiliers, au prorata de la participation dans lesdites sociétés acquises ou cédées par la Société. La commission sur les acquisitions ne s'applique pas aux acquisitions consécutives à de nouvelles souscriptions. 5. Commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier calculée sur le montant des travaux effectués Il est dû à la Société de Gestion à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 3% HT maximum du montant toutes taxes comprises des travaux effectivement réalisés. 6. Commission de cession de parts sociales Pour toute mutation de parts à titre gratuit et toute cession directe, il est dû à la Société de Gestion, pour frais de dossier, et ce, quel que soit le nombre de parts, et ce, par bénéficiaire ou par cessionnaire, un droit fixe de 75 € HT, lequel sera indexé tous les ans à la date du 1er janvier selon l'indice I.N.S.E.E. du coût de la construction, l'indice de référence étant celui du deuxième trimestre de l'année. Ce droit fixe est également perçu en cas de rachat des parts en vue de la réduction du capital social. Lorsque la cession résulte d'une transaction réalisée par confrontation des ordres d'achat et de vente sur le marché secondaire, en application de l'article L. 214-93-I du COMOFI et de l'article VIII des présents Statuts, il est dû à la Société de Gestion, par l'associé vendeur, une commission de cession calculée au taux de 6% HT sur le prix total, hors les droits d'enregistrement, payé par l'acquéreur. 7. Information concernant les différentes commissions En tant que de besoin, il est précisé que, s'agissant des actifs détenus au travers de sociétés dans lesquelles la Société détient une participation, pour chaque nature de commissions détaillées ci-avant, la somme des commissions perçues par la Société de Gestion en sa qualité de gérant desdites sociétés et de celles perçues par la Société de Gestion au titre de ses fonctions au sein de la Société ne pourra pas se cumuler et dépasser les taux fixés ci-avant. 8. Versement Conformément à l'article XVII des présents statuts, tout ou partie de chacune des commissions ci- dessus pourra être directement versé au mandataire à qui la Société de Gestion aurait conféré, dans le respect de la réglementation en la matière et sous sa responsabilité, tous pouvoirs pour un ou plusieurs objets déterminés dans la limite de ceux qui lui sont attribués.",
+    "23": "23 STATUTS | SCPI OPTIMALE L'expert dont la candidature, présentée par la Société de Gestion, aura au préalable été acceptée par l'AMF, est nommé pour cinq (5) ans par l'Assemblée Générale. La valeur nette des autres actifs arrêtée sous le contrôle du Commissaire aux Comptes, tient compte des plus- values et moins-values latentes sur actifs financiers. La valeur de reconstitution est égale à la valeur de réalisation augmentée du montant des frais afférents à une reconstitution du patrimoine. Ces valeurs font l'objet de résolutions soumises à l'approbation de l'Assemblée Générale. En cours d'exercice, et en cas de nécessité, le Conseil de Surveillance peut autoriser la modification de ces valeurs sur rapport motivé de la Société de Gestion. ARTICLE XXVII. Répartition des résultats L'Assemblée détermine le montant des bénéfices distribués aux associés à titre de dividende compte tenu du bénéfice réalisé au cours de l'exercice. L'Assemblée peut, en outre, décider la mise en distribution des sommes à prélever sur les réserves dont elle a la disposition. En ce cas, la décision indique expressément les postes de réserve sur lesquels les prélèvements sont effectués. Les distributions s'effectueront au prorata des droits et de la date d'entrée en jouissance des parts dans un délai de quarante-cinq (45) jours de la date de l'Assemblée, compte tenu des acomptes versés, la Société de Gestion pouvant décider la mise en paiement, en cours d'exercice, d'acomptes sur distribution, sous réserve de satisfaire aux conditions prévues par la loi. Les pertes, s'il en existe, seront supportées par les associés proportionnellement au nombre de parts possédées par chacun d'eux et compte tenu des dates d'entrée en jouissance. La quote-part de résultat imposable revenant à chaque associé est déterminée au prorata de ses droits dans la Société et de la date d'entrée en jouissance de ses parts. Tous frais liés aux augmentations de capital, à la recherche des capitaux, à la recherche et à l'acquisition des immeubles pourront être amortis sur la prime d'émission, sur laquelle sera également prélevé, pour chaque part nouvelle souscrite, le montant permettant de maintenir le niveau du report à nouveau existant. Autrement dit, la SCPI pourra décider d'imputer sur la prime d'émission ou opter pour leur étalement par le compte de résultat sur une période qui ne peut excéder cinq (5) ans ou vingt (20) ans selon leur nature, les frais suivants (liste non limitative) : les frais d'établissement, les commissions de souscription, les frais de fusion autres que ceux inscrits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la SCPI, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire. 7. DISSOLUTION - LIQUIDATION ARTICLE XXVIII. Dissolution - Liquidation Un (1) an au moins avant la date d'expiration de la Société, la Société de Gestion devra provoquer une réunion de l'Assemblée Générale Extraordinaire, pour décider si la Société doit être prorogée ou non."
+   }
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2023/01/SCPI-OPTIMALE-Annexe-SFDR-012023.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2023/01/SCPI-OPTIMALE-Annexe-SFDR-012023.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 232084,
+   "sha256": "16fa93e343f931cf06a594643c89e0a1e985f459c10aa16f388ffa11cc7fc7a7",
+   "metadata": {
+    "format": "PDF 1.4",
+    "author": "ATREAM",
+    "creator": "Microsoft Word",
+    "producer": "GPL Ghostscript 9.55.0",
+    "creationDate": "D:20230111121510+01'00'",
+    "modDate": "D:20230111121510+01'00'"
+   },
+   "page_count": 5,
+   "text_characters": 13662,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "ANNEXE II Modèle d'informations précontractuelles pour les produits financiers visés à l'article 8, paragraphes 1, 2 et 2 bis, du règlement (UE) 2019/2088 et à l'article 6, premier alinéa, du règlement (UE) 2020/852 Dénomination du produit : SCPI Optimale Identifiant d'identité juridique : 969500Y5WX5CUXFEAC07 Caractéristiques environnementales et / ou sociales Quelles caractéristiques environneme",
+   "dates": [
+    "09/01/2023",
+    "21/12/2022"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2026/09/ConsultimAM-Rapport-29-LEC-2025.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2026/09/ConsultimAM-Rapport-29-LEC-2025.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 546698,
+   "sha256": "96b0a428fe03a9c38011ad9ebda4addeae5e4b5a04531e76553ffe32155edd17",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "TORCAT Jean (SGACPR DCA2)",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260924101955+02'00'",
+    "modDate": "D:20260924101955+02'00'"
+   },
+   "page_count": 5,
+   "text_characters": 8213,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Société de Gestion agréée par l'Autorité des Marchés Financiers sous le n° GP-20000013 Loi Energie Climat. Rapport 29 LEC 2025",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2024/08/Rapport-extra-fi-CAM.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2024/08/Rapport-extra-fi-CAM.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1943815,
+   "sha256": "d63176a7426aef234377686642de90d304981f310803905d82e49cdb39b3c31e",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.5 (Windows)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20240801180946+02'00'",
+    "modDate": "D:20240801180952+02'00'"
+   },
+   "page_count": 54,
+   "text_characters": 80844,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Rapport extra-financier 2023",
+   "dates": [
+    "31 décembre 2023",
+    "31.12.2023",
+    "31/12/2023",
+    "décembre 2022"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2026/03/PLAQUETTE_SCPI_2026_Fev_V2.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2026/03/PLAQUETTE_SCPI_2026_Fev_V2.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1709692,
+   "sha256": "d31a0cd2ea1135554bc02fdbabd08e3d1de8a2afa3475bd33d7057cedcf1fb18",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 21.0 (Macintosh)",
+    "producer": "GPL Ghostscript 10.05.0",
+    "creationDate": "D:20260311113119+01'00'",
+    "modDate": "D:20260311113119+01'00'"
+   },
+   "page_count": 3,
+   "text_characters": 7960,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "L'investissement français, opportunité par opportunité. COMMUNICATION À CARACTÈRE PROMOTIONNEL LES RÉCOMPENSES DÉCERNÉES NE GARANTISSENT PAS LA PERFORMANCE DU FONDS ET NE PRÉSAGENT PAS DES RÉCOMPENSES À VENIR.",
+   "dates": [
+    "20 juillet 2020",
+    "31/12/2025",
+    "décembre 2025"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2023/03/Rapport-Loi-et-climat-2021.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2023/03/Rapport-Loi-et-climat-2021.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 44197,
+   "sha256": "fa8ea401ef8b6079d75512cc3f9148f0c55c04a5a2a35409dad96f7ff6919856",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 18.1 (Macintosh)",
+    "producer": "GPL Ghostscript 9.55.0",
+    "creationDate": "D:20230321153256+01'00'",
+    "modDate": "D:20230321153256+01'00'"
+   },
+   "page_count": 2,
+   "text_characters": 4176,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Société de Gestion agréée par l'Autorité des Marchés Financiers sous le n° GP-20000013 Loi et Climat Rapport 2 0 2 1 L o i e t C l i m a t",
+   "dates": [
+    "25 juillet 2022",
+    "27 novembre 2019"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2023/06/Rapport-Loi-et-climat-2022.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2023/06/Rapport-Loi-et-climat-2022.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 38580,
+   "sha256": "d78007b81ca1f9fed1148ad332f4adf96e2a3341ead6c20281cbe7f3dd026619",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 18.3 (Macintosh)",
+    "producer": "GPL Ghostscript 10.01.1",
+    "creationDate": "D:20230630103237+02'00'",
+    "modDate": "D:20230630103237+02'00'"
+   },
+   "page_count": 3,
+   "text_characters": 5564,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "optimale",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Société de Gestion agréée par l'Autorité des Marchés Financiers sous le n° GP-20000013 Loi et Climat Rapport 2 0 2 2 L o i e t C l i m a t",
+   "dates": [
+    "31/12/2022",
+    "décembre 2022"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2024/08/ConsultimAM_Rapport-29-LEC-2023.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2024/08/ConsultimAM_Rapport-29-LEC-2023.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2621320,
+   "sha256": "fc50d29a74f369c6f837411ceab86b48634a06f5b407f76e0ccd164be9a9cb83",
+   "metadata": {
+    "format": "PDF 1.7",
+    "producer": "iLovePDF",
+    "modDate": "D:20240726091549Z"
+   },
+   "page_count": 5,
+   "text_characters": 440,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "identity_where": null,
+   "title_excerpt": "",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.consultim-am.com/wp-content/uploads/2026/09/ConsultimAM-Rapport-29-LEC-2024.pdf",
+   "final_url": "https://www.consultim-am.com/wp-content/uploads/2026/09/ConsultimAM-Rapport-29-LEC-2024.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2985219,
+   "sha256": "5c3838c0ce8e085e07e463799eb157089e6165edb96236914a72f2f9e35bacfd",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "Microsoft Word - Rapport 29 LEC 2024",
+    "author": "Mathilde FERRY | CONSULTIM-AM",
+    "producer": "Microsoft: Print To PDF",
+    "creationDate": "D:20250627175013+02'00'",
+    "modDate": "D:20250627175013+02'00'"
+   },
+   "page_count": 5,
+   "text_characters": 536,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "identity_where": null,
+   "title_excerpt": "Société de Gestion agréée par l'Autorité des Marchés Financiers sous le n° GP-20000013",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  }
+ ],
+ "candidate_count": 45,
+ "summary": {
+  "dic_identity_ok": 1,
+  "note_identity_ok": 2,
+  "fee_clauses": 53,
+  "errors": 1
+ }
+}
