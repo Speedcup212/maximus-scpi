@@ -1,0 +1,157 @@
+{
+ "as_of": "2026-11-10",
+ "t3": {
+  "buroboutic-metropoles": "T3 retenu à juste titre : TOF extrait 0,07 = composante de vacance ; dividende extrait 0 € alors que le bulletin indique 0,90 €",
+  "paref-hexa": "T3 retenu à juste titre : dividende extrait 0 € (bulletin : 3,30 € brut)",
+  "comete": "T3 retenu à juste titre : dividende extrait 4,69 € contre 4,19 € dans le PDF",
+  "perial-o2": "T3 retenu : prix de souscription dérivé (capitalisation ÷ parts) alors que la variabilité est suspendue depuis le 25/02/2026",
+  "iroko-atlas": "T3 retenu : source HTML, confiance d'extraction faible",
+  "ficommerce-proximite": "T3 publié ; dividende T3 extrait à 0 € (faux zéro) retiré le 10/11, inconnu jusqu'à preuve",
+  "selectipierre-2": "T3 publié (hors cohorte publique) ; dividende T3 à 0 € retiré le 10/11"
+ },
+ "by_scpi": {
+  "ficommerce-proximite": [
+   "faux zéro du dividende T3 2026 corrigé (NULL ; rejet rejoué par la base)",
+   "résumé d'analyse « vigilance élevée » (file de 568 209 parts au T2) incohérent avec le niveau de risque « faible » et des alertes vides",
+   "parts en attente du T2 portées sur la ligne T3 : afficher la période propre à la métrique"
+  ],
+  "selectipierre-2": [
+   "faux zéro du dividende T3 2026 corrigé"
+  ],
+  "buroboutic-metropoles": [
+   "certification du dividende T3 à 0 € rejetée (jamais publiée)"
+  ],
+  "paref-hexa": [
+   "certification du dividende T3 à 0 € rejetée (jamais publiée)"
+  ],
+  "primovie": [
+   "parts en attente T2 2026 publiées à 0 : corrigé en non applicable (variabilité suspendue le 23/06/2026 ; 1 438 276 parts au T1 dans le même tableau)",
+   "frais de souscription 9 % retirés : non applicables depuis la suspension",
+   "nombre d'immeubles publié 297 contre 19 « certifiés » (artefact du rapprocheur) : état partial"
+  ],
+  "patrimmo-commerce": [
+   "frais de souscription 9 % retirés : non applicables depuis la suspension du 25/06/2026"
+  ],
+  "aestiam-agora": [
+   "certification « 0 part en attente » 2025-T2 rejetée : l'extrait provient d'un autre fonds",
+   "souscription 10 % HT prouvée mais TTC non chiffré par la note : non projeté sur le champ TTC"
+  ],
+  "aestiam-horizon": [
+   "certifications « 0 part en attente » 2023-T3 et 2024-T2 rejetées ; lignes d'historique manuelles à 0 à revoir par un humain (extraits : 1 493 parts, puis ~94 000 parts d'un autre fonds)",
+   "souscription 10 % HT prouvée mais TTC non chiffré : non projeté"
+  ],
+  "ncap-education-sante": [
+   "certification « 0 part en attente » 2019-T3 rejetée (le tableau donne 250 parts) ; ligne d'historique manuelle à revoir"
+  ],
+  "accimmo-pierre": [
+   "souscription arbitrée le 10/11 : 10,716 % TTC (note du 22/06/2026) remplace l'arrondi 10,72 %"
+  ],
+  "acces-valeur-pierre": [
+   "souscription arbitrée le 10/11 : 10,716 % TTC (note du 01/01/2026) remplace 10,72 %",
+   "gestion arbitrée le 10/11 : 9 % HT statutaire publié (la décision antérieure not_certified_effective_rate est levée)"
+  ],
+  "sofidynamic": [
+   "frais antérieurs (2,4 % / 12 %) conservés : déjà certifiés, identiques à la preuve de la première passe"
+  ],
+  "edr-europa": [
+   "gestion 10,5 % antérieure conservée (déjà certifiée)"
+  ],
+  "sofiprime": [
+   "capital fixe : applicabilité des frais de souscription de 12 % hors augmentation de capital à vérifier"
+  ],
+  "remake-uk-2025": [
+   "capital fixe en période d'offre : frais de 8,4 % applicables tant que l'offre est ouverte (à vérifier)"
+  ],
+  "edissimo": [
+   "aucun DIC ni note découvert sur le site Amundi Immobilier (0 document au relevé v2)"
+  ],
+  "rivoli-avenir-patrimoine": [
+   "aucun DIC ni note découvert sur le site Amundi Immobilier (0 document au relevé v2)"
+  ],
+  "esg-pierre-capital": [
+   "site Swiss Life AM inaccessible au relevé (403) : aucun document"
+  ],
+  "iroko-atlas": [
+   "gestion différenciée (12 % HT zone euro / 14 % HT hors zone euro) : pas de taux unique publié"
+  ],
+  "praemia-hotels-europe": [
+   "écart frais d'entrée : note 9 % HT exonérée, DIC 9,9 %",
+   "commission de gestion à deux taux"
+  ],
+  "patrimmo-croissance-impact": [
+   "écart note 11,76 % / DIC 13,3 % (souscription de toute façon non applicable depuis la suspension)"
+  ],
+  "log-in": [
+   "gestion : maximum statutaire 12 % HT, limité à 10 % HT tant que la collecte nette annuelle dépasse 5 M€"
+  ],
+  "perial-grand-paris": [
+   "gestion 10 % HT : note de 2015 non corroborée par un document 2025-2026",
+   "capitalisation T3 publiée 484,55 M€ contre 441,30 M€ certifiés : à vérifier"
+  ],
+  "lf-europimmo": [
+   "gestion 10 % HT : note de 2019 non corroborée par un document 2025-2026"
+  ],
+  "coeur-d-europe": [
+   "« 0 part en attente » certifié sur une mise en page valeurs-puis-libellés : le nouveau rapprocheur ne le prouvera plus automatiquement",
+   "ligne T3 2026 : valeur de reconstitution publiée 219,47 € (au 31/12/2025) alors que la certification T3 donne 220,40 € (au 30/06/2026) — valeur ancienne sous étiquette récente"
+  ],
+  "coeur-de-region": [
+   "« 0 part en attente » certifié sur une mise en page valeurs-puis-libellés : le nouveau rapprocheur ne le prouvera plus automatiquement"
+  ],
+  "coeur-de-ville": [
+   "« 0 part en attente » certifié sur une mise en page valeurs-puis-libellés : le nouveau rapprocheur ne le prouvera plus automatiquement",
+   "ligne T3 2026 : valeur de reconstitution publiée 224,28 € (au 31/12/2025) contre 222,47 € certifiés — valeur ancienne sous étiquette récente"
+  ],
+  "activimmo": [
+   "« 0 part en attente » T2 2026 exact (tableau lu), mais non prouvable automatiquement par le nouveau rapprocheur"
+  ],
+  "cristal-rente": [
+   "gestion à deux taux (13,20 % TTC des loyers, 14,35 % TTI des produits financiers)",
+   "souscription : DIC 2024 à 12 % sans mention HT/TTC, aucune clause dans la note"
+  ],
+  "novapierre-1": [
+   "dossier 2024 incohérent (8 % HT annoncé à 12 % TTC) ; la note du 01/01/2026 (8 % HT, 9,6 % TTC) prévaut"
+  ],
+  "pierval-sante": [
+   "nombre de locataires publié 1 003 contre 1 « certifié » (artefact du rapprocheur) : état partial"
+  ],
+  "remake-live": [
+   "nombre d'associés publié 13 135 contre 904 « certifiés » : état partial"
+  ]
+ },
+ "projection_blocked": {
+  "reason": "Projection refusée par la garde guard_scpi_indicator_live_quality : instantané d'indicateurs vérifié manuellement, protégé contre toute écriture automatique. Le frais prouvé est au registre et au catalogue ; il sera affiché via le catalogue après déploiement, ou en base après validation manuelle.",
+  "funds": {
+   "atream-hotel": [
+    "frais_souscription"
+   ],
+   "buroboutic-metropoles": [
+    "frais_gestion"
+   ],
+   "comete": [
+    "frais_souscription"
+   ],
+   "ncap-continent": [
+    "frais_gestion"
+   ],
+   "ncap-education-sante": [
+    "frais_gestion"
+   ],
+   "sofiprime": [
+    "frais_gestion"
+   ]
+  }
+ },
+ "arbitrated_2026_11_10": {
+  "decided_by": "Eric Bellaiche (validation du 10/11/2026, arbitrage proposé par la session)",
+  "funds": {
+   "accimmo-pierre": {
+    "frais_souscription": 10.716
+   },
+   "acces-valeur-pierre": {
+    "frais_souscription": 10.716,
+    "frais_gestion": 9
+   }
+  }
+ }
+}

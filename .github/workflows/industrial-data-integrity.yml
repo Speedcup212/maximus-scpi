@@ -1,0 +1,32 @@
+name: Industrial data integrity
+on:
+  pull_request:
+    paths:
+      - 'src/utils/scpiFeeEvidence.mjs'
+      - 'src/utils/scpiLiveData.ts'
+      - 'src/utils/scpiDataTransformer.ts'
+      - 'src/utils/scpiScoring.ts'
+      - 'scripts/industrial/**'
+      - 'scripts/syncScpiCatalogFromIndicators.ts'
+      - 'src/tests/scpiFeeZero.test.ts'
+      - 'src/data/scpi_complet.json'
+      - 'reports/industrial-20261109/**'
+      - 'supabase/functions/scpi-evidence-certify/**'
+      - 'supabase/migrations/20261110_recovery200_*.sql'
+      - '.github/workflows/industrial-data-integrity.yml'
+permissions:
+  contents: read
+jobs:
+  fee-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: node --test scripts/industrial/*.test.mjs scripts/industrial/fees/catalog-fee-evidence.test.mjs supabase/functions/scpi-evidence-certify/matcher.test.mjs
+      - run: python3 -m unittest scripts/industrial/fees/fee_document_probe_test.py
+      - run: npx vitest run src/tests/scpiFeeZero.test.ts src/tests/scpiPublicationQuality.test.ts
+      - run: npx vite build

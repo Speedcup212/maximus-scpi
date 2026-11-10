@@ -1,0 +1,40 @@
+{
+ "as_of": "2026-11-10",
+ "mode": "simulation en lecture seule : aucune valeur T3 n'a été écrite dans scpi_indicators",
+ "rule": "Une métrique T3 serait publiée seule, avec sa propre période, si sa certification T3 est prouvée au niveau du champ (même règle que la politique RLS publique) et plausible (saut ≤ 30 % par rapport au T2, TOF entre 50 et 100 %). Les métriques datées (td, td_annee, prix_reconstitution, valeur_realisation) gardent leur propre période et ne sont pas promues. Les autres métriques restent au T2 avec l'étiquette T2.",
+ "scpi_at_t2_with_t3_certifications": 18,
+ "initially_proven": 83,
+ "rejected_by_plausibility_review": [
+  "atream-hotel:endettement 40 (plafond statutaire, 22,86 % au T2)",
+  "atream-hotel:nombre_parts 6 195 (nombre d'associés ; 330 294 parts)",
+  "primovie:endettement 40 (limite statutaire, 30,1 % au T2)",
+  "novaxia-neo:parts_attente_retrait 26 (170 415 parts au 30/09/2026)",
+  "novaxia-neo:tof 3 (TOF 88,3 %)"
+ ],
+  "proven_after_review": 78,
+ "large_jump_kept_after_review": ["iroko-atlas:capitalisation 166,9 → 218,83 M€ (collecte nette 51,87 M€ au T3, extrait explicite)"],
+ "not_proven": 7,
+ "rejected_or_review": 11,
+ "per_scpi": {
+  "aestiam-horizon": {"promotable": 5, "held": 0, "metrics": "capitalisation,prix_retrait,tof,walb,walt"},
+  "atream-hotel": {"promotable": 5, "held": 3, "metrics": "capitalisation,distribution_par_part,nombre_associes,nombre_immeubles,parts_attente_retrait"},
+  "buroboutic-metropoles": {"promotable": 9, "held": 1, "metrics": "capitalisation,endettement,nombre_associes,nombre_immeubles,nombre_locataires,nombre_parts,prix_retrait,prix_souscription,tof"},
+  "comete": {"promotable": 10, "held": 1, "metrics": "capitalisation,nombre_associes,nombre_immeubles,nombre_locataires,parts_attente_retrait,prix_retrait,prix_souscription,tof,walb,walt"},
+  "epsicap-nano": {"promotable": 3, "held": 0, "metrics": "capitalisation,prix_retrait,tof"},
+  "fonciere-des-praticiens": {"promotable": 2, "held": 0, "metrics": "capitalisation,walb"},
+  "iroko-atlas": {"promotable": 4, "held": 2, "metrics": "capitalisation,distribution_par_part,prix_retrait,prix_souscription"},
+  "log-in": {"promotable": 2, "held": 0, "metrics": "nombre_immeubles,nombre_locataires"},
+  "novaxia-neo": {"promotable": 4, "held": 2, "metrics": "capitalisation,nombre_associes,nombre_immeubles,walb"},
+  "paref-hexa": {"promotable": 7, "held": 3, "metrics": "endettement,nombre_immeubles,nombre_parts,parts_attente_retrait,prix_retrait,prix_souscription,tof"},
+  "patrimmo-commerce": {"promotable": 1, "held": 0, "metrics": "tof"},
+  "perial-o2": {"promotable": 7, "held": 1, "metrics": "capitalisation,distribution_par_part,endettement,nombre_associes,nombre_immeubles,nombre_parts,tof"},
+  "pierval-sante": {"promotable": 4, "held": 0, "metrics": "prix_retrait,prix_souscription,tof,walb"},
+  "praemia-hotels-europe": {"promotable": 1, "held": 0, "metrics": "tof"},
+  "primovie": {"promotable": 4, "held": 1, "metrics": "nombre_immeubles,tof,walb,walt"},
+  "remake-live": {"promotable": 4, "held": 0, "metrics": "endettement,prix_retrait,prix_souscription,walb"},
+  "remake-uk-2025": {"promotable": 1, "held": 0, "metrics": "tof"},
+  "transitions-europe": {"promotable": 5, "held": 4, "metrics": "distribution_par_part,endettement,parts_attente_retrait,prix_souscription,tof"}
+ },
+ "residual_risk": "5 erreurs sur 83 valeurs « prouvées » ont été trouvées par le seul contrôle de plausibilité ; le taux d'erreur résiduel des 78 restantes n'est pas mesuré. Une promotion par métrique doit donc combiner preuve de champ, garde de plausibilité et échantillon de revue humaine.",
+ "decision_required": true
+}

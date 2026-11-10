@@ -1,3 +1,4 @@
+import { selectProvenFee } from './scpiFeeEvidence.mjs';
 import type { Scpi } from '../types/scpi';
 import {isFeatureDisabled} from './scpiPublicationQuality';
 import { aggregateCountryGeography } from './scpiGeography';
@@ -127,9 +128,17 @@ export function mergeScpiWithLiveIndicators(
   const sectors = toRepartition(row.repartition_sectorielle);
   const geography = toRepartition(aggregateCountryGeography(row.repartition_geographique));
 
+  const subscriptionFee = selectProvenFee(toNumber(row.frais_souscription), row.metric_provenance?.frais_souscription,
+    'TTC', scpi.fees, scpi.metricProvenance?.frais_souscription);
+  const managementFee = selectProvenFee(toNumber(row.frais_gestion), row.metric_provenance?.frais_gestion,
+    'HT', scpi.fraisGestion, scpi.metricProvenance?.frais_gestion);
   return {
     ...scpi,
-    metricProvenance: row.metric_provenance ?? scpi.metricProvenance,
+    metricProvenance: {
+      ...(row.metric_provenance ?? scpi.metricProvenance),
+      frais_souscription: subscriptionFee.proof,
+      frais_gestion: managementFee.proof,
+    },
     name: row.nom || scpi.name,
     company: row.societe_gestion || scpi.company,
     creation: toNumber(row.annee_creation) ?? scpi.creation,
@@ -153,8 +162,8 @@ export function mergeScpiWithLiveIndicators(
     liquidityBasis: liquidityBasis || scpi.liquidityBasis,
     liquidityRegimeChanged: Boolean(liquidity?.regime_changed),
     reconstitutionGate: gate?.reconstitution_gate || scpi.reconstitutionGate,
-    fees: toNumber(row.frais_souscription) ?? scpi.fees,
-    fraisGestion: toNumber(row.frais_gestion) ?? scpi.fraisGestion,
+    fees: subscriptionFee.value,
+    fraisGestion: managementFee.value,
     profilRisque: toNumber(row.srri) ?? scpi.profilRisque,
     dureeDetentionRecommandee: toNumber(row.duree_detention_recommandee) ?? scpi.dureeDetentionRecommandee,
     debt: toNumber(row.endettement) ?? scpi.debt,

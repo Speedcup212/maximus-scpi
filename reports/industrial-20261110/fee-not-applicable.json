@@ -1,0 +1,14 @@
+{
+ "as_of": "2026-11-10",
+ "rule": "Variabilité du capital suspendue : pas de souscription au marché primaire, frais de souscription non applicables (ni zéro, ni taux affiché). Source : public.scpi_structural_events (statut vérifié).",
+ "funds": {
+  "credit-mutuel-pierre-1": {"valid_from": "2026-06-01", "source_url": "https://doc.la-francaise.com/documents/bulletin-trimestriel-credit-mutuel-pierre-1-30062026", "evidence_text": "Suspension temporaire de la variabilité du capital à compter du 1er juin 2026 ; annulation des demandes de souscription et retrait en cours ; mise en place d’un marché secondaire par confrontation périodique des ordres."},
+  "lf-grand-paris-patrimoine": {"valid_from": "2026-06-01", "source_url": "https://doc.la-francaise.com/documents/bulletin-trimestriel-lf-grand-paris-patrimoine-30062026", "evidence_text": "Variabilité du capital temporairement suspendue depuis le 1er juin 2026 ; marché secondaire ouvert."},
+  "patrimmo-commerce": {"valid_from": "2026-06-25", "source_url": "https://contrib.praemiareim.fr/fr/scpi-patrimmo-commerce", "evidence_text": "Suspension de la variabilité du capital approuvée le 25 juin 2026 ; annulation de la file de retraits et ouverture d’un marché secondaire par confrontation."},
+  "patrimmo-croissance-impact": {"valid_from": "2026-06-24", "source_url": "https://www.praemiareim.fr/fr/particuliers", "evidence_text": "Suspension de variabilité du capital décidée par l’Assemblée Générale du 24 juin 2026."},
+  "perial-grand-paris": {"valid_from": "2026-02-25", "source_url": "https://www.perial.com/scpi/perial-grand-paris", "evidence_text": "Suspension temporaire de la variabilité du capital à compter du 25 février 2026 ; marché secondaire organisé à compter du 2 avril 2026."},
+  "perial-o2": {"valid_from": "2026-02-25", "source_url": "https://www.perial.com/scpi/perial-o2", "evidence_text": "Suspension temporaire de la variabilité du capital à compter du 25 février 2026 ; marché secondaire organisé à compter du 2 avril 2026."},
+  "primovie": {"valid_from": "2026-06-23", "source_url": "https://extranet.praemiareim.fr/fr/web/preim-fr/scpi-primovie", "evidence_text": "Suspension de la variabilité du capital depuis le 23 juin 2026 ; annulation des demandes de souscription et de retrait et ouverture d’un marché secondaire."},
+  "selectinvest-1": {"valid_from": "2026-06-01", "source_url": "https://doc.la-francaise.com/documents/bulletin-trimestriel-selectinvest-1-30062026", "evidence_text": "Suspension temporaire de la variabilité du capital à compter du 1er juin 2026 ; annulation des demandes de souscription et de retrait antérieures ; ouverture du marché secondaire par confrontation."}
+ }
+}

@@ -147,3 +147,45 @@ Publication réalisée le 02/11/2026 : Accès Valeur Pierre et Accimmo Pierre pr
 - Catalogue des réparations sans risque de falsification : recalcul de capitalisation **affichée** M€ à partir des valeurs officielles EUR et de l'égalité exacte prix x parts, après SHA et période vérifiés ; ordre chronologique des données trimestrielles sans altérer leurs valeurs ; réessai réseau borné sur erreurs transitoires de téléchargement PDF, TLS toujours activé.
 - Toutes les autres anomalies (statuts à jour, contre-preuves contradictoires, QA indépendantes, document manquant, fuite de comparaison historique, contraintes de sécurité) sont inscrites comme blocages à preuve et jamais auto-approuvées.
 - Workflow quotidien / à la demande `.github/workflows/scpi-auto-remediation.yml`, ouvertures de PR de correction et issue unique de blocages ; pas de merge, Supabase public, déploiement ni validation fabriquée. Tests de régression dans CI de préflight.
+
+## RECOVERY-200 — Intégrité industrielle frais/T3 et préparation 225 (09/11/2026)
+
+Mission explicite Eric : A frais réglementaires, B actualisation T3 par métrique,
+C trois états publics, D registre canonique et admission par lots.
+Branche isolée depuis la version courante : `fix/recovery-200-industrial-data-integrity`.
+L'ancienne branche Recovery n'est pas utilisée comme base afin de ne pas réintroduire un état antérieur du produit.
+
+Périmètre de cette première correction : `scpiFeeEvidence.mjs`, synchronisation du
+catalogue, fusion live, transformateur/scoring, tests et workflow ciblés ; outils
+de contrôle en lecture seule ; exports de données livrés séparément en privé.
+Aucune migration, aucune écriture financière, aucune admission ni publication.
+Les taux sans preuve HT/TTC concordante ne remplacent plus le catalogue local ;
+les zéros explicites sont préservés et les inconnus n'obtiennent plus le bonus zéro frais.
+Les contrats `verified/partial/blocked` et le registre sont préparés et testés,
+mais le nouveau statut n'est PAS encore raccordé à l'affichage public.
+
+État : EN COURS ; cette PR ne clôture pas la mission A–D.
+Les frais documentaires, promotions T3, validation navigateur des parcours,
+CI distante et contrôle post-déploiement restent requis. Aucun export Supabase joint au dépôt.
+
+### RECOVERY-200 — Passe données du 09/11/2026 (session Claude, branche existante)
+
+- A : relevé officiel DIC/notes des 69 SCPI (run 42665958628, 2 min 57 s ; 52 DIC, 46 notes d'identité vérifiée), revue sémantique outillée **non humaine** (`scripts/industrial/fees/fee-review-20261109.json`), garde : aucun taux accepté s'il n'apparaît pas dans la clause paginée citée (0 rejet).
+- Supabase : table privée `scpi_fee_evidence` (migration `20261109_recovery200_scpi_fee_evidence`), 138 lignes (63 verified / 49 partial / 26 blocked) chargées depuis le commit `95c00d0` après contrôle SHA-256 du fichier. Projection publique : souscription TTC/TTI et gestion HT/exonérée uniquement, champ vide ou identique, provenance complète : `frais_souscription` 9 → 33/69, `frais_gestion` 4 → 19/69. 26 SCPI concernées sont lues en direct par le site (cohorte publique), 15 hors cohorte attendent le catalogue réconcilié.
+- Catalogue : 29 valeurs corrigées avec provenance, 11 « frais de gestion » qui étaient des coûts PRIIPs du DIC retirés (inconnu ≠ zéro). Conflits conservés pour arbitrage : Accimmo 10,72/10,716 ; AVP gestion (décision antérieure) ; Sofidynamic ; EdR.
+- B : diagnostic par SCPI des 25 T3 non transférés (promotion atomique par bulletin, preuves paginées manquantes, gardes d'identité PDF). Aucune promotion T3 ni modification de la fonction de publication dans cette passe.
+- Tests : 39/39 node (dont non-régression catalogue), 6/6 unittest relevé, Vitest 280/280, build Vite PASS. Livrable : `reports/industrial-20261109/RECOVERY-200-livrable.md`.
+- État : EN COURS. Restent : 13 SCPI sans document découvert, 49 frais partiels, T3 par métrique (décision requise), états publics raccordés à l'UI, revue humaine des frais, build Netlify et contrôle post-release des pages statiques.
+
+### RECOVERY-200 — Passe du 10/11/2026 (faux zéros, seconde passe frais)
+
+- Faux zéros en production corrigés en base : dividende T3 2026 à 0 € (Ficommerce Proximité, Selectipierre 2) → inconnu ; parts en attente T2 2026 de Primovie à 0 → non applicable (variabilité suspendue le 23/06/2026). Cause : `refresh_scpi_metric_certifications` re-dérivait les certifications rejetées et le rapprocheur prouvait un zéro par proximité.
+- Base : registre `scpi_internal.metric_certification_rejections` (9 rejets revus) et trigger `trg_zzzzzz_reviewed_metric_rejection` (migrations `20261110_recovery200_metric_rejection_*`). Contrôle `scripts/industrial/sql/recovery200_rejection_guard_check.sql` 5/5 PASS.
+- Rapprocheur `scpi-evidence-certify` extrait dans `matcher.mjs` (zéro explicite seulement, unités cohérentes), 14 tests. **Non déployé** (décision requise).
+- Frais, relevé v2 42773336564 (60 DIC, 66 notes) : registre 87 verified / 45 partial / 6 blocked ; `frais_souscription` 41/69 + 8 non applicables, `frais_gestion` 34/69. Revue citée par SHA-256 (`fee-review-20261110.json`), vue `scpi_fee_evidence_current`.
+- Tests : node 57/57, unittest 10/10, Vitest 280/280, build Vite PASS. Livrable : `reports/industrial-20261110/RECOVERY-200-livrable.md`.
+- État : EN COURS. Décisions requises : fusion PR #391 + build Netlify, déploiement du rapprocheur, promotion T3 par métrique, conflits Accimmo/AVP, revue humaine des lignes d'historique manuelles à 0 (Aestiam Horizon 2023-T3/2024-T2, NCap Éducation Santé 2019-T3).
+- Suite 10/11 (après-midi) : 3e lot de frais (pages complètes) → registre 108 verified / 24 partial / 6 blocked, base `frais_souscription` 44/69 (+8 non applicables), `frais_gestion` 44/69 ; 6 frais prouvés non projetés (garde des instantanés manuels, non contournée) ; projection AVP gestion annulée (décision antérieure).
+- Chantier C : migration `recovery200_freeze_rejected_certifications` (défaut prouvé : les 147 rejets Sofiprime revenaient en validation au rafraîchissement ; 0 après correctif) ; vue `scpi_internal.metric_public_quality_v1` (789 verified / 294 partial / 5 blocked). Affichage à raccorder.
+- Chantier D : `scpi_internal.scpi_canonical_registry_v1` (79 SCPI, 32 sociétés de gestion, 0 alias en collision). Capacité par jour ouvré : non mesurée.
+- Revue des écarts : 9 + 5 certifications automatiques fausses rejetées (registre : 24 décisions). Simulation T3 par métrique en lecture seule : 78 valeurs publiables sur 18 SCPI, décision requise (garde de plausibilité et échantillon humain recommandés).

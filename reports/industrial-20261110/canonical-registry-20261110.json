@@ -1,0 +1,23 @@
+{
+ "as_of": "2026-11-10",
+ "source": "scpi_internal.scpi_canonical_registry_v1 (migration recovery200_canonical_registry) sur public.scpi_source_registry, public.scpi_name_aliases et scpi_internal.metric_public_quality_v1",
+ "funds": 79,
+ "in_catalog": 69,
+ "candidates_outside_catalog": ["aestiam-pierre-rendement", "aestiam-cap-hebergimmo", "pierre-selection", "opus-real", "imarea-pierre", "france-investipierre", "sofiboutique", "sofidy-europe-invest", "sofipierre", "aew-opportunites-europe"],
+ "raw_management_company_names": 38,
+ "canonical_management_companies": 32,
+ "unresolved_management_companies": 0,
+ "alias_collisions": 0,
+ "probable_links": ["BNP Paribas AM → BNP Paribas REIM France", "CONSULTIM Asset Management → Aestiam", "Tikehau Investment Management → Sofidy"],
+ "admission_69": {
+  "identity": {"verified": 68, "partial": 1},
+  "official_source": {"verified": 3, "partial": 66},
+  "connector": {"verified": 67, "partial": 2},
+  "quality": {"verified": 15, "partial": 49, "blocked": 5},
+  "publication": {"verified": 54, "not_published": 15},
+  "production": {"not_measured": 69}
+ },
+ "publication_authorized": false,
+ "capacity_new_scpi_per_business_day": null,
+ "capacity_note": "Non mesurée : aucune admission complète (identité, source, extraction, qualité, publication, vérification de production) n'a été exécutée. Mesuré : découverte documentaire de 69 SCPI en 6 min 38 s (relevé 42773336564, 8 en parallèle)."
+}

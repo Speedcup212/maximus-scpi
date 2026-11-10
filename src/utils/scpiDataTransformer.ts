@@ -45,7 +45,7 @@ export function transformScpiToScoringInput(scpi: Scpi): ScpiInput {
     prix_souscription: prixSouscription,
     valeur_reconstitution: valeurReconstitution,
     frais_gestion: null,
-    frais_souscription: scpi.fees || null,
+    frais_souscription: scpi.fees ?? null,
     repartitionSector: repartitionSectorielle,
     repartitionGeo: repartitionGeographique,
   };
@@ -83,7 +83,7 @@ export function transformSupabaseScpiToScoringInput(dbScpi: any): ScpiInput {
     prix_souscription: dbScpi.prix_souscription || dbScpi.price,
     valeur_reconstitution: dbScpi.valeur_reconstitution,
     frais_gestion: dbScpi.frais_gestion,
-    frais_souscription: dbScpi.frais_souscription || dbScpi.fees,
+    frais_souscription: dbScpi.frais_souscription ?? dbScpi.fees,
     repartition_sectorielle: repartitionSector,
     repartition_geographique: countryRepartition,
   };
