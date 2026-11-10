@@ -28,5 +28,8 @@
       "page_count": 6
     }
   ],
-  "financial_certified": false
+  "financial_certified": false,
+  "approved_hosts": [
+    "www.sofidy.com"
+  ]
 }
