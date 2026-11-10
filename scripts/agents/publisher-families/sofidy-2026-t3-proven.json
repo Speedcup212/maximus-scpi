@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "publisher": "Sofidy",
+  "approved_hosts": [
+    "www.sofidy.com"
+  ],
+  "proof_run_id": 42780899542,
+  "financial_certified": false,
+  "publication_authorized": false,
+  "documents": [
+    {
+      "slug": "sofiboutique",
+      "name": "Sofiboutique",
+      "source_period": "2026-T3",
+      "source_page": "https://www.sofidy.com/actualites/scpi-sofidy-les-bulletins-trimestriels-du-3eme-trimestre-2026/",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofiboutique_MEL.pdf",
+      "pdf_sha256": "2ae6890f9a9dcd308219427a168b5ae13bda34dd744dab7e56e1770663876a0e",
+      "page_count": 6
+    },
+    {
+      "slug": "sofipierre",
+      "name": "Sofipierre",
+      "source_period": "2026-T3",
+      "source_page": "https://www.sofidy.com/actualites/scpi-sofidy-les-bulletins-trimestriels-du-3eme-trimestre-2026/",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/10/Bulletin_Trimestriel_-_Sofipierre_2026-3T_OPTI.pdf",
+      "pdf_sha256": "6f9caf33ff090b2dd6c6d3366cf6eaaf9ac9da7ffb3ee411f4700e7783ccac8a",
+      "page_count": 6
+    },
+    {
+      "slug": "sofidy-europe-invest",
+      "name": "Sofidy Europe Invest",
+      "source_period": "2026-T3",
+      "source_page": "https://www.sofidy.com/actualites/scpi-sofidy-les-bulletins-trimestriels-du-3eme-trimestre-2026/",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/10/Bulletin_Trimestriel_-_SEI_MEL.pdf",
+      "pdf_sha256": "73b96a909a9600b092b05a62a3a55145bab6389c754262d1733e7bdf69dd2146",
+      "page_count": 6
+    }
+  ]
+}
