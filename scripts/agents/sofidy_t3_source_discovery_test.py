@@ -2,6 +2,7 @@ import pathlib,sys,unittest
 sys.path.insert(0,str(pathlib.Path(__file__).resolve().parent))
 import sofidy_t3_source_discovery as probe
 import publisher_family_proof as family
+import sofidy_t3_page_review as pages
 class SofidyHistoryNewCurrentTests(unittest.TestCase):
     def test_links_allowlist_deduplicated_and_resolve(self):
         x='''<a href="/app/uploads/2026/11/Sofiboutique_T3.pdf">PDF</a>
@@ -29,4 +30,22 @@ class SofidyHistoryNewCurrentTests(unittest.TestCase):
         source=pathlib.Path(probe.__file__).read_text()
         for forbidden in ("requests.post(","urllib.request.urlopen(","SUPABASE_SERVICE_ROLE_KEY","publication_authorized=True","financial_certified=True"):
             self.assertNotIn(forbidden,source)
+    def test_t3_proven_sha_manifest_never_auto_certifies(self):
+        import json
+        source=pathlib.Path(__file__).resolve().parent/"publisher-families/sofidy-2026-t3-proven.json"
+        manifest=json.loads(source.read_text())
+        self.assertFalse(manifest["financial_certified"])
+        self.assertFalse(manifest["publication_authorized"])
+        for slug in probe.FUNDS:
+            validated=pages.validation(manifest,slug)
+            self.assertEqual(validated["source_period"],"2026-T3")
+            self.assertEqual(validated["page_count"],6)
+        tampered=json.loads(source.read_text())
+        tampered["documents"][0]["pdf_sha256"]="0"*63
+        with self.assertRaisesRegex(ValueError,"INVALID_ORIGINAL_SHA"):
+            pages.validation(tampered,"sofiboutique")
+        tampered=json.loads(source.read_text())
+        tampered["documents"][0]["source_url"]="https://www.sofidy.com.attacker.invalid/document.pdf"
+        with self.assertRaisesRegex(ValueError,"NON_OFFICIAL_PUBLISHER_URL"):
+            pages.validation(tampered,"sofiboutique")
 if __name__=="__main__":unittest.main()
