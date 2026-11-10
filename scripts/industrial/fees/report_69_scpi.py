@@ -49,7 +49,10 @@ def main():
             before = num(f[f'base_avant_{fee}'])
             after = num(f[f'base_apres_{fee}'])
             guarded = column in anomalies.get('projection_blocked', {}).get('funds', {}).get(slug, [])
-            if fee == 'souscription' and slug in not_applicable:
+            arbitrated = anomalies.get('arbitrated_2026_11_10', {}).get('funds', {}).get(slug, {})
+            if column in arbitrated:
+                after = arbitrated[column]
+            elif fee == 'souscription' and slug in not_applicable:
                 after = None
             elif after is None and (slug, column) in patches and not guarded:
                 after = patches[(slug, column)]

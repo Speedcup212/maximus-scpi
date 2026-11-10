@@ -44,11 +44,11 @@
    "certification « 0 part en attente » 2019-T3 rejetée (le tableau donne 250 parts) ; ligne d'historique manuelle à revoir"
   ],
   "accimmo-pierre": [
-   "conflit souscription : base 10,72 % contre 10,716 % TTC dans la note du 22/06/2026 (arbitrage humain)"
+   "souscription arbitrée le 10/11 : 10,716 % TTC (note du 22/06/2026) remplace l'arrondi 10,72 %"
   ],
   "acces-valeur-pierre": [
-   "gestion 9 % HT documentée mais décision antérieure not_certified_effective_rate conservée (arbitrage humain)",
-   "conflit souscription : base 10,72 % contre 10,716 % TTC (note du 01/01/2026, DIC 8,93 % HT) — même écart d'arrondi qu'Accimmo (arbitrage humain)"
+   "souscription arbitrée le 10/11 : 10,716 % TTC (note du 01/01/2026) remplace 10,72 %",
+   "gestion arbitrée le 10/11 : 9 % HT statutaire publié (la décision antérieure not_certified_effective_rate est levée)"
   ],
   "sofidynamic": [
    "frais antérieurs (2,4 % / 12 %) conservés : déjà certifiés, identiques à la preuve de la première passe"
@@ -140,6 +140,18 @@
    "sofiprime": [
     "frais_gestion"
    ]
+  }
+ },
+ "arbitrated_2026_11_10": {
+  "decided_by": "Eric Bellaiche (validation du 10/11/2026, arbitrage proposé par la session)",
+  "funds": {
+   "accimmo-pierre": {
+    "frais_souscription": 10.716
+   },
+   "acces-valeur-pierre": {
+    "frais_souscription": 10.716,
+    "frais_gestion": 9
+   }
   }
  }
 }

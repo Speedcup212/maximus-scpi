@@ -47,11 +47,12 @@ test('no unproven management fee below 3 % remains in the public catalog', () =>
 
 test('already certified values and prior explicit decisions are untouched', () => {
   const kept = report.conflicts.map(c => `${c.slug}:${c.metric}`).sort();
-  // AVP gestion n'est plus projetée du tout (no_projection_reason) : la décision antérieure reste intacte au catalogue.
+  // Arbitrage du 10/11/2026 : Accimmo et AVP prennent les valeurs prouvées.
   const avp = bySlug.get('acces-valeur-pierre');
-  assert.equal(avp['Frais de gestion (HT/%)'], null);
-  assert.equal(avp.maximus_metric_provenance.frais_gestion.qa_status, 'not_certified_effective_rate');
-  assert.deepEqual(kept, ['acces-valeur-pierre:frais_souscription', 'accimmo-pierre:frais_souscription', 'edr-europa:frais_gestion',
+  assert.equal(avp['Frais de gestion (HT/%)'], 9);
+  assert.equal(avp['Frais de souscription (TTC/%)'], 10.716);
+  assert.equal(bySlug.get('accimmo-pierre')['Frais de souscription (TTC/%)'], 10.716);
+  assert.deepEqual(kept, ['edr-europa:frais_gestion',
     'sofidynamic:frais_gestion', 'sofidynamic:frais_souscription']);
 });
 

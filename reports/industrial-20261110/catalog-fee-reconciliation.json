@@ -1,6 +1,30 @@
 {
  "changes": [
   {
+   "slug": "acces-valeur-pierre",
+   "metric": "frais_souscription",
+   "before": 10.72,
+   "after": 10.716,
+   "tax_label": "TTC",
+   "page": 8
+  },
+  {
+   "slug": "acces-valeur-pierre",
+   "metric": "frais_gestion",
+   "before": null,
+   "after": 9.0,
+   "tax_label": "HT",
+   "page": 13
+  },
+  {
+   "slug": "accimmo-pierre",
+   "metric": "frais_souscription",
+   "before": 10.72,
+   "after": 10.716,
+   "tax_label": "TTC",
+   "page": 12
+  },
+  {
    "slug": "accimmo-pierre",
    "metric": "frais_gestion",
    "before": 8.75,
@@ -786,20 +810,6 @@
   }
  ],
  "conflicts": [
-  {
-   "slug": "acces-valeur-pierre",
-   "metric": "frais_souscription",
-   "issue": "valeur_deja_certifiee_conservee",
-   "catalog": 10.72,
-   "proven": 10.716
-  },
-  {
-   "slug": "accimmo-pierre",
-   "metric": "frais_souscription",
-   "issue": "valeur_deja_certifiee_conservee",
-   "catalog": 10.72,
-   "proven": 10.716
-  },
   {
    "slug": "edr-europa",
    "metric": "frais_gestion",

@@ -25,6 +25,31 @@
   }
  },
  {
+  "scpi_slug": "acces-valeur-pierre",
+  "column": "frais_gestion",
+  "value": 9.0,
+  "provenance": {
+   "verification_status": "verified",
+   "value_numeric": 9.0,
+   "tax_basis": "HT",
+   "tax_label": "HT",
+   "assessment_basis": "produits locatifs HT et produits financiers nets encaissés",
+   "valid_from": "2026-11-10",
+   "valid_from_basis": "observed_in_force_on_official_site",
+   "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-01/Acc%C3%A8s%20Valeur%20Pierre_Note%20d%27information_01012026.pdf",
+   "pdf_sha256": "b059fbe925fc507a10fb650f3282755cdfe8eb3d73a25d8007a35414e21d0d36",
+   "source_page": 13,
+   "evidence_text": "la SCPI. Pour la gestion et l'administration de la SCPI (fund management) et la gestion des biens sociaux (asset management), la Société de Gestion perçoit une commission de gestion assise sur les produits locatifs hors taxes et les produits financiers nets, encaissés par la Société. Le taux de cette rémunération est fixé à 9 % hors taxes au",
+   "document_kind": "note",
+   "product_identity_verified": true,
+   "semantic_review_verified": true,
+   "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+   "reliability_rank": 3,
+   "recovery_task": "RECOVERY-200",
+   "probe_run_id": "42773336564"
+  }
+ },
+ {
   "scpi_slug": "accimmo-pierre",
   "column": "frais_souscription",
   "value": 10.716,

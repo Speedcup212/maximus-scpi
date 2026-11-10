@@ -23,7 +23,7 @@
   "semantic_review_verified": true,
   "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
   "reason": null,
-  "note": "Note mise à jour le 1er janvier 2026 ; DIC du 06/01/2026 : 8,93 %. La base affiche 10,72 % (arrondi non sourcé) : conflit laissé à l'arbitrage.",
+  "note": "Note mise à jour le 1er janvier 2026 ; DIC du 06/01/2026 : 8,93 %. La base affiche 10,72 % (arrondi non sourcé) : conflit laissé à l'arbitrage. Arbitrage du 10/11/2026 validé par Eric Bellaiche : la valeur exacte de la note (8,93 % HT, 10,716 % TTC) remplace l'arrondi non sourcé 10,72 %.",
   "catalog_value_is_priips_cost": false,
   "probe_run_id": "42773336564",
   "evidence_context": "deux cent vingt-neuf (229) euros, majorée d'une prime d'émission, destinée à couvrir les frais d'acquisition des actifs immobiliers directs ou indirects et la commission de souscription TTC et, à préserver par son évolution l'égalité entre anciens et nouveaux associés. Le montant de la prime d'émission est fixé par la Société de Gestion et est indiqué dans le bulletin de souscription et le bulletin d'information. Prix de souscription des parts à compter du 10 septembre 2024 : • Valeur nominale : 229 euros • Prime d'émission : 536 euros • Prix de souscription : 765 euros net de frais Ce prix s'entend net de tous autres frais. Commission de souscription : Conformément aux dispositions statutaires, une commission de souscription fixée à 8,93 % hors taxes (soit 10,716 % TTC au taux de TVA en"
@@ -52,7 +52,7 @@
   "semantic_review_verified": true,
   "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
   "reason": null,
-  "note": null,
+  "note": "Arbitrage du 10/11/2026 validé par Eric Bellaiche : le taux statutaire de 9 % HT est publié comme commission de gestion, comme pour les autres SCPI ; les coûts PRIIPs du DIC restent distincts.",
   "catalog_value_is_priips_cost": false,
   "probe_run_id": "42773336564",
   "evidence_context": "la SCPI. Pour la gestion et l'administration de la SCPI (fund management) et la gestion des biens sociaux (asset management), la Société de Gestion perçoit une commission de gestion assise sur les produits locatifs hors taxes et les produits financiers nets, encaissés par la Société. Le taux de cette rémunération est fixé à 9 % hors taxes au"
@@ -85,7 +85,7 @@
   "semantic_review_verified": true,
   "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
   "reason": null,
-  "note": null,
+  "note": "Arbitrage du 10/11/2026 validé par Eric Bellaiche : la valeur exacte de la note (8,93 % HT, 10,716 % TTC) remplace l'arrondi non sourcé 10,72 %.",
   "catalog_value_is_priips_cost": false,
   "probe_run_id": "42773336564",
   "evidence_context": ",00 € • Prime d'émission : 140,00 € • Prix de souscription : 141,00 € Ce prix s'entend net de tous autres frais. Conformément aux dispositions statutaires, une commission de souscription fixée à 8,93 % hors taxes (soit 10,716 % TTC au taux de TVA en vigueur au 1er janvier 2024) du prix de souscription, soit 12,59 € HT (ou 15,11 € TTC), est prélevée sur le prix de souscription. Le prix de retrait, égal au prix d'émission du moment diminué de la commission de souscription HT, s'élève à 128,41 € la part. ÉVÉNEMENTS POSTÉRIEURS À LA CLÔTURE Depuis le 31 décembre 2025, date de clôture de l'exercice, l'évènement majeur survenu concerne les opérations militaires débutées le 28 février 2026 en Iran, provoquant une instabilité sur l'économie mondiale. Ces événements induits pourraient avoir un impa"

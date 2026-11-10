@@ -23,12 +23,10 @@ ROOT = pathlib.Path(__file__).resolve().parents[3]
 CATALOG = ROOT / 'src/data/scpi_complet.json'
 REPORT = ROOT / 'reports/industrial-20261109'
 FIELD = {'frais_souscription': 'Frais de souscription (TTC/%)', 'frais_gestion': 'Frais de gestion (HT/%)'}
-SKIP_ALREADY_CERTIFIED = {('accimmo-pierre', 'frais_souscription'), ('sofidynamic', 'frais_souscription'),
-                          ('sofidynamic', 'frais_gestion'), ('edr-europa', 'frais_gestion'),
-                          # Décision antérieure explicite (not_certified_effective_rate) : arbitrage humain requis.
-                          ('acces-valeur-pierre', 'frais_gestion'),
-                          # Même écart d'arrondi qu'Accimmo (10,72 contre 10,716 % TTC) : même traitement, arbitrage humain.
-                          ('acces-valeur-pierre', 'frais_souscription')}
+# Accimmo et Accès Valeur Pierre (souscription 10,716 % TTC, gestion AVP 9 % HT) : arbitrés le 10/11/2026
+# par Eric Bellaiche en faveur des valeurs prouvées ; ils ne sont plus protégés ici.
+SKIP_ALREADY_CERTIFIED = {('sofidynamic', 'frais_souscription'), ('sofidynamic', 'frais_gestion'),
+                          ('edr-europa', 'frais_gestion')}
 
 
 def slugify(name: str) -> str:

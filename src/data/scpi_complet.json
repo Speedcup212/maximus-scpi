@@ -7024,7 +7024,7 @@
     "Délai de jouissance (mois)": 2,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": null,
+    "Frais de gestion (HT/%)": 9.0,
     "WALT": null,
     "maximus_publication_status": "certified",
     "maximus_recommendation_status": "manual_review_required",
@@ -7051,7 +7051,7 @@
     "Nombre de locataires": 217,
     "Parts en attente de retrait": 129463,
     "Minimum de souscription €": 765,
-    "Frais de souscription (TTC/%)": 10.72,
+    "Frais de souscription (TTC/%)": 10.716,
     "WALB": 2,
     "Répartition Sectorielle JSON": {
       "Bureaux": 92.1,
@@ -7150,8 +7150,24 @@
       },
       "risk_warning": "129463 parts en attente; TOF T2 historique contradictoire entre les deux bulletins officiels",
       "frais_gestion": {
-        "reason": "Le plafond contractuel de commission et les coûts PRIIPs n'ont pas la même assiette ; aucun faux taux effectif ou zéro.",
-        "qa_status": "not_certified_effective_rate"
+        "verification_status": "verified",
+        "value_numeric": 9.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT et produits financiers nets encaissés",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-01/Acc%C3%A8s%20Valeur%20Pierre_Note%20d%27information_01012026.pdf",
+        "pdf_sha256": "b059fbe925fc507a10fb650f3282755cdfe8eb3d73a25d8007a35414e21d0d36",
+        "source_page": 13,
+        "evidence_text": "la SCPI. Pour la gestion et l'administration de la SCPI (fund management) et la gestion des biens sociaux (asset management), la Société de Gestion perçoit une commission de gestion assise sur les produits locatifs hors taxes et les produits financiers nets, encaissés par la Société. Le taux de cette rémunération est fixé à 9 % hors taxes au",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       },
       "tof_quarterly": {
         "qa_status": "qa_pass",
@@ -7309,6 +7325,26 @@
         "source_page": 5,
         "source_period": "2026-T3",
         "reference_date": "2026-06-30"
+      },
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 10.716,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "prix de souscription",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-01/Acc%C3%A8s%20Valeur%20Pierre_Note%20d%27information_01012026.pdf",
+        "pdf_sha256": "b059fbe925fc507a10fb650f3282755cdfe8eb3d73a25d8007a35414e21d0d36",
+        "source_page": 8,
+        "evidence_text": "actifs immobiliers directs ou indirects et la commission de souscription TTC et, à préserver par son évolution l'égalité entre anciens et nouveaux associés. Le montant de la prime d'émission est fixé par la Société de Gestion et est indiqué dans le bulletin de souscription et le bulletin d'information. Prix de souscription des parts à compter du 10 septembre 2024 : • Valeur nominale : 229 euros • Prime d'émission : 536 euros • Prix de souscription : 765 euros net de frais Ce prix s'entend net de tous autres frais. Commission de souscription : Conformément aux dispositions statutaires, une commission de souscription fixée à 8,93 % hors taxes (soit 10,716 % TTC au taux de TVA en",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       }
     },
     "maximus_source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
@@ -7348,7 +7384,8 @@
     },
     "maximus_valeur_realisation_source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
     "maximus_valeur_realisation_source_page": 5,
-    "maximus_walb_source_page": 4
+    "maximus_walb_source_page": 4,
+    "Frais de gestion - assiette": "produits locatifs HT et produits financiers nets encaissés"
   },
   {
     "Année de création": 1989,
@@ -7385,7 +7422,7 @@
     "Nombre de locataires": 363,
     "Parts en attente de retrait": 636021,
     "Minimum de souscription €": 141,
-    "Frais de souscription (TTC/%)": 10.72,
+    "Frais de souscription (TTC/%)": 10.716,
     "WALB": 3.03,
     "Répartition Sectorielle JSON": {
       "Bureaux": 64.2,
@@ -7708,6 +7745,26 @@
         "source_page": 5,
         "source_period": "2026-T3",
         "reference_date": "2026-06-30"
+      },
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 10.716,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "prix de souscription",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-06/AP_RA2025_web.pdf",
+        "pdf_sha256": "f548b268225d9d2fc7946f03b4d8053af9566762d7253330d2c47f6957d2d048",
+        "source_page": 12,
+        "evidence_text": ",00 € • Prime d'émission : 140,00 € • Prix de souscription : 141,00 € Ce prix s'entend net de tous autres frais. Conformément aux dispositions statutaires, une commission de souscription fixée à 8,93 % hors taxes (soit 10,716 % TTC au taux de TVA en vigueur au 1er janvier 2024) du prix de souscription, soit 12,59 € HT (ou 15,11 € TTC), est prélevée sur le prix de souscription. ",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       }
     },
     "maximus_source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
