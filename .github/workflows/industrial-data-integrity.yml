@@ -11,6 +11,8 @@ on:
       - 'src/tests/scpiFeeZero.test.ts'
       - 'src/data/scpi_complet.json'
       - 'reports/industrial-20261109/**'
+      - 'supabase/functions/scpi-evidence-certify/**'
+      - 'supabase/migrations/20261110_recovery200_*.sql'
       - '.github/workflows/industrial-data-integrity.yml'
 permissions:
   contents: read
@@ -24,7 +26,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: node --test scripts/industrial/*.test.mjs scripts/industrial/fees/catalog-fee-evidence.test.mjs
+      - run: node --test scripts/industrial/*.test.mjs scripts/industrial/fees/catalog-fee-evidence.test.mjs supabase/functions/scpi-evidence-certify/matcher.test.mjs
       - run: python3 -m unittest scripts/industrial/fees/fee_document_probe_test.py
       - run: npx vitest run src/tests/scpiFeeZero.test.ts src/tests/scpiPublicationQuality.test.ts
       - run: npx vite build

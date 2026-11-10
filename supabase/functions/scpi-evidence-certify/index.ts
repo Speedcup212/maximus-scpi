@@ -1,6 +1,9 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { MATCHER_REVISION, METRIC_PATTERNS as MATCHER_PATTERNS, compactSnippet, evidenceForNumeric } from "./matcher.mjs";
 
+// Ne pas changer sans migrer public.refresh_scpi_metric_certifications, qui n'accepte que cette version.
+// La révision du rapprocheur est tracée séparément (matcher_revision).
 const EVIDENCE_VERSION = "2026-09-30-v1-page-proof";
 const UA = "Mozilla/5.0 (compatible; MaximusSCPI-EvidenceBot/1.0; +https://maximusscpi.com)";
 const MAX_BATCH = 4;
@@ -25,58 +28,10 @@ type Evidence = {
   raw_value: number | string;
   unit: string | null;
   distance: number;
+  zero_rule?: "explicit";
 };
 
-type NumericOccurrence = {
-  value: number;
-  index: number;
-  end: number;
-  raw: string;
-};
-
-const METRIC_PATTERNS: Record<string, RegExp[]> = {
-  td: [/taux\s+de\s+distribution/i, /\bTD\b/i],
-  td_annee: [/taux\s+de\s+distribution/i, /\bTD\b/i],
-  tof: [/taux\s+d['’]?occupation\s+financier/i, /\bT\.?O\.?F\.?\b/i],
-  capitalisation: [/capitalisation/i],
-  prix_souscription: [/prix\s+de\s+souscription/i, /prix\s+de\s+la\s+part/i, /valeur\s+de\s+la\s+part/i],
-  prix_reconstitution: [/valeur\s+de\s+reconstitution/i],
-  prix_retrait: [/(?:prix|valeur)\s+de\s+retrait/i],
-  valeur_realisation: [/valeur\s+de\s+r[eé]alisation/i],
-  endettement: [/taux\s+d['’]?endettement/i, /ratio\s+(?:des\s+)?dettes/i, /\bendettement\b/i, /\bLTV\b/i, /dette\s+bancaire/i],
-  walt: [/\bWALT\b/i, /dur[eé]e\s+moyenne\s+restante\s+des\s+baux/i],
-  walb: [/\bWALB\b/i, /dur[eé]e\s+moyenne\s+ferme\s+des\s+baux/i],
-  collecte_nette: [/collecte\s+nette/i, /capitaux\s+collect[eé]s\s+nets?/i],
-  nombre_locataires: [/nombre\s+de\s+locataires/i, /\blocataires\b/i, /entreprises\s+locataires/i],
-  nombre_immeubles: [/nombre\s+d['’]?immeubles/i, /\bimmeubles\b/i, /nombre\s+d['’]?actifs/i, /\bactifs\s+immobiliers\b/i],
-  nombre_associes: [/nombre\s+d['’]?associ[eé]s/i, /\bassoci[eé]s\b/i],
-  nombre_parts: [/nombre\s+de\s+parts/i, /parts\s+en\s+circulation/i, /capital\s+s['’]?\s*[eé]l[eè]ve\s+[àa]\s+.*parts/i],
-  parts_attente_retrait: [/parts?\s+en\s+attente\s+de\s+retrait/i, /parts?\s+en\s+attente\s+au/i],
-  distribution_par_part: [/dividende/i, /distribution\s+(?:brute|par\s+part|revenus)/i, /acompte/i],
-  capital_type: [/capital\s+variable/i, /capital\s+fixe/i, /variabilit[eé]\s+du\s+capital/i, /march[eé]\s+secondaire/i],
-};
-
-const METRIC_UNITS: Record<string, string | null> = {
-  td: "%",
-  td_annee: "année",
-  tof: "%",
-  capitalisation: "M€",
-  prix_souscription: "€",
-  prix_reconstitution: "€",
-  prix_retrait: "€",
-  valeur_realisation: "€",
-  endettement: "%",
-  walt: "ans",
-  walb: "ans",
-  collecte_nette: "€",
-  nombre_locataires: "locataires",
-  nombre_immeubles: "immeubles",
-  nombre_associes: "associés",
-  nombre_parts: "parts",
-  parts_attente_retrait: "parts",
-  distribution_par_part: "€/part",
-  capital_type: null,
-};
+const METRIC_PATTERNS = MATCHER_PATTERNS as Record<string, RegExp[]>;
 
 function isStrongQa(value: unknown): boolean {
   const s = String(value || "").toLowerCase();
@@ -165,76 +120,6 @@ async function extractPdfPages(bytes: Uint8Array): Promise<PageText[]> {
   return pages;
 }
 
-function parseFrNumber(raw: string): number | null {
-  const s = raw.trim().replace(/\u00a0|\u202f/g, " ");
-  if (!s) return null;
-  const dot = s.lastIndexOf(".");
-  const comma = s.lastIndexOf(",");
-  let clean = s;
-  if (comma > dot) clean = s.replace(/[\s.]/g, "").replace(",", ".");
-  else if (dot > comma) clean = s.replace(/[\s,]/g, "");
-  else clean = s.replace(/\s/g, "");
-  const value = Number.parseFloat(clean);
-  return Number.isFinite(value) ? value : null;
-}
-
-function unitMultiplier(unit: string): number {
-  const u = unit.toLowerCase();
-  if (u.startsWith("md") || u.startsWith("milliard")) return 1e9;
-  if (u === "m€" || u.startsWith("million")) return 1e6;
-  if (u === "k€" || u.startsWith("millier")) return 1e3;
-  return 1;
-}
-
-function numericOccurrences(text: string): NumericOccurrence[] {
-  const out: NumericOccurrence[] = [];
-  const moneyRe = /(\d{1,3}(?:[ \u00a0\u202f]\d{3})+(?:[.,]\d+)?|\d+(?:[.,]\d+)?)\s*(Md€|M€|k€|€|milliards?|millions?|milliers?)/gi;
-  let m: RegExpExecArray | null;
-  while ((m = moneyRe.exec(text)) !== null) {
-    const parsed = parseFrNumber(m[1] || "");
-    if (parsed !== null) {
-      out.push({ value: parsed * unitMultiplier(m[2] || ""), index: m.index, end: m.index + m[0].length, raw: m[0] });
-      out.push({ value: parsed, index: m.index, end: m.index + m[0].length, raw: m[0] });
-    }
-  }
-
-  const numberRe = /\b(\d{1,3}(?:[ \u00a0\u202f]\d{3})+(?:[.,]\d+)?|\d+(?:[.,]\d+)?)\b/g;
-  while ((m = numberRe.exec(text)) !== null) {
-    const parsed = parseFrNumber(m[1] || "");
-    if (parsed !== null) out.push({ value: parsed, index: m.index, end: m.index + m[0].length, raw: m[0] });
-  }
-  return out;
-}
-
-function expectedTargets(metric: string, value: number): number[] {
-  if (metric === "capitalisation") return [value, value * 1e6];
-  if (metric === "collecte_nette") return [value, value / 1e6, value / 1e3];
-  return [value];
-}
-
-function tolerance(metric: string, expected: number): number {
-  if (["nombre_locataires", "nombre_immeubles", "nombre_associes", "nombre_parts", "parts_attente_retrait", "td_annee"].includes(metric)) return 0.49;
-  if (["td", "tof", "endettement"].includes(metric)) return Math.max(0.03, Math.abs(expected) * 0.0015);
-  if (["walt", "walb"].includes(metric)) return Math.max(0.03, Math.abs(expected) * 0.005);
-  if (["prix_souscription", "prix_reconstitution", "prix_retrait", "valeur_realisation", "distribution_par_part"].includes(metric)) return Math.max(0.03, Math.abs(expected) * 0.0015);
-  return Math.max(0.5, Math.abs(expected) * 0.003);
-}
-
-function valueMatches(metric: string, expected: number, actual: number): boolean {
-  return expectedTargets(metric, expected).some((target) => Math.abs(actual - target) <= tolerance(metric, target));
-}
-
-function cloneRegex(re: RegExp): RegExp {
-  const flags = re.flags.includes("g") ? re.flags : re.flags + "g";
-  return new RegExp(re.source, flags);
-}
-
-function compactSnippet(text: string, start: number, end: number): string {
-  const left = Math.max(0, start - 180);
-  const right = Math.min(text.length, end + 180);
-  return text.slice(left, right).replace(/\s+/g, " ").trim().slice(0, 900);
-}
-
 function evidenceForCapitalType(value: string, pages: PageText[], isHtml: boolean): Evidence | null {
   const wanted = value.toLowerCase();
   const patterns = wanted === "variable"
@@ -258,64 +143,6 @@ function evidenceForCapitalType(value: string, pages: PageText[], isHtml: boolea
   return null;
 }
 
-function evidenceForNumeric(metric: string, value: number, pages: PageText[], isHtml: boolean): Evidence | null {
-  const patterns = METRIC_PATTERNS[metric] || [];
-  let best: { page: PageText; aliasStart: number; aliasEnd: number; number: NumericOccurrence; distance: number } | null = null;
-
-  for (const page of pages) {
-    if (!page.text) continue;
-    const numbers = numericOccurrences(page.text).filter((n) => valueMatches(metric, value, n.value));
-
-    if (metric === "parts_attente_retrait" && value === 0) {
-      const zeroSemantic = /aucune\s+part\s+en\s+attente|0\s+parts?\s+en\s+attente/i.exec(page.text);
-      if (zeroSemantic) {
-        return {
-          page: isHtml ? null : page.page,
-          text: compactSnippet(page.text, zeroSemantic.index, zeroSemantic.index + zeroSemantic[0].length),
-          method: isHtml ? "html_text_match" : "pdf_page_text_match",
-          value_match: true,
-          raw_value: value,
-          unit: METRIC_UNITS[metric] ?? null,
-          distance: 0,
-        };
-      }
-    }
-
-    if (!numbers.length) continue;
-    for (const baseRe of patterns) {
-      const re = cloneRegex(baseRe);
-      let m: RegExpExecArray | null;
-      while ((m = re.exec(page.text)) !== null) {
-        const aliasStart = m.index;
-        const aliasEnd = m.index + m[0].length;
-        for (const number of numbers) {
-          const distance = number.index > aliasEnd
-            ? number.index - aliasEnd
-            : aliasStart > number.end
-              ? aliasStart - number.end
-              : 0;
-          if (distance > 850) continue;
-          if (!best || distance < best.distance) best = { page, aliasStart, aliasEnd, number, distance };
-        }
-        if (re.lastIndex === m.index) re.lastIndex++;
-      }
-    }
-  }
-
-  if (!best) return null;
-  const start = Math.min(best.aliasStart, best.number.index);
-  const end = Math.max(best.aliasEnd, best.number.end);
-  return {
-    page: isHtml ? null : best.page.page,
-    text: compactSnippet(best.page.text, start, end),
-    method: isHtml ? "html_text_match" : "pdf_page_text_match",
-    value_match: true,
-    raw_value: value,
-    unit: METRIC_UNITS[metric] ?? null,
-    distance: best.distance,
-  };
-}
-
 function buildEvidence(metrics: Record<string, unknown>, pages: PageText[], isHtml: boolean): Record<string, Evidence> {
   const evidence: Record<string, Evidence> = {};
   for (const [metric, rawValue] of Object.entries(metrics || {})) {
@@ -326,7 +153,7 @@ function buildEvidence(metrics: Record<string, unknown>, pages: PageText[], isHt
       continue;
     }
     if (typeof rawValue === "number" && Number.isFinite(rawValue)) {
-      const proof = evidenceForNumeric(metric, rawValue, pages, isHtml);
+      const proof = evidenceForNumeric(metric, rawValue, pages, isHtml) as Evidence | null;
       if (proof) evidence[metric] = proof;
     }
   }
@@ -353,6 +180,7 @@ async function processBulletin(db: any, row: BulletinRow) {
     ...extraction,
     evidence,
     evidence_version: EVIDENCE_VERSION,
+    matcher_revision: MATCHER_REVISION,
     evidence_generated_at: new Date().toISOString(),
     evidence_stats: {
       metric_count: metricCount,
