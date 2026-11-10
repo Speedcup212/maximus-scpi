@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "publisher": "Advenis REIM",
+  "approved_hosts": [
+    "www.advenis-reim.com"
+  ],
+  "documents": [
+    {
+      "slug": "eurovalys",
+      "name": "Eurovalys",
+      "source_page": "https://www.advenis-reim.com/scpi_sc/scpi-eurovalys/",
+      "source_url": "https://www.advenis-reim.com/wp-content/uploads/2026/08/Eurovalys_BT_2T_2026.pdf",
+      "period": "2026-T2",
+      "kind": "quarterly_bulletin"
+    }
+  ]
+}
