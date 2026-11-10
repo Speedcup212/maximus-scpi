@@ -47,9 +47,10 @@ def main():
         for fee, column in FEE.items():
             before = num(f[f'base_avant_{fee}'])
             after = num(f[f'base_apres_{fee}'])
+            guarded = column in anomalies.get('projection_blocked', {}).get('funds', {}).get(slug, [])
             if fee == 'souscription' and slug in not_applicable:
                 after = None
-            elif after is None and (slug, column) in patches:
+            elif after is None and (slug, column) in patches and not guarded:
                 after = patches[(slug, column)]
             line[f'avant_{fee}'] = before
             line[f'apres_{fee}'] = after
@@ -57,7 +58,10 @@ def main():
                 'zero' if after == 0 else ('valeur' if after is not None else 'inconnu'))
             line[f'preuve_{fee}'] = proof_label(rows[(slug, fee)])
         line['t3'] = anomalies.get('t3', {}).get(slug, f['t3'])
-        line['anomalies'] = ' ; '.join(anomalies.get('by_scpi', {}).get(slug, [])) or '—'
+        notes = list(anomalies.get('by_scpi', {}).get(slug, []))
+        for column in anomalies.get('projection_blocked', {}).get('funds', {}).get(slug, []):
+            notes.append(f"{column} prouvé ({patches.get((slug, column))!s} %) non projeté en base : instantané manuel protégé ; affiché via le catalogue après déploiement")
+        line['anomalies'] = ' ; '.join(notes) or '—'
         out.append(line)
     fields = list(out[0])
     with (V2 / 'RECOVERY-200-69-scpi.csv').open('w', newline='') as handle:

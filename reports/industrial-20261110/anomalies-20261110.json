@@ -108,5 +108,28 @@
   "novapierre-1": [
    "dossier 2024 incohérent (8 % HT annoncé à 12 % TTC) ; la note du 01/01/2026 (8 % HT, 9,6 % TTC) prévaut"
   ]
+ },
+ "projection_blocked": {
+  "reason": "Projection refusée par la garde guard_scpi_indicator_live_quality : instantané d'indicateurs vérifié manuellement, protégé contre toute écriture automatique. Le frais prouvé est au registre et au catalogue ; il sera affiché via le catalogue après déploiement, ou en base après validation manuelle.",
+  "funds": {
+   "atream-hotel": [
+    "frais_souscription"
+   ],
+   "buroboutic-metropoles": [
+    "frais_gestion"
+   ],
+   "comete": [
+    "frais_souscription"
+   ],
+   "ncap-continent": [
+    "frais_gestion"
+   ],
+   "ncap-education-sante": [
+    "frais_gestion"
+   ],
+   "sofiprime": [
+    "frais_gestion"
+   ]
+  }
  }
 }
