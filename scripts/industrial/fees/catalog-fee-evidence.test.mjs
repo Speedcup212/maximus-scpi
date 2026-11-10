@@ -47,7 +47,7 @@ test('no unproven management fee below 3 % remains in the public catalog', () =>
 
 test('already certified values and prior explicit decisions are untouched', () => {
   const kept = report.conflicts.map(c => `${c.slug}:${c.metric}`).sort();
-  assert.deepEqual(kept, ['acces-valeur-pierre:frais_gestion', 'accimmo-pierre:frais_souscription', 'edr-europa:frais_gestion',
+  assert.deepEqual(kept, ['acces-valeur-pierre:frais_gestion', 'acces-valeur-pierre:frais_souscription', 'accimmo-pierre:frais_souscription', 'edr-europa:frais_gestion',
     'sofidynamic:frais_gestion', 'sofidynamic:frais_souscription']);
 });
 

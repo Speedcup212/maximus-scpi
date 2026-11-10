@@ -1,6 +1,14 @@
 {
  "changes": [
   {
+   "slug": "accimmo-pierre",
+   "metric": "frais_gestion",
+   "before": null,
+   "after": 8.75,
+   "tax_label": "HT",
+   "page": 15
+  },
+  {
    "slug": "activimmo",
    "metric": "frais_gestion",
    "before": 10.0,
@@ -11,7 +19,7 @@
   {
    "slug": "aestiam-agora",
    "metric": "frais_gestion",
-   "before": 10,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 24
@@ -41,12 +49,36 @@
    "page": 2
   },
   {
+   "slug": "atream-hotel",
+   "metric": "frais_souscription",
+   "before": 10,
+   "after": 12.0,
+   "tax_label": "TTC",
+   "page": 23
+  },
+  {
+   "slug": "buroboutic-metropoles",
+   "metric": "frais_gestion",
+   "before": 9.5,
+   "after": 9.5,
+   "tax_label": "HT",
+   "page": 9
+  },
+  {
    "slug": "coeur-d-europe",
    "metric": "frais_souscription",
    "before": 12.0,
    "after": 12.0,
    "tax_label": "TTC",
    "page": 6
+  },
+  {
+   "slug": "coeur-d-europe",
+   "metric": "frais_gestion",
+   "before": 10,
+   "after": 10.0,
+   "tax_label": "HT",
+   "page": 24
   },
   {
    "slug": "coeur-de-region",
@@ -57,12 +89,36 @@
    "page": 6
   },
   {
+   "slug": "coeur-de-region",
+   "metric": "frais_gestion",
+   "before": 10,
+   "after": 10.0,
+   "tax_label": "HT",
+   "page": 19
+  },
+  {
    "slug": "coeur-de-ville",
    "metric": "frais_souscription",
    "before": 12.0,
    "after": 12.0,
    "tax_label": "TTC",
    "page": 6
+  },
+  {
+   "slug": "coeur-de-ville",
+   "metric": "frais_gestion",
+   "before": null,
+   "after": 10.0,
+   "tax_label": "HT",
+   "page": 18
+  },
+  {
+   "slug": "comete",
+   "metric": "frais_souscription",
+   "before": 10,
+   "after": 12.0,
+   "tax_label": "TTC",
+   "page": 21
   },
   {
    "slug": "comete",
@@ -123,7 +179,7 @@
   {
    "slug": "credit-mutuel-pierre-1",
    "metric": "frais_gestion",
-   "before": 10,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 23
@@ -163,7 +219,7 @@
   {
    "slug": "epargne-fonciere",
    "metric": "frais_souscription",
-   "before": 7.5,
+   "before": 9.0,
    "after": 9.0,
    "tax_label": "TTC",
    "page": 22
@@ -171,7 +227,7 @@
   {
    "slug": "epargne-fonciere",
    "metric": "frais_gestion",
-   "before": 10,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 22
@@ -179,7 +235,7 @@
   {
    "slug": "epargne-pierre",
    "metric": "frais_souscription",
-   "before": 12,
+   "before": 12.0,
    "after": 12.0,
    "tax_label": "TTC",
    "page": 15
@@ -187,7 +243,7 @@
   {
    "slug": "epargne-pierre",
    "metric": "frais_gestion",
-   "before": null,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 15
@@ -207,6 +263,14 @@
    "after": 10.0,
    "tax_label": "HT",
    "page": 19
+  },
+  {
+   "slug": "ficommerce-proximite",
+   "metric": "frais_gestion",
+   "before": 11.4,
+   "after": 9.5,
+   "tax_label": "HT",
+   "page": 9
   },
   {
    "slug": "fonciere-des-praticiens",
@@ -241,9 +305,17 @@
    "page": 10
   },
   {
+   "slug": "immorente",
+   "metric": "frais_gestion",
+   "before": 10,
+   "after": 10.0,
+   "tax_label": "HT",
+   "page": 19
+  },
+  {
    "slug": "iroko-atlas",
    "metric": "frais_souscription",
-   "before": 0,
+   "before": 0.0,
    "after": 0.0,
    "tax_label": "TTC",
    "page": 27
@@ -251,7 +323,7 @@
   {
    "slug": "iroko-zen",
    "metric": "frais_souscription",
-   "before": 0,
+   "before": 0.0,
    "after": 0.0,
    "tax_label": "TTC",
    "page": 31
@@ -259,7 +331,7 @@
   {
    "slug": "iroko-zen",
    "metric": "frais_gestion",
-   "before": 14.4,
+   "before": 12.0,
    "after": 12.0,
    "tax_label": "HT",
    "page": 31
@@ -275,7 +347,7 @@
   {
    "slug": "lf-avenir-sante",
    "metric": "frais_souscription",
-   "before": 9,
+   "before": 10.8,
    "after": 10.8,
    "tax_label": "TTC",
    "page": 28
@@ -283,7 +355,7 @@
   {
    "slug": "lf-avenir-sante",
    "metric": "frais_gestion",
-   "before": 10,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 28
@@ -291,7 +363,7 @@
   {
    "slug": "lf-europimmo",
    "metric": "frais_souscription",
-   "before": 8,
+   "before": 9.6,
    "after": 9.6,
    "tax_label": "TTC",
    "page": 22
@@ -299,7 +371,7 @@
   {
    "slug": "lf-grand-paris-patrimoine",
    "metric": "frais_gestion",
-   "before": 10,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 25
@@ -307,7 +379,7 @@
   {
    "slug": "log-in",
    "metric": "frais_souscription",
-   "before": 12,
+   "before": 12.0,
    "after": 12.0,
    "tax_label": "TTC",
    "page": 32
@@ -315,7 +387,7 @@
   {
    "slug": "log-in",
    "metric": "frais_gestion",
-   "before": null,
+   "before": 12.0,
    "after": 12.0,
    "tax_label": "HT",
    "page": 31
@@ -329,12 +401,28 @@
    "page": 12
   },
   {
+   "slug": "ncap-continent",
+   "metric": "frais_gestion",
+   "before": null,
+   "after": 12.0,
+   "tax_label": "HT",
+   "page": 18
+  },
+  {
    "slug": "ncap-education-sante",
    "metric": "frais_souscription",
    "before": 12.0,
    "after": 12.0,
    "tax_label": "TTC",
    "page": 11
+  },
+  {
+   "slug": "ncap-education-sante",
+   "metric": "frais_gestion",
+   "before": null,
+   "after": 10.0,
+   "tax_label": "HT",
+   "page": 16
   },
   {
    "slug": "ncap-regions",
@@ -353,6 +441,22 @@
    "page": 17
   },
   {
+   "slug": "novapierre-1",
+   "metric": "frais_souscription",
+   "before": 8,
+   "after": 9.6,
+   "tax_label": "TTC",
+   "page": 16
+  },
+  {
+   "slug": "novapierre-1",
+   "metric": "frais_gestion",
+   "before": 8,
+   "after": 8.0,
+   "tax_label": "HT",
+   "page": 30
+  },
+  {
    "slug": "novapierre-residentiel",
    "metric": "frais_souscription",
    "before": 9.948,
@@ -367,6 +471,22 @@
    "after": 8.0,
    "tax_label": "HT",
    "page": 10
+  },
+  {
+   "slug": "novaxia-neo",
+   "metric": "frais_souscription",
+   "before": 0,
+   "after": 0.0,
+   "tax_label": "TTC",
+   "page": 29
+  },
+  {
+   "slug": "novaxia-neo",
+   "metric": "frais_gestion",
+   "before": 15,
+   "after": 15.0,
+   "tax_label": "HT",
+   "page": 28
   },
   {
    "slug": "opportunite-immo",
@@ -401,12 +521,28 @@
    "page": 21
   },
   {
+   "slug": "paref-evo",
+   "metric": "frais_gestion",
+   "before": 11,
+   "after": 11.0,
+   "tax_label": "HT",
+   "page": 31
+  },
+  {
    "slug": "paref-hexa",
    "metric": "frais_souscription",
    "before": 12.0,
    "after": 12.0,
    "tax_label": "TTC",
    "page": 12
+  },
+  {
+   "slug": "paref-hexa",
+   "metric": "frais_gestion",
+   "before": 8,
+   "after": 8.0,
+   "tax_label": "HT",
+   "page": 32
   },
   {
    "slug": "patrimmo-commerce",
@@ -419,7 +555,7 @@
   {
    "slug": "perial-hospitalite-europe",
    "metric": "frais_souscription",
-   "before": 8.5,
+   "before": 10.2,
    "after": 10.2,
    "tax_label": "TTC",
    "page": 19
@@ -427,7 +563,7 @@
   {
    "slug": "perial-hospitalite-europe",
    "metric": "frais_gestion",
-   "before": 9,
+   "before": 9.0,
    "after": 9.0,
    "tax_label": "HT",
    "page": 19
@@ -435,7 +571,7 @@
   {
    "slug": "perial-o2",
    "metric": "frais_gestion",
-   "before": null,
+   "before": 11.5,
    "after": 11.5,
    "tax_label": "HT",
    "page": 22
@@ -443,7 +579,7 @@
   {
    "slug": "perial-opportunites-europe",
    "metric": "frais_souscription",
-   "before": 9.5,
+   "before": 11.4,
    "after": 11.4,
    "tax_label": "TTC",
    "page": 20
@@ -451,7 +587,7 @@
   {
    "slug": "perial-opportunites-europe",
    "metric": "frais_gestion",
-   "before": 10,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 20
@@ -507,10 +643,18 @@
   {
    "slug": "selectinvest-1",
    "metric": "frais_gestion",
-   "before": 9,
+   "before": 9.0,
    "after": 9.0,
    "tax_label": "HT",
    "page": 23
+  },
+  {
+   "slug": "selectipierre-2",
+   "metric": "frais_gestion",
+   "before": 9.2,
+   "after": 9.2,
+   "tax_label": "HT",
+   "page": 8
   },
   {
    "slug": "sofiprime",
@@ -521,9 +665,17 @@
    "page": 15
   },
   {
+   "slug": "sofiprime",
+   "metric": "frais_gestion",
+   "before": null,
+   "after": 10.0,
+   "tax_label": "HT",
+   "page": 15
+  },
+  {
    "slug": "transitions-europe",
    "metric": "frais_souscription",
-   "before": 10,
+   "before": 12.0,
    "after": 12.0,
    "tax_label": "TTC",
    "page": 22
@@ -531,7 +683,7 @@
   {
    "slug": "transitions-europe",
    "metric": "frais_gestion",
-   "before": 10,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 23
@@ -546,6 +698,14 @@
   },
   {
    "slug": "wemo-one",
+   "metric": "frais_souscription",
+   "before": 10,
+   "after": 12.0,
+   "tax_label": "TTC",
+   "page": 19
+  },
+  {
+   "slug": "wemo-one",
    "metric": "frais_gestion",
    "before": 11.0,
    "after": 11.0,
@@ -555,7 +715,7 @@
   {
    "slug": "credit-mutuel-pierre-1",
    "metric": "frais_souscription",
-   "before": 8,
+   "before": null,
    "after": null,
    "tax_label": null,
    "page": null,
@@ -564,7 +724,7 @@
   {
    "slug": "lf-grand-paris-patrimoine",
    "metric": "frais_souscription",
-   "before": 8,
+   "before": null,
    "after": null,
    "tax_label": null,
    "page": null,
@@ -573,7 +733,7 @@
   {
    "slug": "patrimmo-commerce",
    "metric": "frais_souscription",
-   "before": 9.0,
+   "before": null,
    "after": null,
    "tax_label": null,
    "page": null,
@@ -582,7 +742,7 @@
   {
    "slug": "patrimmo-croissance-impact",
    "metric": "frais_souscription",
-   "before": 11.76,
+   "before": null,
    "after": null,
    "tax_label": null,
    "page": null,
@@ -591,7 +751,7 @@
   {
    "slug": "perial-grand-paris",
    "metric": "frais_souscription",
-   "before": 9.5,
+   "before": null,
    "after": null,
    "tax_label": null,
    "page": null,
@@ -600,7 +760,7 @@
   {
    "slug": "perial-o2",
    "metric": "frais_souscription",
-   "before": 11.5,
+   "before": null,
    "after": null,
    "tax_label": null,
    "page": null,
@@ -609,7 +769,7 @@
   {
    "slug": "primovie",
    "metric": "frais_souscription",
-   "before": 9.0,
+   "before": null,
    "after": null,
    "tax_label": null,
    "page": null,
@@ -618,7 +778,7 @@
   {
    "slug": "selectinvest-1",
    "metric": "frais_souscription",
-   "before": 6.25,
+   "before": null,
    "after": null,
    "tax_label": null,
    "page": null,
@@ -626,6 +786,13 @@
   }
  ],
  "conflicts": [
+  {
+   "slug": "acces-valeur-pierre",
+   "metric": "frais_souscription",
+   "issue": "valeur_deja_certifiee_conservee",
+   "catalog": 10.72,
+   "proven": 10.716
+  },
   {
    "slug": "acces-valeur-pierre",
    "metric": "frais_gestion",

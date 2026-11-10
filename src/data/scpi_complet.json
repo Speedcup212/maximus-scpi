@@ -451,7 +451,7 @@
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 10,
+    "Frais de souscription (TTC/%)": 12.0,
     "Nombre d'immeubles": 23,
     "Nombre d'associés": 5873,
     "Nombre de parts": 323928,
@@ -465,7 +465,29 @@
     "Article SFDR": "8",
     "niveau_risque_dic": 3,
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 1064.33
+    "Valeur de reconstitution par part (€)": 1064.33,
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 12.0,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "montant de chaque souscription, prime d'émission incluse",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://atream.com/wp-content/uploads/2026/07/2026-06-SCPI-AH-NI-21072026clean.pdf",
+        "pdf_sha256": "346b8e55a6c291421ef4b18a57247a000beb496079e3a3a4be938f21672b77a1",
+        "source_page": 23,
+        "evidence_text": "e d'information – SCPI ATREAM HÔTELS 23 • Une commission de souscription perçue par la Société de Gestion correspondant à 10% HT (soit 12% TTC au taux de TVA en vigueur) du montant de chaque souscription, prime d'émission incluse, afin d'assurer la prospection et la collecte des capitaux ainsi que l'exécution des programmes d'investissement. La Société de Gestion se réserve le ",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    }
   },
   {
     "Nom SCPI": "Buroboutic Métropoles",
@@ -517,7 +539,30 @@
       "Risque de liquidité : marché/variabilité suspendu ou marché secondaire ; 314 596 parts en attente de retrait (source : BTI Buroboutic T1 2026.pdf)"
     ],
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 76.59
+    "Valeur de reconstitution par part (€)": 76.59,
+    "maximus_metric_provenance": {
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 9.5,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.fiducial-gerance.fr/content/download/547/file/Note%20d%27information%20et%20statuts%20Buroboutic%20-%2001.2026.pdf?version=6",
+        "pdf_sha256": "bfb7c365e2a89a3fd25bc1515d282cf5bb07466daf9aa94c9bafb7464ad49396",
+        "source_page": 9,
+        "evidence_text": " conséquence. 6°/ Actualisation du taux de la commission de gestion en cohérence avec la pratique de marché et l'accroissement des obligations de reporting extra-financier liées au développement durable internaliser En considération de l'analyse de la pratique de marché et de l'accroissement des obligations de reporting extra-financier liées au développement durable dont les prestations sont internalisées progressivement par la Société de Gestion, le taux de la commission de gestion a été porté de 9% à 9,5% entraîn",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets"
   },
   {
     "Nom SCPI": "Coeur de Région",
@@ -539,7 +584,7 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "trimestrielle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": 10,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "Régions (86,0%), Île-de-France (14,0%)",
     "Répartition Sectorielle": "Bureaux (51,08%), Commerces (29,62%), Logistique et locaux d'activités (17,47%), Santé et éducation (1,77%), Alternatifs (0,06%)",
     "Répartition Géographique JSON": {
@@ -595,8 +640,29 @@
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
         "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.sogenial.fr/wp-content/uploads/2026/08/Note-dinformation-%E2%80%93-Coeur-de-Regions.pdf",
+        "pdf_sha256": "7c9201029383e2673e068f7f49e18b5905f8ccb70e77f02b87b81c000a58a52c",
+        "source_page": 19,
+        "evidence_text": "amment les primes d'assurance des immeubles et les frais de gestion des indivisions. 2. RÉMUNÉRATION DE LA SOCIÉTÉ DE GESTION La Société de gestion perçoit, les rémunérations suivantes pour les frais incombant aux associés : • Commission de souscription Afn de préparer les augmentations de capital, rechercher les capitaux, organiser et exécuter les programmes d'investissement la société reçoit une commission de souscription de 10 % HT (soit 12 % TTC au taux actuellement en vigueur) du prix de souscription (prime d'",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       }
-    }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets"
   },
   {
     "Nom SCPI": "Coeur de ville",
@@ -618,7 +684,7 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": null,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "Province (83.0%), Paris (17.0%)",
     "Répartition Sectorielle": "Commerces alimentaires (48.28%), Commerces non alimentaires (27.72%), Services (20.72%), Santé et éducation (3.27%)",
     "Répartition Géographique JSON": {
@@ -714,12 +780,27 @@
         "probe_run_id": "42773336564"
       },
       "frais_gestion": {
-        "verification_status": "partial",
-        "value_state": "unknown",
-        "reason": "Valeur héritée égale au coût PRIIPs du DIC (assiette : valeur de l'investissement), retirée ; commission de gestion sur les loyers non encore prouvée.",
-        "recovery_task": "RECOVERY-200"
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.sogenial.fr/wp-content/uploads/2026/10/Coeur-de-Ville-Note-dinformation.pdf",
+        "pdf_sha256": "1541bec4a384b2d58b480cf37ec05d402885fc4c77cfd0f754d96b9859d4bb06",
+        "source_page": 18,
+        "evidence_text": "vigueur), prélevée sur la prime d'émission. • Commission de gestion Pour l'administration de la SCPI COEUR DE VILLE et la gestion des biens sociaux : Une commission forfaitaire de 10 % HT ( 12 % TTC au taux actuellement en vigueur) du montant des produits locatifs HT encaissés par la SCPI et des produits fnanciers nets également encaissés par la SCPI. Cette rémunération est des",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       }
-    }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets"
   },
   {
     "Nom SCPI": "Coeur d'Europe",
@@ -741,7 +822,7 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "trimestrielle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": 10,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "Portugal (36.8%), Espagne (35.9%), Belgique (20.4%), Allemagne (6.9%)",
     "Répartition Sectorielle": "Commerces (54.32%), Bureaux (26.68%), Logistique et locaux d'activités (14.62%), Santé et éducation (4.38%)",
     "Répartition Géographique JSON": {
@@ -804,8 +885,29 @@
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
         "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.sogenial.fr/wp-content/uploads/2026/08/Note-dinformation-%E2%80%93-Coeur-dEurope.pdf",
+        "pdf_sha256": "9a07bcb92ba81fec9357b586f761291ef2b02c183143d99fe6a6c093d4b865bd",
+        "source_page": 24,
+        "evidence_text": "amment les primes d'assurance des immeubles et les frais de gestion des indivisions. 2. RÉMUNÉRATION DE LA SOCIÉTÉ DE GESTION La Société de Gestion perçoit, les rémunérations suivantes pour les frais incombant aux associés : • Commission de souscription Afn de préparer les augmentations de capital, rechercher les capitaux, organiser et exécuter les programmes d'investissement la société reçoit une commission de souscription de 10 % HT (soit 12 % TTC au taux actuellement en vigueur) du prix de souscription (prime d'",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       }
-    }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets"
   },
   {
     "Nom SCPI": "Comète",
@@ -862,7 +964,7 @@
     "Nombre de cessions trimestre": 0,
     "Actualités trimestrielles": "T2 2026 : 7 acquisitions pour 72,6 M€ hors droits | 133,1 M€ de collecte nette au T2 2026 | 786,9 M€ de capitalisation au 30/06/2026 | TOF 99,6 % hors développements | 40 actifs, 115 locataires et 121 baux | Valeur de reconstitution 254,73 € par part | 5,56 € distribués au titre du T2 2026 | Aucun actif cédé au cours du trimestre",
     "Période bulletin trimestriel": "T2 2026",
-    "Frais de souscription (TTC/%)": 10,
+    "Frais de souscription (TTC/%)": 12.0,
     "maximus_data_status": "extracted_t2_2026",
     "maximus_source_document": "Alderan — Bulletin périodique d'information Comète T2 2026 n°26-02",
     "maximus_source_periode": "T2 2026",
@@ -893,6 +995,26 @@
         "pdf_sha256": "89cfa0915500c22af03f082abd15546997cde16cacfb60bdb089bee8fbd3a6dd",
         "source_page": 31,
         "evidence_text": "itue donc pas un coût pour le souscripteur 2. COMMISSION DE GESTION La Société de Gestion perçoit définitivement, au fur et à mesure de leur encaissement, 11% HT (TVA en sus au taux en vigueur) des recettes de toute nature encaissées HT par la société (loyers et produits financiers nets). La TVA est récupérée par la SCPI, elle ne constitue donc pas un coût pour le souscripteur.",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 12.0,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "prix de souscription (facturée à la SCPI)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://alderan.fr/wp-content/uploads/2025/04/2026.07.07-SCPI-Comete-Note-dinformation-et-annexe.pdf",
+        "pdf_sha256": "89cfa0915500c22af03f082abd15546997cde16cacfb60bdb089bee8fbd3a6dd",
+        "source_page": 21,
+        "evidence_text": "statuer sur les comptes de l'exercice. 7.1.2. Commission de souscription La commission de souscription, facturée à la SCPI, est égale à dix pour cent hors taxes (10,0% HT) soit douze pour cent toutes taxes comprises (12% TTC) maximum, et est acquise à la Société de Gestion pour couvrir notamment les frais de prospection et de collecte de capitaux, ainsi que les frais de recherc",
         "document_kind": "note",
         "product_identity_verified": true,
         "semantic_review_verified": true,
@@ -1659,7 +1781,7 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": 8,
+    "Frais de gestion (HT/%)": 8.0,
     "Répartition Géographique": "Autres régions (30.8%), Paris (28.6%), 12 métropoles régionales (21.2%), Ile-de-France hors Paris (19.4%)",
     "Répartition Sectorielle": "Alimentaire (15.2%), Santé (9.8%), Équipement de la maison (30.3%), Restauration (15.7%), Services (12.5%), Culture et loisirs (6.6%), Autres (9.9%)",
     "Répartition Géographique JSON": {
@@ -1683,7 +1805,7 @@
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 8,
+    "Frais de souscription (TTC/%)": 9.6,
     "Nombre d'associés": 2370,
     "Nombre de parts": 389384,
     "Distribution trimestrielle T1 2026 (€/part)": 4.44,
@@ -1701,7 +1823,50 @@
       "Risque de liquidité : 31 398 parts en attente de retrait (source : 5d377050-5149-4b11-9968-ac9cecb2c92c-BTI-T1-2026-Novapierre-1.pdf)"
     ],
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 436.06
+    "Valeur de reconstitution par part (€)": 436.06,
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 9.6,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "prix d'émission",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://paref-gestion.com/wp-content/uploads/2026/01/ac7d4470-0f82-4043-bd24-6e1acce6a906-01.01.2026-NI-Novapierre-1.pdf",
+        "pdf_sha256": "8f0780f7ce3a649614ae09294226d29c8a47405ca93ae36caa874a08e81dda62",
+        "source_page": 16,
+        "evidence_text": "uveau existant. La prime d'émission inclut la commission de souscription, laquelle est imputée sur la prime d'émission. Commission de souscription : La commission de souscription, facturée à la SCPI, est au plus égale à huit pour cent (8 %) hors taxes (« HT ») (soit une charge nette pour le souscripteur de huit pour cent (8 %) (à majorer de la TVA au taux en vigueur, soit neuf virgule six pour cent (9,6 %) toutes taxes comprises (« TTC ») pour un taux de TVA de vingt pour cent (20 %)) du prix d'émission. La commiss",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 8.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "recettes de toute nature encaissées HT (loyers et produits financiers)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://paref-gestion.com/wp-content/uploads/2026/01/ac7d4470-0f82-4043-bd24-6e1acce6a906-01.01.2026-NI-Novapierre-1.pdf",
+        "pdf_sha256": "8f0780f7ce3a649614ae09294226d29c8a47405ca93ae36caa874a08e81dda62",
+        "source_page": 30,
+        "evidence_text": "qu'elle souhaite appliquer pour l'avenir. 2.2 Commission de gestion La Société de Gestion perçoit définitivement, au fur et à mesure de leur encaissement, huit pour cent (8 %) HT (à majorer de la TVA au taux en vigueur, soit neuf virgule six pour cent (9,6 %) TTC pour un taux de TVA de vingt pour cent (20 %)) des recettes de toute nature encaissées HT par la Société (loyers et ",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "recettes de toute nature encaissées HT (loyers et produits financiers)"
   },
   {
     "Nom SCPI": "Novapierre Résidentiel",
@@ -1812,7 +1977,7 @@
     "Délai de jouissance (mois)": "NC",
     "Versement des loyers": "Mensuelle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": 15,
+    "Frais de gestion (HT/%)": 15.0,
     "Répartition Géographique": "France (54.0%), Allemagne (28.0%), Espagne (8.0%), Irlande (7.0%), Belgique (3.0%)",
     "Répartition Sectorielle": "Bureaux (93.00%), Hôtels (4.00%), Activités (2.00%), Enseignement (1.00%)",
     "Répartition Géographique JSON": {
@@ -1842,7 +2007,7 @@
     "WALT": null,
     "WALB": 3.5,
     "Actualités trimestrielles": "Capitalisation de 427,9 M€ au 30/09/2025 | 39 actifs immobiliers | 129 locataires | 230 279 m² de surface totale | 550 M€ de valeur du patrimoine | Taux d'occupation financier: 91,8% | Taux d'occupation physique: 94,2% | WALB moyenne: 3,5 ans | Distribution T3 2025: 2,50€/part net de fiscalité étrangère | Taux de distribution 2024: 6,01% | Fourchette prévisionnelle Taux de Distribution 2025: 5,25% - 5,75% (non garantie) | TRI sur 5 ans (30/09/2020 - 30/09/2025): 6,57% | Prix d'une part: 182,79€ | Valeur de reconstitution par part: 187,00€ | Valeur de réalisation par part: 155,95€ | Collecte nette T3 2025: 7,9 M€ | Retraits réalisés: 8,2 M€ | 71 643 parts en attente de retrait sur le trimestre (3,1% des parts totales) | Ratio d'endettement (méthode ASPIM): 35% | Durée moyenne d'endettement: 2 ans | 6 signatures de baux depuis le début de l'année | Renouvellement de bail avec FedEx à Hoofddorp (Pays-Bas) - 5 000 m², 1 349 000€ de loyer facial | Renouvellement de bail avec Soletanche Freyssinet à Rueil-Malmaison (France) - 15 443 m², signé début octobre | Renouvellement de bail avec Salta Group à Hilversum (Pays-Bas) - 8 733 m² | Promesse de vente signée sur l'actif de Nanterre (réitération prévue mi-novembre) | Programme d'amélioration énergétique prévu pour l'immeuble de Saragosse (Espagne) - plus de 200 000€ | Note ESG du portefeuille: 45/100 | Sans délai de jouissance du 1er septembre au 31 décembre 2025",
-    "Frais de souscription (TTC/%)": 0,
+    "Frais de souscription (TTC/%)": 0.0,
     "Nombre d'immeubles": 38,
     "Nombre d'associés": 8952,
     "maximus_data_status": "extracted_t1_2026",
@@ -1856,7 +2021,50 @@
     "maximus_warnings": [
       "Risque de liquidité : 125 194 parts en attente de retrait (source : Novaxia-NEO-Reporting-31_03_2026.pdf)"
     ],
-    "Décote/Surcote QA": "manual_review"
+    "Décote/Surcote QA": "manual_review",
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 0.0,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "sans objet (aucune commission de souscription)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.novaxia-investissement.fr/wp-content/uploads/2026/07/NOVAXIA-NEO-Note-dInformation-V30.06.2026.pdf",
+        "pdf_sha256": "f6502db9074973a849a1d55d83925b2db95bf3c270eb11b66aec1a5bfe467699",
+        "source_page": 29,
+        "evidence_text": "ice rendu aux souscripteurs dans le temps. 2. COMMISSION DE SOUSCRIPTION DE PARTS La commission de souscription est de 0 % HT, soit 0 % TTC du montant souscrit. 3. COMMISSION DE CESSION DE PARTS La Société de Gestion percevra une commission de cession de parts en cas de cession de parts de gré à gré, de décès ou de cession à titre gratuit. Afin de couvrir les frais de constitut",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 15.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés directement ou indirectement et autres produits encaissés",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.novaxia-investissement.fr/wp-content/uploads/2026/07/NOVAXIA-NEO-Note-dInformation-V30.06.2026.pdf",
+        "pdf_sha256": "f6502db9074973a849a1d55d83925b2db95bf3c270eb11b66aec1a5bfe467699",
+        "source_page": 28,
+        "evidence_text": "re de l'administration directe de la SCPI. 1. COMMISSION DE GESTION Au titre de l'administration de la SCPI et de la gestion de ses actifs, la Société de Gestion percevra une commission de gestion de 15 % HT du montant (soit 18 % TTC au taux de TVA en vigueur) : 1. des produits locatifs hors taxes encaissés directement ou indirectement (au prorata de la participation de la SCPI",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés directement ou indirectement et autres produits encaissés"
   },
   {
     "Nom SCPI": "Opportunité Immo",
@@ -2098,7 +2306,7 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": 11,
+    "Frais de gestion (HT/%)": 11.0,
     "Répartition Géographique": "Pologne (100%)",
     "Répartition Sectorielle": "Bureaux (89.7%), Locaux d'activité (10.3%)",
     "Répartition Géographique JSON": {
@@ -2135,7 +2343,30 @@
       "Risque de liquidité : 840 parts en attente de retrait (source : BTI-T1-2026-PAREF-Evo.pdf)"
     ],
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 245.04
+    "Valeur de reconstitution par part (€)": 245.04,
+    "maximus_metric_provenance": {
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 11.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "recettes de toute nature encaissées HT (loyers et produits financiers)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://paref-gestion.com/wp-content/uploads/2026/10/2df25b16-55b4-4cf3-bf4c-3a650f2ce1c2-07.10.2026NI-PAREF-Evo.pdf",
+        "pdf_sha256": "430314718ef3b003f2da41a5b5a4da8f2c8c1242f474463376237eaf5327d156",
+        "source_page": 31,
+        "evidence_text": "u'elle souhaite appliquer pour l'avenir. 2.2. Commission de gestion La commission de gestion versée par la SCPI à la Société de Gestion est fixée à onze pour cent (11%) HT (treize virgule vingt pour cent (13,20 %) TTC au taux de la TVA de vingt pour cent (20%) actuellement en vigueur) maximum des recettes de toute nature encaissées HT par la Société (loyers et produits financie",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "recettes de toute nature encaissées HT (loyers et produits financiers)"
   },
   {
     "Nom SCPI": "Paref Hexa",
@@ -2157,7 +2388,7 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": 8,
+    "Frais de gestion (HT/%)": 8.0,
     "Répartition Géographique": "Métropoles régionales (56.0%), Ile-de-France hors Paris (26.7%), Paris (5.3%), Autres régions (12.0%)",
     "Répartition Sectorielle": "Bureaux (67.2%), Locaux d'activité (24.8%), Logistique et Messagerie (4.5%), Autres (3.5%)",
     "Répartition Géographique JSON": {
@@ -2227,8 +2458,29 @@
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
         "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 8.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "recettes de toute nature encaissées HT (loyers et produits financiers)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://paref-gestion.com/wp-content/uploads/2026/01/b108e992-030c-4618-9f9e-5ee9b1ace93e-01.01.2026NI-PAREF-Hexa.pdf",
+        "pdf_sha256": "ad5b2c8c599ddeabc07fad4dafd73d290559d86f8da41458a07a995d30d70c98",
+        "source_page": 32,
+        "evidence_text": "'elle souhaite appliquer pour l'avenir 2.2. . Commission de gestion La commission de gestion versée par la SCPI est fixée comme suit : huit pour cent (8 %) HT (à majorer de la TVA au taux en vigueur, soit neuf virgule six pour cent (9,6 %) TTC pour un taux de TVA de vingt pour cent (20 %)) des recettes de toute nature encaissées HT par la Société (loyers et produits financiers)",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       }
-    }
+    },
+    "Frais de gestion - assiette": "recettes de toute nature encaissées HT (loyers et produits financiers)"
   },
   {
     "Nom SCPI": "Grand Paris Résidentiel",
@@ -2321,7 +2573,7 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "trimestrielle",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de gestion (HT/%)": 10,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "Paris Centre (22.5%), Grand Paris (25%), Métropoles françaises (32.8%), Pays-Bas (7.9%), Allemagne (4.5%), Belgique (3%), Royaume-Uni (2.9%), Irlande (0.6%), Reste de l'Europe (0.8%)",
     "Répartition Sectorielle": "Bureaux (36.3%), Commerces de centre-ville et milieu urbain (24.1%), Galeries commerciales (13.7%), Autres (9.5%), Moyennes surfaces commerciales de périphéries (16.4%)",
     "Répartition Géographique JSON": {
@@ -2386,8 +2638,29 @@
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
         "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets (SCPI et sociétés contrôlées)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.sofidy.com/app/uploads/2022/04/NI-IR-072026-FR-2-3191.pdf",
+        "pdf_sha256": "b113cb3783bd319141e9beb0b8f660b213fe2210c9664bc99f779b6087e7054a",
+        "source_page": 19,
+        "evidence_text": "cution des programmes d'investissements. 1.2. COMMISSION DE GESTION AU TITRE DE LA GESTION DE LA SCPI Afin d'assurer l'administration de la Société, l'information régulière des associés, la préparation de toutes réunions ou assemblées, la distribution des revenus, l'encaissement des loyers et autres produits, le règlement de l'ensemble des charges et la gestion du patrimoine immobilier, etc., la Société de Gestion prélèvera 10 % hors taxes (12 % TTC au taux de la TVA actuellement en vigueur) : • \u0007des produits locat",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       }
-    }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets (SCPI et sociétés contrôlées)"
   },
   {
     "Nom SCPI": "Iroko Zen",
@@ -2976,7 +3249,7 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Mensuelle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": null,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "France, Zone euro et hors zone euro",
     "Répartition Sectorielle": "Santé / social (66%), Bien-être (16%), Éducation (16%), Environnement (2%)",
     "Répartition Géographique JSON": {
@@ -3028,12 +3301,27 @@
         "probe_run_id": "42773336564"
       },
       "frais_gestion": {
-        "verification_status": "partial",
-        "value_state": "unknown",
-        "reason": "Valeur héritée égale au coût PRIIPs du DIC (assiette : valeur de l'investissement), retirée ; commission de gestion sur les loyers non encore prouvée.",
-        "recovery_task": "RECOVERY-200"
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.normacapital.fr/documentation/note-dinformation-3/",
+        "pdf_sha256": "1ace36c51645f9c1e27697caa392c3fef3b68710f74b31da6848fbd06e90a8b6",
+        "source_page": 16,
+        "evidence_text": "ption sera imputée sur la prime d'émission et la Société de Gestion est autorisée à prélever ses honoraires lors de la souscription. II. \u0007Commission de gestion Une commission de gestion est versée à la Société de Gestion afin notamment de couvrir les frais administratifs et de gestion liés notamment aux frais de bureau et de personnel nécessaires à l'administration et à la gestion de la Société, à la perception des recettes locatives et à la distribution des bénéfices. La Société de Gestion perçoit une commission de gestion fixée à 10 % HT soit 12 % TTC maximum (au taux de TVA actuellement en vigueur), sur les produits locatifs HT encaissés. Cette commission de gestion est réglée trimestriel",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       }
-    }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés"
   },
   {
     "Nom SCPI": "Remake Live",
@@ -3475,7 +3763,7 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Annuelle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": null,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "Paris : 41 %, Île-de-France (hors Paris) : 34 %, Régions françaises : 25 %",
     "Répartition Sectorielle": "Bureaux : 98 %, Commerces : 2 %",
     "Répartition Géographique JSON": {
@@ -3534,12 +3822,27 @@
         "probe_run_id": "42773336564"
       },
       "frais_gestion": {
-        "verification_status": "partial",
-        "value_state": "unknown",
-        "reason": "Valeur héritée égale au coût PRIIPs du DIC (assiette : valeur de l'investissement), retirée ; commission de gestion sur les loyers non encore prouvée.",
-        "recovery_task": "RECOVERY-200"
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets (SCPI et sociétés contrôlées)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.sofidy.com/app/uploads/2024/01/NI-SFP-072026-FR-2-3148.pdf",
+        "pdf_sha256": "b417d651d61a205b3a418571de353932ad17e980737b7c9a656f569f7a983c5e",
+        "source_page": 15,
+        "evidence_text": "d'exécution des programmes d'investissements. COMMISSION DE GESTION AU TITRE DE LA GESTION DE LA SCPI : Afin d'assurer l'administration de la SCPI, l'information régulière des associés, la préparation de toutes réunions ou assemblées, la distribution des revenus, l'encaissement des loyers et autres produits et le règlement de l'ensemble des charges, la gestion du patrimoine immobilier, etc... la Société de gestion prélèvera 10 % HT (12 % TTC au taux de la TVA actuellement en vigueur) : • \u0007des produits locatifs hors",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       }
-    }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets (SCPI et sociétés contrôlées)"
   },
   {
     "Nom SCPI": "Selectinvest 1",
@@ -4205,7 +4508,7 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "trimestrielle",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de gestion (HT/%)": 11.4,
+    "Frais de gestion (HT/%)": 9.5,
     "Répartition Géographique": "Régions (51.8%), Paris (25.8%), Île-de-France (19.9%), Europe (2.5%)",
     "Répartition Sectorielle": "Locaux commerciaux (84.1%), Bureaux (15.8%), Entrepôts et activités (0.1%)",
     "Répartition Géographique JSON": {
@@ -4243,7 +4546,30 @@
     "Article SFDR": 8,
     "niveau_risque_dic": 3,
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 69.29
+    "Valeur de reconstitution par part (€)": 69.29,
+    "maximus_metric_provenance": {
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 9.5,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.fiducial-gerance.fr/content/download/575/file/Note%20d%27information%20et%20statuts%20Ficommerce%20-%2001.2026.pdf?version=7",
+        "pdf_sha256": "fd0c1d138c2491a9036386ae52bda2a7c28b905ebc61307429a8a963557459df",
+        "source_page": 9,
+        "evidence_text": " conséquence. 7°/ Actualisation du taux de la commission de gestion en cohérence avec la pratique de marché et l'accroissement des obligations de reporting extra-financier liées au développement durable internaliser En considération de l'analyse de la pratique de marché et de l'accroissement des obligations de reporting extra-financier liées au développement durable dont les prestations sont internalisées progressivement par la Société de Gestion, le taux de la commission de gestion a été porté de 9,3% à 9,5% entra",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets"
   },
   {
     "Nom SCPI": "Foncière des Praticiens",
@@ -4409,7 +4735,30 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [],
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 785
+    "Valeur de reconstitution par part (€)": 785,
+    "maximus_metric_provenance": {
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 9.2,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.fiducial-gerance.fr/content/download/602/file/Note%20d%27information%20SELECTIPIERRE%202%2001.2026.pdf?version=4",
+        "pdf_sha256": "c9f1944b1012989a1f02a6753a1daa0190860e7b7f43633cf8a619cab1402abd",
+        "source_page": 8,
+        "evidence_text": " conséquence. 6°/ Actualisation du taux de la commission de gestion en cohérence avec la pratique de marché et l'accroissement des obligations de reporting extra-financier liées au développement durable à internaliser En considération de l'analyse de la pratique de marché et de l'accroissement des obligations de reporting extra-financier liées au développement durable dont les prestations sont internalisées progressivement par la Société de Gestion, le taux de la commission de gestion a été porté de 9% à 9,2% entra",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets"
   },
   {
     "Nom SCPI": "NCap Continent",
@@ -4476,8 +4825,30 @@
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
         "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 12.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT et produits financiers encaissés (SCPI et sociétés contrôlées)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.normacapital.fr/documentation/note-dinformation-4/",
+        "pdf_sha256": "bafa2743fa4a81dea69793396ed3d6c09c4c4ba4fccf423952a7f7421aa9efdb",
+        "source_page": 18,
+        "evidence_text": "ption sera imputée sur la prime d'émission et la Société de Gestion est autorisée à prélever ses honoraires lors de la souscription. II. Commission de gestion Une commission de gestion est versée à la Société de Gestion afin notamment de couvrir les frais administratifs et de gestion liés notamment aux frais de bureau et de personnel nécessaires à l'administration et à la gestion de la Société, à la perception des recettes locatives et à la distribution des bénéfices. La Société de Gestion perçoit une commission de gestion fixée à 12 % HT soit 14,40 % TTC maximum (au taux de TVA actuellement en vigueur), sur les produits locatifs HT, les produits financiers encaissés par la SCPI et par les s",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       }
-    }
+    },
+    "Frais de gestion (HT/%)": 12.0,
+    "Frais de gestion - assiette": "produits locatifs HT et produits financiers encaissés (SCPI et sociétés contrôlées)"
   },
   {
     "Nom SCPI": "Wemo One",
@@ -4521,7 +4892,7 @@
     "Article SFDR": 6,
     "niveau_risque_dic": 3,
     "Durée de détention recommandée (ans)": 8,
-    "Frais de souscription (TTC/%)": 10,
+    "Frais de souscription (TTC/%)": 12.0,
     "Frais de gestion (HT/%)": 11.0,
     "Surcote/décote (%)": -8.47,
     "Décote/Surcote QA": "publishable",
@@ -4545,6 +4916,26 @@
         "pdf_sha256": "e0ae691efee01589403961d57d43b224ccfc4010444340d66fe4a8f8b837b8f5",
         "source_page": 19,
         "evidence_text": "uteurs. 5.2 Commission de cession Néant. 5.3. Commission de gestion Il est dû à la Société de Gestion une commission de gestion égale à 11.0% HT maximum (soit 13.2% TTC au taux de TVA applicable au 1er janvier 2024) des produits locatifs encaissés directement ou indirectement et des autres produits encaissés par la Société.",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 12.0,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "montant de la souscription",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://wemo-reim.fr/wp-content/uploads/2026/10/Note-dinformation-octobre-2026.pdf",
+        "pdf_sha256": "e0ae691efee01589403961d57d43b224ccfc4010444340d66fe4a8f8b837b8f5",
+        "source_page": 19,
+        "evidence_text": "ée dans le public. 5. POLITIQUE DE FRAIS 5.1. Commission de souscription Il est dû à la Société de Gestion une commission de souscription dont le taux maximum est fixé à 10% HT, soit 12% TTC du montant de la souscription. Cette commission est destinée à rémunérer la recherche des capitaux. Elle peut être reversée, en totalité ou partiellement, aux distributeurs. 5.2 Commission ",
         "document_kind": "note",
         "product_identity_verified": true,
         "semantic_review_verified": true,
@@ -6967,7 +7358,7 @@
     "Délai de jouissance (mois)": 2,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": null,
+    "Frais de gestion (HT/%)": 8.75,
     "WALT": null,
     "maximus_publication_status": "certified",
     "maximus_recommendation_status": "manual_review_required",
@@ -7118,8 +7509,24 @@
       },
       "risk_warning": "Fonds de remboursement 98,50 EUR, distinct du prix de retrait standard 128,41 EUR; risque de liquidité",
       "frais_gestion": {
-        "reason": "Le plafond contractuel de commission et les coûts PRIIPs n'ont pas la même assiette ; aucun faux taux effectif ou zéro.",
-        "qa_status": "not_certified_effective_rate"
+        "verification_status": "verified",
+        "value_numeric": 8.75,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et autres produits encaissés (dont dividendes de participations)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-07/Accimmo%20Pierre%20-%20Note%20d%27information%20-%2022062026%20-%20%5BAIFM%20II%20-%20Quorum%5D.pdf",
+        "pdf_sha256": "ec2f63cea535ea980d8692d8ebc4471139e5acaf9bc1d020dc114818b0ea7b48",
+        "source_page": 15,
+        "evidence_text": "la SCPI. Pour la gestion et l'administration de la SCPI (fund management) et la gestion des biens sociaux (asset management), la Société de Gestion perçoit une commission de gestion qui est fixée à compter du 1er juillet 2018 à 8,75 % HT au maximum (auquel est ajouté le montant de la TVA au taux en vigueur à la date de facturation) des produits locatifs hors taxes encaissés par",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       },
       "tof_quarterly": {
         "qa_status": "qa_pass",
@@ -7341,7 +7748,8 @@
     },
     "maximus_valeur_realisation_source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
     "maximus_valeur_realisation_source_page": 5,
-    "maximus_walb_source_page": 4
+    "maximus_walb_source_page": 4,
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et autres produits encaissés (dont dividendes de participations)"
   },
   {
     "Nom SCPI": "Sofidynamic",
