@@ -40,6 +40,7 @@ def main():
     patches = {(p['scpi_slug'], p['column']): p['value'] for p in json.loads((V2 / 'indicator-patches.json').read_text())}
     not_applicable = json.loads((V2 / 'fee-not-applicable.json').read_text())['funds']
     anomalies = json.loads((V2 / 'anomalies-20261110.json').read_text())
+    quality = json.loads((V2 / 'public-quality-20261110.json').read_text())['per_scpi_verified_partial_blocked']
     out = []
     for slug in sorted(first):
         f = first[slug]
@@ -58,6 +59,8 @@ def main():
                 'zero' if after == 0 else ('valeur' if after is not None else 'inconnu'))
             line[f'preuve_{fee}'] = proof_label(rows[(slug, fee)])
         line['t3'] = anomalies.get('t3', {}).get(slug, f['t3'])
+        v, p, b = quality.get(slug, [0, 0, 0])
+        line['metriques_verified_partial_blocked'] = f'{v} / {p} / {b}'
         notes = list(anomalies.get('by_scpi', {}).get(slug, []))
         for column in anomalies.get('projection_blocked', {}).get('funds', {}).get(slug, []):
             notes.append(f"{column} prouvé ({patches.get((slug, column))!s} %) non projeté en base : instantané manuel protégé ; affiché via le catalogue après déploiement")
@@ -69,12 +72,12 @@ def main():
         writer.writeheader()
         for line in out:
             writer.writerow({k: ('' if v is None else v) for k, v in line.items()})
-    md = ['| SCPI | Souscription avant → après | Preuve souscription | Gestion avant → après | Preuve gestion | T3 | Anomalies / blocages |',
-          '|---|---|---|---|---|---|---|']
+    md = ['| SCPI | Souscription avant → après | Preuve souscription | Gestion avant → après | Preuve gestion | T3 | Métriques verified / partial / blocked | Anomalies / blocages |',
+          '|---|---|---|---|---|---|---|---|']
     for line in out:
         sous_after = 'n/a' if line['etat_souscription'] == 'non_applicable' else fmt(line['apres_souscription'])
         md.append(f"| {line['slug']} | {fmt(line['avant_souscription'])} → {sous_after} | {line['preuve_souscription']} | "
-                  f"{fmt(line['avant_gestion'])} → {fmt(line['apres_gestion'])} | {line['preuve_gestion']} | {line['t3']} | {line['anomalies']} |")
+                  f"{fmt(line['avant_gestion'])} → {fmt(line['apres_gestion'])} | {line['preuve_gestion']} | {line['t3']} | {line['metriques_verified_partial_blocked']} | {line['anomalies']} |")
     (V2 / 'RECOVERY-200-69-scpi-table.md').write_text('\n'.join(md) + '\n')
     count = lambda key, test: sum(1 for line in out if test(line[key]))
     summary = {

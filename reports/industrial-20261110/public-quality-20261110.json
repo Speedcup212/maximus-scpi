@@ -1,0 +1,524 @@
+{
+ "as_of": "2026-11-10",
+ "source": "scpi_internal.metric_public_quality_v1 (migration recovery200_metric_public_quality), 20 métriques publiées par SCPI",
+ "definition": {
+  "verified": "valeur, période, source et preuve concordent (même règle que la politique RLS publique des certifications ; frais : provenance prouvée ou non-applicabilité prouvée)",
+  "partial": "valeur publiée sans concordance complète",
+  "blocked": "valeur retirée ou certification rejetée pour la période publiée"
+ },
+ "totals_all_69": {
+  "verified": 789,
+  "partial": 294,
+  "blocked": 5,
+  "absent": 292
+ },
+ "totals_public_cohort": {
+  "verified": 602,
+  "partial": 262,
+  "blocked": 4,
+  "absent": 212
+ },
+ "partial_reasons": {
+  "certification_without_field_evidence": 212,
+  "no_certification_for_period": 57,
+  "certified_value_differs": 20,
+  "fee_without_proof": 5
+ },
+ "blocked": [
+  "selectipierre-2:distribution_par_part",
+  "cristal-rente:tof",
+  "altixia-cadence-12:tof",
+  "ficommerce-proximite:distribution_par_part",
+  "primovie:parts_attente_retrait"
+ ],
+ "per_scpi_verified_partial_blocked": {
+  "lf-avenir-sante": [
+   14,
+   0,
+   0
+  ],
+  "lf-grand-paris-patrimoine": [
+   13,
+   0,
+   0
+  ],
+  "iroko-atlas": [
+   6,
+   13,
+   0
+  ],
+  "lf-europimmo": [
+   13,
+   0,
+   0
+  ],
+  "ncap-continent": [
+   13,
+   2,
+   0
+  ],
+  "credit-mutuel-pierre-1": [
+   11,
+   1,
+   0
+  ],
+  "rivoli-avenir-patrimoine": [
+   8,
+   6,
+   0
+  ],
+  "epsicap-nano": [
+   6,
+   14,
+   0
+  ],
+  "coeur-d-europe": [
+   15,
+   3,
+   0
+  ],
+  "sofidynamic": [
+   0,
+   16,
+   0
+  ],
+  "epargne-fonciere": [
+   12,
+   2,
+   0
+  ],
+  "sofiprime": [
+   12,
+   0,
+   0
+  ],
+  "altixia-cadence-12": [
+   16,
+   1,
+   1
+  ],
+  "accimmo-pierre": [
+   11,
+   7,
+   0
+  ],
+  "optimale": [
+   12,
+   4,
+   0
+  ],
+  "edr-europa": [
+   16,
+   3,
+   0
+  ],
+  "novaxia-neo": [
+   15,
+   2,
+   0
+  ],
+  "cristal-rente": [
+   5,
+   8,
+   1
+  ],
+  "wemo-one": [
+   16,
+   0,
+   0
+  ],
+  "comete": [
+   12,
+   6,
+   0
+  ],
+  "novapierre-residentiel": [
+   11,
+   0,
+   0
+  ],
+  "paref-hexa": [
+   14,
+   2,
+   0
+  ],
+  "pierval-sante": [
+   12,
+   5,
+   0
+  ],
+  "ficommerce-proximite": [
+   14,
+   1,
+   1
+  ],
+  "efimmo-1": [
+   16,
+   0,
+   0
+  ],
+  "altixia-commerces": [
+   10,
+   5,
+   0
+  ],
+  "ncap-education-sante": [
+   2,
+   14,
+   0
+  ],
+  "epargne-pierre": [
+   16,
+   1,
+   0
+  ],
+  "acces-valeur-pierre": [
+   9,
+   7,
+   0
+  ],
+  "perial-hospitalite-europe": [
+   17,
+   0,
+   0
+  ],
+  "patrimmo-croissance-impact": [
+   8,
+   0,
+   0
+  ],
+  "selectipierre-2": [
+   13,
+   2,
+   1
+  ],
+  "corum-xl": [
+   4,
+   13,
+   0
+  ],
+  "alta-convictions": [
+   5,
+   10,
+   0
+  ],
+  "opportunite-immo": [
+   14,
+   0,
+   0
+  ],
+  "corum-eurion": [
+   5,
+   13,
+   0
+  ],
+  "selectinvest-1": [
+   10,
+   2,
+   0
+  ],
+  "praemia-hotels-europe": [
+   5,
+   8,
+   0
+  ],
+  "fonciere-des-praticiens": [
+   16,
+   3,
+   0
+  ],
+  "urban-coeur-de-commerce": [
+   16,
+   1,
+   0
+  ],
+  "epargne-pierre-europe": [
+   11,
+   5,
+   0
+  ],
+  "remake-uk-2025": [
+   12,
+   3,
+   0
+  ],
+  "ncap-regions": [
+   15,
+   2,
+   0
+  ],
+  "transitions-europe": [
+   20,
+   0,
+   0
+  ],
+  "log-in": [
+   2,
+   18,
+   0
+  ],
+  "corum-usa": [
+   6,
+   11,
+   0
+  ],
+  "immorente": [
+   16,
+   0,
+   0
+  ],
+  "cristal-life": [
+   7,
+   10,
+   0
+  ],
+  "corum-origin": [
+   5,
+   13,
+   0
+  ],
+  "iroko-zen": [
+   9,
+   0,
+   0
+  ],
+  "coeur-de-ville": [
+   12,
+   6,
+   0
+  ],
+  "primovie": [
+   12,
+   3,
+   1
+  ],
+  "buroboutic-metropoles": [
+   14,
+   1,
+   0
+  ],
+  "aestiam-agora": [
+   15,
+   3,
+   0
+  ],
+  "remake-live": [
+   14,
+   3,
+   0
+  ],
+  "perial-opportunites-europe": [
+   15,
+   2,
+   0
+  ],
+  "esg-pierre-capital": [
+   14,
+   1,
+   0
+  ],
+  "atream-hotel": [
+   14,
+   1,
+   0
+  ],
+  "activimmo": [
+   14,
+   5,
+   0
+  ],
+  "aestiam-horizon": [
+   17,
+   1,
+   0
+  ],
+  "edissimo": [
+   8,
+   6,
+   0
+  ],
+  "patrimmo-commerce": [
+   2,
+   13,
+   0
+  ],
+  "perial-grand-paris": [
+   10,
+   3,
+   0
+  ],
+  "grand-paris-residentiel": [
+   8,
+   4,
+   0
+  ],
+  "paref-evo": [
+   15,
+   1,
+   0
+  ],
+  "novapierre-1": [
+   14,
+   3,
+   0
+  ],
+  "kyaneos-pierre": [
+   14,
+   0,
+   0
+  ],
+  "perial-o2": [
+   14,
+   0,
+   0
+  ],
+  "coeur-de-region": [
+   17,
+   1,
+   0
+  ]
+ },
+ "published_value_differs_from_certified": [
+  [
+   "aestiam-agora",
+   "nombre_associes",
+   "2026-T2",
+   7820,
+   467
+  ],
+  [
+   "coeur-d-europe",
+   "prix_reconstitution",
+   "2026-T3",
+   219.47,
+   220.4
+  ],
+  [
+   "coeur-d-europe",
+   "td",
+   "2026-T3",
+   6.25,
+   3.52
+  ],
+  [
+   "coeur-d-europe",
+   "valeur_realisation",
+   "2026-T3",
+   180.78,
+   181.19
+  ],
+  [
+   "coeur-de-ville",
+   "prix_reconstitution",
+   "2026-T3",
+   224.28,
+   222.47
+  ],
+  [
+   "coeur-de-ville",
+   "td",
+   "2026-T3",
+   6.2,
+   4.85
+  ],
+  [
+   "coeur-de-ville",
+   "valeur_realisation",
+   "2026-T3",
+   178.63,
+   175.98
+  ],
+  [
+   "cristal-life",
+   "capitalisation",
+   "2026-T2",
+   424.503664,
+   424.5
+  ],
+  [
+   "cristal-life",
+   "nombre_associes",
+   "2026-T2",
+   14724,
+   13291
+  ],
+  [
+   "epargne-pierre-europe",
+   "capitalisation",
+   "2026-T2",
+   702.3774,
+   702
+  ],
+  [
+   "epargne-pierre-europe",
+   "nombre_locataires",
+   "2026-T2",
+   70,
+   5
+  ],
+  [
+   "grand-paris-residentiel",
+   "nombre_parts",
+   "2026-T2",
+   60205,
+   60205.11
+  ],
+  [
+   "iroko-atlas",
+   "capitalisation",
+   "2026-T2",
+   166.923,
+   166.9
+  ],
+  [
+   "perial-grand-paris",
+   "capitalisation",
+   "2026-T3",
+   484.550804,
+   441.304564
+  ],
+  [
+   "pierval-sante",
+   "distribution_par_part",
+   "2026-T2",
+   1.51,
+   1.5
+  ],
+  [
+   "pierval-sante",
+   "nombre_locataires",
+   "2026-T2",
+   1003,
+   1
+  ],
+  [
+   "pierval-sante",
+   "walb",
+   "2026-T2",
+   14.0,
+   14.83
+  ],
+  [
+   "primovie",
+   "nombre_immeubles",
+   "2026-T2",
+   297,
+   19
+  ],
+  [
+   "primovie",
+   "walt",
+   "2026-T2",
+   9.79,
+   9.64
+  ],
+  [
+   "remake-live",
+   "nombre_associes",
+   "2026-T2",
+   13135,
+   904
+  ]
+ ],
+ "latent_defect_fixed": "refresh_scpi_metric_certifications('sofiprime') faisait repasser les 147 rejets « mauvais produit » en validation (preuve en transaction annulée). Après la migration recovery200_freeze_rejected_certifications : 0 rejet revalidé sur les 18 SCPI qui en portent (209 lignes)."
+}

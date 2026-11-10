@@ -189,7 +189,10 @@ def main() -> int:
                        ', '.join(sql_literal(row[c]) if c != 'valid_from' else sql_literal(row[c]) + '::date' for c in COLUMNS) + ');')
     (out / 'fee-evidence-insert.sql').write_text('\n'.join(inserts) + '\n')
     patches = []
+    no_projection = {(d['slug'], d['fee']) for d in review['decisions'] if d.get('no_projection_reason')}
     for row in rows:
+        if (row['scpi_slug'], row['fee_kind']) in no_projection:
+            continue  # preuve conservée au registre, projection publique refusée par une décision explicite
         patch = indicator_patch(row)
         if patch:
             column, value, tax = patch

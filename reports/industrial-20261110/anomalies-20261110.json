@@ -26,7 +26,8 @@
   ],
   "primovie": [
    "parts en attente T2 2026 publiées à 0 : corrigé en non applicable (variabilité suspendue le 23/06/2026 ; 1 438 276 parts au T1 dans le même tableau)",
-   "frais de souscription 9 % retirés : non applicables depuis la suspension"
+   "frais de souscription 9 % retirés : non applicables depuis la suspension",
+   "nombre d'immeubles publié 297 contre 19 « certifiés » (artefact du rapprocheur) : état partial"
   ],
   "patrimmo-commerce": [
    "frais de souscription 9 % retirés : non applicables depuis la suspension du 25/06/2026"
@@ -84,19 +85,22 @@
    "gestion : maximum statutaire 12 % HT, limité à 10 % HT tant que la collecte nette annuelle dépasse 5 M€"
   ],
   "perial-grand-paris": [
-   "gestion 10 % HT : note de 2015 non corroborée par un document 2025-2026"
+   "gestion 10 % HT : note de 2015 non corroborée par un document 2025-2026",
+   "capitalisation T3 publiée 484,55 M€ contre 441,30 M€ certifiés : à vérifier"
   ],
   "lf-europimmo": [
    "gestion 10 % HT : note de 2019 non corroborée par un document 2025-2026"
   ],
   "coeur-d-europe": [
-   "« 0 part en attente » certifié sur une mise en page valeurs-puis-libellés : le nouveau rapprocheur ne le prouvera plus automatiquement"
+   "« 0 part en attente » certifié sur une mise en page valeurs-puis-libellés : le nouveau rapprocheur ne le prouvera plus automatiquement",
+   "ligne T3 2026 : valeur de reconstitution publiée 219,47 € (au 31/12/2025) alors que la certification T3 donne 220,40 € (au 30/06/2026) — valeur ancienne sous étiquette récente"
   ],
   "coeur-de-region": [
    "« 0 part en attente » certifié sur une mise en page valeurs-puis-libellés : le nouveau rapprocheur ne le prouvera plus automatiquement"
   ],
   "coeur-de-ville": [
-   "« 0 part en attente » certifié sur une mise en page valeurs-puis-libellés : le nouveau rapprocheur ne le prouvera plus automatiquement"
+   "« 0 part en attente » certifié sur une mise en page valeurs-puis-libellés : le nouveau rapprocheur ne le prouvera plus automatiquement",
+   "ligne T3 2026 : valeur de reconstitution publiée 224,28 € (au 31/12/2025) contre 222,47 € certifiés — valeur ancienne sous étiquette récente"
   ],
   "activimmo": [
    "« 0 part en attente » T2 2026 exact (tableau lu), mais non prouvable automatiquement par le nouveau rapprocheur"
@@ -107,6 +111,12 @@
   ],
   "novapierre-1": [
    "dossier 2024 incohérent (8 % HT annoncé à 12 % TTC) ; la note du 01/01/2026 (8 % HT, 9,6 % TTC) prévaut"
+  ],
+  "pierval-sante": [
+   "nombre de locataires publié 1 003 contre 1 « certifié » (artefact du rapprocheur) : état partial"
+  ],
+  "remake-live": [
+   "nombre d'associés publié 13 135 contre 904 « certifiés » : état partial"
   ]
  },
  "projection_blocked": {

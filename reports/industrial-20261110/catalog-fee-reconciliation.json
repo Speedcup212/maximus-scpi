@@ -3,7 +3,7 @@
   {
    "slug": "accimmo-pierre",
    "metric": "frais_gestion",
-   "before": null,
+   "before": 8.75,
    "after": 8.75,
    "tax_label": "HT",
    "page": 15
@@ -51,7 +51,7 @@
   {
    "slug": "atream-hotel",
    "metric": "frais_souscription",
-   "before": 10,
+   "before": 12.0,
    "after": 12.0,
    "tax_label": "TTC",
    "page": 23
@@ -75,7 +75,7 @@
   {
    "slug": "coeur-d-europe",
    "metric": "frais_gestion",
-   "before": 10,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 24
@@ -91,7 +91,7 @@
   {
    "slug": "coeur-de-region",
    "metric": "frais_gestion",
-   "before": 10,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 19
@@ -107,7 +107,7 @@
   {
    "slug": "coeur-de-ville",
    "metric": "frais_gestion",
-   "before": null,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 18
@@ -115,7 +115,7 @@
   {
    "slug": "comete",
    "metric": "frais_souscription",
-   "before": 10,
+   "before": 12.0,
    "after": 12.0,
    "tax_label": "TTC",
    "page": 21
@@ -267,7 +267,7 @@
   {
    "slug": "ficommerce-proximite",
    "metric": "frais_gestion",
-   "before": 11.4,
+   "before": 9.5,
    "after": 9.5,
    "tax_label": "HT",
    "page": 9
@@ -307,7 +307,7 @@
   {
    "slug": "immorente",
    "metric": "frais_gestion",
-   "before": 10,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 19
@@ -403,7 +403,7 @@
   {
    "slug": "ncap-continent",
    "metric": "frais_gestion",
-   "before": null,
+   "before": 12.0,
    "after": 12.0,
    "tax_label": "HT",
    "page": 18
@@ -419,7 +419,7 @@
   {
    "slug": "ncap-education-sante",
    "metric": "frais_gestion",
-   "before": null,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 16
@@ -443,7 +443,7 @@
   {
    "slug": "novapierre-1",
    "metric": "frais_souscription",
-   "before": 8,
+   "before": 9.6,
    "after": 9.6,
    "tax_label": "TTC",
    "page": 16
@@ -451,7 +451,7 @@
   {
    "slug": "novapierre-1",
    "metric": "frais_gestion",
-   "before": 8,
+   "before": 8.0,
    "after": 8.0,
    "tax_label": "HT",
    "page": 30
@@ -475,7 +475,7 @@
   {
    "slug": "novaxia-neo",
    "metric": "frais_souscription",
-   "before": 0,
+   "before": 0.0,
    "after": 0.0,
    "tax_label": "TTC",
    "page": 29
@@ -483,7 +483,7 @@
   {
    "slug": "novaxia-neo",
    "metric": "frais_gestion",
-   "before": 15,
+   "before": 15.0,
    "after": 15.0,
    "tax_label": "HT",
    "page": 28
@@ -523,7 +523,7 @@
   {
    "slug": "paref-evo",
    "metric": "frais_gestion",
-   "before": 11,
+   "before": 11.0,
    "after": 11.0,
    "tax_label": "HT",
    "page": 31
@@ -539,7 +539,7 @@
   {
    "slug": "paref-hexa",
    "metric": "frais_gestion",
-   "before": 8,
+   "before": 8.0,
    "after": 8.0,
    "tax_label": "HT",
    "page": 32
@@ -667,7 +667,7 @@
   {
    "slug": "sofiprime",
    "metric": "frais_gestion",
-   "before": null,
+   "before": 10.0,
    "after": 10.0,
    "tax_label": "HT",
    "page": 15
@@ -699,7 +699,7 @@
   {
    "slug": "wemo-one",
    "metric": "frais_souscription",
-   "before": 10,
+   "before": 12.0,
    "after": 12.0,
    "tax_label": "TTC",
    "page": 19
@@ -792,13 +792,6 @@
    "issue": "valeur_deja_certifiee_conservee",
    "catalog": 10.72,
    "proven": 10.716
-  },
-  {
-   "slug": "acces-valeur-pierre",
-   "metric": "frais_gestion",
-   "issue": "valeur_deja_certifiee_conservee",
-   "catalog": null,
-   "proven": 9.0
   },
   {
    "slug": "accimmo-pierre",
