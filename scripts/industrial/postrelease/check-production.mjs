@@ -23,7 +23,17 @@ const EXPECT = {
 const NO_SUBSCRIPTION_RATE = ['perial-o2', 'primovie', 'selectinvest-1', 'perial-grand-paris'];
 const report = {checked_at: new Date().toISOString(), base: BASE, bundle: {}, pages: {}, failures: []};
 
-const home = await (await fetch(BASE + '/', {headers: {'user-agent': 'MaximusSCPI-PostRelease/1.0'}})).text();
+const homeResponse = await fetch(BASE + '/', {headers: {'user-agent': 'MaximusSCPI-PostRelease/1.0'}});
+report.bundle.home_status = homeResponse.status;
+if (!homeResponse.ok) {
+  // Un aperçu Netlify ignoré (pas de jeton [preview]) répond 404 : ce n'est jamais un succès.
+  report.failures.push(`site non servi (${homeResponse.status}) : ${BASE}/`);
+  fs.mkdirSync('postrelease', {recursive: true});
+  fs.writeFileSync('postrelease/REPORT.json', JSON.stringify(report, null, 1));
+  console.log(JSON.stringify(report, null, 1));
+  process.exit(1);
+}
+const home = await homeResponse.text();
 const scripts = [...home.matchAll(/<script[^>]+src="([^"]+\.js)"/g)].map(m => new URL(m[1], BASE).href);
 report.bundle.entry_scripts = scripts;
 const found = Object.fromEntries(MARKERS.map(m => [m, false]));
@@ -68,7 +78,7 @@ for (const slug of PAGES) {
   }
   if (NO_SUBSCRIPTION_RATE.includes(slug)) {
     const snippets = entry.souscription || [];
-    if (snippets.some(snippet => /souscription[^%]{0,40}\d+[.,]\d+ ?%|\d+[.,]\d+ ?%[^%]{0,40}souscription/i.test(snippet))) {
+    if (snippets.some(snippet => /souscription(?:(?!gestion|retrait|cession|arbitrage)[^%]){0,40}\d+(?:[.,]\d+)? ?%|\d+(?:[.,]\d+)? ?%(?:(?!gestion|retrait|cession|arbitrage)[^%]){0,40}souscription/i.test(snippet))) {
       report.failures.push(`${slug}: un taux de souscription est affiché alors que la souscription est fermée`);
     }
     // Faux zéro rassurant : « Sans frais » / « Aucun frais » sur une souscription fermée ou non prouvée.

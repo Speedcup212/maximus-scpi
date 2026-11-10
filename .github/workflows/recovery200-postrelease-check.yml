@@ -48,20 +48,30 @@ jobs:
               sleep 30
             done
             [ "$state" = "success" ] || { echo "::error::aperçu Netlify non disponible après 20 min"; exit 1; }
-            echo "base=https://deploy-preview-${PR_NUMBER}--maximusscpi.netlify.app" >> "$GITHUB_OUTPUT"
+            # Netlify publie « success » même quand le build est ignoré (scripts/netlify-ignore.mjs).
+            base="https://deploy-preview-${PR_NUMBER}--maximusscpi.netlify.app"
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$base/")
+            if [ "$code" != "200" ]; then
+              echo "::warning::aperçu non construit ($code) : ajouter [preview] au message du dernier commit de la PR pour le contrôler."
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+            fi
+            echo "base=$base" >> "$GITHUB_OUTPUT"
           else
             echo "base=${INPUT_BASE:-https://maximusscpi.com}" >> "$GITHUB_OUTPUT"
           fi
       - uses: actions/setup-node@v4
+        if: steps.target.outputs.skip != 'true'
         with:
           node-version: '22'
-      - run: npm install --no-save --no-audit --no-fund playwright@1.48.2 && npx playwright install --with-deps chromium
+      - if: steps.target.outputs.skip != 'true'
+        run: npm install --no-save --no-audit --no-fund playwright@1.48.2 && npx playwright install --with-deps chromium
       - name: Contrôle du rendu
+        if: steps.target.outputs.skip != 'true'
         env:
           BASE_URL: ${{ steps.target.outputs.base }}
         run: node scripts/industrial/postrelease/check-production.mjs
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && steps.target.outputs.skip != 'true'
         with:
           name: recovery200-postrelease-report
           path: postrelease/REPORT.json
