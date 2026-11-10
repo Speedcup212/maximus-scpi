@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "publisher": "Advenis REIM",
+  "approved_hosts": [
+    "www.advenis-reim.com"
+  ],
+  "documents": [
+    {
+      "slug": "elialys",
+      "name": "Elialys",
+      "source_page": "https://www.advenis-reim.com/scpi_sc/scpi-elialys/",
+      "source_url": "https://www.advenis-reim.com/wp-content/uploads/2026/04/Elialys-BT-1T-2026.pdf",
+      "period": "2026-T1",
+      "kind": "quarterly_bulletin"
+    },
+    {
+      "slug": "eurovalys",
+      "name": "Eurovalys",
+      "source_page": "https://www.advenis-reim.com/scpi_sc/scpi-eurovalys/",
+      "source_url": "https://www.advenis-reim.com/wp-content/uploads/2026/04/Eurovalys-BT-16-2026.pdf",
+      "period": "2026-T1",
+      "kind": "quarterly_bulletin"
+    }
+  ]
+}
