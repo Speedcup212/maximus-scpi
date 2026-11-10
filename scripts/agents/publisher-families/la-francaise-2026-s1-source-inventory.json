@@ -1,0 +1,166 @@
+{
+  "version": 1,
+  "publisher": "La Française REM",
+  "publisher_hosts": [
+    "doc.la-francaise.com"
+  ],
+  "source_only": true,
+  "financial_certification": false,
+  "publication_authorized": false,
+  "candidates": [
+    {
+      "slug": "lf-croissance-et-territoires",
+      "name": "LF Croissance & Territoires",
+      "document_kind": "quarterly_bulletin",
+      "source_period": "2026-T2",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-lf-croissance-territoires-30062026",
+      "pdf_sha256": "87d2a94b8b2a656fa7149f89737f80205f675bac0e1f6e3829126b73acdf23db",
+      "page_count": 12,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "lf-grand-paris-habitation",
+      "name": "LF Grand Paris Habitation",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-lf-grand-paris-habitation-30062026",
+      "pdf_sha256": "1d724e43aa4ba73186e6b8102cb63e02d7b4f0995615addd0fdf758e92712752",
+      "page_count": 9,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "lf-les-grands-palais",
+      "name": "LF Les Grands Palais",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-lf-les-grands-palais-30062026",
+      "pdf_sha256": "8fc42883df86b074f0d458818089a74226034b4eb5c5bf442062d8a3dc00d2cc",
+      "page_count": 9,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "lf-renovimmo",
+      "name": "LF Rénovimmo",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-scpi-lf-renovimmo-30062026",
+      "pdf_sha256": "e78962c47e9de6f96af2b9c962a9da8d077c68184eb5cf9fb082ac3b5fead02b",
+      "page_count": 9,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "multihabitation-10",
+      "name": "Multihabitation 10",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-10-30062026",
+      "pdf_sha256": "1d05072acb9416c371ec978d21a39d5945adf5bef0f2f93c5d0cbaa2ae37d0e3",
+      "page_count": 9,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "multihabitation-2",
+      "name": "Multihabitation 2",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-2-30062026",
+      "pdf_sha256": "a7e7b9fa76b1f2362105e7bdec65288622e655a0f17111324324293969e8ad5e",
+      "page_count": 9,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "multihabitation-3",
+      "name": "Multihabitation 3",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-3-30062026",
+      "pdf_sha256": "822ab5bc12cd4e65c6dcc339622e2e3cbe66603592e93f3dc7d02a89d53d2136",
+      "page_count": 9,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "multihabitation-4",
+      "name": "Multihabitation 4",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-4-30062026",
+      "pdf_sha256": "5b31500dfec80f97c2b4e59e28a1bb048f1fdab137b346599f54bf7f43fe6381",
+      "page_count": 9,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "multihabitation-5",
+      "name": "Multihabitation 5",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-5-30062026",
+      "pdf_sha256": "5077b51144a2554d055d0ce11ccb8a566e195923679cbe77c5975c06fdc2bc8f",
+      "page_count": 9,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "multihabitation-6",
+      "name": "Multihabitation 6",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-6-30062026",
+      "pdf_sha256": "bc804bb294a48d61ced0c4c541d1f639d4b7d5f8aaedcb8a2036fec69613f16d",
+      "page_count": 9,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "multihabitation-7",
+      "name": "Multihabitation 7",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-7-30062026",
+      "pdf_sha256": "ea5f22ff95cc2fb3b16bcd27c9d1397f6fb22e1858b8b18f6e1a6879ff100790",
+      "page_count": 9,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "multihabitation-8",
+      "name": "Multihabitation 8",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-8-30062026",
+      "pdf_sha256": "d6e95fb8d55f32fb98ad2aa0bd3844fa6996ac24a73104d5fb70c86e1fe0c5c2",
+      "page_count": 9,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "multihabitation-9",
+      "name": "Multihabitation 9",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-multihabitation-9-30062026",
+      "pdf_sha256": "8c1a2797b5003338b3c93307a937fe1e552b6fbdc380f2762f9987e6d3f1a7c8",
+      "page_count": 9,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    },
+    {
+      "slug": "ufg-pierre-et-vacances",
+      "name": "UFG Pierre & Vacances",
+      "document_kind": "semiannual_bulletin",
+      "source_period": "2026-S1",
+      "source_url": "https://doc.la-francaise.com/Documents/bulletin-trimestriel-scpi-ufg-pierre-vacances-30062026",
+      "pdf_sha256": "a6702d22d45748b12e1d681fd7d16676a6db29cf3e869d841902e5692e422c51",
+      "page_count": 3,
+      "subscription_eligibility": "NOT_VERIFIED",
+      "fund_lifecycle": "NOT_VERIFIED_FOR_DISTRIBUTION"
+    }
+  ]
+}
