@@ -63,7 +63,7 @@ const COUNT_METRICS = new Set(["nombre_locataires", "nombre_immeubles", "nombre_
 const DURATION_METRICS = new Set(["walt", "walb"]);
 
 export function parseFrNumber(raw) {
-  const s = String(raw || "").trim().replace(/ | /g, " ");
+  const s = String(raw || "").trim().replace(/\u00a0|\u202f/g, " ");
   if (!s) return null;
   const dot = s.lastIndexOf(".");
   const comma = s.lastIndexOf(",");
@@ -83,7 +83,7 @@ export function unitMultiplier(unit) {
   return 1;
 }
 
-const UNIT_AFTER_RE = /^[   ]*(%|Md€|M€|k€|€|euros?\b|milliards?\b|millions?\b|milliers?\b|parts?\b|ans?\b|années?\b|mois\b|locataires?\b|immeubles?\b|actifs?\b|associ[ée]s?\b|m²|m2\b)/i;
+const UNIT_AFTER_RE = /^[ \u00a0\u202f]*(%|Md€|M€|k€|€|euros?\b|milliards?\b|millions?\b|milliers?\b|parts?\b|ans?\b|années?\b|mois\b|locataires?\b|immeubles?\b|actifs?\b|associ[ée]s?\b|m²|m2\b)/i;
 
 /** Unité accolée à une occurrence numérique, normalisée : "%", "€", "parts", "ans", "count" ou null. */
 export function unitAfter(text, end) {
@@ -110,7 +110,7 @@ export function unitConflicts(metric, unit) {
 
 export function numericOccurrences(text) {
   const out = [];
-  const moneyRe = /(\d{1,3}(?:[   ]\d{3})+(?:[.,]\d+)?|\d+(?:[.,]\d+)?)\s*(Md€|M€|k€|€|milliards?|millions?|milliers?)/gi;
+  const moneyRe = /(\d{1,3}(?:[ \u00a0\u202f]\d{3})+(?:[.,]\d+)?|\d+(?:[.,]\d+)?)\s*(Md€|M€|k€|€|milliards?|millions?|milliers?)/gi;
   let m;
   while ((m = moneyRe.exec(text)) !== null) {
     const parsed = parseFrNumber(m[1] || "");
@@ -120,7 +120,7 @@ export function numericOccurrences(text) {
       out.push({ value: parsed, index: m.index, end, raw: m[0], unit: "€" });
     }
   }
-  const numberRe = /\b(\d{1,3}(?:[   ]\d{3})+(?:[.,]\d+)?|\d+(?:[.,]\d+)?)\b/g;
+  const numberRe = /\b(\d{1,3}(?:[ \u00a0\u202f]\d{3})+(?:[.,]\d+)?|\d+(?:[.,]\d+)?)\b/g;
   while ((m = numberRe.exec(text)) !== null) {
     const parsed = parseFrNumber(m[1] || "");
     const end = m.index + m[0].length;
@@ -160,8 +160,8 @@ export function compactSnippet(text, start, end) {
 
 // --- Zéro explicite ---------------------------------------------------------------
 
-const ROW_TOKEN = String.raw`(?:\d{1,3}(?:[   ]\d{3})*(?:[.,]\d+)?|[-–—_])(?:[   ]*parts?\b)?`;
-const FOOTNOTE = String.raw`(?:[   ]*\(\s*[^()]{0,40}\))?`;
+const ROW_TOKEN = String.raw`(?:\d{1,3}(?:[ \u00a0\u202f]\d{3})*(?:[.,]\d+)?|[-–—_])(?:[ \u00a0\u202f]*parts?\b)?`;
+const FOOTNOTE = String.raw`(?:[ \u00a0\u202f]*\(\s*[^()]{0,40}\))?`;
 
 /** Ligne de tableau qui suit un libellé : vraie seulement si elle contient au moins un nombre, uniquement des zéros, et aucun tiret (colonne vide = ambiguë). */
 function rowIsAllZero(row) {
@@ -180,7 +180,7 @@ function rowIsAllZero(row) {
 
 /** Le zéro est-il précédé d'un autre nombre ou d'un tiret de la même ligne (cas « 0 0 0 Parts en attente ») ? */
 function precededByRowValue(text, index) {
-  const before = text.slice(Math.max(0, index - 14), index).replace(/[   ]+$/g, "");
+  const before = text.slice(Math.max(0, index - 14), index).replace(/[ \u00a0\u202f]+$/g, "");
   return /[\d\-–—]$/.test(before);
 }
 
@@ -206,28 +206,28 @@ const ZERO_CHECKS = {
     { re: /\b0\s+(?:parts?(?:\(s\))?\s+)?en\s+attente(?:\s+de)?\s+retrait/i, accept: (m, t) => !precededByRowValue(t, m.index) },
     { re: /\b0\s+parts?(?:\(s\))?\s+en\s+attente/i, accept: (m, t) => !precededByRowValue(t, m.index) },
     {
-      re: /parts?\s+en\s+attente\s+de\s+retrait[^:\d\n]{0,60}(?:au\s+\d{1,2}[./]\d{1,2}[./]\d{2,4}\s*)?:\s*0(?![   ]*[\d.,])/i,
+      re: /parts?\s+en\s+attente\s+de\s+retrait[^:\d\n]{0,60}(?:au\s+\d{1,2}[./]\d{1,2}[./]\d{2,4}\s*)?:\s*0(?![ \u00a0\u202f]*[\d.,])/i,
     },
     {
-      re: new RegExp(String.raw`parts?\s+en\s+attente\s+de\s+retrait${FOOTNOTE}((?:[   ]+${ROW_TOKEN})+)`, "i"),
+      re: new RegExp(String.raw`parts?\s+en\s+attente\s+de\s+retrait${FOOTNOTE}((?:[ \u00a0\u202f]+${ROW_TOKEN})+)`, "i"),
       accept: (m) => rowIsAllZero(m[1] || ""),
     },
   ],
   endettement: [
     { re: /aucun\s+(?:financement|emprunt|endettement|recours\s+[àa]\s+l['’]endettement)|pas\s+d['’]endettement|sans\s+endettement|aucune\s+dette/i },
     {
-      re: /(?:taux\s+d['’]?endettement|ratio\s+(?:des\s+)?dettes(?:\s+et\s+autres\s+engagements)?|\bLTV\b|\bendettement\b)(?:[^\d%\n]|\(\d{1,2}\)|\d{1,2}[./]\d{1,2}[./]\d{2,4}){0,60}?\b0(?:[.,]0+)?[   ]*%/i,
+      re: /(?:taux\s+d['’]?endettement|ratio\s+(?:des\s+)?dettes(?:\s+et\s+autres\s+engagements)?|\bLTV\b|\bendettement\b)(?:[^\d%\n]|\(\d{1,2}\)|\d{1,2}[./]\d{1,2}[./]\d{2,4}){0,60}?\b0(?:[.,]0+)?[ \u00a0\u202f]*%/i,
     },
-    { re: /dette\s+bancaire[^\d\n]{0,80}\b0(?:[.,]0+)?[   ]*M?€/i },
+    { re: /dette\s+bancaire[^\d\n]{0,80}\b0(?:[.,]0+)?[ \u00a0\u202f]*M?€/i },
     {
-      re: /\b0(?:[.,]0+)?[   ]*%[   ]*(?:de\s+)?(?:taux\s+d['’]?endettement|d['’]endettement|endettement)/i,
+      re: /\b0(?:[.,]0+)?[ \u00a0\u202f]*%[ \u00a0\u202f]*(?:de\s+)?(?:taux\s+d['’]?endettement|d['’]endettement|endettement)/i,
       accept: (m, t) => !precededByRowValue(t, m.index),
     },
   ],
   distribution_par_part: [
     { re: /aucun(?:e)?\s+(?:dividende|distribution|acompte)|pas\s+de\s+(?:dividende|distribution|versement)|distribution\s+(?:suspendue|nulle)|acompte\s+nul/i },
     {
-      re: /(?:dividende|distribution|acompte)(?:[^\d€%\n]|T[1-4][   ]*\d{4}|\b\d{4}\b){0,60}?\b0(?:[.,]0+)?[   ]*(?:€|euros?\b)(?![   ]*\d)/i,
+      re: /(?:dividende|distribution|acompte)(?:[^\d€%\n]|T[1-4][ \u00a0\u202f]*\d{4}|\b\d{4}\b){0,60}?\b0(?:[.,]0+)?[ \u00a0\u202f]*(?:€|euros?\b)(?![ \u00a0\u202f]*\d)/i,
     },
   ],
 };
