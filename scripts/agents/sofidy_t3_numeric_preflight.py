@@ -57,7 +57,7 @@ def check_manifest(m,slug):
     if not isinstance(documents,list) or {d.get("slug") for d in documents}!=EXPECTED_SOFIDY:
         raise ValueError("UNEXPECTED_SCPI_COHORT")
     count=sum(len(d.get("metrics",[])) for d in documents)
-    if count!=41:raise ValueError("UNEXPECTED_NUMBER_OF_FINANCIAL_CLAIMS")
+    if count!=44:raise ValueError("UNEXPECTED_NUMBER_OF_FINANCIAL_CLAIMS")
     matches=[d for d in documents if d["slug"]==slug]
     if len(matches)!=1:raise ValueError("FUND_NOT_REGISTERED")
     d=matches[0]
