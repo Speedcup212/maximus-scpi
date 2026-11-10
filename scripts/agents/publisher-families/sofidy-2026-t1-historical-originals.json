@@ -11,21 +11,24 @@
       "name": "Sofiboutique",
       "source_url": "https://www.sofidy.com/app/uploads/2026/05/SOFIBOUTIQUE-BT-1T-2026.pdf",
       "pdf_sha256": "60be5c81e8e109032bd8c7841b7fb7140ce5f8d685be394f0daf28ffdccc551a",
-      "page_count": 6
+      "page_count": 6,
+      "source_period": "2026-T1"
     },
     {
       "slug": "sofidy-europe-invest",
       "name": "Sofidy Europe Invest",
       "source_url": "https://www.sofidy.com/app/uploads/2026/05/SEI-BT1T26.pdf",
       "pdf_sha256": "526b7fc638a814dc9e4d1c2d7c81fe5f3577aaba0fb0dbb70f116a85868dabfc",
-      "page_count": 6
+      "page_count": 6,
+      "source_period": "2026-T1"
     },
     {
       "slug": "sofipierre",
       "name": "Sofipierre",
       "source_url": "https://www.sofidy.com/app/uploads/2026/05/SOFIPIERRE-BT-1T-2026.pdf",
       "pdf_sha256": "f2ddb2cc95d502a044b946ee60f2d4c27e0b4edbe13e3547af047e4f0d313eff",
-      "page_count": 6
+      "page_count": 6,
+      "source_period": "2026-T1"
     }
   ],
   "financial_certified": false,
