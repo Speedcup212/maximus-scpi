@@ -91,10 +91,19 @@ def main():
         result={"slug":a.slug,"status":"BLOCKED","reason_code":str(exc)[:200],
                 "qa_approved":False,"publication_authorized":False,"database_mutated":False}
         code=1
+    if code==0:
+        missing=[x for x in result.get("review_items",[])
+                 if x["numeric_status"]!="TWO_READER_PERCENT_FOUND"]
+        result["text_unextractable_chart_percentages"]=len(missing)
+        result["status"]="ORIGINAL_CHART_RASTER_VISUAL_REVIEW_REQUIRED" if missing else "BOTH_TEXT_READERS_FOUND_CHART_VALUES_REVIEW_ONLY"
+        result["independent_visual_review_required"]=True
     (a.out/"review.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n")
     print(json.dumps({"slug":a.slug,"items":len(result.get("review_items",[])),"qa_approved":False,
-                      "publication_authorized":False,"status":result.get("status","SOURCE_CHART_REVIEW_ONLY")},ensure_ascii=False))
+                      "publication_authorized":False,"status":result["status"],
+                      "unextractable":result.get("text_unextractable_chart_percentages")},ensure_ascii=False))
     for claim in result.get("review_items",[]):print("CHART_NUMERIC "+json.dumps({"slug":a.slug,**claim},ensure_ascii=False))
-    if any(x["numeric_status"]!="TWO_READER_PERCENT_FOUND" for x in result.get("review_items",[])):code=2
+    # A PDF vector chart may not expose percentage numbers as selectable text.
+    # That is NOT a successful numeric verification; publish only the blocked
+    # visual-review artifact, without any financial QA or certification.
     raise SystemExit(code)
 if __name__=="__main__":main()
