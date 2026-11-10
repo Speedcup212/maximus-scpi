@@ -7,6 +7,8 @@ on:
       - 'scripts/agents/sofidy_t3_source_discovery.py'
       - 'scripts/agents/sofidy_t3_source_discovery_test.py'
       - 'scripts/agents/publisher-families/sofidy-2026-t1.json'
+      - 'scripts/agents/publisher-families/sofidy-2026-t3-proven.json'
+      - 'scripts/agents/sofidy_t3_page_review.py'
   push:
     branches: [main]
     paths:
@@ -14,6 +16,8 @@ on:
       - 'scripts/agents/sofidy_t3_source_discovery.py'
       - 'scripts/agents/sofidy_t3_source_discovery_test.py'
       - 'scripts/agents/publisher-families/sofidy-2026-t1.json'
+      - 'scripts/agents/publisher-families/sofidy-2026-t3-proven.json'
+      - 'scripts/agents/sofidy_t3_page_review.py'
   workflow_dispatch:
 
 permissions:
@@ -105,5 +109,42 @@ jobs:
         with:
           name: sofidy-t3-discovery-${{ github.run_id }}
           path: test-results/sofidy-current/sofidy-2026-T3.json
+          if-no-files-found: error
+          retention-days: 14
+
+  review-t3-issuer-pages:
+    needs: [preflight, discover-published-t3]
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    strategy:
+      fail-fast: false
+      matrix:
+        slug: [sofiboutique, sofipierre, sofidy-europe-invest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install original PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Verify issuer TLS CA against pretrusted root
+        run: bash scripts/agents/prepare_verified_sofidy_ca.sh
+      - name: Render all relevant T3 pages after original SHA and Poppler validation
+        run: |
+          python scripts/agents/sofidy_t3_page_review.py \
+            --manifest scripts/agents/publisher-families/sofidy-2026-t3-proven.json \
+            --slug ${{ matrix.slug }} \
+            --out test-results/sofidy-t3-review/${{ matrix.slug }}
+      - name: Archive visual page checks without giving financial approval
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sofidy-t3-pages-${{ matrix.slug }}-${{ github.run_id }}
+          path: test-results/sofidy-t3-review/${{ matrix.slug }}/
           if-no-files-found: error
           retention-days: 14
