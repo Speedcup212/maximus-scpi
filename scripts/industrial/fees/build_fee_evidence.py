@@ -23,7 +23,9 @@ import sys
 
 FEE_LABEL = {'souscription': re.compile(r'souscription|co[uû]ts\s+d.\s*entr', re.I),
              'gestion': re.compile(r'gestion', re.I)}
-ZERO_RE = re.compile(r'sans\s+commission\s+de\s+souscription|0\s*%\s+de\s+(?:commission|frais)\s+de\s+souscription|aucune\s+commission\s+de\s+souscription', re.I)
+ZERO_RE = re.compile(r'sans\s+commission\s+de\s+souscription|0\s*%\s+de\s+(?:commission|frais)\s+de\s+souscription'
+                     r'|aucune\s+commission\s+de\s+souscription|pas\s+de\s+commission\s+de\s+souscription'
+                     r'|commission\s+de\s+souscription\s+(?:de\s+la\s+SCPI\s+)?est\s+(?:nulle|de\s+0\s*%)', re.I)
 RELIABILITY = {'note': 3, 'dic': 2}
 
 
@@ -45,6 +47,16 @@ def focus(snippet: str, decision: dict) -> str:
         elif all(n in window or n.replace(',', '.') in window for n in needles):
             return window
     return text
+
+
+def resolve_doc(docs: list, decision: dict) -> dict | None:
+    """Document cité par la revue : par empreinte SHA-256 (stable d'un relevé à l'autre), sinon par rang."""
+    sha = decision.get('doc_sha256')
+    if sha:
+        matches = [d for d in docs if d.get('sha256') == sha and not d.get('error')]
+        return next((d for d in matches if d.get('identity_match')), matches[0] if matches else None)
+    index = decision.get('doc', -1)
+    return docs[index] if 0 <= index < len(docs) else None
 
 
 def find_clause(doc: dict, decision: dict) -> dict | None:
@@ -80,9 +92,11 @@ def build(probe_dir: pathlib.Path, review: dict, manifest: dict):
                    'semantic_reviewer': None, 'reason': d.get('reason'), 'note': d.get('note'),
                    'catalog_value_is_priips_cost': bool(d.get('catalog_value_is_priips_cost')),
                    'probe_run_id': review['probe_run_id']}
+            if d['status'] != 'verified' and d.get('value_state') == 'not_applicable':
+                row['value_state'] = 'not_applicable'
             if d['status'] == 'verified':
                 docs = report['documents']
-                doc = docs[d['doc']] if 0 <= d.get('doc', -1) < len(docs) else None
+                doc = resolve_doc(docs, d)
                 problem = None
                 if not doc or doc.get('error'):
                     problem = 'document_absent_du_releve'

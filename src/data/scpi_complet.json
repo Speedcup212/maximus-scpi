@@ -79,7 +79,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "recettes de toute nature encaissées HT (loyers et produits financiers nets)",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://alderan.fr/wp-content/uploads/2026/06/20260427-Note-dinformation-SCPI-ActivImmo-1.pdf",
         "pdf_sha256": "edec6fa1f0b417d5d35e5f2696e6371e9688487e38de6607b6ee850e0f5c6424",
@@ -91,7 +91,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "recettes de toute nature encaissées HT (loyers et produits financiers nets)"
@@ -266,7 +266,30 @@
       "Risque de liquidité : 44 872 parts en attente de retrait ; fonds de remboursement activé (source : 2026-1t-bti-aestiam-horizon.pdf)"
     ],
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 347.63
+    "Valeur de reconstitution par part (€)": 347.63,
+    "maximus_metric_provenance": {
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 9.5,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.aestiam.com/doc/horizon/reglementaire/AestiamHorizon-NoteInformation.pdf",
+        "pdf_sha256": "fc658046e8e2c806e9a46792851c62e5c7c7dd45fb2564e25d7bc95cd3860a73",
+        "source_page": 25,
+        "evidence_text": "rer de la TVA en vigueur) par transfert. 2.3. Commission de gestion La Société de Gestion est chargée de l'administration de la Société, de la tenue du registre des associés, ainsi que de la distribution des revenus. Pour ce service, elle perçoit une commission de gestion fixée à 9,5 % HT (à majorer de la TVA en vigueur) du montant des produits locatifs HT encaissés et des prod",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets"
   },
   {
     "Nom SCPI": "Altixia Cadence 12",
@@ -559,7 +582,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix total de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.sogenial.fr/wp-content/uploads/2026/10/Coeur-de-Regions-Dossier-de-souscription.pdf",
         "pdf_sha256": "5df307e250e594b4206222b6d9746eaa4e38dfc0c01c42c7102b23be83cb5a86",
@@ -571,7 +594,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     }
   },
@@ -676,7 +699,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix total de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.sogenial.fr/wp-content/uploads/2026/10/Coeur-de-Ville-Dossier-de-souscription.pdf",
         "pdf_sha256": "fea5b812bdab8ed53685a65a5530c93665d4f9fe0bbffb6de3b031d358a34b14",
@@ -688,7 +711,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "partial",
@@ -768,7 +791,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix total de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.sogenial.fr/wp-content/uploads/2026/10/Coeur-dEurope-Dossier-de-souscription.pdf",
         "pdf_sha256": "6197abfc88e6da716a0a2304662c8205d8ad60bbb813192c3e82be305dee1dba",
@@ -780,7 +803,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     }
   },
@@ -864,7 +887,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "recettes de toute nature encaissées HT (loyers et produits financiers nets)",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://alderan.fr/wp-content/uploads/2025/04/2026.07.07-SCPI-Comete-Note-dinformation-et-annexe.pdf",
         "pdf_sha256": "89cfa0915500c22af03f082abd15546997cde16cacfb60bdb089bee8fbd3a6dd",
@@ -876,7 +899,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "recettes de toute nature encaissées HT (loyers et produits financiers nets)"
@@ -901,7 +924,7 @@
     "Délai de jouissance (mois)": 1,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de gestion (HT/%)": 10,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "Paris (21.84%), Île-de-France (51.53%), Régions France (22.63%), Allemagne (3.91%), Espagne (0.09%)",
     "Répartition Sectorielle": "Bureaux (84.94%), Commerces (13.10%), Hôtels, tourisme et loisirs (1.96%)",
     "Répartition Géographique JSON": {
@@ -922,7 +945,7 @@
       "Source": "DIC PRIIPs — Bulletin T1 2026",
       "Verification": "Official"
     },
-    "Frais de souscription (TTC/%)": 8,
+    "Frais de souscription (TTC/%)": null,
     "SFDR": "Article 9",
     "Parts en attente de retrait": 396756,
     "Nombre de cessions trimestre": 3,
@@ -935,7 +958,39 @@
       "Risque de liquidité : marché/variabilité suspendu ou marché secondaire ; 396 756 parts en attente de retrait (source : A7_BT_20260331.pdf)"
     ],
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 219.5
+    "Valeur de reconstitution par part (€)": 219.5,
+    "maximus_metric_provenance": {
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets (SCPI et sociétés contrôlées)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://doc.la-francaise.com/documents/note-information-et-statuts-credit-mutuel-pierre-1",
+        "pdf_sha256": "aa52d5c818f8535344a28544ed7e658a7f70c01c02b52c600e17aeedbc29b0e2",
+        "source_page": 23,
+        "evidence_text": "cution des programmes d'investissement. ▪ une commission de gestion perçue par la Société de gestion pour l'administration de la société et correspondant à : - 10 % HT maximum (12 % TTC applicable au 1er janvier 2014) des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quote-part de détentio",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_state": "not_applicable",
+        "valid_from": "2026-06-01",
+        "source_url": "https://doc.la-francaise.com/documents/bulletin-trimestriel-credit-mutuel-pierre-1-30062026",
+        "evidence_text": "Suspension temporaire de la variabilité du capital à compter du 1er juin 2026 ; annulation des demandes de souscription et retrait en cours ; mise en place d’un marché secondaire par confrontation périodique des ordres.",
+        "reason": "Variabilité du capital suspendue : pas de souscription au marché primaire.",
+        "recovery_task": "RECOVERY-200"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets (SCPI et sociétés contrôlées)"
   },
   {
     "Nom SCPI": "Cristal Life",
@@ -1047,7 +1102,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTI",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCLNoteInfo_StatutsAMFEurope20261030.pdf",
         "pdf_sha256": "1f24356766eadfaa3fa13497aa13e4b110fb7efc749669bc08036a5b4b4ee774",
@@ -1059,7 +1114,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -1285,7 +1340,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.sofidy.com/app/uploads/2026/08/NI-EF-082026-FR-1-3247_note-info_EFIMMO1_v32.pdf",
         "pdf_sha256": "09efc1c0575b836c7d323f95ed13644cbf1c96d153c116b1238f772ca4c9503c",
@@ -1297,7 +1352,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -1305,7 +1360,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "produits locatifs HT encaissés et produits financiers nets",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.sofidy.com/app/uploads/2026/08/FP-EF-082026-FR-1-3249_FicheProduit_EFIMMO1_v28.pdf",
         "pdf_sha256": "3b50d3d18794ee9d9087d950588a15c12bbd8579fa0361b2aa9134b638df4b50",
@@ -1317,7 +1372,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 2,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets"
@@ -1361,7 +1416,7 @@
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 11.76,
+    "Frais de souscription (TTC/%)": null,
     "Nombre d'immeubles": 64,
     "Nombre d'associés": 1879,
     "Nombre de parts": 280192,
@@ -1381,7 +1436,18 @@
     "Article SFDR": 9,
     "niveau_risque_dic": 3,
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 678.58
+    "Valeur de reconstitution par part (€)": 678.58,
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_state": "not_applicable",
+        "valid_from": "2026-06-24",
+        "source_url": "https://www.praemiareim.fr/fr/particuliers",
+        "evidence_text": "Suspension de variabilité du capital décidée par l’Assemblée Générale du 24 juin 2026.",
+        "reason": "Variabilité du capital suspendue : pas de souscription au marché primaire.",
+        "recovery_task": "RECOVERY-200"
+      }
+    }
   },
   {
     "Nom SCPI": "Perial Grand Paris",
@@ -1423,7 +1489,7 @@
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 9.5,
+    "Frais de souscription (TTC/%)": null,
     "Nombre d'immeubles": 91,
     "Nombre de parts": 2296667,
     "Distribution trimestrielle T1 2026 (€/part)": 4.17,
@@ -1443,7 +1509,18 @@
     "Article SFDR": 9,
     "niveau_risque_dic": 4,
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 423.34
+    "Valeur de reconstitution par part (€)": 423.34,
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_state": "not_applicable",
+        "valid_from": "2026-02-25",
+        "source_url": "https://www.perial.com/scpi/perial-grand-paris",
+        "evidence_text": "Suspension temporaire de la variabilité du capital à compter du 25 février 2026 ; marché secondaire organisé à compter du 2 avril 2026.",
+        "reason": "Variabilité du capital suspendue : pas de souscription au marché primaire.",
+        "recovery_task": "RECOVERY-200"
+      }
+    }
   },
   {
     "Nom SCPI": "NCap Régions",
@@ -1525,7 +1602,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.normacapital.fr/documentation/note-dinformation/",
         "pdf_sha256": "91c14ddeb6934f9c7955647b21e55b2b4eccaf6b87d10fe59c82d03446e6303c",
@@ -1537,7 +1614,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -1545,7 +1622,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "produits locatifs HT encaissés et produits financiers nets encaissés",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.normacapital.fr/documentation/note-dinformation/",
         "pdf_sha256": "91c14ddeb6934f9c7955647b21e55b2b4eccaf6b87d10fe59c82d03446e6303c",
@@ -1557,7 +1634,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets encaissés"
@@ -1678,7 +1755,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://paref-gestion.com/wp-content/uploads/2026/11/7c732d7e-45f7-4cdd-98dd-84d87e9e73ab-2026-Statuts-Novapierre-Residentiel.pdf",
         "pdf_sha256": "b8eb8678b0de30aae70a57df981195ba1a44b7df59ab6c6f9efa3aec119b8c30",
@@ -1690,7 +1767,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -1698,7 +1775,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "recettes de toute nature encaissées HT",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://paref-gestion.com/wp-content/uploads/2026/11/7c732d7e-45f7-4cdd-98dd-84d87e9e73ab-2026-Statuts-Novapierre-Residentiel.pdf",
         "pdf_sha256": "b8eb8678b0de30aae70a57df981195ba1a44b7df59ab6c6f9efa3aec119b8c30",
@@ -1710,7 +1787,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "recettes de toute nature encaissées HT"
@@ -1858,7 +1935,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://doc.la-francaise.com/documents/note-information-et-statuts-lf-opportunite-immo",
         "pdf_sha256": "efc2aab9590dab781a3e75fc6cdccc95cd0aed9b999c74c8a98fc9243d8c7a3f",
@@ -1870,7 +1947,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -1878,7 +1955,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "produits locatifs HT encaissés (y compris sociétés contrôlées), taux maximum",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://doc.la-francaise.com/documents/note-information-et-statuts-lf-opportunite-immo",
         "pdf_sha256": "efc2aab9590dab781a3e75fc6cdccc95cd0aed9b999c74c8a98fc9243d8c7a3f",
@@ -1890,7 +1967,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs HT encaissés (y compris sociétés contrôlées), taux maximum"
@@ -1964,7 +2041,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription (taux maximum)",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.consultim-am.com/wp-content/uploads/2026/11/SCPI-OPTIMALE-Note-information-2026-11.pdf",
         "pdf_sha256": "738decf7e81fbd05a5b26a353962f3e42eeb0e390655b080d62b1bf80a7abd77",
@@ -1976,7 +2053,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -1984,7 +2061,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "produits locatifs HT encaissés et produits financiers nets (taux maximum)",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.consultim-am.com/wp-content/uploads/2026/11/SCPI-OPTIMALE-Note-information-2026-11.pdf",
         "pdf_sha256": "738decf7e81fbd05a5b26a353962f3e42eeb0e390655b080d62b1bf80a7abd77",
@@ -1996,7 +2073,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets (taux maximum)"
@@ -2137,7 +2214,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://paref-gestion.com/wp-content/uploads/2024/10/9f42e78c-a44c-46b5-af0e-67a3f1b6fd94-2025StatutsPAREFHexa.pdf",
         "pdf_sha256": "dcdff0b72fec9168d44cf6411cb2d8f10ad4f76934db59459ae8614821273193",
@@ -2149,7 +2226,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     }
   },
@@ -2208,7 +2285,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTI",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_GPRBulletin_Trimestriel2024_S2.pdf",
         "pdf_sha256": "2ec3a7a4624be8463fa94a916317b84bf8b44ba52f303b53a4e480c0d9b12db0",
@@ -2220,7 +2297,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     }
   },
@@ -2296,7 +2373,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.sofidy.com/app/uploads/2022/04/NI-IR-072026-FR-2-3191.pdf",
         "pdf_sha256": "b113cb3783bd319141e9beb0b8f660b213fe2210c9664bc99f779b6087e7054a",
@@ -2308,7 +2385,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     }
   },
@@ -2332,7 +2409,7 @@
     "Délai de jouissance (mois)": 1,
     "Versement des loyers": "mensuelle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": 14.4,
+    "Frais de gestion (HT/%)": 12.0,
     "Répartition Géographique": "France (29.5%), Royaume-Uni (25.8%), Pays-Bas (13.3%), Espagne (11.5%), Irlande (10.9%), Allemagne (8.0%), Italie (1.0%)",
     "Répartition Sectorielle": "Commerces (36.20%), Bureaux (29.40%), Locaux d'activités (15.10%), Entrepôts (10.40%), Santé / Crèches / Éducation / Hôtellerie (9.00%)",
     "Répartition Géographique JSON": {
@@ -2360,7 +2437,7 @@
     },
     "Nombre d'immeubles": 177,
     "Actualités trimestrielles": "Quatorze nouvelles acquisitions représentant un volume total de 256.5 M€ hors droits au cours du trimestre | Acquisition à Londres (Royaume-Uni, 66,9M€) : bureaux avec durée ferme des baux de 13 ans et rendement AEM de 8,76% (bureaux) | Acquisition à Alcala de Guadaira (Espagne, 26,21M€) : commerces avec durée ferme des baux de 1,83 ans et rendement AEM de 8,47% (commerce) | Acquisition à Swords (Irlande, 24,5M€) : commerces avec durée ferme des baux de 15 ans et rendement AEM de 7,42% (commerce) | Acquisition à Noordwijkerhout (Pays-Bas, 22,15M€) : entrepôt avec durée ferme des baux de 15 ans et rendement AEM de 7,34% (logistique) | Acquisition à Reading (Royaume-Uni, 19,72M€) : bureaux avec durée ferme des baux de 10,54 ans et rendement AEM de 8,86% (bureaux) | Acquisition à Sheffield (Royaume-Uni, 19,33M€) : parking avec durée ferme des baux de 19,56 ans et rendement AEM de 8,3% (autre) | Acquisition à Wiesbaden (Allemagne, 17,10M€) : bureaux avec durée ferme des baux de 8,4 ans et rendement AEM de 7,04% (bureaux) | Acquisition à Bournemouth (Royaume-Uni, 12,01M€) : commerces avec durée ferme des baux de 9,56 ans et rendement AEM de 9,22% (commerce) | Acquisition à Getafe (Espagne, 11,16M€) : entrepôt avec durée ferme des baux de 4,1 ans et rendement AEM de 8,05% (logistique) | Acquisition à Croydon (Royaume-Uni, 9,394M€) : parking avec durée ferme des baux de 29 ans et rendement AEM de 7,74% (autre) | Acquisition à Guben (Allemagne, 7,25M€) : commerces avec durée ferme des baux de 19 ans et rendement AEM de 7,0-8,0% (commerce) | Acquisition à Échirolles (France, 7,23M€) : commerces avec durée ferme des baux de 4 ans et rendement AEM de 7,6% (commerce) | Acquisition à Londres (Royaume-Uni, 6,97M€) : commerces avec durée ferme des baux de 2,17 ans et rendement AEM de 7,35% (commerce) | Acquisition à Leeds (Royaume-Uni, 6,58M€) : école avec durée ferme des baux de 4 ans et rendement AEM de 7,84% (santé/éducation) | Collecte nette de 130M€ au cours du trimestre, portant la capitalisation à 1 237M€ au 30 septembre 2025 | Distribution T3 2025 de 3,73€ brut et 3,03€ net de fiscalité étrangère par part, confirmant la performance de distribution | Taux d'occupation financier de 98,1% et taux d'occupation physique de 97,6%, témoignant d'une gestion locative solide | Ratio d'endettement (LTV) de 30,1%, niveau modéré permettant une marge de manœuvre pour les investissements futurs | Durée moyenne ferme des baux (WALB) de 7,6 ans et durée moyenne totale (WALT) de 9,1 ans, assurant une visibilité de revenus à long terme | Portefeuille compte désormais 164 actifs immobiliers pour une surface totale de 981 138 m², répartis sur 7 pays européens | 46 nouveaux locataires intégrés au T3 2025, portant le total à 378 locataires, renforçant la diversification locative | Prix de souscription porté à 204€ le 1er août 2025 (en hausse de 2€ par rapport au trimestre précédent), reflétant la valorisation du patrimoine | Recommercialisations réalisées à Arras (Mobalpa, 261 m²), Barcelone (Action, 1 323 m²), Emmen Nijbracht (Brookhuis, 1 000 m²) et Ballymount (Cavalier Flooring, 172 m²) | Programme de relocation en cours pour Pantin (258 m², départ juillet 2026), Alcala de Guadaira (1 901 m², départ février 2026) et Brie Comte Robert (372 m², départ décembre 2025) | Renforcement des équipes avec l'arrivée de Killian Waeckel en tant qu'Asset Manager, renforçant les capacités de gestion | Création de Fyra, filiale de gestion locative premium, pour optimiser la gestion opérationnelle du portefeuille | Reprise du portefeuille espagnol par Iroko Iberia depuis juillet 2025, améliorant la gestion locale des actifs | Actions ESG : partenariat avec Tilt Energy et Thermosphr, installation d'une pompe à chaleur à Heerlen et d'un système GTB à Olivet | Aucune cession d'actif n'a été réalisée au cours du trimestre",
-    "Frais de souscription (TTC/%)": 0,
+    "Frais de souscription (TTC/%)": 0.0,
     "Période bulletin trimestriel": "T1 2026",
     "maximus_data_status": "extracted_t1_2026",
     "maximus_source_document": "BT_T1_2026 (Iroko Zen)",
@@ -2369,7 +2446,50 @@
     "Nombre d'associés": 29350,
     "nb_locataires": 411,
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 213.94
+    "Valeur de reconstitution par part (€)": 213.94,
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 0.0,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "sans objet (aucune commission de souscription)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://iroko-documents.s3.eu-west-3.amazonaws.com/Iroko_Zen_note_information.pdf",
+        "pdf_sha256": "17220a6866d38eb1cef781f38277e28f8553a562de4adcf0236e3def9dbc2a04",
+        "source_page": 31,
+        "evidence_text": "vée dans le public. 5. Politique de frais 5.1 Commission de souscription de parts La commission de souscription est de 0% HT, soit 0% TTC du montant souscrit. 5.2 Commission de retrait de parts et mutation de parts En cas de retrait de parts détenues depuis moins de six (6) ans, la Société de Gestion prélèvera en sus, une commission d'un montant maximum de 5% HT (soit 6% TTC) d",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 12.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés directement ou indirectement et autres produits HT",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://iroko-documents.s3.eu-west-3.amazonaws.com/Iroko_Zen_note_information.pdf",
+        "pdf_sha256": "17220a6866d38eb1cef781f38277e28f8553a562de4adcf0236e3def9dbc2a04",
+        "source_page": 31,
+        "evidence_text": "échéant) avant l'envoi de l'acte de cession à la Société de Gestion. 5.3 Commission de gestion Commission sur les loyers Au titre de la gestion de ses actifs, la Société de Gestion percevra une commission de gestion d'un montant maximum de 12% HT (soit 14,4% TTC au taux de TVA en vigueur) du montant : • Des produits locatifs hors taxes encaissés directement ou indirectement (au",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés directement ou indirectement et autres produits HT"
   },
   {
     "Nom SCPI": "Kyaneos Pierre",
@@ -2428,7 +2548,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTI",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://kyaneosam.com/wp-content/uploads/2026/10/SCPI-Kyaneos-Pierre-Plaquette-commerciale-octobre-2026.pdf",
         "pdf_sha256": "6e2e65c12036e5d63944e12d3f404d3ea3901f5389045d00705604b69cddb976",
@@ -2440,7 +2560,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     }
   },
@@ -2464,7 +2584,7 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de gestion (HT/%)": 10,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "Paris (32.75%), Ile-de-France (5.58%), Régions (40.09%), Belgique (11.93%), Irlande (9.65%)",
     "Répartition Sectorielle": "Soins de ville (43%), Établissements sanitaires (41%), Solutions d'accueil générationnelles (16%)",
     "Répartition Géographique JSON": {
@@ -2483,7 +2603,7 @@
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 9,
+    "Frais de souscription (TTC/%)": 10.8,
     "Nombre d'associés": 9302,
     "Nombre d'immeubles": 35,
     "liquidite": "Aucune part en attente de retrait",
@@ -2491,7 +2611,50 @@
     "niveau_risque_dic": 3,
     "maximus_warnings": [],
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 302.3
+    "Valeur de reconstitution par part (€)": 302.3,
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 10.8,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "montant de chaque souscription, prime d'émission incluse",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://doc.la-francaise.com/documents/note-information-et-statuts-lf-avenir-sante",
+        "pdf_sha256": "2ac0d8374da525f168f994f1e51768be319f21742767f3d8a306969b8161bd48",
+        "source_page": 28,
+        "evidence_text": "atutaires suivantes versées par la SCPI : Une commission de souscription perçue par la Société de Gestion correspondant à 9 % HT (soit 10,8 % TTC au taux de TVA applicable au 1er janvier 2021) du montant de chaque souscription, prime d'émission incluse, afin d'assurer la prospection et la collecte des capitaux ainsi que l'exécution des programmes d'investissement. Une commissio",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets (SCPI et sociétés contrôlées)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://doc.la-francaise.com/documents/note-information-et-statuts-lf-avenir-sante",
+        "pdf_sha256": "2ac0d8374da525f168f994f1e51768be319f21742767f3d8a306969b8161bd48",
+        "source_page": 28,
+        "evidence_text": "xécution des programmes d'investissement. Une commission de gestion est fixée comme suit : - 10 % HT maximum des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quotepart de détention de la SCPI), pour l'administration et la gestion du patrimoine de la SCPI ; - 10 % HT maximum des produits f",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets (SCPI et sociétés contrôlées)"
   },
   {
     "Nom SCPI": "LF Europimmo",
@@ -2541,7 +2704,7 @@
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 8,
+    "Frais de souscription (TTC/%)": 9.6,
     "Nombre d'associés": 15314,
     "Nombre de parts": 1121259,
     "Distribution trimestrielle T1 2026 (€/part)": 6,
@@ -2560,7 +2723,29 @@
     "Article SFDR": 9,
     "niveau_risque_dic": 4,
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 773.78
+    "Valeur de reconstitution par part (€)": 773.78,
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 9.6,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "montant de chaque souscription, prime d'émission incluse",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://doc.la-francaise.com/documents/note-information-et-statuts-lf-europimmo",
+        "pdf_sha256": "0e13c025953e25cbd142b15ded5b0efd846a1ed3a273abc312d752e1035deed9",
+        "source_page": 22,
+        "evidence_text": "les commissions statutaires suivantes : ▪ une commission de souscription perçue par la Société de gestion correspondant à 8 % HT (soit 9,6 % TTC au taux de TVA en vigueur) du montant de chaque souscription, prime d'émission incluse, afin d'assurer la prospection et la collecte des capitaux ainsi que l'exécution des programmes d'investissement. ▪ une commission de gestion perçue",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    }
   },
   {
     "Nom SCPI": "LF Grand Paris Patrimoine",
@@ -2582,7 +2767,7 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de gestion (HT/%)": 10,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "Ile-de-France (85%), Régions (15%)",
     "Répartition Sectorielle": "Bureaux (75%), Commerces (25%)",
     "Répartition Géographique JSON": {
@@ -2601,7 +2786,7 @@
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 8,
+    "Frais de souscription (TTC/%)": null,
     "Nombre d'associés": 14710,
     "Nombre de parts": 4907637,
     "Distribution trimestrielle T1 2026 (€/part)": 0.93,
@@ -2621,7 +2806,39 @@
     "Article SFDR": 9,
     "niveau_risque_dic": 4,
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 216.96
+    "Valeur de reconstitution par part (€)": 216.96,
+    "maximus_metric_provenance": {
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "montant HT des produits locatifs encaissés et produits financiers nets",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://doc.la-francaise.com/documents/note-information-et-statuts-lf-grand-paris-patrimoine",
+        "pdf_sha256": "fd41d4a478c811736e652c375bb15014fd9bf8d7a2162f05daf41a6dea21de0d",
+        "source_page": 25,
+        "evidence_text": "se de calcul ; de laquelle sont déduites les commissions de gestion déjà payées par les participations contrôlées, à proportion de la détention du capital par la SCPI dans ces sociétés contrôlées. ▪ une commission de gestion perçue par la Société de gestion pour l'administration de la société et correspondant à 10 % HT maximum (12 % TTC applicable au 1er février 2018) du montan",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_state": "not_applicable",
+        "valid_from": "2026-06-01",
+        "source_url": "https://doc.la-francaise.com/documents/bulletin-trimestriel-lf-grand-paris-patrimoine-30062026",
+        "evidence_text": "Variabilité du capital temporairement suspendue depuis le 1er juin 2026 ; marché secondaire ouvert.",
+        "reason": "Variabilité du capital suspendue : pas de souscription au marché primaire.",
+        "recovery_task": "RECOVERY-200"
+      }
+    },
+    "Frais de gestion - assiette": "montant HT des produits locatifs encaissés et produits financiers nets"
   },
   {
     "Nom SCPI": "Log In",
@@ -2643,7 +2860,7 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": null,
+    "Frais de gestion (HT/%)": 12.0,
     "Répartition Géographique": "France (37.3%), Allemagne (25.3%), Royaume-Uni (13.1%), Italie (7.6%), Pays-Bas (6.7%), Espagne (3.5%), Portugal (2.4%), Grèce (2.4%), Autres pays (1.7%)",
     "Répartition Sectorielle": "Logistique / Activité (36.9%), Bureaux (27.9%), Hôtellerie (8.7%), Résidentiel (7.7%), Éducation (7.5%), Commerces (5.5%), Santé (3.5%), Autres (2.3%)",
     "Répartition Géographique JSON": {
@@ -2667,7 +2884,7 @@
     },
     "Actualités trimestrielles": "Deux acquisitions finalisées pour 9,6 M€ au cours du trimestre | Acquisition à Fossò (Italie, 3 346 m², 6,7M€) : site industriel entièrement rénové, livré clé en main et loué pour une durée ferme de 15 ans à TreZeta Group, acteur italien spécialisé dans la fabrication de semelles pour chaussures de luxe (locaux d'activités et sites de production) | Acquisition à Tychy (Pologne, 9 705 m², 2,9M€) : bâtiment industriel construit en 1997 et modernisé en 2016, comprenant 6 704 m² de production, 2 531 m² de bureaux (26%) et 470 m² d'entrepôts, occupé par BOS Automotive Product Polska, filiale du groupe allemand BOS GmbH, acteur mondial du secteur automobile (locaux d'activités et sites de production) | Première acquisition de LOG-IN en Pologne, marquant une étape importante dans le développement européen du portefeuille | Le site de Tychy bénéficie d'un emplacement stratégique à proximité de Katowice, au cœur du corridor Baltique-Adriatique TEN-T | L'ensemble des deux actifs italiens (Fossò et San Donato) représente désormais plus de 12 500 m², consolidant un partenariat stratégique de long terme avec un acteur de référence de l'industrie italienne | Taux de rendement global combiné des deux opérations italiennes s'élève à 8%, traduisant une excellente création de valeur | Collecte brute de 15,8M€ au cours du trimestre, portant la capitalisation à 207,8M€ au 30 septembre 2025 | Portefeuille compte désormais 16 actifs répartis dans 6 pays (Allemagne, Italie, Royaume-Uni, Espagne, Irlande et Pologne) | Taux d'occupation financier de 100% et durée ferme moyenne des baux (WALB) de 9,7 ans | Dividende trimestriel de 2,91€ par part (3,54€ brut de fiscalité étrangère), identique au trimestre précédent | LOG-IN reste en ligne avec son objectif 2025 de rendement brut entre 6% et 6,5% | À compter du 1er novembre 2025, le prix de souscription sera porté à 255€ par part | Aucune cession d'actif n'a été réalisée au cours du trimestre",
     "Période bulletin trimestriel": "T1 2026",
-    "Frais de souscription (TTC/%)": 12,
+    "Frais de souscription (TTC/%)": 12.0,
     "Distribution trimestrielle T1 2026 (€/part)": 3.79,
     "maximus_data_status": "extracted_t1_2026",
     "maximus_source_document": "log_in_bt_t1.pdf",
@@ -2697,12 +2914,47 @@
     "Valeur de reconstitution par part (€)": 266.73,
     "maximus_metric_provenance": {
       "frais_gestion": {
-        "verification_status": "blocked",
-        "value_state": "unknown",
-        "reason": "Valeur héritée égale au coût PRIIPs du DIC (assiette : valeur de l'investissement), retirée ; commission de gestion sur les loyers non encore prouvée.",
-        "recovery_task": "RECOVERY-200"
+        "verification_status": "verified",
+        "value_numeric": 12.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés directement ou indirectement et autres produits encaissés",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://theoreim.com/wp-content/uploads/2022/09/SCPI-LOG-IN-Note-dinformation-1.pdf",
+        "pdf_sha256": "40b0946e48f03c713b718de6726fb899c1054f78f06a3ff19f29759f95fa52d6",
+        "source_page": 31,
+        "evidence_text": "31 COMMISSION DE GESTION Au titre de l'administration de la SCPI et de la gestion de ses actifs, la Société de Gestion percevra une commission de gestion maximum de 12 % HT (soit 14,4 % TTC au taux de TVA en vigueur) du montant : - des produits locatifs hors taxes encaissés directement ou indirectement (au prorata de la participation de la SCPI diminués des éventuelles commissi",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 12.0,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "montant souscrit",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://theoreim.com/wp-content/uploads/2022/09/SCPI-LOG-IN-Note-dinformation-1.pdf",
+        "pdf_sha256": "40b0946e48f03c713b718de6726fb899c1054f78f06a3ff19f29759f95fa52d6",
+        "source_page": 32,
+        "evidence_text": "ervice rendu aux souscripteurs dans le temps. COMMISSION DE SOUSCRIPTION DE PARTS La Société de Gestion percevra une commission de souscription d'un montant de 10 % HT (soit 12 % TTC au taux de TVA en vigueur) du montant souscrit, destiné à couvrir les frais de collecte (notamment préparation et réalisation des souscriptions, placement des parts de la SCPI et rémunération des d",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       }
-    }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés directement ou indirectement et autres produits encaissés"
   },
   {
     "Nom SCPI": "NCap Education Santé",
@@ -2761,7 +3013,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.normacapital.fr/documentation/note-dinformation-3/",
         "pdf_sha256": "1ace36c51645f9c1e27697caa392c3fef3b68710f74b31da6848fbd06e90a8b6",
@@ -2773,7 +3025,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "partial",
@@ -2861,7 +3113,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "aucune commission de souscription (en contrepartie de frais de gestion)",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.remake.fr/wp-content/uploads/2026/08/plaquette-commerciale.pdf",
         "pdf_sha256": "8190942d255e977aee9c8c548905e54046dba9361e1fec0bf4db84804f6a7be9",
@@ -2873,7 +3125,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -2881,7 +3133,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "produits locatifs",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.remake.fr/wp-content/uploads/2026/08/plaquette-commerciale.pdf",
         "pdf_sha256": "8190942d255e977aee9c8c548905e54046dba9361e1fec0bf4db84804f6a7be9",
@@ -2893,7 +3145,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs"
@@ -2918,7 +3170,7 @@
     "Délai de jouissance (mois)": 5,
     "Versement des loyers": "Mensuelle",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de gestion (HT/%)": 10,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "France (59,5%), Pays-Bas (13,8%), Allemagne (12,6%), Espagne (12,3%), Italie (1,9%)",
     "Répartition Sectorielle": "Bureaux (48,5%), Hôtels, tourisme, loisirs (26,4%), Commerces (18,5%), Santé et éducation (4,8%), Logistique et locaux d'activités (1,7%), Alternatifs (0,1%)",
     "Répartition Géographique JSON": {
@@ -2950,7 +3202,7 @@
     "WALB": 5.2,
     "Actualités trimestrielles": "À compter du 01/01/2026, modification du prix de souscription et des valeurs de retrait et de réalisation | Collecte nette de 9,86 M€ au T3 2025 | 2 cessions d'immeubles de bureaux en France pour un montant total de 3,8 M€ | Cession d'un immeuble de bureaux à Aix-Europarc/Meyreuil (13) - 1,0 M€, 860 m², juillet 2025 | Cession d'un immeuble de bureaux Cenor à Issy-les-Moulineaux (92) - 2,8 M€, 551 m², septembre 2025, plus-value de 0,5 M€ distribuable dès 2025 | Distribution T3 2025: 13,20 €/part | Distribution nette cumulée au T3 2025: 37,72 €/part | Taux de distribution cible 2025: entre 6,10% et 6,40% | Taux de distribution 2024: 6,27% | Performance Globale Annuelle (PGA) 2024: 6,27% | TRI 10 ans: 5,47% | TRI depuis création: 7,33% | Taux d'occupation financier: 90,3% | 131 immeubles, 320 baux | WALB: 5,2 ans | Superficie totale: 379 018 m² | Taux d'endettement: 31,4% (max 40%) | Taux d'intérêt moyen: 2,50% | Durée résiduelle moyenne de la dette: 2,1 ans | Prix MSCI 'Highest Total Return Relative to the Real Estate All Property Benchmark' | 1er Prix des SCPI diversifiée de moins de 2 Md€ d'encours aux trophées de la Finance responsable",
     "Nombre d'immeubles": 127,
-    "Frais de souscription (TTC/%)": 9.5,
+    "Frais de souscription (TTC/%)": 11.4,
     "Nombre de parts": 17965045,
     "Distribution trimestrielle T1 2026 (€/part)": 0.51,
     "maximus_warnings": [
@@ -2965,7 +3217,50 @@
     "Article SFDR": 8,
     "niveau_risque_dic": 4,
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 42.93
+    "Valeur de reconstitution par part (€)": 42.93,
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 11.4,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "prix de souscription (acquisition de parts nouvelles)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://cdn.prod.website-files.com/68d505281630e4a2223e1bee/6ad21f51320e8f0eb69d4e62_Note%20d%27information%20PERIAL%20Opportunit%C3%A9s%20Europe.pdf",
+        "pdf_sha256": "ae7820b8122aa4632113d4d51410d95326518d9016b0f198b18bd885dca9cddc",
+        "source_page": 20,
+        "evidence_text": " commissions visées au présent Chapitre 3. 1. Commission de souscription La commission de souscription (due à l'acquisition de parts nouvelles) s'élève à neuf virgule cinq pour cent hors taxes (9,5 % HT) maximum (TVA en sus au taux en vigueur soit actuellement 11,4 % TTC) du prix de souscription des parts, dont le montant est inclus dans la prime d'émission, soit un montant HT ",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers et assimilés",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://cdn.prod.website-files.com/68d505281630e4a2223e1bee/6ad21f51320e8f0eb69d4e62_Note%20d%27information%20PERIAL%20Opportunit%C3%A9s%20Europe.pdf",
+        "pdf_sha256": "ae7820b8122aa4632113d4d51410d95326518d9016b0f198b18bd885dca9cddc",
+        "source_page": 20,
+        "evidence_text": " le nombre de parts transférées ou cédées. 3. Commission de gestion La commission perçue par la Société de Gestion s'élève à 10 % HT maximum, TVA en sus au taux en vigueur (actuellement 12 % TTC) prélevée sur la totalité des produits locatifs HT encaissés et des produits financiers et assimilés de la Société. En cas de détention par la Société de parts ou actions de sociétés dé",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers et assimilés"
   },
   {
     "Nom SCPI": "Perial O2",
@@ -2987,7 +3282,7 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de gestion (HT/%)": null,
+    "Frais de gestion (HT/%)": 11.5,
     "Répartition Géographique": "Régions (38,4%), Région parisienne (36,6%), Europe (hors France) (22,5%), Paris (2,5%)",
     "Répartition Sectorielle": "Bureaux (85.4%), Hôtels, tourisme, loisirs (5.8%), Santé & éducation (4.5%), Commerces (3.6%), Logistique et locaux d'activités (0.7%)",
     "Répartition Géographique JSON": {
@@ -3012,7 +3307,7 @@
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 11.5,
+    "Frais de souscription (TTC/%)": null,
     "Nombre d'immeubles": 137,
     "Nombre de parts": 14643842,
     "Distribution trimestrielle T1 2026 (€/part)": 1.72,
@@ -3035,12 +3330,36 @@
     "Valeur de reconstitution par part (€)": 150.73,
     "maximus_metric_provenance": {
       "frais_gestion": {
-        "verification_status": "blocked",
-        "value_state": "unknown",
-        "reason": "Valeur héritée égale au coût PRIIPs du DIC (assiette : valeur de l'investissement), retirée ; commission de gestion sur les loyers non encore prouvée.",
+        "verification_status": "verified",
+        "value_numeric": 11.5,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://cdn.prod.website-files.com/68d505281630e4a2223e1bee/6ad21f22320e8f0eb69d2c6d_Note%20d%27information%20PERIAL%20O2.pdf",
+        "pdf_sha256": "c45734066f2a17ea45a8cf15cb8bcc0f7adbf521be257ca46d6ddc3aa699293e",
+        "source_page": 22,
+        "evidence_text": "t le nombre de parts transférées ou cédées. 3 Commission de gestion La commission perçue par la Société de Gestion s'élève à 11,5 % HT maximum, TVA en sus au taux actuel en vigueur (soit 13,8 % TTC) de la totalité des produits locatifs encaissés hors taxes et hors charges refacturées aux locataires et des produits financiers nets et assimilés perçus par la Société. En cas de dé",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_state": "not_applicable",
+        "valid_from": "2026-02-25",
+        "source_url": "https://www.perial.com/scpi/perial-o2",
+        "evidence_text": "Suspension temporaire de la variabilité du capital à compter du 25 février 2026 ; marché secondaire organisé à compter du 2 avril 2026.",
+        "reason": "Variabilité du capital suspendue : pas de souscription au marché primaire.",
         "recovery_task": "RECOVERY-200"
       }
-    }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers"
   },
   {
     "Nom SCPI": "Perial Hospitalité Europe",
@@ -3062,7 +3381,7 @@
     "Délai de jouissance (mois)": 4,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 8,
-    "Frais de gestion (HT/%)": 9,
+    "Frais de gestion (HT/%)": 9.0,
     "Répartition Géographique": "Allemagne (67.5%), Espagne (17.6%), Italie (11.4%), Pays-Bas (3.5%)",
     "Répartition Sectorielle": "Santé et éducation (61,0%), Hôtels, tourisme, loisirs (37,9%), Alternatifs, résidences étudiantes (1,1%)",
     "Répartition Géographique JSON": {
@@ -3082,7 +3401,7 @@
       "Source": "Valeur par défaut (Autre)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 8.5,
+    "Frais de souscription (TTC/%)": 10.2,
     "Nombre d'immeubles": 29,
     "nb_locataires": 29,
     "liquidite": "37 302 parts en attente de retrait au 31/03/2026 (variabilité du capital non suspendue)",
@@ -3091,7 +3410,50 @@
       "Risque de liquidité : marché/variabilité suspendu ou marché secondaire ; 37 302 parts en attente de retrait (source : PHE BTI T1 2026.pdf)"
     ],
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 176.47
+    "Valeur de reconstitution par part (€)": 176.47,
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 10.2,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "prix de souscription (acquisition de parts nouvelles)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://cdn.prod.website-files.com/68d505281630e4a2223e1bee/6ad21f2d72a12f361fb63184_Note%20d%27information%20PERIAL%20Hospitalit%C3%A9%20Europe.pdf",
+        "pdf_sha256": "f7384511a877bb9c2ea06b8966a927f576e5e7deef3f6c0079fda2234c333065",
+        "source_page": 19,
+        "evidence_text": "s commissions visées au présent Chapitre 3. 1 Commission de souscription La commission de souscription (due à l'acquisition de parts nouvelles) s'élève à 8,50 % HT maximum (TVA en sus au taux en vigueur soit actuellement 10,2 % TTC) du prix de souscription des parts, dont le montant est inclus dans la prime d'émission, soit un montant HT de 15,39 euros et un montant TTC de 18,4",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 9.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers et assimilés",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://cdn.prod.website-files.com/68d505281630e4a2223e1bee/6ad21f2d72a12f361fb63184_Note%20d%27information%20PERIAL%20Hospitalit%C3%A9%20Europe.pdf",
+        "pdf_sha256": "f7384511a877bb9c2ea06b8966a927f576e5e7deef3f6c0079fda2234c333065",
+        "source_page": 19,
+        "evidence_text": "t le nombre de parts transférées ou cédées. 3 Commission de gestion La commission perçue par la Société de Gestion s'élève à 9% HT maximum, TVA en sus au taux actuel en vigueur (soit 10,8% TTC) de la totalité des produits locatifs encaissés hors taxes et hors charges refacturées aux locataires et des produits financiers nets et assimilés perçus par la Société. En cas de détenti",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers et assimilés"
   },
   {
     "Nom SCPI": "Sofiprime",
@@ -3157,7 +3519,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription prime d'émission incluse",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.sofidy.com/app/uploads/2024/01/NI-SFP-072026-FR-2-3148.pdf",
         "pdf_sha256": "b417d651d61a205b3a418571de353932ad17e980737b7c9a656f569f7a983c5e",
@@ -3169,7 +3531,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "partial",
@@ -3199,7 +3561,7 @@
     "Délai de jouissance (mois)": 5,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de gestion (HT/%)": 9,
+    "Frais de gestion (HT/%)": 9.0,
     "Répartition Géographique": "Ile-de-France (54.50%), Régions (24.80%), Paris (17.28%), Allemagne (3.42%)",
     "Répartition Sectorielle": "Bureaux (72.52%), Commerces (21.41%), Logistique et locaux d'activités (3.87%), Hotels, tourisme et loisirs (1.68%), Santé et éducation (0.52%)",
     "Répartition Géographique JSON": {
@@ -3221,7 +3583,7 @@
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 6.25,
+    "Frais de souscription (TTC/%)": null,
     "Nombre d'associés": 20468,
     "Nombre d'immeubles": 235,
     "liquidite": "Liquidité fortement restreinte",
@@ -3231,7 +3593,39 @@
       "Risque de liquidité : marché/variabilité suspendu ou marché secondaire (source : I9_BT_20260331.pdf)"
     ],
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 560.96
+    "Valeur de reconstitution par part (€)": 560.96,
+    "maximus_metric_provenance": {
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 9.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets (SCPI et sociétés contrôlées)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://doc.la-francaise.com/documents/note-information-et-statuts-selectinvest-1",
+        "pdf_sha256": "398100dc80ec81bad8aa546a06626bd71f784c2e0d675d721f293cb8c1b2ea3b",
+        "source_page": 23,
+        "evidence_text": "cution des programmes d'investissement. ▪ une commission de gestion perçue par la Société de gestion pour l'administration de la société et correspondant à : - 9 % HT maximum (10,80 % TTC au taux de TVA applicable à compter du 1er janvier 2014) des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité ",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_state": "not_applicable",
+        "valid_from": "2026-06-01",
+        "source_url": "https://doc.la-francaise.com/documents/bulletin-trimestriel-selectinvest-1-30062026",
+        "evidence_text": "Suspension temporaire de la variabilité du capital à compter du 1er juin 2026 ; annulation des demandes de souscription et de retrait antérieures ; ouverture du marché secondaire par confrontation.",
+        "reason": "Variabilité du capital suspendue : pas de souscription au marché primaire.",
+        "recovery_task": "RECOVERY-200"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets (SCPI et sociétés contrôlées)"
   },
   {
     "Nom SCPI": "Transitions Europe",
@@ -3253,7 +3647,7 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": 10,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "Espagne (34%), Pays-Bas (27%), Allemagne (20%), Irlande (12%), Pologne (7%)",
     "Répartition Sectorielle": "Bureaux (38%), Commerces (18%), Life Sciences (13%), Hospitalité (11%), Logistique (13%), Éducation (7%)",
     "Répartition Géographique JSON": {
@@ -3287,7 +3681,7 @@
     "WALT": 11.3,
     "WALB": 6.5,
     "Actualités trimestrielles": "Collecte nette de 135 M€ au T3 2025 | 8 nouvelles acquisitions pour un volume global de 179 M€ | Portefeuille composé de 43 actifs répartis sur 6 typologies et 6 pays | Renouvellement du Label ISR pour une 2ème période triennale | Distribution d'un acompte sur dividende de 3€ par part au titre du T3 | Montant total distribué de 12.50 € par part depuis le début de l'année | Objectif de taux de distribution cible réhaussé à 7,5% (non garanti) | Pipeline de 13 actifs sous exclusivité représentant environ 220 M€",
-    "Frais de souscription (TTC/%)": 10,
+    "Frais de souscription (TTC/%)": 12.0,
     "Nombre d'associés": 33756,
     "Nombre d'immeubles": 56,
     "nb_locataires": 319,
@@ -3295,7 +3689,50 @@
     "Article SFDR": 8,
     "niveau_risque_dic": 3,
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 207.49
+    "Valeur de reconstitution par part (€)": 207.49,
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 12.0,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "prix de souscription",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.arkea-reim.com/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_note_d_information.pdf",
+        "pdf_sha256": "6d1ff2deb77b7c0f2494574d9189a3eabdccf5bd500a88663e8da09b2ea023b9",
+        "source_page": 22,
+        "evidence_text": " (benchmark, évaluation périodique, etc.). 1. Commission de souscription La commission de souscription (due lors de la souscription de parts nouvelles) s'élève à 10 % HT maximum (soit 12% TTC) du prix de souscription des parts, dont le montant est inclus dans la prime d'émission. Cette commission a pour objet de rémunérer la recherche de nouveaux souscripteurs. 2. Commission de",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "totalité des produits locatifs HT encaissés et produits financiers nets",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.arkea-reim.com/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_note_d_information.pdf",
+        "pdf_sha256": "6d1ff2deb77b7c0f2494574d9189a3eabdccf5bd500a88663e8da09b2ea023b9",
+        "source_page": 23,
+        "evidence_text": " le nombre de parts transférées ou cédées. 3. Commission de gestion La commission perçue par la Société de Gestion s'élève à 10% HT maximum (soit 12% TTC) de la totalité des produits locatifs exigibles et encaissés hors taxes et hors charges refacturées aux locataires et des produits financiers nets et assimilés courus et perçus par la Société. En cas de détention par la Sociét",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "totalité des produits locatifs HT encaissés et produits financiers nets"
   },
   {
     "Nom SCPI": "Urban Coeur de Commerce",
@@ -3359,7 +3796,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTI",
         "assessment_basis": "prix de la part",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2023/11/UCC_BT-3T23.pdf",
         "pdf_sha256": "80da15a7de7d3950ff6d872e245dff2e019f9fb087bf4b974f58b009c2ccae19",
@@ -3371,7 +3808,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     }
   },
@@ -3395,7 +3832,7 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 9,
-    "Frais de gestion (HT/%)": 10,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "Paris (22.44%), Île-de-France (37.59%), Régions (31.82%), Allemagne (5.37%), Pays-Bas (1.47%), Royaume-Uni (0.90%), Irlande (0.41%)",
     "Répartition Sectorielle": "Bureaux (70.99%), Commerces (19.36%), Hôtels (5.73%), Santé et éducation (3.40%), Logistique et locaux d'activités (0.52%)",
     "Répartition Géographique JSON": {
@@ -3420,7 +3857,7 @@
       "Source": "Valeur par défaut (SCPI française)",
       "Verification": "Default"
     },
-    "Frais de souscription (TTC/%)": 7.5,
+    "Frais de souscription (TTC/%)": 9.0,
     "Distribution trimestrielle T1 2026 (€/part)": 5.52,
     "Période bulletin trimestriel": "T1 2026",
     "maximus_warnings": [
@@ -3438,7 +3875,50 @@
     "Article SFDR": 9,
     "niveau_risque_dic": 4,
     "Décote/Surcote QA": "publishable",
-    "Valeur de reconstitution par part (€)": 704.15
+    "Valeur de reconstitution par part (€)": 704.15,
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 9.0,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "montant de chaque souscription, prime d'émission incluse",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://doc.la-francaise.com/documents/note-information-et-statuts-epargne-fonciere",
+        "pdf_sha256": "1134e8335197278a44b41800103a55b08d4790d34c62b376b032dd7d4c9a1b7c",
+        "source_page": 22,
+        "evidence_text": "les commissions statutaires suivantes : ▪ une commission de souscription perçue par la Société de gestion correspondant à 7,50 % HT (soit 9 % TTC au taux de TVA applicable au 1er janvier 2014) du montant de chaque souscription, prime d'émission incluse, afin d'assurer la prospection et la collecte des capitaux ainsi que l'exécution des programmes d'investissement. ▪ une commiss",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets (SCPI et sociétés contrôlées)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://doc.la-francaise.com/documents/note-information-et-statuts-epargne-fonciere",
+        "pdf_sha256": "1134e8335197278a44b41800103a55b08d4790d34c62b376b032dd7d4c9a1b7c",
+        "source_page": 22,
+        "evidence_text": "cution des programmes d'investissement. ▪ une commission de gestion perçue par la Société de gestion pour l'administration de la société et correspondant à : - 10 % HT maximum (12 % TTC applicable au 1er janvier 2014) des produits locatifs HT encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens du Code monétaire et financier (limité à la quote-part de détentio",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets (SCPI et sociétés contrôlées)"
   },
   {
     "Nom SCPI": "Épargne Pierre",
@@ -3460,7 +3940,7 @@
     "Délai de jouissance (mois)": 6,
     "Versement des loyers": "Trimestrielle",
     "Durée de détention recommandée (ans)": 10,
-    "Frais de gestion (HT/%)": null,
+    "Frais de gestion (HT/%)": 10.0,
     "Répartition Géographique": "Paris (27.57%), Île-de-France (15.43%), Sud-Ouest (17.39%), Nord-Ouest (12.92%), Nord (12.65%), Sud-Est (14.04%), Nord-Est (11.15%)",
     "Répartition Sectorielle": "Bureaux (48.15%), Commerces (29.35%), Activités/Entrepôts (8.41%), Tourisme/Hôtel (8.70%), Santé/Education (5.23%), Résidentiel/Alternatif (0.16%)",
     "Répartition Géographique JSON": {
@@ -3492,7 +3972,7 @@
     "Nombre d'acquisitions trimestre": 0,
     "Montant cessions trimestre (M€)": 3.185,
     "Actualités trimestrielles": "Aucune acquisition réalisée au cours du trimestre | Cessions du trimestre : 2 actifs cédés pour 3,185 M€ (Villers-Semeuse (88) - Centre commercial Villiers II Le Pré des Terres, Retail Park 1 074 m², 1,7 M€ | Besançon (25) - 2F Avenue des Montboucons, bureaux 739 m², 1,485 M€) | Gestion locative : 11 entrées de locataires (dont ADP GSI France à Villeneuve d'Ascq, CALTEA à Versailles, FRANCE TERRE D'ASILE à Bobigny, ATS CULLIGAN à Versailles, NOVACOR à Chatou) et 15 sorties de locataires (dont HESNAULT à Guyancourt, PRÊT A MANGER à Versailles, TOTO TISSUS à Cormontreuil, MINISTERE DE L'EDUCATION à Aix-en-Provence, ASSYSTEM à Tours) | TOF à 94,30% au 30/09/2025, avec 93,47% de locaux occupés, 0,83% sous franchise ou mis à disposition, 5,70% vacants | Collecte nette T3 2025 : 15 M€ | Distribution T3 2025 : 2,64€ par part versée le 23/10/2025 | Distribution annuelle prévisionnelle 2025 : 10,98€ par part | Acquisition prévue au T4 2025 : renforcement de l'exposition sur l'hôtellerie avec une acquisition d'un volume supérieur à 30 M€ | Immeuble Unity à Nancy primé par l'association professionnelle BBCA lors des Grands Prix du salon de l'immobilier Bas Carbone 2025, dans la catégorie « coup de cœur du jury » | Réinvestissement automatique des revenus mis en place | Actualisation des valeurs d'expertise au 30/06/2025 : léger retrait de -0,8% principalement dû à la hausse des droits d'enregistrement",
-    "Frais de souscription (TTC/%)": 12,
+    "Frais de souscription (TTC/%)": 12.0,
     "Nombre d'immeubles": 414,
     "Nombre d'associés": 52989,
     "Nombre de parts": 13440297,
@@ -3520,12 +4000,47 @@
     "Valeur de reconstitution par part (€)": 207.22,
     "maximus_metric_provenance": {
       "frais_gestion": {
-        "verification_status": "blocked",
-        "value_state": "unknown",
-        "reason": "Valeur héritée égale au coût PRIIPs du DIC (assiette : valeur de l'investissement), retirée ; commission de gestion sur les loyers non encore prouvée.",
-        "recovery_task": "RECOVERY-200"
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "recettes brutes (produits locatifs et produits financiers)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://atland-voisin.com/wp-content/uploads/2021/11/Note_information-SCPI_Epargne_Pierre-novembre_2021.pdf",
+        "pdf_sha256": "5bae2a997b65761dea5bcde865af942dc44c439dffda991c0e780cb9e21796d1",
+        "source_page": 15,
+        "evidence_text": "stissement liés à chaque investissement - Une commission de gestion : 10 % HT maximum (à majorer de la TVA au taux en vigueur, soit 12 % pour un taux de TVA à 20 %) du montant total des recettes brutes (telles que les produits locatifs ou les produits",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      },
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 12.0,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "prix de souscription des parts, prime d'émission incluse",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://atland-voisin.com/wp-content/uploads/2021/11/Note_information-SCPI_Epargne_Pierre-novembre_2021.pdf",
+        "pdf_sha256": "5bae2a997b65761dea5bcde865af942dc44c439dffda991c0e780cb9e21796d1",
+        "source_page": 15,
+        "evidence_text": "SOCIETE DE GESTION » des statuts soit : - Une commission de souscription : 10 % HT (à majorer de la TVA au taux en vigueur, soit 12 % pour un taux de TVA à 20 %) du prix de souscription des parts, prime d'émission incluse. Cette commission rémunère la prospection des capitaux, les frais d'étude et d'exécution des programmes d'investissement liés à chaque investissement - Une co",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
       }
-    }
+    },
+    "Frais de gestion - assiette": "recettes brutes (produits locatifs et produits financiers)"
   },
   {
     "Nom SCPI": "Épargne Pierre Europe",
@@ -3801,7 +4316,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.groupemagellim.com/wp-content/uploads/2026.07.07-Note-dinformation-SCPI-Fonciere-des-Praticiens.pdf",
         "pdf_sha256": "f0dc043c493c70499ed09dc9e63df2567e6153de2bc2275d95641564911e8ca6",
@@ -3813,7 +4328,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -3821,7 +4336,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "produits locatifs HT encaissés et produits financiers nets",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.groupemagellim.com/wp-content/uploads/2026.07.07-Note-dinformation-SCPI-Fonciere-des-Praticiens.pdf",
         "pdf_sha256": "f0dc043c493c70499ed09dc9e63df2567e6153de2bc2275d95641564911e8ca6",
@@ -3833,7 +4348,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets"
@@ -3948,7 +4463,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.normacapital.fr/documentation/note-dinformation-4/",
         "pdf_sha256": "bafa2743fa4a81dea69793396ed3d6c09c4c4ba4fccf423952a7f7421aa9efdb",
@@ -3960,7 +4475,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     }
   },
@@ -4024,7 +4539,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "produits locatifs encaissés directement ou indirectement et autres produits (taux maximum)",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://wemo-reim.fr/wp-content/uploads/2026/10/Note-dinformation-octobre-2026.pdf",
         "pdf_sha256": "e0ae691efee01589403961d57d43b224ccfc4010444340d66fe4a8f8b837b8f5",
@@ -4036,7 +4551,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs encaissés directement ou indirectement et autres produits (taux maximum)"
@@ -4094,7 +4609,7 @@
     "WALT": 13,
     "WALB": 12.1,
     "Actualités trimestrielles": "TD brut 2025 de 9,41% - premier exercice complet, non représentatif d'un rendement stabilisé. TRI cible 10 ans : 7% non garanti. Objectif TD : 6,5% non garanti. 14 actifs, 20 locataires, 40 394 m², patrimoine HD 67,6 M€. 2 acquisitions T1 2026 : Assen (Pays-Bas) et Newcastle (Royaume-Uni), ~10,1 M€, rendement AEM ~8% non garanti. Dividende T1 2026 brut : 4,83€/part, net fiscalité étrangère : 3,91€/part. Aucune part en attente de retrait.",
-    "Frais de souscription (TTC/%)": 0,
+    "Frais de souscription (TTC/%)": 0.0,
     "Distribution trimestrielle T1 2026 (€/part)": 4.83,
     "maximus_data_status": "manual_review",
     "maximus_source_document": "Bulletin T1 2026 Iroko Atlas",
@@ -4110,7 +4625,29 @@
       "Objectif TD 6.5% non garanti",
       "Label ISR en cours d obtention - ne pas afficher comme obtenu"
     ],
-    "Décote/Surcote QA": "publishable"
+    "Décote/Surcote QA": "publishable",
+    "maximus_metric_provenance": {
+      "frais_souscription": {
+        "verification_status": "verified",
+        "value_numeric": 0.0,
+        "tax_basis": "TTC",
+        "tax_label": "TTC",
+        "assessment_basis": "sans objet (aucune commission de souscription)",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://iroko-documents.s3.eu-west-3.amazonaws.com/Iroko_Atlas_note_information.pdf",
+        "pdf_sha256": "5e3c4597b8fa777fccf611ff686a106678f6d6c09a96f62f7ae9b86f6552ca35",
+        "source_page": 27,
+        "evidence_text": "s la forme des commissions ci- après : 3.2.1. Commission de souscription Il n'y a pas de commission de souscription due au titre de la souscription des Parts. 3.2.2. Commission de gestion La commission de gestion est versée par Iroko Atlas et est fixée comme suit : - Un montant maximum de 12% HT (à majorer de la TVA au taux en vigueur, soit 14,4 % TTC pour un taux de TVA de 20 ",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    }
   },
   {
     "Nom SCPI": "Epsicap Nano",
@@ -4171,7 +4708,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription (taux maximum)",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://epsicap.fr/app/uploads/2026/05/Epsicap-Nano-Note-dinformation-2026.05.pdf",
         "pdf_sha256": "0f61cdda2a84b51b1ff5eefa8ee8275afa89a320e60df39782689aff81c37bb6",
@@ -4183,7 +4720,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -4191,7 +4728,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "produits locatifs HT encaissés et produits financiers nets (taux maximum)",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://epsicap.fr/app/uploads/2026/05/Epsicap-Nano-Note-dinformation-2026.05.pdf",
         "pdf_sha256": "0f61cdda2a84b51b1ff5eefa8ee8275afa89a320e60df39782689aff81c37bb6",
@@ -4203,7 +4740,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets (taux maximum)"
@@ -4261,7 +4798,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "montant des capitaux collectés, primes d'émission incluses",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.altarea-im.com/wp-content/uploads/2026/07/241209_Altarea_FicheProduit_PPP_WEB-1.pdf",
         "pdf_sha256": "e804a686ec3bd90abc4e3688728ea2ce71d0b8ef6392f657228b15629c2ff674",
@@ -4273,7 +4810,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -4281,7 +4818,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "loyers et autres produits encaissés par la SCPI",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.altarea-im.com/wp-content/uploads/2026/07/241209_Altarea_FicheProduit_PPP_WEB-1.pdf",
         "pdf_sha256": "e804a686ec3bd90abc4e3688728ea2ce71d0b8ef6392f657228b15629c2ff674",
@@ -4293,7 +4830,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "loyers et autres produits encaissés par la SCPI"
@@ -4489,7 +5026,7 @@
     "Article SFDR": 8,
     "niveau_risque_dic": 4,
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (TTC/%)": 9.0,
+    "Frais de souscription (TTC/%)": null,
     "Frais de gestion (HT/%)": 10.0,
     "Surcote/décote (%)": 7.37,
     "Décote/Surcote QA": "publishable",
@@ -4498,23 +5035,12 @@
     "maximus_metric_provenance": {
       "frais_souscription": {
         "verification_status": "verified",
-        "value_numeric": 9.0,
-        "tax_basis": "TTC",
-        "tax_label": "exonere",
-        "assessment_basis": "prix de souscription prime d'émission incluse (taux maximum)",
-        "valid_from": "2026-11-09",
-        "valid_from_basis": "observed_in_force_on_official_site",
-        "source_url": "https://www.praemiareim.fr/documents/14836074/14836314/PRIMOVIE_brochure+202611.pdf/dac85e39-3bcf-c86d-1dee-ac4b7e787518?t=1793711455481",
-        "pdf_sha256": "51667ba8202b4f2fbe3a31571cb1cd8ad2334bf58b005e20ab89d9e2557f91f7",
-        "source_page": 5,
-        "evidence_text": "sance : au 1er jour du mois de la transaction Commission de souscription sur le marché primaire : 9,00 % HT max (exonérée de TVA) du prix de souscription prime d'émission incluse. Commission de cession des parts sur le marché secondaire : commission de 4,80% TTC assise sur le montant de la transaction. Cette commission est à la charge de l'acquéreur. Droits de mutation pour ces",
-        "document_kind": "note",
-        "product_identity_verified": true,
-        "semantic_review_verified": true,
-        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
-        "reliability_rank": 3,
-        "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "value_state": "not_applicable",
+        "valid_from": "2026-06-23",
+        "source_url": "https://extranet.praemiareim.fr/fr/web/preim-fr/scpi-primovie",
+        "evidence_text": "Suspension de la variabilité du capital depuis le 23 juin 2026 ; annulation des demandes de souscription et de retrait et ouverture d’un marché secondaire.",
+        "reason": "Variabilité du capital suspendue : pas de souscription au marché primaire.",
+        "recovery_task": "RECOVERY-200"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -4522,7 +5048,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "produits locatifs encaissés (10 % HT max) ; produits financiers nets (5 % HT max)",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.praemiareim.fr/documents/14836074/14836314/PRIMOVIE_brochure+202611.pdf/dac85e39-3bcf-c86d-1dee-ac4b7e787518?t=1793711455481",
         "pdf_sha256": "51667ba8202b4f2fbe3a31571cb1cd8ad2334bf58b005e20ab89d9e2557f91f7",
@@ -4534,7 +5060,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs encaissés (10 % HT max) ; produits financiers nets (5 % HT max)"
@@ -4654,7 +5180,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTI",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.euryale-am.fr/wp-content/uploads/2026/01/Plaquette-commerciale-Pierval-Sante-2026.pdf",
         "pdf_sha256": "9bac3b1267e4b5bce1937a686604a93495f9ef7ba35f5cc798f2416602a39b42",
@@ -4666,7 +5192,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -4725,7 +5251,7 @@
     "Article SFDR": 8,
     "niveau_risque_dic": 4,
     "Durée de détention recommandée (ans)": 10,
-    "Frais de souscription (TTC/%)": 9.0,
+    "Frais de souscription (TTC/%)": null,
     "Frais de gestion (HT/%)": 10.0,
     "Valeur de reconstitution (€)": 151.36,
     "Surcote/décote (%)": 5.71,
@@ -4735,23 +5261,12 @@
     "maximus_metric_provenance": {
       "frais_souscription": {
         "verification_status": "verified",
-        "value_numeric": 9.0,
-        "tax_basis": "TTC",
-        "tax_label": "exonere",
-        "assessment_basis": "prix de souscription prime d'émission incluse (taux maximum)",
-        "valid_from": "2026-11-09",
-        "valid_from_basis": "observed_in_force_on_official_site",
-        "source_url": "https://www.praemiareim.fr/documents/14836074/14836284/PATRIMMO_COMMERCE_brochure+march%C3%A9+secondaire_10+2026.pdf/642cb47e-b6a5-aac5-dabd-39e637e7e5ea?t=1793126385028",
-        "pdf_sha256": "851660193bdd040fad5bf6b2a90c8f98591aa44b0610fc0102d2a169976442f7",
-        "source_page": 5,
-        "evidence_text": "sance : au 1er jour du mois de la transaction Commission de souscription sur le marché primaire : 9,00% HT max (exonérée de TVA) du prix de souscription prime d'émission incluse. Commission de cession des parts sur le marché secondaire : commission de cession de 4,80% TTC assise sur le montant de la transaction. Cette commission est à la charge de l'acquéreur. Droits de mutatio",
-        "document_kind": "note",
-        "product_identity_verified": true,
-        "semantic_review_verified": true,
-        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
-        "reliability_rank": 3,
-        "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "value_state": "not_applicable",
+        "valid_from": "2026-06-25",
+        "source_url": "https://contrib.praemiareim.fr/fr/scpi-patrimmo-commerce",
+        "evidence_text": "Suspension de la variabilité du capital approuvée le 25 juin 2026 ; annulation de la file de retraits et ouverture d’un marché secondaire par confrontation.",
+        "reason": "Variabilité du capital suspendue : pas de souscription au marché primaire.",
+        "recovery_task": "RECOVERY-200"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -4759,7 +5274,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "produits locatifs encaissés (10 % HT max) ; produits financiers nets (5 % HT max)",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.praemiareim.fr/documents/14836074/1247267777/PREIM_PATRIMMO_COMMERCE_MANDAT_ACHAT_0826%20PP/cd906243-1c6f-87c3-ed9e-31a79ef35842",
         "pdf_sha256": "d54fa47c175e38a7533c065ddbe9c7069dc361680e314096b83f8cf41b81eb27",
@@ -4771,7 +5286,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs encaissés (10 % HT max) ; produits financiers nets (5 % HT max)"
@@ -4815,7 +5330,7 @@
     "niveau_risque_dic": 3,
     "Durée de détention recommandée (ans)": 10,
     "Frais de souscription (TTC/%)": 10,
-    "Frais de gestion (HT/%)": 10,
+    "Frais de gestion (HT/%)": 10.0,
     "maximus_warnings": [
       "Risque de liquidité : marché/variabilité suspendu ou marché secondaire ; 38 858 parts en attente de retrait ; fonds de remboursement activé (source : 2026-1t-bti-aestiam-agora.pdf)"
     ],
@@ -4823,7 +5338,30 @@
     "Surcote/décote (%)": -4.55,
     "Décote/Surcote QA": "publishable",
     "Valeur de reconstitution par part (€)": 965.93,
-    "Date bulletin": "30/06/2026"
+    "Date bulletin": "30/06/2026",
+    "maximus_metric_provenance": {
+      "frais_gestion": {
+        "verification_status": "verified",
+        "value_numeric": 10.0,
+        "tax_basis": "HT",
+        "tax_label": "HT",
+        "assessment_basis": "produits locatifs HT encaissés et produits financiers nets",
+        "valid_from": "2026-11-10",
+        "valid_from_basis": "observed_in_force_on_official_site",
+        "source_url": "https://www.aestiam.com/doc/agora/reglementaire/AestiamAgora-NoteInformation.pdf",
+        "pdf_sha256": "8ca69e4f5548d6da1b5b23278779648f2c39a7a15cb2b9f365502aa1d812bcf3",
+        "source_page": 24,
+        "evidence_text": "rer de la TVA en vigueur) par transfert. 2.3. Commission de gestion La Société de Gestion est chargée de l'administration de la SCPI, de la tenue du registre des associés, ainsi que de la distribution des revenus. Pour ce service, elle perçoit une commission de gestion fixée à 10 % HT (à majorer de la TVA en vigueur) du montant des produits locatifs HT encaissés et des produits",
+        "document_kind": "note",
+        "product_identity_verified": true,
+        "semantic_review_verified": true,
+        "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
+        "reliability_rank": 3,
+        "recovery_task": "RECOVERY-200",
+        "probe_run_id": "42773336564"
+      }
+    },
+    "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets"
   },
   {
     "Nom SCPI": "Remake UK 2025",
@@ -4895,7 +5433,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "montant souscrit",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.remake.fr/wp-content/uploads/2026/08/note-information.pdf",
         "pdf_sha256": "6f331d29251b39d0dafc3e068b47f6da23ee084a12a93495d2feec8ceb8eb92c",
@@ -4907,7 +5445,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -4915,7 +5453,7 @@
         "tax_basis": "HT",
         "tax_label": "HT",
         "assessment_basis": "produits locatifs (et autres produits listés)",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.remake.fr/wp-content/uploads/2026/08/note-information.pdf",
         "pdf_sha256": "6f331d29251b39d0dafc3e068b47f6da23ee084a12a93495d2feec8ceb8eb92c",
@@ -4927,7 +5465,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs (et autres produits listés)"
@@ -5139,7 +5677,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTI",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
         "pdf_sha256": "9cdad749ff0283238b4e4a64885b1dfb88b462da8e749b6908802947f4f506be",
@@ -5151,7 +5689,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -5159,7 +5697,7 @@
         "tax_basis": "HT",
         "tax_label": "exonere",
         "assessment_basis": "produits locatifs HT encaissés et produits financiers nets",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Eurion%20%20Note%20d%20information%202026%20clean.pdf",
         "pdf_sha256": "9cdad749ff0283238b4e4a64885b1dfb88b462da8e749b6908802947f4f506be",
@@ -5171,7 +5709,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets"
@@ -5390,7 +5928,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTI",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
         "pdf_sha256": "398e8238c92ec47b569bd369913614a5593faa875e5d429a89cb14d7b6aaf2d9",
@@ -5402,7 +5940,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       },
       "frais_gestion": {
         "verification_status": "verified",
@@ -5410,7 +5948,7 @@
         "tax_basis": "HT",
         "tax_label": "exonere",
         "assessment_basis": "produits locatifs HT encaissés et produits financiers nets",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20Origin%20%20Note%20d%20information%20%202026.pdf",
         "pdf_sha256": "398e8238c92ec47b569bd369913614a5593faa875e5d429a89cb14d7b6aaf2d9",
@@ -5422,7 +5960,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion - assiette": "produits locatifs HT encaissés et produits financiers nets"
@@ -5635,7 +6173,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.corum.fr/sites/default/files/2025-01/CORUM%20USA%20-%20FR1%20-%20Note%20information%20-%2020250124.pdf",
         "pdf_sha256": "b34a275e7d8eff9e8755abb94dad9a97300688b4cf797d150a5d5583fe7f2095",
@@ -5647,7 +6185,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     }
   },
@@ -5874,7 +6412,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTI",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://www.corum.fr/sites/default/files/2026-10/Corum%20XL%20%20Note%20d%20information%20%202026%20clean.pdf",
         "pdf_sha256": "a74199b73721a79ce8b268444afc6bf7edc1ca03c207d3c49a253e11bdb44f32",
@@ -5886,7 +6424,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     }
   },
@@ -6032,7 +6570,7 @@
         "tax_basis": "TTC",
         "tax_label": "TTC",
         "assessment_basis": "prix de souscription",
-        "valid_from": "2026-11-09",
+        "valid_from": "2026-11-10",
         "valid_from_basis": "observed_in_force_on_official_site",
         "source_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-EdR-Europa-Note-dinformation-06-2026.pdf",
         "pdf_sha256": "abab3708fc0240a16390e55714b0866666e3cc65b3d45bcaf3f59a00a495acea",
@@ -6044,7 +6582,7 @@
         "semantic_reviewer": "claude-session-recovery-200 (revue sémantique outillée, non humaine)",
         "reliability_rank": 3,
         "recovery_task": "RECOVERY-200",
-        "probe_run_id": "42665958628"
+        "probe_run_id": "42773336564"
       }
     },
     "Frais de gestion (HT/%)": 10.5,

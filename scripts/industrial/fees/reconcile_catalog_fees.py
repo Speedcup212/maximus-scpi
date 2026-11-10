@@ -8,7 +8,11 @@
   l'investissement », sans rapport avec la commission de gestion sur les loyers) est
   retirée lorsqu'aucune commission prouvée ne la remplace : inconnu ≠ zéro.
 - Les conflits avec une valeur déjà certifiée ne sont pas touchés ; ils sont listés.
+- Une non-applicabilité prouvée (variabilité du capital suspendue : plus de souscription au
+  marché primaire) retire le taux affiché et dépose une provenance `not_applicable` datée et
+  sourcée ; ce n'est jamais un zéro.
 """
+import argparse
 import json
 import pathlib
 import re
@@ -32,9 +36,16 @@ def slugify(name: str) -> str:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--inputs', default=str(REPORT), help='dossier contenant indicator-patches.json et fee-evidence-rows.json')
+    parser.add_argument('--out', default=str(REPORT), help='dossier du rapport catalog-fee-reconciliation.json')
+    parser.add_argument('--not-applicable', default=None, help='preuves de non-applicabilité (fee-not-applicable.json)')
+    args = parser.parse_args()
+    inputs, out = pathlib.Path(args.inputs), pathlib.Path(args.out)
     catalog = json.loads(CATALOG.read_text())
-    patches = json.loads((REPORT / 'indicator-patches.json').read_text())
-    rows = json.loads((REPORT / 'fee-evidence-rows.json').read_text())
+    patches = json.loads((inputs / 'indicator-patches.json').read_text())
+    rows = json.loads((inputs / 'fee-evidence-rows.json').read_text())
+    not_applicable = json.loads(pathlib.Path(args.not_applicable).read_text())['funds'] if args.not_applicable else {}
     by_slug = {slugify(entry['Nom SCPI']): entry for entry in catalog}
     changes, conflicts = [], []
     for patch in patches:
@@ -79,8 +90,25 @@ def main() -> int:
         entry['maximus_metric_provenance'] = provenance
         changes.append({'slug': row['scpi_slug'], 'metric': 'frais_gestion', 'before': before, 'after': None,
                         'tax_label': None, 'page': None, 'action': 'retrait_cout_priips'})
+    for slug, proof in sorted(not_applicable.items()):
+        entry = by_slug.get(slug)
+        if entry is None:
+            conflicts.append({'slug': slug, 'metric': 'frais_souscription', 'issue': 'absent_du_catalogue'})
+            continue
+        before = entry.get(FIELD['frais_souscription'])
+        entry[FIELD['frais_souscription']] = None
+        provenance = dict(entry.get('maximus_metric_provenance') or {})
+        provenance['frais_souscription'] = {
+            'verification_status': 'verified', 'value_state': 'not_applicable', 'valid_from': proof['valid_from'],
+            'source_url': proof['source_url'], 'evidence_text': proof['evidence_text'],
+            'reason': 'Variabilité du capital suspendue : pas de souscription au marché primaire.',
+            'recovery_task': 'RECOVERY-200'}
+        entry['maximus_metric_provenance'] = provenance
+        changes.append({'slug': slug, 'metric': 'frais_souscription', 'before': before, 'after': None,
+                        'tax_label': None, 'page': None, 'action': 'non_applicable_variabilite_suspendue'})
     CATALOG.write_text(json.dumps(catalog, ensure_ascii=False, indent=2))
-    (REPORT / 'catalog-fee-reconciliation.json').write_text(
+    out.mkdir(parents=True, exist_ok=True)
+    (out / 'catalog-fee-reconciliation.json').write_text(
         json.dumps({'changes': changes, 'conflicts': conflicts}, ensure_ascii=False, indent=1) + '\n')
     print(json.dumps({'changes': len(changes), 'conflicts': len(conflicts),
                       'value_changed': sum(1 for c in changes if c['before'] != c['after'])}, ensure_ascii=False))
