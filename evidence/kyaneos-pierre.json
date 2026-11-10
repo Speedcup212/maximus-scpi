@@ -1,0 +1,1670 @@
+{
+ "slug": "kyaneos-pierre",
+ "name": "Kyaneos Pierre",
+ "manager": "KYANEOS ASSET MANAGEMENT",
+ "crawl": [
+  {
+   "url": "https://kyaneosam.com/",
+   "depth": 0,
+   "final_url": "https://kyaneosam.com/",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://kyaneosam.com/kyaneos-pierre/",
+   "depth": 0,
+   "final_url": "https://kyaneosam.com/kyaneos-pierre/",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 97
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2026/10/SCPI-Kyaneos-Pierre-DIC.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2026/10/SCPI-Kyaneos-Pierre-DIC.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 542332,
+   "sha256": "29a2e86259eb6a5d30c07c1cb6650a37f1e589648b44a474f7fe98dcb21e01aa",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "Microsoft PowerPoint - SCPI KP DIC 2026 V8",
+    "author": "Florent CHABROL",
+    "producer": "Microsoft: Print To PDF",
+    "creationDate": "D:20260920151010+02'00'",
+    "modDate": "D:20260920151010+02'00'"
+   },
+   "page_count": 3,
+   "text_characters": 15508,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "SCPI KYANEOS PIERRE Document d'informations clés · 30 juin 2026 Kyaneos Asset Management · Société de gestion agréée par l'AMF sous le n° GP-18000002 1 / 3 DOC UMENT D'INFORMATIONS C LÉ S SCPI KYANEOS PIERRE ■Objectif Le présent document contient des informations essentielles sur le produit d'investissement. Il ne s'agit pas d'un document à caractère commercial. Ces informations vous sont fournies",
+   "dates": [
+    "30 juin 2026",
+    "30/06/2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Coûts d'entrée",
+     "snippet": "clus dans le prix de votre investissement (il s'agit du montant maximal que vous paierez) ; ceci inclut les coûts de distribution de votre produit. 1,1 % 1,1 % Coûts d'entrée Coûts ponctuels à l'entrée ou à la sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement avant l'échéance. 0,0 % 0,0 % Coûts de sortie L'incidence des coûts encourus lorsque Kyaneos Pierre achète ou vend des investissements sous-jacents au produit. 1,5 % 0,1 % Coûts de transaction Coûts récurrents prélevés chaque année L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements. S'agissant d'un produit immobilier, ces coûts incluent les charges immobilières estimées à 2,1 %. 3,9 % 3,4 % Frais de gestion et autres frais administratifs et d'exploitation Aucune commiss",
+     "percents": [
+      {
+       "raw": "1,1 %",
+       "value": 1.1,
+       "tax_hint": null,
+       "after": "1,1 % Coûts d'entrée Coûts ponctuels à l'ent"
+      },
+      {
+       "raw": "1,1 %",
+       "value": 1.1,
+       "tax_hint": null,
+       "after": "Coûts d'entrée Coûts ponctuels à l'entrée ou"
+      },
+      {
+       "raw": "0,0 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "0,0 % Coûts de sortie L'incidence des coûts"
+      },
+      {
+       "raw": "0,0 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "Coûts de sortie L'incidence des coûts encour"
+      },
+      {
+       "raw": "1,5 %",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "0,1 % Coûts de transaction Coûts récurrents"
+      },
+      {
+       "raw": "0,1 %",
+       "value": 0.1,
+       "tax_hint": null,
+       "after": "Coûts de transaction Coûts récurrents prélev"
+      },
+      {
+       "raw": "2,1 %",
+       "value": 2.1,
+       "tax_hint": null,
+       "after": ". 3,9 % 3,4 % Frais de gestion et autres frai"
+      },
+      {
+       "raw": "3,9 %",
+       "value": 3.9,
+       "tax_hint": null,
+       "after": "3,4 % Frais de gestion et autres frais admin"
+      },
+      {
+       "raw": "3,4 %",
+       "value": 3.4,
+       "tax_hint": null,
+       "after": "Frais de gestion et autres frais administrat"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts de transaction",
+     "snippet": "ance. 0,0 % 0,0 % Coûts de sortie L'incidence des coûts encourus lorsque Kyaneos Pierre achète ou vend des investissements sous-jacents au produit. 1,5 % 0,1 % Coûts de transaction Coûts récurrents prélevés chaque année L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements. S'agissant d'un produit immobilier, ces coûts incluent les charges immobilières estimées à 2,1 %. 3,9 % 3,4 % Frais de gestion et autres frais administratifs et d'exploitation Aucune commission liée aux résultats n'existe pour ce produit. na na Commissions liées aux résultats Coûts accessoires prélevés sous certaines conditions Aucune commission d'intéressement n'existe pour ce produit. na na Commissions d'intéressement Les coûts récurrents sont calculés en % d'un investissement en pleine ",
+     "percents": [
+      {
+       "raw": "0,0 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "0,0 % Coûts de sortie L'incidence des coûts"
+      },
+      {
+       "raw": "0,0 %",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "Coûts de sortie L'incidence des coûts encour"
+      },
+      {
+       "raw": "1,5 %",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "0,1 % Coûts de transaction Coûts récurrents"
+      },
+      {
+       "raw": "0,1 %",
+       "value": 0.1,
+       "tax_hint": null,
+       "after": "Coûts de transaction Coûts récurrents prélev"
+      },
+      {
+       "raw": "2,1 %",
+       "value": 2.1,
+       "tax_hint": null,
+       "after": ". 3,9 % 3,4 % Frais de gestion et autres frai"
+      },
+      {
+       "raw": "3,9 %",
+       "value": 3.9,
+       "tax_hint": null,
+       "after": "3,4 % Frais de gestion et autres frais admin"
+      },
+      {
+       "raw": "3,4 %",
+       "value": 3.4,
+       "tax_hint": null,
+       "after": "Frais de gestion et autres frais administrat"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts récurrents",
+     "snippet": "ts de sortie L'incidence des coûts encourus lorsque Kyaneos Pierre achète ou vend des investissements sous-jacents au produit. 1,5 % 0,1 % Coûts de transaction Coûts récurrents prélevés chaque année L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements. S'agissant d'un produit immobilier, ces coûts incluent les charges immobilières estimées à 2,1 %. 3,9 % 3,4 % Frais de gestion et autres frais administratifs et d'exploitation Aucune commission liée aux résultats n'existe pour ce produit. na na Commissions liées aux résultats Coûts accessoires prélevés sous certaines conditions Aucune commission d'intéressement n'existe pour ce produit. na na Commissions d'intéressement Les coûts récurrents sont calculés en % d'un investissement en pleine propriété. Ces calcul",
+     "percents": [
+      {
+       "raw": "1,5 %",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "0,1 % Coûts de transaction Coûts récurrents"
+      },
+      {
+       "raw": "0,1 %",
+       "value": 0.1,
+       "tax_hint": null,
+       "after": "Coûts de transaction Coûts récurrents prélev"
+      },
+      {
+       "raw": "2,1 %",
+       "value": 2.1,
+       "tax_hint": null,
+       "after": ". 3,9 % 3,4 % Frais de gestion et autres frai"
+      },
+      {
+       "raw": "3,9 %",
+       "value": 3.9,
+       "tax_hint": null,
+       "after": "3,4 % Frais de gestion et autres frais admin"
+      },
+      {
+       "raw": "3,4 %",
+       "value": 3.4,
+       "tax_hint": null,
+       "after": "Frais de gestion et autres frais administrat"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Frais de gestion",
+     "snippet": "vons chaque année pour gérer vos investissements. S'agissant d'un produit immobilier, ces coûts incluent les charges immobilières estimées à 2,1 %. 3,9 % 3,4 % Frais de gestion et autres frais administratifs et d'exploitation Aucune commission liée aux résultats n'existe pour ce produit. na na Commissions liées aux résultats Coûts accessoires prélevés sous certaines conditions Aucune commission d'intéressement n'existe pour ce produit. na na Commissions d'intéressement Les coûts récurrents sont calculés en % d'un investissement en pleine propriété. Ces calculs ne sont pas adaptés pour un investissement en démembrement temporaire en nue-propriété ou usufruit. Pour plus de détails, vous pouvez contacter la Société de Gestion. 5. Combien de temps dois-je le conserver et puis-je retirer de l'a",
+     "percents": [
+      {
+       "raw": "2,1 %",
+       "value": 2.1,
+       "tax_hint": null,
+       "after": ". 3,9 % 3,4 % Frais de gestion et autres frai"
+      },
+      {
+       "raw": "3,9 %",
+       "value": 3.9,
+       "tax_hint": null,
+       "after": "3,4 % Frais de gestion et autres frais admin"
+      },
+      {
+       "raw": "3,4 %",
+       "value": 3.4,
+       "tax_hint": null,
+       "after": "Frais de gestion et autres frais administrat"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "coûts récurrents",
+     "snippet": "ésultats Coûts accessoires prélevés sous certaines conditions Aucune commission d'intéressement n'existe pour ce produit. na na Commissions d'intéressement Les coûts récurrents sont calculés en % d'un investissement en pleine propriété. Ces calculs ne sont pas adaptés pour un investissement en démembrement temporaire en nue-propriété ou usufruit. Pour plus de détails, vous pouvez contacter la Société de Gestion. 5. Combien de temps dois-je le conserver et puis-je retirer de l'argent de façon anticipée ? La période de détention recommandée est de 10 ans minimum à compter de la souscription de la SCPI en raison de la nature du sous- jacent de cet investissement, même en cas de souscription en démembrement temporaire de durée inférieure à 10 ans. Pour une souscription en démembrement temporai",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "commission de souscription",
+     "snippet": "alement sur le site internet www.kyaneosam.com) et notamment le prix de retrait. Ce prix de retrait correspond au prix de souscription en vigueur diminué de la commission de souscription de 11 % TTI. Le retrait/la cession d'une part n'est possible que s'il existe une contrepartie à l'achat. La Société de Gestion ne garantit pas le rachat des parts ou la revente des parts. Vous êtes donc soumis au risque de liquidité tel que détaillé ci-avant. Ce risque de liquidité est accru lors d'un investissement en démembrement temporaire. Il n'y a pas de frais de sortie ni de pénalités appliquées en cas de désinvestissement à tout moment. L'article 4 estime les coûts totaux prenant en compte un désinvestissement selon trois périodes différentes de détention. 6. Comment puis-je formuler une réclamation",
+     "percents": [
+      {
+       "raw": "11 %",
+       "value": 11.0,
+       "tax_hint": null,
+       "after": "TTI. Le retrait/la cession d'une part n'est"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "3": "SCPI KYANEOS PIERRE Document d'informations clés · 30 juin 2026 Kyaneos Asset Management · Société de gestion agréée par l'AMF sous le n° GP-18000002 3 / 3 ■Coûts au fil du temps Il se peut que la personne qui vous vend ce produit ou qui vous fournit des conseils à son sujet vous demande de payer des coûts supplémentaires. Si c'est le cas, cette personne vous informera au sujet de ces coûts et vous montrera l'incidence de l'ensemble des coûts sur votre investissement au fil du temps. Si vous sortez après 10 ans (période de détention recommandée) Si vous sortez après 5 ans Si vous sortez après 1 an 6 288,95 € 3 445,50 € 1 490,00 € Coûts totaux 5,0 % 6,1 % 14,9 % Incidence des coûts annuels (*) (*) Elle montre dans quelle mesure les coûts réduisent annuellement votre rendement au cours de la période de détention. ■Composition des coûts Le tableau ci-dessous indique : l'incidence annuelle des différents types de coûts sur le rendement que vous pourriez obtenir de votre investissement à la fin de la période de détention recommandée ; la signification des différentes catégories de coûts. Signification 2026 (Prévisionnel) 2025 (Réel) Type de coût Catégorie L'incidence des coûts déjà inclus dans le prix de votre investissement (il s'agit du montant maximal que vous paierez) ; ceci inclut les coûts de distribution de votre produit. 1,1 % 1,1 % Coûts d'entrée Coûts ponctuels à l'entrée ou à la sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement avant l'échéance. 0,0 % 0,0 % Coûts de sortie L'incidence des coûts encourus lorsque Kyaneos Pierre achète ou vend des investissements sous-jacents au produit. 1,5 % 0,1 % Coûts de transaction Coûts récurrents prélevés chaque année L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements. S'agissant d'un produit immobilier, ces coûts incluent les charges immobilières estimées à 2,1 %. 3,9 % 3,4 % Frais de gestion et autres frais administratifs et d'exploitation Aucune commission liée aux résultats n'existe pour ce produit. na na Commissions liées aux résultats Coûts accessoires prélevés sous certaines conditions Aucune commission d'intéressement n'existe pour ce produit. na na Commissions d'intéressement Les coûts récurrents sont calculés en % d'un investissement en pleine propriété. Ces calculs ne sont pas adaptés pour un investissement en démembrement temporaire en nue-propriété ou usufruit. Pour plus de détails, vous pouvez contacter la Société de Gestion. 5. Combien de temps dois-je le conserver et puis-je retirer de l'argent de façon anticipée ? La période de détention recommandée est de 10 ans minimum à compter de la souscription de la SCPI en raison de la nature du sous- jacent de cet investissement, même en cas de souscription en démembrement temporaire de durée inférieure à 10 ans. Pour une souscription en démembrement temporaire de durée supérieure à 10 ans, la durée de placement recommandée est la durée de démembrement. Il est néanmoins possible, pour un investissement en pleine propriété, de demander à tout moment au cours de votre investissement de vous retirer totalement ou partiellement de la SCPI en faisant une demande de retrait. L'ensemble des conditions et modalités d'un retrait est prévu dans la Note d'information de la SCPI (présente également sur le site internet www.kyaneosam.com) et notamment le prix de retrait. Ce prix de retrait correspond au prix de souscription en vigueur diminué de la commission de souscription de 11 % TTI. Le retrait/la cession d'une part n'est possible que s'il existe une contrepartie à l'achat. La Société de Gestion ne garantit pas le rachat des parts ou la revente des parts. Vous êtes donc soumis au risque de liquidité tel que détaillé ci-avant. Ce risque de liquidité est accru lors d'un investissement en démembrement temporaire. Il n'y a pas de frais de sortie ni de pénalités appliquées en cas de désinvestissement à tout moment. L'article 4 estime les coûts totaux prenant en compte un désinvestissement selon trois périodes différentes de détention. 6. Comment puis-je formuler une réclamation ? Si vous rencontrez des difficultés au niveau de la prestation délivrée ou du produit et que vous souhaitiez nous faire part de votre réclamation, vous pouvez contacter la personne qui vous a vendu le produit ou la Société de Gestion : par courrier, Kyaneos Asset Management, 1578 Avenue de la 2e DB, Immeuble Grand Angle, 30133 Les Angles ; par e- mail, contact@kyaneosam.com ; par téléphone, +33 (0) 4 86 34 80 73. Vous pouvez également déposer votre réclamation sur le site www.kyaneosam.com. Si votre réclamation est rejetée en tout ou partie, vous pouvez saisir gratuitement le médiateur de l'AMF (www.amf-france.org/fr/le- mediateur). 7. Autres informations pertinentes Préalablement à votre souscription de part de la SCPI, le présent Document d'Informations Clés, sa Note d'Information en cours de validité, ses Statuts, son dernier rapport annuel, son dernier bulletin trimestriel, ainsi que son bulletin de souscription comportant les conditions de l'émission en cours doivent vous être remis. L'ensemble des documents réglementaires est également disponible sur le site www.kyaneosam.com. La SCPI relève de l'article 8 du règlement (UE) 2019/2088 dit SFDR ; les informations relatives à la finance durable sont disponibles sur le site internet de la société de gestion, www.kyaneosam.com. Lorsque ce produit est utilisé comme support en unité de compte d'un contrat d'assurance sur la vie ou de capitalisation, les informations complémentaires sur ce contrat, telles que les coûts du contrat, qui ne sont pas compris dans les coûts indiqués dans le présent document, le contact en cas de réclamation et ce qui se passe en cas de défaillance de l'entreprise d'assurance sont présentées dans le document d'informations clés du contrat obligatoirement remis par votre assureur ou courtier ou tout autre intermédiaire d'assurance conformément à son obligation légale."
+   }
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2025/07/SCPI-KP-Note-dinformation-01072025.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2025/07/SCPI-KP-Note-dinformation-01072025.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 518699,
+   "sha256": "eeb2e2b947aee8dca031662874ecda8a5f63e79f8739fd86e0ce6208651ce466",
+   "metadata": {
+    "format": "PDF 1.6",
+    "author": "Charles MICHEL",
+    "creator": "Acrobat PDFMaker 25 pour Word",
+    "producer": "Adobe PDF Library 25.1.51",
+    "creationDate": "D:20250630174925+02'00'",
+    "modDate": "D:20250630174932+02'00'"
+   },
+   "page_count": 19,
+   "text_characters": 119223,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1/19 AVERTISSEMENT ***** En tant qu'investisseur dans une Société Civile de Placement Immobilier (SCPI), vous devez tenir compte des éléments et risques suivants :  Montant investi : les parts de SCPI doivent être souscrites ou acquises dans une optique de diversification de votre patrimoine. Le montant qu'il est raisonnable d'investir dans la SCPI dépend de votre patrimoine personnel, de votre h",
+   "dates": [
+    "01 juillet 2025",
+    "11/04/2018",
+    "26/02/2018"
+   ],
+   "fee_clauses": [
+    {
+     "page": 2,
+     "label": "commission de cession",
+     "snippet": "rnet, courrier), dès lors que le prix d'exécution conduit à constater, au cours de quatre périodes consécutives de confrontation, un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier. 3) La cession directe de parts (gré à gré), sans intervention de la Société de Gestion à des conditions librement fixées entre le cédant et le cessionnaire Les sommes allouées à ce fonds proviendront, après décision de l'Assemblée Générale, soit de bénéfices affectés, soit du produit de la cession d'éléments du patrimoine immobilier. ******* 1 – RENSEIGNEMENTS SUR LES FONDATEURS La société Kyaneos Pierre est un Fonds d'Investissement Alternatif (FIA), constituée le 11/04/2018 s",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 5,
+     "label": "commission de cession",
+     "snippet": ", dès lors qu'elle constate que le prix d'exécution a conduit, au cours de quatre périodes consécutives de confrontation, à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription prévues par l'article L. 214-94 du COMOFI, après en avoir informé les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier). 5 – RESPONSABILITE DES ASSOCIES La responsabilité des associés ne peut être mise en cause par les tiers que si la SCPI a été préalablement et vainement poursuivie. Conformément aux dispositions de l'article L 214-89 du COMOFI, et à celles de l'article 10 des Statuts de la SCPI, et par dérogation à l'article 1857 du Code civil, la responsabilité de chacun des ass",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "frais d'acquisition",
+     "snippet": "férents ; ii) les frais engagés par la SCPI pour sa constitution et les frais directement payés par cette dernière pour les augmentations de capital ; iii) les frais d'acquisition des immeubles, en particulier les droits d'enregistrement, les honoraires et émoluments de notaire et la taxe sur la valeur ajoutée non récupérable sur ces investissements ; Le montant de la prime d'émission est fixé par la Société de Gestion. Le prix de souscription et les éléments qui le composent sont communiqués au public dans le bulletin trimestriel, et mentionnés de façon détaillée sur le bulletin de souscription. Il peut être modifié par décision de la Société de Gestion. Le prix de souscription de la part, figurant sur chaque bulletin de souscription, est déterminé sur la base de la valeur de reconstituti",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "frais d'acquisition",
+     "snippet": "mobilier.  la valeur de reconstitution, soit la valeur de réalisation, ci-dessus, augmentée des frais afférents à une reconstitution du patrimoine de la SCPI (frais d'acquisition des immeubles, frais de collecte des capitaux et frais de recherche des investissements…). Ces valeurs sont soumises à l'approbation de l'Assemblée Générale. En cours d'exercice, et en cas de nécessité, le Conseil de Surveillance peut autoriser la modification de ces valeurs sur rapport motivé de la Société de Gestion. Tout écart entre le prix de souscription et la valeur de reconstitution de la SCPI, ramené à une part, supérieur à 10% doit être justifié par la Société de Gestion et notifié à l'AMF. Il nécessite une actualisation de la note d'information soumise au visa de l'AMF. 6 – DETAIL DES CONDITIONS DE SOUS",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "doit être justifié par la Société de Gestion"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "commission de souscription",
+     "snippet": "'émission : 64,00 € Soit un prix de souscription d'une part : 224,00 € net de tout autre frais La Société de Gestion perçoit de la SCPI, à la souscription, une commission de souscription de 11% TTI du prix de souscription prélevée sur la prime d'émission, soit 24,64 euros. Cette commission supporte :  les frais de collecte à hauteur de 8,0% TTI (la commission est exonérée de TVA conformément à l'article 261 C-1°-e du Code Général des Impôts),  les frais de recherche d'investissements des capitaux, de préparation et de réalisation des augmentations de capital à hauteur de 3,0% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006). Le paiement de la souscription s'effectue au jour de la souscription pour la tot",
+     "percents": [
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription prélevée sur la"
+      },
+      {
+       "raw": "8,0%",
+       "value": 8.0,
+       "tax_hint": "TVA",
+       "after": "TTI (la commission est exonérée de TVA confo"
+      },
+      {
+       "raw": "3,0%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 8,
+     "label": "commission de souscription",
+     "snippet": "'un prix de la part, dit prix de retrait, déterminé selon les modalités suivantes : 1/ Le prix de retrait correspond au prix d'émission du moment diminué de la commission de souscription toutes taxes incluses (24,64 euros). Ainsi, l'associé se retirant perçoit, dans le cadre des conditions de souscription en vigueur de la SCPI, sur la base du prix de souscription de deux cent vingt-quatre euros (224,00 €), une somme de cent quatre-vingt-dix-neuf euros et trente-six centimes (199,36 €) par part qui se décompose de la façon suivante : Prix de souscription : 224,00 € Commission de souscription TTC : 24,64 € Valeur de retrait : 199,36 € CHAPITRE II : MODALITES DE SORTIE",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 8,
+     "label": "Commission de souscription",
+     "snippet": "ne somme de cent quatre-vingt-dix-neuf euros et trente-six centimes (199,36 €) par part qui se décompose de la façon suivante : Prix de souscription : 224,00 € Commission de souscription TTC : 24,64 € Valeur de retrait : 199,36 € CHAPITRE II : MODALITES DE SORTIE",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de cession",
+     "snippet": "Société de Gestion constate que le prix d'exécution a conduit, au cours de quatre périodes consécutives de confrontation, à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription prévues par l'article L. 214-94 du COMOFI, la Société de Gestion aura la faculté de rétablir à tout moment les effets de la variabilité du capital après en avoir informé les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier), Le rétablissement de la variabilité du capital entraîne :  L'annulation des ordres d'achat et de vente de parts,  La fixation d'un prix de souscription par la Société de Gestion conformément à la règlementation en vigueur,  L'inscription sur le registre des",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "COMMISSION DE SOUSCRIPTION",
+     "snippet": "le 17 des Statuts, la Société de Gestion perçoit les rémunérations ci- dessous définies, à l'exclusion de toutes autres. Elles sont fixées par les Statuts. 1 – COMMISSION DE SOUSCRIPTION Une commission de souscription versée par la SCPI à la Société de Gestion est fixée à 11% TTI du prix de souscription, prime d'émission incluse de chaque souscription. Cette commission est prélevée sur la prime d'émission. Cette commission de souscription est composée des :  frais de collecte à hauteur de 8,0% TTI (la commission est exonérée de TVA conformément à l'article 261 C-1°-e du Code Général des Impôts),  frais de recherche d'investissements des capitaux, de préparation et de réalisation des augmentations de capital à hauteur de 3,0% TTI (commission exonérée en vertu de l'article 135, paragraphe ",
+     "percents": [
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription, prime d'émissio"
+      },
+      {
+       "raw": "8,0%",
+       "value": 8.0,
+       "tax_hint": "TVA",
+       "after": "TTI (la commission est exonérée de TVA confo"
+      },
+      {
+       "raw": "3,0%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": "e Gestion perçoit les rémunérations ci- dessous définies, à l'exclusion de toutes autres. Elles sont fixées par les Statuts. 1 – COMMISSION DE SOUSCRIPTION Une commission de souscription versée par la SCPI à la Société de Gestion est fixée à 11% TTI du prix de souscription, prime d'émission incluse de chaque souscription. Cette commission est prélevée sur la prime d'émission. Cette commission de souscription est composée des :  frais de collecte à hauteur de 8,0% TTI (la commission est exonérée de TVA conformément à l'article 261 C-1°-e du Code Général des Impôts),  frais de recherche d'investissements des capitaux, de préparation et de réalisation des augmentations de capital à hauteur de 3,0% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006",
+     "percents": [
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription, prime d'émissio"
+      },
+      {
+       "raw": "8,0%",
+       "value": 8.0,
+       "tax_hint": "TVA",
+       "after": "TTI (la commission est exonérée de TVA confo"
+      },
+      {
+       "raw": "3,0%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": "tion est fixée à 11% TTI du prix de souscription, prime d'émission incluse de chaque souscription. Cette commission est prélevée sur la prime d'émission. Cette commission de souscription est composée des :  frais de collecte à hauteur de 8,0% TTI (la commission est exonérée de TVA conformément à l'article 261 C-1°-e du Code Général des Impôts),  frais de recherche d'investissements des capitaux, de préparation et de réalisation des augmentations de capital à hauteur de 3,0% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006). Elle a pour objet de rémunérer la prospection et la collecte de capitaux, de préparation et d'exécution des programmes d'investissement et d'assurer le remboursement de tous frais expo",
+     "percents": [
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription, prime d'émissio"
+      },
+      {
+       "raw": "8,0%",
+       "value": 8.0,
+       "tax_hint": "TVA",
+       "after": "TTI (la commission est exonérée de TVA confo"
+      },
+      {
+       "raw": "3,0%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": "echerches, et démarches en vus de la constitution et de l'extension du patrimoine. La Société de Gestion se réserve le droit de rétrocéder tout ou partie de la commission de souscription à tout associé de la SCPI dont les souscriptions, en phase de lancement, permettront à la SCPI de réaliser les premières acquisitions de biens immobiliers. La Société de Gestion pourra également rétrocéder tout ou partie de la commission de souscription, sans dépasser le montant des frais de collecte, aux distributeurs avec lesquels elle aura signé des conventions de distribution ou à des apporteurs d'affaires avec lesquels elle aura signé une convention d'apporteur d'affaire. La commission de souscription sera prélevée par la Société de Gestion dans le trimestre suivant la libération des fonds par l'assoc",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": "ment, permettront à la SCPI de réaliser les premières acquisitions de biens immobiliers. La Société de Gestion pourra également rétrocéder tout ou partie de la commission de souscription, sans dépasser le montant des frais de collecte, aux distributeurs avec lesquels elle aura signé des conventions de distribution ou à des apporteurs d'affaires avec lesquels elle aura signé une convention d'apporteur d'affaire. La commission de souscription sera prélevée par la Société de Gestion dans le trimestre suivant la libération des fonds par l'associé. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime d'émission. 2 – COMMISSION DE GESTION Afin d'assurer l'administration de la SCPI, la tenue du registre des associés et leur information ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": " lesquels elle aura signé des conventions de distribution ou à des apporteurs d'affaires avec lesquels elle aura signé une convention d'apporteur d'affaire. La commission de souscription sera prélevée par la Société de Gestion dans le trimestre suivant la libération des fonds par l'associé. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime d'émission. 2 – COMMISSION DE GESTION Afin d'assurer l'administration de la SCPI, la tenue du registre des associés et leur information régulière, la préparation, la convocation de toutes les réunions et assemblées, ainsi que la distribution des revenus, la Société de Gestion perçoit une commission de gestion forfaitaire de 8% TTI (commission exonérée en vertu de l'article 135, paragraphe 1,",
+     "percents": [
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 12,
+     "label": "COMMISSION DE GESTION",
+     "snippet": "tion des fonds par l'associé. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime d'émission. 2 – COMMISSION DE GESTION Afin d'assurer l'administration de la SCPI, la tenue du registre des associés et leur information régulière, la préparation, la convocation de toutes les réunions et assemblées, ainsi que la distribution des revenus, la Société de Gestion perçoit une commission de gestion forfaitaire de 8% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006) des produits locatifs hors taxes encaissés par la SCPI et des produits financiers nets et d'autre part des produits locatifs hors taxes encaissés par les sociétés dans lesquelles la SCPI détien",
+     "percents": [
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de gestion",
+     "snippet": "mation régulière, la préparation, la convocation de toutes les réunions et assemblées, ainsi que la distribution des revenus, la Société de Gestion perçoit une commission de gestion forfaitaire de 8% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006) des produits locatifs hors taxes encaissés par la SCPI et des produits financiers nets et d'autre part des produits locatifs hors taxes encaissés par les sociétés dans lesquelles la SCPI détient une participation et de leurs produits financiers nets, au prorata de la participation de la SCPI dans le capital de ces sociétés, les dividendes payés par ces dernières étant exclus de la base de calcul lorsque ces dernières les décaissent au profit de la SCPI. La Socié",
+     "percents": [
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de gestion",
+     "snippet": "al toutes les charges non récupérables sur les locataires ;  toutes les autres dépenses n'entrant pas dans le cadre de l'administration directe de la SCPI. La commission de gestion est réglée trimestriellement par la SCPI à la Société de Gestion. La Société de Gestion pourra faire payer directement par la SCPI, tout ou partie de la rémunération de ses mandataires ou de ses délégués, à qui elle aurait conféré, sous sa responsabilité, une activité pour les objets déterminés conformément à l'article 16 des Statuts, par déduction sur les sommes lui revenant. 3 – COMMISSION D'ACQUISITION OU DE CESSION D'ACTIFS IMMOBILIERS La Société de Gestion reçoit à titre de rémunération de sa mission dans le cadre des acquisitions ou cessions d'actifs immobiliers, une commission maximum de 3% TTI (commissi",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI (commissi"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 12,
+     "label": "COMMISSION D'ACQUISITION",
+     "snippet": "onféré, sous sa responsabilité, une activité pour les objets déterminés conformément à l'article 16 des Statuts, par déduction sur les sommes lui revenant. 3 – COMMISSION D'ACQUISITION OU DE CESSION D'ACTIFS IMMOBILIERS La Société de Gestion reçoit à titre de rémunération de sa mission dans le cadre des acquisitions ou cessions d'actifs immobiliers, une commission maximum de 3% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006) : CHAPITRE III : FRAIS",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 13,
+     "label": "frais d'acquisition",
+     "snippet": "ticipation dans lesdites sociétés acquises ou cédées par la SCPI. Cette commission est prélevée sur la quote-part de la prime d'émission destinée à couvrir les frais d'acquisition. 4 – COMMISSION DE CESSION ET DE MUTATION DE PARTS Pour toutes cessions/transferts de parts sans intervention de la Société de Gestion ou pour toutes transmissions de parts à titre gratuit (donation/succession/divorce) : il est dû à la Société de Gestion, par cessionnaire, donataire ou par bénéficiaire, un droit fixe forfaitaire de 120€ TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006). Ces frais de cession de parts sont à la charge des acquéreurs, donateurs ou des ayant droits, quel que soit le nombre de parts cédées. Pour toutes",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 13,
+     "label": "COMMISSION DE CESSION",
+     "snippet": "sociétés acquises ou cédées par la SCPI. Cette commission est prélevée sur la quote-part de la prime d'émission destinée à couvrir les frais d'acquisition. 4 – COMMISSION DE CESSION ET DE MUTATION DE PARTS Pour toutes cessions/transferts de parts sans intervention de la Société de Gestion ou pour toutes transmissions de parts à titre gratuit (donation/succession/divorce) : il est dû à la Société de Gestion, par cessionnaire, donataire ou par bénéficiaire, un droit fixe forfaitaire de 120€ TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006). Ces frais de cession de parts sont à la charge des acquéreurs, donateurs ou des ayant droits, quel que soit le nombre de parts cédées. Pour toutes cessions réalisées par c",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 13,
+     "label": "frais de cession",
+     "snippet": " forfaitaire de 120€ TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006). Ces frais de cession de parts sont à la charge des acquéreurs, donateurs ou des ayant droits, quel que soit le nombre de parts cédées. Pour toutes cessions réalisées par confrontation des ordres d'achat et de vente sur le marché secondaire : il est dû par le vendeur à Société de Gestion, une commission de cession calculée au taux de 6%TTI sur le prix total, hors droits d'enregistrement, payé par l'acquéreur. Cette rémunération est destinée à organiser le marché secondaire des parts. L'acquéreur supportera par ailleurs le paiement des droits d'enregistrement au taux en vigueur, calculés sur le prix de cession des parts au taux en vigueur",
+     "percents": [
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "TTI sur le prix total, hors droits d'enregist"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 13,
+     "label": "commission de cession",
+     "snippet": ". Pour toutes cessions réalisées par confrontation des ordres d'achat et de vente sur le marché secondaire : il est dû par le vendeur à Société de Gestion, une commission de cession calculée au taux de 6%TTI sur le prix total, hors droits d'enregistrement, payé par l'acquéreur. Cette rémunération est destinée à organiser le marché secondaire des parts. L'acquéreur supportera par ailleurs le paiement des droits d'enregistrement au taux en vigueur, calculés sur le prix de cession des parts au taux en vigueur au moment de la cession. Pour toutes cessions/transferts de parts sans intervention de la Société de Gestion ou pour toutes transmissions de parts à titre gratuit (donation/succession/divorce) et pour toutes cessions réalisées par confrontation des ordres d'achat et de vente sur le march",
+     "percents": [
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "TTI sur le prix total, hors droits d'enregist"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 13,
+     "label": "COMMISSION DE SUIVI",
+     "snippet": " la transaction (article 726 du Code Général des Impôts) est applicable à la charge du cessionnaire. Ce droit est inclus dans le prix payé par l'acquéreur. 5 – COMMISSION DE SUIVI ET DE PILOTAGE DE LA REALISATION DE TRAVAUX SUR LES ACTIFS IMMOBILIERS La Société de Gestion reçoit à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 2,4% TTI du montant des travaux immobilisés HT effectivement réalisés. Cette rémunération est ramenée au prorata de la détention dans la filiale de la SCPI si les travaux sont réalisés par une filiale. La commission n'est pas due lors d'acquisitions en état futur d'achèvement. La commission sera prélevée au fur et à mesure de la comptabi",
+     "percents": [
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "HT",
+       "after": "TTI du montant des travaux immobilisés HT ef"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 13,
+     "label": "commission de suivi",
+     "snippet": "A REALISATION DE TRAVAUX SUR LES ACTIFS IMMOBILIERS La Société de Gestion reçoit à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 2,4% TTI du montant des travaux immobilisés HT effectivement réalisés. Cette rémunération est ramenée au prorata de la détention dans la filiale de la SCPI si les travaux sont réalisés par une filiale. La commission n'est pas due lors d'acquisitions en état futur d'achèvement. La commission sera prélevée au fur et à mesure de la comptabilisation de ces travaux. 1 – REGIME DES ASSEMBLEES GENERALES Les Assemblées sont dites Extraordinaires s'il y a lieu d'approuver une modification des Statuts, des apports en nature, la constitution d",
+     "percents": [
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "HT",
+       "after": "TTI du montant des travaux immobilisés HT ef"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 16,
+     "label": "frais d'acquisition",
+     "snippet": " la différence entre le prix de cession et le prix d'acquisition de l'immeuble. Le prix d'acquisition est majoré forfaitairement de 7,5 % pour tenir compte des frais d'acquisition (avec possibilité toutefois d'y substituer le montant réel des frais dûment justifiés) et des dépenses de construction, reconstruction, agrandissement et amélioration pour leur montant réel (ou pour un montant forfaitaire égal à 15 % du prix d'acquisition si l'immeuble est cédé plus de 5 ans après son acquisition). La plus-value est actuellement taxée forfaitairement au taux de 36,20 % (19 % au titre de l'impôt sur le revenu, augmenté des prélèvements sociaux au taux global de 17,20 %). La plus-value est réduite d'abattements en fonction de la durée de détention (les abattements en matière d'impôt sur le revenu e",
+     "percents": [
+      {
+       "raw": "7,5 %",
+       "value": 7.5,
+       "tax_hint": null,
+       "after": "pour tenir compte des frais d'acquisition (a"
+      },
+      {
+       "raw": "15 %",
+       "value": 15.0,
+       "tax_hint": null,
+       "after": "du prix d'acquisition si l'immeuble est cédé"
+      },
+      {
+       "raw": "36,20 %",
+       "value": 36.2,
+       "tax_hint": null,
+       "after": "(19 % au titre de l'impôt sur le revenu, aug"
+      },
+      {
+       "raw": "19 %",
+       "value": 19.0,
+       "tax_hint": null,
+       "after": "au titre de l'impôt sur le revenu, augmenté"
+      },
+      {
+       "raw": "17,20 %",
+       "value": 17.2,
+       "tax_hint": null,
+       "after": "). La plus-value est réduite d'abattements en"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "frais d'acquisition",
+     "snippet": "a plus-value, lors de la vente des parts de la SCPI, est égale à la différence entre la somme revenant au vendeur et le prix d'acquisition des parts majoré des frais d'acquisition (pris en compte pour leur montant réel). La plus-value est taxée forfaitairement au taux 36,2 % (19 % au titre de l'impôt sur le revenu, augmenté des prélèvements sociaux au taux global de 17,2 %). Comme ci-avant, des abattements pour durée de détention s'appliquent, conduisant à une exonération complète au bout de trente ans de détention. Comme ci-avant, une surtaxe s'applique sur les plus-values immobilières d'un montant supérieur à 50 000 € ; elle est due selon un barème progressif appliqué au montant total de la plus- value imposable, déduction faite des différents abattements. En l'état actuel de la législat",
+     "percents": [
+      {
+       "raw": "36,2 %",
+       "value": 36.2,
+       "tax_hint": null,
+       "after": "(19 % au titre de l'impôt sur le revenu, aug"
+      },
+      {
+       "raw": "19 %",
+       "value": 19.0,
+       "tax_hint": null,
+       "after": "au titre de l'impôt sur le revenu, augmenté"
+      },
+      {
+       "raw": "17,2 %",
+       "value": 17.2,
+       "tax_hint": null,
+       "after": "). Comme ci-avant, des abattements pour durée"
+      }
+     ],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "2": "2/19 L'attention des investisseurs est attirée sur le fait que, conformément à l'article 422-225 du RGAMF, l'Assemblée Générale constitutive du 11/04/2018 a autorisé la Société de Gestion à contracter des emprunts, assumer des dettes ou procéder à des acquisitions payables à terme dans la limite de 50% de la valeur comptable des actifs immobiliers de la société.  La SCPI n'offre pas de protection ou de garantie en capital  Les revenus potentiels distribués par la SCPI ne sont pas garantis. Les performances passées ne préjugent pas des performances à venir.  La durée de vie de la SCPI est de 99 ans soit jusqu'en 2117.  Modalités de sortie : Différentes modalités de sortie, telles que définies ci-après au « chapitre 2 – Modalités de sortie » sont offertes aux associés : 1) Le remboursement des parts, par le retrait demandé à la Société de Gestion, qui intervient en contrepartie d'une souscription correspondante ou, en l'absence de souscription et dans l'hypothèse de la création et de la dotation effective d'un fonds de remboursement, par prélèvement sur ce fonds. 2) La demande de cession des parts sur le marché secondaire par confrontation des ordres d'achat et de vente, qui se substituerait au retrait en cas de suspension de la variabilité du capital pouvant être décidé par :  La Société de Gestion, ainsi que les statuts, qui lui en confèrent la faculté lorsque les demandes de retrait demeurent non satisfaites depuis au moins six mois, et ce, quel que soit le nombre de parts qu'elles représentent.  L'Assemblée générale extraordinaire, réunie en application des dispositions de l'article L.214-93-II du Code monétaire et financier lorsque des demandes de retrait non satisfaites dans un délai de douze mois représentent au moins 10% des parts de la SCPI. Les deux possibilités ci-dessus sont distinctes et non cumulatives. En aucun cas, les mêmes parts d'un associé ne peuvent à la fois faire l'objet d'une demande de retrait et être inscrite sur le registre des ordres de vente sur le marché secondaire. La Société de Gestion a toutefois la faculté de rétablir à tout moment les effets de la variabilité du capital après en avoir informé les associés par tout moyen approprié (bulletin trimestriel d'information, site internet, courrier), dès lors que le prix d'exécution conduit à constater, au cours de quatre périodes consécutives de confrontation, un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier. 3) La cession directe de parts (gré à gré), sans intervention de la Société de Gestion à des conditions librement fixées entre le cédant et le cessionnaire Les sommes allouées à ce fonds proviendront, après décision de l'Assemblée Générale, soit de bénéfices affectés, soit du produit de la cession d'éléments du patrimoine immobilier. ******* 1 – RENSEIGNEMENTS SUR LES FONDATEURS La société Kyaneos Pierre est un Fonds d'Investissement Alternatif (FIA), constituée le 11/04/2018 sous la forme d'une Société Civile de Placement Immobilier à capital variable (la « SCPI ») à l'initiative des Fondateurs ci-dessous indiqués, destinée essentiellement à des clients français et notamment dédiée à l'investissement résidentiel en France. La Société de Gestion statutaire de la SCPI est Kyaneos Asset Management, société de gestion de portefeuille agréée par l'Autorité des Marchés Financiers (« AMF ») sous le numéro GP-18000002 en date du 26/02/2018 au capital de 276 500 euros, dont le siège est situé avenue de la 2ème DB – Immeuble grand Angles – 30 133 Les Angles (« Société de Gestion »). Le capital social nominal initial de la SCPI est de 832 000 € (huit cent trente-deux mille euros) divisé en 1.040 (mille quarante) parts de 800 € (huit cents euros), réparti entre les associés fondateurs (« Fondateurs ») de la façon suivante : Associés fondateurs Nb de parts Capital initial Capital + prime d'émission Jérémie ROUZAUD 1 800 € 920 € Guillaume PICOT 1 800 € 920 € Éric WILLMANN 1 800 € 920 € Théo JOUVE LOPES 1 800 € 920 € Pierre ROUZAUD 1 800 € 920 € Maurice TAIEB 55 44 000 € 50 600 € Jean FALTZ 108 86 400 € 99 360 € Thierry ERNAULT 55 44 000 € 50 600 € Johan MOREAU 55 44 000 € 50 600 € David RELKIN 55 44 000 € 50 600 € Didier SALMON 54 43 200 € 49 680 € NANO BLUE CHAIN SASU 218 174 400 € 200 560 € SARL MARYGOT 109 87 200 € 100 280 € Sylvain PATTIEU 6 4 800 € 5 520 € Justine BOUZY 15 12 000 € 13 800 € Thibault PATTIEU 25 20 000 € 23 000 € Alexandre JUVE 108 86 400 € 99 360 € David CABRIERE 12 9 600 € 11 040 € Philippe DESCHEEMAEKER 28 22 400 € 25 760 € Philippe PATTIEU 22 17 600 € 20 240 € Christian GERBAUD 109 87 200 € 100 280 € Guillaume JOUBERT 1 800 € 920 € TOTAL 1 040 832 000 € 956 800 € Les Fondateurs sont exonérés des frais de collecte pour chacune des parts souscrites. Les Fondateurs ont versé chacun, par part souscrite, la valeur nominale de 800€ à laquelle s'ajoute la prime d'émission de 120€ TTC (ne comprenant pas la part relative aux frais de collecte des fonds) de chaque part souscrite et intégralement libérée. Les Fondateurs ont donc versé la somme unitaire de 920€ TTC par part et la somme totale de 956 800€. Conformément à l'article L.214-86 du Code monétaire et financier (« COMOFI »), les parts souscrites par les Fondateurs sont inaliénables pendant trois ans à compter de la date de délivrance du visa SCPI par l'AMF. 2 – POLITIQUE D'INVESTISSEMENT DE LA SCPI La SCPI, Société Civile de Placement Immobilier de type « classique », conformément à ses Statuts et dans le respect des dispositions réglementaires, a pour objectif la constitution d'un patrimoine immobilier locatif résidentiel. La SCPI investira directement ou indirectement dans des actifs immobiliers à usage d'habitation locatifs, de qualité selon l'analyse de la Société de Gestion, construits, à construire, anciens ou INTRODUCTION",
+    "5": "5/19 La Société de Gestion mentionne dans chaque bulletin trimestriel d'information, les mouvements intervenus dans le capital au cours du trimestre précédent. Le capital social effectif peut être augmenté par les souscriptions de parts nouvelles, sans qu'il y ait toutefois une obligation quelconque d'atteindre le capital social maximum statutaire. Tout associé peut se retirer de la SCPI, conformément à la clause de variabilité du capital figurant aux Statuts, sous l'exercice de son droit n'ait pas pour conséquence que le capital social effectif ne devienne inférieur à la plus élevée des trois limites suivantes : • Capital légal minimum, soit 760 000 € • 10 % (dix pour cent) du capital social statutaire • 90 % (quatre-vingt-dix pour cent) du capital social effectif constaté par la Société de Gestion au terme de l'exercice écoulé. Cette faculté de retrait est limitée par les dispositions suivantes : le capital social de la SCPI ne pourra pas diminuer de manière automatique du fait des retraits, qui ne seront pris en considération qu'en contrepartie d'une souscription correspondante sauf création et dotation du fonds de remboursement prévu par l'article 422-231 du Règlement Général de l'Autorité des Marchés Financiers par suite d'une décision prise lors d'une Assemblée Générale Extraordinaire. La SCPI ne pourra pas créer de parts nouvelles si :  des demandes de retrait figurant sur le registre prévu à l'article 422-218 du RGAMF n'ont pas été satisfaites à un prix inférieur ou égal au prix de souscription des nouvelles parts ;  des offres de cession de parts figurant depuis plus de trois (3) mois sur le registre prévu à l'article L. 214-93 du COMOFI n'ont pas été satisfaites à un prix (commissions et droit inclus) inférieur ou égal à celui demandé aux nouveaux souscripteurs. La Société de Gestion pourra suspendre à tout moment les souscriptions (cf. modalités définies en page 18 de la présente Note), après avoir informé l'AMF, si les conditions du marché se modifient notablement ou dès lors qu'elle constate que des demandes de retrait au prix de retrait en vigueur demeurent non satisfaites et inscrites sur le registre depuis au moins 6 mois. Les associés seront alors avertis de cette suspension par le bulletin trimestriel d'information ou tout autre moyen approprié et des nouvelles modalités de retrait. Cette suspension entraînera l'annulation des souscriptions et des demandes de retrait de parts existantes inscrites sur le registre. Corollairement, la Société de Gestion aura la faculté de rétablir à tout moment les effets de la variabilité du capital (cf. modalités définies en page 18 de la présente Note), dès lors qu'elle constate que le prix d'exécution a conduit, au cours de quatre périodes consécutives de confrontation, à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription prévues par l'article L. 214-94 du COMOFI, après en avoir informé les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier). 5 – RESPONSABILITE DES ASSOCIES La responsabilité des associés ne peut être mise en cause par les tiers que si la SCPI a été préalablement et vainement poursuivie. Conformément aux dispositions de l'article L 214-89 du COMOFI, et à celles de l'article 10 des Statuts de la SCPI, et par dérogation à l'article 1857 du Code civil, la responsabilité de chacun des associés à l'égard des tiers n'est engagée qu'à hauteur du montant de sa part au capital. Dans leurs rapports entre eux, les associés sont tenus des dettes et obligations sociales dans la proportion du nombre de parts leur appartenant. COMPOSITION DU DOSSIER DE SOUSCRIPTION Préalablement à la souscription, un dossier complet de souscription, qui comprend les documents suivants, doit être remis à tout souscripteur :  la note d'information ayant reçu le visa de l'AMF, complétée, le cas échéant, de sa dernière actualisation,  les Statuts de la SCPI,  le dernier rapport annuel,  le dernier bulletin trimestriel d'information en vigueur à la date de souscription , le bulletin de souscription en trois (3) exemplaires, comportant les conditions de la souscription en cours, dont l'un sera conservé par le souscripteur, l'un destiné à la Société de Gestion, et le troisième, le cas échéant à l'établissement bancaire en cas de recours à un financement à crédit. Toute souscription de parts est constatée par le bulletin de souscription susvisé, daté et signé par le souscripteur ou son mandataire, accompagné du règlement total de la souscription, prime d'émission incluse, et des pièces obligatoires demandées. 2 – NOMBRE MINIMUM DE PARTS A SOUSCRIRE Le nombre minimum de parts à souscrire est d'une (1) part pour les associés Fondateurs. Le nombre minimum de parts à souscrire est de dix (10) parts pour une première souscription. Aucun minimum de souscription n'est imposé aux associés à l'occasion d'une nouvelle souscription. Ce minimum de souscription est susceptible d'être modifié par la Société de Gestion. La Société de Gestion se réserve le droit de refuser une souscription qui ne satisferait pas aux obligations légales et réglementaires. 3 – MODALITES DE VERSEMENT DU MONTANT DES SOUSCRIPTIONS Les conditions, fixées par la Société de Gestion, sont indiquées dans le bulletin de souscription, en particulier le prix de souscription des parts nouvelles et leur date d'entrée en jouissance. Ce document est à retourner, complété et signé, accompagné des documents et versements qui y sont demandés. Le prix des parts, prime d'émission incluse, doit être intégralement libéré lors de la souscription en numéraire, par chèque ou par virement sur le compte bancaire de la SCPI. La souscription de parts de la SCPI peut être financée à l'aide d'un crédit par le souscripteur ; la souscription est alors libérée lors du versement effectif des fonds correspondants par chèque ou par virement bancaire sur le compte de la SCPI. Toute opération de financement à crédit présente notamment les risques suivants pour le souscripteur (cf. « Avertissement »):  l'impossibilité de rembourser l'emprunt dans un contexte de baisse du marché immobilier et/ou de baisse de la valeur des parts ;  une obligation du souscripteur à payer la différence en cas de baisse du prix lors de la vente de parts au profit de l'organisme prêteur ou lorsque le rendement des parts achetées à crédit est insuffisant pour rembourser le crédit. CHAPITRE 1 : CONDITIONS GENERALES DE SOUSCRIPTION",
+    "6": "6/19 4 – PARTS SOCIALES Valeur nominale La valeur nominale des parts de la SCPI est fixée à 160€ (cent soixante euros). Forme des parts Les parts sociales sont représentées par des certificats nominatifs, valant attestation de propriété établis au nom des associés, numérotés dans l'ordre chronologique de leur émission, mentionnant le nombre et le numéro des parts souscrites et la date de jouissance. Ces certificats ne sont pas des titres cessibles et doivent être restitués à la SCPI préalablement à toute transaction et à la transcription des cessions sur le registre des transferts. A chaque associé, il sera délivré une attestation de son inscription sur le registre des associés matérialisée par un certificat nominatif de ses parts. Les droits des associés résultent de leur inscription sur le registre des associés de la SCPI. 5 – MODALITES DE CALCUL DU PRIX DE SOUSCRIPTION Le prix de souscription des parts sociales comprend la valeur nominale de la part, majorée d'une prime d'émission destinée, notamment :  à préserver l'égalité des associés, notamment, en maintenant le montant unitaire du report à nouveau existant par prélèvement sur la prime d'émission décidée par l'Assemblée Générale Ordinaire des associés.  et sur laquelle peuvent être prélevés totalement ou partiellement : i) forfaitairement les frais engagés par la SCPI pour la collecte des capitaux et la recherche des actifs immobiliers, ainsi que les frais et honoraires d'intermédiaires et d'experts, d'études, d'audits et de diagnostics, etc. y afférents ; ii) les frais engagés par la SCPI pour sa constitution et les frais directement payés par cette dernière pour les augmentations de capital ; iii) les frais d'acquisition des immeubles, en particulier les droits d'enregistrement, les honoraires et émoluments de notaire et la taxe sur la valeur ajoutée non récupérable sur ces investissements ; Le montant de la prime d'émission est fixé par la Société de Gestion. Le prix de souscription et les éléments qui le composent sont communiqués au public dans le bulletin trimestriel, et mentionnés de façon détaillée sur le bulletin de souscription. Il peut être modifié par décision de la Société de Gestion. Le prix de souscription de la part, figurant sur chaque bulletin de souscription, est déterminé sur la base de la valeur de reconstitution de la SCPI telle que définie à l'article L 214-109 du COMOFI. Conformément aux dispositions de cet article, les dirigeants de la Société de Gestion arrêtent et mentionnent chaque année dans un état annexe au rapport de gestion les différentes valeurs suivantes de la SCPI :  la valeur comptable,  la valeur de réalisation : soit la valeur vénale des immeubles majorée de la valeur nette des autres actifs. La valeur vénale résulte d'une expertise quinquennale des immeubles réalisée par un expert externe en évaluation et actualisée par lui chaque année, depuis 2021 et le passage « full AIFM » de la société Kyaneos AM, les expertises sont ensuite revues et validées par un évaluateur indépendant de la gestion : l'évaluateur indépendant de la gestion est un collaborateur de Kyaneos AM. La valeur nette des autres actifs, qui tient compte des plus-values et moins-values latentes sur actifs financiers, est arrêtée sous le contrôle du Commissaire aux Comptes. La SCPI se réserve la possibilité de procéder, le cas échéant, à une ou plusieurs actualisations de son patrimoine immobilier au cours de chaque exercice pour être au plus près de la « juste valeur » du patrimoine immobilier.  la valeur de reconstitution, soit la valeur de réalisation, ci-dessus, augmentée des frais afférents à une reconstitution du patrimoine de la SCPI (frais d'acquisition des immeubles, frais de collecte des capitaux et frais de recherche des investissements…). Ces valeurs sont soumises à l'approbation de l'Assemblée Générale. En cours d'exercice, et en cas de nécessité, le Conseil de Surveillance peut autoriser la modification de ces valeurs sur rapport motivé de la Société de Gestion. Tout écart entre le prix de souscription et la valeur de reconstitution de la SCPI, ramené à une part, supérieur à 10% doit être justifié par la Société de Gestion et notifié à l'AMF. Il nécessite une actualisation de la note d'information soumise au visa de l'AMF. 6 – DETAIL DES CONDITIONS DE SOUSCRIPTION OUVERTES AU PUBLIC (VALABLES A COMPTER DU 05 avril 2024) L'offre au public est destinée à porter le capital social de 832 000€ à 500 000 000€, sans obligation d'atteindre ce montant en une ou plusieurs fois. Conformément à la réglementation en vigueur. A compter du 01 Juillet 2025 le prix de souscription se décompose de la manière suivante : Valeur nominale des parts : 160,00 € Prime d'émission : 64,00 € Soit un prix de souscription d'une part : 224,00 € net de tout autre frais La Société de Gestion perçoit de la SCPI, à la souscription, une commission de souscription de 11% TTI du prix de souscription prélevée sur la prime d'émission, soit 24,64 euros. Cette commission supporte :  les frais de collecte à hauteur de 8,0% TTI (la commission est exonérée de TVA conformément à l'article 261 C-1°-e du Code Général des Impôts),  les frais de recherche d'investissements des capitaux, de préparation et de réalisation des augmentations de capital à hauteur de 3,0% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006). Le paiement de la souscription s'effectue au jour de la souscription pour la totalité du prix de souscription. Le prix de souscription s'entend net de tous autres frais. Il ne peut être procédé à des émissions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe, sur le registre prévu à l'article 422-220 du RG AMF, des demandes de retrait non satisfaites à un prix inférieur ou égal au prix de souscription. 7 – LIEU DE SOUSCRIPTION ET DE VERSEMENT Les souscriptions et les versements sont reçus auprès de la Société de Gestion Kyaneos Asset Management et par l'intermédiaire des établissements bancaires et distributeurs autorisés ; auprès des conseillers en gestion de patrimoine indépendants habilités et mandatés par la Société de Gestion. La souscription est réalisée lors de (i) la réception par la Société de Gestion du bulletin de souscription dûment complété et signé et (ii) la mise à disposition sur le compte non rémunéré de la",
+    "8": "8/19 montant de leur souscription. Il est précisé que les associés Fondateurs ont renoncé au bénéfice de la garantie bancaire. Pour faire face à ce possible remboursement des associés ayant souscrit dans le cadre de l'offre au public, une garantie bancaire, telle que prévue à l'article L.214-86 du COMOFI, couvrant un montant de 468.750€ représentant 15 % du capital statutaire maximal prime d'émission incluse, et approuvée par l'AMF, a été délivrée le 26/04/2018 par Banque Palatine (la « Banque »). La garantie bancaire pourra être mise en jeu sous réserve des conditions cumulatives suivantes :  si les souscriptions recueillies auprès du public, entre la date d'ouverture des souscriptions au public, telle que mentionnée dans la notice du Bulletin d'Annonce Légales Obligatoires (« BALO »), et l'expiration du délai d'une (1) année à compter de cette date, n'atteignent pas 15% du capital maximum de la SCPI tel que fixé par ses Statuts,  après justification de l'envoi dans un délai de quinze (15) jours à compter de l'échéance du délai légal d'une (1) année susmentionné, par la Société de Gestion de la SCPI à l'AMF et à la Banque, d'une lettre recommandée avec demande d'avis de réception précisant la date de l'Assemblée Générale Extraordinaire devant statuer sur la dissolution de la SCPI et indiquant la liste des souscripteurs et les sommes à rembourser,  après la remise par la SCPI à la Banque du procès- verbal de l'Assemblée Générale Extraordinaire ayant statué sur la dissolution de la SCPI et de la liste complète des associés avec leur nom et adressa et le nombre de parts dont ils sont titulaires.  Au 11/04/2018, le capital social de la SCPI s'élevait à 832 000 €, soit 33,28 % du capital social maximum de 2 500 000 €. En conséquence, la garantie bancaire a été levée le 20/06/2018, les conditions de souscription minimales ayant été remplies. 1. L'associé qui souhaite se retirer partiellement ou en totalité de la SCPI dispose des moyens suivants : 2. Le retrait demandé à la Société de Gestion, correspondant au remboursement de ses parts dans le cadre de la variabilité des parts (celui-ci n'étant possible que s'il existe une contrepartie ; en l'absence de contrepartie, le retrait pourra être honoré par prélèvement sur le fonds de remboursement, dans l'hypothèse où la SCPI déciderait de le créer et de le doter) ; 3. Auquel se substituerait, dans le cas du blocage des retraits et dans les conditions visées ci-après, la cession de ses parts sur le marché secondaire par confrontation des ordres d'achat et de vente ; La cession directe de ses parts, réalisée sans intervention de la Société de Gestion (gré à gré). Les retraits de parts demandés à la Société de Gestion dans le cadre de la variabilité du capital et les cessions de parts par confrontation par la Société de Gestion des ordres d'achat et de vente, qui se substitueraient aux retraits dans le cas du blocage des retraits, sont deux possibilité distinctes et non cumulatives. En aucun cas, les mêmes parts d'un associé ne peuvent faire l'objet à la fois d'une demande de retrait et être inscrites sur le registre des ordres de vente sur le marché secondaire. La Société de Gestion ne garantit ni le remboursement (retrait) ni la cession des parts (marché secondaire ou gré à gré). 1 – PRINCIPES GENERAUX Conformément aux dispositions régissant les sociétés à capital variable, tout associé a le droit de se retirer de la SCPI, partiellement ou en totalité dans la limite des clauses de variabilité fixée par les Statuts. Le capital social de la SCPI ne pourra diminuer du fait des retraits, que s'il existe en contrepartie une souscription correspondante, sauf dans l'hypothèse où la SCPI aurait créé et doté un fonds de remboursement. A la date du visa sur la présente note d'information, aucun fonds de remboursement n'a été mis en place par la SCPI. Le remboursement s'opère dans les conditions ci-après. 2 – RETRAITS DES ASSOCIES Modalités Les demandes de retrait sont portées à la connaissance de la Société de Gestion par lettre recommandée avec accusé de réception. Elles sont, dès réception, inscrites sur un registre des retraits et sont prises en considération par ordre chronologique d'inscription. Pour être valablement inscrite sur le registre, les demandes de retrait doivent être formulées au prix de retrait en vigueur et doivent notamment comporter l'identité et la signature du donneur d'ordre et le nombre de parts concernées. Il est précisé en outre que si l'associé n'indique pas, par une mention expresse, que sa demande doit être exécutée totalement, la Société de Gestion pourra exécuter partiellement son ordre. Le remboursement des parts rend effectif le retrait de l'associé de son inscription sur le registre des associés. Les parts remboursées sont annulées. L'associé qui se retire perd la jouissance de ses parts le 1er (premier) jour du trimestre civil au cours duquel l'annulation/le retrait a eu lieu. Pour exemple : pour un retrait effectif le 5 juin 2018 les parts objets de ce retrait porteront jouissance jusqu'au 31 mars 2018. Un même associé ne peut passer qu'un ordre de retrait à la fois. Un associé ne peut déposer une nouvelle demande de retrait que lorsque la précédente demande de retrait a été totalement satisfaite ou annulée. En cas de retrait partiel, la Société de Gestion applique, sauf instruction contraire du client, la règle du retrait par ordre historique d'acquisition des parts, c'est-à-dire la méthode \"du 1er entré -1er sorti\". CAS 1 : Si les demandes de retrait sont compensées par des demandes de souscription : Prix de retrait à la date de l'ouverture du capital au public Le remboursement sera effectué sur la base d'un prix de la part, dit prix de retrait, déterminé selon les modalités suivantes : 1/ Le prix de retrait correspond au prix d'émission du moment diminué de la commission de souscription toutes taxes incluses (24,64 euros). Ainsi, l'associé se retirant perçoit, dans le cadre des conditions de souscription en vigueur de la SCPI, sur la base du prix de souscription de deux cent vingt-quatre euros (224,00 €), une somme de cent quatre-vingt-dix-neuf euros et trente-six centimes (199,36 €) par part qui se décompose de la façon suivante : Prix de souscription : 224,00 € Commission de souscription TTC : 24,64 € Valeur de retrait : 199,36 € CHAPITRE II : MODALITES DE SORTIE",
+    "9": "9/19 2/ La nouvelle valeur de réalisation déterminée après la vente d'un ou plusieurs immeubles. Le règlement des associés qui se retirent a lieu sans autre délai que le délai administratif normal de régularisation, de dix (10) jours ouvrés sauf circonstances particulières. CAS 2 : Si les demandes de retrait ne sont pas compensées par des demandes de souscription : Fonds de remboursement Afin de pouvoir satisfaire les demandes de retrait dans le cas évoqué ci-dessus, l'Assemblée Générale des associés pourra décider de constituer un fonds de remboursement destiné à contribuer à la liquidité du marché des parts. Les sommes allouées à ce fonds proviendront soit du produit de cessions d'éléments du patrimoine locatif soit de bénéfices affectés lors de l'approbation de comptes annuels. Si, au bout de trois mois, les souscriptions nouvelles ne permettaient pas d'assurer le retrait des associés, ceux-ci seraient, sur demande de leur part, remboursés à la valeur de réalisation moins 10 % par prélèvement sur le fonds de réserves, dans la mesure où il a été constitué. Dans ce cas, le prix de retrait correspond à la valeur de réalisation moins 10 % en vigueur déterminée à partir de la valeur estimée des immeubles à laquelle s'ajouteront les autres éléments d'actif net de la SCPI. Au jour du visa de la présente note d'information, il n'est pas prévu la création d'un fonds de remboursement. Par conséquent, seules les demandes de retrait compensées par une souscription peuvent être satisfaites. Blocage des retraits dans les conditions prévues à l'article L. 214- 93 du COMOFI S'il s'avérait qu'une ou plusieurs demandes de retrait inscrites sur le registre et représentant au moins 10 % des parts de la SCPI n'étaient pas satisfaites dans un délai de douze (12) mois, la Société de Gestion, conformément à l'article L. 214-93 du COMOFI, en informerait sans délai l'AMF et convoquerait une Assemblée Générale Extraordinaire dans les deux (2) mois de cette information. La Société de Gestion proposerait à l'Assemblée Générale la cession partielle ou totale du patrimoine et toute autre mesure appropriée. Notamment, l'inscription sur un registre des ordres d'achat et de vente, dans les conditions ci-après définies au paragraphe 3 du présent chapitre constituerait une mesure appropriée et emporterait la suspension des demandes de retrait. Les rapports de la Société de Gestion, du Commissaire aux Comptes et les projets de résolutions sont transmis à l'AMF un (1) mois avant la date de l'Assemblée Générale Extraordinaire. L'inscription notamment d'ordres d'achat et de vente de parts sur le registre mentionné à l'article 422-205 du Règlement Général de l'AMF (ouverture du marché secondaire) constitue une mesure appropriée au sens de l'article L. 214-93 précité. L'application de cette mesure emporte la suspension des demandes de retrait. Blocage des retraits dans les conditions prévues aux statuts de la SCPI Suspension de la variabilité du capital En application des Statuts, la Société de Gestion a la faculté, sous sa responsabilité, dès lors qu'elle constate que des demandes de retrait de parts au prix de retrait en vigueur, quel que soit leur volume, demeurent non satisfaites et inscrites sur le registre depuis au moins six (6) mois, de suspendre à tout moment les effets de la variabilité du capital après en avoir informé les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier), pour mettre en place, en substitution, le marché secondaire par confrontation des ordres d'achat et de vente . La prise de cette décision entraîne :  L'annulation des souscriptions et des demandes de retrait de parts existantes inscrites sur le registre. Les retraits de parts demandés à la Société de Gestion dans le cadre de la variabilité du capital et les cessions de parts par confrontation par la Société de Gestion des ordres d'achat et de vente, qui se substitueraient aux retraits dans le cas du blocage des retraits, sont deux possibilités distinctes et non cumulatives. En aucun cas, les mêmes parts d'un associé ne peuvent faire l'objet à la fois d'une demande de retrait et être inscrites sur le registre des ordres de vente sur le marché secondaire.  L'interdiction d'augmenter le capital effectif,  La soumission volontaire aux règles législatives et réglementaires des SCPI découlant de l'article L.214-93 du COMOFI, par la mise en place de la confrontation périodique des ordres d'achat et de vente des parts de la SCPI telle que définie ci-après. Rétablissement de la variabilité du capital Dès lors que la Société de Gestion constate que le prix d'exécution a conduit, au cours de quatre périodes consécutives de confrontation, à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription prévues par l'article L. 214-94 du COMOFI, la Société de Gestion aura la faculté de rétablir à tout moment les effets de la variabilité du capital après en avoir informé les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier), Le rétablissement de la variabilité du capital entraîne :  L'annulation des ordres d'achat et de vente de parts,  La fixation d'un prix de souscription par la Société de Gestion conformément à la règlementation en vigueur,  L'inscription sur le registre des demandes de retrait de parts,  La reprise des souscriptions et la possibilité pour la SCPI, en toute cohérence avec les textes légaux et réglementaires, d'émettre des parts nouvelles en vue d'augmenter son capital effectif 3 – DISPOSITIONS GENERALES RELATIVES AUX CESSIONS Registre des transferts Conformément à l'article L. 214-93 du COMOFI, toute transaction donne lieu à une inscription sur le registre des associés, réputée constituer l'acte de cession écrit. Le transfert de propriété qui en résulte est opposable, dès cet instant à la SCPI, ainsi qu'aux tiers dans le cas d'une cession réalisée sur le marché secondaire prévu au Chapitre II-2) de la présente note d'information. Pour toute transcription de mutations ou de cessions sur le registre des associés, les certificats représentatifs des parts délivrés doivent être restitués à la Société de Gestion. Cessions sans intervention de la Société de Gestion Les associés ont la possibilité de vendre directement leurs parts sans intervention de la Société de Gestion (« marché de gré à gré »). La cession de parts à un acquéreur est libre, sous réserve de la clause d'agrément qui figure au ci-après, et de ne pas constituer une cession à une US Person telle que définie ci-avant et ci- après.",
+    "12": "12/19 L'ordre participera à la confrontation dès lors que les fonds correspondants auront effectivement été crédités sur le compte spécifique. S'il s'avérait que la couverture de l'ordre n'était pas honorée par la banque du donneur d'ordre pour quelque motif que ce soit, l'ordre d'achat serait purement et simplement annulé. Exécution des ordres Dès l'établissement du prix d'exécution et à ce seul prix, les ordres sont exécutés en prenant en priorité les ordres :  d'achat inscrits au prix le plus élevé,  de vente inscrits au prix le plus faible. A limite de prix égale, les ordres sont exécutés suivant leur ordre chronologique d'inscription. Les transactions ainsi effectuées sont inscrites sans délai sur le registre des associés. Conformément à l'article 17 des Statuts, la Société de Gestion perçoit les rémunérations ci- dessous définies, à l'exclusion de toutes autres. Elles sont fixées par les Statuts. 1 – COMMISSION DE SOUSCRIPTION Une commission de souscription versée par la SCPI à la Société de Gestion est fixée à 11% TTI du prix de souscription, prime d'émission incluse de chaque souscription. Cette commission est prélevée sur la prime d'émission. Cette commission de souscription est composée des :  frais de collecte à hauteur de 8,0% TTI (la commission est exonérée de TVA conformément à l'article 261 C-1°-e du Code Général des Impôts),  frais de recherche d'investissements des capitaux, de préparation et de réalisation des augmentations de capital à hauteur de 3,0% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006). Elle a pour objet de rémunérer la prospection et la collecte de capitaux, de préparation et d'exécution des programmes d'investissement et d'assurer le remboursement de tous frais exposés pour les études, recherches, et démarches en vus de la constitution et de l'extension du patrimoine. La Société de Gestion se réserve le droit de rétrocéder tout ou partie de la commission de souscription à tout associé de la SCPI dont les souscriptions, en phase de lancement, permettront à la SCPI de réaliser les premières acquisitions de biens immobiliers. La Société de Gestion pourra également rétrocéder tout ou partie de la commission de souscription, sans dépasser le montant des frais de collecte, aux distributeurs avec lesquels elle aura signé des conventions de distribution ou à des apporteurs d'affaires avec lesquels elle aura signé une convention d'apporteur d'affaire. La commission de souscription sera prélevée par la Société de Gestion dans le trimestre suivant la libération des fonds par l'associé. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime d'émission. 2 – COMMISSION DE GESTION Afin d'assurer l'administration de la SCPI, la tenue du registre des associés et leur information régulière, la préparation, la convocation de toutes les réunions et assemblées, ainsi que la distribution des revenus, la Société de Gestion perçoit une commission de gestion forfaitaire de 8% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006) des produits locatifs hors taxes encaissés par la SCPI et des produits financiers nets et d'autre part des produits locatifs hors taxes encaissés par les sociétés dans lesquelles la SCPI détient une participation et de leurs produits financiers nets, au prorata de la participation de la SCPI dans le capital de ces sociétés, les dividendes payés par ces dernières étant exclus de la base de calcul lorsque ces dernières les décaissent au profit de la SCPI. La Société de Gestion prend à sa charge tous les frais de bureau (locaux et matériels) et de personnel nécessaire à l'administration de la SCPI, la perception des recettes et la distribution des bénéfices (hors frais d'envoi). La SCPI supporte directement tous les autres frais, sans exception, notamment :  le prix d'acquisition des biens, les frais et études y compris en cas de non-aboutissement de l'acquisition;  les frais d'enregistrement et actes notariés s'y rapportant ;  le montant des travaux d'aménagement ou de réparation y compris les frais et honoraires d'architectes ou de bureaux d'étude ou autres intervenants techniques s'y rapportant ;  la rémunération des membres du Conseil de Surveillance, le cas échéant ;  les honoraires de la Société de Gestion ;  les honoraires des Commissaires aux Comptes ;  les honoraires et frais de l'expert externe en évaluation du patrimoine immobilier ;  les honoraires des experts comptables ;  la rémunération et frais du Dépositaire ;  les frais entraînés par la tenue des Conseils et Assemblées Générales, ainsi que les frais d'expédition des documents destinés aux associés ;  les dépenses afférentes aux documents nécessaires à l'information des associés : bulletins d'information et rapports annuels ;  les frais de contentieux et de procédure et honoraires d'avocats ;  les cotisations professionnelles notamment due à une association de défense des intérêts de la SCPI et due à l'AMF ;  les assurances et, en particulier, celles des immeubles constituant le patrimoine ;  les frais d'entretien des immeubles ;  les impôts et taxes diverses ;  les honoraires de location et de relocation des immeubles ;  le montant des consommations des fluides (eau, électricité et combustibles) et, en général, toutes les charges d'immeubles, honoraires des syndics et gérants d'immeubles et en général toutes les charges non récupérables sur les locataires ;  toutes les autres dépenses n'entrant pas dans le cadre de l'administration directe de la SCPI. La commission de gestion est réglée trimestriellement par la SCPI à la Société de Gestion. La Société de Gestion pourra faire payer directement par la SCPI, tout ou partie de la rémunération de ses mandataires ou de ses délégués, à qui elle aurait conféré, sous sa responsabilité, une activité pour les objets déterminés conformément à l'article 16 des Statuts, par déduction sur les sommes lui revenant. 3 – COMMISSION D'ACQUISITION OU DE CESSION D'ACTIFS IMMOBILIERS La Société de Gestion reçoit à titre de rémunération de sa mission dans le cadre des acquisitions ou cessions d'actifs immobiliers, une commission maximum de 3% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006) : CHAPITRE III : FRAIS",
+    "13": "13/19  du prix d'acquisition ou de cession (hors taxes, hors droits, hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) ou cédé, directement ou indirectement par la SCPI ;  ou de la valeur conventionnelle (hors taxes, hors droits, hors frais) retenue pour le calcul du prix d'acquisition ou de cession des droits sociaux des sociétés qui détiennent lesdits actifs immobiliers, au prorata de la participation dans lesdites sociétés acquises ou cédées par la SCPI. Cette commission est prélevée sur la quote-part de la prime d'émission destinée à couvrir les frais d'acquisition. 4 – COMMISSION DE CESSION ET DE MUTATION DE PARTS Pour toutes cessions/transferts de parts sans intervention de la Société de Gestion ou pour toutes transmissions de parts à titre gratuit (donation/succession/divorce) : il est dû à la Société de Gestion, par cessionnaire, donataire ou par bénéficiaire, un droit fixe forfaitaire de 120€ TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006). Ces frais de cession de parts sont à la charge des acquéreurs, donateurs ou des ayant droits, quel que soit le nombre de parts cédées. Pour toutes cessions réalisées par confrontation des ordres d'achat et de vente sur le marché secondaire : il est dû par le vendeur à Société de Gestion, une commission de cession calculée au taux de 6%TTI sur le prix total, hors droits d'enregistrement, payé par l'acquéreur. Cette rémunération est destinée à organiser le marché secondaire des parts. L'acquéreur supportera par ailleurs le paiement des droits d'enregistrement au taux en vigueur, calculés sur le prix de cession des parts au taux en vigueur au moment de la cession. Pour toutes cessions/transferts de parts sans intervention de la Société de Gestion ou pour toutes transmissions de parts à titre gratuit (donation/succession/divorce) et pour toutes cessions réalisées par confrontation des ordres d'achat et de vente sur le marché secondaire : un droit d'enregistrement de 5% (taux actuellement en vigueur) du montant de la transaction (article 726 du Code Général des Impôts) est applicable à la charge du cessionnaire. Ce droit est inclus dans le prix payé par l'acquéreur. 5 – COMMISSION DE SUIVI ET DE PILOTAGE DE LA REALISATION DE TRAVAUX SUR LES ACTIFS IMMOBILIERS La Société de Gestion reçoit à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 2,4% TTI du montant des travaux immobilisés HT effectivement réalisés. Cette rémunération est ramenée au prorata de la détention dans la filiale de la SCPI si les travaux sont réalisés par une filiale. La commission n'est pas due lors d'acquisitions en état futur d'achèvement. La commission sera prélevée au fur et à mesure de la comptabilisation de ces travaux. 1 – REGIME DES ASSEMBLEES GENERALES Les Assemblées sont dites Extraordinaires s'il y a lieu d'approuver une modification des Statuts, des apports en nature, la constitution d'avantages particuliers, une modification de la politique d'investissement, la réouverture du capital après trois ans sans souscription, ou s'il y a lieu de se prononcer sur la diminution du prix de la part ou sur la cession totale ou partielle du patrimoine, lorsque les demandes de retrait non satisfaites dans un délai de douze mois représentent au moins 10% des parts de la SCPI. Elles sont dites Ordinaires dans tous les autres cas. Participation Tous les associés ont le droit d'assister aux Assemblées Générales en personne ou par mandataire, celui -ci devant obligatoirement être choisi parmi les associés. Tout associé a le droit de participer aux décisions et dispose d'un nombre de voix égal à celui des parts qu'il possède. Tout associé peut recevoir un nombre illimité de pouvoirs émis par d'autres associés en vue d'être représentés à une Assemblée, sans autres limites que celles qui résultent des dispositions légales ou statutaires fixant le nombre maximal des voix dont peut disposer une même personne, tant en son nom personnel que comme mandataire. Le mandat de représentation d'un associé est donné pour une seule Assemblée sauf pour les Assemblées successives convoquées sur le même ordre du jour. Les coindivisaires de parts sont tenus de se faire représenter par un seul d'entre eux. Les pouvoirs donnés à chaque mandataire doivent indiquer les nom, prénom usuel et domicile de chaque mandant et le nombre de parts dont il est titulaire. Pour toute procuration d'un associé sans indication de mandataire, le Président de l'Assemblée Générale émet un avis favorable à l'adoption des projets de résolution présentés ou agréés par la Société de Gestion et un vote défavorable à l'adoption de tous autres projets de résolutions. Pour tout autre vote, l'associé doit faire le choix d'un mandataire qui accepte de voter dans le sens indiqué par le mandant. Pour toute procuration d'un associé expressément donnée au Président de l'Assemblée Générale, celui-ci émet un avis favorable aux projets de résolution présentés ou agréés par la Société de Gestion et un vote défavorable à l'adoption de tous autres projets de résolutions. Pour tout autre vote, l'associé doit faire le choix d'un mandataire qui accepte de voter dans le sens indiqué par le mandant. Tout associé peut voter par correspondance au moyen d'un formulaire. Ce formulaire est joint aux différents documents à faire parvenir aux associés avec la convocation à l'Assemblée Générale, au moins 15 jours avant la tenue de ladite assemblée. Convocation Les convocations aux Assemblées Générales sont faites par la Société de Gestion par un avis de convocation inséré dans le Bulletin des Annonces Légales Obligatoires (BALO) et par une lettre ordinaire ou adressée directement aux associés ou par voie électronique pour les associés l'ayant accepté dans les conditions prévues par la réglementation. Les associés ayant accepté le recours à la voie électronique transmettent à la Société de Gestion leur adresse électronique mise à jour le cas échéant. Tout associé peut demander à être convoqué par lettre recommandée, les frais postaux étant dans ce cas à sa charge. Toutes les sommes dues à la Société de Gestion, lui restent définitivement acquises et ne sauraient faire l'objet d'un remboursement quelconque, à quelque moment, ou pour quelque cause que ce soit, sauf conventions particulières contraires. En tant que de besoin, il est précisé que, s'agissant des actifs détenus au travers de sociétés dans lesquelles la SCPI détient une participation, pour chaque nature de commissions détaillées ci-avant, la somme des commissions perçues par la Société de Gestion en sa qualité de gérant desdites sociétés et de celles perçues par la Société de Gestion au titre de ses fonctions au sein de la SCPI ne pourra pas se cumuler et dépasser les taux fixés ci-avant. CHAPITRE IV : FONCTIONNEMENT DE LA SCPI",
+    "16": "16/19 Besson, Robien, Périssol, Borloo neuf ou ancien, Scellier intermédiaire, Robien ZRR, Scellier ZRR. Les régimes Malraux ou Scellier ne sont pas exclusifs du microfoncier sauf si l'investissement Scellier est un Scellier intermédiaire ou un Scellier ZRR. En application du régime du microfoncier, le revenu net imposable est déterminé en appliquant aux revenus fonciers bruts déclaré par le contribuable un abattement forfaitaire de 30 %. Imposition des produits de trésorerie dans la catégorie des revenus de capitaux mobiliers : Les revenus issus du placement de la trésorerie disponible en attente d'investissement et de la trésorerie permanente de la SCPI liée à son activité sont soumis à la fiscalité des revenus de capitaux mobiliers. Ces revenus (intérêts et produits assimilés) sont depuis le 1er janvier 2018 au prélèvement forfaitaire unique (PFU), impôt sur le revenu forfaitaire au taux de 12,8% auquel s'ajoutent 17,2 % de prélèvements sociaux. Le contribuable peut toutefois opter dans le cadre de sa déclaration de revenus pour l'imposition au barème progressif de l'impôt sur le revenu. Ces revenus font (hors cas particulier des associés dispensés) l'objet lors de leur versement d'un prélèvement obligatoire non libératoire opéré à la source, au taux actuel de 12,8 %. Ce prélèvement appliqué par la Société de Gestion pour le compte de la SCPI constitue un acompte d'impôt sur le revenu. Il est imputable sur l'impôt sur le revenu de l'associé dû au titre de l'année au cours de laquelle il a été appliqué et est éventuellement restituable par l'Administration fiscale, s'il excède l'impôt dû. En cas d'imposition au PFU dans le cadre de la déclaration de revenus, aucune imposition complémentaire ne sera due. Ces revenus sont également soumis aux prélèvements sociaux en vigueur (au taux global actuel de 17,2 %) appliqués également lors du versement par la Société de Gestion. La CSG est (hors cas particulier) déductible à hauteur de 6,8 % du revenu global, l'année de son paiement, lorsque les revenus sont soumis au barème progressif de l'impôt sur le revenu. La SCPI adresse à l'Administration fiscale annuellement un Imprimé Fiscal Unique (IFU) faisant état de ces revenus financiers. Ces informations sont, susceptibles d'être préremplies sur la déclaration d'ensemble de revenus de l'associé. Une dispense de prélèvement est par ailleurs ouverte aux contribuables dont le revenu fiscal de référence de l'avant- dernière année est inférieur à un certain montant (25.000 ou 50.000 euros selon qu'il s'agit d'une personne seule ou d'un couple) ; la demande de dispense est à adresser à l'établissement payeur français, au plus tard le 30 novembre de l'année précédant celle du versement des revenus. Imposition des plus-values sur cessions de parts ou d'immeubles de la SCPI dans la catégorie des plus-values immobilières : Plus-values sur cession d'immeubles par la SCPI Durant la période de détention des parts, les plus-values immobilières résultent de la cession d'immeubles par la SCPI. Dans le respect de l'objet social, les cessions d'immeuble par la SCPI ne sont possibles que si, à la date de la réalisation de l'opération, la SCPI est propriétaire de l'immeuble depuis au moins cinq ans, sauf cas dérogatoire prévu par la règlementation. Le régime d'imposition des plus-values des particuliers, visé aux articles 150 U à 150 VH du Code général des impôts, est applicable en cas de cession par la SCPI d'un ou plusieurs immeubles. L'imposition s'établit lors de chaque cession, dans le délai prévu pour la formalité de l'enregistrement ou de la publicité foncière, et non annuellement (l'impôt est précompté sur le prix versé par l'acquéreur). En conséquence, la Société de Gestion ne communique pas à chaque associé personne physique le relevé de sa quote-part de plus-value immobilière. L'impôt sur les plus-values est acquitté directement par le notaire intermédiaire de l'opération de cession immobilière avant reversement de la somme au vendeur. La plus-value imposable est égale à la différence entre le prix de cession et le prix d'acquisition de l'immeuble. Le prix d'acquisition est majoré forfaitairement de 7,5 % pour tenir compte des frais d'acquisition (avec possibilité toutefois d'y substituer le montant réel des frais dûment justifiés) et des dépenses de construction, reconstruction, agrandissement et amélioration pour leur montant réel (ou pour un montant forfaitaire égal à 15 % du prix d'acquisition si l'immeuble est cédé plus de 5 ans après son acquisition). La plus-value est actuellement taxée forfaitairement au taux de 36,20 % (19 % au titre de l'impôt sur le revenu, augmenté des prélèvements sociaux au taux global de 17,20 %). La plus-value est réduite d'abattements en fonction de la durée de détention (les abattements en matière d'impôt sur le revenu et de prélèvements sociaux ne sont pas identiques), conduisant à une exonération complète au bout de 30 ans de détention (et une exonération d'impôt sur le revenu au bout de 22 ans de détention). Par ailleurs, aucune plus-value n'est imposable lorsque le montant de la cession est inférieur ou égal à 15 000 euros, ce seuil s'appréciant opération par opération. Une surtaxe s'applique sur les plus-values immobilières d'un montant supérieur à 50 000 € ; elle est due selon un barème progressif appliqué au montant total de la plus-value imposable, déduction faite des différents abattements. Sauf exception (par exemple, en cas de vente d'un immeuble acquis par fractions successives constatée par le même acte), la moins-value brute réalisée sur les biens ou droits cédés n'est pas compensable avec une plus-value. Le calcul des plus-values est établi par la Société de Gestion conformément au régime en vigueur et à la situation personnelle de chaque associé. Plus-values sur cession de parts de la SCPI Le régime d'imposition des plus-values des particuliers, visé aux articles 150 U à 150 VH du Code général des impôts, est applicable en cas de cession par un associé de parts de la SCPI. D'une façon générale, la plus-value, lors de la vente des parts de la SCPI, est égale à la différence entre la somme revenant au vendeur et le prix d'acquisition des parts majoré des frais d'acquisition (pris en compte pour leur montant réel). La plus-value est taxée forfaitairement au taux 36,2 % (19 % au titre de l'impôt sur le revenu, augmenté des prélèvements sociaux au taux global de 17,2 %). Comme ci-avant, des abattements pour durée de détention s'appliquent, conduisant à une exonération complète au bout de trente ans de détention. Comme ci-avant, une surtaxe s'applique sur les plus-values immobilières d'un montant supérieur à 50 000 € ; elle est due selon un barème progressif appliqué au montant total de la plus- value imposable, déduction faite des différents abattements. En l'état actuel de la législation, aucune imputation de moins- values n'est possible tant sur des plus-values de même nature que sur le revenu global. Par ailleurs, il n'existe aucune possi"
+   }
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2026/10/SCPI-Kyaneos-Pierre-Plaquette-commerciale-octobre-2026.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2026/10/SCPI-Kyaneos-Pierre-Plaquette-commerciale-octobre-2026.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 991709,
+   "sha256": "6e2e65c12036e5d63944e12d3f404d3ea3901f5389045d00705604b69cddb976",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.6 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261020113738+02'00'",
+    "modDate": "D:20261020114317+02'00'"
+   },
+   "page_count": 6,
+   "text_characters": 17998,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "^ #363 - 13 et 15 rue de Thiard 71100 Chalon-sur-Saône. Document mis à jour le 20/10/2026 KYANEOSAM.COM SOCIÉTÉ CIVILE DE PLACEMENT IMMOBILIER Kyaneos Asset Management, société de gestion agréée par l'AMF sous le n° GP-18000002 COMMUNICATION PUBLICITAIRE",
+   "dates": [
+    "20/10/2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 5,
+     "label": "frais de souscription",
+     "snippet": "200€ *Le Taux de Rendement Interne (TRI) correspond à la performance annualisée d'un placement sur une période donnée, en tenant compte du montant investi, des frais de souscription, des revenus perçus et de l'évolution du prix de part sur la période. **Correspond à la somme du taux de distribution (4,35%) de 2025 et la variation du prix de souscription (0,9%) entre le 1er janvier 2025 et le 1er janvier 2026. Prix de part au 1er janvier. Les performances passées ne préjugent pas des performances futures. Le prix de la part peut évoluer à la hausse comme à la baisse ; le capital investi n'est pas garanti.",
+     "percents": [
+      {
+       "raw": "4,35%",
+       "value": 4.35,
+       "tax_hint": null,
+       "after": ") de 2025 et la variation du prix de souscrip"
+      },
+      {
+       "raw": "0,9%",
+       "value": 0.9,
+       "tax_hint": null,
+       "after": ") entre le 1er janvier 2025 et le 1er janvier"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "commission de souscription",
+     "snippet": "'est exigé pour les souscriptions ultérieures des associés. Le prix de souscription d'une part est fixé à 224€ : 160€ de nominal et 64€ de prime d'émission. La commission de souscription, de 11% TTI du prix de souscription, est prélevée sur la prime d'émission, soit 24,64€ par part. Les parts souscrites portent jouissance le premier jour du 6ème mois qui suit celui de l'encaissement de l'intégralité du prix de souscription et de la transmission à la Société de gestion de l'intégralité du dossier de souscription pour que celui-ci puisse être validé. SORTIE DES ASSOCIÉS : Conformément aux dispositions régissant les SCPI à capital variable, tout associé n'a la pos- siblité de se retirer de la SCPI, partiellement ou en totalité, que s'il existe en contrepartie une souscription correspondante. ",
+     "percents": [
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription, est prélevée su"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "Frais de gestion",
+     "snippet": "s de dossier forfaitaires de 120€ TTC. Suivant ces différentes modalités de sortie, le prix de cession pourra être différent du prix de retrait. AUTRES FRAIS : Frais de gestion : la Société de Gestion perçoit une commission de gestion forfaitaire de 8% TTI des produits locatifs hors taxes encaissés par la SCPI et de ses produits financiers nets, ainsi que, au prorata de sa participation, de ceux des sociétés dans lesquelles elle détient une participation. Frais d'acquisition ou de cession d'actifs immobiliers : commission maximum de 3% TTI du prix d'acquisition ou de cession, hors taxes, hors droits et hors frais. Frais de suivi et de pilotage des travaux : commission égale à 2,4% TTI du montant des travaux immobilisés HT effectivement réalisés ; elle n'est pas due lors d'acquisitions en l",
+     "percents": [
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "hors taxes",
+       "after": "TTI des produits locatifs hors taxes encaiss"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition ou de cession, hor"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "HT",
+       "after": "TTI du montant des travaux immobilisés HT ef"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "commission de gestion",
+     "snippet": "fférentes modalités de sortie, le prix de cession pourra être différent du prix de retrait. AUTRES FRAIS : Frais de gestion : la Société de Gestion perçoit une commission de gestion forfaitaire de 8% TTI des produits locatifs hors taxes encaissés par la SCPI et de ses produits financiers nets, ainsi que, au prorata de sa participation, de ceux des sociétés dans lesquelles elle détient une participation. Frais d'acquisition ou de cession d'actifs immobiliers : commission maximum de 3% TTI du prix d'acquisition ou de cession, hors taxes, hors droits et hors frais. Frais de suivi et de pilotage des travaux : commission égale à 2,4% TTI du montant des travaux immobilisés HT effectivement réalisés ; elle n'est pas due lors d'acquisitions en l'état futur d'achèvement. Frais de cession de parts :",
+     "percents": [
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "hors taxes",
+       "after": "TTI des produits locatifs hors taxes encaiss"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition ou de cession, hor"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "HT",
+       "after": "TTI du montant des travaux immobilisés HT ef"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "Frais d'acquisition",
+     "snippet": "par la SCPI et de ses produits financiers nets, ainsi que, au prorata de sa participation, de ceux des sociétés dans lesquelles elle détient une participation. Frais d'acquisition ou de cession d'actifs immobiliers : commission maximum de 3% TTI du prix d'acquisition ou de cession, hors taxes, hors droits et hors frais. Frais de suivi et de pilotage des travaux : commission égale à 2,4% TTI du montant des travaux immobilisés HT effectivement réalisés ; elle n'est pas due lors d'acquisitions en l'état futur d'achèvement. Frais de cession de parts : pour les cessions réalisées par confrontation sur le marché secondaire, commission de cession de 6% TTI du prix total hors droits d'enregistrement, due par le vendeur ; pour les cessions et transferts sans intervention de la Société de Gestion et",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition ou de cession, hor"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "HT",
+       "after": "TTI du montant des travaux immobilisés HT ef"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "TTI du prix total hors droits d'enregistreme"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "Frais de suivi",
+     "snippet": "ais d'acquisition ou de cession d'actifs immobiliers : commission maximum de 3% TTI du prix d'acquisition ou de cession, hors taxes, hors droits et hors frais. Frais de suivi et de pilotage des travaux : commission égale à 2,4% TTI du montant des travaux immobilisés HT effectivement réalisés ; elle n'est pas due lors d'acquisitions en l'état futur d'achèvement. Frais de cession de parts : pour les cessions réalisées par confrontation sur le marché secondaire, commission de cession de 6% TTI du prix total hors droits d'enregistrement, due par le vendeur ; pour les cessions et transferts sans intervention de la Société de Gestion et les transmissions à titre gratuit, droit fixe forfaitaire de 120€ TTC par cessionnaire, donataire ou bénéficiaire. Kyaneos AM est signataire de la charte intégra",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI du prix d'acquisition ou de cession, hor"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "HT",
+       "after": "TTI du montant des travaux immobilisés HT ef"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "TTI du prix total hors droits d'enregistreme"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 6,
+     "label": "Frais de cession",
+     "snippet": "commission égale à 2,4% TTI du montant des travaux immobilisés HT effectivement réalisés ; elle n'est pas due lors d'acquisitions en l'état futur d'achèvement. Frais de cession de parts : pour les cessions réalisées par confrontation sur le marché secondaire, commission de cession de 6% TTI du prix total hors droits d'enregistrement, due par le vendeur ; pour les cessions et transferts sans intervention de la Société de Gestion et les transmissions à titre gratuit, droit fixe forfaitaire de 120€ TTC par cessionnaire, donataire ou bénéficiaire. Kyaneos AM est signataire de la charte intégrant les PRI des Nations Unies depuis 2022. Note d'information, statuts et documents réglementaires sur : KYANEOSAM.COM",
+     "percents": [
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "HT",
+       "after": "TTI du montant des travaux immobilisés HT ef"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "TTI du prix total hors droits d'enregistreme"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 6,
+     "label": "commission de cession",
+     "snippet": "t pas due lors d'acquisitions en l'état futur d'achèvement. Frais de cession de parts : pour les cessions réalisées par confrontation sur le marché secondaire, commission de cession de 6% TTI du prix total hors droits d'enregistrement, due par le vendeur ; pour les cessions et transferts sans intervention de la Société de Gestion et les transmissions à titre gratuit, droit fixe forfaitaire de 120€ TTC par cessionnaire, donataire ou bénéficiaire. Kyaneos AM est signataire de la charte intégrant les PRI des Nations Unies depuis 2022. Note d'information, statuts et documents réglementaires sur : KYANEOSAM.COM",
+     "percents": [
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "TTI du prix total hors droits d'enregistreme"
+      }
+     ],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "5": "SCPI KYANEOS PIERRE CHIFFRES CLÉS au 31/12/2025 Présence de la SCPI Kyaneos Pierre dans 38 départements en France métropolitaine. DE CAPITALISATION 440M€ TRI DEPUIS LA CRÉATION* 6,14% IMMEUBLES SOIT 4 918 LOTS 635 ASSOCIÉS 10 546 ≤ 10 MINIMUM DE SOUSCRIPTION 10 parts pour un nouvel associé DÉLAI DE JOUISSANCE 1er jour du 6e mois suivant la souscription PRIX DE SOUSCRIPTION 224€/part CONDITIONS DE SOUSCRIPTION au 31/12/2025 PERFORMANCE GLOBALE ANNUELLE** 5,25% 2018 2019 2020 2021 2022 2023 2024 2025 2026 216€ 216€ 220€ 222€ 224€ ÉVOLUTION DU PRIX DE PART 212€ 208€ 200€ 200€ *Le Taux de Rendement Interne (TRI) correspond à la performance annualisée d'un placement sur une période donnée, en tenant compte du montant investi, des frais de souscription, des revenus perçus et de l'évolution du prix de part sur la période. **Correspond à la somme du taux de distribution (4,35%) de 2025 et la variation du prix de souscription (0,9%) entre le 1er janvier 2025 et le 1er janvier 2026. Prix de part au 1er janvier. Les performances passées ne préjugent pas des performances futures. Le prix de la part peut évoluer à la hausse comme à la baisse ; le capital investi n'est pas garanti.",
+    "6": "OÙ NOUS TROUVER ? Kyaneos Asset Management 1578 Av. de la 2e Division Blindée 30133 Les Angles COMMENT NOUS CONTACTER ? 04 86 34 80 73 contact@kyaneosam.com kyaneosam.com La Société de gestion ne garantit ni le retrait ni la gestion des parts de la SCPI. Les parts de la SCPI ne peuvent être souscrites, acquises ou vendues par ou au bénéfice d'une « US person ». Le capital investi et les revenus ne sont pas garantis et dépendront de l'évolution du marché immobilier sur la durée de placement. La durée recommandée de placement est de 10 ans minimum. La liquidité du placement est limitée durant toute la durée de vie de la SCPI. Avant tout investissement, vous devez vérifier qu'il est adapté à votre situation patrimoniale. L'intégralité de ces conditions figure dans la note d'information de la SCPI Kyaneos Pierre. AVERTISSEMENTS MENTIONS RÉGLEMENTAIRES FISCALITÉ EN VIGUEUR AU 1ER JANVIER 2026 CONDITIONS DE SOUSCRIPTION, RETRAIT, CESSION DE PARTS ET AUTRES FRAIS SCPI Kyaneos Pierre, SCPI de rendement à capital variable investie principalement en immobilier résidentiel, créée le 11/04/2018. Visa AMF n°18-08 du 05/06/2018. Durée de la SCPI : 99 ans. Capital maximum statutaire : 500 000 000 €. Dépositaire : Société Générale Securities Services. Expert externe en évaluation : Cabinet Adéquation Expertise. Kyaneos AM est agréée par l'AMF sous le n° GP-18000002 depuis le 26/02/2018. Si l'associé est une personne morale soumise à l'impôt sur les sociétés ou si les parts de SCPI sont inscrites à l'actif d'une entreprise industrielle ou commerciale, le revenu imposable est déterminé conformément aux règles applicables aux bénéfices industriels et commerciaux. Les revenus potentiels issus de la location des actifs immobiliers sont imposés pour les personnes physiques selon le régime fiscal des revenus fonciers. Les revenus financiers, générés par le placement de la trésorerie disponible en attente d'investissement immobilier, perçus par la SCPI, sont soumis à une imposition forfaitaire unique de 31,4% qui se décompose de la manière suivante : – un prélèvement forfaitaire unique (PFU) d'impôt sur le revenu au taux de 12,8% – les prélèvements sociaux (PS) au taux global de 18,6%. Ces revenus financiers font l'objet d'un prélèvement à la source à titre d'acompte d'impôt sur le revenu sauf si les contribuables ont demandé une dispense de prélèvement avant le 30 novembre de l'année antérieure au versement, dans les conditions ex- istantes. Les cessions de parts sont imposées selon le ré- gime des plus-values immobilières : soumises à un prélèvement forfaitaire de 19% augmenté des prélèvements sociaux de 17,2%, soit un taux global de 36,2%, avec un abattement pour durée de détention conduisant à une exonération du prélèvement for- faitaire de 19% au terme de la vingt-deuxième an- née de détention et à une exonération des prélève- ments sociaux au terme de la trentième année. Le traitement fiscal dépend de la situation individuelle et du taux d'imposition propre à chaque associé. Le dispositif fiscal est susceptible d'évoluer. Déclaration des revenus et IFI : chaque année, Kyaneos AM vous adressera les éléments nécessaires pour remplir votre déclaration fiscale. La valeur IFI par part sera transmise avec les informations fiscales prévues pour remplir les déclarations de revenus. Il est également précisé que les crédits relatifs au financement de parts de SCPI en nue-propriété ne peuvent plus être inscrits au passif. AUGMENTATION DE CAPITAL : Les souscriptions sont reçues dans la limite du capital maximum statutaire de la SCPI s'élevant à 500 000 000 €. Le bulletin de souscription énonce les modalités de chaque émission et en particulier son montant, les dates d'ouverture et de clôture de la souscription, le prix des parts nouvelles, leur date d'entrée en jouissance. Le minimum de souscription, pour tout nouvel associé, est de 10 parts. Aucun minimum de souscription n'est exigé pour les souscriptions ultérieures des associés. Le prix de souscription d'une part est fixé à 224€ : 160€ de nominal et 64€ de prime d'émission. La commission de souscription, de 11% TTI du prix de souscription, est prélevée sur la prime d'émission, soit 24,64€ par part. Les parts souscrites portent jouissance le premier jour du 6ème mois qui suit celui de l'encaissement de l'intégralité du prix de souscription et de la transmission à la Société de gestion de l'intégralité du dossier de souscription pour que celui-ci puisse être validé. SORTIE DES ASSOCIÉS : Conformément aux dispositions régissant les SCPI à capital variable, tout associé n'a la pos- siblité de se retirer de la SCPI, partiellement ou en totalité, que s'il existe en contrepartie une souscription correspondante. Dans ce cas, lorsque la société de gestion reçoit une demande de retrait d'un associé, en l'absence de fonds de remboursement, le remboursement s'effectue sur une valeur de retrait de 199,36€ pour une part. Dans le cas, exceptionnel, de suspension de la variabilité du capital (i.e. suspension du marché primaire), l'associé qui souhaite se séparer de ses parts demande la cession de ses parts sur le marché secondaire par confrontation. Les deux possibilités ci-dessus sont distinctes et non cumulatives. En aucun cas, les mêmes parts d'un associé ne peuvent faire l'objet à la fois d'une demande de retrait et être inscrites sur le registre des ordres de vente sur le marché secondaire. Enfin, l'associé peut également effectuer une cession directe de ses parts sans intervention de la Société de Gestion à des conditions librement fixées entre le cédant et le cessionnaire (gré à gré). Les frais de transaction sont à la charge de l'acquéreur et comprennent notamment les droits d'enregistrement de 5% (taux en vigueur au 1er janvier 2026) et des frais de dossier forfaitaires de 120€ TTC. Suivant ces différentes modalités de sortie, le prix de cession pourra être différent du prix de retrait. AUTRES FRAIS : Frais de gestion : la Société de Gestion perçoit une commission de gestion forfaitaire de 8% TTI des produits locatifs hors taxes encaissés par la SCPI et de ses produits financiers nets, ainsi que, au prorata de sa participation, de ceux des sociétés dans lesquelles elle détient une participation. Frais d'acquisition ou de cession d'actifs immobiliers : commission maximum de 3% TTI du prix d'acquisition ou de cession, hors taxes, hors droits et hors frais. Frais de suivi et de pilotage des travaux : commission égale à 2,4% TTI du montant des travaux immobilisés HT effectivement réalisés ; elle n'est pas due lors d'acquisitions en l'état futur d'achèvement. Frais de cession de parts : pour les cessions réalisées par confrontation sur le marché secondaire, commission de cession de 6% TTI du prix total hors droits d'enregistrement, due par le vendeur ; pour les cessions et transferts sans intervention de la Société de Gestion et les transmissions à titre gratuit, droit fixe forfaitaire de 120€ TTC par cessionnaire, donataire ou bénéficiaire. Kyaneos AM est"
+   }
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2025/10/SCPI-Kyaneos-Pierre-Annexe-SFDR.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2025/10/SCPI-Kyaneos-Pierre-Annexe-SFDR.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 176158,
+   "sha256": "d7423b74b76c046ec6ce053b169adb29d5142f681a1710ca1ca108e22268c847",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.1 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20250530063354+02'00'",
+    "modDate": "D:20251010100924+02'00'"
+   },
+   "page_count": 6,
+   "text_characters": 14313,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 t ANNEXE PÉRIODIQUE SFDR Modèle d'informations périodiques pour les produits financiers visés à l'article 8, paragraphes 1, 2 et 2 bis, du règlement (UE) 2019/2088 et à l'article 6, premier alinéa, du règlement (UE) 2020/852 Dénomination du produit : SCPI Kyaneos Pierre Identifiant d'entité juridique : Kyaneos AM Par investissement durable, on entend un investissement dans une activité économiqu",
+   "dates": [
+    "31/12/2023",
+    "31/12/2024"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2026/03/SCPI-KP-Statuts-05-04-2024.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2026/03/SCPI-KP-Statuts-05-04-2024.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 470614,
+   "sha256": "715e94a6fca827b6d6bc7e50a081e66938e39456d0c162648241d47ea617ab2c",
+   "metadata": {
+    "format": "PDF 1.6",
+    "author": "Charles MICHEL",
+    "creator": "Acrobat PDFMaker 25 pour Word",
+    "producer": "Adobe PDF Library 25.1.231",
+    "creationDate": "D:20260311120916+01'00'",
+    "modDate": "D:20260311120923+01'00'"
+   },
+   "page_count": 15,
+   "text_characters": 97846,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1/15 ARTICLE 1 – FORME. La Société est un Fond d'Investissement Alternatif (« FIA ») relevant du Code monétaire et financier (« COMOFI »), constitué sous la forme d'une Société Civile de Placement Immobilier à capital variable (« la SCPI ») régie notamment par les articles 1832 et suivants du Code Civil, les articles L. 231-1 et suivants du Code de Commerce, les articles L. 214-24, L. 214-86 et su",
+   "dates": [
+    "05 avril 2024",
+    "11 avril 2018"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "commission de souscription",
+     "snippet": "3/15 actifs de la SCPI augmentée de la commission de souscription et de l'estimation des frais qui seraient nécessaires pour l'acquisition du patrimoine à la date de clôture de l'exercice. Toutefois, conformément à l'article L. 214-93 du COMOFI, il ne pourra être procédé à la création de parts nouvelles en vue d'augmenter le capital social tant que n'auront pas été satisfaites les offres de cession de parts figurant sur le registre prévu depuis plus de trois (3) mois pour un prix égal ou inférieur à celui demandé aux nouveaux souscripteurs. 8.4 Agrément Toute souscription de parts sociales de la SCPI par un tiers étranger à la SCPI doit recueillir l'agrément de la SCPI, ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "commission de souscription",
+     "snippet": " ou supérieur à la demande de retrait. Dans ce cas, la valeur de retrait correspond au prix d'émission (nominal plus prime d'émission) en vigueur diminué de la commission de souscription toutes taxes incluses. Le règlement de l'associé qui se retire à lieu simultanément, sous la seule réserve des délais administratifs de régularisation ; Si, au bout de trois mois, les souscriptions nouvelles ne permettaient pas d'assurer le retrait des associés, ceux-ci seraient, sur demande de leur part, remboursés à la valeur liquidative par prélèvement sur le fonds de remboursement, dans la mesure où il a été constitué. Dans ce cas, le prix de retrait correspond à la valeur liquidative en vigueur déterminée à partir de la valeur estimée des immeubles à laquelle s'ajouteront les autres éléments d'actif n",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "commission de cession",
+     "snippet": "Société de Gestion constate que le prix d'exécution a conduit, au cours de quatre périodes consécutives de confrontation, à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription, la Société de Gestion aura la faculté de rétablir à tout moment les effets de la variabilité du capital après en avoir informé les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier).Le rétablissement de la variabilité du capital entraîne :  l'annulation des ordres d'achat et de vente de parts,  la fixation d'un prix de souscription à un niveau proche de la moyenne des prix, commission de cession et droits d'enregistrement inclus, payés par les acquéreurs au cours des périodes ",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "commission de cession",
+     "snippet": "capital entraîne :  l'annulation des ordres d'achat et de vente de parts,  la fixation d'un prix de souscription à un niveau proche de la moyenne des prix, commission de cession et droits d'enregistrement inclus, payés par les acquéreurs au cours des périodes de confrontation prises en référence pour le rétablissement de la variabilité du capital,",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "Commission de gestion",
+     "snippet": " manière générale toutes opérations relevant de sa responsabilité ou de sa compétence. La SCPI règle, directement, tous les autres frais sans exception. 17.1 – Commission de gestion Afin d'assurer l'administration de la SCPI, la tenue du registre des associés et leur information régulière, la préparation, la convocation de toutes les réunions et assemblées, ainsi que la distribution des revenus, la Société de Gestion perçoit une commission de gestion forfaitaire annuelle qui est fixée à 6,67% HT (soit 8,0% TTC au taux en vigueur au jour de la présente note) d'une part des produits locatifs hors taxes encaissés par la SCPI et des produits financiers nets et d'autre part des produits locatifs hors taxes encaissés par les sociétés dans lesquelles la SCPI détient une participation et de leurs ",
+     "percents": [
+      {
+       "raw": "6,67%",
+       "value": 6.67,
+       "tax_hint": "HT",
+       "after": "HT (soit 8,0% TTC au taux en vigueur au jour"
+      },
+      {
+       "raw": "8,0%",
+       "value": 8.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux en vigueur au jour de la présent"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "commission de gestion",
+     "snippet": "mation régulière, la préparation, la convocation de toutes les réunions et assemblées, ainsi que la distribution des revenus, la Société de Gestion perçoit une commission de gestion forfaitaire annuelle qui est fixée à 6,67% HT (soit 8,0% TTC au taux en vigueur au jour de la présente note) d'une part des produits locatifs hors taxes encaissés par la SCPI et des produits financiers nets et d'autre part des produits locatifs hors taxes encaissés par les sociétés dans lesquelles la SCPI détient une participation et de leurs produits financiers nets, au prorata de la participation de la SCPI dans le capital de ces sociétés, les dividendes payés par ces dernières étant exclus de la base de calcul lorsque ces dernières les décaissent au profit de la SCPI. 17.2 – Commission de souscription de par",
+     "percents": [
+      {
+       "raw": "6,67%",
+       "value": 6.67,
+       "tax_hint": "HT",
+       "after": "HT (soit 8,0% TTC au taux en vigueur au jour"
+      },
+      {
+       "raw": "8,0%",
+       "value": 8.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux en vigueur au jour de la présent"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "Commission de souscription",
+     "snippet": "tal de ces sociétés, les dividendes payés par ces dernières étant exclus de la base de calcul lorsque ces dernières les décaissent au profit de la SCPI. 17.2 – Commission de souscription de parts Une commission de souscription versée par la SCPI à la Société de Gestion est fixée au maximum à 11% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006) du prix de souscription prime d'émission incluse de chaque souscription. Elle a pour objet de rémunérer la prospection et la collecte de capitaux, de préparation et d'exécution des programmes d'investissement et d'assurer le remboursement de tous frais exposés pour les études, recherches, et démarches en vu de la constitution et de l'extension du patrimoine. La Socié",
+     "percents": [
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "commission de souscription",
+     "snippet": "s par ces dernières étant exclus de la base de calcul lorsque ces dernières les décaissent au profit de la SCPI. 17.2 – Commission de souscription de parts Une commission de souscription versée par la SCPI à la Société de Gestion est fixée au maximum à 11% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006) du prix de souscription prime d'émission incluse de chaque souscription. Elle a pour objet de rémunérer la prospection et la collecte de capitaux, de préparation et d'exécution des programmes d'investissement et d'assurer le remboursement de tous frais exposés pour les études, recherches, et démarches en vu de la constitution et de l'extension du patrimoine. La Société de Gestion se réserve le droit de rét",
+     "percents": [
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "commission de souscription",
+     "snippet": "recherches, et démarches en vu de la constitution et de l'extension du patrimoine. La Société de Gestion se réserve le droit de rétrocéder tout ou partie de la commission de souscription à tout sponsor de la",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 8,
+     "label": "commission de souscription",
+     "snippet": "8/15 SCPI dont les souscriptions, en phase de lancement de la SCPI, permettront à la SCPI de réaliser les premières acquisitions de biens immobiliers. La commission de souscription sera prélevée par la Société de Gestion dans le mois de la libération des fonds par l'associé. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime d'émission. Cette commission de souscription est destinée :  À hauteur de 8% TTI (commission exonérée de TVA en application de l'article 261-C-1°-e du Code Général des Impôts), à couvrir les frais de collecte des capitaux,  À hauteur de 3% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006) à couvrir les frais de rec",
+     "percents": [
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 8,
+     "label": "commission de souscription",
+     "snippet": "on des fonds par l'associé. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime d'émission. Cette commission de souscription est destinée :  À hauteur de 8% TTI (commission exonérée de TVA en application de l'article 261-C-1°-e du Code Général des Impôts), à couvrir les frais de collecte des capitaux,  À hauteur de 3% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006) à couvrir les frais de recherche d'investissements des capitaux, de préparation et de réalisation des augmentations de capital. 17.3 – Commission de cession de part En cas de cession de parts, la Société de Gestion percevra l'une des rémunérations suivantes :  Pour toutes cessi",
+     "percents": [
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "TVA",
+       "after": "TTI (commission exonérée de TVA en applicati"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 8,
+     "label": "Commission de cession",
+     "snippet": "eil du 28 novembre 2006) à couvrir les frais de recherche d'investissements des capitaux, de préparation et de réalisation des augmentations de capital. 17.3 – Commission de cession de part En cas de cession de parts, la Société de Gestion percevra l'une des rémunérations suivantes :  Pour toutes cessions/transferts de parts sans intervention de la Société de Gestion ou pour toutes transmissions de parts à titre gratuit (donation/succession/divorce) : il est dû à la Société de Gestion, par cessionnaire, donataire ou par bénéficiaire, un droit fixe forfaitaire de 100€ HT (soit 120€ TTC au taux de TVA en vigueur). Ces frais de cession de parts sont à la charge des acquéreurs, donateurs ou des ayant droits, quel que soit le nombre de parts cédées.  Pour toutes cessions réalisées par confro",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 8,
+     "label": "frais de cession",
+     "snippet": "û à la Société de Gestion, par cessionnaire, donataire ou par bénéficiaire, un droit fixe forfaitaire de 100€ HT (soit 120€ TTC au taux de TVA en vigueur). Ces frais de cession de parts sont à la charge des acquéreurs, donateurs ou des ayant droits, quel que soit le nombre de parts cédées.  Pour toutes cessions réalisées par confrontation des ordres d'achat et de vente sur le marché secondaire : il est dû par le vendeur à Société de Gestion, une commission de cession calculée au taux de 5% HT (soit 6% TTC selon le taux de TVA en vigueur à la date de la présente note) sur le prix total, hors droits d'enregistrement, payé par l'acquéreur. Cette rémunération est destinée à organiser le marché secondaire des parts. L'acquéreur supportera par ailleurs le paiement des droits d'enregistrement au",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6% TTC selon le taux de TVA en vigu"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC selon le taux de TVA en vigueur à la dat"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 8,
+     "label": "commission de cession",
+     "snippet": " Pour toutes cessions réalisées par confrontation des ordres d'achat et de vente sur le marché secondaire : il est dû par le vendeur à Société de Gestion, une commission de cession calculée au taux de 5% HT (soit 6% TTC selon le taux de TVA en vigueur à la date de la présente note) sur le prix total, hors droits d'enregistrement, payé par l'acquéreur. Cette rémunération est destinée à organiser le marché secondaire des parts. L'acquéreur supportera par ailleurs le paiement des droits d'enregistrement au taux en vigueur, calculés sur le prix de cession des parts au taux en vigueur au moment de la cession. Un droit d'enregistrement de 5% (taux actuellement en vigueur) du montant de la transaction (article 726 du Code Général des Impôts) est applicable à la charge du cessionnaire. Ce droit e",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 6% TTC selon le taux de TVA en vigu"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC selon le taux de TVA en vigueur à la dat"
+      },
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "(taux actuellement en vigueur) du montant de"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 8,
+     "label": "Commission d'acquisition",
+     "snippet": " transaction (article 726 du Code Général des Impôts) est applicable à la charge du cessionnaire. Ce droit est inclus dans le prix payé par l'acquéreur. 17.4 - Commission d'acquisition et de cession d'actifs immobiliers La Société de Gestion reçoit à titre de rémunération de sa mission dans le cadre des acquisitions ou cessions d'actifs immobiliers, une commission maximum de 2,5% HT (3,0% TTC du taux de TVA en vigueur) :  du prix d'acquisition ou de cession (hors taxes, hors droits, hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) ou cédé, directement ou indirectement par la SCPI ;  ou de la valeur conventionnelle (hors taxes, hors droits, hors frais) retenue pour le calcul du prix d'acquisition ou de cession des droits sociaux des sociétés qui détiennent",
+     "percents": [
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT (3,0% TTC du taux de TVA en vigueur) : "
+      },
+      {
+       "raw": "3,0%",
+       "value": 3.0,
+       "tax_hint": "TTC",
+       "after": "TTC du taux de TVA en vigueur) :  du prix d"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 8,
+     "label": "frais d'acquisition",
+     "snippet": "ticipation dans lesdites sociétés acquises ou cédées par la SCPI. Cette commission est prélevée sur la quote-part de la prime d'émission destinée à couvrir les frais d'acquisition. 17.5 Commission de suivi et de pilotage de la réalisation de travaux La Société de Gestion reçoit à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 2% HT maximum (à titre indicatif, 2,4%TTC au taux de TVA en vigueur) du montant des travaux immobilisés HT effectivement réalisés. Cette rémunération est ramenée au prorata de la détention dans la filiale de la SCPI si les travaux sont réalisés par une filiale. La commission n'est pas due lors d'acquisitions en état futur d'achèvement. La",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (à titre indicatif, 2,4%TTC au ta"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant des"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 8,
+     "label": "Commission de suivi",
+     "snippet": "ociétés acquises ou cédées par la SCPI. Cette commission est prélevée sur la quote-part de la prime d'émission destinée à couvrir les frais d'acquisition. 17.5 Commission de suivi et de pilotage de la réalisation de travaux La Société de Gestion reçoit à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 2% HT maximum (à titre indicatif, 2,4%TTC au taux de TVA en vigueur) du montant des travaux immobilisés HT effectivement réalisés. Cette rémunération est ramenée au prorata de la détention dans la filiale de la SCPI si les travaux sont réalisés par une filiale. La commission n'est pas due lors d'acquisitions en état futur d'achèvement. La commission sera prélevée ",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (à titre indicatif, 2,4%TTC au ta"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant des"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 8,
+     "label": "commission de suivi",
+     "snippet": "e suivi et de pilotage de la réalisation de travaux La Société de Gestion reçoit à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 2% HT maximum (à titre indicatif, 2,4%TTC au taux de TVA en vigueur) du montant des travaux immobilisés HT effectivement réalisés. Cette rémunération est ramenée au prorata de la détention dans la filiale de la SCPI si les travaux sont réalisés par une filiale. La commission n'est pas due lors d'acquisitions en état futur d'achèvement. La commission sera prélevée au fur et à mesure de la comptabilisation de ces travaux. 17.6 - Autres frais La prise en charge de frais supplémentaires devra être soumise à l'agrément de l'Assemblée Gén",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (à titre indicatif, 2,4%TTC au ta"
+      },
+      {
+       "raw": "2,4%",
+       "value": 2.4,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA en vigueur) du montant des"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 13,
+     "label": "commissions de souscription",
+     "snippet": "état du patrimoine. Par ailleurs, pourront être imputés totalement ou partiellement sur la prime d'émission : les frais de constitution et d'établissement, les commissions de souscription, les frais de recherche d'immeubles directement réglés par la SCPI, ainsi que les frais d'acquisition des immeubles tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais et honoraires et émoluments de notaire, les frais à répartir sur plusieurs exercices. De même, il pourra être prélevé, pour chaque nouvelle part souscrite, le montant permettant de maintenir le niveau du report à nouveau existant. Tous frais liés aux augmentations de capital, à la recherche des capitaux, à la recherche et à l'acquisition des immeubles pourront être amort",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 13,
+     "label": "frais d'acquisition",
+     "snippet": "les frais de constitution et d'établissement, les commissions de souscription, les frais de recherche d'immeubles directement réglés par la SCPI, ainsi que les frais d'acquisition des immeubles tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais et honoraires et émoluments de notaire, les frais à répartir sur plusieurs exercices. De même, il pourra être prélevé, pour chaque nouvelle part souscrite, le montant permettant de maintenir le niveau du report à nouveau existant. Tous frais liés aux augmentations de capital, à la recherche des capitaux, à la recherche et à l'acquisition des immeubles pourront être amortis sur la prime d'émission, sur laquelle sera également prélevé, pour chaque part nouvelle souscrite, le monta",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 13,
+     "label": "commissions de souscription",
+     "snippet": "ur une période qui ne peut excéder cinq (5) ans ou vingt (20) ans selon leur nature, les frais suivants (liste non limitative) : les frais d'établissement, les commissions de souscription, les frais de fusion autres que ceux inscrits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la SCPI, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire. Les primes d'émission et de fusion pourront être affectées à la réalisation de moins-values lors de la cession d'éléments d'actifs. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 13,
+     "label": "commissions d'acquisition",
+     "snippet": "(liste non limitative) : les frais d'établissement, les commissions de souscription, les frais de fusion autres que ceux inscrits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la SCPI, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire. Les primes d'émission et de fusion pourront être affectées à la réalisation de moins-values lors de la cession d'éléments d'actifs. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d'évaluation que les années précédentes. Toutefois, la société́ de gestion peut proposer à l'Assemblée Gé",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 13,
+     "label": "frais d'acquisition",
+     "snippet": "nscrits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la SCPI, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire. Les primes d'émission et de fusion pourront être affectées à la réalisation de moins-values lors de la cession d'éléments d'actifs. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d'évaluation que les années précédentes. Toutefois, la société́ de gestion peut proposer à l'Assemblée Générale Ordinaire de modifications dans la présentation des comptes, dans les conditions prévues par les dispositions légal",
+     "percents": [],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "3": "3/15 actifs de la SCPI augmentée de la commission de souscription et de l'estimation des frais qui seraient nécessaires pour l'acquisition du patrimoine à la date de clôture de l'exercice. Toutefois, conformément à l'article L. 214-93 du COMOFI, il ne pourra être procédé à la création de parts nouvelles en vue d'augmenter le capital social tant que n'auront pas été satisfaites les offres de cession de parts figurant sur le registre prévu depuis plus de trois (3) mois pour un prix égal ou inférieur à celui demandé aux nouveaux souscripteurs. 8.4 Agrément Toute souscription de parts sociales de la SCPI par un tiers étranger à la SCPI doit recueillir l'agrément de la SCPI, exprimé par l'intermédiaire de la Société de Gestion. La remise par le souscripteur du bulletin de souscription accompagné du versement du prix de souscription auprès de la Société de Gestion vaut pour celui-ci demande d'agrément. De même, en cas de suspension de la variabilité du capital et de mise en place d'un marché secondaire, la remise d'un mandat d'achat par le donneur d'ordre accompagné du versement du montant total de l'ordre auprès de la Société de Gestion vaut pour celui-ci demande d'agrément. L'agrément résulte : soit d'une notification au souscripteur, par lettre recommandée avec demande d'avis de réception, soit du défaut de réponse par la SCPI dans le délai de deux (2) mois à compter de la réception par la Société de Gestion du bulletin de souscription du souscripteur. La décision de la SCPI n'est pas motivée et ne peut, en cas de refus de l'agrément, donner lieu à une réclamation quelconque contre la Société de Gestion ou la SCPI. Si la SCPI n'agrée pas le souscripteur, elle est tenue de rembourser au souscripteur le prix de souscription qu'il lui a versé dans un délai de sept (7) jours ouvrés à compter de la date de la notification par la SCPI du refus d'agrément. Si, à l'expiration du délai de sept (7) jours ouvrés susvisé, la SCPI n'a pas remboursé au souscripteur le prix de souscription, l'agrément du souscripteur serait considéré comme donné. 8.5 Restrictions à l'égard des US Persons Les parts de la SCPI ne peuvent être cédées, offertes ou vendues directement ou indirectement aux Etats-Unis d'Amériques (y compris sur ses territoires et possessions) au bénéfice de tout ressortissant des Etats-Unis d'Amériques (ci- après une « U.S Person » tel que ce terme est défini dans la note d'information, par la réglementation américaine « Regulation S » dans le cadre de l'Act de 1933 adoptée par l'autorité américaine de régulation des marchés « Securities and Exchange Commission ») »), ou en vertu de quelque loi applicable dans un état des Etats-Unis d'Amériques. ARTICLE 9 – RETRAITS 9.1 Modalités des retraits Tout associé a le droit de se retirer de la SCPI, partiellement ou en totalité, l'exercice de ce droit étant limité selon les modalités fixées par l'article 7. La demande de retrait précisant le nombre de parts en cause doit être faite par lettre recommandée avec avis de réception et accompagnée des certificats représentatifs des parts. Les demandes de retrait sont prises en considération par ordre chronologique de réception et dans la limite où la clause de variabilité le permet. Les parts remboursées seront annulées. Les parts faisant l'objet d'un retrait portent jouissance jusqu'au premier jour du trimestre au cours duquel le retrait a eu lieu. Le règlement des associés qui se retirent a lieu sans autre délai que le délai administratif normal de régularisation. Un même associé ne peut passer qu'un ordre de retrait à la fois. Un associé ne peut déposer une nouvelle demande de retrait que lorsque la précédente demande de retrait a été totalement satisfaite ou annulée. 9.2 Prix de retrait Le remboursement des apports sera effectué sur la base de la valeur de la part sociale fixée en fonction des situations suivantes : Il existe des demandes de souscription pour un montant équivalent ou supérieur à la demande de retrait. Dans ce cas, la valeur de retrait correspond au prix d'émission (nominal plus prime d'émission) en vigueur diminué de la commission de souscription toutes taxes incluses. Le règlement de l'associé qui se retire à lieu simultanément, sous la seule réserve des délais administratifs de régularisation ; Si, au bout de trois mois, les souscriptions nouvelles ne permettaient pas d'assurer le retrait des associés, ceux-ci seraient, sur demande de leur part, remboursés à la valeur liquidative par prélèvement sur le fonds de remboursement, dans la mesure où il a été constitué. Dans ce cas, le prix de retrait correspond à la valeur liquidative en vigueur déterminée à partir de la valeur estimée des immeubles à laquelle s'ajouteront les autres éléments d'actif net de la SCPI. Le prix de retrait ne pourra être supérieur à cette valeur de réalisation, ni inférieur à cette même valeur moins 10%, sauf autorisation de l'AMF. Si les demandes de retrait non satisfaites dans un délai de douze (12) mois représentent au moins 10% des parts émises par la SCPI, la Société de Gestion en informe sans délai l'AMF. Dans les deux mois à compter de cette information, la Société de Gestion convoque une Assemblée Générale Extraordinaire et lui propose la cession partielle ou totale du patrimoine et toute autre mesure appropriée. Les rapports de la Société de gestion et des Commissaires aux Comptes ainsi que les projets de résolutions sont transmis à l'AMF un mois avant la date de l'Assemblée Générale. Les demandes de retrait pourront être suspendues en application, s'il y a lieu, des dispositions légales et réglementaires. 9.3 Suspension de la variabilité du capital La Société de Gestion a la faculté, sous sa responsabilité, de suspendre à tout moment les effets de la variabilité du capital après en avoir informé les associés, dès lors qu'elle constate que des demandes de retrait de parts au prix en vigueur demeurent non satisfaites et inscrites sur le registre depuis au moins six (6) mois. La prise de cette décision entraîne :  l'annulation des souscriptions et des demandes de retrait de parts existantes,  l'interdiction d'augmenter le capital effectif,  la soumission volontaire aux règles législatives et réglementaires des SCPI découlant de l'article L. 214-93 du COMOFI, par la mise en place de la confrontation périodique des ordres d'achat et de vente des parts de la SCPI. 9.4 Rétablissement de la variabilité du capital Dès lors que la Société de Gestion constate que le prix d'exécution a conduit, au cours de quatre périodes consécutives de confrontation, à fixer un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, compris dans les limites légales du prix de souscription, la Société de Gestion aura la faculté de rétablir à tout moment les effets de la variabilité du capital après en avoir informé les associés par tout moyen approprié (bulletin d'information, sur le site internet, courrier).Le rétablissement de la variabilité du capital entraîne :  l'annulatio",
+    "7": "7/15 pour le temps et aux prix, charges et conditions qu'elle jugera convenables,  elle procède à toutes résiliations avec ou sans indemnités,  elle fait exécuter tous travaux et réparations qu'elle estime utiles,  elle fait acquérir ou céder, par la SCPI, tous immeubles ou droits immobiliers ou parts de filiales immobilières aux prix et conditions qu'elle juge convenable ; elle en fait acquitter le prix,  elle autorise toutes transactions, tous compromis, acquiescements et désistements entrant dans les pouvoirs d'administration ainsi que toutes subrogations et mainlevées d'inscription, saisies, oppositions et autres droits, consent toutes antériorités ;  elle exerce toutes actions judiciaires ou extra judiciaires tant en demande qu'en défense ;  elle arrête les comptes qui doivent être soumis aux assemblées générales ordinaires des associés, statue sur toute proposition à faire et arrête les ordres du jour ;  elle arrête chaque année la valeur de réalisation et la valeur de reconstitution de la SCPI et les fait approuver par l'Assemblée Générale ordinaire sur la base des évaluations réalisées par l'expert externe en évaluation indépendant ;  elle convoque les assemblées générales des associés et exécute leurs décisions ;  elle représente la SCPI aux assemblées générales et au sein des organes de gestion et d'administration des sociétés dans lesquelles la SCPI détient une participation ; à cet effet, elle participe et vote auxdites assemblées générales, organes de gestion et d'administration, et signe tous procès-verbaux, documents et feuilles de présence y afférents, et plus généralement représente les intérêts de la SCPI au sein des sociétés dans lesquelles cette dernière détient une participation ;  elle propose le dépositaire pour nomination par l'Assemblée Générale Ordinaire,  elle nomme l'expert externe en évaluation après acceptation de la candidature de ce dernier par l'Assemblée Générale ordinaire.  elle propose à l'Assemblée Générale Extraordinaire lorsque des demandes de retrait de parts non satisfaites dans un délai de 12 mois représentent au moins 10 % des parts de la SCPI, la cession partielle ou totale du patrimoine ou toute autre mesure appropriée, dont l'inscription d'ordres d'achat et de vente de parts sur le registre mentionné à l'article 422-205 du RGAMF,  elle propose à l'Assemblée Générale Extraordinaire la création et la dotation du fonds de remboursement visé à l'article 7 et 9 des présents Statuts,  elle effectue des échanges, des aliénations ou des constitutions de droit réel portant sur le patrimoine immobilier de la SCPI dans les limites prévues par la loi,  elle peut contracter au nom de la SCPI des emprunts, assumer des dettes ou procéder à des acquisitions payables à terme, dans la limite d'un montant maximum fixé par l'Assemblée Générale, qui pourra être modifié pour une décision d'Assemblé Générale Extraordinaire, et qui tiendra compte de l'endettement des sociétés mentionnées au 2° du I de l'article L. 214-115 du COMOFI. - Dans ce but, elle pourra souscrire, aux charges et conditions qu'elle avisera auprès de tous les organismes bancaires ou financiers tous emprunts destinés à financer tout ou partie du prix d'acquisition et des frais, ainsi que tout ou partie des travaux à réaliser dans l'immeuble, et de consentir pour ce faire tous privilèges de vendeur et de prêteur de deniers, toutes hypothèques et plus généralement toutes sûretés ou garanties. - Dans l'hypothèse où le montant de ces emprunts, dettes ou acquisitions payables à terme, viendrait pour quelque motif que ce soit, à excéder la limite fixée par l'Assemblée Générale, la Société de Gestion disposera d'un délai d'un (1) an, à partir du fait générateur, pour rétablir la situation.  elle peut consentir au nom et pour le compte de la SCPI des avances en comptes courant aux sociétés mentionnées aux 2° et 3° du I de l'article L. 214-115 du COMOFI dont elle détient directement ou indirectement au moins 5% du capital social.  elle fait tous actes nécessaires et prend toutes mesures qu'elle juge utiles pour l'exercice de ses pouvoirs. La Société de Gestion peut, toutes les fois où elle le juge utile, soumettre à l'approbation des associés des propositions sur un objet déterminé ou les convoquer en Assemblée Générale. Toutefois, la Société de Gestion ne peut en aucun cas recevoir des fonds pour le compte de la SCPI. La Société de Gestion ne contracte, en sa qualité de société de gestion à raison de la gestion, aucune obligation personnelle relative aux engagements de la SCPI, et n'est responsable que de son mandat. ARTICLE 16 – DELEGATION DE POUVOIRS La Société de Gestion peut conférer à telle personne que bon lui semble, et sous sa responsabilité, tous pouvoirs pour un ou plusieurs objets déterminés dans la limite de ceux qui lui sont attribués, et déléguer tout ou partie de ses rémunérations ou forfaits d'administration à des mandataires sans que ces derniers puissent, à un moment quelconque, exercer d'actions directes à l'encontre de la SCPI ou de ses associés dont ils ne sont pas les préposés. La signature sociale appartient à la Société de Gestion. Elle peut la déléguer conformément aux dispositions de cet article et des textes applicables en vigueur. La ou les délégations ci-dessus ne devront toutefois pas avoir pour effet de priver la Société de Gestion de l'agrément de l'AMF. ARTICLE 17 – REMUNERATION DE LA SOCIETE DE GESTION La Société de Gestion prend à sa charge tous les frais ayant trait à l'administration de la SCPI et de manière générale toutes opérations relevant de sa responsabilité ou de sa compétence. La SCPI règle, directement, tous les autres frais sans exception. 17.1 – Commission de gestion Afin d'assurer l'administration de la SCPI, la tenue du registre des associés et leur information régulière, la préparation, la convocation de toutes les réunions et assemblées, ainsi que la distribution des revenus, la Société de Gestion perçoit une commission de gestion forfaitaire annuelle qui est fixée à 6,67% HT (soit 8,0% TTC au taux en vigueur au jour de la présente note) d'une part des produits locatifs hors taxes encaissés par la SCPI et des produits financiers nets et d'autre part des produits locatifs hors taxes encaissés par les sociétés dans lesquelles la SCPI détient une participation et de leurs produits financiers nets, au prorata de la participation de la SCPI dans le capital de ces sociétés, les dividendes payés par ces dernières étant exclus de la base de calcul lorsque ces dernières les décaissent au profit de la SCPI. 17.2 – Commission de souscription de parts Une commission de souscription versée par la SCPI à la Société de Gestion est fixée au maximum à 11% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006) du prix de souscription prime d'émission incluse de chaque souscription. Elle a pour objet de rémunérer la prospection et la collecte de capitaux, d",
+    "8": "8/15 SCPI dont les souscriptions, en phase de lancement de la SCPI, permettront à la SCPI de réaliser les premières acquisitions de biens immobiliers. La commission de souscription sera prélevée par la Société de Gestion dans le mois de la libération des fonds par l'associé. Les souscripteurs autorisent la Société de Gestion à prélever ses honoraires lors de la souscription sur la prime d'émission. Cette commission de souscription est destinée :  À hauteur de 8% TTI (commission exonérée de TVA en application de l'article 261-C-1°-e du Code Général des Impôts), à couvrir les frais de collecte des capitaux,  À hauteur de 3% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006) à couvrir les frais de recherche d'investissements des capitaux, de préparation et de réalisation des augmentations de capital. 17.3 – Commission de cession de part En cas de cession de parts, la Société de Gestion percevra l'une des rémunérations suivantes :  Pour toutes cessions/transferts de parts sans intervention de la Société de Gestion ou pour toutes transmissions de parts à titre gratuit (donation/succession/divorce) : il est dû à la Société de Gestion, par cessionnaire, donataire ou par bénéficiaire, un droit fixe forfaitaire de 100€ HT (soit 120€ TTC au taux de TVA en vigueur). Ces frais de cession de parts sont à la charge des acquéreurs, donateurs ou des ayant droits, quel que soit le nombre de parts cédées.  Pour toutes cessions réalisées par confrontation des ordres d'achat et de vente sur le marché secondaire : il est dû par le vendeur à Société de Gestion, une commission de cession calculée au taux de 5% HT (soit 6% TTC selon le taux de TVA en vigueur à la date de la présente note) sur le prix total, hors droits d'enregistrement, payé par l'acquéreur. Cette rémunération est destinée à organiser le marché secondaire des parts. L'acquéreur supportera par ailleurs le paiement des droits d'enregistrement au taux en vigueur, calculés sur le prix de cession des parts au taux en vigueur au moment de la cession. Un droit d'enregistrement de 5% (taux actuellement en vigueur) du montant de la transaction (article 726 du Code Général des Impôts) est applicable à la charge du cessionnaire. Ce droit est inclus dans le prix payé par l'acquéreur. 17.4 - Commission d'acquisition et de cession d'actifs immobiliers La Société de Gestion reçoit à titre de rémunération de sa mission dans le cadre des acquisitions ou cessions d'actifs immobiliers, une commission maximum de 2,5% HT (3,0% TTC du taux de TVA en vigueur) :  du prix d'acquisition ou de cession (hors taxes, hors droits, hors frais) de l'actif immobilier acquis (y compris en l'état futur d'achèvement) ou cédé, directement ou indirectement par la SCPI ;  ou de la valeur conventionnelle (hors taxes, hors droits, hors frais) retenue pour le calcul du prix d'acquisition ou de cession des droits sociaux des sociétés qui détiennent lesdits actifs immobiliers, au prorata de la participation dans lesdites sociétés acquises ou cédées par la SCPI. Cette commission est prélevée sur la quote-part de la prime d'émission destinée à couvrir les frais d'acquisition. 17.5 Commission de suivi et de pilotage de la réalisation de travaux La Société de Gestion reçoit à titre de rémunération de sa mission de suivi et de pilotage des travaux, une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier égale à 2% HT maximum (à titre indicatif, 2,4%TTC au taux de TVA en vigueur) du montant des travaux immobilisés HT effectivement réalisés. Cette rémunération est ramenée au prorata de la détention dans la filiale de la SCPI si les travaux sont réalisés par une filiale. La commission n'est pas due lors d'acquisitions en état futur d'achèvement. La commission sera prélevée au fur et à mesure de la comptabilisation de ces travaux. 17.6 - Autres frais La prise en charge de frais supplémentaires devra être soumise à l'agrément de l'Assemblée Générale des associés, pour couvrir des charges exceptionnelles, imprévisibles à la date de signature des présents Statuts, et qui pourraient résulter notamment de mesures législatives ou réglementaires ou de toutes autres circonstances juridiques, économiques ou sociales. La décision de l'Assemblée Générale devra être prise conformément aux dispositions de l'article L.214-106 du COMOFI. 17.7 – Versement Conformément à l'article 16 des présents Statuts, tout ou partie de chacune des commissions ci- dessus pourra être directement versé au mandataire à qui la Société de Gestion aurait conféré, dans le respect de la réglementation en la matière et sous sa responsabilité, tous pouvoirs pour un ou plusieurs objets déterminés dans la limite de ceux qui lui sont attribués. Toutes sommes dues à la Société de Gestion lui restent définitivement acquises et ne sauraient faire l'objet d'un remboursement quelconque à quelque moment ou pour quelque cause que ce soit. ARTICLE 18 – CONVENTIONS PARTICULIERES Toutes conventions intervenant entre la SCPI et la Société de Gestion, ou tout associé de cette dernière, ou ses organes de gestion, de direction ou d'administration ou toute personne appartenant à ces organes, doivent sur la base des rapports du Conseil de Surveillance et des Commissaires aux Comptes, être approuvées par l'Assemblée Générale des associées. Même en l'absence de fraude, les conséquences préjudiciables à la SCPI des conventions désapprouvées, sont mises à la charge des organes de gestion, de direction ou d'administration responsables, ou toute personne y appartenant. Dans le cas de réalisation d'un investissement dont le vendeur se trouverait lié à la Société de Gestion, cette dernière fait procéder à une expertise préalable du bien à acquérir par un expert indépendant. ARTICLE 19 – RESPONSABILITE CIVILE DE LA SCPI La Société de Gestion a souscrit un contrat d'assurance garantissant la responsabilité civile de la SCPI du fait des immeubles dont elle est propriétaire. ARTICLE 20 – CONSEIL DE SURVEILLANCE La gestion de la SCPI est contrôlée par le conseil de surveillance élu par l'Assemblée Générale ordinaire. 20.1 – Nomination TITRE IV CONTROLE DE LA SCPI",
+    "13": "13/15 la disposition des associés, au siège social, où ils peuvent en prendre connaissance ou copie. Tout associé, assisté ou non d'une personne de son choix, a le droit, à toute époque de prendre par lui-même ou par mandataire et au siège social connaissance des documents suivants concernant les trois (3) derniers exercices:  les bilans,  les comptes de résultat,  les annexes,  les inventaires,  les rapports soumis aux assemblées,  les feuilles de présence et procès-verbaux de ces assemblées, et  les rémunérations globales de la Société de Gestion, ainsi que du conseil de surveillance, si les organes de surveillance sont rémunérés.  Sauf en ce qui concerne l'inventaire, le droit de prendre connaissance comporte celui de prendre copie. ARTICLE 29 – EXERCICE SOCIAL L'exercice social a une durée de douze (12) mois, il commence le 1er janvier pour se terminer le 31 décembre. Exceptionnellement, le premier exercice social débutera lors de l'immatriculation de la SCPI au Registre du Commerce et des Sociétés et se terminera le 31 décembre 2018. ARTICLE 30 – INVENTAIRE ET COMPTES SOCIAUX A la clôture de chaque exercice (31 décembre), la Société de Gestion arrête l'inventaire des divers éléments de l'actif et du passif existant à cette date. Ils dressent également les comptes annuels et établissent un rapport de gestion qui mentionne dans un état annexe, la valeur comptable, la valeur de réalisation et la valeur de reconstitution de la SCPI. Les écritures de la SCPI sont tenues, arrêtées et présentées aux associés conformément aux dispositions législatives et réglementaires applicables aux Sociétés Civiles autorisées à faire offre au public (article L.214-109 du COMOFI). La Société de Gestion, conformément à l'article L. 214-109 du COMOFI et R. 214-157-1 du COMOFI, établit également un état du patrimoine faisant apparaître les valeurs bilancielles et les valeurs estimées des différents éléments d'actif et de passif, le tableau d'analyse de la variation des capitaux propres, le compte de résultat ainsi que l'annexe et prépare un rapport écrit sur la situation de la SCPI et sur l'activité́ de celle-ci au cours de l'exercice écoulé. Le rapport de gestion expose la situation de la SCPI durant l'exercice écoulé, son évolution prévisible, ainsi que les événements importants intervenus entre la date de la clôture de l'exercice et la date à laquelle il est établi. Les dirigeants de la société de gestion mentionnent dans un état annexe au rapport de gestion la valeur comptable, la valeur de réalisation et la valeur de reconstitution de la SCPI gérée. La valeur de réalisation est égale à la somme de la valeur vénale des immeubles et de la valeur nette des autres actifs de la SCPI. La valeur de reconstitution de la SCPI est égale à la valeur de réalisation augmentée du montant des frais afférents à une reconstitution de son patrimoine. Ces valeurs font l'objet de résolutions soumises à l'approbation de l'Assemblée Générale. En cours d'exercice et en cas de nécessité, le Conseil de Surveillance peut autoriser la modification de ces valeurs, sur rapport motivé de la Société de Gestion. Les documents mentionnés au présent article sont mis à la disposition des commissaires aux comptes dans les conditions déterminées par le COMOFI. Les plus ou moins-values réalisées lors de la cession d'actifs sont directement inscrites dans l'état du patrimoine. Par ailleurs, pourront être imputés totalement ou partiellement sur la prime d'émission : les frais de constitution et d'établissement, les commissions de souscription, les frais de recherche d'immeubles directement réglés par la SCPI, ainsi que les frais d'acquisition des immeubles tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais et honoraires et émoluments de notaire, les frais à répartir sur plusieurs exercices. De même, il pourra être prélevé, pour chaque nouvelle part souscrite, le montant permettant de maintenir le niveau du report à nouveau existant. Tous frais liés aux augmentations de capital, à la recherche des capitaux, à la recherche et à l'acquisition des immeubles pourront être amortis sur la prime d'émission, sur laquelle sera également prélevé, pour chaque part nouvelle souscrite, le montant permettant de maintenir le niveau du report à nouveau existant. Autrement dit, la SCPI pourra décider d'imputer sur la prime d'émission ou opter pour leur étalement par le compte de résultat sur une période qui ne peut excéder cinq (5) ans ou vingt (20) ans selon leur nature, les frais suivants (liste non limitative) : les frais d'établissement, les commissions de souscription, les frais de fusion autres que ceux inscrits en frais d'établissement, les commissions d'acquisition et de cession, les frais de recherche d'immeubles directement réglés par la SCPI, ainsi que les frais d'acquisition des immeubles et autres actifs immobiliers tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire. Les primes d'émission et de fusion pourront être affectées à la réalisation de moins-values lors de la cession d'éléments d'actifs. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d'évaluation que les années précédentes. Toutefois, la société́ de gestion peut proposer à l'Assemblée Générale Ordinaire de modifications dans la présentation des comptes, dans les conditions prévues par les dispositions légales et règlementaires. ARTICLE 31 – REPARTITION DES RESULTATS La Société de Gestion détermine le résultat de la SCPI. Le compte de résultat enregistre la totalité des produits et des charges afférents à l'exercice social, sans qu'il soit tenu compte de la date effective de l'encaissement ou du paiement. L'écart entre les produits et les charges, et après déduction des amortissements et des provisions constitue le résultat de l'exercice (bénéfice ou perte). Le bénéfice distribuable est constitué du résultat tel que défini ci-dessus diminué des pertes antérieures ou augmenté des reports bénéficiaires et le cas échéant des plus-values de cessions immobilières affectées à cet effet. L'Assemblée Générale détermine le montant des bénéfices distribués aux associés à titre de dividende compte tenu du bénéfice réalisé au cours de l'exercice. Elle peut également décider la mise en distribution des sommes prélevées sur les réserves dont elle a la disposition ; en ce cas, la décision indique expressément les postes de réserve sur lesquels les prélèvements sont exercés. En application de l'article L. 214-103 du COMOFI, la Société de Gestion a qualité pour décider de répartir avant l'approbation des comptes de l'exercice, un ou plusieurs acomptes à valoir sur le dividende et pour fixer le montant et la date de la répartition, sous réserves de satisfaire aux conditions prévues par la loi. Après approbation des comptes et constatation de l'existence de sommes distribuables, l'Assemblée Gé"
+   }
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2026/05/BT-T1-2026-KP.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2026/05/BT-T1-2026-KP.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 7168050,
+   "sha256": "e9349f70d3f1bcd29be22efd0f3b19e9615a4b097c8e755dde0b4d9f19509407",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.3 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260506143752+02'00'",
+    "modDate": "D:20260506143800+02'00'"
+   },
+   "page_count": 9,
+   "text_characters": 21843,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Bulletin trimestriel d'information T1 2026 Dividende par part 2,44 € Chers associé.e.s En 2026, Kyaneos a fait évoluer ses outils informatiques : Nouvel espace client, nouvel espace partenaire, nouveau module de souscription en ligne ! Et comme vous avez pu le constater, le bulletin trimestriel a également évolué. En plus des informations réglementaires, nous essaierons de vous communiquer chaque ",
+   "dates": [
+    "31 mars 2026",
+    "31/12/2025"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2026/08/BT-T2-2026-KP.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2026/08/BT-T2-2026-KP.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 7161776,
+   "sha256": "3e738bd087c411e07ac1ae7f4606d97edfc505d2e71c99290d91fc31efb3e641",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.5 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260806144001+02'00'",
+    "modDate": "D:20260806144008+02'00'"
+   },
+   "page_count": 9,
+   "text_characters": 22268,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Bulletin trimestriel d'information T2 2026 Dividende par part 2,40 € Payé le 29/07/2026 Chers associé.e.s, Des travaux, toujours des travaux, toujours plus de travaux, rénovations, améliorations : Bref, le quotidien des équipes de Kyaneos ! En 2026, nous avons l'impression de récolter les fruits de bientôt 10 ans de travail acharné pour mettre en place une activité de rénovation « de masse ». En e",
+   "dates": [
+    "29/07/2026",
+    "30 juin 2026",
+    "31/12/2025"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2026/11/SCPI-KP-Bulletin-trimestriel-3T2026.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2026/11/SCPI-KP-Bulletin-trimestriel-3T2026.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1401858,
+   "sha256": "4def42a528fa1b75372bc132607895169dbc75899c824a55756ddefdff69413c",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.6 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261109171615+01'00'",
+    "modDate": "D:20261109171849+01'00'"
+   },
+   "page_count": 9,
+   "text_characters": 23407,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Bulletin trimestriel d'information T3 2026 Chères associées, chers associés En cette fin d'année 2026, nous aurions presque envie de vous dire que la fiction devient réalité ! Vous le savez, Kyaneos s'emploie depuis sa création à progresser sur l'ensemble des métiers liés à l'investissement locatif en immobilier résidentiel : - Choix de l'immeuble à acquérir - Budget et réalisation des travaux - G",
+   "dates": [
+    "29/10/2026",
+    "30 septembre 2026",
+    "31/12/2025"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2025/05/SCPI-KP-Bulletin-trimestriel-1T2025.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2025/05/SCPI-KP-Bulletin-trimestriel-1T2025.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 7875421,
+   "sha256": "efba024481c44fb240c7033405af9f08f2849448ec9c9c61d0f1a1711e77701f",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.3 (Windows)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20250506164413+02'00'",
+    "modDate": "D:20250506164455+02'00'"
+   },
+   "page_count": 6,
+   "text_characters": 15668,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "SCPI KYANEOS PIERRE 1er trimestre 2025 BULLETIN TRIMESTRIEL D'INFORMATION UNE NOUVELLE FAÇON D'INVESTIR DANS L'IMMOBILIER LES CHIFFRES DU TRIMESTRE LES PRINCIPAUX RISQUES Avant d'investir, vous devez vous assurer qu'un placement en SCPI est adapté à votre besoin d'épargne et votre profil de risque. La SCPI peut avoir recours à l'endettement dans les conditions précisées dans sa note d'information.",
+   "dates": [
+    "1er mai 2025"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2025/08/SCPI-KP-Bulletin-trimestriel-2T2025.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2025/08/SCPI-KP-Bulletin-trimestriel-2T2025.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1991562,
+   "sha256": "dd73b2ac14a70722b6208fa61076b916314d13192a16d33850d13a3294dd164e",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.5 (Windows)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20250812182910+02'00'",
+    "modDate": "D:20250812183054+02'00'"
+   },
+   "page_count": 8,
+   "text_characters": 17851,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 BULLETIN TRIMESTRIEL D'INFORMATION - 2e TRIMESTRE 2025 SCPI KYANEOS PIERRE Bulletin trimestriel d'information Du 01/04/2025 au 30/06/2025 2e trimestre 2025 SCPI KYANEOS PIERRE Chères associées, Chers associés, Une bonne nouvelle ce trimestre : le dividende progresse ! Même si cette hausse reste modérée, elle marque à nos yeux le début d'une nouvelle dynamique pour votre SCPI. Ces dernières année",
+   "dates": [
+    "01/04/2025",
+    "01/07/2025",
+    "29/07/2025",
+    "30/06/2025"
+   ],
+   "fee_clauses": [
+    {
+     "page": 5,
+     "label": "frais d'acquisition",
+     "snippet": "CPI n'a pas recours à des investissements indirects via des SCI ou SAS. (*) Prix Acte En Main (AEM) : correspond à un prix global incluant le prix d'achat, les frais d'acquisition (notaire et taxes) ainsi que le budget travaux. ACTUALITÉ DE LA SCPI Les associés de la SCPI Kyaneos Pierre se sont réunis en assemblée générale, sur seconde convocation, le lundi 23 juin 2025 à 9h. Nous avons le plaisir de vous informer que l'ensemble des résolutions soumises au vote a été adopté. N° Dép. Ville Adresse Surface habitable Prix AEM* Prix au m² P1 et P2 P3 et + Garages et parkings Tertiaire 590 62 ARRAS 14 rue de Turenne 431 m² 1 133 762 € 2 628 € 6 3 1 - 591 84 LE PONTET 43 chemin des Agassins 527 m² 1 238 000 € 2 350 € 7 5 18 - 592 07 VIVIERS 2-4 rue du Faubourg Madeleine 393 m² 596 326 € 1 518 € ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 7,
+     "label": "commission de souscription",
+     "snippet": "t exigé pour les souscriptions ultérieures des associés. Le prix de souscription d'une part est fixé à 224 € : 160 € de nominal et 64 € de prime d'émission. La commission de souscription - 11% TTI - est prélevée sur la prime d'émission soit 24,64 €. Cette commission supporte : - les frais de collecte à hauteur de 8% TTI (la commission est exonérée de TVA conformément à l'article 261 C-1°-e du Code Général des Impôts), - les frais de recherche d'investissements des capitaux, de préparation et de réalisation des augmentations de capital à hauteur de 3% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006). Les parts souscrites portent jouissance le premier jour du 6ème mois qui suit celui de l'encaissement de l'i",
+     "percents": [
+      {
+       "raw": "11%",
+       "value": 11.0,
+       "tax_hint": null,
+       "after": "TTI - est prélevée sur la prime d'émission s"
+      },
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": "TVA",
+       "after": "TTI (la commission est exonérée de TVA confo"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "5": "5 BULLETIN TRIMESTRIEL D'INFORMATION - 2e TRIMESTRE 2025 SCPI KYANEOS PIERRE PATRIMOINE DE LA SCPI Au cours du trimestre, la SCPI a fait l'aquisition de 13 immeubles dans son parc immobilier pour un total de 15 M€. Le parc de la SCPI est composé de 602 immeubles au 30/06/2025. Cessions du trimestre La SCPI Kyaneos Pierre n'a réalisé aucune opération de ce type sur la période. La SCPI n'a pas recours à des investissements indirects via des SCI ou SAS. (*) Prix Acte En Main (AEM) : correspond à un prix global incluant le prix d'achat, les frais d'acquisition (notaire et taxes) ainsi que le budget travaux. ACTUALITÉ DE LA SCPI Les associés de la SCPI Kyaneos Pierre se sont réunis en assemblée générale, sur seconde convocation, le lundi 23 juin 2025 à 9h. Nous avons le plaisir de vous informer que l'ensemble des résolutions soumises au vote a été adopté. N° Dép. Ville Adresse Surface habitable Prix AEM* Prix au m² P1 et P2 P3 et + Garages et parkings Tertiaire 590 62 ARRAS 14 rue de Turenne 431 m² 1 133 762 € 2 628 € 6 3 1 - 591 84 LE PONTET 43 chemin des Agassins 527 m² 1 238 000 € 2 350 € 7 5 18 - 592 07 VIVIERS 2-4 rue du Faubourg Madeleine 393 m² 596 326 € 1 518 € 2 5 - - 593 30 SAINT-MICHEL- D'EUZET 1 rue de la Mairie 462 m² 764 000 € 1 655 € 3 4 - - 594 33 LA RÉOLE 50-52 rue André Benac 372 m² 385 396 € 1 037 € 1 3 - 1 595 62 CAMBRIN 8-10 boulevard Louis Lesage 380 m² 468 671 € 1 233 € - 4 - - 596 38 ROUSSILLON 6-8-10 rue Jules Vercruysses 1 350 m² 1 306 779 € 968 € 1 3 - 7 597 13 SAIN-MARTIN- DE-CRAU 8 rue de la Sagne 2 846 m² 6 298 000 € 2 288 € 8 36 - - 598 13 MARTRES- TOLOSANE 98 avenue des Pyrénées 295 m² 451 000 € 1 530 € 3 3 - - 599 31 MARTRES- TOLOSANE 2 rue de la Faiencerie 280 m² 640 000 € 2 288 € - 4 7 - 600 31 BERGERAC 111 rue de la Boétie 163 m² 307 000 € 1 883 € 1 2 - - 601 24 LIÉVIN 2 rue Gilles de Roberval 724 m² 1 019 000 € 1 407 € - 10 19 - 602 62 VINEUIL 251 route de Chambord 386 m² 724 438 € 1 877 € 2 3 5 -",
+    "7": "Acteur de la rénovation immobilière. Kyaneos Asset Management 1578 Avenue de la 2e Division Blindée 30133 Les Angles 04 86 34 80 73 contact@kyaneosam.com kyaneosam.fr Kyaneos Asset Manangement Société de gestion agréée par l'AMF le 22/02/2018 sous le n° GP-18000002 RCS Nîmes 834 610 313 Mentions règlementaires Fiscalité Rappel des conditions de souscription, retrait et cession de parts SCPI Kyaneos Pierre, Société Civile de Placement en Immobilier à capital variable. Visa AMF n°18-08 du 25/05/2018. Durée de la SCPI : Jusqu'au 22/04/2117. Capital maximum statutaire : 500 000 000 €. Commissaire aux comptes : FI Partners. Dépositaire : Société Générale Securities Services. Évaluateur indépendant : Adéquation expertise. Le présent bulletin est valable pour la période du 01/04/2025 au 30/06/2025. Bulletin trimestriel d'information publié le 30/07/2025. Augmentation de capital : Les souscriptions sont reçues dans la limite du capital maximum statutaire de la SCPI s'élevant à 500 000 000 €. Le bulletin de souscription énonce les modalités de chaque émission et en particulier son montant, les dates d'ouverture et de clôture de la souscription, le prix des parts nouvelles, leur date d'entrée en jouissance. Le minimum de souscription, pour tout nouvel associé, est de 10 parts. Aucun minimum de souscription n'est exigé pour les souscriptions ultérieures des associés. Le prix de souscription d'une part est fixé à 224 € : 160 € de nominal et 64 € de prime d'émission. La commission de souscription - 11% TTI - est prélevée sur la prime d'émission soit 24,64 €. Cette commission supporte : - les frais de collecte à hauteur de 8% TTI (la commission est exonérée de TVA conformément à l'article 261 C-1°-e du Code Général des Impôts), - les frais de recherche d'investissements des capitaux, de préparation et de réalisation des augmentations de capital à hauteur de 3% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006). Les parts souscrites portent jouissance le premier jour du 6ème mois qui suit celui de l'encaissement de l'intégralité du prix de souscription et de la transmission à la Société de Gestion de l'intégralité du dossier de souscription pour que celui-ci puisse être validé. Sortie des associés : Conformément aux dispositions régissant les SCPI à capital variable, tout associé n'a la possibilité de se retirer de la SCPI, partiellement ou en totalité, que s'il existe en contrepartie une souscription correspondante. Dans ce cas, lorsque la société de gestion reçoit une demande de retrait d'un associé, en l'absence de fonds de remboursement, le remboursement s'effectue sur une valeur de retrait de 199,36 € pour une part. Dans le cas, exceptionnel, de suspension de la variabilité du capital (i.e. suspension du marché primaire), l'associé qui souhaite se séparer de ses parts demande la cession de ses parts sur le marché secondaire par confrontation. Les deux possibilités ci- dessus sont distinctes et non cumulatives. En aucun cas, les mêmes parts d'un associé ne peuvent faire l'objet à la fois d'une demande de retrait et être inscrites sur le registre des ordres de vente sur le marché secondaire. Enfin, l'associé peut également effectuer une cession directe de ses parts sans intervention de la Société de Gestion à des conditions librement fixées entre le cédant et le cessionnaire (gré à gré). Les frais de transaction sont à la charge de l'acquéreur et comprennent notamment les droits d'enregistrement de 5% (taux en vigueur au 1er janvier 2019) et des frais de dossier forfaitaires de 120 € TTI. Suivant ces différentes modalités de sortie, le prix de cession pourra être différent du prix de retrait. Si l'associé est une personne morale soumise à l'impôt sur les sociétés ou si les parts de SCPI sont inscrites à l'actif d'une entreprise industrielle ou commerciale, le revenu imposable est déterminé conformément aux règles applicables aux bénéfices industriels et commerciaux. Les revenus potentiels issus de la location des actifs immobiliers sont imposés pour les personnes physiques selon le régime fiscal des revenus fonciers. Les revenus financiers, générés par le placement de la trésorerie disponible en attente d'investissement immobilier, perçus par la SCPI, sont soumis à une imposition forfaitaire unique de 30% qui se décompose de la manière suivante : – un prélèvement forfaitaire unique (PFU) d'impôt sur le revenu au taux de 12,80% – les prélèvements sociaux (PS) au taux global de 17,20% Ces revenus financiers font l'objet d'un prélèvement à la source à titre d'acompte d'impôt sur le revenu sauf si les contribuables ont demandé une dispense de prélèvement avant le 30 novembre de l'année antérieure au versement, dans les conditions existantes. Les cessions de parts sont imposées selon le régime des plus-values immobilières : soumises à un prélèvement forfaitaire de 19% (taux en vigueur au 1er janvier 2018) augmenté des prélèvements sociaux de 17,20%, soit un taux global de 36,20%, avec une exonération partielle jusqu'à la 30ème année de détention et totale au-delà. Le traitement fiscal dépend de la situation individuelle et du taux d'imposition propre à chaque associé. Le dispositif fiscal est susceptible d'évoluer. Déclaration des revenus et IFI : chaque année, Kyaneos AM vous adressera les éléments nécessaires pour remplir votre déclaration fiscale. La valeur IFI par part sera transmise avec les informations fiscales prévues pour remplir les déclarations de revenus. Il est également précisé que les crédits relatifs au financement de parts de SCPI en nue- propriété ne peuvent plus être inscrits au passif. Le taux de TVA applicable est de 20%. Note d'informations, statuts et documents réglementaires sur : kyaneosam.com"
+   }
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2025/10/SCPI-KP-Bulletin-trimestriel-3T2025-1.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2025/10/SCPI-KP-Bulletin-trimestriel-3T2025-1.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1432018,
+   "sha256": "aea90dd5fc9602d35436a86cbf72a2605ef2a2270bfb8802182be78075e60bc3",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.0 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20251031144123+01'00'",
+    "modDate": "D:20251031155521+01'00'"
+   },
+   "page_count": 8,
+   "text_characters": 21411,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 BULLETIN TRIMESTRIEL D'INFORMATION - 3e TRIMESTRE 2025 SCPI KYANEOS PIERRE Bulletin trimestriel d'information Période analysée : du 1er juillet au 30 septembre 2025 Période de validité : 4ème trimestre 2025 3e trimestre 2025 SCPI KYANEOS PIERRE Chères associées, Chers associés, La bonne nouvelle du trimestre dernier se poursuit : après un dividende de 2,40 €/part au 1er trimestre, puis de 2,41 €",
+   "dates": [
+    "01/07/2025",
+    "04/02/2025",
+    "29/04/2025",
+    "29/07/2025",
+    "29/10/2025",
+    "30 septembre 2025"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2026/02/SCPI-KP-Bulletin-trimestriel-4T2025.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2026/02/SCPI-KP-Bulletin-trimestriel-4T2025.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1340671,
+   "sha256": "ce720abe4a2fb9bddee25c436ec4b7347f132a64f3049ffdcda5864e54d8797e",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.2 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260204161941+01'00'",
+    "modDate": "D:20260204162034+01'00'"
+   },
+   "page_count": 9,
+   "text_characters": 22483,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Bulletin trimestriel d'information T4 2025 Dividende par part 2,43 € Chères associées, Chers associés, Nous vous souhaitons une excellente année 2026 : Tous nos vœux de bonheur pour vous et vos proches ! Et pour bien commencer l'année, nous avons plusieurs nonnes nouvelles à vous annoncer Tout d'abord, le dividende poursuit sa hausse trimestrielle puisque l'évolution sur l'année 2025 aura été la s",
+   "dates": [
+    "31 décembre 2025"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2026/06/Rapport-annuel-2025-KP-Annexes-SFDR-Vdef.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2026/06/Rapport-annuel-2025-KP-Annexes-SFDR-Vdef.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 20027069,
+   "sha256": "16dd3b002aa35024acfaa4702be494072037fdfa9f4da963018f9ffbec10aa04",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.4 (Windows)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260605170122+02'00'",
+    "modDate": "D:20260609165022+02'00'"
+   },
+   "page_count": 71,
+   "text_characters": 178015,
+   "kind": "rapport_annuel",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "RAPPORT ANNUEL EXERCICE 2025 SCPI KYANEOS PIERRE *Toutes les photos d'immeubles sur le rapport annuel sont des immeubles détenus par la SCPI Kyaneos Pierre. ^ Acquisition #444 – 56 rue Léon Pernot 71380 Saint-Marcel",
+   "dates": [
+    "31 décembre 2025"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2024/05/SCPI-KP-Bulletin-trimestriel-1T2024.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2024/05/SCPI-KP-Bulletin-trimestriel-1T2024.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 7853587,
+   "sha256": "6569d256d4b499d67bda867f97ffe68e79be046467e9229c574090fd204bf820",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.4 (Windows)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20240506154427+02'00'",
+    "modDate": "D:20240506154454+02'00'"
+   },
+   "page_count": 6,
+   "text_characters": 16015,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "SCPI KYANEOS PIERRE 1er trimestre 2024 BULLETIN TRIMESTRIEL D'INFORMATION UNE NOUVELLE FAÇON D'INVESTIR DANS L'IMMOBILIER LES CHIFFRES À RETENIR LES PRINCIPAUX RISQUES Avant d'investir, vous devez vous assurer qu'un placement en SCPI est adapté à votre besoin d'épargne et votre profil de risque. La SCPI peut avoir recours à l'endettement dans les conditions précisées dans sa note d'information. Le",
+   "dates": [
+    "5 avril 2024"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2024/07/SCPI-KP-Bulletin-trimestriel-2T2024.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2024/07/SCPI-KP-Bulletin-trimestriel-2T2024.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2552702,
+   "sha256": "d3d3847c41259bd0276a2cfaea70f696eead9f065ff56bae964dafd773d7f43c",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.5 (Windows)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20240731105800+02'00'",
+    "modDate": "D:20240731105838+02'00'"
+   },
+   "page_count": 6,
+   "text_characters": 13732,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "SCPI KYANEOS PIERRE 2ème trimestre 2024 BULLETIN TRIMESTRIEL D'INFORMATION UNE NOUVELLE FAÇON D'INVESTIR DANS L'IMMOBILIER LES CHIFFRES À RETENIR LES PRINCIPAUX RISQUES Avant d'investir, vous devez vous assurer qu'un placement en SCPI est adapté à votre besoin d'épargne et votre profil de risque. La SCPI peut avoir recours à l'endettement dans les conditions précisées dans sa note d'information. L",
+   "dates": [
+    "mars 2023"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://kyaneosam.com/wp-content/uploads/2025/01/SCPI-KP-Bulletin-trimestriel-3T2024.pdf",
+   "final_url": "https://kyaneosam.com/wp-content/uploads/2025/01/SCPI-KP-Bulletin-trimestriel-3T2024.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 8336549,
+   "sha256": "f8083c75f236fe0cdb492d9850125f76242ee417cc9dd7cef1a676e698d9c628",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.0 (Windows)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20250107090419+01'00'",
+    "modDate": "D:20250107090446+01'00'"
+   },
+   "page_count": 6,
+   "text_characters": 14588,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "kyaneos pierre",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "SCPI KYANEOS PIERRE 3ème trimestre 2024 BULLETIN TRIMESTRIEL D'INFORMATION UNE NOUVELLE FAÇON D'INVESTIR DANS L'IMMOBILIER LES CHIFFRES AU 3ème TRIMESTRE LES PRINCIPAUX RISQUES Avant d'investir, vous devez vous assurer qu'un placement en SCPI est adapté à votre besoin d'épargne et votre profil de risque. La SCPI peut avoir recours à l'endettement dans les conditions précisées dans sa note d'inform",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  }
+ ],
+ "candidate_count": 46,
+ "summary": {
+  "dic_identity_ok": 1,
+  "note_identity_ok": 4,
+  "fee_clauses": 65,
+  "errors": 0
+ }
+}

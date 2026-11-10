@@ -1,0 +1,1607 @@
+{
+ "slug": "grand-paris-residentiel",
+ "name": "Grand Paris Résidentiel",
+ "manager": "Inter Gestion REIM",
+ "crawl": [
+  {
+   "url": "https://www.inter-gestion.com/corpo/scpi-gerees/grand-paris-residentiels",
+   "depth": 0,
+   "final_url": "https://www.inter-gestion.com/corpo/scpi-gerees/grand-paris-residentiels",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 51
+  },
+  {
+   "url": "https://www.inter-gestion.com/corpo/mentions-reglementaires",
+   "depth": 1,
+   "final_url": "https://www.inter-gestion.com/corpo/mentions-reglementaires",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 6
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/doc-sample.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/doc-sample.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 142786,
+   "sha256": "38c9792d725c45dd431699e6a3b0f0f8e17c63c9ac7331387ee30dcc6e42a511",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Writer",
+    "producer": "LibreOffice 4.2",
+    "creationDate": "D:20170816144413+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 6284,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "identity_where": null,
+   "title_excerpt": "Lorem ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac faucibus odio. Vestibulum neque massa, scelerisque sit amet ligula eu, congue molestie mi. Praesent ut varius sem. Nullam at porttitor arcu, nec lacinia nisi. Ut ac dolor vitae odio interdum condimentum. Vivamus dapibus sodales ex, vitae malesuada ipsum cursus convallis. Maecenas sed egestas nulla, ac condimentum orci. Ma",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_GPR_DIC20241203.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_GPR_DIC20241203.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 100146,
+   "sha256": "d869a48d84f343968b2f26d9f6729817f5042cb4773284a2dc8a980fbd86f2a6",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.0 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20241203121250+01'00'",
+    "modDate": "D:20241203121250+01'00'"
+   },
+   "page_count": 3,
+   "text_characters": 14525,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "grand paris residentiels",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "PRODUIT Nom du produit GRAND PARIS Résidentiels Site web www.inter-gestion.com, appelez-le 01 43 12 52 52 pour de plus amples informations. Initiateur L'Autorité des marchés financiers (AMF) est chargée du contrôle d'Inter Gestion REIM en ce qui concerne ce document d'informations clés. Inter Gestion REIM, Société de gestion de portefeuille agréée en France sous le n° GP 12000008 et règlementée pa",
+   "dates": [
+    "13/09/2024",
+    "2 janvier 2015",
+    "Septembre 2024"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Coûts d'entrée",
+     "snippet": "vices qu'elle vous fournit. Cette personne vous informera du montant. Composition des coûts COÛTS PONCTUELS À L'ENTRÉE OU À LA SORTIE SI VOUS SORTEZ APRÈS 1 AN Coûts d'entrée L'incidence des coûts que vous payez lors de l'entrée dans votre investissement. Il s'agit des frais de souscription 12,00% 1 200,00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance 0,00% - € COÛTS RÉCURRENTS (prélevés chaque année) Frais de gestion et autres frais administratifs et d'exploitation L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements 1,19% 119,00 € Coûts de transaction L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs sous-jacents au produit 0,63% 63,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CER",
+     "percents": [
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "1 200,00 € Coûts de sortie L'incidence des c"
+      },
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COÛTS RÉCURRENTS (prélevés chaque année)"
+      },
+      {
+       "raw": "1,19%",
+       "value": 1.19,
+       "tax_hint": null,
+       "after": "119,00 € Coûts de transaction L'incidence de"
+      },
+      {
+       "raw": "0,63%",
+       "value": 0.63,
+       "tax_hint": null,
+       "after": "63,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CER"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "frais de souscription",
+     "snippet": "L'ENTRÉE OU À LA SORTIE SI VOUS SORTEZ APRÈS 1 AN Coûts d'entrée L'incidence des coûts que vous payez lors de l'entrée dans votre investissement. Il s'agit des frais de souscription 12,00% 1 200,00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance 0,00% - € COÛTS RÉCURRENTS (prélevés chaque année) Frais de gestion et autres frais administratifs et d'exploitation L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements 1,19% 119,00 € Coûts de transaction L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs sous-jacents au produit 0,63% 63,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERTAINES CONDITIONS Commissions liées aux résultats et commissions d'intéressement Absence des commissions liées",
+     "percents": [
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "1 200,00 € Coûts de sortie L'incidence des c"
+      },
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COÛTS RÉCURRENTS (prélevés chaque année)"
+      },
+      {
+       "raw": "1,19%",
+       "value": 1.19,
+       "tax_hint": null,
+       "after": "119,00 € Coûts de transaction L'incidence de"
+      },
+      {
+       "raw": "0,63%",
+       "value": 0.63,
+       "tax_hint": null,
+       "after": "63,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERT"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "COÛTS RÉCURRENTS",
+     "snippet": "t des frais de souscription 12,00% 1 200,00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance 0,00% - € COÛTS RÉCURRENTS (prélevés chaque année) Frais de gestion et autres frais administratifs et d'exploitation L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements 1,19% 119,00 € Coûts de transaction L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs sous-jacents au produit 0,63% 63,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERTAINES CONDITIONS Commissions liées aux résultats et commissions d'intéressement Absence des commissions liées aux résultats sur le rendement Absence d'incidence des commissions d'intéressement sur le rendement 0,00% - € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PU",
+     "percents": [
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "1 200,00 € Coûts de sortie L'incidence des c"
+      },
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COÛTS RÉCURRENTS (prélevés chaque année)"
+      },
+      {
+       "raw": "1,19%",
+       "value": 1.19,
+       "tax_hint": null,
+       "after": "119,00 € Coûts de transaction L'incidence de"
+      },
+      {
+       "raw": "0,63%",
+       "value": 0.63,
+       "tax_hint": null,
+       "after": "63,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERT"
+      },
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Frais de gestion",
+     "snippet": "00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance 0,00% - € COÛTS RÉCURRENTS (prélevés chaque année) Frais de gestion et autres frais administratifs et d'exploitation L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements 1,19% 119,00 € Coûts de transaction L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs sous-jacents au produit 0,63% 63,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERTAINES CONDITIONS Commissions liées aux résultats et commissions d'intéressement Absence des commissions liées aux résultats sur le rendement Absence d'incidence des commissions d'intéressement sur le rendement 0,00% - € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PUIS-JE RETIRER DE L'ARGENT DE FAÇON ANTICI",
+     "percents": [
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COÛTS RÉCURRENTS (prélevés chaque année)"
+      },
+      {
+       "raw": "1,19%",
+       "value": 1.19,
+       "tax_hint": null,
+       "after": "119,00 € Coûts de transaction L'incidence de"
+      },
+      {
+       "raw": "0,63%",
+       "value": 0.63,
+       "tax_hint": null,
+       "after": "63,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERT"
+      },
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Coûts de transaction",
+     "snippet": "de gestion et autres frais administratifs et d'exploitation L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements 1,19% 119,00 € Coûts de transaction L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs sous-jacents au produit 0,63% 63,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERTAINES CONDITIONS Commissions liées aux résultats et commissions d'intéressement Absence des commissions liées aux résultats sur le rendement Absence d'incidence des commissions d'intéressement sur le rendement 0,00% - € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PUIS-JE RETIRER DE L'ARGENT DE FAÇON ANTICIPÉE ? Période de détention recommandée : 10 ans au minimum Ce délai est nécessaire pour que la valorisation des parts ait compensé les charges initiales inhérentes à ",
+     "percents": [
+      {
+       "raw": "1,19%",
+       "value": 1.19,
+       "tax_hint": null,
+       "after": "119,00 € Coûts de transaction L'incidence de"
+      },
+      {
+       "raw": "0,63%",
+       "value": 0.63,
+       "tax_hint": null,
+       "after": "63,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERT"
+      },
+      {
+       "raw": "0,00%",
+       "value": 0.0,
+       "tax_hint": null,
+       "after": "- € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET"
+      }
+     ],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "3": "GRAND PARIS Résidentiels Société civile de placement immobilier à capital variable • VISA de l'AMF délivré sur la note d'information SCPI n° 24-03 du 13/09/2024 • RCS PARIS : 827 728 247 • 38 avenue de l'Opéra, 75002 PARIS. Inter Gestion REIM 38 avenue de l'Opéra, 75002 PARIS • Tél : 01 43 12 52 52 • SA au capital de 240 000 € • Code APE 6630Z • N° SIRET 345 004 436 00068 • Société de gestion agréée en France sous le n° GP 12000008 et réglementée par l'AMF. Nous avons supposé : • qu'au cours de la première année vous récupéreriez le montant que vous avez investi (rendement annuel de 0 %). Que pour les autres périodes de détention, le produit évolue de la manière indiquée dans le scénario intermédiaire ; • 10 000 € sont investis. SCÉNARIOS Si vous sortez après 1 an Si vous sortez après 5 an Si vous sortez après 10 ans Coûts totaux (€) 1 382,00 € 1 495,00 € 1 790,00 € Incidence des coûts annuels * 13,82% 2,99% 1,79% * L'incidence des coûts annuels montre dans quelle mesure les coûts réduisent annuellement votre rendement au cours de la période de détention. Par exemple, elle montre que si vous sortez à la fin de la période de détention recommandée, il est prévu que votre rendement moyen par an soit de 5,70% avant déduction des coûts et de 3,20% après cette déduction. Il se peut que nous partagions les coûts avec la personne qui vous vend le produit afin de couvrir les services qu'elle vous fournit. Cette personne vous informera du montant. Composition des coûts COÛTS PONCTUELS À L'ENTRÉE OU À LA SORTIE SI VOUS SORTEZ APRÈS 1 AN Coûts d'entrée L'incidence des coûts que vous payez lors de l'entrée dans votre investissement. Il s'agit des frais de souscription 12,00% 1 200,00 € Coûts de sortie L'incidence des coûts encourus lorsque vous sortez de votre investissement à l'échéance 0,00% - € COÛTS RÉCURRENTS (prélevés chaque année) Frais de gestion et autres frais administratifs et d'exploitation L'incidence des coûts que nous prélevons chaque année pour gérer vos investissements 1,19% 119,00 € Coûts de transaction L'incidence des coûts encourus lorsque nous achetons ou vendons des actifs sous-jacents au produit 0,63% 63,00 € COÛTS ACCESSOIRES PRÉLEVÉS SOUS CERTAINES CONDITIONS Commissions liées aux résultats et commissions d'intéressement Absence des commissions liées aux résultats sur le rendement Absence d'incidence des commissions d'intéressement sur le rendement 0,00% - € COMBIEN DE TEMPS DOIS-JE LE CONSERVER ET PUIS-JE RETIRER DE L'ARGENT DE FAÇON ANTICIPÉE ? Période de détention recommandée : 10 ans au minimum Ce délai est nécessaire pour que la valorisation des parts ait compensé les charges initiales inhérentes à l'acquisition d'immeubles ainsi que les frais liés à la souscription des parts. Tout associé qui souhaite se retirer de la société́ dispose de plusieurs moyens, à savoir : demander le remboursement (retrait) de ses parts conformément à la clause de variabilité du capital, vendre ses parts (cession) en recherchant lui-même un acquéreur, ou par confrontation des ordres d'achat et de vente auprès de la Société de gestion conformément à l'article L.214-93 du Code monétaire et financier. Le retrait/la cession d'une part n'est possible que s'il existe une contrepartie à l'achat. La Société de gestion ne garantit pas la revente des parts. Vous êtes soumis au risque de liquidité détaillé ci-avant. Les modalités de retrait et de cession figurent dans la note d'information au chapitre 2. COMMENT PUIS-JE FORMULER UNE RÉCLAMATION ? Si vous souhaitiez nous faire part d'une réclamation, vous pouvez contacter la personne qui vous a vendu le produit ou nous contacter : Par courrier : Inter Gestion REIM - 38 avenue de l'Opéra, 75002 PARIS Par e-mail : reclamation@inter-gestion.com Par téléphone : 01 43 12 52 52 Si les réponses apportées à votre réclamation ne vous ont pas donné satisfaction, vous avez la possibilité de saisir le Médiateur de l'AMF. Médiateur de l'AMF - Autorité des marchés financiers 17 place de la Bourse - 75082 Paris Cedex 02 Accueil : +33 (0) 1 53 45 60 00 Pour toute information sur la médiation de l'AMF, consultez le site www.amf- france.org rubrique médiation. AUTRES INFORMATIONS PERTINENTES Toute demande d'information relative à Grand Paris Résidentiels peut être adressée à Inter Gestion REIM. Lorsque ce produit est utilisé comme support en unité de compte d'un contrat d'assurance vie ou de capitalisation, les informations complémentaires sur ce contrat, telles que les coûts du contrat, qui ne sont pas compris dans les coûts indiqués dans le présent document, le contact en cas de réclamation et ce qui se passe en cas de défaillance de l'entreprise d'assurance sont présentées dans le document d'informations clés de ce contrat obligatoirement remis par votre assureur ou courtier ou tout autre intermédiaire d'assurance conformément à son obligation légale. Si vous avez souscrit ce produit par le biais d'un distributeur, vous pouvez également vous rapprocher de lui pour obtenir des renseignements sur le produit."
+   }
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGGPRNoteInfo_StatutsAMFEurope20260115.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IGGPRNoteInfo_StatutsAMFEurope20260115.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2621113,
+   "sha256": "5a24043397dcdb82559762430952d1cb0c7bb237567a9d309abeae1c657daa76",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.1 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260115162133+01'00'",
+    "modDate": "D:20260115211416+01'00'"
+   },
+   "page_count": 26,
+   "text_characters": 143185,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "grand paris residentiels",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Note d'information & statuts",
+   "dates": [
+    "15/01/2026",
+    "18 février 2021",
+    "1er janvier 2021"
+   ],
+   "fee_clauses": [
+    {
+     "page": 8,
+     "label": "commissions de souscription",
+     "snippet": "nstitution est égale à la valeur de réalisation augmentée des frais afférents à une reconstitution du patrimoine (frais et droits sur l'acquisition des actifs, commissions de souscription), le tout ramené à une part. Le prix de souscription est établi sur la base de la valeur de reconstitution. Tout écart de plus ou moins 10% entre le prix de souscription des parts et la valeur de reconstitution doit être notifié et justifié par la Société de gestion à l'Autorité des marchés financiers. Le prix de souscription est formé de la valeur nominale de la part et d'une prime d'émission destinée : • à amortir les frais, droits et taxes grevant le prix d'acquisition des biens et droits immobiliers et les formalités d'augmentation de capital s'il y a lieu, et la TVA non récupérable, • à assurer l'éga",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "entre le prix de souscription des parts et l"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "parts devront être libérées dans leur intégralité lors de la souscription. Prix de souscription d'une part Valeur nominale : 164 € Prime d'émission : 36 € dont commission de souscription due : • 20 € au titre des frais de collecte, • 4 € au titre des frais de recherche d'investissement. Soit un prix de souscription de 200 €. La Société de gestion perçoit de la SCPI, à la souscription, une commission de souscription de 12,00% TTI du prix de souscription. Cette commission supporte : • les frais de collecte à hauteur de 10,00% TTI (la commission est exonérée de TVA conformément à l'article 261 C-1°-e du Code général des impôts, • les frais de recherche des investissements à hauteur 2,00% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du C",
+     "percents": [
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription. Cette commissio"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": "TVA",
+       "after": "TTI (la commission est exonérée de TVA confo"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "• 4 € au titre des frais de recherche d'investissement. Soit un prix de souscription de 200 €. La Société de gestion perçoit de la SCPI, à la souscription, une commission de souscription de 12,00% TTI du prix de souscription. Cette commission supporte : • les frais de collecte à hauteur de 10,00% TTI (la commission est exonérée de TVA conformément à l'article 261 C-1°-e du Code général des impôts, • les frais de recherche des investissements à hauteur 2,00% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006). Ces conditions sont mentionnées dans le bulletin de souscription et font l'objet d'une notice publiée au BALO. Les modifications seront annoncées dans le bulletin semestriel d'information et feront l'obj",
+     "percents": [
+      {
+       "raw": "12,00%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription. Cette commissio"
+      },
+      {
+       "raw": "10,00%",
+       "value": 10.0,
+       "tax_hint": "TVA",
+       "after": "TTI (la commission est exonérée de TVA confo"
+      },
+      {
+       "raw": "2,00%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI (commission exonérée en vertu de l'artic"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 11,
+     "label": "frais d'acquisition",
+     "snippet": "tuts, bulletin de souscription). Tous les autres frais, sans exception, sont pris en charge par la société qui, notamment, règle directement : • Le prix et les frais d'acquisition des biens et droits immobiliers, frais d'actes, honoraires des intermédiaires, de conseil ; • Les honoraires des gérants et gestionnaires d'immeubles, administrateurs de biens, syndics de copropriété, en ce compris les honoraires de location et de relocation ; • Le montant des travaux d'aménagement, d'entretien et de réparation des immeubles, les frais de gestion technique, les honoraires d'architecte et de bureau d'études, les frais d'expertise, d'assistance à maîtrise d'ouvrage et les visites patrimoniales (notamment afin d'estimer les provisions pour gros entretien) ; • Les assurances, impôts et taxes, frais d",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 11,
+     "label": "frais de gestion",
+     "snippet": "opropriété, en ce compris les honoraires de location et de relocation ; • Le montant des travaux d'aménagement, d'entretien et de réparation des immeubles, les frais de gestion technique, les honoraires d'architecte et de bureau d'études, les frais d'expertise, d'assistance à maîtrise d'ouvrage et les visites patrimoniales (notamment afin d'estimer les provisions pour gros entretien) ; • Les assurances, impôts et taxes, frais d'eau, de gaz et d'électricité et de manière générale toutes les charges afférentes aux immeubles ; • Les frais d'enregistrement à l'occasion des augmentations de capital ; • Les frais de convocation, de tenue des assemblées générales et du conseil de surveillance, ainsi que l'information aux associés ; • Les frais de location de salle ; • Les frais de publicité, de c",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 11,
+     "label": "Commission de souscription",
+     "snippet": "taire ; • Les frais d'expertise immobilière. Ces frais peuvent être significatifs et peser sur la rentabilité de la SCPI. Rémuneration de la Société de gestion Commission de souscription La Société de gestion perçoit une commission de souscription égale à 12% TTI du prix de souscription. La commission de souscription, versée par la SCPI à la Société de gestion, est prélevée sur la prime d'émission. Elle couvre :",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription. La commission d"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 11,
+     "label": "commission de souscription",
+     "snippet": "t être significatifs et peser sur la rentabilité de la SCPI. Rémuneration de la Société de gestion Commission de souscription La Société de gestion perçoit une commission de souscription égale à 12% TTI du prix de souscription. La commission de souscription, versée par la SCPI à la Société de gestion, est prélevée sur la prime d'émission. Elle couvre :",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription. La commission d"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 11,
+     "label": "commission de souscription",
+     "snippet": "on de la Société de gestion Commission de souscription La Société de gestion perçoit une commission de souscription égale à 12% TTI du prix de souscription. La commission de souscription, versée par la SCPI à la Société de gestion, est prélevée sur la prime d'émission. Elle couvre :",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription. La commission d"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "Commission de gestion",
+     "snippet": " des capitaux exposés en vue de l'offre des parts de la SCPI au public à hauteur de 10% TTI ; • les frais de recherche des investissements à hauteur de 2% TTI. Commission de gestion La Société de gestion perçoit une commission de gestion. Elle est égale à 12% TTI des produits locatifs HT encaissés et des produits financiers nets de frais de gestion, destinée à couvrir les frais courants d'administration et de gestion de la Société. La commission de gestion est réglée est réglée au fur et à mesure de l'encaissement des recettes par la Société. Commission d'acquisition des actifs La Société de gestion perçoit une commission d'acquisition d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI. Commission de cession des actifs La Société de gestion perçoit une ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI ; • les frais de recherche des investiss"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI. Commission de gestion La Société de ges"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI des produits locatifs HT encaissés et de"
+      },
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des actifs La Soc"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de gestion",
+     "snippet": "SCPI au public à hauteur de 10% TTI ; • les frais de recherche des investissements à hauteur de 2% TTI. Commission de gestion La Société de gestion perçoit une commission de gestion. Elle est égale à 12% TTI des produits locatifs HT encaissés et des produits financiers nets de frais de gestion, destinée à couvrir les frais courants d'administration et de gestion de la Société. La commission de gestion est réglée est réglée au fur et à mesure de l'encaissement des recettes par la Société. Commission d'acquisition des actifs La Société de gestion perçoit une commission d'acquisition d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI. Commission de cession des actifs La Société de gestion perçoit une commission de cession d'actifs assise sur le prix de ces",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI ; • les frais de recherche des investiss"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI. Commission de gestion La Société de ges"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI des produits locatifs HT encaissés et de"
+      },
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des actifs La Soc"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "frais de gestion",
+     "snippet": "gestion La Société de gestion perçoit une commission de gestion. Elle est égale à 12% TTI des produits locatifs HT encaissés et des produits financiers nets de frais de gestion, destinée à couvrir les frais courants d'administration et de gestion de la Société. La commission de gestion est réglée est réglée au fur et à mesure de l'encaissement des recettes par la Société. Commission d'acquisition des actifs La Société de gestion perçoit une commission d'acquisition d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI. Commission de cession des actifs La Société de gestion perçoit une commission de cession d'actifs assise sur le prix de cession des immeubles et liquidée au taux de 3% TTI. Commission de suivi de la réalisation des travaux La Société de gest",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI des produits locatifs HT encaissés et de"
+      },
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des actifs La Soc"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI. Commission de suivi de la réalisation d"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de gestion",
+     "snippet": "catifs HT encaissés et des produits financiers nets de frais de gestion, destinée à couvrir les frais courants d'administration et de gestion de la Société. La commission de gestion est réglée est réglée au fur et à mesure de l'encaissement des recettes par la Société. Commission d'acquisition des actifs La Société de gestion perçoit une commission d'acquisition d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI. Commission de cession des actifs La Société de gestion perçoit une commission de cession d'actifs assise sur le prix de cession des immeubles et liquidée au taux de 3% TTI. Commission de suivi de la réalisation des travaux La Société de gestion perçoit une commission de suivi de la réalisation des travaux immobiliers. Cette commission est assis",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des actifs La Soc"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI. Commission de suivi de la réalisation d"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "Commission d'acquisition",
+     "snippet": " d'administration et de gestion de la Société. La commission de gestion est réglée est réglée au fur et à mesure de l'encaissement des recettes par la Société. Commission d'acquisition des actifs La Société de gestion perçoit une commission d'acquisition d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI. Commission de cession des actifs La Société de gestion perçoit une commission de cession d'actifs assise sur le prix de cession des immeubles et liquidée au taux de 3% TTI. Commission de suivi de la réalisation des travaux La Société de gestion perçoit une commission de suivi de la réalisation des travaux immobiliers. Cette commission est assise sur le montant TTC des dépenses affectées à la réalisation des travaux et liquidée au taux de 2,5% TTI. Comm",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des actifs La Soc"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI. Commission de suivi de la réalisation d"
+      },
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": null,
+       "after": "TTI. Comm"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission d'acquisition",
+     "snippet": "n est réglée est réglée au fur et à mesure de l'encaissement des recettes par la Société. Commission d'acquisition des actifs La Société de gestion perçoit une commission d'acquisition d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI. Commission de cession des actifs La Société de gestion perçoit une commission de cession d'actifs assise sur le prix de cession des immeubles et liquidée au taux de 3% TTI. Commission de suivi de la réalisation des travaux La Société de gestion perçoit une commission de suivi de la réalisation des travaux immobiliers. Cette commission est assise sur le montant TTC des dépenses affectées à la réalisation des travaux et liquidée au taux de 2,5% TTI. Commission de cession des parts Si la cession ou la mutation de parts n'in",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des actifs La Soc"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI. Commission de suivi de la réalisation d"
+      },
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des parts Si la c"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "Commission de cession",
+     "snippet": " des actifs La Société de gestion perçoit une commission d'acquisition d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI. Commission de cession des actifs La Société de gestion perçoit une commission de cession d'actifs assise sur le prix de cession des immeubles et liquidée au taux de 3% TTI. Commission de suivi de la réalisation des travaux La Société de gestion perçoit une commission de suivi de la réalisation des travaux immobiliers. Cette commission est assise sur le montant TTC des dépenses affectées à la réalisation des travaux et liquidée au taux de 2,5% TTI. Commission de cession des parts Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière ",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des actifs La Soc"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI. Commission de suivi de la réalisation d"
+      },
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des parts Si la c"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de cession",
+     "snippet": "ion d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI. Commission de cession des actifs La Société de gestion perçoit une commission de cession d'actifs assise sur le prix de cession des immeubles et liquidée au taux de 3% TTI. Commission de suivi de la réalisation des travaux La Société de gestion perçoit une commission de suivi de la réalisation des travaux immobiliers. Cette commission est assise sur le montant TTC des dépenses affectées à la réalisation des travaux et liquidée au taux de 2,5% TTI. Commission de cession des parts Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des actifs La Soc"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI. Commission de suivi de la réalisation d"
+      },
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des parts Si la c"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "Commission de suivi",
+     "snippet": " cession des actifs La Société de gestion perçoit une commission de cession d'actifs assise sur le prix de cession des immeubles et liquidée au taux de 3% TTI. Commission de suivi de la réalisation des travaux La Société de gestion perçoit une commission de suivi de la réalisation des travaux immobiliers. Cette commission est assise sur le montant TTC des dépenses affectées à la réalisation des travaux et liquidée au taux de 2,5% TTI. Commission de cession des parts Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. Si la cession est réalisée par confrontatio",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI. Commission de suivi de la réalisation d"
+      },
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des parts Si la c"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de suivi",
+     "snippet": " assise sur le prix de cession des immeubles et liquidée au taux de 3% TTI. Commission de suivi de la réalisation des travaux La Société de gestion perçoit une commission de suivi de la réalisation des travaux immobiliers. Cette commission est assise sur le montant TTC des dépenses affectées à la réalisation des travaux et liquidée au taux de 2,5% TTI. Commission de cession des parts Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. Si la cession est réalisée par confrontation des ordres d'achat et de vente, en application des dispositions de l'article L. 21",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI. Commission de suivi de la réalisation d"
+      },
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des parts Si la c"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "Commission de cession",
+     "snippet": "on des travaux immobiliers. Cette commission est assise sur le montant TTC des dépenses affectées à la réalisation des travaux et liquidée au taux de 2,5% TTI. Commission de cession des parts Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. Si la cession est réalisée par confrontation des ordres d'achat et de vente, en application des dispositions de l'article L. 214-93 du Code monétaire et financier, la Société de gestion perçoit une commission de 4% TTI du montant revenant au cédant et mis à la charge de l'acquéreur ou de ses ayants droit. Modalités de pa",
+     "percents": [
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": null,
+       "after": "TTI. Commission de cession des parts Si la c"
+      },
+      {
+       "raw": "4%",
+       "value": 4.0,
+       "tax_hint": null,
+       "after": "TTI du montant revenant au cédant et mis à l"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 13,
+     "label": "commission de souscription",
+     "snippet": "s de validité ; • le n° d'agrément de la Société de gestion. Information des investisseurs La Société de gestion est susceptible de rétrocéder une partie de la commission de souscription, dont les conditions sont encadrées dans le dispositif de gestion des conflits d'intérêt disponible sur simple demande. La Société de gestion garantit que ce dispositif n'entraine pas de préjudice pour les autres investisseurs. Modalités d'information des associés L'information des associés est assurée au moyen de supports écrits, notamment le rapport annuel et le dernier bulletin d'information. Rapport annuel La Société de gestion établit chaque année un rapport relatif à l'exercice social comportant le rapport de gestion, les rapports du conseil de surveillance et du Commissaire aux comptes, les comptes ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 14,
+     "label": "frais d'acquisition",
+     "snippet": "e est déterminée par différence entre le prix de vente et le prix d'acquisition de l'immeuble. La plus-value brute ainsi déterminée est diminuée du montant des frais d'acquisition et lorsque la vente porte sur un immeuble détenu depuis plus de cinq ans d'un abattement pour une durée de détention. Taxe sur les plus-values immobilières élevées Une taxe spéciale codifiée à l'article 1609 nonies G du Code général des impôts s'applique aux plus-values immobilières d'un montant supérieur à 50 000 €. Elle est due par les personnes physiques ou les sociétés relevant de l'article 8, 8 bis ou 8ter du Code général des impôts, ainsi que par les contribuables non domiciliés en France soumis au prélèvement prévu à l'article 244 bis A du même Code. Administration, contrôle, information de la société, act",
+     "percents": [],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 21,
+     "label": "commission de souscription",
+     "snippet": "née par l'assemblée générale ordinaire. ARTICLE 19 Rémunération de la Société de gestion La Société de gestion est rémunérée de ses fonctions moyennant : • Une commission de souscription, fixée à 12% TTI du prix de souscription des parts prime d'émission incluse versée par la SCPI à la Société de gestion au fur et à mesure des souscriptions, qui couvre : – Les frais de collecte et de prospection des capitaux exposés en vue de l'offre des parts de la SCPI au public, à hauteur de 10% TTI. – Les frais de recherche des investissements, à hauteur de 2% TTI. • Une commission de gestion annuelle égale à 12% TTI des produits locatifs hors taxes encaissés et des produits financiers nets de frais de gestion, destinée à couvrir les frais courants d'administration et de gestion de la société. • La com",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI du prix de souscription des parts prime"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI. – Les frais de recherche des investisse"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI. • Une commission de gestion annuelle ég"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "hors taxes",
+       "after": "TTI des produits locatifs hors taxes encaiss"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 21,
+     "label": "commission de gestion",
+     "snippet": "pitaux exposés en vue de l'offre des parts de la SCPI au public, à hauteur de 10% TTI. – Les frais de recherche des investissements, à hauteur de 2% TTI. • Une commission de gestion annuelle égale à 12% TTI des produits locatifs hors taxes encaissés et des produits financiers nets de frais de gestion, destinée à couvrir les frais courants d'administration et de gestion de la société. • La commission de gestion est réglée au fur et à mesure de l'encaissement des recettes par la société. • Une commission d'acquisition d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI.",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "TTI. – Les frais de recherche des investisse"
+      },
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI. • Une commission de gestion annuelle ég"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "hors taxes",
+       "after": "TTI des produits locatifs hors taxes encaiss"
+      },
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "TTI."
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 21,
+     "label": "frais de gestion",
+     "snippet": "ements, à hauteur de 2% TTI. • Une commission de gestion annuelle égale à 12% TTI des produits locatifs hors taxes encaissés et des produits financiers nets de frais de gestion, destinée à couvrir les frais courants d'administration et de gestion de la société. • La commission de gestion est réglée au fur et à mesure de l'encaissement des recettes par la société. • Une commission d'acquisition d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI.",
+     "percents": [
+      {
+       "raw": "2%",
+       "value": 2.0,
+       "tax_hint": null,
+       "after": "TTI. • Une commission de gestion annuelle ég"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "hors taxes",
+       "after": "TTI des produits locatifs hors taxes encaiss"
+      },
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "TTI."
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 21,
+     "label": "commission de gestion",
+     "snippet": "s taxes encaissés et des produits financiers nets de frais de gestion, destinée à couvrir les frais courants d'administration et de gestion de la société. • La commission de gestion est réglée au fur et à mesure de l'encaissement des recettes par la société. • Une commission d'acquisition d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI.",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "TTI."
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 21,
+     "label": "commission d'acquisition",
+     "snippet": "nts d'administration et de gestion de la société. • La commission de gestion est réglée au fur et à mesure de l'encaissement des recettes par la société. • Une commission d'acquisition d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI.",
+     "percents": [
+      {
+       "raw": "1,5%",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "TTI."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 22,
+     "label": "commission de cession",
+     "snippet": "SCPI GRAND PARIS RÉSIDENTIELS 22 STATUTS • Une commission de cession d'actifs assise sur le prix de vente des immeubles et liquidée au taux de 3% TTI. • Une commission de suivi de la réalisation des travaux et assise sur le montant TTC des dépenses affectées à la réalisation des travaux, liquidée au taux de 2,5% TTI. • Une commission de cession ou de mutation de parts : – Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. – Si la cession est réalis",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI. • Une commission de suivi de la réalisa"
+      },
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": null,
+       "after": "TTI. • Une commission de cession ou de mutat"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 22,
+     "label": "commission de suivi",
+     "snippet": "SCPI GRAND PARIS RÉSIDENTIELS 22 STATUTS • Une commission de cession d'actifs assise sur le prix de vente des immeubles et liquidée au taux de 3% TTI. • Une commission de suivi de la réalisation des travaux et assise sur le montant TTC des dépenses affectées à la réalisation des travaux, liquidée au taux de 2,5% TTI. • Une commission de cession ou de mutation de parts : – Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. – Si la cession est réalisée par confrontation des ordres d'achat et de vente, en application des dispositions de l'article L. 214-93 du",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "TTI. • Une commission de suivi de la réalisa"
+      },
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": null,
+       "after": "TTI. • Une commission de cession ou de mutat"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 22,
+     "label": "commission de cession",
+     "snippet": "on de suivi de la réalisation des travaux et assise sur le montant TTC des dépenses affectées à la réalisation des travaux, liquidée au taux de 2,5% TTI. • Une commission de cession ou de mutation de parts : – Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. – Si la cession est réalisée par confrontation des ordres d'achat et de vente, en application des dispositions de l'article L. 214-93 du Code monétaire et financier, la Société de gestion perçoit une commission de 4% TTI du montant revenant au cédant et mis à la charge de l'acquéreur ou de ses ayants dr",
+     "percents": [
+      {
+       "raw": "2,5%",
+       "value": 2.5,
+       "tax_hint": null,
+       "after": "TTI. • Une commission de cession ou de mutat"
+      },
+      {
+       "raw": "4%",
+       "value": 4.0,
+       "tax_hint": null,
+       "after": "TTI du montant revenant au cédant et mis à l"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "frais d'acquisition",
+     "snippet": "ces » et notamment les frais de constitution de la société, les frais d'augmentation de capital, les commissions de placement dues à la Société de gestion, les frais d'acquisition des immobilisations locatives et éventuellement les dépréciations d'immeubles. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d'évaluation que les années précédentes. Toutefois, la Société de gestion peut proposer à l'assemblée générale ordinaire des modifications dans la présentation des comptes dans les conditions prévues par le Code monétaire et financier. ARTICLE 31 Affectation et répartition des résultats Les produits nets de l'exercice, déduction faite des frais généraux et autres charges de la société, y compris toutes provisions et éventuellement les amortissements cons",
+     "percents": [],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "8": "SCPI GRAND PARIS RÉSIDENTIELS 8 NOTE D'INFORMATION des titres non enregistrés sous le régime de l'U.S. Securities Act de 1933, tel qu'amendé, à moins qu'elle ne soit organisée ou enregistrée et détenue par des “Investisseurs Accrédités” (tel que ce terme est défini par la “Règle 501(a)” de l'Act de 1933, tel qu'amendé) autres que des personne physiques, des successions ou des trusts. Obligations relatives à la loi FATCA La Société de gestion de la SCPI pourra demander au souscripteur toutes informations ou attestations requises au titre de toute obligation qu'elle pourrait avoir en matière d'identification et de déclaration prévues à l'annexe 1 de l'Accord entre le Gouvernement de la République Française et le Gouvernement des États-Unis d'Amérique en vue d'améliorer le respect des obligations fiscales à l'échelle internationale et de mettre en œuvre la loi relative au respect des obligations fiscales concernant les comptes étrangers (dite “Loi FATCA”) en date du 14 novembre 2013 (l' “Accord”) et telles que précisées, le cas échéant, au sein des dispositions légales et réglementaires prises en application de l'Accord. Le souscripteur devra s'engager à se conformer aux obligations qui lui incombent au titre de l'Accord telles que précisées, le cas échéant, au sein des dispositions légales et réglementaires prises en application de l'Accord. Conditions générales de soucription des parts Composition du dossier de souscription Préalablement à la souscription, un dossier complet doit être remis à tout nouveau souscripteur. Il comprend : • les statuts de la société ; • la note d'information en cours de validité, ayant reçu le visa de l'Autorité des marchés financiers, • le dernier rapport annuel dès sa parution ; • le bulletin semestriel en vigueur à la date de souscription ; • le DIC PRIIPS (Document d'Informations Clés) ; • un bulletin de souscription en 2 exemplaires dont l'un demeure entre les mains du souscripteur. Modalités de souscription et de versement Modalités de versement Le bulletin de souscription énonce clairement les modalités de souscription en cours, en particulier le prix de souscription des parts nouvelles et leur date d'entrée en jouissance. Le prix de souscription, prime d'émission incluse, doit être intégralement libéré dès la souscription. Les versements par chèque ou virement doivent être libellés à l'ordre de la SCPI GRAND PARIS Résidentiels. Minimum de souscription et de détention 1 part lors de la première souscription, aucun minimum ensuite. Minimum de détention en cas de cession ou de retrait partiels 1 part. Lieu de souscription et de versement Les souscriptions et les versements doivent être adressés au siège de la SCPI GRAND PARIS Résidentiels au 38 avenue de l'Opéra, 75002 PARIS. Parts sociales Les parts sociales sont émises en représentation des apports des associés. Les parts sociales sont nominatives. Elles ne sont représentées par aucun titre. Les droits de chaque associé résultent exclusivement de son inscription sur le registre de la société. Toutefois la Société de gestion peut délivrer à tout associé qui en fait la demande un certificat de parts sociales attestant sont inscription sur le registre des transferts. Calcul du prix de souscription Conformément aux dispositions du Code monétaire et financier, la fixation du prix de souscription s'appuie sur les notions de valeur de réalisation et de valeur de reconstitution de la société. La valeur de réalisation est calculée en ajoutant à la valeur vénale des immeubles déterminée par un Expert en évaluation immobilière indépendant la valeur des autres actifs diminuée des dettes, le tout ramené à une part. La valeur de reconstitution est égale à la valeur de réalisation augmentée des frais afférents à une reconstitution du patrimoine (frais et droits sur l'acquisition des actifs, commissions de souscription), le tout ramené à une part. Le prix de souscription est établi sur la base de la valeur de reconstitution. Tout écart de plus ou moins 10% entre le prix de souscription des parts et la valeur de reconstitution doit être notifié et justifié par la Société de gestion à l'Autorité des marchés financiers. Le prix de souscription est formé de la valeur nominale de la part et d'une prime d'émission destinée : • à amortir les frais, droits et taxes grevant le prix d'acquisition des biens et droits immobiliers et les formalités d'augmentation de capital s'il y a lieu, et la TVA non récupérable, • à assurer l'égalité entre les associés. Le montant de la prime d'émission fixé par la Société de gestion est indiqué dans le bulletin de souscription et le bulletin semestriel d'information. Date d'entrée en jouissance des parts Les parts sont, dès leur création, soumises à toutes les dispositions statutaires. À partir de leur date d'entrée en jouissance, elles sont entièrement assimilées aux parts entièrement créés. La date d'entrée en jouissance est fixée par la Société de gestion et précisée dans le bulletin de souscription. Les modalités de jouissance des parts ne sont donc pas déterminées par les statuts mais sont fixées par la Société de gestion. Décimalisation des parts Les parts sociales pourront être fractionnées, sur décision du gérant, en dixièmes, centièmes, millièmes, dix millièmes dénommées fractions de parts sociales. Les dispositions des statuts réglant l'émission, la transmission des parts sociales et le retrait d'associés sont applicables aux fractions de parts sociales dont la valeur sera toujours proportionnelle à celle de la part sociale dont elles sont issues. Toutes les autres dispositions des statuts relatives aux parts sociales s'appliquent aux fractions de parts sociales sans qu'il soit nécessaire de le spécifier, sauf lorsqu'il en est disposé autrement. Nantissement des parts Les parts sociales peuvent faire l'objet d'un nantissement constaté soit par acte authentique, soit par acte sous seing privé signifié à la Société ou accepté par elle dans un acte authentique. L'acte de nantissement doit être publié au registre du commerce et des sociétés à la diligence du créancier nanti. Le projet de nantissement devra être soumis à l'agrément de la Société de gestion dans les mêmes formes et délais que s'il s'agissait d'une cession de parts. Si la Société de gestion a donné son consentement à un projet de nantissement de parts, ce consentement emportera agrément du cessionnaire en cas de réalisation forcée des parts nanties, à moins que la société ne préfère racheter sans délais les parts en vue de réduire son capital. Toute réalisation forcée, qu'elle procède ou non d'un nantissement, devra être notifiée à la Société de gestion un mois avant la vente. Toute mutation de parts sociales nanties ne pourra être inscrite sur le registre des associés qu'à réception par la Société de gestion de la mainlevée du nantissement émise par l'établissement prêteur. Conditions de souscription à dater de l'ouverture au public Date d'ouverture au public : 2 novembre 2017 L'offre au public est destin",
+    "9": "SCPI GRAND PARIS RÉSIDENTIELS 9 NOTE D'INFORMATION Les parts devront être libérées dans leur intégralité lors de la souscription. Prix de souscription d'une part Valeur nominale : 164 € Prime d'émission : 36 € dont commission de souscription due : • 20 € au titre des frais de collecte, • 4 € au titre des frais de recherche d'investissement. Soit un prix de souscription de 200 €. La Société de gestion perçoit de la SCPI, à la souscription, une commission de souscription de 12,00% TTI du prix de souscription. Cette commission supporte : • les frais de collecte à hauteur de 10,00% TTI (la commission est exonérée de TVA conformément à l'article 261 C-1°-e du Code général des impôts, • les frais de recherche des investissements à hauteur 2,00% TTI (commission exonérée en vertu de l'article 135, paragraphe 1, sous g) de la directive 2006/112/CE du Conseil du 28 novembre 2006). Ces conditions sont mentionnées dans le bulletin de souscription et font l'objet d'une notice publiée au BALO. Les modifications seront annoncées dans le bulletin semestriel d'information et feront l'objet d'une actualisation de la présente note d'information et d'une publication au BALO en cas de changement des conditions d'émission (prix, jouissance, etc.). Il ne peut être procédé à la création de parts nouvelles en vue d'augmenter le capital social tant que : • le capital initial n'a pas été entièrement libéré et statuts de la société ; • les demandes de retrait de parts figurant sur le registre prévu à l'article 422.218 du RG AMF pour un prix inférieur ou égal au prix de souscription n'ont pas été satisfaites ; • les offres de cession de parts figurant sur le registre prévu à l'article L.214-93 Code monétaire et financier depuis plus de trois mois pour un prix inférieur ou égal à celui demandé aux nouveaux souscripteurs n'ont pas été satisfaites. Agrément Toute souscription d'une personne qui n'est pas associée est soumise à l'agrément de la Société de gestion, sauf cas énumérés par l'article L. 214- 97 du Code monétaire et financier. Le dépôt par le souscripteur du bulletin de souscription auprès de la Société de gestion vaut pour celui-ci demande d'agrément. Cet agrément résulte, soit d'une notification, soit du défaut de réponse dans le délai de deux mois à compter de ce dépôt. Dans le cas de refus d'agrément, le versement du souscripteur lui est restitué sans intérêt dans les deux jours de la décision de la Société de gestion. Il n'entre pas dans les intentions de la Société de gestion d'opposer aux souscripteurs un refus d'agrément. Garantie bancaire - souscription inferieure à 15% du capital statutaire maximum Conformément aux dispositions de l'article L 214-86 du Code monétaire et financier, une garantie bancaire d'un montant de 3 424 200 € garantissant le remboursement des associés a été délivrée à la société par la banque BNP PARIBAS en date du 14 mars 2017 pour faire face au remboursement du montant des souscriptions, à l'exception des associés fondateurs, dans le cas où 15% au moins du capital maximum statutaire soit 2 091 000 € ne serait pas souscrit par le public dans un délai d'un an après la date d'ouverture de la souscription. Si cette obligation n'est pas satisfaite, la SCPI est dissoute et tous les associés, à l'exception des associés fondateurs, sont remboursés du montant de leur souscription. Au 2 novembre 2017, le capital social de la SCPI tel qu'il a été attesté par le Commissaire aux comptes le 28 décembre 2017 s'élevait, en nominal, à 2 094 280 € soit environ 15,02% du capital maximum statutaire. La caution bancaire délivrée par la banque BNP PARIBAS en date du 14 mars 2017 est donc caduque depuis le dépassement des 15% souscrits par le public le 2 novembre 2017. Garantie de traitement equitable des investisseurs Conformément aux dispositions législatives et règlementaires en vigueur, la Société de gestion Inter Gestion REIM garantit un traitement équitable des associés de la SCPI. Une politique de gestion des conflits d'intérêts a été formalisée et est disponible auprès de la Société de gestion sur simple demande. Modalités de sortie L'associé qui souhaite se retirer totalement ou partiellement de la société peut soit : • Procéder de sa propre initiative à la cession de ses parts en recherchant lui-même un acquéreur ; • Solliciter le remboursement de ses parts auprès de la Société de gestion (retrait dans le cadre de la variabilité du capital de la société) ; • Délivrer à la Société de gestion un ordre de vente de parts (cession dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier). La société ne garantit ni la vente ni le remboursement des parts. La sortie n'est possible pour les porteurs que s'il existe une contrepartie à l'achat : la demande pourrait ne pas être satisfaite sans contrepartie à la souscription, ou vous devrez accepter un prix inférieur au prix de retrait voire décoté. Vous risquez de ne pas pouvoir vendre facilement vos parts, ou de devoir les vendre à un prix qui influera à la baisse le montant que vous percevrez en retour. Les associés ayant souscrit avant le 1er janvier 2021 doivent conserver les parts jusqu'au 31 décembre de la troisième année qui suit l'imputation des déficits fonciers sur leur revenu global (article 156 du Code général des impôts). Dans le cas contraire, ils risquent une remise en cause de l'avantage fiscal dont ils ont pu bénéficier. Cession de gré à gré Les parts peuvent être librement cédées à un autre associé ou à un tiers. Le prix de cession est librement fixé par les parties. La cession de parts sociales doit être constatée par un acte authentique ou sous signature privée. Pour être opposable à la société, la cession doit, conformément à l'article 1690 du Code civil, lui être signifiée par un acte extrajudiciaire aux frais de l'acheteur. La cession peut également faire l'objet d'une déclaration de transfert inscrite sur le registre de transfert tenu par la société. Cette déclaration de transfert est signée par le vendeur et par l'acheteur. La société peut exiger que la signature des parties soit certifiée par un officier public. Pour être opposable aux tiers, la cession doit avoir été suivie de l'accomplissement de ces formalités et publications requises par les dispositions réglementaires, le tout aux frais de l'acheteur. Agrément Sauf en cas de succession, de liquidation de communauté de biens entre époux, ou de cession soit à un conjoint, soit à un ascendant ou à un descendant soit à un autre associé, la cession des parts est soumise à l'agrément de la Société de gestion. Dans tous les cas où l'agrément de la Société de gestion n'est pas nécessaire, la Société de gestion doit toutefois être avisée de la cession par le cédant en vue de l'inscription de cette dernière sur le registre des transferts. L'agrément résulte soit d'une notification, soit du défaut de réponse dans le délai de deux mois à compter de la demande. Si la société n'agrée pas le cessionnaire proposé, la Société de gestion est",
+    "11": "SCPI GRAND PARIS RÉSIDENTIELS 11 NOTE D'INFORMATION Exécution des ordres Le prix d'exécution est celui auquel peuvent être échangées le plus grand nombre de parts, sachant que sont exécutés en priorité les ordres d'achat inscrits au prix le plus élevé et les ordres de vente inscrits au prix le plus faible. Ce prix peut être minoré, le cas échéant, de l'impôt sur la plus-value immobilière de cession déterminé et acquitté auprès des services fiscaux par la Société de gestion. Les ordres sont exécutés dès l'établissement du prix d'exécution et à ce seul prix par la Société de gestion qui inscrit sans délai les transactions ainsi effectuées sur le registre des associés et règle aux cédants les sommes leur revenant par prélèvement sur les fonds préalablement versés par les acheteurs dans un délai de quinze jours ouvrés suivant la clôture de la confrontation. Si plusieurs prix peuvent au même instant être établis sur la base de ce premier critère, le prix d'exécution est celui pour lequel le nombre de parts non échangées est le plus faible. Dans le cas où ces deux critères n'auraient pas permis de déterminer un prix unique, le prix d'exécution est le plus proche du dernier prix d'exécution établi. Le prix d'exécution ainsi que les quantités de parts échangées sont rendus publics le jour de l'établissement du prix. Cette diffusion s'effectuera sur le site internet : www.inter-gestion.com. En cas d'impossibilité d'établir un prix d'exécution la Société de gestion publie dans les mêmes conditions qu'à l'alinéa précédent le prix d'achat le plus élevé et le prix de vente le plus faible, accompagnés pour chacun de ces prix des quantités de parts proposées. Couverture des ordres d'achat La Société de gestion demande une couverture des ordres d'achat c'est à dire le versement à l'ordre de la SPCI du montant total du prix tel qu'il figure sur l'ordre d'achat frais inclus. L'inscription des ordres d'achat sur le registre des ordres est subordonnée au virement des fonds sur le compte spécial ouvert par la SCPI qui ne porte pas intérêts, ou à la remise d'un chèque de banque émis à son ordre qui sera déposé sur ce compte. Lorsque l'ordre est exécuté, la couverture est utilisée pour assurer le règlement des parts acquises, frais de transaction inclus. Le reliquat éventuel après exécution de l'ordre, ou le montant de la couverture, en cas d'inexécution totale de l'ordre, sera restitué au donneur d'ordre dans un délai maximum de 21 jours à compter du dernier jour du mois au cours duquel sera intervenue la cession ou le terme de la période de validité de l'ordre. Blocage du marché des parts Conformément à l ‘article L.214-93 du Code monétaire et financier, lorsque la Société de gestion constate que les offres de vente inscrites depuis plus de douze mois sur le registre représentent au moins 10% des parts émises par la société, elle en informe sans délai l'Autorité des marchés financiers. Dans les deux mois à compter de cette information, la Société de gestion convoque une assemblée générale extraordinaire et lui propose la cession partielle ou totale du patrimoine et toute autre mesure appropriée. Suspension de l'inscription des ordres sur le registre La Société de gestion peut, par décision motivée et sous sa responsabilité, suspendre l'inscription des ordres sur le registre après en avoir informé l'Autorité des marchés financiers. Lorsque la suspension est motivée par la survenance d'un événement important susceptible, s'il était connu du public, d'avoir une incidence significative sur le prix d'exécution des parts ou la situation et les droits des associés, la Société de gestion procède à l'annulation des ordres sur le registre et en informe individuellement ses donneurs d'ordre ou les intermédiaires. La Société de gestion assure la diffusion effective et intégrale de cette décision motivée dans le public. Cette diffusion s'effectuera sur le site internet : www.inter-gestion.com. Les ordres sont exécutés par la Société de gestion dès l'établissement du prix d'exécution et à ce seul prix. Sont exécutés, en priorité, les ordres d'achat inscrits au prix le plus élevé et les ordres de vente inscrits au prix le plus bas. À limite de prix égale, les ordres les plus anciens sont exécutés. Si plusieurs prix peuvent, au même instant, être établis sur la base de ce premier critère, le prix d'exécution est celui pour lequel le nombre de parts non échangées est le plus faible. Dans le cas où ces deux critères n'auraient pas permis de déterminer un prix unique, le prix d'exécution est le plus proche du dernier prix d'exécution établi. Les transactions ainsi effectuées sont inscrites sur le registre des associés. Cette inscription est réputée constituer l'acte de cession écrit prévu par l'article 1865 du Code civil et rend opposable à la société et aux tiers le transfert de propriété qui en résulte. Diffusion des informations dans le public Le prix d'exécution, les quantités échangées, les cinq prix d'achat les plus élevés et les cinq prix de vente les plus faibles ainsi que les quantités correspondantes peuvent être communiqués à toute personne qui en fait la demande, à l'exclusion de toute autre information concernant les acheteurs ou les vendeurs. Cette communication s'effectue soit directement auprès de la Société de gestion, soit par l'intermédiaire du site Internet www.inter-gestion.com. Frais Repartition des frais entre la société et la Société de gestion La Société de gestion prend à sa charge les frais de bureau (locaux et matériels) et de personnel nécessaire à l'administration de la société, à la perception des recettes, à la distribution des bénéfices, hors frais d'envoi (note d'information, statuts, bulletin de souscription). Tous les autres frais, sans exception, sont pris en charge par la société qui, notamment, règle directement : • Le prix et les frais d'acquisition des biens et droits immobiliers, frais d'actes, honoraires des intermédiaires, de conseil ; • Les honoraires des gérants et gestionnaires d'immeubles, administrateurs de biens, syndics de copropriété, en ce compris les honoraires de location et de relocation ; • Le montant des travaux d'aménagement, d'entretien et de réparation des immeubles, les frais de gestion technique, les honoraires d'architecte et de bureau d'études, les frais d'expertise, d'assistance à maîtrise d'ouvrage et les visites patrimoniales (notamment afin d'estimer les provisions pour gros entretien) ; • Les assurances, impôts et taxes, frais d'eau, de gaz et d'électricité et de manière générale toutes les charges afférentes aux immeubles ; • Les frais d'enregistrement à l'occasion des augmentations de capital ; • Les frais de convocation, de tenue des assemblées générales et du conseil de surveillance, ainsi que l'information aux associés ; • Les frais de location de salle ; • Les frais de publicité, de création, d'impression et d'envoi des documents d'information destinés aux associés (bulletins d'information, rapport annuel) ; • Les frais de déplaceme",
+    "12": "SCPI GRAND PARIS RÉSIDENTIELS 12 NOTE D'INFORMATION • les frais de collecte et de prospection des capitaux exposés en vue de l'offre des parts de la SCPI au public à hauteur de 10% TTI ; • les frais de recherche des investissements à hauteur de 2% TTI. Commission de gestion La Société de gestion perçoit une commission de gestion. Elle est égale à 12% TTI des produits locatifs HT encaissés et des produits financiers nets de frais de gestion, destinée à couvrir les frais courants d'administration et de gestion de la Société. La commission de gestion est réglée est réglée au fur et à mesure de l'encaissement des recettes par la Société. Commission d'acquisition des actifs La Société de gestion perçoit une commission d'acquisition d'actifs assise sur le prix d'acquisition des immeubles et liquidée au taux de 1,5% TTI. Commission de cession des actifs La Société de gestion perçoit une commission de cession d'actifs assise sur le prix de cession des immeubles et liquidée au taux de 3% TTI. Commission de suivi de la réalisation des travaux La Société de gestion perçoit une commission de suivi de la réalisation des travaux immobiliers. Cette commission est assise sur le montant TTC des dépenses affectées à la réalisation des travaux et liquidée au taux de 2,5% TTI. Commission de cession des parts Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. Si la cession est réalisée par confrontation des ordres d'achat et de vente, en application des dispositions de l'article L. 214-93 du Code monétaire et financier, la Société de gestion perçoit une commission de 4% TTI du montant revenant au cédant et mis à la charge de l'acquéreur ou de ses ayants droit. Modalités de paiement La Société de gestion prélève les sommes qui lui sont dues à titre de commissions directement sur les fonds sociaux. Toutes les sommes dues à la Société de gestion lui restent définitivement acquises et ne sauraient faire l'objet d'un remboursement quelconque, à quelque moment ou pour quelque cause que ce soit, sauf conventions particulières contraires. La prise en charge de frais supplémentaires devra être soumise à l'agrément de l'assemblée générale des associés, pour couvrir des charges exceptionnelles qui pourraient résulter notamment de mesures législatives ou réglementaires ou de toutes autres circonstances juridiques, économiques ou sociales. La décision de l'assemblée générale devra être prise conformément aux dispositions de l'article L.214-106 du Code monétaire et financier. Fonctionnement de la société Assemblées générales des associés L'assemblée générale régulièrement constituée représente l'universalité des associés et ses décisions sont obligatoires pour tous, même pour les absents, les dissidents ou les incapables. Les assemblées se tiennent au siège social de la société ou en tout autre lieu du même département ou d'un département limitrophe. Les associés sont réunis en assemblée générale ordinaire au moins une fois par an dans les six mois suivant la clôture de l'exercice pour l'approbation des comptes. Les associés ont la possibilité de proposer l'inscription à l'ordre du jour de l'assemblée de projets de résolution s'ils réunissent les conditions prévues à l'article R214-138 du Code monétaire et financier. Les assemblées sont qualifiées d'extraordinaires lorsque leur décision se rapporte à une modification des statuts et d'ordinaires dans tous les autres cas. Convocation Les assemblées générales sont convoquées par la Société de gestion. À défaut, elles peuvent également être convoquées par : • le Commissaire aux comptes ; • le conseil de surveillance ; • un mandataire désigné en justice, soit à la demande de tout intéressé en cas d'urgence, soit à la demande d'un ou plusieurs associés réunissant au moins le dixième du capital social ; • le ou les liquidateurs. Les associés sont convoqués aux assemblées générales par un avis inséré au bulletin des annonces légales obligatoires et par un courrier électronique pour les associés l'ayant accepté ou par une lettre ordinaire. Sous la condition d'adresser à la société les frais de recommandation, les associés peuvent demander à être convoqués par lettre recommandée. Les lieu, date et heure de l'assemblée générale sont indiqués dans l'avis de convocation et la lettre adressée aux associés. Le délai entre la date de l'insertion contenant l'avis de convocation ou la date de l'envoi des lettres, si cet envoi est postérieur, et la date de l'assemblée, est au moins de 15 jours. Délibérations Tous les associés ont le droit d'assister aux assemblées générales en personne ou par mandataire, celui-ci devant obligatoirement être choisi parmi les associés. Tout associé peut voter par correspondance au moyen d'un formulaire dont les mentions sont fixées par arrêté. Quorum Les assemblées générales délibèrent valablement sans condition de quorum. Majorité Les décisions des assemblées générales sont prises à la majorité des voix dont disposent les associés présents, représentés ou votant par correspondance, sauf celles concernant la nomination du conseil de surveillance, qui sont prises à la majorité des associés présents et des votes par correspondance. Ordre du jour L'assemblée générale est appelée à statuer sur l'ordre du jour fixé par la Société de gestion ou à défaut, par la personne qui a provoqué la réunion de l'assemblée. Cependant, les associés ont la possibilité de déposer des projets de résolutions s'ils possèdent une certaine fraction du capital. Organisation L'assemblée générale est présidée par le représentant légal de la Société de gestion : à défaut, l'assemblée élit elle-même son président. Sont scrutateurs de l'assemblée les deux membres de ladite assemblée disposant du plus grand nombre de voix et acceptant cette fonction. Le bureau de l'assemblée est formé du président et des deux scrutateurs : il désigne le secrétaire, qui peut être choisi en dehors des associés. Il est dressé une feuille de présence qui contient les mentions exigées par la loi à laquelle est annexé l'état récapitulatif des votes par correspondance. La feuille de présence dûment émargée par les associés présents et les mandataires est certifiée exacte par le bureau de l'assemblée. Les pouvoirs donnés à chaque mandataire doivent porter les nom, prénom usuel et domicile de chaque mandant et le nombre de parts dont il est titulaire. Ils sont annexés à la feuille de présence. Les délibérations sont constatées par des procès-verbaux qui sont signés par les membres du bureau et établis sur le registre prévu par la loi. Les copies ou extraits de ces procès-verbaux, à produire en justice ou ailleurs, sont valablement certifiés par la Société de gestion, ou par un membre du conseil de surveillance, ou par le secrétaire de l'assemblée. Assemblée générale o",
+    "13": "SCPI GRAND PARIS RÉSIDENTIELS 13 NOTE D'INFORMATION L'assemblée générale ordinaire entend les rapports de la Société de gestion et du conseil de surveillance sur la situation des affaires sociales. Elle entend également celui du Commissaire aux comptes. Elle discute, approuve ou redresse les comptes et statue sur l'affectation et la répartition des résultats. Elle nomme ou remplace les membres du conseil de surveillance et fixe leur rémunération. Elle nomme ou remplace le Commissaire aux comptes. Elle nomme pour une durée de 6 ans l'expert externe en évaluation immobilière chargé d'expertiser le patrimoine. Elle pourvoit au remplacement de la Société de gestion en cas de vacance consécutive aux cas évoqués à l'article 15 des statuts. Elle approuve chaque année la valeur comptable de la société arrêtée par la Société de gestion. Elle décide la réévaluation de l'actif de la société sur rapport spécial du Commissaire aux comptes. Elle donne à la Société de gestion toutes autorisations pour tous les cas où les pouvoirs à elle conférés seraient insuffisants. Elle statue sur les conventions relevant de l'article L.214-106 du Code monétaire et financier. Elle délibère sur toutes les propositions portées à l'ordre du jour qui ne sont pas de la compétence de l'assemblée générale extraordinaire. Assemblée générale extraordinaire L'assemblée générale extraordinaire peut modifier les statuts dans toutes leurs dispositions, sans pouvoir, toutefois, changer la nationalité de la société. Elle peut décider notamment l'augmentation ou la réduction du capital social, la dissolution anticipée de la société, sa transformation en société de toute autre forme autorisée par la loi à procéder à une offre au public de titres financiers et notamment en société commerciale. L'assemblée peut déléguer à la Société de gestion le pouvoir de fixer les conditions des augmentations de capital, constater celles-ci, faire toutes les formalités nécessaires et en particulier les modifications corrélatives des statuts. Consultation par correspondance valant assemblée générale Des décisions collectives peuvent être prises par les associés par voie de consultation écrite à l'initiative de la Société de gestion dans le cas où la loi ne rend pas obligatoire la réunion de l'assemblée générale. Afin de provoquer ce vote, la Société de gestion adresse à chaque associé par lettre recommandée avec demande d'avis de réception le texte des résolutions proposées et y ajoute s'il y a lieu tous renseignements, documents et explications utiles. Les associés disposent d'un délai de 20 jours à compter de la date d'expédition de cette lettre pour faire parvenir par écrit leur vote à la Société de gestion. La Société de gestion ne tiendra pas compte des votes qui lui parviendraient après l'expiration de ce délai. En ce cas, l'auteur du vote parvenu en retard, de même que l'associé qui se serait abstenu de répondre, seraient considérés comme s'étant abstenus de voter. La Société de gestion, ou toute personne par elle désignée, rédige le procès- verbal de la consultation auquel elle annexe la justification du respect des formalités légales et la réponse de chaque associé. Les copies ou extraits de ces procès-verbaux à produire en justice ou ailleurs sont valablement certifiés par la Société de gestion. Les décisions collectives prises par voie de consultation écrite sont réputées valablement adotpées dès lors qu'elles réunissent la majorité des voix exprimées des associés ayant répondu. Détermination et répartition des bénéfices Provisions pour gros entretien Conformément aux articles 141-22 et suivants du règlement n°2016-03 du 15 avril 2016 relatif aux règles comptables applicables aux SCPI édicté par l'Autorité des Normes Comptables, les sociétés civiles de placement immobilier comptabilisent des provisions pour gros entretien pour chaque immeuble faisant l'objet de programmes pluriannuels d'entretien. Le plan prévisionnel pluriannuel d'entretien est établi dès la première année d'acquisition de l'immeuble et a pour objet de prévoir les dépenses de gros entretien qui permettront le maintien en état de l'immeuble ainsi que la répartition de sa prise en charge sur plusieurs exercices. La provision correspond à l'évaluation immeuble par immeuble des dépenses futures à l'horizon des cinq prochaines années. La provision est constatée à la clôture de l'exercice à hauteur de la quote-part des dépenses futures rapportée linéairement sur cinq ans à la durée restante à courir entre la date de la clôture et la date prévisionnelle de réalisation. Les dépenses de gros entretien de l'année ayant fait l'objet d'une provision doivent être reprises en résultat à concurrence du montant provisionné. Répartition des bénéfices Le bénéfice distribuable est constitué par le bénéfice de l'exercice diminué des pertes antérieures et augmenté des reports bénéficiaires. Il est réparti proportionnellement au nombre de parts et compte tenu des dates d'entrée en jouissance après la tenue de l'assemblée générale ayant approuvé les comptes de l'exercice social concerné. L'assemblée générale annuelle détermine le montant des bénéfices distribués aux associés à titre de dividendes. Le résultat fiscal est réparti entre tous les associés présents à la clôture de l'exercice en tenant compte des dates d'entrée en jouissance des parts au titre de la répartition des bénéfices entre les associés. Acomptes sur dividendes La Société de gestion a la faculté de répartir avant approbation des comptes de l'exercice des acomptes à valoir sur le dividende et d'en fixer le montant et la date de distribution, à la condition qu'un bilan établi au cours ou à la fin de l'exercice et certifié par le Commissaire aux comptes fasse apparaître que la société a réalisé au cours de la période écoulée, après constitution des amortissements et provisions notamment pour travaux nécessaires, déduction faite s'il y a lieu des pertes antérieures et compte tenu des reports bénéficiaires, des bénéfices nets supérieurs au montant desdits acomptes. Dispositions légales Conventions particulières Toute convention intervenant entre la société et ses organes de gestion, de direction ou d'administration ou tout autre personne liée à ses organes doit, sur les rapports du conseil de surveillance et du Commissaire aux comptes, être approuvée annuellement par l'assemblée générale des associés. Ces dispositions s'appliquent en particulier aux conditions de rémunération de la Société de gestion conformément aux dispositions du chapitre III de la présente note d'information. La Société de gestion sollicitera, d'un organisme indépendant, une expertise préalable à l'acquisition de tout immeuble dont les vendeurs seraient liés directement ou indirectement aux membres fondateurs ou à la Société de gestion. Démarchage et publicité Le démarchage bancaire ou financier est réglementé par les articles L.341- 1 et suivants du Code monétaire et financier. En vertu de ces dispositions, il peut être principalement effe",
+    "14": "SCPI GRAND PARIS RÉSIDENTIELS 14 NOTE D'INFORMATION Bulletin d'information Un bulletin d'information est diffusé à tous les associés dans les 45 jours suivant la fin du trimestre ou semestre, faisant ressortir les principaux évènements de la vie sociale, trimestre après trimestre ou semestre après semestre, afin qu'il n'y ait pas de rupture de l'information avec le dernier rapport annuel. Régime fiscal des associés Revenus imposables Les sociétés civiles de placement immobilier sont soumises, sauf option pour le régime fiscal des sociétés de capitaux, aux dispositions de l'article 8 du Code général des impôts. En application de ce texte, chacun des associés est personnellement soumis à l'impôt à concurrence de la part des résultats sociaux correspondant à ses droits dans la société. L'associé n'est donc pas imposé sur le dividende qu'il perçoit mais sur la fraction des résultats sociaux nets lui revenant compte tenu de la date de mise en jouissance de ses parts. Les revenus provenant de la location des immeubles ainsi que les revenus assimilés sont imposés dans les conditions de droit commun applicables aux revenus fonciers. Étant ici rappelé que résultat de la société, y compris la part de résultat reversée aux bénéficiaires désignés dans les conditions susvisées dans l'article « OBJECTIF SOCIÉTAL : FONDS DE PARTAGE », est imposable au nom de chacun des associés en proportion de leur participation au capital et la société transmet aux associés en temps utile les éléments nécessaires à la déclaration annuelle des revenus. Le revenu effectivement distribué peut toutefois dans certains cas sur décision de l'assemblée générale être inférieur au revenu imposable à déclarer par les associés. Produits financiers Les revenus de capitaux mobiliers (intérêts et autres produits financiers) sont actuellement soumis à un prélèvement forfaitaire liquidé au taux actuellement en vigueur de 30% dont 12,80% pour l'impôt sur le revenu et 17,20% pour les prélèvements sociaux. Toutefois les contribuables qui y auraient intérêt peuvent opter pour l'imposition de l'ensemble de leurs revenus mobiliers à l'impôt sur le revenu. Plus-values Les plus-values immobilières réalisées par les particuliers font l'objet, selon les dispositions actuellement en vigueur, d'une imposition au taux de 36,20% dont 19,00% au titre de l'impôt sur le revenu et 17,20% au titre des prélèvements sociaux. Deux cas de figure peuvent se présenter : Premier cas : Cession de parts sociales par un associé En cas de revente des parts, la plus-value imposable est égale à la différence entre la somme revenant au cédant et le prix auquel les parts ont été acquises ou souscrites. Lorsque la vente porte sur des titres détenus depuis plus de cinq ans, la plus-value brute ainsi déterminée est diminuée d'un abattement pour une durée de détention. Deuxième cas : Cession d'immeubles par la société En cas de cession d'un immeuble par la société la plus-value imposable est déterminée par différence entre le prix de vente et le prix d'acquisition de l'immeuble. La plus-value brute ainsi déterminée est diminuée du montant des frais d'acquisition et lorsque la vente porte sur un immeuble détenu depuis plus de cinq ans d'un abattement pour une durée de détention. Taxe sur les plus-values immobilières élevées Une taxe spéciale codifiée à l'article 1609 nonies G du Code général des impôts s'applique aux plus-values immobilières d'un montant supérieur à 50 000 €. Elle est due par les personnes physiques ou les sociétés relevant de l'article 8, 8 bis ou 8ter du Code général des impôts, ainsi que par les contribuables non domiciliés en France soumis au prélèvement prévu à l'article 244 bis A du même Code. Administration, contrôle, information de la société, acteurs La société Dénomination : GRAND PARIS Résidentiels Siège social : 38 avenue de l'Opéra, 75002 PARIS Forme : la société est une société civile à capital variable régie par les articles 1832 et suivants du Code civil, les articles L. 214-86 et suivants du Code monétaire et financier fixant le régime applicable aux sociétés civiles autorisées à réaliser une offre au public de titres financiers, les articles L. 214-119 et R. 214-130 et suivants du Code monétaire et financier, les articles 8 et suivants du Code général des impôts, par tous les textes subséquents et par ses statuts. Statuts : déposés au greffe du tribunal des activités économiques de Paris. Objet social : acquisition et gestion d'un patrimoine immobilier locatif. Durée : 99 ans à compter de son immatriculation au registre du commerce et des sociétés sauf prorogation ou dissolution anticipée décidée par une assemblée générale extraordinaire des associés. Immatriculation au RCS de Paris sous le numéro : 827 728 247 Exercice social : du 1er janvier au 31 décembre. Capital social statutaire : 32 800 000 €. La Société de gestion La gestion de GRAND PARIS Résidentiels est assurée statutairement par la Société Inter Gestion REIM. Date de création : 11 avril 1988 Nationalité : Française Siège social : 38 avenue de l'Opéra, 75002 PARIS Forme juridique : Société Anonyme Capital : 240 000 € Numéro de RCS : Paris 345 004 436 Agrément A.M.F. : GP 12000008 du 29 février 2012 Répartition du capital : • Inter Gestion Groupe 14 997 actions • Diverses personnes physiques : 3 actions Objet social : la Direction et la Gestion de toutes associations foncières, la gestion, l'animation et le développement de toutes sociétés immobilières, gestion de portefeuille pour le compte de tiers. Conseil d'administration : Gilbert Rodriguez : Président du Conseil d'administration Jean- François Talon : Administrateur Emilien Rodriguez : Administrateur Direction de la Société : Gilbert Rodriguez : Président Directeur général Jean-François Talon : Directeur général délégué Emilien Rodriguez : Directeur général délégué Par ailleurs, la Société de gestion : • Est dotée d'un Responsable de la conformité et du contrôle interne, • Est assurée en cas de mise en cause de sa responsabilité professionnelle à l'occasion de la gestion de la SCPI,",
+    "21": "SCPI GRAND PARIS RÉSIDENTIELS 21 STATUTS Elle a, notamment, à ces mêmes fins les pouvoirs suivants lesquels sont énonciatifs et non limitatifs : a) Administration et exploitation de la SCPI • Elle agrée tout nouvel associé dans les conditions prévues par les article 8 et article 10 ci-dessus. • Elle autorise le nantissement des parts sociales. • Elle organise l'acquisition des biens sociaux et, plus généralement, veille à la bonne réalisation des investissements. • Elle crée et installe des agences et bureaux de direction et de gestion partout où cela s'avère nécessaire pour l'exécution de son mandat. • Elle accepte tous baux, conventions d'occupation, cessions de baux et avenants aux dits baux. • Elle administre les biens de la société et la représente vis-à-vis des tiers et de toute administration et dans toutes circonstances et pour tous règlements quels qu'ils soient. • Elle nomme et révoque tous employés de la société, fixe leurs traitements, salaires, remises, gratifications ainsi que les conditions de leur admission et de leur retrait. • Elle engage les dépenses générales d'administration et d'exploitation, et effectue les approvisionnements de toutes sortes. • Elle fait ouvrir, au nom de la société auprès de toutes banques ou établissements de crédit : – Tous comptes de dépôts, comptes courants ou comptes d'avances sur titres ; – tous comptes courants postaux. • Elle donne les ordres de blocage et de déblocage des fonds en banque ; crée, signe, accepte, endosse, et acquitte tous chèques et ordres de virements pour le fonctionnement de ces comptes. • Elle fait et reçoit toute correspondance de la société, se fait remettre tous objets, lettres, caisses, paquets, colis, envois chargés ou non chargés recommandés ou non, et ceux renfermant des valeurs déclarées, se fait remettre tous dépôts, tous mandats postaux, mandats cartes, bons de poste, etc. • Elle contracte toutes assurances, aux conditions qu'elle avise, et consent toute délégation. • Elle élit domicile partout où besoin sera. • Elle touche au nom de la société les sommes qui lui sont dues et paye celles qu'elle doit. • Elle règle et arrête tous comptes avec tous créanciers et débiteurs de la société. • Elle passe tous marchés et contrats. • Elle arrête les comptes qui doivent être soumis aux assemblées générales ordinaires des associés, statue sur toutes propositions à leur faire, et arrête leurs ordres du jour. • Elle convoque les assemblées générales des associés et exécute leurs décisions. • Elle fait tous actes nécessaires et prend toutes mesures qu'elle juge utiles pour l'exercice de ses pouvoirs. • La Société de gestion peut, toutes les fois où elle le juge utile, soumettre à l'approbation des associés des propositions sur un objet déterminé ou les convoquer en assemblée générale. b) Administration du patrimoine immobilier de la SCPI • Elle fait acquérir, par la société, tous immeubles ou droits immobiliers aux prix et conditions qu'elle juge convenables ; elle en fait acquitter les prix. • Elle engage et représente la société dans les AFUL (Association Foncière Urbaine Libre) et/ou ASL (Association Syndicale Libre) ou tout organisme ou administration. • Elle passe tous marchés et contrats. • Elle assure la gestion des biens de la société et donne en location, verbalement ou par écrit, à toutes personnes physiques ou morales, pour le temps et aux prix, charges et conditions qu'elle jugera convenables, tout ou partie des biens sociaux. • Elle procède à toutes résiliations avec ou sans indemnité. • Elle fait exécuter tous travaux et réparations qu'elle estime utiles et en fait acquitter le prix y compris les frais ou honoraires qui leur sont liés. • Elle autorise toutes transactions, tous compromis, acquiescements et désistements, ainsi que toutes subrogations et mainlevées d'inscriptions, saisies, oppositions et autres droits, consent toutes antériorités. • Elle exerce toutes actions judiciaires, tant en demandant qu'en défendant. • Elle peut, au nom de la société, contracter des emprunts, assumer des dettes ou procéder à des acquisitions payables à terme, dans la limite d'un montant qui ne pourra dépasser 50% de la valeur d'expertise des actifs immobiliers majorée des fonds collectés nets de frais non encore investis, • Dans ce but, elle pourra souscrire, aux charges et conditions qu'elle avisera auprès de tous les organismes bancaires ou financiers tous emprunts destinés à financer tout ou partie du prix d'acquisition et des frais, ainsi que tout ou partie des travaux à réaliser dans l'immeuble, et de consentir pour ce faire tous privilèges de vendeur et de prêteur de deniers, toutes hypothèques et plus généralement toutes sûretés. La Société de gestion ne contracte, en sa qualité de Société de gestion et à raison de la gestion, aucune obligation personnelle relative aux engagements de la société, et n'est responsable que de son mandat. ARTICLE 17 Délégation de pouvoirs - Signature sociale La Société de gestion peut déléguer, et sous sa responsabilité, partie de ses attributions et, de ce fait, déléguer tout ou partie de ses rémunérations ou forfaits d'administration à des mandataires sans que ces derniers puissent, à un moment quelconque, exercer d'actions directes à l'encontre de la société ou de ses associés dont ils ne sont pas les préposés. La signature sociale appartient à la Société de gestion, elle peut la déléguer conformément aux dispositions de l'alinéa précédent. ARTICLE 18 Affectation des charges La société règle directement les honoraires de la Société de gestion, les prix d'acquisition des biens et droits immobiliers et le montant des travaux et tous les honoraires techniques, d'architecte, de conception, de bureau d'étude, d'avocats, d'assistance à maîtrise d'ouvrage, ainsi que toutes les autres dépenses, et notamment celles concernant l'enregistrement, les actes notariés, les frais d'expertise et de révision comptable, les frais de Commissaire aux comptes, les honoraires du dépositaire, les frais d'expertise immobilière, les honoraires de recherche de locataires, les frais de contentieux, les primes d'assurances, les frais d'entretien des immeubles, travaux de réparation, d'entretien et de modifications, les dépenses d'eau, de gaz et d'électricité, et en général, toutes les charges des immeubles, les honoraires des gérants d'immeubles, des administrateurs de biens et des syndics de copropriété, les frais entraînés par les conseils de surveillance et les assemblées, les frais d'impression et d'envoi des documents d'information des associés, les frais de tenue des registres associés, la redevance versée à l'Autorité des marchés financiers et toutes les dépenses n'entrant pas dans le cadre de l'administration pure de la société. La Société de gestion supporte les frais de bureau et de personnel nécessaires à l'administration de la société, à la perception des recettes et à la distribution des bénéfices (hors frais d'envoi), à l'exclusion de toutes autres dépenses qui sont prises en ch",
+    "22": "SCPI GRAND PARIS RÉSIDENTIELS 22 STATUTS • Une commission de cession d'actifs assise sur le prix de vente des immeubles et liquidée au taux de 3% TTI. • Une commission de suivi de la réalisation des travaux et assise sur le montant TTC des dépenses affectées à la réalisation des travaux, liquidée au taux de 2,5% TTI. • Une commission de cession ou de mutation de parts : – Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. – Si la cession est réalisée par confrontation des ordres d'achat et de vente, en application des dispositions de l'article L. 214-93 du Code monétaire et financier, la Société de gestion perçoit une commission de 4% TTI du montant revenant au cédant et mis à la charge de l'acquéreur ou de ses ayants droit. Toutes les sommes régulièrement dues à la Société de gestion lui restent définitivement acquises et ne sauraient faire l'objet d'un remboursement quelconque, à quelque moment, ou pour quelque cause qui soient, sauf conventions particulières contraires. La prise en charge de frais supplémentaires devra être soumise à l'agrément de l'assemblée générale des associés, pour couvrir des charges exceptionnelles qui pourraient résulter notamment de mesures législatives ou réglementaires ou de toutes autres circonstances juridiques, économiques ou sociales. La décision de l'assemblée générale devra être prise conformément aux dispositions de l'article L.214-106 du Code monétaire et financier. ARTICLE 20 Conseil de surveillance I - Mission Le conseil de surveillance exerce à tout moment un pouvoir de vérification et de contrôle. Il peut se faire communiquer tout document utile à l'accomplissement de sa mission ou demander à la Société de gestion un rapport sur la situation de la société. Il rend compte de sa mission sous la forme d'un rapport à l'assemblée ordinaire des associés. Il émet un avis sur les projets de résolutions soumis par la Société de gestion aux associés. Le conseil de surveillance ne peut s'immiscer dans la gestion de la société. Il ne dispose d'aucun pouvoir d'autorisation préalable aux opérations relevant de la compétence de la Société de gestion. Il s'abstient de tout acte de direction, d'administration ou de gestion. Il ne peut communiquer directement avec les associés. En cas de défaillance de la Société de gestion, le conseil de surveillance convoque sans délai une assemblée générale devant pourvoir au remplacement de cette dernière. II - Composition Le conseil de surveillance est composé d'un minimum de trois (3) membres et d'un maximum de sept (7) membres, pris parmi les associés et nommés par l'assemblée générale pour une durée de trois ans. Leur mandat expire à l'issue de la réunion de l'assemblée générale statuant sur les comptes du troisième exercice social faisant suite à leur nomination. Il est renouvelable. Préalablement à la convocation de l'assemblée devant désigner les membres du conseil de surveillance la Société de gestion procède à un appel de candidatures. La liste des candidats est présentée dans une résolution. Seuls sont pris en compte les suffrages exprimés par les associés présents et les votes par correspondance. Les candidats élus sont ceux ayant obtenu le plus grand nombre de voix, dans la limite du nombre de postes à pourvoir. En cas de partage des voix, le candidat élu est celui possédant le plus grand nombre de parts ou, si les candidats en présence possèdent le même nombre de parts, le candidat le plus âgé. En cas de vacance de poste par démission ou décès d'un ou plusieurs de ses membres, le conseil de surveillance devra se compléter dans les limites prévues ci-dessus. III - Délibération Le conseil de surveillance nomme un président choisi parmi ses membres pour la durée qu'il détermine dans la limite de celle de son mandat. Le conseil de surveillance se réunit aussi souvent que l'intérêt de la société l'exige sur la convocation soit de son président ou de deux autres de ses membres soit de la Société de gestion. Les réunions ont lieu au siège social ou en tout autre endroit désigné dans la convocation. Sont réputés présents aux réunions du conseil de surveillance les membres qui y participent au moyen d'une conférence audiovisuelle permettant leur identification et garantissant leur participation effective. En cas d'absence du président, le conseil désigne celui de ses membres qui préside la séance. Le secrétariat de la séance est assuré par la Société de gestion ou, en son absence, par un membre désigné par le conseil. Les membres absents peuvent donner mandat pour les représenter à tout autre membre du conseil. Un membre du conseil ne peut accepter plus de deux mandats de représentation. Les délibérations sont prises à la majorité des voix. En cas de partage, celle du président de séance est prépondérante. Le conseil ne peut valablement délibérer que si le nombre des membres présents ou représentés est supérieur à la moitié du nombre total des membres du conseil. Les délibérations sont constatées par des procès-verbaux signés par le président de séance et un autre membre du conseil. Les procès-verbaux de séance mentionnent les noms des membres présents, des membres représentés et des membres absents. Ils sont portés sur un registre spécial tenu au siège de la société. Les copies ou extraits à produire sont certifiés soit par le président ou par deux membres du conseil soit par la Société de gestion. IV - Rémunération Le conseil de surveillance peut bénéficier d'une rémunération forfaitaire en contrepartie de l'exercice de sa mission. Cette rémunération est décidée et son montant fixé annuellement par l'assemblée générale des associés sur proposition de la Société de gestion. La somme allouée est répartie par la Société de gestion entre les membres du conseil au prorata de leur participation effective aux réunions. Les membres du conseil de surveillance ont droit, selon les modalités et dans les limites approuvées par l'assemblée générale des associés, au remboursement des frais de déplacement exposés en vue des réunions du conseil auxquelles ils sont régulièrement convoqués. Le remboursement des frais de déplacement est effectué sur présentation des pièces justificatives de la dépense et sous réserve de leur caractère probant. V - Règlement intérieur Un règlement intérieur approuvé par l'assemblée générale des associés précise notamment les conditions de la désignation et de la révocation des membres du conseil, les modalités selon lesquelles ils se réunissent, les obligations attachées à l'exercice de leur fonction, la répartition entre eux des jetons de présence et les plafonds de remboursement des frais de déplacement. Toute modification du règlement intérieur est soumise à l'approbation de l'assemblée générale des associés. VI - Responsabilité Les membres du conseil d",
+    "24": "SCPI GRAND PARIS RÉSIDENTIELS 24 STATUTS • constater celles-ci, faire toutes les formalités nécessaires, en particulier les modifications corrélatives des statuts. L'assemblée générale extraordinaire délibère valablement sans condition de quorum. Ses décisions sont prises à la majorité des voix exprimées des associés présents ou représentés, ou ayant voté par correspondance. ARTICLE 27 Consultation par correspondance Hors les cas de réunion de l'assemblée générale prévus par la loi, la Société de gestion peut, si elle le juge à propos, consulter les associés par courrier postal ou électronique et les appeler, en-dehors de toute réunion, à formuler une décision collective par vote écrit. Afin de provoquer ce vote, la Société de gestion adresse à chaque associé par courrier électronique ou à défaut par lettre simple le texte des résolutions proposées et y ajoute s'il y a lieu tous renseignements, documents et explications utiles. Les associés ont un délai de vingt jours, à compter du jour d'envoi de la consultation faite par la Société de gestion pour faire connaître par écrit leur vote. Les décisions collectives prises par voie de consultation écrite sont réputées valablement adoptées dès lors qu'elles réunissent la majorité des voix exprimées des associés ayant répondu. Aucun quorum n'est requis. La Société de gestion ou toute personne par elle désignée, rédige le procès- verbal de la consultation auquel elle annexe les résultats du vote. Les copies ou extraits de ces procès-verbaux à produire en justice ou ailleurs sont signés par la Société de gestion. ARTICLE 28 Communication de documents La Société de gestion établit chaque année un rapport sur l'activité de la société, qui est soumis à l'approbation de l'assemblée générale annuelle. L'avis et la lettre de convocation aux assemblées générales, ou le courrier électronique de convocation pour les associés l'ayant accepté, indiquent notamment l'ordre du jour et le texte des projets de résolutions. Les associés ayant accepté de recourir à la télécommunication électronique peuvent également voter par voie électronique dans le respect des dispositions législatives et réglementaires applicables ainsi que dans les conditions fixées par la Société de gestion et transmises aux associés. Le vote exprimé avant l'assemblée par ce moyen électronique sera considéré comme un écrit opposable à tous. La lettre de convocation est, en outre, accompagnée des documents prévus par la loi, dont, notamment les rapports de la Société de gestion, du conseil de surveillance, du Commissaire aux comptes, ainsi que, s'il s'agit de l'assemblée générale ordinaire annuelle, des comptes. À compter de la convocation de l'assemblée, les mêmes documents sont tenus à la disposition des associés, au siège social. Tout associé, assisté ou non d'une personne de son choix, a le droit, à toute époque, de prendre par lui-même ou par mandataire et au siège social, connaissance des documents suivants concernant les trois derniers exercices : compte de résultat, état du patrimoine ainsi que tableaux d'analyse de la variation des capitaux propres, inventaires, rapports soumis aux assemblées, feuilles de présence et procès-verbaux de ces assemblées, les rémunérations globales de gestion ainsi que de surveillance si les organes de surveillance sont rémunérés. Sauf en ce qui concerne l'inventaire, le droit de prendre connaissance comporte celui de prendre copie. Inventaire - affectation et repartition des resultats ARTICLE 29 Exercice social L'exercice social a une durée de douze mois. Il commence le premier janvier pour se terminer le trente et un décembre. Toutefois à titre exceptionnel, le premier exercice social courra du jour de l'immatriculation de la société au Registre du commerce et des sociétés jusqu'au 31 décembre 2017. ARTICLE 30 Établissement des comptes sociaux À la clôture de chaque exercice, la Société de gestion dresse l'inventaire des divers éléments de l'actif et du passif existant à cette date. Elle dresse également les comptes annuels conformément aux dispositions du Titre II du livre II du Code de commerce. En outre, elle établit un état annexe aux comptes qui retrace la valeur comptable, la valeur de réalisation et la valeur de reconstitution de la société. Les comptes annuels sont établis suivant les règles et principes comptables définis par le règlement de l'Autorité des normes comptables n° 2016-03 du 15 avril 2016, tels qu'intégrés dans le plan comptable applicable aux S.C.P.I., et les textes modificatifs éventuels. Les primes d'émission versées par les souscripteurs pourront être affectées en totalité, ou en partie, à l'amortissement total ou partiel du poste « frais à répartir sur plusieurs exercices » et notamment les frais de constitution de la société, les frais d'augmentation de capital, les commissions de placement dues à la Société de gestion, les frais d'acquisition des immobilisations locatives et éventuellement les dépréciations d'immeubles. Les comptes sont établis chaque année selon les mêmes formes et les mêmes méthodes d'évaluation que les années précédentes. Toutefois, la Société de gestion peut proposer à l'assemblée générale ordinaire des modifications dans la présentation des comptes dans les conditions prévues par le Code monétaire et financier. ARTICLE 31 Affectation et répartition des résultats Les produits nets de l'exercice, déduction faite des frais généraux et autres charges de la société, y compris toutes provisions et éventuellement les amortissements constituent les bénéfices nets. Le bénéfice distribuable est constitué par le bénéfice de l'exercice mentionné à l'article L.123-13 du Code de commerce, diminué des pertes antérieures et augmenté des reports bénéficiaires. Le bénéfice ainsi déterminé, diminué des sommes que l'assemblée générale a décidé de mettre en réserve ou de reporter à nouveau, est distribué aux associés proportionnellement au nombre de parts possédées par chacun d'eux en tenant compte des dates d'entrée en jouissance. La Société de gestion a qualité pour décider dans les conditions prévues par la loi, de répartir des acomptes à valoir sur le dividende et pour fixer le montant et la date de la répartition. Le dividende et éventuellement les acomptes sur dividende sont acquis au titulaire de la part inscrit sur les registres de la société au dernier jour du trimestre civil précédant la distribution. Les pertes éventuelles sont supportées par les associés, proportionnellement au nombre de part possédées par chacun d'eux, et dans les conditions prévues à l'ARTICLE 13 des statuts. Dissolution – Liquidation ARTICLE 32 Dissolution La société est dissoute par l'arrivée du terme fixé par les statuts, sauf prorogation en vertu d'une décision de l'assemblée générale extraordinaire."
+   }
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/17459227666810aace5eedeIGFCGRP_DRPNov2022CC.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/17459227666810aace5eedeIGFCGRP_DRPNov2022CC.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 73746,
+   "sha256": "d89d1605a6a01cf2a4b78e9184867ae6285b2450d3014b3b079152629470e57f",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 17.3 (Macintosh)",
+    "producer": "Adobe PDF Library 16.0.7",
+    "creationDate": "D:20221109135659+01'00'",
+    "modDate": "D:20250429122308+02'00'"
+   },
+   "page_count": 2,
+   "text_characters": 12468,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "grand paris residentiels",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Raison Sociale : . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . N° de SIREN : iii iii iii Forme juridique : . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Adresse du siège social : . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . CP : iiiii Ville : . . . . . . . . . . . . . . . . . . . . ",
+   "dates": [
+    "13/09/2024",
+    "27 avril 2016"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/pg_remuneration.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/pg_remuneration.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 57169,
+   "sha256": "6453405b7f9728036d6e8b652b082dae1f1e63075286a3926e8766818865d13e",
+   "metadata": {
+    "format": "PDF 1.4",
+    "title": "Microsoft Word - Politique de gestion de rémunération (site internet).docx",
+    "creator": "Word",
+    "producer": "macOS Version 10.14.6 (assemblage 18G9323) Quartz PDFContext",
+    "creationDate": "D:20220722140618Z00'00'",
+    "modDate": "D:20220722140618Z00'00'"
+   },
+   "page_count": 1,
+   "text_characters": 1569,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "identity_where": null,
+   "title_excerpt": "Politique de rémunération Conformément aux dispositions de l'article 319-10 du règlement général de l'Autorité des Marchés Financiers, Inter Gestion REIM dispose d'une politique de rémunération des dirigeants et des collaborateurs conforme aux exigences de la directive AIFM, aux recommandations de l'ESMA, et au principe de proportionnalité. Inter Gestion REIM a conscience que la gestion des risque",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/compliance_127714_2_2_Proce_dure_CI.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/compliance_127714_2_2_Proce_dure_CI.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 127278,
+   "sha256": "93b3679e374a190e39a68c1c271936bf27b6c70631d179bc1e8c9e0cc00be690",
+   "metadata": {
+    "format": "PDF 1.4",
+    "title": "2.2_Procédure_CI",
+    "author": "Lucie BRUNEAU",
+    "creator": "PowerPoint",
+    "producer": "macOS Version 15.5 (assemblage 24F74) Quartz PDFContext",
+    "creationDate": "D:20250703114614Z",
+    "modDate": "D:20261104104917+01'00'"
+   },
+   "page_count": 8,
+   "text_characters": 15127,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "identity_where": null,
+   "title_excerpt": "Position Recommandation AMF DOC-2011-24 Référence : 2.2 Type de document : Procédure Date de création : 07/2025 N° de version : V1 Date de la dernière mise à jour : 07/2025 Historique des modifications Périmètre La procédure s'applique à tous les collaborateurs d'Inter Gestion REIM, les SCPI gérées, les associés, les partenaires, les prestataires intervenant sur des processus LCB/FT. Procédure de ",
+   "dates": [
+    "19 décembre 2012"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/compliance_163042_6_POLITIQUE_DE_TRAITEMENT_DES_RECLAMATIONS.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/compliance_163042_6_POLITIQUE_DE_TRAITEMENT_DES_RECLAMATIONS.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 160886,
+   "sha256": "a39ffda942398d54df064693d714eb2f81e46c4949ce7fc754c3db6339c4b048",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creationDate": "D:20241121100313Z",
+    "modDate": "D:20261104104900+01'00'"
+   },
+   "page_count": 2,
+   "text_characters": 3416,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "identity_where": null,
+   "title_excerpt": "Position Recommandation AMF DOC-2011-24 Date de la dernière mise à jour : Novembre 2024 Politique de traitement des réclamations Références règlementaires Politique I. Définition d'une réclamation On entend par réclamation, une déclaration actant du mécontentement du client envers le professionnel quel que soit l'interlocuteur auprès duquel elle est formulée. Elle peut émaner de toute personne aya",
+   "dates": [
+    "Novembre 2024"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_GPRBulletin_Trimestriel2024_S2.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_GPRBulletin_Trimestriel2024_S2.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1054330,
+   "sha256": "2ec3a7a4624be8463fa94a916317b84bf8b44ba52f303b53a4e480c0d9b12db0",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 20.2 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20250416213746+02'00'",
+    "modDate": "D:20250416213748+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 16656,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "grand paris residentiels",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Éditorial La course aux hauts rendements de la pierre papier ? Après la cascade de baisses de prix de part de SCPI survenues en 2023, et la division par deux de la collecte, sont apparues en 2024 des SCPI caracolant en tête des classements avec des taux de rendement de plus de 7% et 8%, sans oublier les taux annualisés frisant les 10% ! Comment interpréter ce phénomène dans un marché éprouvé par l",
+   "dates": [
+    "01/01/2025",
+    "01/07/2024",
+    "18 février 2021",
+    "30/06/2025",
+    "31/12/2024"
+   ],
+   "fee_clauses": [
+    {
+     "page": 1,
+     "label": "frais de souscription",
+     "snippet": " professionnels conduit à répondre qu'il n'en est rien car le plus important dans l'expression « pierre papier » est le mot pierre. En effet, qu'elles soient à frais de souscription zéro, ou à droits d'entrée classiques, les SCPI ont en commun de supporter des frais de gestion et d'exploitation représentant de 20% à 25% des loyers qu'elles encaissent. Dès lors, pour servir un TD de 8%, il faudrait détenir des actifs offrant un rendement brut minimum de 10%. Investir les fonds collectés auprès des épargnants dans des opérations offrant des niveaux de rendement aussi élevés n'est pas seulement un exercice extrêmement difficile, c'est aussi un exercice à haut risque… Bon ou mauvais plan, la course à l'affichage d'un haut rendement est un enjeu de communication pour SCPI nouvelles, reposant su",
+     "percents": [
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": "à 25% des loyers qu'elles encaissent. Dès lo"
+      },
+      {
+       "raw": "25%",
+       "value": 25.0,
+       "tax_hint": null,
+       "after": "des loyers qu'elles encaissent. Dès lors, po"
+      },
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": null,
+       "after": ", il faudrait détenir des actifs offrant un r"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ". Investir les fonds collectés auprès des épa"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 1,
+     "label": "frais de gestion",
+     "snippet": "re papier » est le mot pierre. En effet, qu'elles soient à frais de souscription zéro, ou à droits d'entrée classiques, les SCPI ont en commun de supporter des frais de gestion et d'exploitation représentant de 20% à 25% des loyers qu'elles encaissent. Dès lors, pour servir un TD de 8%, il faudrait détenir des actifs offrant un rendement brut minimum de 10%. Investir les fonds collectés auprès des épargnants dans des opérations offrant des niveaux de rendement aussi élevés n'est pas seulement un exercice extrêmement difficile, c'est aussi un exercice à haut risque… Bon ou mauvais plan, la course à l'affichage d'un haut rendement est un enjeu de communication pour SCPI nouvelles, reposant sur l'annonce d'un taux de rendement construit en ayant recours à la durée de l'exercice de l'année de ",
+     "percents": [
+      {
+       "raw": "20%",
+       "value": 20.0,
+       "tax_hint": null,
+       "after": "à 25% des loyers qu'elles encaissent. Dès lo"
+      },
+      {
+       "raw": "25%",
+       "value": 25.0,
+       "tax_hint": null,
+       "after": "des loyers qu'elles encaissent. Dès lors, po"
+      },
+      {
+       "raw": "8%",
+       "value": 8.0,
+       "tax_hint": null,
+       "after": ", il faudrait détenir des actifs offrant un r"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ". Investir les fonds collectés auprès des épa"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "Commission de souscription",
+     "snippet": "MODALITÉS DE SOUSCRIPTION Prix de souscription 200 € Minimum de souscription 1 part (lors de la première souscription) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT encaissés et des produits financiers nets de frais de gestion) CONDITIONS DE CESSION Conditions de retrait des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueu",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI Commission de gestion 12% TTI (des produ"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI (des produits locatifs HT encaissés et d"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "Commission de gestion",
+     "snippet": "TION Prix de souscription 200 € Minimum de souscription 1 part (lors de la première souscription) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT encaissés et des produits financiers nets de frais de gestion) CONDITIONS DE CESSION Conditions de retrait des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, ",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI Commission de gestion 12% TTI (des produ"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI (des produits locatifs HT encaissés et d"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "frais de gestion",
+     "snippet": "ai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT encaissés et des produits financiers nets de frais de gestion) CONDITIONS DE CESSION Conditions de retrait des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € par part. • Lorsqu'il n'y a pas de contrepartie aux dernières demandes de retrait, le retr",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI Commission de gestion 12% TTI (des produ"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI (des produits locatifs HT encaissés et d"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "frais de souscription",
+     "snippet": "ouscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € par part. • Lorsqu'il n'y a pas de contrepartie aux dernières demandes de retrait, le retrait s'effectue par diminution du capital. La valeur de retrait établie par la Société de gestion ne peut être supérieure à la valeur de réalisation ni inférieure à celle-ci diminuée de 10% sauf autorisation de l'AMF. La Société de gestion tient au siège social de la société un registre sur lequel est inscrit, par ordre chronologique de réception, les demandes de retrait notifiées à la Société de gestion par lettre recommandée avec avis de réception. Les parts remboursées sont annulées. La cession de parts peut ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "sauf autorisation de l'AMF. La Société de ge"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "1": "Éditorial La course aux hauts rendements de la pierre papier ? Après la cascade de baisses de prix de part de SCPI survenues en 2023, et la division par deux de la collecte, sont apparues en 2024 des SCPI caracolant en tête des classements avec des taux de rendement de plus de 7% et 8%, sans oublier les taux annualisés frisant les 10% ! Comment interpréter ce phénomène dans un marché éprouvé par la crise de l'immobilier de bureau et dont le rendement moyen s'établit à 4,52% ? Est-ce l'avènement d'une nouvelle génération de fonds allant bouleverser durablement le marché ? Une connaissance approfondie des marchés immobiliers professionnels conduit à répondre qu'il n'en est rien car le plus important dans l'expression « pierre papier » est le mot pierre. En effet, qu'elles soient à frais de souscription zéro, ou à droits d'entrée classiques, les SCPI ont en commun de supporter des frais de gestion et d'exploitation représentant de 20% à 25% des loyers qu'elles encaissent. Dès lors, pour servir un TD de 8%, il faudrait détenir des actifs offrant un rendement brut minimum de 10%. Investir les fonds collectés auprès des épargnants dans des opérations offrant des niveaux de rendement aussi élevés n'est pas seulement un exercice extrêmement difficile, c'est aussi un exercice à haut risque… Bon ou mauvais plan, la course à l'affichage d'un haut rendement est un enjeu de communication pour SCPI nouvelles, reposant sur l'annonce d'un taux de rendement construit en ayant recours à la durée de l'exercice de l'année de lancement du fonds, la rapidité d'acquisition des premiers actifs en regard du délai de jouissance, le nombre d'associés servis pleinement, ou encore l'utilisation du levier d'emprunt. Une démarche opposée à notre vision de la gestion de nos fonds dont l'objectif est, sur le temps long, de rechercher la régularité des revenus et la valorisation du prix de la part. Gilbert Rodriguez Président Directeur général Inter Gestion REIM est une Société de gestion de portefeuille indépendante qui développe une offre d'épargne en SCPI construite sur la qualité de sa sélection des meilleurs actifs du marché. Notre engagement depuis 35 ans consiste à rendre l'investissement immobilier accessible au plus grand nombre. Investir sur l'une de nos solutions, c'est bénéficier de l'expertise de plus de 60 collaborateurs animés par de solides convictions. N°17 2ÈME SEMESTRE 2024 | VALIDITÉ DU 01/01/2025 AU 30/06/2025 BULLETIN D'INFORMATION",
+    "3": "MODALITÉS DE SOUSCRIPTION Prix de souscription 200 € Minimum de souscription 1 part (lors de la première souscription) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT encaissés et des produits financiers nets de frais de gestion) CONDITIONS DE CESSION Conditions de retrait des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € par part. • Lorsqu'il n'y a pas de contrepartie aux dernières demandes de retrait, le retrait s'effectue par diminution du capital. La valeur de retrait établie par la Société de gestion ne peut être supérieure à la valeur de réalisation ni inférieure à celle-ci diminuée de 10% sauf autorisation de l'AMF. La Société de gestion tient au siège social de la société un registre sur lequel est inscrit, par ordre chronologique de réception, les demandes de retrait notifiées à la Société de gestion par lettre recommandée avec avis de réception. Les parts remboursées sont annulées. La cession de parts peut s'effectuer soit directement par le porteur de parts (cession de gré à gré), soit par l'intermédiaire de la Société de gestion (article L.214-93 du Code Monétaire et Financier). Cession de gré à gré Les conditions sont librement débattues entre les parties. La cession de parts sociales doit être constatée par un acte authentique ou sous signature privée. Pour être opposable à la société, la cession doit, conformément à l'article 1690 du Code civil, lui être signifiée par un acte extra- judiciaire aux frais de l'acheteur. Néanmoins, le cessionnaire peut être également saisi par l'acceptation du transport faite par la société dans un acte authentique. La cession peut aussi faire l'objet d'une déclaration de transfert signée par le vendeur et par l'acheteur. La société peut exiger que la signature des parties soit certifiée par un officier public. Pour être opposable aux tiers, la cession doit avoir été suivie de l'accomplissement de ces formalités et publications requises par les dispositions réglementaires. Si l'acquéreur n'est pas associé, la cession est soumise à l'agrément préalable du gérant qui résulte soit d'une notifica- tion, soit du défaut de réponse dans un délai de deux mois à compter de la demande. Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. Cession par l'intermédiaire de la Société de gestion La cession de parts peut également s'effectuer par le moyen d'un ordre de vente adressé à la société de gestion qui en assure le traitement confor- mément aux dispositions de l'article L.214-93 du code monétaire et financier. La périodicité de la confrontation est fixée au trimestre étant observé que le prix d'exécution est établi le dernier jour ouvré du trimestre à 12h00. Si ce jour est chômé, le premier jour ouvré suivant est retenu. Pour participer à la confrontation trimestrielle, les ordres doivent être inscrits sur le registre au plus tard deux jours avant la fixation du prix d'exécution à 16h00. Période (date de demande) Retraits (Nb de part) Valeur de retrait 2S 2024 745 176 € DATE DE JOUISSANCE Les parts sont, dès leur création, soumises à toutes les dispositions statutaires. À partir de leur date d'entrée en jouissance, elles sont entièrement assimilées aux parts créées. Les parts ou fractions de parts souscrites porteront jouissance au 1er jour du 6ème mois qui suit la date d'encaissement des fonds correspondants à la souscription ou aux prélèvements programmés. FISCALITÉ - VALEUR IFI Revenus imposables La SCPI est une société civile transparente dont les résultats sont imposés entre les mains des porteurs de parts dans la catégorie des revenus fonciers au prorata de leurs droits dans la société. Si l'associé est une personne morale assujettie à l'impôt sur les sociétés, le revenu imposable est déterminé conformément aux règles applicables aux bénéfices industriels et commerciaux. Plus-values Les plus-values réalisées par les particuliers font l'objet d'une imposition au taux actuellement en vigueur de 36,20%, dont 19% au titre de l'impôt sur le revenu et 17,2% au titre des prélèvements sociaux. La plus-value brute (prix de cession, prix de revient frais et droits compris) est diminuée d'un abattement qui, en fonction de la durée de détention, est de 1,65% par an au-delà de la 5e jusqu'à la 21e année, 4% au terme de la 22e année (1,60%) et 9% pour chaque année au-delà de la 22e année, soit une exonération totale au bout de 30 ans. La taxe sur les plus-values immobilières est assise sur les plus-values imposables d'un montant supérieur à 50 000 euros. Les taux du barème de 2% à 6% sont applicables au montant total de la plus-value imposable correspondante réalisée par le cédant, et cela dès le premier euro de plus-value imposable. Valeur IFI : Les parts de SCPI entrent dans le champ d'appli- cation de l'IFI. La valeur IFI correspond à la valeur de retrait au 31 décembre de l'année écoulée pondérée par le ratio immobilier correspondant au rapport entre la valeur vénale des actifs immobiliers et la valeur estimée totale des actifs du bilan. Ainsi, la valeur IFI 2024 est de 146,93 €. VALEUR DE RÉALISATION 2024 La valeur de réalisation d'une part est égale à 161,76 €. Pour rappel, par décision de l'assemblée générale extraordinaire des associés par correspondance en date du 18 février 2021, la valeur nominale de la part a été divisée par 5 à compter de cette date. MARCHE SECONDAIRE DES PARTS Le marché secondaire est régi par les disposi- tions de la note d'information et des statuts en application de l'article L.214-93 du CMF. DONNÉES ASSOCIÉS En cas de modification de vos coordonnées personnelles (changement de RIB, d'adresse…) : merci de nous adresser votre demande signée accompagnée de la photocopie recto/verso de votre carte d'identité ou de votre passeport en cours de validité et du justificatif relatif à ce changement (RIB – justificatif de domicile) par mail à l'adresse suivante : contact@inter-gestion. com ou par voie postale à l'adresse de la Société de gestion : 38, avenue de l'Opéra, 75002 Paris. AVERTISSEMENT Avant de prendre sa décision, l'investisseur doit se souvenir que le placement en parts de SCPI : • Ne saurait être entrepris que dans une perspective de plusieurs années – dix ans au minimum – délai nécessaire pour que la valorisation des parts ait compensé au moins partiellement les charges init"
+   }
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_GPRBulletin_Semestriel1S20241.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_GPRBulletin_Semestriel1S20241.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 576183,
+   "sha256": "207f58b52a1347cfa7d93103698e29fb6d287d6320b3a5b6903a4b894e87739c",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.5 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20240926164243+02'00'",
+    "modDate": "D:20240926164243+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 15894,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "grand paris residentiels",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1ER SEMESTRE 2024 validité du 01/07/2024 au 31/12/2024 ÉDITORIAL SITUATION AU 30/06/2024 Nombre de parts émises 61 985,25 Capitalisation 12 210 586 € Collecte du semestre 650 € Prix de souscription 200 € /PART BULLETIN D'INFORMATION N°16 Nombre d'associés 249 Au 01/01/2024 243 Au 30/06/2024 L'arrivée à terme du premier semestre est le bon moment pour dresser un bilan à mi-année du marché des SCPI ",
+   "dates": [
+    "01/01/2024",
+    "01/07/2024",
+    "18 février 2021",
+    "30/06/2024",
+    "31/12/2024"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Commission de souscription",
+     "snippet": "ONS GÉNÉRALES MODALITÉS DE SOUSCRIPTION Prix de souscription 200 € Minimum de souscription 1 part (lors de la première souscription) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT et des produits financiers nets de frais de gestion) CONDITION DE CESSION Condition de retraits des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI Commission de gestion 12% TTI (des produ"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI (des produits locatifs HT et des produit"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "Commission de gestion",
+     "snippet": "TION Prix de souscription 200 € Minimum de souscription 1 part (lors de la première souscription) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT et des produits financiers nets de frais de gestion) CONDITION DE CESSION Condition de retraits des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € ",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI Commission de gestion 12% TTI (des produ"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI (des produits locatifs HT et des produit"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "frais de gestion",
+     "snippet": "ption) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT et des produits financiers nets de frais de gestion) CONDITION DE CESSION Condition de retraits des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € par part. • Lorsqu'il n'y a pas de contrepartie aux dernières demandes de retrait, le retra",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI Commission de gestion 12% TTI (des produ"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI (des produits locatifs HT et des produit"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "frais de souscription",
+     "snippet": "ouscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € par part. • Lorsqu'il n'y a pas de contrepartie aux dernières demandes de retrait, le retrait s'effectue par diminution du capital. La valeur de retrait établie par la Société de gestion ne peut être supérieure à la valeur de réalisation ni inférieure à celle-ci diminuée de 10% sauf autorisation de l'AMF. La Société de gestion tient au siège social de la société un registre sur lequel est inscrit, par ordre chronologique de réception, les demandes de retrait notifiées à la Société de gestion par lettre recommandée avec avis de réception. Les parts remboursées sont annulées. La cession de parts peut ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "sauf autorisation de l'AMF. La Société de ge"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "3": "INFORMATIONS GÉNÉRALES MODALITÉS DE SOUSCRIPTION Prix de souscription 200 € Minimum de souscription 1 part (lors de la première souscription) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT et des produits financiers nets de frais de gestion) CONDITION DE CESSION Condition de retraits des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € par part. • Lorsqu'il n'y a pas de contrepartie aux dernières demandes de retrait, le retrait s'effectue par diminution du capital. La valeur de retrait établie par la Société de gestion ne peut être supérieure à la valeur de réalisation ni inférieure à celle-ci diminuée de 10% sauf autorisation de l'AMF. La Société de gestion tient au siège social de la société un registre sur lequel est inscrit, par ordre chronologique de réception, les demandes de retrait notifiées à la Société de gestion par lettre recommandée avec avis de réception. Les parts remboursées sont annulées. La cession de parts peut s'effectuer soit directement par le porteur de parts (cession de gré à gré), soit par l'intermédiaire de la Société de gestion (article L.214-93 du Code monétaire et financier). Cession de gré à gré Les conditions sont librement débattues entre les parties. La cession de parts sociales doit être constatée par un acte authentique ou sous signature privée. Pour être opposable à la société, la cession doit, conformément à l'article 1690 du Code civil, lui être signifiée par un acte extrajudiciaire aux frais de l'acheteur. Néanmoins, le cessionnaire peut être également saisi par l'acceptation du transport faite par la société dans un acte authentique. La cession peut aussi faire l'objet d'une déclaration de transfert signée par le vendeur et par l'acheteur. La société peut exiger que la signature des parties soit certifiée par un officier public. Pour être opposable aux tiers, la cession doit avoir été suivie de l'accomplissement de ces formalités et publications requises par les dispositions réglementaires. Si l'acquéreur n'est pas associé, la cession est soumise à l'agrément préalable du gérant qui résulte soit d'une notification, soit du défaut de réponse dans un délai de deux mois à compter de la demande. Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. Cession par l'intermédiaire de la Société de gestion La cession de parts peut également s'effectuer par le moyen d'un ordre de vente adressé à la société de gestion qui en assure le traitement conformément aux dispositions de l'article L.214- 93 du code monétaire et financier. La périodicité de la confrontation est fixée au trimestre étant observé que le prix d'exécution est établi le dernier jour ouvré du trimestre à 12h00. Si ce jour est chômé, le premier jour ouvré suivant est retenu. Pour participer à la confrontation trimestrielle, les ordres doivent être inscrits sur le registre au plus tard deux jours avant la fixation du prix d'exécution à 16h00. Période (date de demande) Retraits (Nb de part) Valeur de retrait (euros) 1S2024 740 176 € DATE DE JOUISSANCE Les parts sont, dès leur création, soumises à toutes les dispositions statutaires. À partir de leur date d'entrée en jouissance, elles sont entièrement assimilées aux parts créées. Les parts ou fractions de parts souscrites porteront jouissance au 1er jour du 6ème mois qui suit la date d'encaissement des fonds correspondants à la souscription ou aux prélèvements programmés. FISCALITÉ - VALEUR IFI Revenus imposables La SCPI est une société civile transparente dont les résultats sont imposés entre les mains des porteurs de parts dans la catégorie des revenus fonciers au prorata de leurs droits dans la société. Si l'associé est une personne morale assujettie à l'impôt sur les sociétés, le revenu imposable est déterminé conformément aux règles applicables aux bénéfices industriels et commerciaux. Plus-values Les plus-values réalisées par les particuliers font l'objet d'une imposition au taux actuellement en vigueur de 36,20%, dont 19% au titre de l'impôt sur le revenu et 17,2% au titre des prélèvements sociaux. La plus-value brute (prix de cession, prix de revient frais et droits compris) est diminuée d'un abattement qui, en fonction de la durée de détention, est de 1,65% par an au-delà de la 5e jusqu'à la 21e année, 4% au terme de la 22e année (1,60%) et 9% pour chaque année au-delà de la 22e année, soit une exonération totale au bout de 30 ans. La taxe sur les plus-values immobilières est assise sur les plus-values imposables d'un montant supérieur à 50 000 euros. Les taux du barème de 2% à 6% sont applicables au montant total de la plus-value imposable correspondante réalisée par le cédant, et cela dès le premier euro de plus- value imposable. Valeur IFI Les parts de SCPI entrent dans le champ d'application de l'IFI. La valeur IFI correspond à la valeur de retrait au 31 décembre de l'année écoulée pondérée par le ratio immobilier correspondant au rapport entre la valeur vénale des actifs immobiliers et la valeur estimée totale des actifs du bilan. Ainsi, la valeur IFI 2024 est de 146,93 €. VALEUR DE RÉALISATION 2022 La valeur de réalisation d'une part est égale à 161,76 €. Pour rappel, par décision de l'assemblée générale extraordinaire des associés par correspondance en date du 18 février 2021, la valeur nominale de la part a été divisée par 5 à compter de cette date. MARCHÉ SECONDAIRE DES PARTS Le marché secondaire est régi par les dispositions de la note d'information et des statuts en application de l'article L.214-93 du CMF. DONNÉES ASSOCIÉS En cas de modification de vos coordonnées personnelles (changement de RIB, d'adresse…) : merci de nous adresser votre demande signée accompagnée de la photocopie recto/ verso de votre carte d'identité ou de votre passeport en cours de validité et du justificatif relatif à ce changement (RIB – justificatif de domicile) par mail à l'adresse suivante : contact@inter-gestion.com ou par voie postale à l'adresse de la Société de gestion : 38, avenue de l'Opéra, 75002 Paris. AVERTISSEMENT Avant de prendre sa décision, l'investisseur doit se souvenir que le placement en parts de SCPI : • Ne saurait être entrepris que dans une perspective de plusieurs années – dix ans au minimum – délai nécessaire pour que la valorisation des parts ait compensé au moins partiellement les cha"
+   }
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_GPRBulletin_Semestriel2S20233.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_GPRBulletin_Semestriel2S20233.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1139813,
+   "sha256": "12f87ecfb694edf817c27d5706b3b43700ac980140a942ed775cb6f789652feb",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.3 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20240318160724+01'00'",
+    "modDate": "D:20240318160725+01'00'"
+   },
+   "page_count": 4,
+   "text_characters": 15737,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "grand paris residentiels",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "2E SEMESTRE 2023 validité du 01/01/2024 au 30/06/2024 ÉDITORIAL SITUATION AU 31/12/2023 Nombre de parts émises 61 985,25 Capitalisation 12 395 800 € Collecte du semestre 3 564 € Prix de souscription 200 € /PART BULLETIN D'INFORMATION - N°15 Nombre d'associés 249 Au 01/07/2023 249 Au 31/12/2023 Le ralentissement s'est poursuivi pour le marché de l'immobilier résidentiel qui a terminé l'année en net",
+   "dates": [
+    "01/01/2024",
+    "01/07/2023",
+    "18 février 2021",
+    "30/06/2024",
+    "31/12/2023"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Commission de souscription",
+     "snippet": "ONS GÉNÉRALES MODALITÉS DE SOUSCRIPTION Prix de souscription 200 € Minimum de souscription 1 part (lors de la première souscription) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT et des produits financiers nets de frais de gestion) CONDITION DE CESSION Condition de retraits des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI Commission de gestion 12% TTI (des produ"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI (des produits locatifs HT et des produit"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "Commission de gestion",
+     "snippet": "TION Prix de souscription 200 € Minimum de souscription 1 part (lors de la première souscription) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT et des produits financiers nets de frais de gestion) CONDITION DE CESSION Condition de retraits des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € ",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI Commission de gestion 12% TTI (des produ"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI (des produits locatifs HT et des produit"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "frais de gestion",
+     "snippet": "ption) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT et des produits financiers nets de frais de gestion) CONDITION DE CESSION Condition de retraits des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € par part. • Lorsqu'il n'y a pas de contrepartie aux dernières demandes de retrait, le retra",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI Commission de gestion 12% TTI (des produ"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI (des produits locatifs HT et des produit"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "frais de souscription",
+     "snippet": "ouscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € par part. • Lorsqu'il n'y a pas de contrepartie aux dernières demandes de retrait, le retrait s'effectue par diminution du capital. La valeur de retrait établie par la Société de gestion ne peut être supérieure à la valeur de réalisation ni inférieure à celle-ci diminuée de 10% sauf autorisation de l'AMF. La Société de gestion tient au siège social de la société un registre sur lequel est inscrit, par ordre chronologique de réception, les demandes de retrait notifiées à la Société de gestion par lettre recommandée avec avis de réception. Les parts remboursées sont annulées. La cession de parts peut ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "sauf autorisation de l'AMF. La Société de ge"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "3": "INFORMATIONS GÉNÉRALES MODALITÉS DE SOUSCRIPTION Prix de souscription 200 € Minimum de souscription 1 part (lors de la première souscription) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT et des produits financiers nets de frais de gestion) CONDITION DE CESSION Condition de retraits des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € par part. • Lorsqu'il n'y a pas de contrepartie aux dernières demandes de retrait, le retrait s'effectue par diminution du capital. La valeur de retrait établie par la Société de gestion ne peut être supérieure à la valeur de réalisation ni inférieure à celle-ci diminuée de 10% sauf autorisation de l'AMF. La Société de gestion tient au siège social de la société un registre sur lequel est inscrit, par ordre chronologique de réception, les demandes de retrait notifiées à la Société de gestion par lettre recommandée avec avis de réception. Les parts remboursées sont annulées. La cession de parts peut s'effectuer soit directement par le porteur de parts (cession de gré à gré), soit par l'intermédiaire de la Société de gestion (article L.214-93 du Code monétaire et financier). Cession de gré à gré Les conditions sont librement débattues entre les parties. La cession de parts sociales doit être constatée par un acte authentique ou sous signature privée. Pour être opposable à la société, la cession doit, conformément à l'article 1690 du Code civil, lui être signifiée par un acte extrajudiciaire aux frais de l'acheteur. Néanmoins, le cessionnaire peut être également saisi par l'acceptation du transport faite par la société dans un acte authentique. La cession peut aussi faire l'objet d'une déclaration de transfert signée par le vendeur et par l'acheteur. La société peut exiger que la signature des parties soit certifiée par un officier public. Pour être opposable aux tiers, la cession doit avoir été suivie de l'accomplissement de ces formalités et publications requises par les dispositions réglementaires. Si l'acquéreur n'est pas associé, la cession est soumise à l'agrément préalable du gérant qui résulte soit d'une notification, soit du défaut de réponse dans un délai de deux mois à compter de la demande. Si la cession ou la mutation de parts n'intervient pas dans le cadre des dispositions de l'article L. 214-93 du Code monétaire et financier, cette dernière perçoit à titre de frais de dossier une commission égale à 90 € TTI à la charge de chaque acquéreur, cessionnaire ou ayant droit. Cession par l'intermédiaire de la Société de gestion La cession de parts peut également s'effectuer par le moyen d'un ordre de vente adressé à la société de gestion qui en assure le traitement conformément aux dispositions de l'article L.214- 93 du code monétaire et financier. La périodicité de la confrontation est fixée au trimestre étant observé que le prix d'exécution est établi le dernier jour ouvré du trimestre à 12h00. Si ce jour est chômé, le premier jour ouvré suivant est retenu. Pour participer à la confrontation trimestrielle, les ordres doivent être inscrits sur le registre au plus tard deux jours avant la fixation du prix d'exécution à 16h00. Période (date de demande) Retraits (Nb de part) Valeur de retrait (euros) 2S2023 90 176 € DATE DE JOUISSANCE Les parts sont, dès leur création, soumises à toutes les dispositions statutaires. À partir de leur date d'entrée en jouissance, elles sont entièrement assimilées aux parts créées. Les parts ou fractions de parts souscrites porteront jouissance au 1er jour du 6ème mois qui suit la date d'encaissement des fonds correspondants à la souscription ou aux prélèvements programmés. FISCALITÉ - VALEUR IFI Revenus imposables La SCPI est une société civile transparente dont les résultats sont imposés entre les mains des porteurs de parts dans la catégorie des revenus fonciers au prorata de leurs droits dans la société. Si l'associé est une personne morale assujettie à l'impôt sur les sociétés, le revenu imposable est déterminé conformément aux règles applicables aux bénéfices industriels et commerciaux. Plus-values Les plus-values réalisées par les particuliers font l'objet d'une imposition au taux actuellement en vigueur de 36,20%, dont 19% au titre de l'impôt sur le revenu et 17,2% au titre des prélèvements sociaux. La plus-value brute (prix de cession, prix de revient frais et droits compris) est diminuée d'un abattement qui, en fonction de la durée de détention, est de 1,65% par an au-delà de la 5e jusqu'à la 21e année, 4% au terme de la 22e année (1,60%) et 9% pour chaque année au-delà de la 22e année, soit une exonération totale au bout de 30 ans. La taxe sur les plus-values immobilières est assise sur les plus-values imposables d'un montant supérieur à 50 000 euros. Les taux du barème de 2% à 6% sont applicables au montant total de la plus-value imposable correspondante réalisée par le cédant, et cela dès le premier euro de plus- value imposable. Valeur IFI Les parts de SCPI entrent dans le champ d'application de l'IFI. La valeur IFI correspond à la valeur de retrait au 31 décembre de l'année écoulée (811,84 € par part divisés par 5 depuis l'AGE du 18 février 2021 soit 162,37 € par part à compter de cette date) pondérée par le ratio immobilier correspondant au rapport entre la valeur vénale des actifs immobiliers et la valeur estimée totale des actifs du bilan. Ainsi, la valeur IFI 2023 est de 166,13 €. VALEUR DE RÉALISATION 2022 La valeur de réalisation d'une part est égale à 172,73€. Pour rappel, par décision de l'assemblée générale extraordinaire des associés par correspondance en date du 18 février 2021, la valeur nominale de la part a été divisée par 5 à compter de cette date. MARCHÉ SECONDAIRE DES PARTS Le marché secondaire est régi par les dispositions de la note d'information et des statuts en application de l'article L.214-93 du CMF. DONNÉES ASSOCIÉS En cas de modification de vos coordonnées personnelles (changement de RIB, d'adresse…) : merci de nous adresser votre demande signée accompagnée de la photocopie recto/verso de votre carte d'identité ou de votre passeport en cours de validité et du justificatif relatif à ce changement (RIB – justificatif de domicile) par mail à l'adresse suivante : contact@inter-gestion. com ou par voie postale à l'adresse de la Société de gestion : 2, rue de la Paix, 75002 Paris. AVERTISSEMENT Avant de prendre sa décision, l'investisseur doit se souvenir que le placement en parts de SCPI : • Ne saurait être entrepris que dans une perspective de plusieurs années – dix ans a"
+   }
+  },
+  {
+   "url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_GPRBulletin_Semestriel1S2023.pdf",
+   "final_url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_GPRBulletin_Semestriel1S2023.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 5979485,
+   "sha256": "05246fbfdbd34d7619de05080182b35ee93ea43ec25b204dd36266d1a2492ddb",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 18.4 (Macintosh)",
+    "producer": "Adobe PDF Library 17.0",
+    "creationDate": "D:20230721152418+02'00'",
+    "modDate": "D:20230822170601+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 12473,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "grand paris residentiels",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1ER SEMESTRE 2023 validité du 01/07/2023 au 31/12/2023 ÉDITORIAL SITUATION AU 30/06/2023 Nombre de parts émises 61 985,25 Capitalisation 12 395 800 € Collecte du semestre 3 564 € Prix de souscription 200 € /PART BULLETIN D'INFORMATION - N°14 Nombre d'associés 241 Au 01/01/2023 248 Au 30/06/2023 Avec la dégradation de la conjoncture depuis 2022, la hausse des taux d'intérêt a entraîné une décompres",
+   "dates": [
+    "01/01/2023",
+    "01/07/2023",
+    "13 juin 2023",
+    "18 février 2021",
+    "30/06/2023",
+    "31/12/2023"
+   ],
+   "fee_clauses": [
+    {
+     "page": 1,
+     "label": "commission de souscription",
+     "snippet": "e reconstitution correspond à la somme qu'un investisseur devrait débourser pour reconstituer, à l'identique, le patrimoine d'une SCPI, frais de transaction et commission de souscription inclus. (2) Rapport annuel GRAND PARIS Résidentiels 2022",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "frais de souscription",
+     "snippet": "ouscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € par part. • Lorsqu'il n'y a pas de contrepartie aux dernières demandes de retrait, le retrait s'effectue par diminution du capital. La valeur de retrait établie par la Société de gestion ne peut être supérieure à la valeur de réalisation ni inférieure à celle-ci diminuée de 10% sauf autorisation de l'AMF. La Société de gestion tient au siège social de la société un registre sur lequel est inscrit, par ordre chronologique de réception, les demandes de retrait notifiées à la Société de gestion par lettre recommandée avec avis de réception. Les parts remboursées sont annulées. La cession de parts peut ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "sauf autorisation de l'AMF. La Société de ge"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "Commission de souscription",
+     "snippet": "acquéreur, cessionnaire ou ayant droit. Prix de souscription 200 € Minimum de souscription 1 part (lors de la première souscription) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT et des produits financiers nets de frais de gestion) INFORMATIONS GÉNÉRALES MODALITÉS DE SOUSCRIPTION S1 2023",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI Commission de gestion 12% TTI (des produ"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI (des produits locatifs HT et des produit"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "Commission de gestion",
+     "snippet": "oit. Prix de souscription 200 € Minimum de souscription 1 part (lors de la première souscription) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT et des produits financiers nets de frais de gestion) INFORMATIONS GÉNÉRALES MODALITÉS DE SOUSCRIPTION S1 2023",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI Commission de gestion 12% TTI (des produ"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI (des produits locatifs HT et des produit"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 3,
+     "label": "frais de gestion",
+     "snippet": "ption) Délai de jouissance 6 mois Commission de souscription 12% TTI Commission de gestion 12% TTI (des produits locatifs HT et des produits financiers nets de frais de gestion) INFORMATIONS GÉNÉRALES MODALITÉS DE SOUSCRIPTION S1 2023",
+     "percents": [
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": null,
+       "after": "TTI Commission de gestion 12% TTI (des produ"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "HT",
+       "after": "TTI (des produits locatifs HT et des produit"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "1": "1ER SEMESTRE 2023 validité du 01/07/2023 au 31/12/2023 ÉDITORIAL SITUATION AU 30/06/2023 Nombre de parts émises 61 985,25 Capitalisation 12 395 800 € Collecte du semestre 3 564 € Prix de souscription 200 € /PART BULLETIN D'INFORMATION - N°14 Nombre d'associés 241 Au 01/01/2023 248 Au 30/06/2023 Avec la dégradation de la conjoncture depuis 2022, la hausse des taux d'intérêt a entraîné une décompression des taux de rendement immobiliers qui touche toutes les typologies d'actifs. L'ajustement des valeurs vénales qui en découle n'a pas été complètement acté par un marché où l'offre et la demande résistent à se rencontrer, où vendeurs et investisseurs affichent un attentisme qui pèse sur des volumes d'investissement nettement en baisse depuis le début de l'année La correction du prix des actifs immobiliers pourrait-elle conduire certaines SCPI à baisser le prix de souscription de la part ? La bonne façon d'anticiper une baisse éventuelle, consiste à vérifier si le prix de la part est supérieur à sa valeur de reconstitution (1), et affiche ainsi une surcote. Ce calcul appliqué à GRAND PARIS Résidentiels fait ressortir une décote de 3,61% (2), qui place le prix de souscription de la part en vigueur à son bon niveau. La Société de gestion (1) \u0007La valeur de reconstitution correspond à la somme qu'un investisseur devrait débourser pour reconstituer, à l'identique, le patrimoine d'une SCPI, frais de transaction et commission de souscription inclus. (2) Rapport annuel GRAND PARIS Résidentiels 2022",
+    "3": "Valeur IFI Les parts de SCPI entrent dans le champ d'application de l'IFI. La valeur IFI correspond à la valeur de retrait au 31 décembre de l'année écoulée (811,84 € par part divisés par 5 depuis l'AGE du 18 février 2021 soit 162,37 € par part à compter de cette date) pondérée par le ratio immobilier correspondant au rapport entre la valeur vénale des actifs immobiliers et la valeur estimée totale des actifs du bilan. Ainsi, la valeur IFI 2023 est de 166,13 €. VALEUR DE RÉALISATION 2022 La valeur de réalisation d'une part est égale à 172,73€. Pour rappel, par décision de l'assemblée générale extraordinaire des associés par correspondance en date du 18 février 2021, la valeur nominale de la part a été divisée par 5 à compter de cette date. MARCHÉ SECONDAIRE DES PARTS Le marché secondaire est régi par les dispositions de la note d'information et des statuts en application de l'article L.214-93 du CMF. DONNÉES ASSOCIÉS En cas de modification de vos coordonnées personnelles (changement de RIB, d'adresse…) : merci de nous adresser votre demande signée accompagnée de la photocopie recto/verso de votre carte d'identité ou de votre passeport en cours de validité et du justificatif relatif à ce changement (RIB – justificatif de domicile) par mail à l'adresse suivante : contact@inter-gestion.com ou par voie postale à l'adresse de la Société de gestion : 2, rue de la Paix, 75002 Paris. AVERTISSEMENT Avant de prendre sa décision, l'investisseur doit se souvenir que le placement en parts de SCPI : • Ne saurait être entrepris que dans une perspective de plusieurs années – dix ans au minimum – délai nécessaire pour que la valorisation des parts ait compensé au moins partiellement les charges initiales inhérentes à l'acquisition d'immeubles et également les frais liés à la souscription des parts. • Demeure un placement à caractère immobilier, investi plus particulièrement dans l'immobilier résidentiel, tertiaire et commercial. En conséquence, la régularité de ses résultats (revenus et évolution du prix de la part) est directement dépendante de la conjoncture économique. • Est soumis à la transparence fiscale qui impose le résultat de la société entre les mains des associés au prorata de leur participation dans la société. Ainsi, le revenu imposable peut-il, dans certains cas, être supérieur aux revenus effectivement distribués par la SCPI. La Société de gestion transmet aux associés les éléments nécessaires à la déclaration annuelle des revenus. • Ce produit ne prévoyant pas de protection contre les aléas de marché, vous pourriez perdre tout ou partie de votre investissement. • La Société de gestion ne garantit aucun objectif de rentabilité. Les revenus potentiels peuvent varier à la hausse comme à la baisse ainsi que la valeur de la part. Cession par l'intermédiaire de la Société de gestion La cession de parts peut également s'effectuer par le moyen d'un ordre de vente adressé à la société de gestion qui en assure le traitement conformément aux dispositions de l'article L.214-93 du Code monétaire et financier. La périodicité de la confrontation est fixée au trimestre étant observé que le prix d'exécution est établi le dernier jour ouvré du trimestre à 12h00. Si ce jour est chômé, le premier jour ouvré suivant est retenu. Pour participer à la confrontation trimestrielle, les ordres doivent être inscrits sur le registre au plus tard deux jours avant la fixation du prix d'exécution à 16h00. Dans ce cas, la société de gestion percevra une commission de 4% TTI du montant revenant au cédant et mis à la charge de l'acquéreur ou de ses ayants droits. Période (date de demande) Retraits (Nb de part) Valeur de retrait (euros) S1 2023 304,5 166,40€ Vie sociale : L'assemblée générale mixte de votre SCPI s'est tenue le 13 juin 2023. L'ensemble des résolutions présentées a été adopté (résolutions 1 à 17). DATE DE JOUISSANCE Les parts sont, dès leur création, soumises à toutes les dispositions statutaires. À partir de leur date d'entrée en jouissance, elles sont entièrement assimilées aux parts créées. Les parts ou fractions de parts souscrites porteront jouissance au 1er jour du 6ème mois qui suit la date d'encaissement des fonds correspondants à la souscription ou aux prélèvements programmés. FISCALITÉ - VALEUR IFI Revenus imposables La SCPI est une société civile transparente dont les résultats sont imposés entre les mains des porteurs de parts dans la catégorie des revenus fonciers au prorata de leurs droits dans la société. Si l'associé est une personne morale assujettie à l'impôt sur les sociétés, le revenu imposable est déterminé conformément aux règles applicables aux bénéfices industriels et commerciaux. Plus-values Les plus-values réalisées par les particuliers font l'objet d'une imposition au taux actuellement en vigueur de 36,20%, dont 19% au titre de l'impôt sur le revenu et 17,2% au titre des prélèvements sociaux. La plus-value brute (prix de cession, prix de revient frais et droits compris) est diminuée d'un abattement qui, en fonction de la durée de détention, est de 1,65% par an au-delà de la 5e jusqu'à la 21e année, 4% au terme de la 22e année (1,60%) et 9% pour chaque année au-delà de la 22e année, soit une exonération totale au bout de 30 ans. La taxe sur les plus-values immobilières est assise sur les plus-values imposables d'un montant supérieur à 50 000 euros. Les taux du barème de 2% à 6% sont applicables au montant total de la plus-value imposable correspondante réalisée par le cédant, et cela dès le premier euro de plus-value imposable. CONDITION DE CESSION Condition de retraits des associés Tout associé a le droit de se retirer de la société conformément à la clause de variabilité du capital. Le remboursement des parts s'effectue sur la base de la valeur de retrait fixée par la Société de gestion selon notamment les modalités suivantes : • Il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait. Dans ce cas, la valeur de retrait est égale au prix de souscription en vigueur moins les frais de souscription, soit 176 € par part. • Lorsqu'il n'y a pas de contrepartie aux dernières demandes de retrait, le retrait s'effectue par diminution du capital. La valeur de retrait établie par la Société de gestion ne peut être supérieure à la valeur de réalisation ni inférieure à celle-ci diminuée de 10% sauf autorisation de l'AMF. La Société de gestion tient au siège social de la société un registre sur lequel est inscrit, par ordre chronologique de réception, les demandes de retrait notifiées à la Société de gestion par lettre recommandée avec avis de réception. Les parts remboursées sont annulées. La cession de parts peut s'effectuer soit directement par le porteur de parts (cession de gré à gré), soit par l'intermédiaire de la Société de gestion (article L.214-93 du Code monétaire et financier). Cession de gré à gré La cession de parts sociales doit être constatée par un acte authentique ou sous signature privée. Pour être opposable à la soc"
+   }
+  }
+ ],
+ "candidate_count": 18,
+ "summary": {
+  "dic_identity_ok": 1,
+  "note_identity_ok": 6,
+  "fee_clauses": 54,
+  "errors": 0
+ }
+}

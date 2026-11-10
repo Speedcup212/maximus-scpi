@@ -1,0 +1,762 @@
+{
+ "slug": "transitions-europe",
+ "name": "Transitions Europe",
+ "manager": "Arkéa REIM",
+ "crawl": [
+  {
+   "url": "https://www.arkea-reim.com/immobilier/pa_89367/scpi-transitions-europe",
+   "depth": 0,
+   "final_url": "https://www.arkea-reim.com/immobilier/pa_89367/scpi-transitions-europe",
+   "http_status": 200,
+   "base_href": "https://www.arkea-reim.com/",
+   "pdf_links": 49
+  },
+  {
+   "url": "https://www.arkea-reim.com/immobilier/fme_58821/informations-reglementaires",
+   "depth": 1,
+   "final_url": "https://www.arkea-reim.com/immobilier/fme_58821/informations-reglementaires",
+   "http_status": 200,
+   "base_href": "https://www.arkea-reim.com/",
+   "pdf_links": 10
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://www.arkea-reim.com/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_note_d_information.pdf",
+   "final_url": "https://www.arkea-reim.com/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_note_d_information.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3626847,
+   "sha256": "6d1ff2deb77b7c0f2494574d9189a3eabdccf5bd500a88663e8da09b2ea023b9",
+   "metadata": {
+    "format": "PDF 1.4",
+    "producer": "macOS Version 27.0.1 (assemblage 26A434) Quartz PDFContext; modified using iText® Core 7.2.6 (AGPL version) ©2000-2024 Apryse Group NV; modified using SignServer",
+    "creationDate": "D:20261026132244Z00'00'",
+    "modDate": "D:20261026132821Z"
+   },
+   "page_count": 33,
+   "text_characters": 102662,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "transitions europe",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "",
+   "dates": [],
+   "fee_clauses": [
+    {
+     "page": 2,
+     "label": "Commission de souscription",
+     "snippet": "3 - FRAIS ............................................................................................................................................... 22 1. Commission de souscription ............................................................................................. 22 2. Commission de cession de parts ...................................................................................... 22 3. Commission de gestion .................................................................................................... 23 4. Commission sur acquisitions ............................................................................................ 24 5. Commission sur arbitrages ............................................................................................... 24 6. Commi",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission de cession",
+     "snippet": ".......................... 22 1. Commission de souscription ............................................................................................. 22 2. Commission de cession de parts ...................................................................................... 22 3. Commission de gestion .................................................................................................... 23 4. Commission sur acquisitions ............................................................................................ 24 5. Commission sur arbitrages ............................................................................................... 24 6. Commission de suivi et de pilotage des travaux ............................................................... 24 CHAPITRE 4 - FONCT",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission de gestion",
+     "snippet": "............................. 22 2. Commission de cession de parts ...................................................................................... 22 3. Commission de gestion .................................................................................................... 23 4. Commission sur acquisitions ............................................................................................ 24 5. Commission sur arbitrages ............................................................................................... 24 6. Commission de suivi et de pilotage des travaux ............................................................... 24 CHAPITRE 4 - FONCTIONNEMENT DE LA SOCIETE ........................................................................................... 25 1. Ré",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Commission de suivi",
+     "snippet": "......................... 24 5. Commission sur arbitrages ............................................................................................... 24 6. Commission de suivi et de pilotage des travaux ............................................................... 24 CHAPITRE 4 - FONCTIONNEMENT DE LA SOCIETE ........................................................................................... 25 1. Régime des assemblées générales .................................................................................. 25 2. Répartition des bénéfices et provision pour gros entretien ............................................... 26 3. Conventions réglementées ............................................................................................... 26 4. Démarchage et publicité .",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 15,
+     "label": "commission de souscription",
+     "snippet": " son expertise par l'expert immobilier ; • de la valeur de reconstitution de la Société, c'est-à-dire de la valeur de réalisation de la Société augmentée de la commission de souscription et de l'estimation des frais et droits qui seraient nécessaires pour l'acquisition du patrimoine de la Société validé in fine en interne par la Société de Gestion. Les experts immobiliers établissent une actualisation annuelle et une expertise quinquennale de chacun des immeubles composant le patrimoine de la Société. Ces valeurs sont validées en interne par la Société de Gestion. La Société peut également détenir des avances en compte courant, des dépôts et liquidités ainsi que des instruments financiers à terme destinés à couvrir un risque de taux ou de change. La valeur de ces placements est communiquée",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "commission de souscription",
+     "snippet": "e la prime d'émission. Le prix de souscription d'une part se décompose de la manière suivante : • Valeur nominale : 150 € • Prime d'émission : 54 € incluant la commission de souscription • Prix de souscription d'une part : 204 €",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 17,
+     "label": "commission de souscription",
+     "snippet": "ouvelle demande que lorsque la précédente demande a été totalement servie ou annulée. c) Prix Le prix de retrait est égal au prix de souscription diminué de la commission de souscription hors taxes. En cas de baisse du prix de retrait, la Société de Gestion informe par lettre recommandée avec demande d'avis de réception les associés ayant demandé leur retrait au plus tard la veille de la date d'effet. Cette information peut être fournie par envoi recommandé électronique satisfaisant aux conditions mentionnées à l'article L.100 du Code des postes et des communications électroniques (dénommé « envoi recommandé électronique ») aux conditions suivantes : • l'associé à qui cette information est fournie s'est vu proposer le choix entre la fourniture de l'information par lettre recommandée avec a",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de souscription",
+     "snippet": " retraits, le remboursement s'effectue sur la base de la valeur de retrait qui ne pourra pas être supérieur au prix de souscription diminué du montant HT de la commission de souscription. e) Suspension du retrait Conformément aux dispositions de l'article L.214-93 du CMF, lorsque la Société de Gestion constate que des demandes de retraits représentant au moins 10 % des parts de la Société n'ont pas été satisfaites dans un délai de 12 mois après leur enregistrement, elle en informe l'AMF. Dans les deux mois à compter de cette information, la Société de Gestion convoque une assemblée générale extraordinaire et lui propose la cession partielle ou totale du patrimoine et toute autre mesure appropriée. L'une des mesures appropriées est, en application des dispositions de l'article 422-205 du RG",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "des parts de la Société n'ont pas été satisf"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 20,
+     "label": "commission de souscription",
+     "snippet": "site internet de la Société de Gestion :www.arkea-reim.com Ordres d'achat • un formulaire d'ordre d'achat complété et signé, indiquant le prix maximum d'achat, commission de souscription, frais et droits de mutation, calculés au taux actuel de 5%, compris, • le paiement du prix correspondant : virement, prélèvement, ou chèque à l'ordre de la Société. A la différence des ordres de vente, les ordres d'achat peuvent indiquer une durée de validité. Le donneur d'ordre peut également préciser que son ordre ne donnera lieu à transaction que s'il est satisfait en totalité. Les formulaires d'ordre d'achat (ou leur modificatif) sont adressés à la Société de Gestion, ou à tout intermédiaire autorisé, par lettre recommandée avec accusé de réception. L'encaissement du prix par la Société vaudra confirm",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": ", compris, • le paiement du prix correspondan"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 22,
+     "label": "Commission de souscription",
+     "snippet": "de mesures permettant d'assurer la compétitivité d'Arkéa Real Estate et d'ONATA au regard des objectifs poursuivis (benchmark, évaluation périodique, etc.). 1. Commission de souscription La commission de souscription (due lors de la souscription de parts nouvelles) s'élève à 10 % HT maximum (soit 12% TTC) du prix de souscription des parts, dont le montant est inclus dans la prime d'émission. Cette commission a pour objet de rémunérer la recherche de nouveaux souscripteurs. 2. Commission de cession de parts Sur le marché secondaire : lorsque la cession de parts s'opère avec intervention de la Société de Gestion, par confrontation des ordres inscrits sur le registre des ordres d'achat et de vente de parts. La commission due par",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 12% TTC) du prix de souscri"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix de souscription des parts, dont"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 22,
+     "label": "commission de souscription",
+     "snippet": "r la compétitivité d'Arkéa Real Estate et d'ONATA au regard des objectifs poursuivis (benchmark, évaluation périodique, etc.). 1. Commission de souscription La commission de souscription (due lors de la souscription de parts nouvelles) s'élève à 10 % HT maximum (soit 12% TTC) du prix de souscription des parts, dont le montant est inclus dans la prime d'émission. Cette commission a pour objet de rémunérer la recherche de nouveaux souscripteurs. 2. Commission de cession de parts Sur le marché secondaire : lorsque la cession de parts s'opère avec intervention de la Société de Gestion, par confrontation des ordres inscrits sur le registre des ordres d'achat et de vente de parts. La commission due par",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 12% TTC) du prix de souscri"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix de souscription des parts, dont"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 22,
+     "label": "Commission de cession",
+     "snippet": "scription des parts, dont le montant est inclus dans la prime d'émission. Cette commission a pour objet de rémunérer la recherche de nouveaux souscripteurs. 2. Commission de cession de parts Sur le marché secondaire : lorsque la cession de parts s'opère avec intervention de la Société de Gestion, par confrontation des ordres inscrits sur le registre des ordres d'achat et de vente de parts. La commission due par",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 23,
+     "label": "Commission de gestion",
+     "snippet": "pas de commission mais des frais de dossiers forfaitaires qui s'élèvent à 100€ TTC par cessionnaire, quel que soit le nombre de parts transférées ou cédées. 3. Commission de gestion La commission perçue par la Société de Gestion s'élève à 10% HT maximum (soit 12% TTC) de la totalité des produits locatifs exigibles et encaissés hors taxes et hors charges refacturées aux locataires et des produits financiers nets et assimilés courus et perçus par la Société. En cas de détention par la Société de parts ou actions de sociétés détenant principalement des immeubles ou des droits réels portant sur des immeubles, l'assiette de la commission de gestion définie à l'alinéa précédent inclut également le montant des produits locatifs encaissés hors taxes et hors charges refacturées aux locataires et de",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum (soit 12% TTC) de la totalité des"
+      },
+      {
+       "raw": "12%",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) de la totalité des produits locatifs ex"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 23,
+     "label": "commission de gestion",
+     "snippet": " détention par la Société de parts ou actions de sociétés détenant principalement des immeubles ou des droits réels portant sur des immeubles, l'assiette de la commission de gestion définie à l'alinéa précédent inclut également le montant des produits locatifs encaissés hors taxes et hors charges refacturées aux locataires et des produits financiers nets et assimilés perçus par les sociétés détenues par la Société. Le montant de ces revenus est calculé au prorata de la participation détenue par la Société. Sont couverts par cette commission les frais relatifs à la gestion de la Société et à la gestion locative du patrimoine, notamment : • gestion administrative et financière de la Société (fund management immobilier), à savoir l'établissement et la conduite de la stratégie d'investissement",
+     "percents": [],
+     "basis_tags": [
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 23,
+     "label": "commission de gestion",
+     "snippet": ". Dans le cas d'un tel recours la Société de Gestion sera redevable de la rémunération du prestataire. La Société de Gestion pourra rétrocéder une partie de la commission de gestion qu'elle aura perçue de la Société aux distributeurs au titre des prestations de services fournies aux souscripteurs des parts de la Société dans la durée, dans la mesure où ces prestations contribuent à l'amélioration du service rendu aux souscripteurs dans le temps.",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "Commission de suivi",
+     "snippet": "ment de tous les frais exposés pour les études, recherches et démarches en vue de la cession d'un immeuble dépendant du patrimoine immobilier de la Société. 6. Commission de suivi et de pilotage des travaux La Société de Gestion percevra une commission de suivi et pilotage des travaux réalisés sur le patrimoine immobilier de la Société, et percevra dans ce cas une commission d'un montant maximum de 5% HT du montant des travaux effectivement réalisés (soit 6% TTC). La Société de Gestion pourra avoir recours à un prestataire pour assurer la mission de suivi et de pilotage des travaux. Dans le cas d'un tel recours la Société de Gestion sera redevable de la rémunération du prestataire.",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT du montant des travaux effectivement réal"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC). La Société de Gestion pourra avoir rec"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "commission de suivi",
+     "snippet": "la cession d'un immeuble dépendant du patrimoine immobilier de la Société. 6. Commission de suivi et de pilotage des travaux La Société de Gestion percevra une commission de suivi et pilotage des travaux réalisés sur le patrimoine immobilier de la Société, et percevra dans ce cas une commission d'un montant maximum de 5% HT du montant des travaux effectivement réalisés (soit 6% TTC). La Société de Gestion pourra avoir recours à un prestataire pour assurer la mission de suivi et de pilotage des travaux. Dans le cas d'un tel recours la Société de Gestion sera redevable de la rémunération du prestataire.",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT du montant des travaux effectivement réal"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC). La Société de Gestion pourra avoir rec"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 28,
+     "label": "frais d'acquisition",
+     "snippet": "éalisées par la Société Plus-value sur vente d'immeubles : elle résulte de la différence entre le prix de vente et le prix d'achat, celui-ci étant augmenté des frais d'acquisition et d'un abattement de 15% pour travaux. A cette différence est ensuite appliqué un abattement comme suit : i. Pour le calcul de l'impôt sur le revenu : 6 % pour chaque année de détention au- delà de la cinquième et jusqu'à la vingt- et-unième ; 4 % au terme de la vingt-deuxième année de détention. ii.Pour le calcul du montant des prélèvements sociaux : 1,65 % pour chaque année de détention au-delà de la cinquième et jusqu'à la vingt-et-unième ; 1,60 % pour la vingt-deuxième année de détention ; 9 % pour chaque année au-delà de la vingt-deuxième. La plus-value après application des abattements précités est soumise",
+     "percents": [
+      {
+       "raw": "15%",
+       "value": 15.0,
+       "tax_hint": null,
+       "after": "pour travaux. A cette différence est ensuite"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "pour chaque année de détention au- delà de l"
+      },
+      {
+       "raw": "4 %",
+       "value": 4.0,
+       "tax_hint": null,
+       "after": "au terme de la vingt-deuxième année de déten"
+      },
+      {
+       "raw": "1,65 %",
+       "value": 1.65,
+       "tax_hint": null,
+       "after": "pour chaque année de détention au-delà de la"
+      },
+      {
+       "raw": "1,60 %",
+       "value": 1.6,
+       "tax_hint": null,
+       "after": "pour la vingt-deuxième année de détention ;"
+      },
+      {
+       "raw": "9 %",
+       "value": 9.0,
+       "tax_hint": null,
+       "after": "pour chaque année au-delà de la vingt-deuxiè"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "2": "SCPI TRANSITIONS EUROPE l NOTE D'INFORMATION 2 SOMMAIRE INTRODUCTION ......................................................................................................................................................... 3 DÉFINITIONS ........................................................................................................................................................ 3 AVERTISSEMENT ................................................................................................................................................. 3 1. Renseignements sur les fondateurs ................................................................................... 5 2. Capital social ...................................................................................................................... 5 3. Politique d'investissement de la Société ............................................................................. 6 4. Facteurs de risque ............................................................................................................ 12 5. Responsabilité .................................................................................................................. 13 CHAPITRE 1 - CONDITIONS GENERALES DE SOUSCRIPTION DES PARTS .................................................... 14 1. Composition du dossier de souscription ........................................................................... 14 2. Modalités de versement du montant des souscriptions .................................................... 14 3. Parts sociales ................................................................................................................... 14 4. Minimum de souscription .................................................................................................. 14 5. Lieu de souscription et de versement ............................................................................... 14 6. Jouissance des parts ........................................................................................................ 15 7. Conditions de souscription ................................................................................................ 15 8. Restriction à l'égard des « US PERSON » et obligations FATCA .................................... 16 9. Garantie du traitement équitable des investisseurs .......................................................... 16 CHAPITRE 2 - MODALITES DE SORTIE ................................................................................................................ 17 1. Retrait des associés ......................................................................................................... 17 2. Cession des parts de gré à gré ......................................................................................... 18 3. Autres mutations sans intervention de la Société de Gestion .......................................... 19 4. Cessions sur le marché secondaire .................................................................................. 19 CHAPITRE 3 - FRAIS ............................................................................................................................................... 22 1. Commission de souscription ............................................................................................. 22 2. Commission de cession de parts ...................................................................................... 22 3. Commission de gestion .................................................................................................... 23 4. Commission sur acquisitions ............................................................................................ 24 5. Commission sur arbitrages ............................................................................................... 24 6. Commission de suivi et de pilotage des travaux ............................................................... 24 CHAPITRE 4 - FONCTIONNEMENT DE LA SOCIETE ........................................................................................... 25 1. Régime des assemblées générales .................................................................................. 25 2. Répartition des bénéfices et provision pour gros entretien ............................................... 26 3. Conventions réglementées ............................................................................................... 26 4. Démarchage et publicité ................................................................................................... 26 5. Régime fiscal des associés .............................................................................................. 26 CHAPITRE 5 - ADMINISTRATION / DIRECTION / CONTROLE ET INFORMATION ............................................ 31 1. La Société ......................................................................................................................... 31 2. Administration ................................................................................................................... 31 3. Fonds propres règlementaires .......................................................................................... 32 4. Conseil de surveillance ..................................................................................................... 32 5. Commissaire aux comptes ............................................................................................... 33 6. Expert immobilier .............................................................................................................. 33 7. Dépositaire ........................................................................................................................ 33 8. Evaluateur Interne Indépendant ....................................................................................... 33 9. Prestataires immobiliers ................................................................................................... 33 10. Informations ...................................................................................................................... 33",
+    "15": "SCPI TRANSITIONS EUROPE l NOTE D'INFORMATION 15 6. Jouissance des parts Afin de tenir compte des délais d'investissement des capitaux collectés pour l'acquisition des immeubles, l'entrée en jouissance des parts est fixée au premier jour du sixième mois suivant la date d'enregistrement de la souscription avec le paiement du prix de la souscription. Ces informations sont communiquées au public dans chaque bulletin semestriel d'information et sont mentionnées sur le bulletin de souscription. 7. Conditions de souscription a) Modalités de calcul du prix de souscription de la part Le prix de souscription de la part est fixé par la Société de Gestion dans les conditions légales en vigueur en tenant compte : • de la valeur de réalisation de la Société, c'est-à-dire de l'actif net de la Société prenant en compte la valeur vénale du patrimoine, telle qu'elle résulte de son expertise par l'expert immobilier ; • de la valeur de reconstitution de la Société, c'est-à-dire de la valeur de réalisation de la Société augmentée de la commission de souscription et de l'estimation des frais et droits qui seraient nécessaires pour l'acquisition du patrimoine de la Société validé in fine en interne par la Société de Gestion. Les experts immobiliers établissent une actualisation annuelle et une expertise quinquennale de chacun des immeubles composant le patrimoine de la Société. Ces valeurs sont validées en interne par la Société de Gestion. La Société peut également détenir des avances en compte courant, des dépôts et liquidités ainsi que des instruments financiers à terme destinés à couvrir un risque de taux ou de change. La valeur de ces placements est communiquée par les banques émettrices à la Société de Gestion. Sur le fondement, d'une part, des valeurs d'expertise ou valeurs vénales des immeubles établies par l'expert immobilier et, d'autre part, de la valeur des instruments financiers constituant la trésorerie courante de la Société, la Société de Gestion détermine la valeur comptable, la valeur de réalisation et la valeur de reconstitution de la Société. La valeur comptable, la valeur de réalisation et la valeur de reconstitution de la Société sont portées à la connaissance des associés de la Société dans le rapport annuel de gestion établi par la Société de Gestion. Tout écart de plus de 10% entre le prix de souscription de la part ainsi déterminé par la Société de Gestion et la valeur de reconstitution de la Société ramenée à la part devra être justifié par la Société de Gestion et faire l'objet d'une notification à l'AMF. Ces règles de détermination du prix de souscription de la part ne pourront être modifiées que par de nouvelles dispositions légales ou réglementaires. b) Prix de souscription d'une part L'émission de parts nouvelles se réalise à la valeur nominale augmentée de la prime d'émission. Le prix de souscription d'une part se décompose de la manière suivante : • Valeur nominale : 150 € • Prime d'émission : 54 € incluant la commission de souscription • Prix de souscription d'une part : 204 €",
+    "17": "SCPI TRANSITIONS EUROPE l NOTE D'INFORMATION 17 CHAPITRE 2 - MODALITES DE SORTIE L'associé qui souhaite se retirer en tout ou partie de la Société dispose des possibilités suivantes : • le retrait : c'est-à-dire demander le remboursement de ses parts à la Société de Gestion. Le retrait intervient en contrepartie d'une souscription correspondante, ou • céder de gré à gré ses parts sans intervention de la Société de Gestion à des conditions librement fixées entre le cédant et le cessionnaire Il convient de noter qu'en cas de suspension de la variabilité du capital (tel que visée au paragraphe IV ci-dessous), les associés pourront céder leurs parts sur le marché secondaire par confrontation des ordres d'achat et de vente. 1. Retrait des associés a) Dispositions générales Conformément aux dispositions régissant les sociétés à capital variable, tout associé a le droit de se retirer à tout moment de la Société, partiellement ou en totalité. b) Modalités de retrait Le capital social effectif peut être réduit par le retrait total ou partiel d'un ou plusieurs associés de la Société, ce droit s'exerçant dans les limites fixées à l'article 7 des statuts. Les demandes de retraits sont régies par les dispositions des articles 422-218 à 422-220 du RG AMF. Ces demandes sont adressées à la Société de Gestion par lettre recommandée avec accusé de réception et sont inscrites par ordre chronologique d'arrivée sur le registre des demandes de retrait prévu à cet effet à l'article 422- 218 du RG AMF. Elles seront satisfaites par ordre d'inscription dans les limites de la clause de variabilité. Un associé ne peut passer une nouvelle demande que lorsque la précédente demande a été totalement servie ou annulée. c) Prix Le prix de retrait est égal au prix de souscription diminué de la commission de souscription hors taxes. En cas de baisse du prix de retrait, la Société de Gestion informe par lettre recommandée avec demande d'avis de réception les associés ayant demandé leur retrait au plus tard la veille de la date d'effet. Cette information peut être fournie par envoi recommandé électronique satisfaisant aux conditions mentionnées à l'article L.100 du Code des postes et des communications électroniques (dénommé « envoi recommandé électronique ») aux conditions suivantes : • l'associé à qui cette information est fournie s'est vu proposer le choix entre la fourniture de l'information par lettre recommandée avec avis de réception ou par envoi recommandé électronique ; et • il a formellement opté pour cette dernière modalité d'information. En l'absence de réaction de la part des associés dans un délai de quinze jours à compter de la date de réception de la lettre recommandée avec demande d'avis de réception ou de la date de réception de l'envoi recommandé électronique mentionné au présent article, la demande de retrait est réputée maintenue au nouveau prix. Cette information est contenue dans la lettre ou l'envoi recommandé électronique de notification. Il ne peut être procédé à des émissions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe, sur le registre prévu à l'article 422-218 du RG AMF, des demandes de retrait non satisfaites à un prix inférieur ou égal au prix de souscription.",
+    "18": "SCPI TRANSITIONS EUROPE l NOTE D'INFORMATION 18 d) Effet du retrait En cas de retrait, l'associé qui se retire cesse de bénéficier de ses droits à acompte sur dividende à compter du premier jour du mois au cours duquel le retrait a été enregistré sur le registre des associés. Le paiement de la valeur de retrait intervient dans un délai de quinze jours, en fonction des contraintes administratives, à compter de la date de clôture mensuelle des souscriptions et sous réserve qu'il existe des demandes de souscription compensant la demande de retrait. Les parts remboursées sont annulées. Si des demandes de souscriptions existent pour un montant au moins égal aux demandes de retraits, le remboursement s'effectue sur la base de la valeur de retrait qui ne pourra pas être supérieur au prix de souscription diminué du montant HT de la commission de souscription. e) Suspension du retrait Conformément aux dispositions de l'article L.214-93 du CMF, lorsque la Société de Gestion constate que des demandes de retraits représentant au moins 10 % des parts de la Société n'ont pas été satisfaites dans un délai de 12 mois après leur enregistrement, elle en informe l'AMF. Dans les deux mois à compter de cette information, la Société de Gestion convoque une assemblée générale extraordinaire et lui propose la cession partielle ou totale du patrimoine et toute autre mesure appropriée. L'une des mesures appropriées est, en application des dispositions de l'article 422-205 du RG AMF, l'inscription des demandes de retrait sur le registre des ordres d'achat et de vente. Dans ce cas, les demandes de retrait sont suspendues. La confrontation est effectuée conformément aux dispositions des articles 422-204 à 422-217 du RG AMF et aux dispositions de l'article 10 des statuts de la Société. La Société de Gestion assure, par tout moyen approprié, la diffusion effective et intégrale de cette décision motivée dans le public. En aucun cas les mêmes parts d'un associé ne peuvent à la fois faire l'objet d'une demande de retrait et être inscrites sur le registre des ordres de vente sur le marché secondaire. f) Fonds de remboursement Afin de satisfaire les demandes de retrait, l'assemblée générale se réserve la faculté de créer et doter un fonds de remboursement destiné à contribuer à la fluidité du marché des parts dans les conditions prévues aux articles 422- 231 à 422-233 du RG AMF. Il est précisé qu'à ce jour, la Société n'est pas dotée d'un fonds de remboursement. 2. Cession des parts de gré à gré Les associés peuvent, outre les retraits prévus à l'article 10 des statuts et tels que prévus ci-dessus, céder leurs parts à des tiers. a) Agrément Conformément à l'article 11 des statuts, les cessions entre associés sont libres. En revanche, toute cession à un acquéreur qui n'est pas associé est soumise à l'agrément préalable de la Société de Gestion. Celui-ci résulte soit d'une notification, soit d'un défaut de réponse dans le délai de deux mois à compter de la demande d'agrément. Il n'est pas dans l'intention de la Société de Gestion de refuser cet agrément, sauf circonstances exceptionnelles. b) Prix de cession Le prix de cession des parts est librement fixé par le cédant et le cessionnaire.",
+    "20": "SCPI TRANSITIONS EUROPE l NOTE D'INFORMATION 20 L'application de cette mesure emporte la suspension des demandes de retrait. a) Registre des ordres d'achat ou de vente Les ordres d'achat et de vente sont, à peine de nullité, inscrits chronologiquement sur un registre tenu au siège de la Société. La modification d'un ordre entraîne la perte de son rang s'il y a augmentation du nombre de parts, à acheter ou à vendre, • en cas de vente si la limite de prix est augmentée, • en cas d'achat si la limite de prix est diminuée, • en cas de modification du sens de l'ordre. b) Périodicité du prix d'exécution En cas de suspension de la variabilité du capital, la Société de Gestion procède, tous les vendredis à douze heures, à l'établissement d'un prix d'exécution par confrontation des ordres d'achat et des ordres de vente. Lorsque le vendredi est un jour férié ou chômé, l'établissement du prix d'exécution est reporté au premier jour ouvré suivant (samedi excepté), également à douze heures. La périodicité de la confrontation des ordres ne peut être modifiée que si elle est motivée par les contraintes du marché ; la modification est portée au moins six jours à l'avance à la connaissance des donneurs d'ordres inscrits sur le registre par lettre simple, et du public par additif à la présente note d'information, insertion dans le bulletin semestriel d'information, information sur le site internet de Société de Gestion (www.arkea-reim.com). Le prix d'exécution est celui auquel peut être échangée la plus grande quantité de parts, si plusieurs prix peuvent, au même instant, être établis sur la base de ce premier critère, le prix d'exécution est celui pour lequel le nombre de parts non échangées est le plus faible, dans le cas où ces critères n'auraient pas permis de déterminer un prix unique, le prix d'exécution est le plus proche du dernier prix d'exécution établi. Le prix d'exécution ainsi que les quantités échangées sont rendus publics par tout moyen approprié le jour de l'établissement du prix. En cas d'impossibilité d'établir un prix d'exécution, la Société de Gestion publie dans les mêmes conditions que précédemment le prix d'achat le plus élevé et le prix de vente le plus faible, accompagnés pour chacun de ces prix des quantités de parts proposées. c) Mode de transmission des ordres L'inscription des ordres se fait à réception des pièces nécessaires. Les formulaires d'ordre d'achat ou de vente sont adressés sur simple demande à tout intéressé. Les ordres d'achat ou de vente sont disponibles sur le site internet de la Société de Gestion :www.arkea-reim.com Ordres d'achat • un formulaire d'ordre d'achat complété et signé, indiquant le prix maximum d'achat, commission de souscription, frais et droits de mutation, calculés au taux actuel de 5%, compris, • le paiement du prix correspondant : virement, prélèvement, ou chèque à l'ordre de la Société. A la différence des ordres de vente, les ordres d'achat peuvent indiquer une durée de validité. Le donneur d'ordre peut également préciser que son ordre ne donnera lieu à transaction que s'il est satisfait en totalité. Les formulaires d'ordre d'achat (ou leur modificatif) sont adressés à la Société de Gestion, ou à tout intermédiaire autorisé, par lettre recommandée avec accusé de réception. L'encaissement du prix par la Société vaudra confirmation de la réception de l'ordre. Ordres de vente Un formulaire d'ordre de vente complété et signé indiquant le prix minimum de vente revenant net au vendeur, frais et droits déduits.",
+    "22": "SCPI TRANSITIONS EUROPE l NOTE D'INFORMATION 22 CHAPITRE 3 - FRAIS Conformément aux dispositions de l'article 422-224 du RG AMF la Société de Gestion est rémunérée par différents types de commission. La Société de Gestion prend à sa charge tous les frais de bureau (locaux et matériels) et de personnel nécessaire à l'administration de la Société et la distribution des bénéfices (hors frais d'envoi). Tous les autres frais, sans exception, sont réglés directement par la Société, notamment : • le prix et les frais, droits, honoraires, commissions d'agents liés à l'acquisition des biens ; • les frais d'entretien et les travaux d'aménagement ou de réparation des immeubles ; • les frais et honoraires d'architecte ou de bureau d'études se rapportant aux travaux sur les immeubles ; • la rémunération et les frais de déplacement des membres du Conseil de Surveillance ; • les honoraires du Commissaire aux Comptes et les frais des révisions comptables ; • les frais et honoraires de l'expert externe en évaluation ; • les frais et honoraires du dépositaire ; • les frais engendrés par la tenue des Conseils de Surveillance et assemblées générales, ainsi que les frais d'expédition de tous les documents ; • les frais d'impression et d'expédition de tout document d'information obligatoire ; • les frais de tenue de comptabilité, de gestion comptable et de secrétariat juridique ; • les frais de contentieux et de procédure, honoraires d'huissier et d'avocat ; • les frais de property management, c'est-dire les frais relatifs à la gestion locative, la gestion administrative, la gestion budgétaire et la gestion technique de la Société ; • les assurances ; • les impôts, droits et taxes divers ; • le montant des consommations d'eau, d'électricité et de combustibles et, en général, toutes les charges d'immeubles, honoraires de syndic, de gestionnaire technique et gérant d'immeuble ; • les honoraires à verser aux agents au titre de la (re)location des immeubles vacants ; • les honoraires d'avocat ; • la contribution versée à l'AMF et la cotisation de l'ASPIM ; • toutes autres dépenses n'entrant pas dans le cadre de l'administration directe de la Société. La Société de Gestion délègue certaines de ses missions à des tiers professionnels. Elle a ainsi confié à une société de son groupe, Arkéa Real Estate, spécialisée dans l'asset management immobilier pour compte de tiers, ainsi qu'à la filiale de cette dernière, ONATA, une mission d'assistance et de conseil à l'acquisition et la gestion, le pilotage opérationnel des travaux de construction ou de rénovation des actifs immobiliers détenus par les fonds gérés ainsi que la mise en œuvre de leur stratégie ISR. Afin de prévenir les potentiels conflits d'intérêts pouvant se matérialiser dans le cadre de cette collaboration, la Société de Gestion a mis en place un certain nombre de mesures permettant d'assurer la compétitivité d'Arkéa Real Estate et d'ONATA au regard des objectifs poursuivis (benchmark, évaluation périodique, etc.). 1. Commission de souscription La commission de souscription (due lors de la souscription de parts nouvelles) s'élève à 10 % HT maximum (soit 12% TTC) du prix de souscription des parts, dont le montant est inclus dans la prime d'émission. Cette commission a pour objet de rémunérer la recherche de nouveaux souscripteurs. 2. Commission de cession de parts Sur le marché secondaire : lorsque la cession de parts s'opère avec intervention de la Société de Gestion, par confrontation des ordres inscrits sur le registre des ordres d'achat et de vente de parts. La commission due par",
+    "23": "SCPI TRANSITIONS EUROPE l NOTE D'INFORMATION 23 l'acquéreur et perçue par la Société de Gestion s'élève à 10% HT maximum, (soit 12% TTC), de la somme versée par l'acquéreur. Cette rémunération englobe les frais de dossier mais pas les droits d'enregistrement. En cas de mutation à titre gratuit (succession ou donation) : lorsque la cession ou le transfert interviennent sans l'intermédiaire de la Société de Gestion (et porte sur des parts déjà créées) il n'y a pas de commission mais des frais de dossiers forfaitaires qui s'élèvent à 100€ TTC par cessionnaire, quel que soit le nombre de parts transférées ou cédées. Cession de gré à gré et tout transfert ou cession de parts sans intervention de la Société de Gestion (autres que ceux visés ci-dessus) : il n'y a pas de commission mais des frais de dossiers forfaitaires qui s'élèvent à 100€ TTC par cessionnaire, quel que soit le nombre de parts transférées ou cédées. 3. Commission de gestion La commission perçue par la Société de Gestion s'élève à 10% HT maximum (soit 12% TTC) de la totalité des produits locatifs exigibles et encaissés hors taxes et hors charges refacturées aux locataires et des produits financiers nets et assimilés courus et perçus par la Société. En cas de détention par la Société de parts ou actions de sociétés détenant principalement des immeubles ou des droits réels portant sur des immeubles, l'assiette de la commission de gestion définie à l'alinéa précédent inclut également le montant des produits locatifs encaissés hors taxes et hors charges refacturées aux locataires et des produits financiers nets et assimilés perçus par les sociétés détenues par la Société. Le montant de ces revenus est calculé au prorata de la participation détenue par la Société. Sont couverts par cette commission les frais relatifs à la gestion de la Société et à la gestion locative du patrimoine, notamment : • gestion administrative et financière de la Société (fund management immobilier), à savoir l'établissement et la conduite de la stratégie d'investissement, la gestion des emplois ressources, la mise en place et le suivi des financements des actifs ainsi que l'ensemble des prestations liées aux obligations d'information de l'AMF et des associés, notamment l'établissement du rapport annuel de gestion et de tous les documents d'information périodique ; • gestion des actifs immobiliers (asset management immobilier), à savoir l'élaboration des stratégies d'acquisition, de construction, de financement, d'arbitrage et de commercialisation des actifs immobiliers ainsi que l'élaboration de la stratégie de gestion des actifs immobiliers, notamment l'établissement du plan de travaux à cinq ans et de sa mise à jour ; • tenue du registre, à savoir les prestations liées à la distribution des revenus, la tenue informatique du fichier des associés ainsi que les prestations de bureau et de secrétariat. La Société de Gestion pourra avoir recours à un prestataire pour assurer les missions d'asset management immobilier. Dans le cas d'un tel recours la Société de Gestion sera redevable de la rémunération du prestataire. La Société de Gestion pourra rétrocéder une partie de la commission de gestion qu'elle aura perçue de la Société aux distributeurs au titre des prestations de services fournies aux souscripteurs des parts de la Société dans la durée, dans la mesure où ces prestations contribuent à l'amélioration du service rendu aux souscripteurs dans le temps.",
+    "24": "SCPI TRANSITIONS EUROPE l NOTE D'INFORMATION 24 4. Commission sur acquisitions La Société de Gestion ne perçoit pas de commission sur l'acquisition des actifs immobiliers par la Société. 5. Commission sur arbitrages La Société de Gestion reçoit une rémunération d'un montant maximal de 2% (soit 2,4% TTC), calculée sur le prix de vente, net vendeur de chaque immeuble cédé par la Société. Cette commission est payée après signature de l'acte notarié de cession de l'immeuble concerné. Cette commission a pour objet de : • rémunérer la constitution d'un dossier de vente en intégrant le régime juridique de détention notamment propriété indépendante ou copropriété, • l'établissement de la documentation juridique relative aux actifs cédés, la commande et l'analyse des différents diagnostics réglementaires, la recherche d'un acquéreur, la négociation et la signature des promesses et actes notariés, • assurer le remboursement de tous les frais exposés pour les études, recherches et démarches en vue de la cession d'un immeuble dépendant du patrimoine immobilier de la Société. 6. Commission de suivi et de pilotage des travaux La Société de Gestion percevra une commission de suivi et pilotage des travaux réalisés sur le patrimoine immobilier de la Société, et percevra dans ce cas une commission d'un montant maximum de 5% HT du montant des travaux effectivement réalisés (soit 6% TTC). La Société de Gestion pourra avoir recours à un prestataire pour assurer la mission de suivi et de pilotage des travaux. Dans le cas d'un tel recours la Société de Gestion sera redevable de la rémunération du prestataire.",
+    "28": "SCPI TRANSITIONS EUROPE l NOTE D'INFORMATION 28 • Plus-values réalisées par la Société Plus-value sur vente d'immeubles : elle résulte de la différence entre le prix de vente et le prix d'achat, celui-ci étant augmenté des frais d'acquisition et d'un abattement de 15% pour travaux. A cette différence est ensuite appliqué un abattement comme suit : i. Pour le calcul de l'impôt sur le revenu : 6 % pour chaque année de détention au- delà de la cinquième et jusqu'à la vingt- et-unième ; 4 % au terme de la vingt-deuxième année de détention. ii.Pour le calcul du montant des prélèvements sociaux : 1,65 % pour chaque année de détention au-delà de la cinquième et jusqu'à la vingt-et-unième ; 1,60 % pour la vingt-deuxième année de détention ; 9 % pour chaque année au-delà de la vingt-deuxième. La plus-value après application des abattements précités est soumise, d'une part, à une imposition forfaitaire calculée au taux de 19 % au titre de l'impôt sur le revenu et, d'autre part, aux prélèvements sociaux au taux de 17,20 %. Enfin, une taxe sur les plus-values immobilières d'un montant supérieur à 50 000 € a été instituée par l'article 70 de la loi n°2012-1510 du 29 décembre 2012 (cf. article 1609 nonies G. du CGI). Cette taxe est due à raison des plus- values imposables d'un montant supérieur à 50 000 €, selon le barème suivant appliqué au montant total de la plus- value imposable Montant de la plus-value imposable (en €) Montant de la taxe De 50 001 à 60 000 2 % PV ― (60 000 ― PV) × 1/20 De 60 001 à 100 000 2 % PV De 100 001 à 110 000 3 % PV ― (110 000 ― PV) × 1/10 De 110 001 à 150 000 3 % PV De 150 001 à 160 000 4 % PV ― (160 000 ― PV) × 15/100 De 160 001 à 200 000 4 % PV De 200 001 à 210 000 5 % PV ― (210 000 ― PV) × 20/100 De 210 001 à 250 000 5 % PV De 250 001 à 260 000 6 % PV ― (260 000 ― PV) × 25/100 Supérieur à 260 000 6 % PV * PV = montant de la plus-value imposable Une plus-value sur cession immobilière n'est pas imposable si le prix de cession est inférieur à 15 000 €. En cas de plus-value sur vente d'immeuble, le montant de l'impôt est prélevé par le notaire sur le prix de vente de l'immeuble et payé pour le compte, puis recouvré auprès des associés qui en sont débiteurs (personnes physiques soumises à la fiscalité des revenus fonciers). Pour ce faire, lors de la distribution effective de la plus-value ainsi réalisée, la quote-part de la plus-value revenant aux associés concernés est réduite du montant de l'impôt ainsi payé pour leur compte. La quote-part de plus-value revenant aux associés non soumis à un tel impôt à la source n'est en revanche affectée d'aucun prélèvement à ce titre. Ces derniers restent néanmoins redevables, le cas échéant, d'un impôt de plus- value déterminé a posteriori, selon les règles spécifiques à leur catégorie respective d'imposition. Plus-values sur cessions de valeurs mobilières : elles proviennent de la cession de titres d'OPCVM monétaires et obligataires de capitalisation."
+   }
+  },
+  {
+   "url": "https://www.arkea-reim.com/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_dic.pdf",
+   "final_url": "https://www.arkea-reim.com/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_dic.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 369635,
+   "sha256": "a38d294827bf4660b13c96cfed975cd360009efc98c7cb1592b537220fa9da45",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "DIC - SCPI Transitions Europe",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260312101758+01'00'",
+    "modDate": "D:20260326162313+01'00'"
+   },
+   "page_count": 3,
+   "text_characters": 16157,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "transitions europe",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Le présent document contient des informations essentielles sur le produit d'investissement. Il ne s'agit pas d'un document à caractère commercial. Ces informations vous sont fournies conformément à une obligation légale, afin de vous aider à comprendre en quoi consiste ce produit et quels risques, coûts, gains et pertes potentiels y sont associés, et de vous aider à le comparer à d'autres produits",
+   "dates": [
+    "31/12/2025",
+    "août 2015",
+    "août 2025",
+    "avril 2011",
+    "avril 2021",
+    "février 2012",
+    "février 2022"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Coûts récurrents",
+     "snippet": "ution. La personne qui vous vend le produit vous informera des coûts réels. 1 000 € Coût de sortie Nous ne facturons pas de coût de sortie pour ce produit. 0 € Coûts récurrents [prélevés chaque année] Frais de gestion et autres frais administratifs et d'exploitation 1,83% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 183 € Coût de transaction 0,50% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous-jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 50 € Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats Aucune commission liée aux résultats ",
+     "percents": [
+      {
+       "raw": "1,83%",
+       "value": 1.83,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "0,50%",
+       "value": 0.5,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Frais de gestion",
+     "snippet": "it vous informera des coûts réels. 1 000 € Coût de sortie Nous ne facturons pas de coût de sortie pour ce produit. 0 € Coûts récurrents [prélevés chaque année] Frais de gestion et autres frais administratifs et d'exploitation 1,83% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 183 € Coût de transaction 0,50% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous-jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 50 € Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats Aucune commission liée aux résultats n'existe pour ce produit 0 € Combien de t",
+     "percents": [
+      {
+       "raw": "1,83%",
+       "value": 1.83,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "0,50%",
+       "value": 0.5,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "3": "Nous avons supposé : • Qu'au cours de la première année vous récupéreriez le montant que vous avez investi (rendement annuel de 0 %). • Que pour les autres périodes de détention, le produit évolue de la manière indiquée dans le scénario intermédiaire • 10 000 € sont investis Si vous sortez après 1 an Si vous sortez après 5 ans Si vous sortez après 10 ans Coûts totaux Incidence des coûts annuels (*) 1 232 € 12,3 % 2 887 € 4,5% 6 197 € 3,4% (*) Elle montre dans quelle mesure les coûts réduisent annuellement votre rendement au cours de la période de détention. Par exemple, elle montre que si vous sortez à la fin de la période de détention recommandée, il est prévu que votre rendement moyen par an soit de 8,1% avant déduction des coûts et de 4,7% après cette déduction. Il se peut que nous partagions les coûts avec la personne qui vous vend le produit afin de couvrir les services qu'elle vous fournit. Cette personne vous informera du montant. Composition des coûts Le tableau ci-dessous indique : • l'incidence annuelle des différents types de coûts sur le rendement que vous pourriez obtenir de votre investissement si vous sortez après 1 an ; • la signification des différentes catégories de coûts. Coûts ponctuels à l'entrée ou à la sortie Si vous sortez après 1 an Coût d'entrée 10% du montant que vous payez au moment de l'entrée dans l'investissement. Ces coûts sont déjà compris dans le prix que vous payez. Cela comprend des coûts de distribution. La personne qui vous vend le produit vous informera des coûts réels. 1 000 € Coût de sortie Nous ne facturons pas de coût de sortie pour ce produit. 0 € Coûts récurrents [prélevés chaque année] Frais de gestion et autres frais administratifs et d'exploitation 1,83% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 183 € Coût de transaction 0,50% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous-jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 50 € Coûts accessoires prélevés sous certaines conditions Commissions liées aux résultats Aucune commission liée aux résultats n'existe pour ce produit 0 € Combien de temps dois-je le conserver et puis-je retirer de l'argent de façon anticipée ? Période de détention recommandée : 10 ans Transitions Europe est une SCPI. Il s'agit par conséquent d'un placement à long terme dont le principal intérêt est de générer des loyers. Il est conseillé de détenir les parts pendant une durée minimale de 10 ans afin d'amortir les frais inhérents à la SCPI et de permettre à la SCPI de vous verser des dividendes. Le rachat a lieu à une valeur de retrait inconnue. En cas de rachat avant la fin de la période de détention recommandée (10 ans au minimum), le risque que la valeur de retrait de vos parts soit très inférieure au prix de souscription est plus important. Il n'existe pas de frais ou pénalités appliqués en cas de désinvestissement avant la période de détention recommandée, ou toute autre date. La société de gestion ne garantit pas la revente des parts. Vous êtes donc soumis au risque de liquidité détaillé ci-avant. Comment puis-je formuler une réclamation ? Vous pouvez formuler une réclamation concernant le produit ou le comportement (i) de l'initiateur du produit, (ii) d'une personne qui fournit des conseils au sujet de ce produit, ou (iii) d'une personne qui vend ce produit en adressant un courrier électronique ou un courrier postal aux personnes suivantes, selon le cas : • Si votre réclamation concerne le produit lui-même ou le comportement de l'initiateur : ○ par e-mail : service.clients@arkea-reim.com ○ ou bien par courrier à l'adresse suivante : ARKEA REIM, 72 rue Pierre Charron, 75008 Paris • Si votre réclamation concerne une personne qui fournit des conseils sur le produit ou bien qui le vend, veuillez contacter cette personne en direct. • Si un différend persiste lors d'une réclamation, le souscripteur peut saisir la Médiation de l'AMF - 17, place de la Bourse - 75082 Paris Cedex 02. Autres informations pertinentes : La documentation légale et obligatoire, ainsi que les données relatives aux performances passées sont disponibles sur www.arkea-reim.com. Transitions Europe est classé article 8 au sens du Règlement SFDR. Avant sa souscription, l'investisseur souscrivant le produit en direct reçoit une copie de la note d'information, des statuts de la société, du dernier document d'information des investisseurs, du dernier rapport annuel, et un bulletin de souscription. L'attention de l'investisseur est attirée sur les facteurs de risques qui sont détaillés dans les documents qui lui sont remis, qu'il n'appartient pas au présent Document d'Informations Clés de lister exhaustivement. Les informations clés pour l'investisseur ici fournies sont exactes et à jour au 31/12/2025. Nous révisons et publions ce document d'informations clés au moins une fois par an."
+   }
+  },
+  {
+   "url": "https://www.arkea-reim.com/docs/application/pdf/2022-12/scpi_transitions_europe_-_note_d_information.pdf",
+   "error": "HTTPError: HTTP Error 404: "
+  },
+  {
+   "url": "https://www.arkea-reim.com/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_brochure_commerciale.pdf",
+   "final_url": "https://www.arkea-reim.com/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_brochure_commerciale.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3048813,
+   "sha256": "a0aa51622f18e224625f2f902fe5a3e7f6399334581d7ebf321668f25125029a",
+   "metadata": {
+    "format": "PDF 1.5",
+    "title": "SCPI Transitions Europe - Brochure commerciale",
+    "creator": "Adobe InDesign 21.3 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261026173548+01'00'",
+    "modDate": "D:20261029165546+01'00'"
+   },
+   "page_count": 8,
+   "text_characters": 16361,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "transitions europe",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Souscription des parts : en pleine propriété, en démembrement, en assurance-vie, à crédit ou encore, via Pulse by Arkéa REIM Ce produit présente un risque de perte en capital et sa liquidité n'est pas garantie. Durée de placement recommandée : 10 ans minimum. Catégorie de clientèle : professionnelle et non professionnelle. Document publicitaire dépourvu de valeur contractuelle. L'investisseur est ",
+   "dates": [
+    "01/11/2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "frais de souscription",
+     "snippet": "tissement sur la durée de place- ment recommandée. Il tient compte des dividendes distribués, de l'évolution de la valeur de part sur la période, ainsi que des frais de souscription et de gestion supportés par l'investisseur. 8.60 % 7.60 % TD + 1% de revalorisation du prix de part PGA 2025(1) 6 % PGA(1) (2) cible non garantie et TRI cible long terme(2)(3) Les performances passées ne préjugent pas des performances futures.",
+     "percents": [
+      {
+       "raw": "8.60 %",
+       "value": 8.6,
+       "tax_hint": null,
+       "after": "7.60 % TD + 1% de revalorisation du prix de"
+      },
+      {
+       "raw": "7.60 %",
+       "value": 7.6,
+       "tax_hint": null,
+       "after": "TD + 1% de revalorisation du prix de part PG"
+      },
+      {
+       "raw": "1%",
+       "value": 1.0,
+       "tax_hint": null,
+       "after": "de revalorisation du prix de part PGA 2025(1"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "PGA(1) (2) cible non garantie et TRI cible l"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 6,
+     "label": "Commission de souscription",
+     "snippet": "ère souscription : 5 parts Prochaines souscriptions : 1 part Délais de jouissance : 1er jour du 6ème mois Fréquence de distribution potentielle : Trimestrielle Commission de souscription : 10 % HT maximum du montant de la souscription Commission de cession : • Cession ou transfert des parts sans intervention de la société de gestion : 100 € TTC par cessionnaire • Cession sur le marché secondaire : 10 % HT de la somme versée par l'acquéreur Commission de gestion : 10 % HT maximum des loyers encaissés Commission sur acquisition : Néant Commission sur travaux : 5 % HT du montant des travaux réalisés Commission sur arbitrages : 2 % HT maximum de la valeur de cession des actifs immobiliers CARACTÉRISTIQUES GÉNÉRALES (5) Les performances futures sont soumises à l'impôt, lequel dépend de la situa",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant de la souscription Com"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT de la somme versée par l'acquéreur Commis"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum des loyers encaissés Commission s"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT du montant des travaux réalisés Commissio"
+      },
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT maximum de la valeur de cession des actif"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "Commission de cession",
+     "snippet": "ssance : 1er jour du 6ème mois Fréquence de distribution potentielle : Trimestrielle Commission de souscription : 10 % HT maximum du montant de la souscription Commission de cession : • Cession ou transfert des parts sans intervention de la société de gestion : 100 € TTC par cessionnaire • Cession sur le marché secondaire : 10 % HT de la somme versée par l'acquéreur Commission de gestion : 10 % HT maximum des loyers encaissés Commission sur acquisition : Néant Commission sur travaux : 5 % HT du montant des travaux réalisés Commission sur arbitrages : 2 % HT maximum de la valeur de cession des actifs immobiliers CARACTÉRISTIQUES GÉNÉRALES (5) Les performances futures sont soumises à l'impôt, lequel dépend de la situation personnelle de chaque investisseur. L'investissement peut entraîner un",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum du montant de la souscription Com"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT de la somme versée par l'acquéreur Commis"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum des loyers encaissés Commission s"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT du montant des travaux réalisés Commissio"
+      },
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT maximum de la valeur de cession des actif"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "Commission de gestion",
+     "snippet": "s parts sans intervention de la société de gestion : 100 € TTC par cessionnaire • Cession sur le marché secondaire : 10 % HT de la somme versée par l'acquéreur Commission de gestion : 10 % HT maximum des loyers encaissés Commission sur acquisition : Néant Commission sur travaux : 5 % HT du montant des travaux réalisés Commission sur arbitrages : 2 % HT maximum de la valeur de cession des actifs immobiliers CARACTÉRISTIQUES GÉNÉRALES (5) Les performances futures sont soumises à l'impôt, lequel dépend de la situation personnelle de chaque investisseur. L'investissement peut entraîner une perte financière car il n'est pas assorti d'une garantie sur le capital (1) Le traitement fiscal dépend de la situation personnelle de l'investisseur et est susceptible d'évoluer dans le temps. (2) Performan",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT de la somme versée par l'acquéreur Commis"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT maximum des loyers encaissés Commission s"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT du montant des travaux réalisés Commissio"
+      },
+      {
+       "raw": "2 %",
+       "value": 2.0,
+       "tax_hint": "HT",
+       "after": "HT maximum de la valeur de cession des actif"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 6,
+     "label": "frais de souscription",
+     "snippet": "tissement sur la durée de place- ment recommandée. Il tient compte des dividendes distribués, de l'évolution de la valeur de part sur la période, ainsi que des frais de souscription et de gestion supportés par l'investisseur. (4) Le TRI cible et l'objectif de PGA sont fondés sur la réalisation d'hypothèses de marché arrêtées par la Société de Gestion et ne sont pas garantis. Ils ne constituent en aucun cas une promesse de rendement ou de performance. (5) Pour plus de détails sur les frais, se référer à la Note d'information disponible sur le site Internet www.arkea-reim.com Préalablement à toute décision d'investissement, vous devez prendre connaissance des informations générales et risques figurant dans la Note d'information et le Document d'Informations Clés, et de tenir compte de toutes",
+     "percents": [],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "3": "La SCPI Transitions Europe, labellisée Investissement Socialement Responsable (ISR), s'adresse aux investisseurs à la recherche de rendements potentiels, de diversification, d'une exposition euro- péenne et en quête de sens dans leur épargne. À QUI S'ADRESSE TRANSITIONS EUROPE ? LES PRINCIPAUX RISQUES RISQUE DE PERTE EN CAPITAL Le capital investi dans la SCPI n'est pas garanti RISQUE DE LIQUIDITÉ La SCPI ne garantit pas la vente des parts ni le retrait. Le paiement de la valeur de retrait intervient sous réserve qu'il existe des demandes de souscription compensant la demande de retrait. Le délai de revente des biens immobiliers dépend des marchés immobiliers RISQUE IMMOBILIER Une baisse de la valeur des actifs immobiliers est susceptible d'entraîner une baisse de la valeur des parts Toutes typologies d'actifs (Bureaux, Hospitalité, Life Sciences...) DIVERSIFIÉE Durée de placement minimum recommandée 10 ANS Indice de risque 3/7 Répartition géographique cible non garantie ZONE EURO, HORS FRANCE (1) Performance Globale Annuelle (PGA) : mesure la performance annuelle d'une SCPI en tenant compte à la fois des distributions brutes de fiscalité sur l'année et de la variation du prix de sous- cription par rapport à l'année précédente. (2) Les objectifs de PGA et de TRI sont fondés sur la réalisation d'hypothèses de marché arrêtées par la Société de Gestion et ne sont pas garantis. Ils ne constituent en aucun cas une promesse de rendement ou de performance. Ce produit présente un risque de perte en capital et sa liquidité n'est pas garantie. (3) Le taux de rendement interne (TRI) mesure la rentabilité de l'investissement sur la durée de place- ment recommandée. Il tient compte des dividendes distribués, de l'évolution de la valeur de part sur la période, ainsi que des frais de souscription et de gestion supportés par l'investisseur. 8.60 % 7.60 % TD + 1% de revalorisation du prix de part PGA 2025(1) 6 % PGA(1) (2) cible non garantie et TRI cible long terme(2)(3) Les performances passées ne préjugent pas des performances futures.",
+    "6": "LES RAISONS D'INVESTIR Code ISIN : FR001400EGA8 Forme juridique : SCPI à Capital Variable Société de gestion : Arkéa Real Estate Investment Management Dépositaire : CACEIS Bank Durée de placement recommandée : 10 ans Prix de souscription : 204 € par part Valeur de retrait : 183.60 € par part Minimum de souscription : Première souscription : 5 parts Prochaines souscriptions : 1 part Délais de jouissance : 1er jour du 6ème mois Fréquence de distribution potentielle : Trimestrielle Commission de souscription : 10 % HT maximum du montant de la souscription Commission de cession : • Cession ou transfert des parts sans intervention de la société de gestion : 100 € TTC par cessionnaire • Cession sur le marché secondaire : 10 % HT de la somme versée par l'acquéreur Commission de gestion : 10 % HT maximum des loyers encaissés Commission sur acquisition : Néant Commission sur travaux : 5 % HT du montant des travaux réalisés Commission sur arbitrages : 2 % HT maximum de la valeur de cession des actifs immobiliers CARACTÉRISTIQUES GÉNÉRALES (5) Les performances futures sont soumises à l'impôt, lequel dépend de la situation personnelle de chaque investisseur. L'investissement peut entraîner une perte financière car il n'est pas assorti d'une garantie sur le capital (1) Le traitement fiscal dépend de la situation personnelle de l'investisseur et est susceptible d'évoluer dans le temps. (2) Performance Globale Annuelle (PGA) : mesure la performance annuelle d'une SCPI en tenant compte à la fois des distributions brutes de fiscalité sur l'année et de la variation du prix de sous- cription par rapport à l'année précédente. (3) Le taux de rendement interne (TRI) mesure la rentabilité de l'investissement sur la durée de place- ment recommandée. Il tient compte des dividendes distribués, de l'évolution de la valeur de part sur la période, ainsi que des frais de souscription et de gestion supportés par l'investisseur. (4) Le TRI cible et l'objectif de PGA sont fondés sur la réalisation d'hypothèses de marché arrêtées par la Société de Gestion et ne sont pas garantis. Ils ne constituent en aucun cas une promesse de rendement ou de performance. (5) Pour plus de détails sur les frais, se référer à la Note d'information disponible sur le site Internet www.arkea-reim.com Préalablement à toute décision d'investissement, vous devez prendre connaissance des informations générales et risques figurant dans la Note d'information et le Document d'Informations Clés, et de tenir compte de toutes les caractéristiques et de tous les objectifs du fonds tels que décrits dans la documentation juridique. Ce produit présente un risque de perte en capital et sa liquidité n'est pas garantie. En cas d'investissement à crédit, il est important de ne pas se reposer uniquement sur ces revenus, en raison de leur caractère aléatoire, pour honorer les obligations de remboursement. En cas de défaillance, les parts de la SCPI pourraient être vendues à un prix inférieur à leur prix d'acquisition, entraînant une possible perte en capital. Diversifier ses placements et bénéficier d'un momentum de marché idéal DIVERSIFICATION Investir dans l'immobilier à partir de 1 020 € (montant minimum de la première souscription : 5 parts soit 204 €/part) ACCESSIBILITÉ Bénéficier d'une fiscalité moindre grâce à une exposition européenne(1) : la fiscalité sur les revenus immobiliers hors France est payée par la SCPI OPTIMISATION Viser à long terme une PGA (2) et un TRI (3) cibles non garantis de 6 % (4) PERFORMANCE Bénéficier de l'expertise éprouvée d'Arkéa REIM EXPERTISE Choisir une SCPI engagée et labellisée ISR RESPONSABLE"
+   }
+  },
+  {
+   "url": "https://www.arkea-reim.com/upload/docs/application/pdf/2025-09/scpi_transitions_europe_-_article_10_sfdr.pdf",
+   "final_url": "https://www.arkea-reim.com/upload/docs/application/pdf/2025-09/scpi_transitions_europe_-_article_10_sfdr.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 607551,
+   "sha256": "0ce7cd7a80c41137735ff035ea53af7920563310ab3d8c970162258f9c3511f2",
+   "metadata": {
+    "format": "PDF 1.6",
+    "title": "SCPI Transitions Europe - Article 10 SFDR",
+    "creator": "Acrobat PDFMaker 25 pour Word",
+    "producer": "Adobe PDF Library 25.1.213",
+    "creationDate": "D:20250929114607+02'00'",
+    "modDate": "D:20250930110303+02'00'"
+   },
+   "page_count": 9,
+   "text_characters": 18065,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "transitions europe",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.arkea-reim.com/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_objectifs_et_indicateurs.pdf",
+   "final_url": "https://www.arkea-reim.com/upload/docs/application/pdf/2022-12/scpi_transitions_europe_-_objectifs_et_indicateurs.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 653734,
+   "sha256": "0e5d01b259fc2f621f2e3af7ca605f3e7053950a625e8eac7fab62b31e88f560",
+   "metadata": {
+    "format": "PDF 1.6",
+    "author": "DIQUELOU MATHILDE",
+    "creator": "Acrobat PDFMaker 25 pour Word",
+    "producer": "Adobe PDF Library 25.1.213",
+    "creationDate": "D:20250929114752+02'00'",
+    "modDate": "D:20250929114754+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 7636,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "transitions europe",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 Objectifs extra ﬁnanciers Transitions Europe",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.arkea-reim.com/upload/docs/application/pdf/2026-08/politique_dengagement_des_parties_prenantes_-_scpi_transitions_europe.pdf",
+   "final_url": "https://www.arkea-reim.com/upload/docs/application/pdf/2026-08/politique_dengagement_des_parties_prenantes_-_scpi_transitions_europe.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 778028,
+   "sha256": "20a62198dbb74d46ae63d88a20c41e59749c82253023a5f005194c7fbd540463",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "Politique d'engagement des parties prenantes - SCPI Transitions Europe",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20260810173306+02'00'",
+    "modDate": "D:20260811091816+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 6347,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "transitions europe",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "SEPTEMBRE 2026",
+   "dates": [
+    "SEPTEMBRE 2026"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.arkea-reim.com/docs/application/pdf/2022-12/scpi_transitions_europe_-_brochure_commerciale.pdf",
+   "error": "HTTPError: HTTP Error 404: "
+  },
+  {
+   "url": "https://www.arkea-reim.com/docs/application/pdf/2022-12/scpi_transitions_europe_-_dic.pdf",
+   "error": "HTTPError: HTTP Error 404: "
+  },
+  {
+   "url": "https://www.arkea-reim.com/docs/application/pdf/2022-12/scpi_transitions_europe_-_objectifs_et_indicateurs.pdf",
+   "error": "HTTPError: HTTP Error 404: "
+  },
+  {
+   "url": "https://www.arkea-reim.com/docs/application/pdf/2025-09/scpi_transitions_europe_-_article_10_sfdr.pdf",
+   "error": "HTTPError: HTTP Error 404: "
+  },
+  {
+   "url": "https://www.arkea-reim.com/docs/application/pdf/2026-07/arkea-reim-ra-extra-financier-transitions-europe_2025.pdf",
+   "error": "HTTPError: HTTP Error 404: "
+  },
+  {
+   "url": "https://www.arkea-reim.com/docs/application/pdf/2026-08/politique_dengagement_des_parties_prenantes_-_scpi_transitions_europe.pdf",
+   "error": "HTTPError: HTTP Error 404: "
+  },
+  {
+   "url": "https://www.arkea-reim.com/upload/docs/application/pdf/2025-02/document_dinformations_pre-contractuelles_sfdr_te_vf.pdf",
+   "final_url": "https://www.arkea-reim.com/upload/docs/application/pdf/2025-02/document_dinformations_pre-contractuelles_sfdr_te_vf.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 474191,
+   "sha256": "8c9dfc5293864872ed504f4a132b70762e769afd39bf235a0f7242a88babdf7d",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "Document d'informations pré-contractuelles - SCPI Transitions Europe",
+    "creator": "Microsoft® Word 2019",
+    "producer": "Microsoft® Word 2019",
+    "creationDate": "D:20251009121141+02'00'",
+    "modDate": "D:20251009121159+02'00'"
+   },
+   "page_count": 8,
+   "text_characters": 18193,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "transitions europe",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 TRANSITIONS EUROPE Informations précontractuelles pour les produits financiers visés à l'article 8, paragraphes 1, 2 et 2 bis, du règlement (UE) 2019/2088 et à l'article 6, premier alinéa, du règlement (UE) 2020/852 Dénomination du produit : TRANSITIONS EUROPE Identifiant d'entité juridique : 969500TNEDEA54RSPK30 Caractéristiques environnementales et/ou sociales Quelles caractéristiques environn",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.arkea-reim.com/upload/docs/application/pdf/2024-11/code_de_transparence_te_1.pdf",
+   "final_url": "https://www.arkea-reim.com/upload/docs/application/pdf/2024-11/code_de_transparence_te_1.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 538135,
+   "sha256": "954dace62f3049125ff9d0e9a19d477c3748efcc74163b2c406ff238ac840647",
+   "metadata": {
+    "format": "PDF 1.6",
+    "author": "DIQUELOU MATHILDE",
+    "creator": "Acrobat PDFMaker 25 pour Word",
+    "producer": "Adobe PDF Library 25.1.213",
+    "creationDate": "D:20250929114653+02'00'",
+    "modDate": "D:20250929114738+02'00'"
+   },
+   "page_count": 10,
+   "text_characters": 26669,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "transitions europe",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 Code de transparence Transitions Europe",
+   "dates": [
+    "juin 2022",
+    "mai 2025",
+    "novembre 2022",
+    "novembre 2024"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.arkea-reim.com/docs/application/pdf/2024-11/code_de_transparence_te_1.pdf",
+   "error": "HTTPError: HTTP Error 404: "
+  }
+ ],
+ "candidate_count": 54,
+ "summary": {
+  "dic_identity_ok": 2,
+  "note_identity_ok": 1,
+  "fee_clauses": 25,
+  "errors": 8
+ }
+}

@@ -1,0 +1,1664 @@
+{
+ "slug": "efimmo-1",
+ "name": "Efimmo 1",
+ "manager": "Sofidy",
+ "crawl": [
+  {
+   "url": "https://www.sofidy.com/solutions/efimmo1/",
+   "depth": 0,
+   "final_url": "https://www.sofidy.com/solutions/efimmo1/",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 153
+  },
+  {
+   "url": "https://www.sofidy.com/documentation/",
+   "depth": 1,
+   "final_url": "https://www.sofidy.com/documentation/",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 157
+  },
+  {
+   "url": "https://www.sofidy.com/nos-politiques-reglementaires/",
+   "depth": 1,
+   "final_url": "https://www.sofidy.com/nos-politiques-reglementaires/",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 18
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://www.sofidy.com/app/uploads/2026/08/NI-EF-082026-FR-1-3247_note-info_EFIMMO1_v32.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2026/08/NI-EF-082026-FR-1-3247_note-info_EFIMMO1_v32.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 600411,
+   "sha256": "09efc1c0575b836c7d323f95ed13644cbf1c96d153c116b1238f772ca4c9503c",
+   "metadata": {
+    "format": "PDF 1.5",
+    "creator": "Adobe InDesign 21.2 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260811143630+02'00'",
+    "modDate": "D:20260811143632+02'00'"
+   },
+   "page_count": 39,
+   "text_characters": 158554,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Note d'information Septembre 2026 sofidy.com",
+   "dates": [
+    "Septembre 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 9,
+     "label": "frais d'acquisition",
+     "snippet": "orfaitairement les frais engagés par la Société pour la prospection des capitaux, la recherche des immeubles et les augmentations de capital ainsi que pour les frais d'acquisition des immeubles notamment droits d'enregistrement ou TVA non récupérable des immeubles commerciaux ou professionnels, frais de notaire et commissions ; - \u0007à préserver l'égalité des associés. À cette fin, il pourra notamment être prélevé sur la prime d'émission, sur décision de la société de gestion, le montant permettant le maintien du niveau du report à nouveau par part existant. 2.3. PRIX DE SOUSCRIPTION À dater du 1er septembre 2026 et jusqu'à nouvel avis, le prix de souscription d'une part se décompose de la manière suivante : Valeur nominale 10 € Prime d'émission\u0007 180 € dont 19 € HT (22,80 € TTC), soit 10 % HT",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "'une part se décompose de la manière suivante : Valeur nominale 10 € Prime d'émission\u0007 180 € dont 19 € HT (22,80 € TTC), soit 10 % HT (12 % TTC) au titre de la commission de souscription. Prix de souscription 190 € Le prix de souscription est net de frais et s'inscrit dans la fourchette légale par rapport à la valeur de reconstitution de la SCPI. 9 sofidy.com | NOTE D'INFORMATION EFIMMO 1 | SCPI À CAPITAL VARIABLE",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) au titre de la commission de s"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) au titre de la commission de souscripti"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "COMMISSION DE SOUSCRIPTION",
+     "snippet": "2.4. COMMISSION DE SOUSCRIPTION Conformément aux dispositions figurant au Chapitre III « Frais », une commission de souscription de 10 % HT (soit 12 % TTC) du prix de souscription des parts, soit 19 € HT par part (22,80 € TTC au taux de la TVA actuellement en vigueur) est prélevée sur le prix de souscription (prime d'émission incluse). Toute modification du prix actuel de souscription fera l'objet d'une information auprès de l'AMF. Il ne peut être procédé à des émissions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe, sur le registre prévu à l'article 422-218 du RG AMF, des demandes de retrait non satisfaite",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 12 % TTC) du prix de souscription d"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix de souscription des parts, soit"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "commission de souscription",
+     "snippet": "2.4. COMMISSION DE SOUSCRIPTION Conformément aux dispositions figurant au Chapitre III « Frais », une commission de souscription de 10 % HT (soit 12 % TTC) du prix de souscription des parts, soit 19 € HT par part (22,80 € TTC au taux de la TVA actuellement en vigueur) est prélevée sur le prix de souscription (prime d'émission incluse). Toute modification du prix actuel de souscription fera l'objet d'une information auprès de l'AMF. Il ne peut être procédé à des émissions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe, sur le registre prévu à l'article 422-218 du RG AMF, des demandes de retrait non satisfaites à un prix inférieur ou égal au prix de souscription. 3. NOMBRE MINIMUM DE PARTS À SOUSCRIRE Le ",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 12 % TTC) du prix de souscription d"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix de souscription des parts, soit"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": " - \u0007en contrepartie d'une souscription correspondante, à un prix qui ne peut être supérieur au prix de souscription en vigueur au jour du retrait diminué de la commission de souscription, ou - \u0007en l'absence de souscription permettant de compenser la demande de retrait, et dans l'hypothèse où un fonds de remboursement serait créé et doté, par prélèvement sur le fonds de remboursement, tel que décrit à l'Article 1.3 du Chapitre II ci-dessous, à un prix qui ne peut être supérieur à la valeur de réalisation, ni inférieur à la valeur de réalisation diminuée de 10 %, sauf accord préalable de l'Autorité des Marchés Financiers. • \u0007la vente des parts de gré à gré, directement entre les associés et sans l'intervention de la société de gestion, à des conditions librement débattues entre le cédant et ",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf accord préalable de l'Autorité des Mar"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 14,
+     "label": "commission de souscription",
+     "snippet": "ond au montant du nominal majoré de la prime d'émission (soit le prix de souscription en vigueur à la date de retrait), diminué d'un montant correspondant à la commission de souscription. En cas de baisse du prix de retrait, la société de gestion informe les associés ayant demandé le retrait, par lettre recommandée avec demande d'avis de réception, ou par tout autre moyen dématérialisé qui pourrait être mis en œuvre, au plus tard la veille de la date d'effet. En l'absence de réaction de la part des associés dans un délai qui ne pourra être inférieur à quinze (15) jours à compter de la date de réception de la lettre recommandée avec accusé de réception, la demande de retrait est réputée maintenue au nouveau prix. Cette information est contenue dans la lettre de notification. Exemple chiffré",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "commission de cession",
+     "snippet": "quatre (4) périodes consécutives de confrontation sur le marché secondaire au cours desquelles le prix d'exécution aura conduit à un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L. 214-94 du CMF, soit à un prix ne pouvant être inférieur ou supérieur de dix (10) % à la dernière valeur de reconstitution connue, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés par tout moyen approprié (bulletin d'information, sur le site internet de la société de gestion, courrier, email, etc...). Le rétablissement de la variabilité du capital entraîne : • l'annulation des ordres d'achat et de vente des parts sur le marché secondaire ; • \u0007la fin de la suspension des dema",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "commission de cession",
+     "snippet": "t : • Les droits d'enregistrement actuellement de 5 % versés au Trésor Public et qui, actuellement, ne pourront pas être inférieurs à un forfait de 25 €. • \u0007La commission de cession à percevoir par la société de gestion actuellement de 5 % HT (6% TTC au taux de TVA actuellement en vigueur) de la transaction (prix d'exécution), au titre de son intervention dans le fonctionnement du marché secondaire. 2.7. PERTE ET ENTRÉE EN JOUISSANCE DES PARTS Le vendeur perdra jouissance des parts vendues le dernier jour du mois au cours duquel est intervenue la confrontation des ordres à l'occasion de laquelle l'ordre de vente a été exécuté. L'acquéreur aura jouissance des parts et percevra les revenus afférents aux parts qu'il a achetées à compter du premier jour du mois suivant celui au cours duquel es",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "versés au Trésor Public et qui, actuellement"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (6% TTC au taux de TVA actuellement en vi"
+      },
+      {
+       "raw": "6%",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "frais de transfert",
+     "snippet": "te, les conditions sont librement débattues entre les intéressés sans oublier qu'il y a lieu de prévoir les droits d'enregistrement (5 % du prix cédant) et les frais de transfert de dossier s'élevant à un forfait actuel de 100 € HT (soit 120 € TTC au taux de TVA actuellement en vigueur) à la charge des acheteurs, donataires ou ayant droits. Le cédant doit signifier la cession à la société de gestion (et lui remettre les certificats nominatifs ou attestations de propriété des parts cédées s'il en a été établi), ainsi que la justification du paiement au Trésor Public des droits d'enregistrement. À réception, la société de gestion procédera au transfert de propriété sur le registre des associés et la cession deviendra dès cet instant opposable à la Société et aux tiers. 3.2. PIÈCES À RETOURNE",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "du prix cédant) et les frais de transfert de"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "COMMISSION DE SOUSCRIPTION",
+     "snippet": "CHAPITRE III FRAIS 1. RÉMUNÉRATION DE LA SOCIÉTÉ DE GESTION 1.1. COMMISSION DE SOUSCRIPTION La société de gestion prélèvera 10 % HT (soit 12 % TTC au taux de la TVA actuellement en vigueur) du prix de souscription des parts prime d'émission incluse. Cette commission est destinée à rémunérer la préparation des augmentations de capital, la recherche des capitaux, la préparation et l'exécution des programmes d'investissements. 1.2. COMMISSION DE GESTION AU TITRE DE LA GESTION DE LA SCPI Afin d'assurer l'administration de la SCPI, l'information régulière des associés, la préparation de toutes réunions ou assemblées, la distribution des revenus, l'encaissement des loyers et autres produits, le règleme",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 12 % TTC au taux de la TVA actuelle"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de la TVA actuellement en vigueu"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "COMMISSION DE GESTION",
+     "snippet": "stinée à rémunérer la préparation des augmentations de capital, la recherche des capitaux, la préparation et l'exécution des programmes d'investissements. 1.2. COMMISSION DE GESTION AU TITRE DE LA GESTION DE LA SCPI Afin d'assurer l'administration de la SCPI, l'information régulière des associés, la préparation de toutes réunions ou assemblées, la distribution des revenus, l'encaissement des loyers et autres produits, le règlement de l'ensemble des charges et la gestion du patrimoine immobilier, etc. La Société de gestion prélèvera 10 % hors taxes (12 % TTC au taux de TVA actuellement en vigueur) : • \u0007des produits locatifs hors taxes encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens des critères de l'alinéa I de l'article R.214-156 du CMF (à hauteur de la quote-part de",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes (12 % TTC au taux de TVA actuelle"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission de gestion",
+     "snippet": "ur de la quote-part de détention de la SCPI), les produits versés par les sociétés contrôlées à la SCPI étant exclus de la base de calcul. Étant précisé que la commission de gestion perçue au titre des sociétés contrôlées ou non contrôlées qui versent déjà directement une commission de gestion à la société de gestion est diminuée du montant de la commission de gestion déjà versée au niveau de la société contrôlée ou non contrôlée (à hauteur de la quote-part de détention de la SCPI). Moyennant cette rémunération, la société de gestion supporte les frais de bureaux (locaux et matériels) et de personnel nécessaires à l'administration de la Société et des biens sociaux, à la perception des recettes et à la distribution des bénéfices et à l'information régulière des associés, sous réserve des p",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "commission de gestion",
+     "snippet": "lus de la base de calcul. Étant précisé que la commission de gestion perçue au titre des sociétés contrôlées ou non contrôlées qui versent déjà directement une commission de gestion à la société de gestion est diminuée du montant de la commission de gestion déjà versée au niveau de la société contrôlée ou non contrôlée (à hauteur de la quote-part de détention de la SCPI). Moyennant cette rémunération, la société de gestion supporte les frais de bureaux (locaux et matériels) et de personnel nécessaires à l'administration de la Société et des biens sociaux, à la perception des recettes et à la distribution des bénéfices et à l'information régulière des associés, sous réserve des précisions qui suivent, et à l'exclusion de toutes les autres dépenses qui sont prises en charge par la Société. L",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "commission de gestion",
+     "snippet": "au titre des sociétés contrôlées ou non contrôlées qui versent déjà directement une commission de gestion à la société de gestion est diminuée du montant de la commission de gestion déjà versée au niveau de la société contrôlée ou non contrôlée (à hauteur de la quote-part de détention de la SCPI). Moyennant cette rémunération, la société de gestion supporte les frais de bureaux (locaux et matériels) et de personnel nécessaires à l'administration de la Société et des biens sociaux, à la perception des recettes et à la distribution des bénéfices et à l'information régulière des associés, sous réserve des précisions qui suivent, et à l'exclusion de toutes les autres dépenses qui sont prises en charge par la Société. La société de gestion supporte, en particulier, la charge des missions suivan",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "COMMISSION DE SUIVI",
+     "snippet": "ant de 100 € HT, soit 120 € TTC au taux de TVA actuellement en vigueur par cessionnaire, donataire ou ayant-droit quel que soit le nombre de parts cédées. 1.4. COMMISSION DE SUIVI ET DE PILOTAGE DES TRAVAUX AU TITRE DU SUIVI ET DU PILOTAGE DE LA RÉALISATION DES TRAVAUX SUR LE PA- TRIMOINE IMMOBILIER La société de gestion n'entend pas facturer de commission au titre du suivi et du pilotage de la réalisation des travaux sur le patrimoine immobilier. Toute rémunération relative au suivi et au pilotage de la réalisation des travaux sur le patrimoine immobilier devra préalablement être approuvée par l'assemblée générale des associés. 19 sofidy.com | NOTE D'INFORMATION EFIMMO 1 | SCPI À CAPITAL VARIABLE",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "COMMISSION D'ARBITRAGE",
+     "snippet": "1.5. COMMISSION D'ARBITRAGE AU TITRE DE LA CESSION DES ACTIFS Une commission sur arbitrages égale à 2,5 % HT : • \u0007en cas de vente d'un bien immobilier : du prix de vente du bien immobilier cédé par la SCPI ou par les sociétés que la SCPI contrôle au sens des critères de l'alinéa I de l'article R.214-156 du CMF (à hauteur de la quote-part de détention de la SCPI) ou du montant des remboursements d'apport encaissés par la SCPI au titre des sociétés non contrôlées au sens des critères de l'alinéa I de l'article R.214-156 du CMF ; • \u0007en cas de vente de parts de société que la SCPI contrôle au sens des critères de l'alinéa I de l'article R.21",
+     "percents": [
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT : • \u0007en cas de vente d'un bien immobilier"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 20,
+     "label": "commission de cession",
+     "snippet": " non contrôlée au sens des critères de l'alinéa I de l'article R.214-156 du CMF : des prix de vente des parts de la société non contrôlée. Étant précisé que la commission de cession perçue au titre des sociétés contrôlées ou non contrôlées qui versent déjà directement une commission sur arbitrages à la société de gestion est diminuée du montant de la commission de cession déjà versée au niveau de la société contrôlée ou non contrôlée (à hauteur de la quote-part de détention de la SCPI). Moyennant cette rémunération, la société de gestion supportera en particulier la charge des missions suivantes : • planification des programmes d'arbitrages annuels ; • suivi de la constitution des data-rooms ; • s'il y a lieu, préparation et suivi des appels d'offres; • suivi de la négociation des actes de",
+     "percents": [],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 20,
+     "label": "commission de cession",
+     "snippet": "itre des sociétés contrôlées ou non contrôlées qui versent déjà directement une commission sur arbitrages à la société de gestion est diminuée du montant de la commission de cession déjà versée au niveau de la société contrôlée ou non contrôlée (à hauteur de la quote-part de détention de la SCPI). Moyennant cette rémunération, la société de gestion supportera en particulier la charge des missions suivantes : • planification des programmes d'arbitrages annuels ; • suivi de la constitution des data-rooms ; • s'il y a lieu, préparation et suivi des appels d'offres; • suivi de la négociation des actes de vente ; • distribution, le cas échéant, des plus-values. La Société de gestion est en relation avec des partenaires qui sont en contact avec des clients susceptibles d'investir dans les fonds ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commissions de souscription",
+     "snippet": " avec des clients susceptibles d'investir dans les fonds de la Société de gestion. Leur rémunération ponctuelle et/ou récurrente est calculée en proportion des commissions de souscription et/ou des frais de gestion perçus par la Société de gestion et, pour les commissions récurrentes, doit être justifiée par l'amélioration du service fourni sur la durée. De même, la Société de gestion peut accorder de façon discrétionnaire, en fonction d'intérêts commerciaux, des remises négociées directement aux investisseurs sur demande. Les remises négociées, réduisant les commissions ou frais incombant aux investisseurs concernés, sont également payées sur la rémunération perçue par la Société de gestion en proportion des commissions de souscription et/ou des frais de gestion perçus. Elle peut notammen",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "frais de gestion",
+     "snippet": "tir dans les fonds de la Société de gestion. Leur rémunération ponctuelle et/ou récurrente est calculée en proportion des commissions de souscription et/ou des frais de gestion perçus par la Société de gestion et, pour les commissions récurrentes, doit être justifiée par l'amélioration du service fourni sur la durée. De même, la Société de gestion peut accorder de façon discrétionnaire, en fonction d'intérêts commerciaux, des remises négociées directement aux investisseurs sur demande. Les remises négociées, réduisant les commissions ou frais incombant aux investisseurs concernés, sont également payées sur la rémunération perçue par la Société de gestion en proportion des commissions de souscription et/ou des frais de gestion perçus. Elle peut notamment rétrocéder une partie de sa commissi",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commissions de souscription",
+     "snippet": "nt les commissions ou frais incombant aux investisseurs concernés, sont également payées sur la rémunération perçue par la Société de gestion en proportion des commissions de souscription et/ou des frais de gestion perçus. Elle peut notamment rétrocéder une partie de sa commission de gestion aux investisseurs institutionnels qui décideraient, en cas d'un volume important de parts en attente de remboursement inscrites sur le registre des retraits, de retirer un ordre significatif inscrit sur ce registre afin de contribuer à rétablir la liquidité du marché des parts. Ces rémunérations ou remises ne représentent pas une charge additionnelle pour la SCPI. 2. AUTRES FRAIS ET CHARGES SUPPORTÉES PAR LA SCPI La SCPI gardera en particulier en charge : • le prix d'acquisition de son patrimoine tous ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "frais de gestion",
+     "snippet": "aux investisseurs concernés, sont également payées sur la rémunération perçue par la Société de gestion en proportion des commissions de souscription et/ou des frais de gestion perçus. Elle peut notamment rétrocéder une partie de sa commission de gestion aux investisseurs institutionnels qui décideraient, en cas d'un volume important de parts en attente de remboursement inscrites sur le registre des retraits, de retirer un ordre significatif inscrit sur ce registre afin de contribuer à rétablir la liquidité du marché des parts. Ces rémunérations ou remises ne représentent pas une charge additionnelle pour la SCPI. 2. AUTRES FRAIS ET CHARGES SUPPORTÉES PAR LA SCPI La SCPI gardera en particulier en charge : • le prix d'acquisition de son patrimoine tous honoraires, droits et taxes inclus, fr",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commission de gestion",
+     "snippet": "rçue par la Société de gestion en proportion des commissions de souscription et/ou des frais de gestion perçus. Elle peut notamment rétrocéder une partie de sa commission de gestion aux investisseurs institutionnels qui décideraient, en cas d'un volume important de parts en attente de remboursement inscrites sur le registre des retraits, de retirer un ordre significatif inscrit sur ce registre afin de contribuer à rétablir la liquidité du marché des parts. Ces rémunérations ou remises ne représentent pas une charge additionnelle pour la SCPI. 2. AUTRES FRAIS ET CHARGES SUPPORTÉES PAR LA SCPI La SCPI gardera en particulier en charge : • le prix d'acquisition de son patrimoine tous honoraires, droits et taxes inclus, frais et études y compris en cas de non-aboutissement de l'acquisition, • l",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 24,
+     "label": "frais d'acquisition",
+     "snippet": "te La plus-value brute est égale à la différence (i) entre le prix de retrait ou de cession et (ii) le prix de souscription ou le prix d'acquisition majoré des frais d'acquisition réels et ajusté des bénéfices déjà imposés et des déficits déjà déduits (mécanisme « Quéméner »). Calcul de la plus-value imposable Le montant de la plus-value imposable correspond au montant de la plus-value brute, diminué des éventuels abattements pour durée de détention, calculés comme suit : • \u0007au titre de l'impôt sur le revenu, la plus-value brute est réduite d'un abattement progressif de 6 % par an entre la 6e et la 21e année de détention et de 4 % pour la 22e année de détention (permettant une exonération totale d'impôt sur la plus-value immobilière au-delà de 22 ans de détention des parts) ; • \u0007au titre d",
+     "percents": [
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "par an entre la 6e et la 21e année de détent"
+      },
+      {
+       "raw": "4 %",
+       "value": 4.0,
+       "tax_hint": null,
+       "after": "pour la 22e année de détention (permettant u"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 25,
+     "label": "frais d'acquisition",
+     "snippet": "ons d'immeubles est égale à la différence entre le prix de cession et le prix d'acquisition de l'immeuble majoré forfaitairement de 7,5 % pour tenir compte des frais d'acquisition (avec possibilité toutefois d'y substituer le montant réel des frais dûment justifiés) et des dépenses de construction, reconstruction, agrandissement et amélioration pour leur montant réel (ou pour un montant forfaitaire égal à 15 % du prix d'acquisition si l'immeuble est cédé plus de cinq (5) ans après son acquisition). Les éventuels abattements pour durée de détention sont calculés en fonction de la durée de détention de l'immeuble par la SCPI, indépendamment de la durée de détention des parts de la SCPI par les associés. L'imposition de la plus-value se réalise selon les mêmes conditions que sur les ventes de",
+     "percents": [
+      {
+       "raw": "7,5 %",
+       "value": 7.5,
+       "tax_hint": null,
+       "after": "pour tenir compte des frais d'acquisition (a"
+      },
+      {
+       "raw": "15 %",
+       "value": 15.0,
+       "tax_hint": null,
+       "after": "du prix d'acquisition si l'immeuble est cédé"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "9": "CHAPITRE I CONDITIONS GÉNÉRALES DE SOUSCRIPTION DES PARTS 1. COMPOSITION DU DOSSIER REMIS À TOUT SOUSCRIPTEUR PRÉALABLEMENT À TOUTE SOUSCRIPTION Préalablement à la souscription, un dossier complet de souscription doit être remis à tout souscripteur. Il comprend : • la Note d'information, en cours de validité visée par l'AMF, accompagnée de sa dernière mise à jour le cas échéant, • les statuts de la SCPI, • le rapport annuel et les comptes du dernier exercice, • le dernier bulletin trimestriel d'information, • le Document D'information Clés, • \u0007un Bulletin de souscription, contenant les indications prévues par l'instruction de l'AMF, établi en minimum deux exemplaires (un pour la société de gestion et l'autre pour le souscripteur). Les informations à communiquer aux souscripteurs avant qu'ils n'investissent le cas échéant dans la SCPI ou tout changement substantiel concernant ces informations, conformément à l'article 23 de la directive 2011/61/UE, sont mis à disposition du souscripteur dans les documents constitutifs du dossier de souscription, notamment en ce qui concerne l'endettement de la SCPI. Il est précisé que cette liste peut être complétée par la suite d'évolutions législatives ou réglementaires. 2. MODALITÉ DE VERSEMENT DU MONTANT DES SOUSCRIPTIONS 2.1. PARTS SOCIALES 2.1.1. Valeur nominale La valeur nominale de la part est de 10 €. Chaque part est indivisible à l'égard de la Société. 2.1.2. Forme des parts Les parts sont nominatives. Les droits de chaque associé résultent exclusivement de son inscription sur le registre des associés. La société de gestion peut délivrer à tout associé qui en fait la demande un certificat attestant son inscription sur ce registre ; ce certificat n'est pas cessible. En cas de sortie de la SCPI, l'associé qui se retire devra au préalable restituer le certificat à la société de gestion. En cas de perte ou de vol, destruction ou non réception d'un certificat nominatif de parts, l'associé devra présenter à la société de gestion une attestation de perte du certificat en question. Cette attestation devra être signée dans les mêmes conditions que la souscription originale et assortie de tous documents probants le cas échéant. Un nouveau certificat nominatif portant la mention « duplicata » sera alors délivré sans frais. 2.1.3. Décimalisation Les parts sociales pourront être fractionnées, sur décision du gérant, en dixièmes, centièmes, millièmes, dix millièmes dénommées fractions de parts sociales. Les dispositions des statuts réglant l'émission, la transmission des parts sociales et le retrait d'associés sont applicables aux fractions de parts sociales dont la valeur sera toujours proportionnelle à celle de la part sociale qu'elles représentent. 2.2. MODALITÉS DE CALCUL DU PRIX DE SOUSCRIPTION Le prix de souscription d'une part comprend deux éléments : • La valeur nominale. • Une prime d'émission, dont le montant peut être différent pour des souscriptions successives, destinée : - \u0007à couvrir forfaitairement les frais engagés par la Société pour la prospection des capitaux, la recherche des immeubles et les augmentations de capital ainsi que pour les frais d'acquisition des immeubles notamment droits d'enregistrement ou TVA non récupérable des immeubles commerciaux ou professionnels, frais de notaire et commissions ; - \u0007à préserver l'égalité des associés. À cette fin, il pourra notamment être prélevé sur la prime d'émission, sur décision de la société de gestion, le montant permettant le maintien du niveau du report à nouveau par part existant. 2.3. PRIX DE SOUSCRIPTION À dater du 1er septembre 2026 et jusqu'à nouvel avis, le prix de souscription d'une part se décompose de la manière suivante : Valeur nominale 10 € Prime d'émission\u0007 180 € dont 19 € HT (22,80 € TTC), soit 10 % HT (12 % TTC) au titre de la commission de souscription. Prix de souscription 190 € Le prix de souscription est net de frais et s'inscrit dans la fourchette légale par rapport à la valeur de reconstitution de la SCPI. 9 sofidy.com | NOTE D'INFORMATION EFIMMO 1 | SCPI À CAPITAL VARIABLE",
+    "10": "2.4. COMMISSION DE SOUSCRIPTION Conformément aux dispositions figurant au Chapitre III « Frais », une commission de souscription de 10 % HT (soit 12 % TTC) du prix de souscription des parts, soit 19 € HT par part (22,80 € TTC au taux de la TVA actuellement en vigueur) est prélevée sur le prix de souscription (prime d'émission incluse). Toute modification du prix actuel de souscription fera l'objet d'une information auprès de l'AMF. Il ne peut être procédé à des émissions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe, sur le registre prévu à l'article 422-218 du RG AMF, des demandes de retrait non satisfaites à un prix inférieur ou égal au prix de souscription. 3. NOMBRE MINIMUM DE PARTS À SOUSCRIRE Le minimum de souscription pour tout nouveau souscripteur est de une (1) part. 4. LIEUX DE SOUSCRIPTION ET DE VERSEMENT Les souscriptions sont reçues par les partenaires conseillers en investissement financier de Tikehau Investment Management ou dans les bureaux de Sofidy (marque de Tikehau Capital) - 303, square des Champs Élysées - Évry-Courcouronnes - 91026 ÉVRY Cedex. Les versements doivent être libellés à l'ordre de la SCPI EFIMMO 1. Les parts souscrites doivent être libérées en totalité dès la souscription. 5. DATE D'ENTRÉE EN JOUISSANCE DES PARTS Les parts nouvellement souscrites portent jouissance à compter du premier jour du troisième mois suivant la date d'encaissement de la souscription et d'inscription sur le registre des associés. À partir du 1er février 2024 et sur décision de la société de gestion, la date d'entrée en jouissance est temporairement fixée au 1er jour du mois suivant la date d'encaissement des fonds de la souscription et d'inscription sur le registre des associés. À titre d'exemple des parts souscrites en février entreront en jouissance le 1er mars. 6. AGRÉMENT Toute souscription de parts de la SCPI par un tiers étranger à la SCPI doit recueillir l'agrément de la société de gestion. La transmission du dossier de souscription accompagné du versement auprès de la société de gestion vaut pour le souscripteur demande d'agrément. La société de gestion dispose d'un délai de trente (30) jours à compter de ce dépôt pour notifier son refus d'agrément. La décision de la société de gestion n'est pas motivée et ne peut, en cas de refus de l'agrément, donner lieu à une réclamation quelconque contre la société de gestion ou la SCPI. Faute pour la société de gestion d'avoir envoyé sa décision dans le délai de 30 jours suivant la réception de la demande, l'agrément est considéré comme donné., les souscriptions sont agréées. Par ailleurs, dans le cadre de la lutte contre l'évasion fiscale et en application de l'article 1649 AC du Code général des impôts, la société de gestion peut devoir transmettre des informations concernant les souscripteurs à la Direction Générale des Finances Publiques en France. En conséquence, chaque associé devra se conformer à des obligations déclaratives comprenant, notamment et sans limitation, des informations sur les bénéficiaires directs et indirects de l'associé concerné, de manière à permettre à la société de gestion d'évaluer et de se conformer aux exigences légales, réglementaires et fiscales applicables à la SCPI et à la souscription de l'associé concerné. 7. SOUSCRIPTION/ACQUISITION DE PARTS PAR UN CLIENT RELEVANT D'UN DROIT ÉTRANGER La souscription/acquisition de parts n'est pas possible pour les clients, personnes morales ou physiques, qui en raison de leur nationalité, de leur résidence, de leur siège social, ou de leur lieu d'immatriculation, relèvent d'un droit étranger qui impose à la société de gestion des restrictions ou des obligations spécifiques quant à la commercialisation et la promotion de ses produits. Les informations relatives à la SCPI publiées par la société de gestion ne constituent en aucune manière une sollicitation en vue de l'achat de parts par des ressortissants ou résidents de certains pays, dont notamment les États-Unis d'Amérique. 8. OBLIGATIONS RELATIVES À LA LOI FATCA La société de gestion pourra demander au souscripteur toutes informations ou attestations requises au titre de toute obligation qu'elle pourrait avoir en matière d'identification et de déclaration (i) prévues à l'annexe 1 de l'Accord entre le Gouvernement de la République française et le Gouvernement des États-Unis d'Amérique en vue d'améliorer le respect des obligations fiscales à l'échelle internationale et de mettre en œuvre la loi relative au respect des obligations fiscales concernant les comptes étrangers (dite « Loi FATCA ») en date du 14 novembre 2013 (l'« Accord ») et (ii) telles que précisées, le cas échéant, au sein des dispositions légales et réglementaires prises en application de l'Accord. Le souscripteur devra s'engager à se conformer aux obligations qui lui incombent au titre de l'Accord telles que précisées, le cas échéant, au sein des dispositions légales et réglementaires prises en application de l'Accord. 10 sofidy.com | NOTE D'INFORMATION EFIMMO 1 | SCPI À CAPITAL VARIABLE",
+    "12": "CHAPITRE II MODALITÉS DE SORTIE Deux possibilités de sortie sont par principe offertes aux associés : • \u0007le remboursement de ses parts, par le biais d'une demande de retrait formulée auprès de la société de gestion, sur la base d'un prix de retrait déterminé par la société de gestion et qui peut intervenir : - \u0007en contrepartie d'une souscription correspondante, à un prix qui ne peut être supérieur au prix de souscription en vigueur au jour du retrait diminué de la commission de souscription, ou - \u0007en l'absence de souscription permettant de compenser la demande de retrait, et dans l'hypothèse où un fonds de remboursement serait créé et doté, par prélèvement sur le fonds de remboursement, tel que décrit à l'Article 1.3 du Chapitre II ci-dessous, à un prix qui ne peut être supérieur à la valeur de réalisation, ni inférieur à la valeur de réalisation diminuée de 10 %, sauf accord préalable de l'Autorité des Marchés Financiers. • \u0007la vente des parts de gré à gré, directement entre les associés et sans l'intervention de la société de gestion, à des conditions librement débattues entre le cédant et le cessionnaire. En cas de suspension de la variabilité du capital, et donc du mécanisme des retraits, en application de l'article L.214-93 du Comofi ou d'une décision de la société de gestion conformément aux conditions prévues dans les statuts de la SCPI, les associés auront la possibilité de céder leurs parts sur le marché secondaire par confrontation des ordres d'achat et de vente inscrits sur le registre tenu par la société de gestion. L'existence d'une contrepartie est nécessaire pour l'exécution des ordres. Tout nouvel ordre de vente ne pourra être traité que lorsque le précédent aura été totalement satisfait ou annulé. En application de l'article 422-205 du RG AMF, l'inscription d'ordre d'achat et de vente de parts sur le registre des ordres d'achat et de vente prévu à cet effet (et mise en place d'un marché secondaire) constitue une mesure appropriée au sens de l'article 214-93 du Comofi. L'application de cette mesure emporte la suspension des demandes de retrait. Tant que les associés qui avaient formulé une demande de retrait avant l'ouverture du marché secondaire, n'auront pas cédé l'intégralité des parts qui avaient fait l'objet d'une demande de retrait, ces demandes, bien que juridiquement annulées, resteront comptabilisées par la société de gestion comme des demandes en attente de retrait pour les seuls besoins du déclenchement du mécanisme légal prévu à l'article L.214-93 du Comofi, imposant la convocation d'une assemblée générale extraordinaire. La SCPI et société de gestion ne garantissent ni le remboursement ni la revente des parts. 1. RETRAIT DES ASSOCIÉS 1.1. PRINCIPE DU RETRAIT La SCPI étant une société à capital variable, tout associé peut se retirer de la SCPI, partiellement ou en totalité, dans le respect des conditions exposées ci-après. En cas de retrait partiel, la société de gestion applique, sauf instruction contraire du client, la règle du retrait par ordre historique d'acquisition des parts, c'est-à-dire la méthode « du 1er entré - 1er sorti ». Le remboursement des parts rend effectif le retrait par son inscription sur le registre des associés. Les parts remboursées sont annulées. L'associé perd la jouissance de ses parts le premier jour du mois au cours duquel le retrait est enregistré sur le registre des associés. À ce titre, il bénéficiera donc, le cas échéant, et prorata temporis, du versement de l'acompte sur dividende afférent aux revenus de la période précédant la perte de la jouissance des parts en cours, mais ne pourra prétendre à aucun versement ultérieur du dividende. Les retraits partiels, y compris ceux portant sur des fractions de parts, ne sont recevables que si, après exécution, l'associé conserve au moins une (1) part sociale entière. Les fractions de parts ne peuvent constituer à elles seules la totalité de la détention résiduelle d'un associé. Toute demande de retrait ayant pour effet de ramener la détention de l'associé à un solde strictement inférieur à une (1) part sociale entière est irrecevable et sera, à la discrétion de la Société de Gestion, soit refusée, soit ajustée au montant maximal compatible avec le maintien d'un solde d'au moins une (1) part sociale entière. 1.2. RETRAITS COMPENSÉS Un associé peut obtenir le remboursement de ses parts à condition qu'il y ait, pour faire droit à sa demande de retrait, un nombre de parts souscrites supérieur ou égal au nombre de parts retirées. La situation visée au § « Constitution d'un fonds de remboursement » fait exception à ce principe de compensation. La compensation entre les parts souscrites et les parts retirées intervient le dernier jour ouvré de chaque mois (la « Date de Compensation »). À la Date de Compensation, un associé peut obtenir le remboursement de ses parts à condition qu'il y ait, pour faire droit à sa demande de retrait, un nombre de parts souscrites supérieur ou égal au nombre de parts retirées au titre du mois en cours à la Date de Compensation. Cette période d'un mois constitue la « Période de Compensation ». La Société de Gestion pourra être amenée par des contraintes de marché à modifier la périodicité de la Période de Compensation et/ou la Date de Compensation sous réserve d'en informer le public au moins six (6) jours avant la Date de Compensation, par tous moyens appropriés et notamment par la voie du bulletin d'information et du site internet www.sofidy.com. 12 sofidy.com | NOTE D'INFORMATION EFIMMO 1 | SCPI À CAPITAL VARIABLE",
+    "14": "Les liquidités affectées au fonds de remboursement sont destinées à la seule satisfaction des demandes de retrait. En l'absence de réponse dans ce délai de quinze (15) jours, l'associé sera réputé maintenir sa demande de retrait sur le registre prévu à l'article 422-218 du RG AMF en attente de souscriptions venant compenser cette demande de retrait. La demande formulée par un associé de remboursement par l'intermédiaire du fonds de remboursement ne pourra excéder 0,1% du nombre de parts en circulation de la Société à la clôture de l'exercice précédent et un même associé ne pourra pas formuler de nouvelle demande de remboursement sur le fonds de remboursement tant que sa demande précédente n'aura pas été satisfaite. 1.5.4. Modalités de reprise des sommes allouées au fonds de remboursement La reprise des sommes disponibles sur le fonds de remboursement ne pourra être réalisée qu'avec l'autorisation d'une assemblée générale ordinaire sur le rapport motivé de la société de gestion et après avis du Conseil de Surveillance et information de l'Autorité des Marchés Financiers. 1.6. VALEUR DE RETRAIT Les valeurs de retrait sont fonction des trois situations ci-après, susceptibles de se présenter au jour de la demande : Situation A : retraits compensés Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué des frais. La valeur de retrait d'une part correspond au montant du nominal majoré de la prime d'émission (soit le prix de souscription en vigueur à la date de retrait), diminué d'un montant correspondant à la commission de souscription. En cas de baisse du prix de retrait, la société de gestion informe les associés ayant demandé le retrait, par lettre recommandée avec demande d'avis de réception, ou par tout autre moyen dématérialisé qui pourrait être mis en œuvre, au plus tard la veille de la date d'effet. En l'absence de réaction de la part des associés dans un délai qui ne pourra être inférieur à quinze (15) jours à compter de la date de réception de la lettre recommandée avec accusé de réception, la demande de retrait est réputée maintenue au nouveau prix. Cette information est contenue dans la lettre de notification. Exemple chiffré à compter du 1er septembre 2026 : Situation A : 171,00 € Situation B : retraits non compensés Dans l'hypothèse où le retrait n'est pas compensé par une souscription et qu'un fonds de remboursement a été créé et doté, le remboursement, pourra être réalisé par prélèvement sur le fonds de remboursement. Il pourra s'effectuer à un prix qui ne peut être : • ni supérieur à la valeur de réalisation, • ni inférieur à la dernière valeur de réalisation, diminuée de dix (10) %, sauf accord préalable de l'AMF. Situation B : valeur comprise entre 90 % et 100 % de valeur de réalisation calculée selon les termes exposés ci-dessus. Situation C : blocage des retraits et décision de céder tout ou partie du patrimoine de la SCPI Lorsque la société de gestion constate que les demandes de retrait non satisfaites depuis plus de douze (12) mois sur le registre mentionné au I. de l'article L.214-93 du CMF représentent au moins dix (10) % des parts émises par la SCPI, elle en informe sans délai l'AMF et convoque une Assemblée Générale Extraordinaire dans un délai de deux (2) mois à compter de cette information. La société de gestion peut proposer à l'Assemblée Générale Extraordinaire la cession partielle ou totale du patrimoine et toutes autres mesures appropriées. De telles cessions sont réputées conformes à l'article L.214-114 du CMF. Si tout ou partie du patrimoine est cédé, la société de gestion calcule la nouvelle valeur de réalisation de la part après prise en compte des montants effectifs des cessions immobilières réalisées. Elle en informe, par lettre recommandée avec demande d'avis de réception, tous les associés ayant demandé le retrait. En l'absence de réaction de l'associé dans un délai de quinze (15) jours à compter de la date de réception, celui-ci est remboursé sur la base de cette nouvelle valeur de réalisation. En cas de baisse du prix de retrait, la société de gestion informe, au plus tard la veille de la date d'effet, les associés ayant demandé le retrait. Cette information est faite par lettre recommandée avec demande d'avis de réception. En l'absence de réaction de l'associé dans un délai de quinze jours à compter de la date de réception de la lettre recommandée avec avis de réception, la demande de retrait est réputée maintenue au nouveau prix. Cette information est contenue dans la lettre de notification. Situation C : nouvelle valeur de réalisation après la vente d'un ou plusieurs immeubles. 1.7. PUBLICATION DES RETRAITS Dans chaque bulletin d'information périodique, la société de gestion indique la valeur de retrait en vigueur, ainsi que les mouvements de capital intervenus dans le cadre de la variabilité du capital sur la période écoulée et le nombre de parts en attente de retrait à la fin de la période. 1.8. BLOCAGE DES RETRAITS 1.8.1. En cas de blocage des retraits dans les conditions prévues à l'article L. 214-93 du CMF S'il s'avérait qu'une ou plusieurs demandes de retrait, inscrites sur le registre et représentant au moins dix (10) % des parts de la SCPI n'étaient pas satisfaites dans un délai de douze (12) mois, la société de gestion, conformément à l'article L.214-93 du CMF, en informerait sans délai l'Autorité des Marchés Financiers et convoquerait une assemblée générale extraordinaire dans les deux (2) mois de cette information. La société de gestion proposerait à l'assemblée générale la cession partielle ou totale du patrimoine et toute autre mesure appropriée. Elle pourrait notamment suspendre les retraits et décider de la mise en place d'un marché secondaire. La société de gestion publie les demandes de retrait en attente dans le bulletin d'information périodique. 14 sofidy.com | NOTE D'INFORMATION EFIMMO 1 | SCPI À CAPITAL VARIABLE",
+    "15": "Toutefois, l'assemblée générale peut autoriser la société de gestion à suspendre le mécanisme de retraits avant le délai légal de douze (12) mois sans convocation de l'assemblée générale extraordinaire, comme prévu par l'article L. 214-93 du CMF. 1.8.2. En cas de blocage des retraits dans les conditions prévues par les statuts (a) Suspension de la variabilité du capital La société de gestion a la faculté de suspendre à tout moment la variabilité du capital après en avoir informé les associés par tout moyen approprié (bulletin d'information, site internet de la société de gestion, courrier, e-mail, etc.), dès lors qu'elle constate que des demandes de retrait au prix de retrait en vigueur demeurent non satisfaites et inscrites sur le registre depuis au moins quatre (4) mois, et ce quel que soit le pourcentage de parts de la SCPI qu'elles représentent. La prise de cette décision entraîne : • la compensation entre les parts souscrites depuis la précédente Date de Compensation et les parts inscrites sur le registre, • \u0007la fermeture du registre et sa suspension. Ainsi, toute demande de retrait de part ayant été effectuée préalablement à la décision de suspension de la variabilité et portant sur des parts n'ayant pas fait l'objet d'un ordre de vente sur le marché secondaire pendant la période de suspension de la variabilité conservera son rang sur le registre des retraits et retrouvera ce rang lors du rétablissement de la variabilité du capital, • \u0007l'interdiction d'augmenter le capital effectif, • \u0007la possibilité d'inscrire des ordres d'achats et de vente uniquement sur le marché secondaire des parts, étant précisé que la transmission d'un tel ordre entraînera l'annulation des éventuelles demandes de retraits inscrites sur le registre des retraits préalablement à la décision de suspension de la variabilité du capital et portant sur les mêmes parts. Tant que les associés qui avaient formulé une demande de retrait avant l'ouverture du marché secondaire, n'auront pas cédé l'intégralité des parts qui avaient fait l'objet d'une demande de retrait, ces demandes, bien que juridiquement annulées, resteront comptabilisées par la société de gestion comme des demandes en attente de retrait pour les seuls besoins du déclenchement du mécanisme légal prévu à l'article L.214-93 du CMF, imposant la convocation d'une assemblée générale extraordinaire. (b) Rétablissement de la variabilité du capital La société de gestion a la faculté de rétablir à tout moment les effets de la variabilité du capital après en avoir informé les associés par tout moyen approprié (bulletin d'information, site internet de la société de gestion, courrier, e-mail, etc.). Après une période de 12 mois suivant la suspension de la variabilité du capital, dans l'hypothèse où la société de gestion n'aurait pas usé de la faculté qui lui est concédée par l'alinéa précédent, et dans le cas cumulatif où la société de gestion constaterait quatre (4) périodes consécutives de confrontation sur le marché secondaire au cours desquelles le prix d'exécution aura conduit à un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L. 214-94 du CMF, soit à un prix ne pouvant être inférieur ou supérieur de dix (10) % à la dernière valeur de reconstitution connue, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés par tout moyen approprié (bulletin d'information, sur le site internet de la société de gestion, courrier, email, etc...). Le rétablissement de la variabilité du capital entraîne : • l'annulation des ordres d'achat et de vente des parts sur le marché secondaire ; • \u0007la fin de la suspension des demandes de retrait inscrites sur le registre des retraits préalablement à la suspension de la variabilité du capital et portant sur des parts n'ayant pas fait l'objet d'un ordre de vente sur le marché secondaire durant la période de suspension de la variabilité du capital ; • la fixation d'un prix de souscription ne pouvant être inférieur à ou supérieur de dix (10) % à la dernière valeur de reconstitution connue ; • la reprise des souscriptions et la possibilité pour la SCPI, d'émettre des parts nouvelles en vue d'augmenter son capital effectif ; • la possibilité d'inscrire des demandes de retrait sur le registre de retrait des parts. Il est précisé que lors du rétablissement de la variabilité du capital, l'associé souhaitant vendre ses parts, sur le marché secondaire mais qui n'a pas pu les céder sur ce marché, pourra décider de compléter un bulletin de retrait afin de solliciter le retrait de ses parts par compensation avec de nouvelles souscriptions. Il est en outre précisé que, les retraits de parts demandés à la Société de Gestion dans le cadre de la variabilité du capital et les cessions de parts par confrontation par la Société de Gestion des ordres d'achat et de vente, qui se substitueraient aux retraits dans le cas du blocage des retraits, sont deux possibilités distinctes et non cumulatives. Les mêmes parts d'un associé ne sauraient en aucun cas à la fois faire l'objet d'une demande de retrait et être inscrites sur le registre des ordres de vente sur le marché secondaire. 2. ACHAT OU VENTE DE PARTS SUR LE MARCHÉ SECONDAIRE En cas de suspension de la variabilité du capital, et donc du mécanisme des retraits, en application de l'article L.214-93 du CMF ou d'une décision de la société de gestion conformément aux conditions prévues dans les statuts, il pourra être mis en place un marché secondaire des parts. Dans ce cas, les ordres d'achat et de vente seront, à peine de nullité, inscrits sur un registre tenu au siège de la SCPI. Le prix d'exécution résulte de la confrontation de l'offre et de la demande : il est établi et publié par la société de gestion au terme de chaque période de confrontation des ordres. Toute transaction donne lieu à une inscription sur le registre des associés qui est réputé constituer l'acte de cession écrit prévu par l'article 1865 du Code Civil. Le transfert de propriété qui en résulte est opposable, dès cet instant, à la SCPI et aux tiers. La société de gestion garantit la bonne fin de ces transactions. Les droits d'enregistrement sont à acquitter par le cessionnaire. Il ne peut être créé de parts nouvelles tant que figurent sur ce registre des ordres de vente non satisfaits à un prix égal ou inférieur au prix de souscription. 15 sofidy.com | NOTE D'INFORMATION EFIMMO 1 | SCPI À CAPITAL VARIABLE",
+    "17": "2.5. EXÉCUTION ET RÈGLEMENT Les ordres seront exécutés, dès l'établissement du prix d'exécution et à ce seul prix, par la société de gestion qui inscrira sans délai les transactions ainsi effectuées sur le registre des associés. Elle réglera aux cédants, dans un délai maximum de vingt (20) jours, les sommes leur revenant par prélèvement sur les fonds préalablement versés par les acheteurs. Si les parts cédées donnent lieu à taxation sur les plus-values immobilières, le produit de la vente sera versé au cédant déduction faite du montant de l'impôt acquitté par la société de gestion pour son compte. 2.6. FRAIS DE TRANSACTION Les frais de transaction seront à la charge de l'acquéreur et comprennent : • Les droits d'enregistrement actuellement de 5 % versés au Trésor Public et qui, actuellement, ne pourront pas être inférieurs à un forfait de 25 €. • \u0007La commission de cession à percevoir par la société de gestion actuellement de 5 % HT (6% TTC au taux de TVA actuellement en vigueur) de la transaction (prix d'exécution), au titre de son intervention dans le fonctionnement du marché secondaire. 2.7. PERTE ET ENTRÉE EN JOUISSANCE DES PARTS Le vendeur perdra jouissance des parts vendues le dernier jour du mois au cours duquel est intervenue la confrontation des ordres à l'occasion de laquelle l'ordre de vente a été exécuté. L'acquéreur aura jouissance des parts et percevra les revenus afférents aux parts qu'il a achetées à compter du premier jour du mois suivant celui au cours duquel est intervenue la confrontation des ordres à l'occasion de laquelle son ordre d'achat a été exécuté. 2.8. INFORMATION DES ASSOCIÉS ET DES TIERS La société de gestion est tenue de communiquer à toute personne qui en fait la demande, les cinq (5) prix d'achat les plus élevés et les cinq (5) prix de vente les plus faibles figurants sur le registre ainsi que les quantités demandées ou offertes à ces prix. Le prix d'exécution ainsi que les quantités de parts échangées sont rendus publics à la date de confrontation des ordres par téléphone et le lendemain sur le site Internet www.sofidy.com ainsi que dans le bulletin d'information. 2.9. AGRÉMENT DU CESSIONNAIRE Toute inscription sur le registre de la SCPI d'un ordre d'achat de parts sociales de la SCPI par un tiers étranger à la SCPI doit recueillir l'agrément de la société de gestion. La remise par un donneur d'ordre d'un ordre d'achat à la société de gestion vaut pour celui-ci demande d'agrément. L'agrément résulte soit d'une notification au donneur d'ordre, par lettre recommandée avec demande d'avis de réception, soit du défaut de réponse par la société de gestion dans le délai de deux (2) mois à compter de la réception de l'ordre. La décision de la société de gestion n'est pas motivée et ne peut, en cas de refus de l'agrément, donner lieu à une réclamation quelconque contre la société de gestion ou la SCPI. 2.10. SUSPENSION DE L'INSCRIPTION DES ORDRES SUR LE REGISTRE La société de gestion pourra, par décision motivée et sous sa responsabilité, suspendre l'inscription des ordres sur le registre des ordres après en avoir informé l'AMF. La société de gestion assurera par tout moyen approprié la diffusion effective et intégrale de cette décision motivée. 2.11. ANNULATION DES ORDRES INSCRITS SUR LE REGISTRE Lorsque la suspension est motivée par la survenance d'un évènement important susceptible, s'il était connu du public, d'avoir une incidence significative sur le prix d'exécution des parts ou la situation et les droits des associés, la société de gestion procédera à l'annulation des ordres sur le registre et en informera individuellement les donneurs d'ordres ou leurs intermédiaires. 2.12. BLOCAGE DU MARCHÉ DES PARTS Le marché secondaire des parts de SCPI répond aux lois de l'offre et de la demande en sorte qu'une offre de vente ne pourra être réalisée que s'il existe un acquéreur desdites parts. Ce marché des parts peut connaître de longs cycles de hausse et de baisse et la revente des parts peut donc s'avérer difficile. Lorsque la société de gestion constate que les ordres de vente inscrits sur le registre depuis plus de douze (12) mois représentent au moins dix (10) % des parts émises, elle en informe sans délai l'AMF. Dans les deux (2) mois à compter de cette information, la société de gestion convoque une Assemblée Générale Extraordinaire et lui propose la cession partielle ou totale du patrimoine et toute autre mesure appropriée. 3. ACHAT OU VENTE DE PARTS DE GRÉ À GRÉ (SANS INTERVENTION DE LA SOCIÉTÉ DE GESTION) 3.1. MODALITÉS DE CESSION DE GRÉ À GRÉ Les cessions effectuées directement entre associés et acquéreurs sont réputées réalisées sans intervention de la société de gestion. Le prix est librement fixé entre les parties. La cession sera réalisée, sans autre intervention de la société de gestion que la régularisation des cessions sur le registre des associés et des transferts. Toutefois, le cédant devra justifier auprès de la société de gestion du paiement des droits d'enregistrement et du paiement de l'éventuel impôt sur les plus-values en adressant une copie de l'acte de cession dûment enregistré par les Services Fiscaux. 17 sofidy.com | NOTE D'INFORMATION EFIMMO 1 | SCPI À CAPITAL VARIABLE",
+    "18": "Deux cas peuvent se présenter : 3.1.1. Le cessionnaire est déjà associé La cession est libre, il suffit de la signifier à la société de gestion, par lettre recommandée avec avis de réception. 3.1.2. Le cessionnaire n'est pas associé Sauf en cas de successions, liquidation de communauté de biens entre époux, cession au conjoint, ascendant ou descendant, la cession de parts à un tiers, à quelque titre que ce soit, est soumise à l'agrément de la société de gestion dans les conditions prévues à l'Article 2.9 « Agrément du cessionnaire » ci-dessus. Si la société de gestion n'agrée pas le cessionnaire, elle est tenue dans le délai d'un (1) mois à compter de la notification du refus de faire acquérir les parts soit par un associé ou par un tiers, soit avec le consentement du cédant, par la SCPI en vue d'une réduction du capital. À défaut d'accord entre les parties, le prix des parts est fixé conformément à l'article 1843-4 du Code Civil. Si à l'expiration d'un délai d'un (1) mois à compter de la notification de refus, l'achat n'est pas réalisé, l'agrément sera considéré comme donné. Toutefois, ce délai pourrait être prolongé par décision de justice conformément à la loi. En cas de cession directe, les conditions sont librement débattues entre les intéressés sans oublier qu'il y a lieu de prévoir les droits d'enregistrement (5 % du prix cédant) et les frais de transfert de dossier s'élevant à un forfait actuel de 100 € HT (soit 120 € TTC au taux de TVA actuellement en vigueur) à la charge des acheteurs, donataires ou ayant droits. Le cédant doit signifier la cession à la société de gestion (et lui remettre les certificats nominatifs ou attestations de propriété des parts cédées s'il en a été établi), ainsi que la justification du paiement au Trésor Public des droits d'enregistrement. À réception, la société de gestion procédera au transfert de propriété sur le registre des associés et la cession deviendra dès cet instant opposable à la Société et aux tiers. 3.2. PIÈCES À RETOURNER À LA SOCIÉTÉ Pour toute transcription de transfert sur le registre des transferts, les certificats nominatifs ou attestations de propriété de parts doivent être restitués à la Société. Toute mutation de parts sera considérée comme réalisée à la date de son inscription sur le registre des transferts. Cette inscription se fera sur présentation : • \u0007D'un bordereau de transfert signé par le titulaire des parts en indiquant les noms, prénoms, date et lieu de naissance et adresse du bénéficiaire de la mutation et le nombre de parts transféré, • D'une acceptation de transfert signée par le bénéficiaire, • Du paiement des frais de dossier s'élevant actuellement à 100 € HT soit 120 € TTC au taux de TVA actuellement en vigueur. Le ou les acomptes sur dividendes et les éventuels dividendes exceptionnels perçus par le cédant, avant la transcription de la cession, restent acquis à celui-ci. 3.3. PERTE ET ENTRÉE EN JOUISSANCE DES PARTS Le cédant perd la jouissance des parts vendues et les revenus afférents à ces parts à partir du dernier jour du mois au cours duquel la cession est inscrite sur le registre des associés par la société de gestion. L'acquéreur aura jouissance de ses parts le premier jour du mois suivant l'inscription de la cession sur le registre des associés. 3.4. DISPOSITIONS GÉNÉRALES RELATIVES AUX CESSIONS SUR LE MARCHÉ SECONDAIRE OU DE GRÉ À GRÉ 3.4.1. Registre des associés et des transferts Il est tenu, au siège de la SCPI, un registre des associés dans lequel figurent tous les titulaires de parts par suite de souscriptions ou de transferts. Toute transaction donne lieu à une inscription sur le registre des associés qui est réputée constituer l'acte de cession écrit prévu par l'article 1865 du Code civil. Le transfert de propriété qui en résulte est opposable dès cet instant à la SCPI et aux tiers. Toute cession de parts est considérée comme effective à la date d'inscription sur ce registre. 3.4.2. Effet de la cession En cas de cession, l'acompte sur dividende afférent au trimestre au cours duquel s'effectue le transfert est réparti entre vendeur et acquéreur « prorata temporis » à la date de l'inscription de la cession sur le registre des associés, l'inscription s'effectuant, au regard du dividende, le dernier jour du mois de la cession. Les éventuels acomptes sur dividendes ordinaires ou exceptionnels perçus par le cédant avant la transcription de la cession restent acquis à celui-ci. 18 sofidy.com | NOTE D'INFORMATION EFIMMO 1 | SCPI À CAPITAL VARIABLE",
+    "19": "CHAPITRE III FRAIS 1. RÉMUNÉRATION DE LA SOCIÉTÉ DE GESTION 1.1. COMMISSION DE SOUSCRIPTION La société de gestion prélèvera 10 % HT (soit 12 % TTC au taux de la TVA actuellement en vigueur) du prix de souscription des parts prime d'émission incluse. Cette commission est destinée à rémunérer la préparation des augmentations de capital, la recherche des capitaux, la préparation et l'exécution des programmes d'investissements. 1.2. COMMISSION DE GESTION AU TITRE DE LA GESTION DE LA SCPI Afin d'assurer l'administration de la SCPI, l'information régulière des associés, la préparation de toutes réunions ou assemblées, la distribution des revenus, l'encaissement des loyers et autres produits, le règlement de l'ensemble des charges et la gestion du patrimoine immobilier, etc. La Société de gestion prélèvera 10 % hors taxes (12 % TTC au taux de TVA actuellement en vigueur) : • \u0007des produits locatifs hors taxes encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens des critères de l'alinéa I de l'article R.214-156 du CMF (à hauteur de la quote-part de détention de la SCPI) ; • \u0007des produits financiers encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens des critères de l'alinéa I de l'article R.214-156 du CMF (à hauteur de la quote-part de détention de la SCPI), les produits versés par les sociétés contrôlées à la SCPI étant exclus de la base de calcul. Étant précisé que la commission de gestion perçue au titre des sociétés contrôlées ou non contrôlées qui versent déjà directement une commission de gestion à la société de gestion est diminuée du montant de la commission de gestion déjà versée au niveau de la société contrôlée ou non contrôlée (à hauteur de la quote-part de détention de la SCPI). Moyennant cette rémunération, la société de gestion supporte les frais de bureaux (locaux et matériels) et de personnel nécessaires à l'administration de la Société et des biens sociaux, à la perception des recettes et à la distribution des bénéfices et à l'information régulière des associés, sous réserve des précisions qui suivent, et à l'exclusion de toutes les autres dépenses qui sont prises en charge par la Société. La société de gestion supporte, en particulier, la charge des missions suivantes réalisées pour le compte de la SCPI : • information des associés, sauf frais d'impression et d'expédition ; • préparation des réunions des assemblées générales, sauf frais de tenue, et d'expédition des documents ; • tenue de la comptabilité ; • gestion de la trésorerie ; • distribution des revenus ; • \u0007facturation et recouvrement des loyers, indemnités d'occupation ou autres, intérêts de retard et autres, à l'exception de toutes les dépenses engagées dans le cadre de ces actions (honoraires d'avocats, huissiers et autres conseils ou intermédiaires de justice notamment) ; • \u0007facturation et recouvrement des charges locatives et autres auprès des locataires, à l'exception de toutes les dépenses engagées dans le cadre de ces actions (honoraires d'avocats, huissiers et autres conseils ou intermédiaires de justice notamment) ; • suivi de l'entretien du patrimoine immobilier, suivi des assemblées générales de copropriété ; • \u0007toute action de valorisation de la Société (relocation notamment), à l'exception de toutes les dépenses à engager dans le cadre de ces actions de valorisation (honoraires de relocation notamment) ; • et plus généralement, toutes les missions incombant aux administrateurs de biens. 1.3. COMMISSION AU TITRE DES CESSIONS DES PARTS DE LA SCPI • \u0007Si la cession intervient par confrontation des ordres d'achat et de vente, en application de l'article L.214-93 du CMF, la société de gestion percevra 5 % hors taxes de la transaction (prix d'exécution), au titre de son intervention dans le fonctionnement du marché secondaire, somme à la charge de l'acquéreur, en sus de tous droits d'enregistrement. • \u0007Si la cession n'intervient pas dans le cadre de l'article L.214-93 du CMF, pour toute cession de parts et mutations (cession de gré à gré, succession, donation, divorce...), la société de gestion percevra des frais de dossier forfaitaires d'un montant de 100 € HT, soit 120 € TTC au taux de TVA actuellement en vigueur par cessionnaire, donataire ou ayant-droit quel que soit le nombre de parts cédées. 1.4. COMMISSION DE SUIVI ET DE PILOTAGE DES TRAVAUX AU TITRE DU SUIVI ET DU PILOTAGE DE LA RÉALISATION DES TRAVAUX SUR LE PA- TRIMOINE IMMOBILIER La société de gestion n'entend pas facturer de commission au titre du suivi et du pilotage de la réalisation des travaux sur le patrimoine immobilier. Toute rémunération relative au suivi et au pilotage de la réalisation des travaux sur le patrimoine immobilier devra préalablement être approuvée par l'assemblée générale des associés. 19 sofidy.com | NOTE D'INFORMATION EFIMMO 1 | SCPI À CAPITAL VARIABLE",
+    "20": "1.5. COMMISSION D'ARBITRAGE AU TITRE DE LA CESSION DES ACTIFS Une commission sur arbitrages égale à 2,5 % HT : • \u0007en cas de vente d'un bien immobilier : du prix de vente du bien immobilier cédé par la SCPI ou par les sociétés que la SCPI contrôle au sens des critères de l'alinéa I de l'article R.214-156 du CMF (à hauteur de la quote-part de détention de la SCPI) ou du montant des remboursements d'apport encaissés par la SCPI au titre des sociétés non contrôlées au sens des critères de l'alinéa I de l'article R.214-156 du CMF ; • \u0007en cas de vente de parts de société que la SCPI contrôle au sens des critères de l'alinéa I de l'article R.214-156 du CMF : de la valeur des immeubles et des autres actifs immobiliers ayant servi à la détermination du prix de vente des parts cédées (à hauteur de la quote-part de détention de la SCPI) ; • \u0007en cas de vente de parts de société non contrôlée au sens des critères de l'alinéa I de l'article R.214-156 du CMF : des prix de vente des parts de la société non contrôlée. Étant précisé que la commission de cession perçue au titre des sociétés contrôlées ou non contrôlées qui versent déjà directement une commission sur arbitrages à la société de gestion est diminuée du montant de la commission de cession déjà versée au niveau de la société contrôlée ou non contrôlée (à hauteur de la quote-part de détention de la SCPI). Moyennant cette rémunération, la société de gestion supportera en particulier la charge des missions suivantes : • planification des programmes d'arbitrages annuels ; • suivi de la constitution des data-rooms ; • s'il y a lieu, préparation et suivi des appels d'offres; • suivi de la négociation des actes de vente ; • distribution, le cas échéant, des plus-values. La Société de gestion est en relation avec des partenaires qui sont en contact avec des clients susceptibles d'investir dans les fonds de la Société de gestion. Leur rémunération ponctuelle et/ou récurrente est calculée en proportion des commissions de souscription et/ou des frais de gestion perçus par la Société de gestion et, pour les commissions récurrentes, doit être justifiée par l'amélioration du service fourni sur la durée. De même, la Société de gestion peut accorder de façon discrétionnaire, en fonction d'intérêts commerciaux, des remises négociées directement aux investisseurs sur demande. Les remises négociées, réduisant les commissions ou frais incombant aux investisseurs concernés, sont également payées sur la rémunération perçue par la Société de gestion en proportion des commissions de souscription et/ou des frais de gestion perçus. Elle peut notamment rétrocéder une partie de sa commission de gestion aux investisseurs institutionnels qui décideraient, en cas d'un volume important de parts en attente de remboursement inscrites sur le registre des retraits, de retirer un ordre significatif inscrit sur ce registre afin de contribuer à rétablir la liquidité du marché des parts. Ces rémunérations ou remises ne représentent pas une charge additionnelle pour la SCPI. 2. AUTRES FRAIS ET CHARGES SUPPORTÉES PAR LA SCPI La SCPI gardera en particulier en charge : • le prix d'acquisition de son patrimoine tous honoraires, droits et taxes inclus, frais et études y compris en cas de non-aboutissement de l'acquisition, • les frais, droits et honoraires liés à l'acquisition ou à la cession des éléments du patrimoine ; • les frais d'entretien et les travaux d'aménagement, de réparation, de mise aux normes, d'agrandissement ou de reconstruction des immeubles ; • les frais et honoraires d'architecte, de maîtrise d'œuvre, de conseils ou de bureaux d'études se rapportant aux travaux sur les immeubles ; • la rémunération et frais de déplacement des membres du Conseil de Surveillance ; • les honoraires du Commissaire aux Comptes ; • les frais liés à l'utilisation des plateformes de dématérialisation partenaires dans le cadre de la facturation électronique ; • les honoraires et frais de l'expert externe en évaluation du patrimoine immobilier ; • la rémunération et frais du Dépositaire ; • \u0007les frais entraînés par la tenue des Conseils et Assemblées Générales, (en particulier la fabrication et l'impression du matériel de vote, les frais liés à la réception des votes par correspondance et au dépouillement, la location des salles et les frais de réception), ainsi que les frais d'expédition de tous les documents (en particulier les frais de routage et d'affranchissement) ; • \u0007les frais liés au suivi et à l'amélioration de la performance extra-financière de la Société (en particulier les frais de labellisation ou de mise aux normes) ; • les frais d'impression et d'expédition (notamment les frais de routage et d'affranchissement) de tout document d'information obligatoire ; • les frais de contentieux et de procédure, honoraires d'huissier et d'avocat et de conseils, les frais de secrétariat juridique ; • les assurances, et en particulier celles des immeubles constituant le patrimoine ; • les impôts et taxes diverses ; • \u0007le montant des consommations d'eau, d'électricité et de combustible et en général toutes les charges d'immeubles, honoraires des Syndics, des gestionnaires techniques et gérants d'immeubles ; • \u0007les frais liés au suivi et à la valorisation du patrimoine immobilier de la Société (en particulier les honoraires à verser à des cabinets de commercialisation au titre de la relocation des immeubles vacants) ; • toutes les autres dépenses n'entrant pas dans le cadre de l'administration directe de la Société. 20 sofidy.com | NOTE D'INFORMATION EFIMMO 1 | SCPI À CAPITAL VARIABLE",
+    "24": "4.1.2. Associés personnes morales assujettis à l'impôt sur les sociétés Si l'associé est une personne morale soumise à l'impôt sur les sociétés, ou si les parts de la SCPI sont inscrites à l'actif d'une entreprise industrielle ou commerciale, le revenu imposable est en principe déterminé conformément aux règles applicables aux bénéfices industriels et commerciaux. La société de gestion détermine la quote-part du résultat imposable pour chacun des associés personnes morales, et leur adresse un relevé individuel avec le montant à intégrer dans leur résultat imposable. 4.2. REVENUS FINANCIERS Ces revenus peuvent provenir de deux sources différentes : • des produits générés par le placement de la trésorerie disponible (produits de placements à revenu fixe) ; • des dividendes générés par des investissements indirects (parts d'OPCI par exemple). 4.2.1. Associés personnes physiques ou morales soumis à l'impôt sur le revenu Les revenus financiers sont soumis de plein droit à un Prélèvement Forfaitaire Unique (PFU) au taux de 31,4 % (12,8 % au titre de l'impôt sur le revenu et 18,6 % au titre des prélèvements sociaux) ou, sur option globale du contribuable sur l'ensemble de ses revenus, au barème progressif de l'impôt sur le revenu dans la catégorie des revenus de capitaux mobiliers. Toutefois, avant d'être soumis au PFU, ou le cas échéant, au barème progressif de l'impôt sur le revenu, ces produits font l'objet d'un prélèvement forfaitaire obligatoire non libératoire de 12,8 %. Ce prélèvement est perçu est perçu à titre d'acompte, lequel est imputable sur l'impôt sur le revenu dû au titre de l'année au cours duquel il a été opéré ; il fait l'objet d'une restitution s'il excède l'impôt effectivement dû. Par exception, les contribuables dont le revenu fiscal de référence de l'avant-dernière année n'excède pas un certain seuil peuvent être dispensés, sur leur demande, du paiement du prélèvement forfaitaire obligatoire non libératoire 12,8 %. 4.2.2. Associés personnes morales assujettis à l'impôt sur les sociétés Si l'associé est une personne morale soumise à l'impôt sur les sociétés, ou si les parts de la SCPI sont inscrites à l'actif d'une entreprise industrielle ou commerciale, le revenu imposable est en principe déterminé conformément aux règles applicables aux bénéfices industriels et commerciaux. La société de gestion détermine la quote-part du résultat imposable pour chacune de ces personnes morales, et leur adresse un relevé individuel avec le montant à intégrer dans leur résultat imposable. 4.3. PLUS-VALUE SUR LES VENTES DE PARTS 4.3.1. Associés personnes physiques ou morales soumis à l'impôt sur le revenu En cas de retrait ou de cession de parts, la plus-value imposable est soumise à l'impôt forfaitaire de 36,2 % sur les plus-values immobilières, se décomposant comme suit : • impôt sur le revenu afférent à la plus-value au taux de 19 % ; • prélèvements sociaux, au taux global actuel de 17,2 %. La loi de finances 2013 a instauré par ailleurs une taxe additionnelle sur les plus-values immobilières nettes dépassant le seuil de 50 000 € par foyer fiscal. Cette taxe s'élève à 2 % de la plus-value nette dépassant les 50 000 €, puis augmente de 1 % par tranche de 50 000 € jusqu'à 250 000 € avec un système de décote pour chaque entrée de seuil. À partir du seuil de 260 000 €, la taxe additionnelle est plafonnée à 6 % de la plus-value nette. Calcul de la plus-value brute La plus-value brute est égale à la différence (i) entre le prix de retrait ou de cession et (ii) le prix de souscription ou le prix d'acquisition majoré des frais d'acquisition réels et ajusté des bénéfices déjà imposés et des déficits déjà déduits (mécanisme « Quéméner »). Calcul de la plus-value imposable Le montant de la plus-value imposable correspond au montant de la plus-value brute, diminué des éventuels abattements pour durée de détention, calculés comme suit : • \u0007au titre de l'impôt sur le revenu, la plus-value brute est réduite d'un abattement progressif de 6 % par an entre la 6e et la 21e année de détention et de 4 % pour la 22e année de détention (permettant une exonération totale d'impôt sur la plus-value immobilière au-delà de 22 ans de détention des parts) ; • \u0007au titre des prélèvements sociaux, la plus-value brute bénéficie d'un abattement progressif de 1,65 % par an entre la 6e et la 21e année de détention des parts, de 1,60 % pour la 22e année de détention et de 9 % par an entre la 23e et la 30e année de détention (permettant une exonération totale des prélèvements sociaux au-delà de 30 ans de détention des parts). Exigibilité de l'impôt sur les plus-values immobilières • \u0007En cas de retrait ou de cession de parts, la société de gestion déclare, pour le compte du vendeur, le montant de la plus-value imposable éventuellement réalisée et verse l'impôt directement à l'administration fiscale. Dans ce cas, le montant versé à l'associé est égal au montant du prix de retrait en vigueur ou du prix de cession, diminué de l'impôt sur les plus-values immobilières. • \u0007En cas de cession de parts effectuée sans l'intervention de la société de gestion, le cédant règle directement son impôt sur les plus-values imposables à la recette des impôts de son domicile ou de son siège social. Le cédant doit justifier de ce paiement à la société de gestion. 4.3.2. Associés personnes morales assujettis à l'impôt sur les sociétés En cas de retrait ou de cession de parts, les plus-values éventuellement réalisées sont imposable selon le régime des plus-values professionnelles dans les conditions de droit commun. Pour les associés personnes morales soumises à l'impôt sur les sociétés, les plus-values sont soumises à cet impôt dans les conditions de droit commun. Le calcul et le paiement de l'impôt exigible sont effectués par l'associé. 24 sofidy.com | NOTE D'INFORMATION EFIMMO 1 | SCPI À CAPITAL VARIABLE"
+   }
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/04/DIC-EF-072026-FR-1-3192.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/04/DIC-EF-072026-FR-1-3192.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 198306,
+   "sha256": "c75ee7d26274d7b4390330da641b10d2c0a6b0f7e09ebb75427707d426259a50",
+   "metadata": {
+    "format": "PDF 1.5",
+    "creator": "Adobe InDesign 21.2 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260730122408+02'00'",
+    "modDate": "D:20260730122410+02'00'"
+   },
+   "page_count": 3,
+   "text_characters": 16067,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "sofidy.com | ÉPARGNE | INVESTISSEMENT | GESTION IMMOBILIÈRE | FUND MANAGEMENT | GESTION PRIVÉE | FINANCEMENT EFIMMO 1 Visa AMF n°26-07 du 31 mars 2026 - Initiateur du PRIIPS : Tikehau Investment Management (www.tikehaucapital.com) Contact : sofidy@tikehaucapital.com - Appeler le 01 69 87 02 00 pour de plus amples informations L' Autorité des Marchés Financiers (AMF) est chargée du contrôle de Tike",
+   "dates": [
+    "1er août 2026",
+    "31 mars 2026",
+    "4 juin 2025"
+   ],
+   "fee_clauses": [
+    {
+     "page": 2,
+     "label": "Coûts d'entrée",
+     "snippet": "tte personne vous informera du montant. COMPOSITION DES COÛTS Coûts ponctuels à l'entrée ou à la sortie L'incidence des coûts annuels si vous sortez après 1 an Coûts d'entrée 10 % du montant que vous payez au moment de l'entrée dans l'investissement. 1 000,00 € Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. Non applicable Coûts récurrents prélevés chaque année Frais de gestion et autres frais Administratifs et d'exploitation(2) 1,77 % de la valeur de votre investisse- ment par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 160 € Coûts de transaction 0,25 % de la valeur de votre investisse- ment par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vend",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "du montant que vous payez au moment de l'ent"
+      },
+      {
+       "raw": "1,77 %",
+       "value": 1.77,
+       "tax_hint": null,
+       "after": "de la valeur de votre investisse- ment par a"
+      },
+      {
+       "raw": "0,25 %",
+       "value": 0.25,
+       "tax_hint": null,
+       "after": "de la valeur de votre investisse- ment par a"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Coûts récurrents",
+     "snippet": "nt. 1 000,00 € Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. Non applicable Coûts récurrents prélevés chaque année Frais de gestion et autres frais Administratifs et d'exploitation(2) 1,77 % de la valeur de votre investisse- ment par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 160 € Coûts de transaction 0,25 % de la valeur de votre investisse- ment par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous- jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 22 € Coûts accessoires prélevés sous certaines conditions Commission liée aux résultats Aucune commission liée aux rés",
+     "percents": [
+      {
+       "raw": "1,77 %",
+       "value": 1.77,
+       "tax_hint": null,
+       "after": "de la valeur de votre investisse- ment par a"
+      },
+      {
+       "raw": "0,25 %",
+       "value": 0.25,
+       "tax_hint": null,
+       "after": "de la valeur de votre investisse- ment par a"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Frais de gestion",
+     "snippet": "facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. Non applicable Coûts récurrents prélevés chaque année Frais de gestion et autres frais Administratifs et d'exploitation(2) 1,77 % de la valeur de votre investisse- ment par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 160 € Coûts de transaction 0,25 % de la valeur de votre investisse- ment par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous- jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 22 € Coûts accessoires prélevés sous certaines conditions Commission liée aux résultats Aucune commission liée aux résultats n'existe pour ce produit. Non ap",
+     "percents": [
+      {
+       "raw": "1,77 %",
+       "value": 1.77,
+       "tax_hint": null,
+       "after": "de la valeur de votre investisse- ment par a"
+      },
+      {
+       "raw": "0,25 %",
+       "value": 0.25,
+       "tax_hint": null,
+       "after": "de la valeur de votre investisse- ment par a"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Coûts de transaction",
+     "snippet": "ifs et d'exploitation(2) 1,77 % de la valeur de votre investisse- ment par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 160 € Coûts de transaction 0,25 % de la valeur de votre investisse- ment par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous- jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 22 € Coûts accessoires prélevés sous certaines conditions Commission liée aux résultats Aucune commission liée aux résultats n'existe pour ce produit. Non applicable (2) Dont 0,96 % de frais d'exploitation immobilière. QUE VA ME COÛTER CET INVESTISSEMENT ?",
+     "percents": [
+      {
+       "raw": "1,77 %",
+       "value": 1.77,
+       "tax_hint": null,
+       "after": "de la valeur de votre investisse- ment par a"
+      },
+      {
+       "raw": "0,25 %",
+       "value": 0.25,
+       "tax_hint": null,
+       "after": "de la valeur de votre investisse- ment par a"
+      },
+      {
+       "raw": "0,96 %",
+       "value": 0.96,
+       "tax_hint": null,
+       "after": "de frais d'exploitation immobilière. QUE VA"
+      }
+     ],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "2": "sofidy.com | DOCUMENT D'INFORMATIONS CLÉS EFIMMO 1 2 Les scénarios défavorable, intermédiaire et favorable présentés représentent des exemples utilisant les meilleures et pires performances, ainsi que la performance moyenne du produit au cours des 13 dernières années. Les marchés pourraient évoluer très différemment à l'avenir. Le scénario de tensions montre ce que vous pourriez obtenir dans des situations de marché extrêmes. Les associés de la SCPI EFIMMO 1 ne bénéficient pas d'une garantie en capital. Ils ne sont par conséquent pas exposés à un risque de contrepartie sur la société de gestion Tikehau Investment Management. Tikehau Investment Management est une société de gestion de portefeuille agréée et suivie par l'Autorité des marchés financiers et doit respecter des règles d'organisation et de fonctionnement notamment en matière de fonds propres. Les fonds de l'investisseur ou les revenus de la SCPI sont versés sur un ou plusieurs comptes bancaires ouverts au nom de la SCPI. Par conséquent, le défaut de Tikehau Investment Management n'aurait aucun impact sur les actifs de la SCPI. Une défaillance de la société de gestion qui gère les actifs de votre SCPI serait sans effet pour votre investissement. La garde et conservation des actifs de votre SCPI sont en effet assurées par le dépositaire de votre SCPI. L'investissement dans une SCPI n'est pas garanti ni couvert par un système national de compensation. QUE SE PASSE-T-IL SI TIKEHAU INVESTMENT MANAGEMENT N'EST PAS EN MESURE D'EFFECTUER LES VERSEMENTS ? Les chiffres indiqués comprennent tous les coûts du produit lui-même, ainsi que les frais dus à votre conseiller ou distributeur. Ces chiffres ne tiennent pas compte de votre situation fiscale personnelle, qui peut également influer sur les montants que vous recevrez. Investissement 10 000 € Scénarios 1 an 8 ans (Période de détention recommandée) Scénario minimum Il n'existe aucun rendement minimal garanti. Vous pourriez perdre tout ou une partie de votre investissement Scénario de tensions Ce que vous pourriez obtenir après déduction des coûts Rendement annuel moyen 7 292 € -27,08 % 6 551 € -5,15 % Scénario défavorable Ce que vous pourriez obtenir après déduction des coûts Rendement annuel moyen 8 736 € -12,64 % 7 096 € -4,20 % Scénario intermédiaire Ce que vous pourriez obtenir après déduction des coûts Rendement annuel moyen 9 201 € -7,99 % 10 735 € 0,89 % Scénario favorable Ce que vous pourriez obtenir après déduction des coûts Rendement annuel moyen 9 502 € -4,98 % 13 890 € 4,19 % Il se peut que la personne qui vous vend ce produit ou qui vous fournit des conseils à son sujet vous demande de payer des coûts supplémentaires. Si c'est le cas, cette personne vous informera au sujet de ces coûts et vous montrera l'incidence de l'ensemble des coûts sur votre investissement au fil du temps. Ces montants n'incluent pas les frais d'un contrat d'assurance vie ou de capitalisation. COÛTS AU FIL DU TEMPS Les tableaux présentent les montants prélevés sur votre investissement afin de couvrir les différents types de coûts. Ces montants dépendent du montant que vous investissez, du temps pendant lequel vous détenez le produit et du rendement du produit. Les montants indiqués ici sont des illustrations basées sur un exemple de montant d'investissement et différentes périodes d'investissement possibles. Nous avons supposé : • \u0007qu'au cours de la première année vous récupéreriez le montant que vous avez investi (rendement annuel de 0 %). Que pour les autres périodes de détention, le produit évolue de la manière indiquée dans le scénario intermédiaire ; • \u000710 000 € sont investis. Investissement de 10 000 € Scénarios Si vous sortez après 1 an Si vous sortez à la fin de la période de détention recommandée (8 ans) Coûts totaux 1 182 € 2 454 € Incidence des coûts annuels(1) 11,82 % 3,09 % (1) \u0007Elle montre dans quelle mesure les coûts réduisent annuellement votre rendement au cours de la période de détention. Par exemple, elle montre que si vous sortez à la fin de la période de détention recommandée, il est prévu que votre rendement moyen par an soit de 2,66 % avant déduction des coûts et de 0,89 % après cette déduction. Il se peut que nous partagions les coûts avec la personne qui vous vend le produit afin de couvrir les services qu'elle vous fournit. Cette personne vous informera du montant. COMPOSITION DES COÛTS Coûts ponctuels à l'entrée ou à la sortie L'incidence des coûts annuels si vous sortez après 1 an Coûts d'entrée 10 % du montant que vous payez au moment de l'entrée dans l'investissement. 1 000,00 € Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. Non applicable Coûts récurrents prélevés chaque année Frais de gestion et autres frais Administratifs et d'exploitation(2) 1,77 % de la valeur de votre investisse- ment par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 160 € Coûts de transaction 0,25 % de la valeur de votre investisse- ment par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous- jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 22 € Coûts accessoires prélevés sous certaines conditions Commission liée aux résultats Aucune commission liée aux résultats n'existe pour ce produit. Non applicable (2) Dont 0,96 % de frais d'exploitation immobilière. QUE VA ME COÛTER CET INVESTISSEMENT ?"
+   }
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/04/DIC-IR-072026-FR-1-3193-1.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/04/DIC-IR-072026-FR-1-3193-1.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 200005,
+   "sha256": "02b92a9814ed0ff54b54cc4113b81bf289688178dd05551399f74039a3b94366",
+   "metadata": {
+    "format": "PDF 1.5",
+    "creator": "Adobe InDesign 21.2 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260730122413+02'00'",
+    "modDate": "D:20260730122415+02'00'"
+   },
+   "page_count": 3,
+   "text_characters": 15999,
+   "kind": "dic",
+   "identity_match": false,
+   "identity_alias": null,
+   "identity_where": null,
+   "title_excerpt": "sofidy.com | ÉPARGNE | INVESTISSEMENT | GESTION IMMOBILIÈRE | FUND MANAGEMENT | GESTION PRIVÉE | FINANCEMENT IMMORENTE Visa AMF n°26-08 du 31 mars 2026 - Initiateur du PRIIPS : Tikehau Investment Management (www.tikehaucapital.com) Contact : sofidy@tikehaucapital.com - Appeler le 01 69 87 02 00 pour de plus amples informations L'Autorités des marchés financiers (AMF) est chargée du contrôle de Tik",
+   "dates": [
+    "1er août 2026",
+    "31 mars 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 2,
+     "label": "Coûts d'entrée",
+     "snippet": "tte personne vous informera du montant. COMPOSITION DES COÛTS Coûts ponctuels à l'entrée ou à la sortie L'incidence des coûts annuels si vous sortez après 1 an Coûts d'entrée 10 % du montant que vous payez au moment de l'entrée dans l'investissement. 1 000 € Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. Non applicable Coûts récurrents prélevés chaque année Frais de gestion et autres frais Administratifs et d'exploitation(2) 1,5 % de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 135 € Coûts de transaction 0,24 % de la valeur de votre investisse- ment par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons le",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "du montant que vous payez au moment de l'ent"
+      },
+      {
+       "raw": "1,5 %",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "0,24 %",
+       "value": 0.24,
+       "tax_hint": null,
+       "after": "de la valeur de votre investisse- ment par a"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Coûts récurrents",
+     "snippet": "ement. 1 000 € Coûts de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. Non applicable Coûts récurrents prélevés chaque année Frais de gestion et autres frais Administratifs et d'exploitation(2) 1,5 % de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 135 € Coûts de transaction 0,24 % de la valeur de votre investisse- ment par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous- jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 21 € Coûts accessoires prélevés sous certaines conditions Commission liée aux résultats Aucune commission liée aux résult",
+     "percents": [
+      {
+       "raw": "1,5 %",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "0,24 %",
+       "value": 0.24,
+       "tax_hint": null,
+       "after": "de la valeur de votre investisse- ment par a"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Frais de gestion",
+     "snippet": "facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. Non applicable Coûts récurrents prélevés chaque année Frais de gestion et autres frais Administratifs et d'exploitation(2) 1,5 % de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 135 € Coûts de transaction 0,24 % de la valeur de votre investisse- ment par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous- jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 21 € Coûts accessoires prélevés sous certaines conditions Commission liée aux résultats Aucune commission liée aux résultats n'existe pour ce produit. Non appli",
+     "percents": [
+      {
+       "raw": "1,5 %",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "0,24 %",
+       "value": 0.24,
+       "tax_hint": null,
+       "after": "de la valeur de votre investisse- ment par a"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 2,
+     "label": "Coûts de transaction",
+     "snippet": "ratifs et d'exploitation(2) 1,5 % de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 135 € Coûts de transaction 0,24 % de la valeur de votre investisse- ment par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous- jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 21 € Coûts accessoires prélevés sous certaines conditions Commission liée aux résultats Aucune commission liée aux résultats n'existe pour ce produit. Non applicable (2) Dont 0,71 % de frais d'exploitation immobilière. QUE VA ME COÛTER CET INVESTISSEMENT ?",
+     "percents": [
+      {
+       "raw": "1,5 %",
+       "value": 1.5,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "0,24 %",
+       "value": 0.24,
+       "tax_hint": null,
+       "after": "de la valeur de votre investisse- ment par a"
+      },
+      {
+       "raw": "0,71 %",
+       "value": 0.71,
+       "tax_hint": null,
+       "after": "de frais d'exploitation immobilière. QUE VA"
+      }
+     ],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/04/NI-IR-072026-FR-2-3191.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/04/NI-IR-072026-FR-2-3191.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 613444,
+   "sha256": "b113cb3783bd319141e9beb0b8f660b213fe2210c9664bc99f779b6087e7054a",
+   "metadata": {
+    "format": "PDF 1.5",
+    "creator": "Adobe InDesign 21.2 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260730135835+02'00'",
+    "modDate": "D:20260730135836+02'00'"
+   },
+   "page_count": 38,
+   "text_characters": 162864,
+   "kind": "note",
+   "identity_match": false,
+   "identity_alias": null,
+   "identity_where": null,
+   "title_excerpt": "Note d'information Août 2026 sofidy.com",
+   "dates": [
+    "Août 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 9,
+     "label": "frais d'acquisition",
+     "snippet": "orfaitairement les frais engagés par la Société pour la prospection des capitaux, la recherche des immeubles et les augmentations de capital ainsi que pour les frais d'acquisition des immeubles notamment droits d'enregistrement ou TVA non récupérable des immeubles commerciaux ou professionnels, frais de notaire et commissions ; - \u0007à préserver l'égalité des associés. À cette fin, il pourra notamment être prélevé sur la prime d'émission, sur décision de la Société de Gestion, le montant permettant le maintien du niveau du report à nouveau par part existant. 2.3. PRIX DE SOUSCRIPTION À dater du 1er novembre 2021 et jusqu'à nouvel avis, le prix de souscription d'une part se décompose de la manière suivante : Valeur nominale 152 € Prime d'émission\u0007 188 € dont 34 € HT (40,80 € TTC), soit 10 % HT",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "commission de souscription",
+     "snippet": "une part se décompose de la manière suivante : Valeur nominale 152 € Prime d'émission\u0007 188 € dont 34 € HT (40,80 € TTC), soit 10 % HT (12 % TTC) au titre de la commission de souscription. Prix de souscription 340 € Le prix de souscription est net de frais et s'inscrit dans la fourchette légale par rapport à la valeur de reconstitution de la SCPI. 9 sofidy.com | NOTE D'INFORMATION IMMORENTE | SCPI À CAPITAL VARIABLE",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) au titre de la commission de s"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) au titre de la commission de souscripti"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "COMMISSION DE SOUSCRIPTION",
+     "snippet": "2.4. COMMISSION DE SOUSCRIPTION Conformément aux dispositions figurant au Chapitre III « Frais », une commission de souscription de 10 % HT (soit 12 % TTC) du prix de souscription des parts, soit 34 € HT par part (40,80 € TTC au taux de TVA actuellement en vigueur) est prélevée sur le prix de souscription (prime d'émission incluse). Toute modification du prix actuel de souscription fera l'objet d'une information de l'AMF. Il ne peut être procédé à des souscriptions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe, sur le registre prévu à l'article 422-218 du RGAMF, des demandes de retrait non satisfaites à un ",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 12 % TTC) du prix de souscription d"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix de souscription des parts, soit"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 10,
+     "label": "commission de souscription",
+     "snippet": "2.4. COMMISSION DE SOUSCRIPTION Conformément aux dispositions figurant au Chapitre III « Frais », une commission de souscription de 10 % HT (soit 12 % TTC) du prix de souscription des parts, soit 34 € HT par part (40,80 € TTC au taux de TVA actuellement en vigueur) est prélevée sur le prix de souscription (prime d'émission incluse). Toute modification du prix actuel de souscription fera l'objet d'une information de l'AMF. Il ne peut être procédé à des souscriptions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe, sur le registre prévu à l'article 422-218 du RGAMF, des demandes de retrait non satisfaites à un prix inférieur ou égal au prix de souscription. 3. NOMBRE MINIMUM DE PARTS À SOUSCRIRE Le minimum",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (soit 12 % TTC) du prix de souscription d"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix de souscription des parts, soit"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 12,
+     "label": "commission de souscription",
+     "snippet": "a. \u0007en contrepartie d'une souscription correspondante, à un prix qui ne peut être supérieur au prix de souscription en vigueur au jour du retrait diminué de la commission de souscription, ou b. \u0007en l'absence de souscription permettant de compenser la demande de retrait, et dans l'hypothèse où un fonds de remboursement serait créé et doté, par prélèvement sur le fonds de remboursement, tel que décrit à l'Article 1.3 du Chapitre II ci-dessous, à un prix qui ne peut être supérieur à la valeur de réalisation, ni inférieur à la valeur de réalisation diminuée de 10 %, sauf accord préalable de l'Autorité des Marchés Financiers. 2. \u0007La vente des parts de gré à gré, directement entre les associés et sans intervention de la Société de Gestion, à des conditions librement débattues entre le cédant et ",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf accord préalable de l'Autorité des Mar"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 14,
+     "label": "commission de souscription",
+     "snippet": "spond au montant du nominal majoré de la prime d'émission (soit le prix de souscription en vigueur à la date de retrait), diminué du montant correspondant à la commission de souscription. En cas de baisse du prix de retrait, la Société de Gestion informe les associés ayant demandé le retrait, par lettre recommandée avec demande d'avis de réception, ou par tout autre moyen dématérialisé qui pourrait être mis en œuvre au plus tard la veille de la date d'effet. En l'absence de réaction de la part des associés dans un délai qui ne pourra être inférieur à quinze (15) jours à compter de la date de réception de la notification, la demande de retrait est réputée maintenue au nouveau prix. Cette information est contenue dans la lettre de notification. Exemple chiffré à compter du 1er novembre 2021 ",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 15,
+     "label": "commission de cession",
+     "snippet": "quatre (4) périodes consécutives de confrontation sur le marché secondaire au cours desquelles le prix d'exécution aura conduit à un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L. 214-94 du CMF, soit à un prix ne pouvant être inférieur ou supérieur de dix (10) % à la dernière valeur de reconstitution connue, elle aura l'obligation de rétablir la variabilité du capital et d'en informer les associés par tout moyen approprié (bulletin d'information, sur le site internet de la Société de Gestion, courrier, email, etc...). Le rétablissement de la variabilité du capital entraîne : • l'annulation des ordres d'achat et de vente des parts sur le marché secondaire ; • \u0007la fin de la suspension des dema",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "commission de cession",
+     "snippet": " : • Les droits d'enregistrement actuellement de 5 % versés au Trésor Public et qui, actuellement, ne pourront pas être inférieurs à un forfait de 25 € ; • \u0007La commission de cession à percevoir par la Société de Gestion actuellement de 5 % HT (6 % TTC au taux de TVA actuellement en vigueur) de la transaction (prix d'exécution), au titre de son intervention dans le fonctionnement du marché secondaire. 2.7. PERTE ET ENTRÉE EN JOUISSANCE DES PARTS Le vendeur perdra jouissance des parts vendues le dernier jour du mois au cours duquel est intervenue la confrontation des ordres sur la base de laquelle l'ordre de vente a été exécuté. L'acquéreur aura jouissance des parts et percevra les revenus afférents aux parts qu'il a achetées à compter du premier jour du mois suivant celui au cours duquel es",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "versés au Trésor Public et qui, actuellement"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (6 % TTC au taux de TVA actuellement en v"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 18,
+     "label": "frais de transfert",
+     "snippet": "essés sans oublier qu'il y a lieu de prévoir les droits d'enregistrement auprès de l'administration fiscale (5 % du prix cédant actuellement en vigueur) et les frais de transfert de dossier s'élevant à un forfait actuel de 100 € HT (soit 120 € TTC au taux de TVA actuellement en vigueur) par cessionnaire, donataire ou ayant droit. Le cédant doit signifier la cession à la Société de Gestion (et lui remettre les certificats nominatifs ou attestations de propriété des parts cédées s'il en a été établi), ainsi que la justification du paiement au Trésor Public des droits d'enregistrement. À réception, la Société de Gestion procédera au transfert de propriété sur le registre des associés et la cession deviendra dès cet instant opposable à la Société et aux tiers. 3.2. PIÈCES À RETOURNER À LA SOCI",
+     "percents": [
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": null,
+       "after": "du prix cédant actuellement en vigueur) et l"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "COMMISSION DE SOUSCRIPTION",
+     "snippet": "CHAPITRE III FRAIS 1. RÉMUNÉRATION DE LA SOCIÉTÉ DE GESTION 1.1. \u0007COMMISSION DE SOUSCRIPTION La Société de Gestion prélèvera 10 % HT (12 % TTC au taux de la TVA actuellement en vigueur) du prix de souscription des parts prime d'émission incluse. Cette commission est destinée à rémunérer la préparation des augmentations de capital, la recherche des capitaux, la préparation et l'exécution des programmes d'investissements. 1.2. COMMISSION DE GESTION AU TITRE DE LA GESTION DE LA SCPI Afin d'assurer l'administration de la Société, l'information régulière des associés, la préparation de toutes réunions ou assemblées, la distribution des revenus, l'encaissement des loyers et autres produits, le règlement",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC au taux de la TVA actuellement"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de la TVA actuellement en vigueu"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "COMMISSION DE GESTION",
+     "snippet": "stinée à rémunérer la préparation des augmentations de capital, la recherche des capitaux, la préparation et l'exécution des programmes d'investissements. 1.2. COMMISSION DE GESTION AU TITRE DE LA GESTION DE LA SCPI Afin d'assurer l'administration de la Société, l'information régulière des associés, la préparation de toutes réunions ou assemblées, la distribution des revenus, l'encaissement des loyers et autres produits, le règlement de l'ensemble des charges et la gestion du patrimoine immobilier, etc., la Société de Gestion prélèvera 10 % hors taxes (12 % TTC au taux de la TVA actuellement en vigueur) : • \u0007des produits locatifs hors taxes encaissés par la SCPI et par les sociétés que la SCPI contrôle au sens des critères de l'alinéa I de l'article R.214-156 du CMF (à hauteur de la quote-",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes (12 % TTC au taux de la TVA actue"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de la TVA actuellement en vigueu"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission de gestion",
+     "snippet": "ur de la quote-part de détention de la SCPI), les produits versés par les sociétés contrôlées à la SCPI étant exclus de la base de calcul. Étant précisé que la commission de gestion perçue au titre des sociétés contrôlées ou non contrôlées qui versent déjà directement une commission de gestion à la Société de Gestion est diminuée du montant de la commission de gestion déjà versée au niveau de la société contrôlée ou non contrôlée (à hauteur de la quote-part de détention de la SCPI). Moyennant cette rémunération, la Société de Gestion supporte les frais de bureaux (locaux et matériels) et de personnel nécessaires à l'administration de la Société et des biens sociaux, à la perception des recettes et à la distribution des bénéfices et à l'information régulière des associés, sous réserve des p",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "commission de gestion",
+     "snippet": "lus de la base de calcul. Étant précisé que la commission de gestion perçue au titre des sociétés contrôlées ou non contrôlées qui versent déjà directement une commission de gestion à la Société de Gestion est diminuée du montant de la commission de gestion déjà versée au niveau de la société contrôlée ou non contrôlée (à hauteur de la quote-part de détention de la SCPI). Moyennant cette rémunération, la Société de Gestion supporte les frais de bureaux (locaux et matériels) et de personnel nécessaires à l'administration de la Société et des biens sociaux, à la perception des recettes et à la distribution des bénéfices et à l'information régulière des associés, sous réserve des précisions qui suivent, et à l'exclusion de toutes les autres dépenses qui sont prises en charge par la Société. L",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "commission de gestion",
+     "snippet": "au titre des sociétés contrôlées ou non contrôlées qui versent déjà directement une commission de gestion à la Société de Gestion est diminuée du montant de la commission de gestion déjà versée au niveau de la société contrôlée ou non contrôlée (à hauteur de la quote-part de détention de la SCPI). Moyennant cette rémunération, la Société de Gestion supporte les frais de bureaux (locaux et matériels) et de personnel nécessaires à l'administration de la Société et des biens sociaux, à la perception des recettes et à la distribution des bénéfices et à l'information régulière des associés, sous réserve des précisions qui suivent, et à l'exclusion de toutes les autres dépenses qui sont prises en charge par la Société. La Société de Gestion supporte, en particulier, la charge des missions suivan",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "COMMISSION DE SUIVI",
+     "snippet": "t de 100 € HT, soit 120 € TTC au taux de TVA actuellement en vigueur, par cessionnaire, donataire ou ayant droit quel que soit le nombre de parts cédées. 1.4. \u0007COMMISSION DE SUIVI ET DE PILOTAGE DES TRAVAUX AU TITRE DU SUIVI ET DU PILOTAGE DE LA RÉALISATION DES TRAVAUX SUR LE PATRIMOINE IMMOBILIER La Société de Gestion n'entend pas facturer de commission au titre du suivi et du pilotage de la réalisation des travaux sur le patrimoine immobilier. Toute rémunération relative au suivi et au pilotage de la réalisation des travaux sur le patrimoine immobilier devra préalablement être approuvée par l'Assemblée Générale. 1.5. COMMISSION D'ARBITRAGE AU TITRE DE LA CESSION DES ACTIFS : Une commission sur arbitrages égale à 2,5 % HT (3 % TTC au taux de TVA actuellement en vigueur) : • \u0007en cas de ven",
+     "percents": [
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT (3 % TTC au taux de TVA actuellement en v"
+      },
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "COMMISSION D'ARBITRAGE",
+     "snippet": "n relative au suivi et au pilotage de la réalisation des travaux sur le patrimoine immobilier devra préalablement être approuvée par l'Assemblée Générale. 1.5. COMMISSION D'ARBITRAGE AU TITRE DE LA CESSION DES ACTIFS : Une commission sur arbitrages égale à 2,5 % HT (3 % TTC au taux de TVA actuellement en vigueur) : • \u0007en cas de vente d'un bien immobilier : du prix de vente du bien immobilier cédé par la SCPI ou par les sociétés que la SCPI contrôle au sens des critères de l'alinéa I de l'article R.214-156 du CMF (à hauteur de la quote-part de détention de la SCPI) ou du montant des remboursements d'apport encaissés par la SCPI au titre des sociétés non contrôlées au sens des critères de l'alinéa I de l'article R.214-156 du CMF ; 19 sofidy.com | NOTE D'INFORMATION IMMORENTE | SCPI À CAPITAL",
+     "percents": [
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT (3 % TTC au taux de TVA actuellement en v"
+      },
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "TTC",
+       "after": "TTC au taux de TVA actuellement en vigueur)"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 20,
+     "label": "commission de cession",
+     "snippet": " non contrôlée au sens des critères de l'alinéa I de l'article R.214-156 du CMF : des prix de vente des parts de la société non contrôlée. Étant précisé que la commission de cession perçue au titre des sociétés contrôlées ou non contrôlées qui versent déjà directement une commission sur arbitrages à la Société de Gestion est diminuée du montant de la commission de cession déjà versée au niveau de la société contrôlée ou non contrôlée (à hauteur de la quote-part de détention de la SCPI). Moyennant cette rémunération, la Société de Gestion supportera en particulier la charge des missions suivantes : • Planification des programmes d'arbitrages annuels ; • Suivi de la constitution des data-rooms ; • S'il y a lieu, préparation et suivi des appels d'offres ; • Suivi des négociations et des actes",
+     "percents": [],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 20,
+     "label": "commission de cession",
+     "snippet": "itre des sociétés contrôlées ou non contrôlées qui versent déjà directement une commission sur arbitrages à la Société de Gestion est diminuée du montant de la commission de cession déjà versée au niveau de la société contrôlée ou non contrôlée (à hauteur de la quote-part de détention de la SCPI). Moyennant cette rémunération, la Société de Gestion supportera en particulier la charge des missions suivantes : • Planification des programmes d'arbitrages annuels ; • Suivi de la constitution des data-rooms ; • S'il y a lieu, préparation et suivi des appels d'offres ; • Suivi des négociations et des actes de vente ; • Distribution, le cas échéant, des plus-values. La Société de gestion est en relation avec des partenaires qui sont en contact avec des clients susceptibles d'investir dans les fon",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commissions de souscription",
+     "snippet": " avec des clients susceptibles d'investir dans les fonds de la Société de gestion. Leur rémunération ponctuelle et/ou récurrente est calculée en proportion des commissions de souscription et/ou des frais de gestion perçus par la Société de gestion et, pour les commissions récurrentes, doit être justifiée par l'amélioration du service fourni sur la durée. De même, la Société de gestion peut accorder de façon discrétionnaire, en fonction d'intérêts commerciaux, des remises négociées directement aux investisseurs sur demande. Les remises négociées, réduisant les commissions ou frais incombant aux investisseurs concernés, sont également payées sur la rémunération perçue par la Société de gestion en proportion des commissions de souscription et/ou des frais de gestion perçus. Elle peut notammen",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "frais de gestion",
+     "snippet": "tir dans les fonds de la Société de gestion. Leur rémunération ponctuelle et/ou récurrente est calculée en proportion des commissions de souscription et/ou des frais de gestion perçus par la Société de gestion et, pour les commissions récurrentes, doit être justifiée par l'amélioration du service fourni sur la durée. De même, la Société de gestion peut accorder de façon discrétionnaire, en fonction d'intérêts commerciaux, des remises négociées directement aux investisseurs sur demande. Les remises négociées, réduisant les commissions ou frais incombant aux investisseurs concernés, sont également payées sur la rémunération perçue par la Société de gestion en proportion des commissions de souscription et/ou des frais de gestion perçus. Elle peut notamment rétrocéder une partie de sa commissi",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commissions de souscription",
+     "snippet": "nt les commissions ou frais incombant aux investisseurs concernés, sont également payées sur la rémunération perçue par la Société de gestion en proportion des commissions de souscription et/ou des frais de gestion perçus. Elle peut notamment rétrocéder une partie de sa commission de gestion aux investisseurs institutionnels qui décideraient, en cas d'un volume important de parts en attente de remboursement inscrites sur le registre des retraits, de retirer un ordre significatif inscrit sur ce registre afin de contribuer à rétablir la liquidité du marché des parts. Ces rémunérations ou remises ne représentent pas une charge additionnelle pour la SCPI. 2. AUTRES FRAIS ET CHARGES SUPPORTÉES PAR LA SCPI La SCPI gardera en particulier en charge : • \u0007Le prix d'acquisition de son patrimoine tous",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "frais de gestion",
+     "snippet": "aux investisseurs concernés, sont également payées sur la rémunération perçue par la Société de gestion en proportion des commissions de souscription et/ou des frais de gestion perçus. Elle peut notamment rétrocéder une partie de sa commission de gestion aux investisseurs institutionnels qui décideraient, en cas d'un volume important de parts en attente de remboursement inscrites sur le registre des retraits, de retirer un ordre significatif inscrit sur ce registre afin de contribuer à rétablir la liquidité du marché des parts. Ces rémunérations ou remises ne représentent pas une charge additionnelle pour la SCPI. 2. AUTRES FRAIS ET CHARGES SUPPORTÉES PAR LA SCPI La SCPI gardera en particulier en charge : • \u0007Le prix d'acquisition de son patrimoine tous honoraires, droits et taxes inclus, l",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commission de gestion",
+     "snippet": "rçue par la Société de gestion en proportion des commissions de souscription et/ou des frais de gestion perçus. Elle peut notamment rétrocéder une partie de sa commission de gestion aux investisseurs institutionnels qui décideraient, en cas d'un volume important de parts en attente de remboursement inscrites sur le registre des retraits, de retirer un ordre significatif inscrit sur ce registre afin de contribuer à rétablir la liquidité du marché des parts. Ces rémunérations ou remises ne représentent pas une charge additionnelle pour la SCPI. 2. AUTRES FRAIS ET CHARGES SUPPORTÉES PAR LA SCPI La SCPI gardera en particulier en charge : • \u0007Le prix d'acquisition de son patrimoine tous honoraires, droits et taxes inclus, les frais et études y compris en cas de non-aboutissement de l'acquisition",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 23,
+     "label": "frais d'acquisition",
+     "snippet": "te La plus-value brute est égale à la différence (i) entre le prix de retrait ou de cession et (ii) le prix de souscription ou le prix d'acquisition majoré des frais d'acquisition réels et ajusté des bénéfices déjà imposés et des déficits déjà déduits (mécanisme « Quéméner »). Calcul de la plus-value imposable Le montant de la plus-value imposable correspond au montant de la plus-value brute, diminué des éventuels abattements pour durée de détention, calculés comme suit : • \u0007au titre de l'impôt sur le revenu, la plus-value brute est réduite d'un abattement progressif de 6 % par an entre la 6e et la 21e année de détention et de 4 % pour la 22e année (permettant une exonération totale d'impôt sur la plus-value immobilière au-delà de 22 ans de détention des parts) ; • \u0007au titre des prélèvemen",
+     "percents": [
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": null,
+       "after": "par an entre la 6e et la 21e année de détent"
+      },
+      {
+       "raw": "4 %",
+       "value": 4.0,
+       "tax_hint": null,
+       "after": "pour la 22e année (permettant une exonératio"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "frais d'acquisition",
+     "snippet": "ons d'immeubles est égale à la différence entre le prix de cession et le prix d'acquisition de l'immeuble majoré forfaitairement de 7,5 % pour tenir compte des frais d'acquisition (avec possibilité toutefois d'y substituer le montant réel des frais dûment justifiés) et des dépenses de construction, reconstruction, agrandissement et amélioration pour leur montant réel (ou pour un montant forfaitaire égal à 15 % du prix d'acquisition si l'immeuble est cédé plus de cinq (5) ans après son acquisition). Les éventuels abattements pour durée de détention sont calculés en fonction de la durée de détention de l'immeuble par la SCPI, indépendamment de la durée de détention des parts de la SCPI par les associés. L'imposition de la plus-value se réalise selon les mêmes conditions que sur les ventes de",
+     "percents": [
+      {
+       "raw": "7,5 %",
+       "value": 7.5,
+       "tax_hint": null,
+       "after": "pour tenir compte des frais d'acquisition (a"
+      },
+      {
+       "raw": "15 %",
+       "value": 15.0,
+       "tax_hint": null,
+       "after": "du prix d'acquisition si l'immeuble est cédé"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    }
+   ],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2026/08/FP-EF-082026-FR-1-3249_FicheProduit_EFIMMO1_v28.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2026/08/FP-EF-082026-FR-1-3249_FicheProduit_EFIMMO1_v28.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 224659,
+   "sha256": "3b50d3d18794ee9d9087d950588a15c12bbd8579fa0361b2aa9134b638df4b50",
+   "metadata": {
+    "format": "PDF 1.5",
+    "creator": "Adobe InDesign 21.2 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260810164506+02'00'",
+    "modDate": "D:20260810164507+02'00'"
+   },
+   "page_count": 2,
+   "text_characters": 13271,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "EFIMMO 1, l'immobilier de bureaux en France et en Europe* à portée de main 1. PRÉSENTATION DE LA SCPI EFIMMO 1 est une Société Civile de Placement Immobilier (SCPI) de rendement à capital variable. L'objectif de gestion de la SCPI EFIMMO 1 est de proposer à l'investisseur une distribution potentielle de dividendes ainsi qu'une progression de la valeur des parts souscrites sur un horizon de détenti",
+   "dates": [
+    "1er février 2024",
+    "31 mars 2026",
+    "31/12/2025",
+    "septembre 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 2,
+     "label": "Frais de souscription",
+     "snippet": " et financier a obtenu de l'Autorité des Marchés Financiers le visa AMF n°26-07 du 31 mars 2026. FRAIS ET COMMISSIONS Frais supportés directement par le client Frais de souscription : 10 % HT (12 % TTC) sur le montant des capitaux collectés, primes d'émission incluses Frais de cession de parts : Cession par confrontation des ordres d'achat et de vente : 5 % HT du prix d'exécution (6 % TTC) La Société de Gestion perçoit une rémunération forfaitaire de 100 € HT soit 120 € TTC par cessionnaire, donataire ou ayant droit, pour toute cession de parts et toute mutation à titre gratuit (cession de gré à gré, succession, donation, divorce...). Frais supportés directement par la SCPI Commission de gestion annuelle : 10 % HT (12 % TTC) des produits locatifs hors taxes encaissés et des produits financ",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) sur le montant des capitaux co"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) sur le montant des capitaux collectés,"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT du prix d'exécution (6 % TTC) La Société"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) La Société de Gestion perçoit une rémun"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) des produits locatifs hors tax"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) des produits locatifs hors taxes encais"
+      }
+     ],
+     "basis_tags": [
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 2,
+     "label": "Frais de cession",
+     "snippet": "MISSIONS Frais supportés directement par le client Frais de souscription : 10 % HT (12 % TTC) sur le montant des capitaux collectés, primes d'émission incluses Frais de cession de parts : Cession par confrontation des ordres d'achat et de vente : 5 % HT du prix d'exécution (6 % TTC) La Société de Gestion perçoit une rémunération forfaitaire de 100 € HT soit 120 € TTC par cessionnaire, donataire ou ayant droit, pour toute cession de parts et toute mutation à titre gratuit (cession de gré à gré, succession, donation, divorce...). Frais supportés directement par la SCPI Commission de gestion annuelle : 10 % HT (12 % TTC) des produits locatifs hors taxes encaissés et des produits financiers nets Commission de cession d'immeuble : 2,5 % HT (3 % TTC) des prix de vente des immeubles cédés par la ",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) sur le montant des capitaux co"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) sur le montant des capitaux collectés,"
+      },
+      {
+       "raw": "5 %",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT du prix d'exécution (6 % TTC) La Société"
+      },
+      {
+       "raw": "6 %",
+       "value": 6.0,
+       "tax_hint": "TTC",
+       "after": "TTC) La Société de Gestion perçoit une rémun"
+      },
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) des produits locatifs hors tax"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) des produits locatifs hors taxes encais"
+      },
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT (3 % TTC) des prix de vente des immeubles"
+      },
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "TTC",
+       "after": "TTC) des prix de vente des immeubles cédés p"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 2,
+     "label": "Commission de gestion",
+     "snippet": "pour toute cession de parts et toute mutation à titre gratuit (cession de gré à gré, succession, donation, divorce...). Frais supportés directement par la SCPI Commission de gestion annuelle : 10 % HT (12 % TTC) des produits locatifs hors taxes encaissés et des produits financiers nets Commission de cession d'immeuble : 2,5 % HT (3 % TTC) des prix de vente des immeubles cédés par la Société 4. UN PATRIMOINE IMMOBILIER DIVERSIFIÉ Avec 1 408 actifs immobiliers(1) répartis en France et en Europe, EFIMMO 1 fait de la mutualisation des risques et du patrimoine, une des pierres angulaires de sa gestion. Ces actifs immobiliers sont situés principalement dans les grandes métropoles régionales françaises et européennes*, et à titre accessoire dans les autres villes françaises et européennes. (5) \u0007D",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) des produits locatifs hors tax"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) des produits locatifs hors taxes encais"
+      },
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT (3 % TTC) des prix de vente des immeubles"
+      },
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "TTC",
+       "after": "TTC) des prix de vente des immeubles cédés p"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    },
+    {
+     "page": 2,
+     "label": "Commission de cession",
+     "snippet": "upportés directement par la SCPI Commission de gestion annuelle : 10 % HT (12 % TTC) des produits locatifs hors taxes encaissés et des produits financiers nets Commission de cession d'immeuble : 2,5 % HT (3 % TTC) des prix de vente des immeubles cédés par la Société 4. UN PATRIMOINE IMMOBILIER DIVERSIFIÉ Avec 1 408 actifs immobiliers(1) répartis en France et en Europe, EFIMMO 1 fait de la mutualisation des risques et du patrimoine, une des pierres angulaires de sa gestion. Ces actifs immobiliers sont situés principalement dans les grandes métropoles régionales françaises et européennes*, et à titre accessoire dans les autres villes françaises et européennes. (5) \u0007Dividende au titre de l'année N avant prélèvement obligatoire et autre fiscalité immobilière (sur revenus étrangers et sur plusv",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (12 % TTC) des produits locatifs hors tax"
+      },
+      {
+       "raw": "12 %",
+       "value": 12.0,
+       "tax_hint": "TTC",
+       "after": "TTC) des produits locatifs hors taxes encais"
+      },
+      {
+       "raw": "2,5 %",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT (3 % TTC) des prix de vente des immeubles"
+      },
+      {
+       "raw": "3 %",
+       "value": 3.0,
+       "tax_hint": "TTC",
+       "after": "TTC) des prix de vente des immeubles cédés p"
+      }
+     ],
+     "basis_tags": [
+      "prix_cession",
+      "produits_financiers",
+      "produits_locatifs_encaisses"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "2": "MENTIONS LÉGALES Document non contractuel. Ce document est produit par Tikehau Investment Management à titre purement informatif. Il ne constitue en rien une proposition de vente ou une sollicitation d'achat, d'investissement ou d'arbitrage. Les données et chiffres sont réputés exacts et fiables par Tikehau Investment Management, en date du 31/12/2025. La SCPI n'étant pas un produit coté, elle présente une liquidité moindre. Les performances passées ne préjugent pas des performances futures. La responsabilité de la société de gestion ne saurait être engagée par une prise de décision sur la base de ces informations. La société de gestion se réserve la possibilité de modifier les informations présentées dans ce document à tout moment et sans préavis, notamment en ce qui concerne la description des processus de gestion qui ne constitue en aucun cas un engagement. Ceci est un document publicitaire. Les caractéristiques, le profil de risque et de rendement et les frais relatifs à l'investissement dans EFIMMO 1 sont décrits dans le Document d'Informations Clés (DIC). Ces documents, ainsi que les statuts de la SCPI sont librement accessibles sur demande auprès de la société de gestion ou sur le site internet de Sofidy https://www.sofidy.com/ (marque du groupe Tikehau Capital). Il est impératif de prendre connaissance de ces documents qui doivent être remis préalablement à la souscription. Mis à jour en septembre 2026. La Note d'information d'EFIMMO 1 prévue au code monétaire et financier a obtenu de l'Autorité des Marchés Financiers le visa AMF n°26-07 du 31 mars 2026. FRAIS ET COMMISSIONS Frais supportés directement par le client Frais de souscription : 10 % HT (12 % TTC) sur le montant des capitaux collectés, primes d'émission incluses Frais de cession de parts : Cession par confrontation des ordres d'achat et de vente : 5 % HT du prix d'exécution (6 % TTC) La Société de Gestion perçoit une rémunération forfaitaire de 100 € HT soit 120 € TTC par cessionnaire, donataire ou ayant droit, pour toute cession de parts et toute mutation à titre gratuit (cession de gré à gré, succession, donation, divorce...). Frais supportés directement par la SCPI Commission de gestion annuelle : 10 % HT (12 % TTC) des produits locatifs hors taxes encaissés et des produits financiers nets Commission de cession d'immeuble : 2,5 % HT (3 % TTC) des prix de vente des immeubles cédés par la Société 4. UN PATRIMOINE IMMOBILIER DIVERSIFIÉ Avec 1 408 actifs immobiliers(1) répartis en France et en Europe, EFIMMO 1 fait de la mutualisation des risques et du patrimoine, une des pierres angulaires de sa gestion. Ces actifs immobiliers sont situés principalement dans les grandes métropoles régionales françaises et européennes*, et à titre accessoire dans les autres villes françaises et européennes. (5) \u0007Dividende au titre de l'année N avant prélèvement obligatoire et autre fiscalité immobilière (sur revenus étrangers et sur plusvalues) payée par la SCPI pour le compte des associés rapporté au prix de souscription au 1er janvier N. Cet indicateur est conforme à la méthodologie ASPIM. Quant à l'imposition des revenus éventuels perçus de l'étranger par la SCPI, l'impôt étranger peut être neutralisé en France afin d'éviter la double imposition des associés, selon les conventions fiscales en vigueur entre la France et les pays concernés. Le traitement fiscal varie selon la situation individuelle et le taux d'imposition propre à chaque associé. Le dispositif fiscal est susceptible d'évoluer. Les porteurs ayant investi via des unités de compte (UC) ne bénéficient pas directement des crédits d'impôt éventuels, ceux-ci étant attribués à l'assureur. (6) \u0007La performance globale de l'année N correspond à la somme du taux de distribution de l'année N et de la variation du prix de souscription entre le 1er janvier de l'année N et le 1er janvier de l'année N+1. 6. \u0007TAUX DE DISTRIBUTION ET PERFORMANCE GLOBALE ANNUELLE au 31/12/2025 Les performances passées ne préjugent pas des performances futures. 2025 Taux de distribution brut de fiscalité (sur nouveau prix de part) +4,44 %(5) Performance globale annuelle +4,44 %(6) 5. TAUX DE RENTABILITÉ INTERNE au 31/12/2025 Les performances passées ne préjugent pas des performances futures. L'acquisition de parts de SCPI doit nécessairement se concevoir sur le long terme. Aussi, la Société de Gestion communique désormais non seulement sur le taux de distribution mais également sur le Taux de rendement interne (TRI) sur de longues périodes. Le TRI exprime la performance annuelle moyenne pour un épargnant, en prenant en compte le prix de revient de son placement, l'ensemble des dividendes perçus au cours de la période de placement et le prix de retrait en vigueur au moment de sa sortie (mais en excluant sa fiscalité propre). TRI 10 ans TRI 15 ans TRI 20 ans TRI depuis l'origine +3,40 % +4,45 % +6,22 % +8,61 % Sofidy est une marque du groupe Tikehau Capital qui porte l'offre des produits d'épargne immobilière grand public, proposés depuis 1987 et gérés par Tikehau Investment Management. L'expertise immobilière de Tikehau Investment Management totalise 13 milliards d'euros d'encours, couvrant toutes les classes d'actifs, dans toute l'Europe, avec 9 000 actifs, 170 professionnels et une présence dans 7 pays (Etats-Unis, Royaume-Uni, Espagne, France, Italie, Allemagne, Benelux). GESTIONNAIRE Société de Gestion : \u0007Tikehau Investment Management Société de Gestion de Portefeuille Siège social : Paris Date de création : 2024 Encours gérés au 31/12/2025 : 52,8 Mds €* FP-EF-082026-FR-1-3249 | Document réalisé par Tikehau Investment Management | © GettyImages. *Au sens de l'Espace Économique Européen (EEE), du Royaume-Uni et de la Suisse. (1) Source : BT 4T2025 EFIMMO 1 / Tikehau Investment Management. (2) Au travers de participations financières non contrôlées. (3) La catégorie « Autres locaux commerciaux » correspond aux moyennes surfaces de périphérie et aux galeries de centres commerciaux. (4) La catégorie « Divers » correspond aux locaux d'activités, aux entrepôts logistiques, aux logements, aux hôtels et aux participations financières non contrôlées dont la typologie d'actif n'est pas transparisée. Commerces de centre­- ville et milieu urbain Bureaux Divers(4) Autres locaux commerciaux(3) 5,2 % 9,4 % 74,4 % 7,6 % FRANCE : 74,1 % Paris centre : 9,8 % Grand Paris : 35,2 % Métropoles françaises : 29,2 % ÉTRANGER : 25,9 % Allemagne : 10,0 % Royaume-Uni : 4,5 % Pays-Bas : 5,2 % Belgique : 2,3 % Irlande : 1,4 % Italie : 1,3 % Espagne : 0,6 % Reste de l'Europe(2) : 0,7 % Sofidy est la marque du groupe Tikehau Capital qui porte l'offre de produits d'épargne immobilière grand public. La gestion des fonds commercialisés sous la marque Sofidy est assurée par Tikehau Investment Management. Société de gestion de portefeuille agréée par l'AMF sous le n° GP-07000006 | Code d'activité : 6630 Z | N° TVA Intracommunautaire : FR32 491 909 446 | 32 rue de Monceau 75008 PARIS | Tel. 01 53 59 05 00 | Email : sofid"
+   }
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/03/efimmo1-webdisclosure-1025.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/03/efimmo1-webdisclosure-1025.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 383394,
+   "sha256": "32c8eb4a7a2ec4812fa8aeab365c866075ff6a39e73dc4a301e73ec703212840",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Isabelle BARATON",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20251016112201+02'00'",
+    "modDate": "D:20251016112201+02'00'"
+   },
+   "page_count": 6,
+   "text_characters": 13611,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "identity_where": null,
+   "title_excerpt": "SFDR Website Disclosure 2025 EFIMMO1 EFIMMO1 Publication d'informations en matière de durabilité (Article 10 SFDR1) 1 Règlement (UE) 2019/2088 du Parlement Européen et du Conseil du 27 novembre 2019 sur la publication d'informations en matière de durabilité dans le secteur des services financiers",
+   "dates": [
+    "27 novembre 2019",
+    "Février 2023"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/05/EFIMMO_-_BT_1er_MELPS.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/05/EFIMMO_-_BT_1er_MELPS.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 811549,
+   "sha256": "a1f3b5186c7cd6bd2fc2352182696849de111529a414fae3762ef3c9d7e87a72",
+   "metadata": {
+    "format": "PDF 1.5",
+    "title": "untitled",
+    "producer": "Acrobat Distiller 22.0 (Macintosh)",
+    "creationDate": "D:20220428172633+02'00'",
+    "modDate": "D:20220428172633+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 25420,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "BULLETIN TRIMESTRIEL D'INFORMATION Validité du bulletin : du 1er avril au 30 juin 2022 1er trimestre 2022 N°138 25-25A Fitzwilliam Place - Dublin (Irlande) Photographie concernant un investissement déjà réalisé, à titre d'exemple, mais ne constituant aucun engagement quant aux futures acquisitions de la SCPI. Crédit Photo : Henderson Park Chers Associés, En ce début d'année 2022 marqué par un cont",
+   "dates": [
+    "01/03/2022",
+    "04/02/2022",
+    "10 juin 2019",
+    "11/02/2022",
+    "14 avril 2022",
+    "14/01/2022",
+    "14/03/2022",
+    "15 mai 2022",
+    "30 juin 2022",
+    "31 décembre 2021",
+    "31 mars 2022",
+    "31.12.2021"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T4_2021.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T4_2021.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 808996,
+   "sha256": "ef74579122169f724160f623a0e1ec267e828e78500a4c94313fb0faeb662523",
+   "metadata": {
+    "format": "PDF 1.5",
+    "title": "untitled",
+    "producer": "Acrobat Distiller 21.0 (Macintosh)",
+    "creationDate": "D:20220126112746+01'00'",
+    "modDate": "D:20220126112746+01'00'"
+   },
+   "page_count": 4,
+   "text_characters": 25184,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "BULLETIN TRIMESTRIEL D'INFORMATION Validité du bulletin : du 1er janvier au 31 mars 2022 4ème trimestre 2021 N°137 25-25A Fitzwilliam Place - Dublin (Irlande) Photographie concernant un investissement déjà réalisé, à titre d'exemple, mais ne constituant aucun engagement quant aux futures acquisitions de la SCPI. Crédit Photo : Henderson Park Chers Associés, Toute l'équipe SOFIDY est heureuse de vo",
+   "dates": [
+    "10 juin 2019",
+    "14/12/2021",
+    "16/12/2021",
+    "17/12/2021",
+    "1er février 2022",
+    "1er janvier 2020",
+    "1er janvier 2021",
+    "22/12/2021",
+    "31 décembre 2021",
+    "31 mars 2022",
+    "31.12.2020",
+    "janvier 2022"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T3_2021.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T3_2021.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 698654,
+   "sha256": "1777628a82e4be8071e7d6f04859627199ed1dedc5e2506399a39424fd9b7971",
+   "metadata": {
+    "format": "PDF 1.5",
+    "title": "untitled",
+    "producer": "Acrobat Distiller 21.0 (Macintosh)",
+    "creationDate": "D:20211026114239+02'00'",
+    "modDate": "D:20211026114239+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 23139,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "BULLETIN TRIMESTRIEL D'INFORMATION Validité du bulletin : du 1er octobre au 31 décembre 2021 3ème trimestre 2021 N°136 Wisselwerking 58 - Diemen - Amsterdam (Pays-Bas) Photographie concernant un investissement déjà réalisé, à titre d'exemple, mais ne constituant aucun engagement quant aux futures acquisitions de la SCPI. Crédit Photo : Paul Starink Chers Associés, Nous observons avec la levée prog",
+   "dates": [
+    "01/09/2021",
+    "10 juin 2019",
+    "13/07/2021",
+    "1er juillet 2020",
+    "20 octobre 2021",
+    "23/07/2021",
+    "29/09/2021",
+    "30 septembre 2021",
+    "31 décembre 2020",
+    "31 décembre 2021",
+    "31.12.2020",
+    "juillet 2002"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T2_2021.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T2_2021.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 761581,
+   "sha256": "b00f3dfa9f9cab76ac1e5c2002dc5c43e1b0fe7f4d570b553efc1bedaa726693",
+   "metadata": {
+    "format": "PDF 1.5",
+    "title": "untitled",
+    "producer": "Acrobat Distiller 21.0 (Macintosh)",
+    "creationDate": "D:20210723165244+02'00'",
+    "modDate": "D:20210723165244+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 21623,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "BULLETIN TRIMESTRIEL D'INFORMATION Validité du bulletin : du 1er juillet au 30 septembre 2021 2ème trimestre 2021 N°135 Wisselwerking 58 - Diemen - Amsterdam (Pays-Bas) Photographie concernant un investissement déjà réalisé, à titre d'exemple, mais ne constituant aucun engagement quant aux futures acquisitions de la SCPI. Crédit Photo : Paul Starink Chers Associés, Malgré un premier semestre impac",
+   "dates": [
+    "10 juin 2019",
+    "14/05/2021",
+    "1er juin 2021",
+    "20 juillet 2021",
+    "25/06/2021",
+    "30 juin 2021",
+    "30 septembre 2021",
+    "31 décembre 2020",
+    "31.12.2020",
+    "janvier 2016",
+    "juillet 2002",
+    "juillet 2019"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T1_2021.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T1_2021.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 845812,
+   "sha256": "d06ecbc6e55abd97bc0db2be9456f96a08888a29b5ef11dffbcd00b2ebfb4616",
+   "metadata": {
+    "format": "PDF 1.5",
+    "title": "untitled",
+    "producer": "Acrobat Distiller 21.0 (Macintosh)",
+    "creationDate": "D:20210422172252+02'00'",
+    "modDate": "D:20210422172252+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 20144,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "BULLETIN TRIMESTRIEL D'INFORMATION Validité du bulletin : du 1er avril au 30 juin 2021 1er trimestre 2021 N°134 Wisselwerking 58 - Diemen - Amsterdam (Pays-Bas) Photographie concernant un investissement déjà réalisé, à titre d'exemple, mais ne constituant aucun engagement quant aux futures acquisitions de la SCPI. Crédit Photo : Paul Starink Chers Associés, Dans le contexte de crise sanitaire qui ",
+   "dates": [
+    "10 juin 2019",
+    "16 avril 2021",
+    "30 juin 2021",
+    "31 décembre 2020",
+    "31 mars 2021",
+    "31.12.2020",
+    "avril 2021",
+    "décembre 2020",
+    "juillet 2002",
+    "mars 2020"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T4_2020.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T4_2020.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 758663,
+   "sha256": "490c4412f5db790f9e3750628084c46d1b622fc7c3d82346995719d3b144e7f1",
+   "metadata": {
+    "format": "PDF 1.5",
+    "title": "untitled",
+    "producer": "Acrobat Distiller 21.0 (Macintosh)",
+    "creationDate": "D:20210212151940+01'00'",
+    "modDate": "D:20210212151940+01'00'"
+   },
+   "page_count": 4,
+   "text_characters": 23097,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Crédit Photo : Paul Starink BULLETIN TRIMESTRIEL D'INFORMATION Validité du bulletin : du 1er janvier au 31 mars 2021 4ème trimestre 2020 N°133 Wisselwerking 58 - Diemen - Amsterdam (Pays-Bas) Photographie concernant un investissement déjà réalisé, à titre d'exemple, mais ne constituant aucun engagement quant aux futures acquisitions de la SCPI Chers Associés, Toute l'équipe SOFIDY est heureuse de ",
+   "dates": [
+    "10 juin 2019",
+    "11/12/2020",
+    "15 septembre 2015",
+    "16/11/2020",
+    "17/12/2020",
+    "26/11/2020",
+    "31 décembre 2020",
+    "31 mars 2021",
+    "31.12.2018",
+    "31.12.2019",
+    "9 juin 2019",
+    "décembre 2018"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T3_2020.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T3_2020.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 837969,
+   "sha256": "75b338224a852888a1762ff34b7ffe2011694b068d5c6d416e88200662d8ff34",
+   "metadata": {
+    "format": "PDF 1.5",
+    "title": "untitled",
+    "producer": "Acrobat Distiller 20.0 (Macintosh)",
+    "creationDate": "D:20201026152249+01'00'",
+    "modDate": "D:20201026152249+01'00'"
+   },
+   "page_count": 4,
+   "text_characters": 21466,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Crédit Photo : Paul Starink BULLETIN TRIMESTRIEL D'INFORMATION Validité du bulletin : du 1er octobre au 31 décembre 2020 3ème trimestre 2020 N°132 Wisselwerking 58 - Diemen - Amsterdam (Pays-Bas) Photographie concernant un investissement déjà réalisé, à titre d'exemple, mais ne constituant aucun engagement quant aux futures acquisitions de la SCPI Chers Associés, Votre SCPI confirme sa résilience ",
+   "dates": [
+    "09/09/2020",
+    "10 juin 2019",
+    "15 septembre 2015",
+    "15 septembre 2020",
+    "15/09/2020",
+    "17/09/2020",
+    "30 septembre 2020",
+    "31 décembre 2019",
+    "31 décembre 2020",
+    "31.12.2018",
+    "31.12.2019",
+    "9 juin 2019"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T2_2020.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T2_2020.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 835411,
+   "sha256": "390beb107dd4111f02005c4e90320ac3dfa477b7a0ff54d5b1e2e2e339052841",
+   "metadata": {
+    "format": "PDF 1.5",
+    "title": "untitled",
+    "producer": "Acrobat Distiller 20.0 (Macintosh)",
+    "creationDate": "D:20200902153718+02'00'",
+    "modDate": "D:20200902153718+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 19261,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "BULLETIN TRIMESTRIEL D'INFORMATION Validité du bulletin : du 1er juillet au 30 septembre 2020 2ème trimestre 2020 N°131 Guyancourt - Immeuble « Canopée » - Siège social de Sodexo Photographie concernant un investissement déjà réalisé, à titre d'exemple, mais ne constituant aucun engagement quant aux futures acquisitions de la SCPI Chers Associés, Malgré un deuxième trimestre marqué par la crise sa",
+   "dates": [
+    "02/06/2020",
+    "10 juin 2019",
+    "16 juillet 2020",
+    "16 juin 2020",
+    "29/06/2020",
+    "30 juin 2020",
+    "30 septembre 2020",
+    "31 décembre 2019",
+    "31.12.2019",
+    "31/12/2019",
+    "juillet 2002",
+    "juillet 2020"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T1_2020.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/03/EFIMMO_T1_2020.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3983841,
+   "sha256": "98411729bfc4df1dc7437b12d8ccb804a9252e0e2569b9de5a24a978a9a89ded",
+   "metadata": {
+    "format": "PDF 1.5",
+    "keywords": "PDF",
+    "creator": "Domus by Pomelo-Paradigm",
+    "creationDate": "D:20200424093017+02'00'",
+    "modDate": "D:20200424093428+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 21065,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "BULLETIN TRIMESTRIEL D'INFORMATION Validité du bulletin : du 1er avril au 30 juin 2020 1er trimestre 2020 N°130 Guyancourt - Immeuble « Canopée » - Siège social de Sodexo Photographie concernant un investissement déjà réalisé, à titre d'exemple, mais ne constituant aucun engagement quant aux futures acquisitions de la SCPI Chers Associés, Dans le contexte actuel, nous espérons avant tout que vous ",
+   "dates": [
+    "10 juin 2019",
+    "16 avril 2020",
+    "18/02/2020",
+    "18/03/2020",
+    "19/03/2020",
+    "27/02/2020",
+    "30 juin 2020",
+    "31 MARS 2020",
+    "31 décembre 2019",
+    "31 mars 2020",
+    "31.12.2019",
+    "avril 2020"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.sofidy.com/app/uploads/2022/04/EFIMMO_T4_2019.pdf",
+   "final_url": "https://www.sofidy.com/app/uploads/2022/04/EFIMMO_T4_2019.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 727484,
+   "sha256": "42128ef736342403ec0041f2f1492bd47a7edaacb7badc79ab44d81584d3ebb4",
+   "metadata": {
+    "format": "PDF 1.5",
+    "title": "untitled",
+    "producer": "Acrobat Distiller 19.0 (Macintosh)",
+    "creationDate": "D:20200130163737+01'00'",
+    "modDate": "D:20200130163737+01'00'"
+   },
+   "page_count": 4,
+   "text_characters": 20329,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "efimmo 1",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "BULLETIN TRIMESTRIEL D'INFORMATION Validité du bulletin : du 1er janvier au 31 mars 2020 4e trimestre 2019 N°129 Guyancourt - Immeuble « Canopée » - Siège social de Sodexo Photographie concernant un investissement déjà réalisé, à titre d'exemple, mais ne constituant aucun engagement quant aux futures acquisitions de la SCPI. Toute l'équipe SOFIDY est heureuse de vous présenter ses meilleurs vœux à",
+   "dates": [
+    "01/10/2019",
+    "03/12/2019",
+    "10 juin 2019",
+    "31 DÉCEMBRE 2019",
+    "31 décembre 2019",
+    "31 mars 2020",
+    "31.12.2018",
+    "31/10/2019",
+    "31/12/2018",
+    "janvier 2020",
+    "juillet 2002"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  }
+ ],
+ "candidate_count": 108,
+ "summary": {
+  "dic_identity_ok": 2,
+  "note_identity_ok": 1,
+  "fee_clauses": 33,
+  "errors": 0
+ }
+}

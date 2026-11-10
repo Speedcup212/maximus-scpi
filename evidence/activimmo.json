@@ -1,0 +1,1069 @@
+{
+ "slug": "activimmo",
+ "name": "Activimmo",
+ "manager": "Alderan",
+ "crawl": [
+  {
+   "url": "https://alderan.fr/scpi-activimmo/",
+   "depth": 0,
+   "final_url": "https://alderan.fr/scpi-activimmo/",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 2
+  },
+  {
+   "url": "https://alderan.fr/scpi-activimmo-documentation/",
+   "depth": 0,
+   "error": "HTTPError: HTTP Error 404: Not Found"
+  },
+  {
+   "url": "https://alderan.fr/scpi-documentation/",
+   "depth": 1,
+   "final_url": "https://alderan.fr/scpi-documentation/",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 96
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2026/07/2026-07-01-Annexe-Note-dinformation-SCPI-ActivImmo-Modification-des-prix-de-part.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2026/07/2026-07-01-Annexe-Note-dinformation-SCPI-ActivImmo-Modification-des-prix-de-part.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 937077,
+   "sha256": "c458c72d2a5cc8c02de9124e0c637dbbb52fb4144ffa03e4b240b4dc51060606",
+   "metadata": {
+    "format": "PDF 1.4",
+    "producer": "macOS Version 26.5.1 (assemblage 25F80) Quartz PDFContext",
+    "creationDate": "D:20260701155320Z",
+    "modDate": "D:20260701180009+02'00'"
+   },
+   "page_count": 1,
+   "text_characters": 2268,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "4, avenue Georges Mandel - 75116 Paris Société Civile de Placement Immobilier à capital variable contact@alderan.fr RCS Paris 853 533 594 01 42 89 47 95 TVA Intracommunautaire : FR32 853 533 594 www.alderan.fr 1 Annexe à la note d'information mise à jour le 27 avril 2026 ayant reçu de l'Autorité des marchés financiers le visa SCPI n°19-14 en date du 26 juillet 2019 Modification des prix de part de",
+   "dates": [
+    "1er juillet 2026",
+    "26 juillet 2019",
+    "27 avril 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 1,
+     "label": "commission de souscription",
+     "snippet": "- Prix de souscription : 613,50 euros Le prix de souscription s'entend net de tous autres frais. Conformément au 7.1 du chapitre 1 de la note d'information, la commission de souscription incluse dans le prix de souscription s'établit à 10,6% hors taxes du montant de chaque souscription, soit soixante-cinq euros et trois centimes (65,03 €) hors taxes. Toute modification du prix de souscription fait l'objet, après information de l'Autorité des marchés financiers, d'une publication sur le site internet de la société de gestion Alderan : https://alderan.fr/. 2. Nouveau prix de retrait Conformément au 1.4 du chapitre 2 de la note d'information, le nouveau prix de retrait à compter du 1er juillet 2026, et jusqu'à nouvel avis, est de cinq cent quarante-huit euros et quarante-sept centimes (548,47",
+     "percents": [
+      {
+       "raw": "10,6%",
+       "value": 10.6,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes du montant de chaque souscription"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 1,
+     "label": "Commission de souscription",
+     "snippet": "'à nouvel avis, est de cinq cent quarante-huit euros et quarante-sept centimes (548,47 €), et se décompose comme suit : - Prix de souscription : 613,50 euros - Commission de souscription de 10,6% hors taxes : - 65,03 euros _____________ - Prix de retrait : 548,47 euros",
+     "percents": [
+      {
+       "raw": "10,6%",
+       "value": 10.6,
+       "tax_hint": "hors taxes",
+       "after": "hors taxes : - 65,03 euros _____________ - P"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "1": "4, avenue Georges Mandel - 75116 Paris Société Civile de Placement Immobilier à capital variable contact@alderan.fr RCS Paris 853 533 594 01 42 89 47 95 TVA Intracommunautaire : FR32 853 533 594 www.alderan.fr 1 Annexe à la note d'information mise à jour le 27 avril 2026 ayant reçu de l'Autorité des marchés financiers le visa SCPI n°19-14 en date du 26 juillet 2019 Modification des prix de part de la SCPI ActivImmo à compter du 1er juillet 2026 1. Nouveau prix de souscription A compter du 1er juillet 2026 et jusqu'à nouvel avis, les parts sociales de la SCPI ActivImmo sont émises au prix de six-cent treize euros et cinquante centimes (613,50 €) par part. Le prix de souscription, fixé à six-cent treize euros et cinquante centimes (613,50 €), se décompose de la manière suivante : - Valeur nominale par part : 500,00 euros - Prime d'émission : 113,50 euros _____________ - Prix de souscription : 613,50 euros Le prix de souscription s'entend net de tous autres frais. Conformément au 7.1 du chapitre 1 de la note d'information, la commission de souscription incluse dans le prix de souscription s'établit à 10,6% hors taxes du montant de chaque souscription, soit soixante-cinq euros et trois centimes (65,03 €) hors taxes. Toute modification du prix de souscription fait l'objet, après information de l'Autorité des marchés financiers, d'une publication sur le site internet de la société de gestion Alderan : https://alderan.fr/. 2. Nouveau prix de retrait Conformément au 1.4 du chapitre 2 de la note d'information, le nouveau prix de retrait à compter du 1er juillet 2026, et jusqu'à nouvel avis, est de cinq cent quarante-huit euros et quarante-sept centimes (548,47 €), et se décompose comme suit : - Prix de souscription : 613,50 euros - Commission de souscription de 10,6% hors taxes : - 65,03 euros _____________ - Prix de retrait : 548,47 euros"
+   }
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2026/06/20260427-Note-dinformation-SCPI-ActivImmo-1.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2026/06/20260427-Note-dinformation-SCPI-ActivImmo-1.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1855290,
+   "sha256": "edec6fa1f0b417d5d35e5f2696e6371e9688487e38de6607b6ee850e0f5c6424",
+   "metadata": {
+    "format": "PDF 1.7",
+    "producer": "macOS Version 26.3.1 (assemblage 25D2128) Quartz PDFContext",
+    "creationDate": "D:20260506173619Z",
+    "modDate": "D:20260512180356+02'00'"
+   },
+   "page_count": 57,
+   "text_characters": 177318,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 Note d'information SCPI ActivImmo ACTIVIMMO Société Civile de Placement Immobilier à Capital Variable NOTE D'INFORMATION Mise à jour le 27 avril 2026 Visa de l'Autorité des marchés financiers SCPI n°19-14 du 26 juillet 2019 portant sur la note d'information Immatriculation au RCS Paris sous le n°853 533 594 Siège social : 4, avenue Georges Mandel – 75116 Paris",
+   "dates": [
+    "26 juillet 2019",
+    "27 avril 2026"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "COMMISSION DE SOUSCRIPTION",
+     "snippet": "ctivImmo CHAPITRE 3 – FRAIS ............................................................................................................................. 29 1. COMMISSION DE SOUSCRIPTION ............................................................................................. 29 2. COMMISSION DE GESTION ........................................................................................................ 29 3. COMMISSION SUR MUTATION DES PARTS .............................................................................. 29 4. COMMISSION D'ACQUISITION OU DE CESSION D'ACTIFS IMMOBILIERS ............................. 30 5. COMMISSION DE SUIVI ET DE PILOTAGE DE LA RÉALISATION DES TRAVAUX SUR LE PATRIMOINE IMMOBILIER .......................................................................",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "COMMISSION DE GESTION",
+     "snippet": ".......................... 29 1. COMMISSION DE SOUSCRIPTION ............................................................................................. 29 2. COMMISSION DE GESTION ........................................................................................................ 29 3. COMMISSION SUR MUTATION DES PARTS .............................................................................. 29 4. COMMISSION D'ACQUISITION OU DE CESSION D'ACTIFS IMMOBILIERS ............................. 30 5. COMMISSION DE SUIVI ET DE PILOTAGE DE LA RÉALISATION DES TRAVAUX SUR LE PATRIMOINE IMMOBILIER .................................................................................................................. 30 CHAPITRE 4 – FONCTIONNEMENT DE LA SOCIÉTÉ ......................................",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "COMMISSION D'ACQUISITION",
+     "snippet": ".................................. 29 3. COMMISSION SUR MUTATION DES PARTS .............................................................................. 29 4. COMMISSION D'ACQUISITION OU DE CESSION D'ACTIFS IMMOBILIERS ............................. 30 5. COMMISSION DE SUIVI ET DE PILOTAGE DE LA RÉALISATION DES TRAVAUX SUR LE PATRIMOINE IMMOBILIER .................................................................................................................. 30 CHAPITRE 4 – FONCTIONNEMENT DE LA SOCIÉTÉ .......................................................................... 31 1. RÉGIME DES ASSEMBLÉES ....................................................................................................... 31 2. DISPOSITIONS STATUTAIRES CONCERNANT LA RÉPARTITION DES BÉNÉFICES ET LES PROVI",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "COMMISSION DE SUIVI",
+     "snippet": "......................................................... 29 4. COMMISSION D'ACQUISITION OU DE CESSION D'ACTIFS IMMOBILIERS ............................. 30 5. COMMISSION DE SUIVI ET DE PILOTAGE DE LA RÉALISATION DES TRAVAUX SUR LE PATRIMOINE IMMOBILIER .................................................................................................................. 30 CHAPITRE 4 – FONCTIONNEMENT DE LA SOCIÉTÉ .......................................................................... 31 1. RÉGIME DES ASSEMBLÉES ....................................................................................................... 31 2. DISPOSITIONS STATUTAIRES CONCERNANT LA RÉPARTITION DES BÉNÉFICES ET LES PROVISIONS POUR GROS ENTRETIENS .....................................................................",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 14,
+     "label": "frais d'acquisition",
+     "snippet": "ion La valeur de reconstitution est déterminée à partir de la valeur de réalisation augmentée des frais afférents à la reconstitution du patrimoine de la SCPI (frais d'acquisition des immeubles et commission de souscription). Elle correspond à la somme qui devrait être déboursée au jour de sa détermination pour reconstituer le patrimoine de la société à l'identique.",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur"
+     ]
+    },
+    {
+     "page": 14,
+     "label": "commission de souscription",
+     "snippet": "éterminée à partir de la valeur de réalisation augmentée des frais afférents à la reconstitution du patrimoine de la SCPI (frais d'acquisition des immeubles et commission de souscription). Elle correspond à la somme qui devrait être déboursée au jour de sa détermination pour reconstituer le patrimoine de la société à l'identique.",
+     "percents": [],
+     "basis_tags": [
+      "actifs_valeur"
+     ]
+    },
+    {
+     "page": 16,
+     "label": "commission de cession",
+     "snippet": ", courrier), dès lors que le prix d'exécution conduit à constater, au cours de quatre (4) périodes consécutives de confrontation, un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier.",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 17,
+     "label": "commission de cession",
+     "snippet": "néa précédent, et après 8 périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales de l'article L.214-94 du Code monétaire et financier, elle aura l'obligation de rétablir la variabilité du capital d'en informer les associés, le dépositaire et l'AMF, par tout moyen approprié (bulletin périodique d'information, site internet, courrier). Le rétablissement de la variabilité entraîne : • l'annulation des ordres d'achat et de vente de parts en attente sur le registre des ordres du marché secondaire ; • la fixation d'un prix de souscription qui s'inscrit dans la fourchette légale de plus ou moins 10% de la valeur de reconstitu",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "de la valeur de reconstitu"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 18,
+     "label": "commission de souscription",
+     "snippet": "a valeur nominale des parts est égale à cinq cents euros (500 €). Il est perçu, en sus de la valeur nominale de chaque part, une prime d'émission qui inclut la commission de souscription dont les modalités sont détaillées ci-dessous à la section 7 du présent Chapitre ; • Forme des parts : les parts sociales sont nominatives. Les droits de chaque associé résultent exclusivement de son inscription sur le registre des associés. Les associés reçoivent une attestation, revêtue de la signature de la Société de Gestion. 4. NOMBRE MINIMAL DE PARTS À SOUSCRIRE Le minimum de souscription initial est fixé à dix (10) parts pour tout nouvel associé. Il sera d'une (1) part pour tout nouvel associé à compter du 1er mai 2026. Les associés existants pourront investir des fractions de parts à travers l'épar",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 19,
+     "label": "frais d'acquisition",
+     "snippet": "valeur de reconstitution, soit la somme de la valeur de réalisation (mentionnée ci-dessus) et des frais afférents à la reconstitution du patrimoine de la SCPI (frais d'acquisition des immeubles et commission de souscription). Conformément à l'article L.214-94 du Code monétaire et financier, le prix de souscription des parts est déterminé sur la base de la valeur de reconstitution qui est établie à la clôture de chaque exercice ainsi qu'à la situation comptable intermédiaire à chaque premier semestre de l'exercice. Ce prix de souscription doit être compris dans une fourchette de plus ou moins dix pour cent (10%) autour de la valeur de reconstitution de la SCPI, sauf justification notifiée à l'Autorité des marchés financiers. Le prix de souscription est la somme de la valeur nominale, et de ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ") autour de la valeur de reconstitution de la"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission de souscription",
+     "snippet": "me de la valeur de réalisation (mentionnée ci-dessus) et des frais afférents à la reconstitution du patrimoine de la SCPI (frais d'acquisition des immeubles et commission de souscription). Conformément à l'article L.214-94 du Code monétaire et financier, le prix de souscription des parts est déterminé sur la base de la valeur de reconstitution qui est établie à la clôture de chaque exercice ainsi qu'à la situation comptable intermédiaire à chaque premier semestre de l'exercice. Ce prix de souscription doit être compris dans une fourchette de plus ou moins dix pour cent (10%) autour de la valeur de reconstitution de la SCPI, sauf justification notifiée à l'Autorité des marchés financiers. Le prix de souscription est la somme de la valeur nominale, et de la prime d'émission ; cette dernière ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ") autour de la valeur de reconstitution de la"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission de souscription",
+     "snippet": "otifiée à l'Autorité des marchés financiers. Le prix de souscription est la somme de la valeur nominale, et de la prime d'émission ; cette dernière incluant la commission de souscription. Prime d'émission : Les parts sociales sont émises à la valeur nominale majorée d'une prime d'émission destinée notamment à maintenir l'égalité entre anciens et nouveaux associés et sur laquelle peuvent être prélevés : a) les frais d'établissement et de constitution, de recherche et d'investissement ; b) les frais, droits et taxes (incluant les taxes non récupérables) liés à l'acquisition directe et indirecte des immeubles ; c) les frais liés aux augmentations de capital (frais de collecte), inclus dans la commission de souscription versée à la Société de Gestion. Le montant de la prime d'émission est égal",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission de souscription",
+     "snippet": " non récupérables) liés à l'acquisition directe et indirecte des immeubles ; c) les frais liés aux augmentations de capital (frais de collecte), inclus dans la commission de souscription versée à la Société de Gestion. Le montant de la prime d'émission est égal à la différence entre le prix de souscription et la valeur nominale de la part. La prime d'émission inclut la commission de souscription comprenant elle-même les frais de recherche et d'investissement et les frais de collecte.",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 19,
+     "label": "commission de souscription",
+     "snippet": "stion. Le montant de la prime d'émission est égal à la différence entre le prix de souscription et la valeur nominale de la part. La prime d'émission inclut la commission de souscription comprenant elle-même les frais de recherche et d'investissement et les frais de collecte.",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 20,
+     "label": "Commission de souscription",
+     "snippet": "fet sur les montants de prime d'émission au cours de l'année écoulée fera l'objet d'une approbation de l'A.G.O. amenée à statuer sur les comptes de l'exercice. Commission de souscription : La commission de souscription, facturée à la SCPI, est égale à 10,6% HT soit 12,72% TTC maximum, et est acquise à la Société de Gestion pour couvrir notamment les frais de prospection et de collecte de capitaux, ainsi que les frais de recherche et d'investissements, comme indiqué au Chapitre III ci-après. La SCPI récupère la TVA, le coût final supporté par le souscripteur est donc de 64,66 € HT euros par part. L'article 9 des statuts de la SCPI donne à la Société de Gestion tous pouvoirs pour fixer, dans les conditions déterminées par la loi, le prix et les modalités de souscription des parts nouvelles. ",
+     "percents": [
+      {
+       "raw": "10,6%",
+       "value": 10.6,
+       "tax_hint": "HT",
+       "after": "HT soit 12,72% TTC maximum, et est acquise à"
+      },
+      {
+       "raw": "12,72%",
+       "value": 12.72,
+       "tax_hint": "TTC",
+       "after": "TTC maximum, et est acquise à la Société de"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commission de souscription",
+     "snippet": "émission au cours de l'année écoulée fera l'objet d'une approbation de l'A.G.O. amenée à statuer sur les comptes de l'exercice. Commission de souscription : La commission de souscription, facturée à la SCPI, est égale à 10,6% HT soit 12,72% TTC maximum, et est acquise à la Société de Gestion pour couvrir notamment les frais de prospection et de collecte de capitaux, ainsi que les frais de recherche et d'investissements, comme indiqué au Chapitre III ci-après. La SCPI récupère la TVA, le coût final supporté par le souscripteur est donc de 64,66 € HT euros par part. L'article 9 des statuts de la SCPI donne à la Société de Gestion tous pouvoirs pour fixer, dans les conditions déterminées par la loi, le prix et les modalités de souscription des parts nouvelles. 7.2. Souscription de parts Le pr",
+     "percents": [
+      {
+       "raw": "10,6%",
+       "value": 10.6,
+       "tax_hint": "HT",
+       "after": "HT soit 12,72% TTC maximum, et est acquise à"
+      },
+      {
+       "raw": "12,72%",
+       "value": 12.72,
+       "tax_hint": "TTC",
+       "after": "TTC maximum, et est acquise à la Société de"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 20,
+     "label": "commission de souscription",
+     "snippet": " : • valeur nominale : cinq cents euros (500 €) ; et • prime d'émission : cent dix euros (110 €). Le prix de souscription s'entend net de tous autres frais. La commission de souscription, comme précisé au 7.1 du présent Chapitre, correspond à 10,6% HT (12,72% TTC) du prix de souscription, soit 64,66 € HT (77,59 € TTC) par part, prélevée sur le prix de souscription. La SCPI récupère la TVA, le coût final supporté par le souscripteur est donc de 64,66 € HT euros par part. Le paiement de la souscription s'effectue au jour de la souscription pour la totalité du prix d'émission, prime d'émission incluse. Tout nouvel associé doit souscrire au minimum 10 parts. A compter du 1er mai 2026, le minimum de souscription pour tout nouvel associé sera d'une (1) part. Les associés existants pourront inves",
+     "percents": [
+      {
+       "raw": "10,6%",
+       "value": 10.6,
+       "tax_hint": "HT",
+       "after": "HT (12,72% TTC) du prix de souscription, soi"
+      },
+      {
+       "raw": "12,72%",
+       "value": 12.72,
+       "tax_hint": "TTC",
+       "after": "TTC) du prix de souscription, soit 64,66 € H"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 21,
+     "label": "commission de souscription",
+     "snippet": "t de la souscription par la Société de Gestion, cette dernière est susceptible de procéder à des traitements préférentiels (par exemple des rétrocessions de la commission de souscription) à un nombre limité d'associés ou sur une période limitée. Les conditions liées à l'octroi de ce traitement préférentiel est encadré par le dispositif de gestion des conflits d'intérêts d'ALDERAN.",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 23,
+     "label": "commission de souscription",
+     "snippet": " 1.4. Détermination du prix de retrait Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. En application de l'article 422-219 du RGAMF, en cas de baisse du prix de retrait, la Société de Gestion informe par lettre recommandée avec demande d'avis de réception les associés ayant demandé leur retrait au plus tard la veille de la date d'effet. Sans réponse de la part des associés dans un délai de quinze (15) jours à compter de la réception de cette information, la demande de retrait est réputée maintenue au nouveau prix. Cette information est contenue dans la lettre de notification.",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 24,
+     "label": "commission de souscription",
+     "snippet": "andes de souscription : La SCPI rachète immédiatement les parts pour les annuler. Le prix de retrait est égal au prix de souscription en vigueur, diminué de la commission de souscription hors taxes. Il est indiqué sur le bulletin périodique d'information. Les demandes de retrait sont traitées à la fin de chaque mois et les fonds sont envoyés aussitôt aux retrayants, de telle sorte que le délai d'exécution moyen est de quinze (15) jours. b) La demande de retrait n'est pas compensée par des demandes de souscription au bout d'un (1) mois : Dans l'hypothèse de la création et de la dotation d'un fonds de remboursement, la Société de Gestion proposera à l'associé de faire racheter ses parts sur le fonds de remboursement, si les sommes disponibles dans le fonds sont suffisantes. Le prix de rachat",
+     "percents": [],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 29,
+     "label": "COMMISSION DE SOUSCRIPTION",
+     "snippet": "29 Note d'information SCPI ActivImmo CHAPITRE 3 – FRAIS 1. COMMISSION DE SOUSCRIPTION Une commission de souscription est facturée à la SCPI à hauteur de 10,6% HT (TVA en sus au taux en vigueur) maximum du prix de souscription des parts destinée à couvrir : • les frais exposés pour la prospection et la collecte des capitaux, et, • les frais de recherche et d'investissement. Une quote-part de la commission de souscription peut servir à rémunérer les intermédiaires chargés de la distribution des parts de la SCPI dans les conditions prévues par les conventions signées entre la Société de Gestion et ces intermédiaires et en application de la réglementation en vigueur. La TVA est récupérée par la",
+     "percents": [
+      {
+       "raw": "10,6%",
+       "value": 10.6,
+       "tax_hint": "HT",
+       "after": "HT (TVA en sus au taux en vigueur) maximum d"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 29,
+     "label": "commission de souscription",
+     "snippet": "29 Note d'information SCPI ActivImmo CHAPITRE 3 – FRAIS 1. COMMISSION DE SOUSCRIPTION Une commission de souscription est facturée à la SCPI à hauteur de 10,6% HT (TVA en sus au taux en vigueur) maximum du prix de souscription des parts destinée à couvrir : • les frais exposés pour la prospection et la collecte des capitaux, et, • les frais de recherche et d'investissement. Une quote-part de la commission de souscription peut servir à rémunérer les intermédiaires chargés de la distribution des parts de la SCPI dans les conditions prévues par les conventions signées entre la Société de Gestion et ces intermédiaires et en application de la réglementation en vigueur. La TVA est récupérée par la SCPI, elle ne constitue donc p",
+     "percents": [
+      {
+       "raw": "10,6%",
+       "value": 10.6,
+       "tax_hint": "HT",
+       "after": "HT (TVA en sus au taux en vigueur) maximum d"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 29,
+     "label": "commission de souscription",
+     "snippet": "estinée à couvrir : • les frais exposés pour la prospection et la collecte des capitaux, et, • les frais de recherche et d'investissement. Une quote-part de la commission de souscription peut servir à rémunérer les intermédiaires chargés de la distribution des parts de la SCPI dans les conditions prévues par les conventions signées entre la Société de Gestion et ces intermédiaires et en application de la réglementation en vigueur. La TVA est récupérée par la SCPI, elle ne constitue donc pas un coût pour le souscripteur. 2. COMMISSION DE GESTION La Société de Gestion perçoit définitivement, au fur et à mesure de leur encaissement, 10% HT (TVA en sus au taux en vigueur) des recettes de toute nature encaissées HT par la société (loyers et produits financiers nets). La TVA est récupérée par la",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (TVA en sus au taux en vigueur) des recet"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 29,
+     "label": "COMMISSION DE GESTION",
+     "snippet": "intermédiaires et en application de la réglementation en vigueur. La TVA est récupérée par la SCPI, elle ne constitue donc pas un coût pour le souscripteur. 2. COMMISSION DE GESTION La Société de Gestion perçoit définitivement, au fur et à mesure de leur encaissement, 10% HT (TVA en sus au taux en vigueur) des recettes de toute nature encaissées HT par la société (loyers et produits financiers nets). La TVA est récupérée par la SCPI, elle ne constitue donc pas un coût pour le souscripteur. En contrepartie de cette rémunération, la Société de Gestion supporte les frais de bureaux et de personnel nécessaires à l'administration de la SCPI et du patrimoine, à la perception des recettes et à la distribution des bénéfices, à l'exclusion de toutes autres dépenses qui sont prises en charge par la ",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": "HT",
+       "after": "HT (TVA en sus au taux en vigueur) des recet"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 29,
+     "label": "commission de gestion",
+     "snippet": "un tel recours, la SCPI sera redevable de la rémunération du prestataire. Au cas par cas, la Société de Gestion pourrait décider de rétrocéder une partie de la commission de gestion au profit : • des prestataires, au titre de certaines missions de gestion immobilière des actifs, et, • aux distributeurs, au titre des prestations de services fournies aux souscripteurs des parts de la Société dans la durée, dans la mesure où ces prestations contribuent à l'amélioration du service rendu aux souscripteurs dans le temps. 3. COMMISSION SUR MUTATION DES PARTS Lorsque la mutation des parts s'opère par cession directe de gré à gré entre vendeur et acheteur ou par voie de mutation à titre gratuit par donation ou dans le cadre d'instance de divorce, la Société de Gestion perçoit, au titre de frais de ",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 30,
+     "label": "COMMISSION D'ACQUISITION",
+     "snippet": "t une commission sur mutation à hauteur de 5% HT (TVA en sus au taux en vigueur) du montant total de la transaction (hors frais) à la charge de l'acquéreur. 4. COMMISSION D'ACQUISITION OU DE CESSION D'ACTIFS IMMOBILIERS La Société de Gestion pourra percevoir une commission de 1% HT maximum, TVA en sus au taux en vigueur, (i) du prix de cession net vendeur de l'actif immobilier détenu directement ou indirectement par la SCPI (par le biais des titres d'une filiale), ou (ii) de la valeur retenue de l'actif immobilier détenu pour la détermination du prix des parts ou actions des filiales (au prorata de la quote-part cédée). La Société de Gestion ne perçoit pas de commission sur l'acquisition des actifs immobiliers par la Société dans le cadre de l'investissement de la collecte. En revanche, lo",
+     "percents": [
+      {
+       "raw": "5%",
+       "value": 5.0,
+       "tax_hint": "HT",
+       "after": "HT (TVA en sus au taux en vigueur) du montan"
+      },
+      {
+       "raw": "1%",
+       "value": 1.0,
+       "tax_hint": "HT",
+       "after": "HT maximum, TVA en sus au taux en vigueur, ("
+      }
+     ],
+     "basis_tags": [
+      "prix_cession"
+     ]
+    },
+    {
+     "page": 30,
+     "label": "COMMISSION DE SUIVI",
+     "snippet": "TVA en sus au taux en vigueur, du prix d'acquisition hors droits. La TVA est récupérée par la SCPI, elle ne constitue donc pas un coût pour le souscripteur. 5. COMMISSION DE SUIVI ET DE PILOTAGE DE LA RÉALISATION DES TRAVAUX SUR LE PATRIMOINE IMMOBILIER Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier sera versée à la Société de Gestion à hauteur de 3% HT (TVA en sus au taux en vigueur) maximum sur les travaux immobilisés et relatifs aux gros entretiens.",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT (TVA en sus au taux en vigueur) maximum s"
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 30,
+     "label": "commission de suivi",
+     "snippet": ", elle ne constitue donc pas un coût pour le souscripteur. 5. COMMISSION DE SUIVI ET DE PILOTAGE DE LA RÉALISATION DES TRAVAUX SUR LE PATRIMOINE IMMOBILIER Une commission de suivi et de pilotage de la réalisation des travaux sur le patrimoine immobilier sera versée à la Société de Gestion à hauteur de 3% HT (TVA en sus au taux en vigueur) maximum sur les travaux immobilisés et relatifs aux gros entretiens.",
+     "percents": [
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": "HT",
+       "after": "HT (TVA en sus au taux en vigueur) maximum s"
+      }
+     ],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "3": "3 Note d'information SCPI ActivImmo CHAPITRE 3 – FRAIS ............................................................................................................................. 29 1. COMMISSION DE SOUSCRIPTION ............................................................................................. 29 2. COMMISSION DE GESTION ........................................................................................................ 29 3. COMMISSION SUR MUTATION DES PARTS .............................................................................. 29 4. COMMISSION D'ACQUISITION OU DE CESSION D'ACTIFS IMMOBILIERS ............................. 30 5. COMMISSION DE SUIVI ET DE PILOTAGE DE LA RÉALISATION DES TRAVAUX SUR LE PATRIMOINE IMMOBILIER .................................................................................................................. 30 CHAPITRE 4 – FONCTIONNEMENT DE LA SOCIÉTÉ .......................................................................... 31 1. RÉGIME DES ASSEMBLÉES ....................................................................................................... 31 2. DISPOSITIONS STATUTAIRES CONCERNANT LA RÉPARTITION DES BÉNÉFICES ET LES PROVISIONS POUR GROS ENTRETIENS ......................................................................................... 33 3. CONVENTIONS PARTICULIÈRES ............................................................................................... 33 4. DÉMARCHAGE ET PUBLICITÉ .................................................................................................... 34 5. RÉGIME FISCAL ........................................................................................................................... 34 6. MODALITÉS D'INFORMATION ..................................................................................................... 41 CHAPITRE 5 – ADMINISTRATION – CONTRÔLE – INFORMATION DE LA SCPI ............................. 43 1. LA SCPI ......................................................................................................................................... 43 2. CONSEIL DE SURVEILLANCE ..................................................................................................... 45 3. ADMINISTRATION : SOCIÉTÉ DE GESTION NOMMÉE .............................................................. 46 4. LE DÉPOSITAIRE ......................................................................................................................... 47 5. COMMISSAIRE AUX COMPTES .................................................................................................. 47 6. EXPERT EXTERNE EN ÉVALUATION ......................................................................................... 47 7. INFORMATION .............................................................................................................................. 48",
+    "14": "14 Note d'information SCPI ActivImmo 6. ÉVALUATION Évaluation des actifs immobiliers L'AMF prévoit que la Société de Gestion doit faire appel à un expert externe en évaluation dans le cadre de l'évaluation des actifs immobiliers. La SCPI désigne un expert externe en évaluation dont le mandat est d'une durée de six (6) ans. La Société de Gestion évalue les actifs immobiliers de la SCPI à la clôture de chaque exercice ainsi qu'à la situation comptable intermédiaire à chaque premier semestre de l'exercice, dates auxquelles sont déterminées les valeurs comptables, de réalisation et de reconstitution, sur la base de l'évaluation desdits actifs opérée par l'expert externe en évaluation selon les modalités précisées ci-après. L'évaluation de ces actifs se fait à la valeur du marché, hors taxes et hors droits. L'Expert externe en évaluation utilise les méthodes de valorisation communément utilisées : méthode par capitalisation et par comparaison. Chaque immeuble fait l'objet d'au moins une expertise tous les trois ans et cette expertise est actualisée chaque semestre par l'Expert externe en évaluation. Il est important de noter cependant que l'évaluation reste sous l'entière responsabilité de la Société de Gestion, laquelle dispose d'une capacité d'appréciation autonome, via son évaluateur interne indépendant qui contrôle les travaux de l'expert externe en évaluation, et de son Comité d'Évaluation qui arrête la valeur vénale de chaque actif immobilier en se basant sur lesdits travaux. Évaluation des titres de société détenus par la Société Les actifs et passifs des sociétés détenues sont évalués de la même manière que les actifs et passifs détenus directement par la SCPI. La valeur de marché des titres est évaluée en calculant l'actif net réévalué de la société détenue. Évaluation des autres actifs et passifs de la Société Les autres éléments d'actif (comme les créances sur les locataires, les « autres créances », disponibilités, etc.) et de passif (dépôt de garantie reçus des locataires, emprunts, dettes fournisseurs, …) sont évalués à leur valeur comptable. S'agissant des instruments de couverture, l'Évaluateur Interne indépendant retient les informations transmises par les établissements bancaires qui émettent les instruments de couverture afin de les valoriser. Évaluation de la Société • La valeur comptable La valeur comptable de la SCPI est celle qui apparaît dans l'état du patrimoine sous le terme « valeurs bilancielles ». Elle comprend les actifs immobiliers, les titres, les autres actifs et les dettes. Les actifs immobiliers et les titres détenus y sont comptabilisés à leur coût historique. • La valeur de réalisation La valeur de réalisation de la SCPI correspond à la somme de la valeur vénale des immeubles et de la valeur nette des autres actifs de la Société. • La valeur de reconstitution La valeur de reconstitution est déterminée à partir de la valeur de réalisation augmentée des frais afférents à la reconstitution du patrimoine de la SCPI (frais d'acquisition des immeubles et commission de souscription). Elle correspond à la somme qui devrait être déboursée au jour de sa détermination pour reconstituer le patrimoine de la société à l'identique.",
+    "16": "16 Note d'information SCPI ActivImmo Variabilité du capital : le capital effectif de la Société représente la fraction du capital social statutaire souscrite par les associés. Cette fraction est arrêtée au 31 décembre de chaque année. Le capital social effectif est variable. La Société de Gestion constate et arrête, pour chaque exercice, le montant du capital social effectif, c'est-à-dire le montant du capital souscrit au jour de la clôture de l'exercice, compte tenu des souscriptions et des retraits enregistrés. L'assemblée générale extraordinaire des associés décidera, lorsque le capital statutaire aura été atteint, soit de maintenir la variabilité du capital et, le cas échéant, de fixer un nouveau montant de capital maximum, soit de procéder, selon le droit commun, par tranches d'augmentation de capital décidées préalablement, soit encore de ne plus procéder à de nouvelles augmentations du capital maximum. Dans le cas où l'assemblée générale extraordinaire des associés déciderait de procéder, selon le droit commun, par tranches d'augmentations de capital décidées préalablement, une nouvelle note d'information sera soumise au visa de l'Autorité des marchés financiers. En outre, elle mentionne, dans chaque bulletin périodique d'information, les mouvements de capital constatés au cours de la période précédente. Le capital social effectif est variable et peut être augmenté par des souscriptions de parts nouvelles effectuées par des associés anciens ou nouveaux, sans qu'il y ait toutefois une obligation quelconque d'atteindre le capital social maximum statutaire. Tout associé peut se retirer de la SCPI, conformément à la clause de variabilité du capital figurant à l'article 8 des statuts et conformément aux dispositions de l'article 9-2 des statuts, sous réserve que l'exercice de son droit n'ait pas pour conséquence que le capital social effectif ne devienne inférieur au capital social minimum. Toutefois, il ne peut être procédé à des émissions de parts nouvelles ayant pour effet d'augmenter le capital tant qu'il existe, sur le registre prévu aux articles L. 214-93 du Code monétaire et financier et 422-218 du RGAMF, des demandes de retrait non satisfaites à un prix inférieur ou égal au prix de souscription demandé aux nouveaux souscripteurs. Suspension de la variabilité du capital La Société de Gestion a la faculté de suspendre à tout moment les effets de la variabilité du capital, après (i) consultation du conseil de surveillance de la SCPI, (ii) en avoir informé les associés, le dépositaire et l'AMF, par tout moyen approprié (bulletin périodique d'information, site internet, courrier), dès lors qu'elle constate que les demandes de retrait au prix en vigueur demeurent non satisfaites et inscrites sur le registre de parts au moins 6 mois, et ce, quel que soit le pourcentage des parts de la SCPI qu'elles représentent. La suspension de la variabilité entraine : • l'annulation des souscriptions et des demandes de retrait de parts existantes inscrites sur le registre ; • l'interdiction d'augmenter le capital social effectif ; • la possibilité d'inscrire des ordres d'achat et de vente sur le marché secondaire des parts (tel que décrit ci-après). Compte tenu de ce qui précède, le souscripteur ne pourra pas choisir sur quel marché sa souscription sera exécutée. Rétablissement de la variabilité du capital La variabilité du capital pourra être rétablie par décision de la Société de Gestion, après (i) consultation du conseil de surveillance de la SCPI, (ii) en avoir informé les associés, le dépositaire et l'AMF, par tout moyen approprié (bulletin périodique d'information, site internet, courrier), dès lors que le prix d'exécution conduit à constater, au cours de quatre (4) périodes consécutives de confrontation, un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du Code monétaire et financier.",
+    "17": "17 Note d'information SCPI ActivImmo Dans l'hypothèse où la Société de Gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent, et après 8 périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales de l'article L.214-94 du Code monétaire et financier, elle aura l'obligation de rétablir la variabilité du capital d'en informer les associés, le dépositaire et l'AMF, par tout moyen approprié (bulletin périodique d'information, site internet, courrier). Le rétablissement de la variabilité entraîne : • l'annulation des ordres d'achat et de vente de parts en attente sur le registre des ordres du marché secondaire ; • la fixation d'un prix de souscription qui s'inscrit dans la fourchette légale de plus ou moins 10% de la valeur de reconstitution de la SCPI, conformément à l'article L. 214-94 du Code monétaire et financier ; • l'inscription des demandes de retrait de parts sur le registre ; • la reprise des souscriptions et la possibilité pour la SCPI, en toute cohérence avec les textes légaux et réglementaires, d'émettre des parts nouvelles en vue d'augmenter son capital social effectif. Il est précisé que lors du rétablissement du marché primaire, l'associé souhaitant vendre ses parts n'ayant pas pu être cédées sur le marché secondaire sera sollicité par la Société de Gestion pour décider de compléter un bulletin de retrait, s'il le souhaite, afin de demander le retrait par remboursement de ses parts. Les mêmes parts d'un associé ne peuvent pas faire concomitamment l'objet d'une demande de retrait sur le marché primaire et d'un ordre de vente sur le marché secondaire.",
+    "18": "18 Note d'information SCPI ActivImmo CHAPITRE 1 – CONDITIONS GÉNÉRALES DE SOUSCRIPTION DE PARTS 1. COMPOSITION DU DOSSIER DE SOUSCRIPTION Préalablement à la souscription, il est remis aux souscripteurs, conformément aux dispositions de l'article 422-197 du RGAMF, un dossier comprenant : • les statuts de la SCPI ; • la présente note d'information ; • un bulletin de souscription ; • le document d'informations clés (DIC) issu du règlement européen PRIIPs ; • le rapport annuel du dernier exercice clos ; et • le dernier bulletin périodique d'information en vigueur à la date de la souscription. 2. MODALITÉS DE VERSEMENT DU MONTANT DES SOUSCRIPTIONS 2.1. Prix de souscription Le prix de souscription d'une part est indiqué sur le bulletin de souscription dont les modalités de calcul sont détaillées à la section 6 du présent chapitre. Le prix de souscription est établi sur la base de la valeur de reconstitution telle que définie à l'article L. 214-109 du Code monétaire et financier. Tout écart de plus ou moins dix pour cent (10%) entre le prix de souscription et la valeur de reconstitution des parts de la SCPI devra être notifié et justifié par la Société de Gestion à l'AMF. 2.2. Libération Les parts souscrites au comptant ou à crédit doivent être libérées, lors de la souscription, pour la totalité de leur valeur nominale et du montant de la prime d'émission stipulée. À défaut de libération intégrale et immédiate, la souscription pourra être annulée par la Société de Gestion, à charge pour elle de restituer au souscripteur le montant des versements déjà effectués, sans intérêt et sans frais. Le bulletin de souscription énonce clairement les modalités de souscription, en particulier le prix de souscription des parts nouvelles et leur date d'entrée en jouissance. Le bulletin de souscription doit parvenir à la Société de Gestion, complété et signé, accompagné du montant de la souscription. 3. PARTS SOCIALES • Valeur nominale : la valeur nominale des parts est égale à cinq cents euros (500 €). Il est perçu, en sus de la valeur nominale de chaque part, une prime d'émission qui inclut la commission de souscription dont les modalités sont détaillées ci-dessous à la section 7 du présent Chapitre ; • Forme des parts : les parts sociales sont nominatives. Les droits de chaque associé résultent exclusivement de son inscription sur le registre des associés. Les associés reçoivent une attestation, revêtue de la signature de la Société de Gestion. 4. NOMBRE MINIMAL DE PARTS À SOUSCRIRE Le minimum de souscription initial est fixé à dix (10) parts pour tout nouvel associé. Il sera d'une (1) part pour tout nouvel associé à compter du 1er mai 2026. Les associés existants pourront investir des fractions de parts à travers l'épargne programmée et/ou le réinvestissement de tout ou partie de leur dividende.",
+    "19": "19 Note d'information SCPI ActivImmo 5. LIEUX DE SOUSCRIPTION ET DE VERSEMENT Les souscriptions et les versements seront reçus par l'intermédiaire des distributeurs autorisés et mandatés par la Société de Gestion ou auprès de la Société de Gestion elle-même : • par voie électronique au sein de l'Espace Partenaire de l'outil Falcon, et ultérieurement au sein de l'Espace Associé, ou à défaut à l'adresse générique suivante : souscriptions@alderan.fr ; ou • par voie postale à l'adresse du siège social d'Alderan. La souscription est réalisée lors de (I) la réception par la Société de Gestion du bulletin de souscription dûment complété et signé par un souscripteur, accompagné des justificatifs demandés, et (II) la mise à disposition sur le compte de la SCPI des fonds correspondant au montant de la souscription. Tout dossier de souscription incomplet sera rejeté. Néanmoins, la souscription est subordonnée à l'agrément de la Société de Gestion conformément à l'article 13.1 des statuts de la SCPI. La Société de Gestion n'a pas l'intention, sauf circonstances exceptionnelles et sous réserve que le souscripteur ne soit pas une U.S. Person, de refuser l'agrément aux demandes de souscription qui lui sont soumises. 6. DATE D'ENTRÉE EN JOUISSANCE DES PARTS Les parts porteront jouissance à compter du premier jour du sixième mois qui suit la période de souscription. 7. CONDITIONS DE SOUSCRIPTION 7.1. Modalités de calcul du prix de souscription Conformément aux dispositions de l'article L. 214-109 du code monétaire et financier, la Société de Gestion arrête et publie à la clôture de chaque exercice ainsi qu'à la situation comptable intermédiaire à chaque premier semestre de l'exercice et mentionne dans un état annexe au rapport de gestion les différentes valeurs suivantes de la SCPI : • la valeur comptable ; • la valeur de réalisation, soit la somme de la valeur vénale des immeubles déterminée par expertise et de la valeur nette des autres actifs et passifs de la SCPI ; et • la valeur de reconstitution, soit la somme de la valeur de réalisation (mentionnée ci-dessus) et des frais afférents à la reconstitution du patrimoine de la SCPI (frais d'acquisition des immeubles et commission de souscription). Conformément à l'article L.214-94 du Code monétaire et financier, le prix de souscription des parts est déterminé sur la base de la valeur de reconstitution qui est établie à la clôture de chaque exercice ainsi qu'à la situation comptable intermédiaire à chaque premier semestre de l'exercice. Ce prix de souscription doit être compris dans une fourchette de plus ou moins dix pour cent (10%) autour de la valeur de reconstitution de la SCPI, sauf justification notifiée à l'Autorité des marchés financiers. Le prix de souscription est la somme de la valeur nominale, et de la prime d'émission ; cette dernière incluant la commission de souscription. Prime d'émission : Les parts sociales sont émises à la valeur nominale majorée d'une prime d'émission destinée notamment à maintenir l'égalité entre anciens et nouveaux associés et sur laquelle peuvent être prélevés : a) les frais d'établissement et de constitution, de recherche et d'investissement ; b) les frais, droits et taxes (incluant les taxes non récupérables) liés à l'acquisition directe et indirecte des immeubles ; c) les frais liés aux augmentations de capital (frais de collecte), inclus dans la commission de souscription versée à la Société de Gestion. Le montant de la prime d'émission est égal à la différence entre le prix de souscription et la valeur nominale de la part. La prime d'émission inclut la commission de souscription comprenant elle-même les frais de recherche et d'investissement et les frais de collecte.",
+    "20": "20 Note d'information SCPI ActivImmo En cas de report à nouveau positif ou de solde positif du compte des plus ou moins-values réalisées sur immeubles locatifs (ou de tout compte équivalent), pour chaque part nouvellement souscrite, un montant de la prime d'émission pourra être prélevé et affecté au montant total du report à nouveau ou du compte des plus ou moins-values réalisées sur immeubles locatifs (ou de tout compte équivalent) afin que les droits des porteurs existants sur ces sommes soient maintenus et que les associés participent de manière égale à la constitution du report à nouveau et du solde du compte des plus ou moins-values réalisées sur immeubles locatifs (ou de tout compte équivalent). La somme totale prélevée à cet effet sur les montants de prime d'émission au cours de l'année écoulée fera l'objet d'une approbation de l'A.G.O. amenée à statuer sur les comptes de l'exercice. Commission de souscription : La commission de souscription, facturée à la SCPI, est égale à 10,6% HT soit 12,72% TTC maximum, et est acquise à la Société de Gestion pour couvrir notamment les frais de prospection et de collecte de capitaux, ainsi que les frais de recherche et d'investissements, comme indiqué au Chapitre III ci-après. La SCPI récupère la TVA, le coût final supporté par le souscripteur est donc de 64,66 € HT euros par part. L'article 9 des statuts de la SCPI donne à la Société de Gestion tous pouvoirs pour fixer, dans les conditions déterminées par la loi, le prix et les modalités de souscription des parts nouvelles. 7.2. Souscription de parts Le prix de souscription est fixé à six cent dix euros (610 €) par part dont : • valeur nominale : cinq cents euros (500 €) ; et • prime d'émission : cent dix euros (110 €). Le prix de souscription s'entend net de tous autres frais. La commission de souscription, comme précisé au 7.1 du présent Chapitre, correspond à 10,6% HT (12,72% TTC) du prix de souscription, soit 64,66 € HT (77,59 € TTC) par part, prélevée sur le prix de souscription. La SCPI récupère la TVA, le coût final supporté par le souscripteur est donc de 64,66 € HT euros par part. Le paiement de la souscription s'effectue au jour de la souscription pour la totalité du prix d'émission, prime d'émission incluse. Tout nouvel associé doit souscrire au minimum 10 parts. A compter du 1er mai 2026, le minimum de souscription pour tout nouvel associé sera d'une (1) part. Les associés existants pourront investir des fractions de parts à travers l'épargne programmée et/ou le réinvestissement de tout ou partie de leur dividende. Le capital plafond étant fixé à deux milliards d'euros (2.000.000.000 €), il sera émis au maximum quatre millions (4.000.000) de parts. 8. GARANTIE BANCAIRE En application de l'article L. 214-86 du Code monétaire et financier, une garantie bancaire portant sur 2 589 354 € a été délivrée le 5 juillet 2019 par la Société Générale. Cette garantie bancaire a pour objet de garantir le remboursement du montant des souscriptions prime d'émission incluse de l'intégralité des souscripteurs (fondateurs ou non) dans le cas où quinze pour cent (15%), au moins, du capital maximum statutaire, soit un montant de 825.000 € hors prime d'émission ou 1 006 500 € prime d'émission incluse ne serait pas souscrit par le public dans un délai d'un an après la date d'ouverture de la souscription. Si au moins 15% du capital maximum statutaire n'est pas souscrit dans le délai d'un an susvisé, la SCPI sera dissoute et tous les associés seront remboursés du montant de leur souscription. Au 31 octobre 2019, le capital social de la SCPI tel qu'il a été attesté par le Commissaire aux comptes le 12 novembre 2019, s'élevait en nominal à 3 066 374 €. La caution bancaire délivrée par la banque Société Générale en date du 5 juillet 2019 est donc caduque.",
+    "21": "21 Note d'information SCPI ActivImmo 9. RESTRICTIONS À L'ÉGARD DES US PERSONS Les parts de la SCPI n'ont pas été ni ne seront enregistrées en vertu du US Securities Act de 1933 (l'« Act de 1933 »), ou en vertu de quelque loi applicable dans un État des Etats-Unis d'Amérique. Par conséquent, les parts de la SCPI ne peuvent être offertes ou vendues directement ou indirectement aux États-Unis d'Amérique (y compris sur ses territoires et possessions), au bénéfice de toute « U.S. Person » telle que définie par règlementation américaine « Regulation S » dans le cadre de l'Act de 1933 adopté par l'autorité de régulation des marchés, la « Securities Exchange Commission ». La Société de Gestion peut par ailleurs surseoir à la prise en compte d'une souscription et à son inscription sur le registre des associés tant qu'elle n'a pas reçu tous les documents qu'elle peut raisonnablement demander pour établir qu'un souscripteur n'est pas une « U.S. Person », y compris au sens de la loi américaine FATCA. Les personnes désirant souscrire des parts sociales de la SCPI auront à certifier par écrit, lors de toute souscription de parts, qu'elles ne sont pas des « U.S. Persons ». Tout porteur de parts doit informer immédiatement la Société de Gestion de la SCPI s'il devient « U.S. Person ». 10. OBLIGATIONS RELATIVES À LA LOI FATCA La Société de Gestion de la SCPI pourra demander au souscripteur toutes informations ou attestations requises au titre de toute obligation qu'elle pourrait avoir en matière d'identification et de déclaration (i) prévues à l'annexe 1 de l'Accord entre le Gouvernement de la République française et le Gouvernement des États-Unis d'Amérique en vue d'améliorer le respect des obligations fiscales à l'échelle internationale et de mettre en œuvre la loi relative au respect des obligations fiscales concernant les comptes étrangers (dite « Loi FATCA ») en date du 14 novembre 2013 (l' « Accord ») et (ii) telles que précisées, le cas échéant, au sein des dispositions légales et réglementaires prises en application de l'Accord. Le souscripteur devra s'engager à se conformer aux obligations qui lui incombent au titre de l'Accord telles que précisées, le cas échéant, au sein des dispositions légales et réglementaires prises en application de l'Accord. 11. AUTRES OBLIGATIONS DÉCLARATIVES Par ailleurs, dans le cadre de la lutte contre l'évasion fiscale et en application de l'article 1649 AC du Code général des impôts, la Société de Gestion peut devoir transmettre des informations concernant les souscripteurs à la Direction Générale des Finances Publiques en France ; ces informations pouvant être communiquées à l'administration fiscale d'un autre État membre de l'Union européenne ou d'un État ou territoire ayant conclu avec la France une convention permettant un échange automatique d'informations à des fins fiscales. En conséquence, chaque associé devra se conformer à des obligations déclaratives comprenant, notamment et sans limitations, des informations nécessaires à l'identification de ses résidences fiscales et, le cas échéant, de ses numéros d'identification fiscale. Les mêmes informations sont requises des associés en ce qui concerne les personnes physiques qui les contrôlent. 12. TRAITEMENT ÉQUITABLE La Société de Gestion garantit un traitement équitable de tous les associés, dans le respect des procédures établies dans le cadre de son agrément. La Société de Gestion s'assure en particulier que chaque associé placé dans la même situation bénéficie de droits proportionnels au nombre de parts qu'il possède. Cependant, sur la base de critères objectifs ou en contrepartie de contraintes imposées au moment de la souscription par la Société de Gestion, cette dernière est susceptible de procéder à des traitements préférentiels (par exemple des rétrocessions de la commission de souscription) à un nombre limité d'associés ou sur une période limitée. Les conditions liées à l'octroi de ce traitement préférentiel est encadré par le dispositif de gestion des conflits d'intérêts d'ALDERAN.",
+    "23": "23 Note d'information SCPI ActivImmo b) Exécution des demandes de retrait Si l'associé n'indique pas, par une mention expresse, que sa demande doit être exécutée totalement, la Société de Gestion se réserve le droit d'exécuter partiellement son ordre. Les modifications ou annulations de demandes de retrait doivent être faites dans les formes et modalités identiques aux demandes initiales. La modification d'une demande de retrait inscrite : (i) emporte la perte du rang d'inscription en cas d'augmentation du nombre de parts objet de la demande, et (ii) ne modifie pas le rang d'inscription en cas de diminution du nombre de parts objet de la demande. Les modalités de détermination du prix de retrait sont fixées à la section 1.4 du présent chapitre. Le remboursement des parts de la SCPI rend effectif le retrait par son inscription sur le registre des associés. Les parts remboursées sont annulées. Les parts faisant l'objet d'un retrait cessent de bénéficier des revenus à partir du 1er jour du mois suivant celui au cours duquel le retrait a eu lieu. 1.3. Fonds de remboursement La création et la dotation d'un fonds de remboursement pourront être réalisées sous réserve d'une décision de l'assemblée générale ordinaire annuelle des associés de la SCPI afin que, dans le cas où les souscriptions nouvelles ne permettraient pas de compenser un retrait demandé, la demande de l'associé concerné soit assurée par prélèvement sur le fonds de remboursement. Ainsi, pour que les demandes de retrait soient satisfaites et pour fluidifier le marché des parts de la SCPI, la Société de Gestion proposera à l'associé retrayant de faire racheter les parts qu'il détient sur le fonds de remboursement si les sommes disponibles dans le fonds sont suffisantes. Les sommes allouées à ce fonds proviennent de la mise en réserve d'une partie des résultats ou par la vente d'actifs. Ces sommes sont au plus égales à cinq pour cent (5%) du capital effectif existant à l'ouverture de l'exercice en cours. Les liquidités affectées au fonds de remboursement sont destinées au seul remboursement des associés. La reprise des sommes disponibles sur ce fonds de remboursement doit être autorisée par décision d'une assemblée générale des associés, après rapport motivé de la Société de Gestion, qui aura recueilli au préalable l'avis consultatif du Conseil de Surveillance, lequel avis figurera dans le rapport susmentionné, et information préalable de l'Autorité des marchés financiers. Si un tel fonds devait être mis en place, l'associé retrayant disposera alors d'un délai de quinze (15) jours à compter de la proposition de la Société de Gestion pour notifier à celle-ci sa demande expresse de remboursement de ses parts par prélèvement sur le fonds de remboursement au prix de retrait indiqué. En l'absence de réponse dans ce délai de quinze (15) jours, l'associé sera réputé maintenir sa demande de retrait sur le registre des retraits prévu à l'article 422-218 du RGAMF en attente des souscriptions correspondantes. Au jour de la dernière actualisation de la présente note d'information, aucun fonds de remboursement n'a été mis en place. Par conséquent, seules les demandes de retrait compensées par une souscription peuvent être réalisées. 1.4. Détermination du prix de retrait Le retrait compensé par une souscription ne peut être effectué à un prix supérieur au prix de souscription diminué de la commission de souscription. En application de l'article 422-219 du RGAMF, en cas de baisse du prix de retrait, la Société de Gestion informe par lettre recommandée avec demande d'avis de réception les associés ayant demandé leur retrait au plus tard la veille de la date d'effet. Sans réponse de la part des associés dans un délai de quinze (15) jours à compter de la réception de cette information, la demande de retrait est réputée maintenue au nouveau prix. Cette information est contenue dans la lettre de notification.",
+    "24": "24 Note d'information SCPI ActivImmo Conformément aux dispositions de l'article 9-4 des statuts, deux cas peuvent se présenter : a) La demande de retrait est compensée par des demandes de souscription : La SCPI rachète immédiatement les parts pour les annuler. Le prix de retrait est égal au prix de souscription en vigueur, diminué de la commission de souscription hors taxes. Il est indiqué sur le bulletin périodique d'information. Les demandes de retrait sont traitées à la fin de chaque mois et les fonds sont envoyés aussitôt aux retrayants, de telle sorte que le délai d'exécution moyen est de quinze (15) jours. b) La demande de retrait n'est pas compensée par des demandes de souscription au bout d'un (1) mois : Dans l'hypothèse de la création et de la dotation d'un fonds de remboursement, la Société de Gestion proposera à l'associé de faire racheter ses parts sur le fonds de remboursement, si les sommes disponibles dans le fonds sont suffisantes. Le prix de rachat par le fonds sera alors compris entre la valeur de réalisation en vigueur et celle-ci diminuée de dix pour cent (10%). En application de l'article 422-230 du RGAMF, si le retrait n'est pas compensé, le remboursement ne peut s'effectuer à un prix supérieur à la valeur de réalisation ni inférieur à celle-ci diminuée de dix pour cent (10%), sauf autorisation de l'AMF. 1.5. Blocage des retraits Le blocage des retraits est susceptible d'intervenir conformément aux dispositions de l'article L. 214-93 du Code monétaire et financier. Ainsi, le fonds de retrait étant vide, s'il s'avérait qu'une ou plusieurs demandes de retrait inscrites sur le registre et représentant au moins dix pour cent (10%) des parts de la SCPI n'étaient pas satisfaites dans un délai de douze (12) mois, la Société de Gestion en informerait sans délai l'AMF et convoquerait une assemblée générale extraordinaire dans les deux (2) mois de cette information afin de statuer sur la cession partielle ou totale du patrimoine et toute autre mesure appropriée. De telles cessions sont réputées conformes à l'article L. 214-114 du Code monétaire et financier. En particulier, toute décision motivée de la Société de Gestion consistant à procéder à l'annulation des ordres sur le registre constituerait une mesure appropriée au sens de l'article L. 214-93, II du Code monétaire et financier et emporte suspension des demandes de retrait et ouverture du marché secondaire. La Société de Gestion assurerait alors l'animation, le fonctionnement et le traitement du marché secondaire des parts dans les conditions définies ci- après. Toutefois, cette hypothèse ne peut se produire que si le fonds de remboursement n'existe pas encore ou s'il est vide. 2. CESSIONS DE GRÉ À GRÉ Les associés qui désirent céder leurs parts ont la possibilité de les céder directement à un associé ou à un tiers aux conditions qui sont librement débattues entre les intéressés. Il leur appartient dans cette hypothèse de trouver un acquéreur sans l'aide de la Société de Gestion et de se charger, sous leur responsabilité, de toutes les formalités de cession. Toute souscription ou cession (même une cession libre) reste conditionnée à la réalisation par la Société de Gestion des procédures « Connaissance du client » (KYC) et lutte contre le blanchiment de capitaux et le financement du terrorisme concernant le cessionnaire. Deux cas peuvent se présenter : a) Le cessionnaire est déjà associé de la SCPI : La cession est libre, sous réserve de ne pas constituer une cession à une U.S. Person et à condition de la notifier à la Société de Gestion par lettre recommandée avec accusé de réception afin que cette dernière actualise le registre des associés. b) Le cessionnaire n'est pas associé de la SCPI : Conformément à l'article 13 des statuts de la SCPI, la cession de parts à un tiers non associé, à quelque titre que ce soit, est soumise à l'agrément préalable de la Société de Gestion, sauf en cas de succession, de liquidation de communauté de biens entre époux, ou de cession soit à un conjoint, soit à un ascendant ou à un descendant."
+   }
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2024/11/202607017-DIC-ActivImmo.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2024/11/202607017-DIC-ActivImmo.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1242174,
+   "sha256": "a026bd9c43227591dece797d3c57f8f4ae4f3a10640fc9188d0944bc326a0a1f",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.0 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260716143632+02'00'",
+    "modDate": "D:20260716143633+02'00'"
+   },
+   "page_count": 3,
+   "text_characters": 17788,
+   "kind": "dic",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Le présent document contient des informations essentielles sur le produit d'investissement. Il ne s'agit pas d'un document à caractère commercial. Ces informations vous sont fournies conformément à une obligation légale, afin de vous aider à comprendre en quoi consiste ce produit et quels risques, coûts, gains et pertes potentiels y sont associés, et de vous aider à le comparer à d'autres produits",
+   "dates": [
+    "27.04.2026",
+    "5 septembre 2017"
+   ],
+   "fee_clauses": [
+    {
+     "page": 3,
+     "label": "Coûts récurrents",
+     "snippet": "s coûts réels. 1 060,00€ Coût de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. 0,00€ Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 0.71% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 63€ Coût de transaction 2.39% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous-jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 213€ Coûts accessoires Commission liée aux résultats et commission d'intéressement Aucune commission liée aux résultats n'existe po",
+     "percents": [
+      {
+       "raw": "0.71%",
+       "value": 0.71,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "2.39%",
+       "value": 2.39,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    },
+    {
+     "page": 3,
+     "label": "Frais de gestion",
+     "snippet": " Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. 0,00€ Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 0.71% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 63€ Coût de transaction 2.39% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous-jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 213€ Coûts accessoires Commission liée aux résultats et commission d'intéressement Aucune commission liée aux résultats n'existe pour ce produit. 0,00€ Combien de temps d",
+     "percents": [
+      {
+       "raw": "0.71%",
+       "value": 0.71,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      },
+      {
+       "raw": "2.39%",
+       "value": 2.39,
+       "tax_hint": null,
+       "after": "de la valeur de votre investissement par an."
+      }
+     ],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "3": "Si vous sortez après 1 an Si vous sortez après 8 ans (période de détention recommandée) Coûts totaux 1 337€ 6 223€ Incidence des coûts annuels(1) 13,37% 4,47% chaque année (1) Elle montre dans quelle mesure les coûts réduisent annuellement votre rendement au cours de la période de détention. Par exemple, elle montre que si vous sortez à la fin de la période de détention recommandée, il est prévu que votre rendement moyen par an soit de 9,28% avant déduction des coûts et de 4,81% après cette déduction. Il se peut que nous partagions les coûts avec la personne qui vous vend le produit afin de couvrir les services qu'elle vous fournit. Cette personne vous informera du montant. Composition des coûts : Coûts ponctuels à l'entrée ou à la sortie Si vous sortez après 1 an Coût d'entrée 10.60% du montant que vous payez au moment de l'entrée dans l'investissement. Il s'agit du montant maximal que vous paierez. La personne qui vous vend le produit vous informera des coûts réels. 1 060,00€ Coût de sortie Nous ne facturons pas de coût de sortie pour ce produit, mais la personne qui vous vend le produit peut le faire. 0,00€ Coûts récurrents prélevés chaque année Frais de gestion et autres frais administratifs et d'exploitation 0.71% de la valeur de votre investissement par an. Cette estimation se base sur les coûts réels au cours de l'année dernière. 63€ Coût de transaction 2.39% de la valeur de votre investissement par an. Il s'agit d'une estimation des coûts encourus lorsque nous achetons et vendons les investissements sous-jacents au produit. Le montant réel varie en fonction de la quantité que nous achetons et vendons. 213€ Coûts accessoires Commission liée aux résultats et commission d'intéressement Aucune commission liée aux résultats n'existe pour ce produit. 0,00€ Combien de temps dois-je le conserver et puis-je retirer de l'argent de façon anticipée ? Période de détention recommandée : 8 ans La SCPI a été créée dans la perspective de détention d'actifs immobiliers sur un horizon à moyen et/ou long terme en raison de la nature des actifs sous- jacents. La Société de Gestion vous recommande de détenir votre investissement pendant au moins huit (8) ans. Toute détention d'un investissement dans la SCPI pour une durée inférieure est susceptible de pénaliser l'investisseur qui demande le retrait avant l'expiration de celle-ci. Il vous est néanmoins possible de céder avant la fin de la période de détention recommandée tout ou partie de vos parts de la SCPI en faisant une demande de retrait (voir ci-dessus le paragraphe « Modalités de sortie »). La sortie de la SCPI n'est toutefois possible qu'en contrepartie d'une souscription nouvelle. Par conséquent, la liquidité des parts n'est pas garantie. Comment puis-je formuler une réclamation ? Si vous rencontrez des difficultés au niveau de la prestation délivrée ou du produit et que vous souhaitez nous faire part de votre réclamation, vous pouvez contacter la personne qui vous a vendu le produit ou nous contacter : • par voie électronique à l'adresse suivante : reclamations@alderan.fr ; • par voie postale à l'adresse suivante : Alderan, Service Réclamations, 4, avenue Georges Mandel, 75116 Paris ; et, • par téléphone au 01 42 89 47 95 (suivi d'une confirmation écrite par voie électronique ou postale). Si les réponses apportées à votre réclamation sur un différend relatif à la commercialisation ou la gestion des produits gérés par Alderan ne vous ont pas donné satisfaction, ou aucune suite n'a été donnée à votre réclamation dans le délai prévu, vous avez la possibilité, en tant qu'épargnant ou investisseur, de saisir le médiateur de l'AMF : • \u0007de préférence par formulaire électronique sur le site de l'AMF (https://www.amf-france.org/fr/le-mediateur-de-lamf/votre-dossier-de-mediation/ vous-voulez-deposer-une-demande-de-mediation) ; ou, • \u0007par courrier postal à : Médiateur de l'AMF - Autorité des marchés financiers, 17, place de la Bourse, 75082 Paris Cedex 02. Pour toute information sur la médiation de l'AMF, consultez le site www.amf-france.org, rubrique Le Médiateur. La politique de traitement des réclamations d'Alderan se trouve sur la page « Réclamations » du site internet www.alderan.fr. Autres informations pertinentes La SCPI relève de l'article 8 du Règlement (UE) 2019/2088 relatif à la publication d'informations en matière de durabilité dans le secteur des services financiers (« Règlement SFDR »), étant précisé que la SCPI n'a pas vocation à avoir pour objectif l'investissement durable, au sens de l'article 9 du Règlement SFDR. Le principe consistant à « ne pas causer de préjudice important » s'applique uniquement aux investissements sous-jacents au produit financier qui prennent en compte les critères de l'Union européenne en matière d'activités économiques durables sur le plan environnemental. Les investissements sous-jacents à la portion restante de ce produit financier ne prennent pas en compte les critères de l'Union européenne en matière d'activités économiques durables sur le plan environnemental. Les informations relatives à la finance durable sont disponibles sur le lien suivant : https://alderan.fr/nos-engagements/ 3 Coûts au fil du temps (montants exprimés en euros) : Les tableaux présentent les montants prélevés sur votre investissement afin de couvrir les différents types de coûts. Ces montants dépendent du montant que vous investissez, du temps pendant lequel vous détenez le produit et du rendement du produit. Les montants indiqués ici sont des illustrations basées sur un exemple de montant d'investissement et différentes périodes d'investissement possibles. Nous avons supposé : • qu'au cours de la première année vous récupéreriez le montant que vous avez investi (rendement annuel de 0%) ; • que pour les autres périodes de détention, le produit évolue de la manière indiquée dans le scénario intermédiaire ; et, • 10 000€ sont investis."
+   }
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2025/07/20260623-Rapport-29-LEC.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2025/07/20260623-Rapport-29-LEC.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3981698,
+   "sha256": "749e937a7ca20ea3f382ff659d8097c69a826e1adae0608dcab085d255cc0004",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 21.4 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260623143049+02'00'",
+    "modDate": "D:20260623143109+02'00'"
+   },
+   "page_count": 27,
+   "text_characters": 84538,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 RAPPORT AU TITRE DE L'ARTICLE 29 DE LA LOI ÉNERGIE-CLIMAT Exercice 2025",
+   "dates": [
+    "21 octobre 2024",
+    "6 décembre 2024",
+    "8 décembre 2021"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2026/07/20261016-Code-de-transparence-ActivImmo.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2026/07/20261016-Code-de-transparence-ActivImmo.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 8199454,
+   "sha256": "e2e41d1192c92dd1dabf38929a22aadf3faa9f2671b3ed10d63d475be7850ee3",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.0 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261016153501+02'00'",
+    "modDate": "D:20261016153511+02'00'"
+   },
+   "page_count": 14,
+   "text_characters": 40571,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 Code de transparence Siège social : 4, avenue Georges Mandel - Paris (75116) 853 533 594 RCS Paris VISA SCPI n°19-14 du 26.07.2019 SCPI logistique by Alderan Le Code de transparence a été actualisé le 30 juin 2026, sur la base des chiffres arrêtés au 31 décembre 2025.",
+   "dates": [
+    "26.07.2019",
+    "30 juin 2026",
+    "31 décembre 2025",
+    "6 décembre 2024",
+    "juillet 2020",
+    "novembre 2021"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2026/06/20260630-Raport-extra-financier-ActivImmo.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2026/06/20260630-Raport-extra-financier-ActivImmo.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 6198916,
+   "sha256": "c35430a5a86968b4f10701c6e86260d39e33a58811cd2caf7249f5565a3b4b2c",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 21.4 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260630173712+02'00'",
+    "modDate": "D:20260630173717+02'00'"
+   },
+   "page_count": 29,
+   "text_characters": 57875,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 Rapport extra-financier SCPI ActivImmo SCPI logistique by Alderan Société civile de placement immobilier à capital variable RAPPORT EXTRA-FINANCIER Exercice 2025 Siège social : 4, avenue Georges Mandel - Paris (75116) 953 533 594 RCS Paris VISA SCPI n°19-14 du 04.05.2026 SCPI logistique by Alderan",
+   "dates": [
+    "04.05.2026",
+    "31.12.2025",
+    "décembre 2024"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2026/06/20260427-Statuts-SCPI-ActivImmo.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2026/06/20260427-Statuts-SCPI-ActivImmo.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1222283,
+   "sha256": "5c84853165402ece32da952bb9d546bc442ea38acbb6eea8307784a807f7db4b",
+   "metadata": {
+    "format": "PDF 1.4",
+    "producer": "macOS Version 26.3.1 (assemblage 25D2128) Quartz PDFContext",
+    "creationDate": "D:20260507144033Z",
+    "modDate": "D:20260507164514+02'00'"
+   },
+   "page_count": 27,
+   "text_characters": 91802,
+   "kind": "statuts",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 ACTIVIMMO Société civile de placement immobilier à capital variable Procédant à une offre au public Siège social : 4, avenue Georges Mandel – 75116 Paris RCS PARIS 853 533 594 VISA SCPI N°19-14 du 26/07/2019 (La \"Société\") STATUTS Mis à jour le 27 avril 2026 Certifiés conformes ___________________ Le Gérant",
+   "dates": [
+    "26/07/2019",
+    "27 avril 2026",
+    "31 décembre 2019"
+   ],
+   "fee_clauses": [
+    {
+     "page": 5,
+     "label": "commission de cession",
+     "snippet": ", courrier), dès lors que le prix d'exécution conduit à constater, au cours de quatre (4) périodes consécutives de confrontation, un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du C. monét. fin. Dans l'hypothèse où la société de gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent, et après 8 périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales de l'article L.214-94 du C. monét. fin, elle aura l'obligation de rétablir la variabilité du capital d'en informer les associés, le dépositai",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 5,
+     "label": "commission de cession",
+     "snippet": "néa précédent, et après 8 périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales de l'article L.214-94 du C. monét. fin, elle aura l'obligation de rétablir la variabilité du capital d'en informer les associés, le dépositaire et l'AMF, par tout moyen approprié (bulletin périodique d'information, site internet, courrier). Le rétablissement de la variabilité entraîne : - l'annulation des ordres d'achat et de vente de parts en attente sur le registre des ordres du marché secondaire ; - la fixation d'un prix de souscription qui s'inscrit dans la fourchette légale de plus ou moins 10 % de la valeur de reconstitution de la SC",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "de la valeur de reconstitution de la SC"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 7,
+     "label": "commission de souscription",
+     "snippet": "es demandes de souscription pour un montant égal ou supérieur aux demandes de retrait, le retrait est réalisé au prix de souscription en vigueur, diminué de la commission de souscription hors taxes ; le solde des souscriptions et retraits s'analyse sur les trois derniers mois ; b. si le retrait n'a pu avoir lieu dans un délai d'un mois en raison de l'insuffisance des souscriptions, mais si le fonds de remboursement le permet, le retrait est réalisé, sur demande de l'associé retrayant par lettre recommandée avec demande d'avis de réception, à la valeur de réalisation en vigueur et sans que le remboursement ne s'effectue à un prix supérieur à la valeur de réalisation ni inférieur à celle-ci diminuée de 10 %, sauf autorisation de l'AMF, conformément à l'article 422-230 du RGAMF. c. si, le fon",
+     "percents": [
+      {
+       "raw": "10 %",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": ", sauf autorisation de l'AMF, conformément à"
+      }
+     ],
+     "basis_tags": [
+      "actifs_valeur",
+      "prix_souscription"
+     ]
+    },
+    {
+     "page": 25,
+     "label": "commissions de souscription",
+     "snippet": "mentionnés au présent article sont mis à la disposition des commissaires aux comptes dans des conditions déterminées par décret. Les frais d'établissement, les commissions de souscription et les frais d'acquisition des immeubles tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire pourront être imputés sur la prime d'émission. En cas de report à nouveau positif ou de solde positif du compte des plus ou moins-values réalisées sur immeubles locatifs (ou de tout compte équivalent), il pourra également être prélevé sur la prime d'émission pour chaque part nouvellement souscrite, le montant permettant de maintenir le niveau des droits des porteurs existants sur ces sommes qui sera affecté au compte de report à nouv",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 25,
+     "label": "frais d'acquisition",
+     "snippet": "mis à la disposition des commissaires aux comptes dans des conditions déterminées par décret. Les frais d'établissement, les commissions de souscription et les frais d'acquisition des immeubles tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire pourront être imputés sur la prime d'émission. En cas de report à nouveau positif ou de solde positif du compte des plus ou moins-values réalisées sur immeubles locatifs (ou de tout compte équivalent), il pourra également être prélevé sur la prime d'émission pour chaque part nouvellement souscrite, le montant permettant de maintenir le niveau des droits des porteurs existants sur ces sommes qui sera affecté au compte de report à nouveau ou au compte des plus ou moins-",
+     "percents": [],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "5": "5 8.2 Rétablissement de la variabilité du capital La variabilité du capital pourra être rétablie par décision de la société de gestion, après (i) consultation du conseil de surveillance de la SCPI, (ii) en avoir informé les associés, le dépositaire et l'AMF, par tout moyen approprié (bulletin périodique d'information, site internet, courrier), dès lors que le prix d'exécution conduit à constater, au cours de quatre (4) périodes consécutives de confrontation, un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales prévues par l'article L.214-94 du C. monét. fin. Dans l'hypothèse où la société de gestion n'userait pas de la faculté qui lui est concédée par l'alinéa précédent, et après 8 périodes consécutives de confrontation au cours desquelles le prix d'exécution aura conduit à constater un prix payé par l'acquéreur, commission de cession et droits d'enregistrement inclus, s'inscrivant dans les limites légales de l'article L.214-94 du C. monét. fin, elle aura l'obligation de rétablir la variabilité du capital d'en informer les associés, le dépositaire et l'AMF, par tout moyen approprié (bulletin périodique d'information, site internet, courrier). Le rétablissement de la variabilité entraîne : - l'annulation des ordres d'achat et de vente de parts en attente sur le registre des ordres du marché secondaire ; - la fixation d'un prix de souscription qui s'inscrit dans la fourchette légale de plus ou moins 10 % de la valeur de reconstitution de la SCPI, conformément à l'article L. 214-94 du C. monét. fin ; - l'inscription des demandes de retrait de parts sur le registre ; - la reprise des souscriptions et la possibilité pour la SCPI, en toute cohérence avec les textes légaux et réglementaires, d'émettre des parts nouvelles en vue d'augmenter son capital social effectif. Il est précisé que lors du rétablissement du marché primaire, l'associé souhaitant vendre ses parts n'ayant pas pu être cédées sur le marché secondaire sera sollicité par la société de gestion pour décider de compléter un bulletin de retrait, s'il le souhaite, afin de demander le retrait par remboursement de ses parts. Les mêmes parts d'un associé ne peuvent pas faire concomitamment l'objet d'une demande de retrait sur le marché primaire et d'un ordre de vente sur le marché secondaire. ARTICLE 9 - AUGMENTATION ET RÉDUCTION DU CAPITAL 9.1 Augmentation du capital effectif La société de gestion a tous pouvoirs pour fixer, dans les conditions déterminées par la loi et les présents statuts, le prix et les modalités de souscription des parts nouvelles et pour accomplir toutes les formalités légales. Le prix de souscription est établi sur la base de la valeur de reconstitution telle que définie à l'article L. 214-109 du C. monét. fin. Tout écart de plus ou moins 10% entre le prix de souscription et la valeur de reconstitution des parts devra être notifié et justifié par la société de gestion à l'AMF. Toute souscription de parts sera constatée par un bulletin de souscription établi dans les conditions fixées par les textes et règlements en vigueur. Le prix des parts est fixé en euros. Le capital social effectif peut être augmenté par la création de parts nouvelles en représentation d'apports en espèces par les associés ou de nouveaux associés (sous les conditions d'agrément définies infra), sans qu'il soit obligatoire d'atteindre le capital statutairement fixé. En cas de souscription de parts nouvellement créées, le dépôt du bulletin de souscription accompagné du versement auprès de la société de gestion vaut pour le souscripteur demande d'agrément auprès de la Société. La société de gestion n'est autorisée à recevoir des souscriptions de tiers que pour un minimum de dix (10) parts. Toutefois, à compter du 1er mai 2026, la société de gestion pourra recevoir des souscriptions de tiers pour un minimum d'une (1) part. Les associés doivent libérer, lors de la souscription, la totalité du montant nominal et du montant de la prime d'émission stipulée.",
+    "7": "7 9.4 Prix de remboursement Le prix de remboursement des parts est fixé comme suit suivant les cas : a. s'il existe des demandes de souscription pour un montant égal ou supérieur aux demandes de retrait, le retrait est réalisé au prix de souscription en vigueur, diminué de la commission de souscription hors taxes ; le solde des souscriptions et retraits s'analyse sur les trois derniers mois ; b. si le retrait n'a pu avoir lieu dans un délai d'un mois en raison de l'insuffisance des souscriptions, mais si le fonds de remboursement le permet, le retrait est réalisé, sur demande de l'associé retrayant par lettre recommandée avec demande d'avis de réception, à la valeur de réalisation en vigueur et sans que le remboursement ne s'effectue à un prix supérieur à la valeur de réalisation ni inférieur à celle-ci diminuée de 10 %, sauf autorisation de l'AMF, conformément à l'article 422-230 du RGAMF. c. si, le fonds de remboursement étant vide, les demandes de retrait inscrites au registre des ordres d'achat et de vente en attente depuis plus de douze mois excèdent 10 % des parts émises par la Société, la société de gestion en informe l'AMF et convoque une AGE dans les deux mois, pour décider, conformément à l'article L. 214-93 du C. monét. fin., la cession partielle ou totale du patrimoine et toute autre mesure appropriée. Le remboursement s'effectue alors selon les conditions de souscription en cours offerte au public. Dans ce dernier cas, les associés sont informés par la société de gestion du nécessaire report de l'opération de retrait dans la mesure où l'application de cette procédure emporte suspension des demandes de retrait. 9.5 Confrontation des ordres d'achat et de vente sur le marché secondaire Lorsque l'AGE réunie en cas de blocage des retraits décide de faire application de l'article L. 214-93-I du C. monét. fin., les ordres d'achat et de vente sont, à peine de nullité, inscrits sur un registre tenu au siège de la Société et emportent suspension des demandes de retrait. Conformément à l'article 422-205 du RGAMF, le délai de validité d'un ordre de vente est d'un (1) an. Ce délai peut être prorogé dans les conditions fixées par cet article à la demande expresse de l'associé. Les modalités de mise en œuvre de ces dispositions et notamment les conditions d'information sur le marché secondaire des parts et la périodicité d'enregistrement des ordres et d'établissement du prix d'exécution sont fixées conformément à la règlementation et sont précisées dans la note d'information visée par l'AMF. ARTICLE 10 - APPORTS Les associés fondateurs ont apporté en numéraire à la Société : Total des apports en numéraire : 1.582.854,00 € (capital social initial augmenté d'une prime d'émission de 133.354,00 €). La liste des fondateurs est la suivante : Associés Nombre de parts souscrites Montant versé (prime d'émission incluse) Monsieur Pierre Andregnette 19 10 374 Monsieur Aurélien Antonet 10 5 460 Monsieur Olivier Assaillit 55 30 030 Madame Patricia Attwood 37 20 202 Monsieur Gilles Badoil 20 10 920 Société Baratte PhiThéo 37 20 202 Société IMMPB 37 20 202",
+    "25": "25 La société de gestion mentionne, dans un état annexe au rapport de gestion, la valeur comptable, la valeur de réalisation et la valeur de reconstitution de la Société. La valeur de réalisation est égale à la somme de la valeur vénale des immeubles et de la valeur nette des autres actifs de la Société. La valeur de reconstitution de la Société est égale à la valeur de réalisation augmentée du montant des frais afférents à une reconstitution de son patrimoine. Ces valeurs sont arrêtées et publiées par la société de gestion à la clôture de chaque exercice ainsi qu'à la situation comptable intermédiaire à chaque premier semestre de l'exercice. Un décret fixe leurs conditions de détermination et de publication. Les documents mentionnés au présent article sont mis à la disposition des commissaires aux comptes dans des conditions déterminées par décret. Les frais d'établissement, les commissions de souscription et les frais d'acquisition des immeubles tels que les droits d'enregistrement, la TVA non récupérable pour les immeubles commerciaux et professionnels et les frais de notaire pourront être imputés sur la prime d'émission. En cas de report à nouveau positif ou de solde positif du compte des plus ou moins-values réalisées sur immeubles locatifs (ou de tout compte équivalent), il pourra également être prélevé sur la prime d'émission pour chaque part nouvellement souscrite, le montant permettant de maintenir le niveau des droits des porteurs existants sur ces sommes qui sera affecté au compte de report à nouveau ou au compte des plus ou moins-values réalisées sur immeubles locatifs (ou à tout compte équivalent). La somme totale prélevée à cet effet sur les montants de prime d'émission au cours de l'année écoulée fera l'objet d'une approbation de l'AGO amenée à statuer sur les comptes de l'exercice. 20.11 Consultation écrite Des décisions collectives peuvent être prises par les associés par voie de consultation écrite, à l'initiative de la société de gestion sous réserve que la participation des associés respecte les conditions de majorité d'une Assemblée Générale. Afin de provoquer ce vote, la société de gestion adresse à chaque associé le texte des résolutions qu'il propose et y ajoute, s'il y a lieu, tous renseignements, documents et explications utiles. Cet envoi est fait par lettre recommandée avec demande d'avis de réception. Les associés disposent d'un délai de 20 jours calendaires à compter de la date de réception de cette lettre pour émettre par écrit leur vote. La réponse est envoyée, ou déposée par l'associé, au siège social. Les associés qui n'ont pas répondu dans le délai indiqué sont considérés comme s'étant abstenus. Les voix de l'associé qui s'est abstenu ne rentrent pas dans le décompte des voix exprimées. Si les votes de tous les associés sont reçus avant l'expiration du délai de vote, la/les résolutions concernées sera (seront) réputée(s) avoir fait l'objet d'un vote à la date de réception du dernier vote. La société de gestion ou toute personne par elle désignée rédige le procès-verbal de la consultation auquel il annexe les résultats de vote. Le procès-verbal est transcrit sur le registre prévu à l'article 20.12. 20.12 Procès-verbal et feuilles de présence obligatoires pour chaque AG, qu'elle soit Ordinaire ou Extraordinaire, et même en cas de consultation écrite Conformément à l'article L. 214-108 du C. monét. fin., chaque AG fait l'objet d'un procès-verbal et d'une feuille de présence, à laquelle doivent être annexés les pouvoirs donnés à chaque mandataire. Les modalités d'établissement de ces documents sont déterminées par décret en Conseil d'État. En l'absence de procès-verbal, les délibérations de l'AG peuvent être annulées. Conformément aux articles R. 214-147, R. 214-148 et R. 214-149 du C. monét. fin., le procès-verbal des délibérations des AG mentionne la date et le lieu de la réunion, le mode de convocation, l'ordre du jour, la composition du bureau, le nombre de parts participant au vote et ses conséquences sur le quorum, les documents et les rapports soumis à l'AG, un résumé des débats, le texte des résolutions mises aux voix et le résultat des votes. Il est signé par les membres du bureau."
+   }
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2026/04/20260702-Plaquette-Commerciale-ActivImmo.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2026/04/20260702-Plaquette-Commerciale-ActivImmo.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3027619,
+   "sha256": "97db4f7c6ecfabaf723b450711943810fc4cbbdd116a009a9c5595b581d9eab4",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 21.6 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20261030151320+01'00'",
+    "modDate": "D:20261030151325+01'00'"
+   },
+   "page_count": 10,
+   "text_characters": 17805,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "SCPI pionnière dédiée à la logistique et aux locaux d'activités en Europe PLAQUETTE COMMERCIALE Société Civile de Placement Immobilier à capital variable La note d'information de la SCPI a reçu le visa AMF n°19- 14 en date du 26 juillet 2019.",
+   "dates": [
+    "26 juillet 2019",
+    "31.12.2025"
+   ],
+   "fee_clauses": [
+    {
+     "page": 8,
+     "label": "commission de souscription",
+     "snippet": "ISSEMENTS (1) \u0007L'achat de parts de SCPI grâce au réinvestissement des dividendes ou au versement programmé expose le souscripteur aux mêmes frais (notamment la commission de souscription) et aux mêmes risques qu'un achat de parts en direct. De plus, mêmes réinvestis, les dividendes restent assujettis à l'impôt sur le revenu. (2) \u0007\u0007En cas de démembrement, les possibilités de retrait ou de cession des parts sont limitées. Il est conseillé aux porteurs de parts démembrées de conserver leurs droits pendant toute la durée de démembrement. Il est de la responsabilité des partenaires d'échanger au préalable avec leurs clients afin de s'assurer qu'ils ont bien compris les conséquences relatives au démembrement temporaire de propriété en leur transmettant une présentation de cette modalité particul",
+     "percents": [],
+     "basis_tags": []
+    },
+    {
+     "page": 9,
+     "label": "Commission de souscription",
+     "snippet": "FRAIS AFFÉRENTS Frais uniques inclus dans le prix de souscription, TVA au taux en vigueur en sus. Commission de souscription (HT) 10,6% Commission versée à la Société de Gestion pour couvrir les coûts de prospection et de collecte des capitaux, ainsi que les coûts de recherche et d'investissement des biens. Frais récurrents pris en compte dans le résultat de la SCPI, TVA au taux en vigueur en sus. Commission de gestion (HT) (des recettes de toute nature encaissées HT) 10% Commission versée à la Société de Gestion sur les recettes de la SCPI (loyers et produits financiers nets) pour couvrir les frais de bureaux et de personnel liés à l'administration et à la gestion du patrimoine de la SCPI. Frais ponctuels Commission en cas de t",
+     "percents": [
+      {
+       "raw": "10,6%",
+       "value": 10.6,
+       "tax_hint": null,
+       "after": "Commission versée à la Société de Gestion po"
+      },
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "Commission versée à la Société de Gestion su"
+      }
+     ],
+     "basis_tags": [
+      "prix_souscription",
+      "produits_financiers"
+     ]
+    },
+    {
+     "page": 9,
+     "label": "Commission de gestion",
+     "snippet": "ux, ainsi que les coûts de recherche et d'investissement des biens. Frais récurrents pris en compte dans le résultat de la SCPI, TVA au taux en vigueur en sus. Commission de gestion (HT) (des recettes de toute nature encaissées HT) 10% Commission versée à la Société de Gestion sur les recettes de la SCPI (loyers et produits financiers nets) pour couvrir les frais de bureaux et de personnel liés à l'administration et à la gestion du patrimoine de la SCPI. Frais ponctuels Commission en cas de travaux (HT) 3% Commission versée à la Société de Gestion pour le suivi et le pilotage de la réalisation des travaux sur le patrimoine immobilier de la SCPI. Commission en cas de cession d'actifs immobiliers ou de réemploi (HT) 1% Commission versée à la Société de Gestion dans certains cas de cessions o",
+     "percents": [
+      {
+       "raw": "10%",
+       "value": 10.0,
+       "tax_hint": null,
+       "after": "Commission versée à la Société de Gestion su"
+      },
+      {
+       "raw": "3%",
+       "value": 3.0,
+       "tax_hint": null,
+       "after": "Commission versée à la Société de Gestion po"
+      },
+      {
+       "raw": "1%",
+       "value": 1.0,
+       "tax_hint": null,
+       "after": "Commission versée à la Société de Gestion da"
+      }
+     ],
+     "basis_tags": [
+      "produits_financiers"
+     ]
+    }
+   ],
+   "fee_pages": {
+    "8": "PRIX & RÉCOMPENSES 2025 (5) Moins de 10 ans (SCPI Thématique) Meilleure communication (Transparence) Meilleure SCPI (Logistique) Meilleure SCPI (Spécialisée) 8 PLAQUETTE COMMERCIALE SCPI logistique MODALITÉS DE SOUSCRIPTION ET DE DISTRIBUTION ÉPARGNE PROGRAMMÉE (1) RÉINVESTISSEMENT DU DIVIDENDE (1) DÉMEMBREMENT DES PARTS (2) DISTRIBUTION MENSUELLE (3) SOUSCRIPTION À CRÉDIT (4) AVERTISSEMENTS (1) \u0007L'achat de parts de SCPI grâce au réinvestissement des dividendes ou au versement programmé expose le souscripteur aux mêmes frais (notamment la commission de souscription) et aux mêmes risques qu'un achat de parts en direct. De plus, mêmes réinvestis, les dividendes restent assujettis à l'impôt sur le revenu. (2) \u0007\u0007En cas de démembrement, les possibilités de retrait ou de cession des parts sont limitées. Il est conseillé aux porteurs de parts démembrées de conserver leurs droits pendant toute la durée de démembrement. Il est de la responsabilité des partenaires d'échanger au préalable avec leurs clients afin de s'assurer qu'ils ont bien compris les conséquences relatives au démembrement temporaire de propriété en leur transmettant une présentation de cette modalité particulière de souscription, incluant notamment les avantages et risques associés. (3) \u0007Distribution de dividendes sous réserve de l'existence d'un résultat distribuable. (4) \u0007Le souscripteur ne doit pas se baser sur les seuls revenus (même mensualisés) issus de la détention de parts de la SCPI pour honorer les échéances du prêt compte tenu de leur caractère aléatoire.​ En cas de défaut de remboursement, l'associé peut être contraint de vendre ses parts de la SCPI et supporter un risque de perte en capital. (5) \u0007Ces prix et récompenses ne présagent pas de la réussite future des projets et donc, de la performance pour l'investisseur. Les organismes attribuant les récompenses mentionnées ci-dessus déterminent librement leurs critères de sélection ainsi que les modalités d'attribution des prix, sans qu'aucune commission ne soit versée par la SGP à ce titre. SOUSCRIPTION DÉMATÉRIALISÉE via « falcon »",
+    "9": "FRAIS AFFÉRENTS Frais uniques inclus dans le prix de souscription, TVA au taux en vigueur en sus. Commission de souscription (HT) 10,6% Commission versée à la Société de Gestion pour couvrir les coûts de prospection et de collecte des capitaux, ainsi que les coûts de recherche et d'investissement des biens. Frais récurrents pris en compte dans le résultat de la SCPI, TVA au taux en vigueur en sus. Commission de gestion (HT) (des recettes de toute nature encaissées HT) 10% Commission versée à la Société de Gestion sur les recettes de la SCPI (loyers et produits financiers nets) pour couvrir les frais de bureaux et de personnel liés à l'administration et à la gestion du patrimoine de la SCPI. Frais ponctuels Commission en cas de travaux (HT) 3% Commission versée à la Société de Gestion pour le suivi et le pilotage de la réalisation des travaux sur le patrimoine immobilier de la SCPI. Commission en cas de cession d'actifs immobiliers ou de réemploi (HT) 1% Commission versée à la Société de Gestion dans certains cas de cessions ou d'acquisition d'actifs immobiliers. Frais de dossier en cas de mutation de parts (HT) 150€ \u0007Frais de dossier (TVA en vigueur en sus) à la charge du cédant dans le cadre d'une cession gré à gré, d'une donation ou de l'instance d'un divorce. La Société de Gestion ne facture pas de frais de dossier sur les mutations à titre gratuit dans le cadre d'une succession. PLAQUETTE COMMERCIALE SCPI logistique 9"
+   }
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2025/04/20260327-Foire-aux-questions-ActivImmo.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2025/04/20260327-Foire-aux-questions-ActivImmo.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1158216,
+   "sha256": "0edac9b0cb57968f6d35ad93af7264693489c524bcd8d0b7ab67da7d09a3db38",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.0 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260327100445+01'00'",
+    "modDate": "D:20260327100446+01'00'"
+   },
+   "page_count": 3,
+   "text_characters": 12009,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 Quel est le régime fiscal des SCPI ? Les SCPI sont des sociétés fiscalement translucides, ce qui signifie qu'elles ne sont pas elles-mêmes redevables de l'impôt au titre des revenus et plus-values qu'elles génèrent. En tant qu'associé(e) d'une SCPI, vous êtes directement imposé(e) sur votre quote-part de produits encaissés par la SCPI, selon votre propre régime d'imposition. Je constate une diff",
+   "dates": [
+    "11 septembre 2019",
+    "26 juillet 2019",
+    "5 septembre 2017"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2025/07/20260121-Rapport-extra-financier-ActivImmo.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2025/07/20260121-Rapport-extra-financier-ActivImmo.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 4383843,
+   "sha256": "277164f904b750bce86086e2990be0e789fb48637476fcc7b17917c98650f5b8",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.1 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260121152947+01'00'",
+    "modDate": "D:20260121153002+01'00'"
+   },
+   "page_count": 24,
+   "text_characters": 54044,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 Société civile de placement immobilier à capital variable RAPPORT EXTRA-FINANCIER Exercice 2024 Siège social : 4, avenue Georges Mandel - Paris (75116) 953 533 594 RCS Paris VISA SCPI n°19-14 du 26.07.2019",
+   "dates": [
+    "26.07.2019",
+    "31.12.2024"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2021/12/20230614-Annexe-precontractuelle-ActivImmo.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2021/12/20230614-Annexe-precontractuelle-ActivImmo.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 643673,
+   "sha256": "cdbd3245d834319c9ade2cbc646daedfb33cbe9fa3d29cf3a65971c341c437c8",
+   "metadata": {
+    "format": "PDF 1.5",
+    "title": "Microsoft Word - Activimmo Documents Précontractuels RTS - v04.docx",
+    "creator": "Microsoft® Word 2016",
+    "producer": "www.ilovepdf.com",
+    "creationDate": "D:20241126175728+00'00'",
+    "modDate": "D:20241126175729Z"
+   },
+   "page_count": 9,
+   "text_characters": 16474,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "ANNEXE II Dénomination du produit : SCPI ActivImmo Identifiant d'entité juridique : 969500MHA8DZIXJWAS30 Caractéristiques environnementales et/ou sociales Par investissement durable, on entend un investissement dans une activité économique qui contribue à un objectif environnemental ou social, pour autant qu'il ne cause de préjudice important à aucun de ces objectifs et que les associés bénéficiai",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2021/10/BT2021-01_ACTIVIMMO.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2021/10/BT2021-01_ACTIVIMMO.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 1457761,
+   "sha256": "55f9467a30160bc9844c6191de630aa6407045aa253403f3fd8c2bdf9bd830e8",
+   "metadata": {
+    "format": "PDF 1.4",
+    "creator": "Adobe InDesign 15.1 (Macintosh)",
+    "producer": "Adobe PDF Library 15.0",
+    "creationDate": "D:20210201155046+01'00'",
+    "modDate": "D:20210201184704+01'00'"
+   },
+   "page_count": 5,
+   "text_characters": 14654,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "ACTIVIMMO est une SCPI à capital variable ayant pour objectif de constituer un patrimoine immobilier locatif majoritairement fondé sur les bâtiments d'activités, les entrepôts logistiques et la logistique urbaine, en anticipant l'évolution des modes de consommation et le développement du e-commerce entraînant notamment de nouvelles logiques de distribution. LE MOT DE LA SOCIÉTÉ DE GESTION Trois ac",
+   "dates": [
+    "01.01.2021",
+    "15 janvier 2020",
+    "31 DÉCEMBRE 2020",
+    "31.03.2021",
+    "31.12.2020",
+    "Décembre 2020",
+    "Novembre 2020",
+    "décembre 2020",
+    "janvier 2021",
+    "janvier 2022"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2021/10/202021023_BTI-ActivImmo-T3-2020.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2021/10/202021023_BTI-ActivImmo-T3-2020.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 2719195,
+   "sha256": "05b01f9af7313d79aaee0dc4479c174b7811876753e5d013d0da9eeb2389d8a6",
+   "metadata": {
+    "format": "PDF 1.6",
+    "creator": "Adobe InDesign 15.1 (Macintosh)",
+    "producer": "Adobe PDF Library 15.0",
+    "creationDate": "D:20201022074627+02'00'",
+    "modDate": "D:20201023150806+02'00'"
+   },
+   "page_count": 5,
+   "text_characters": 14137,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "ACTIVIMMO est une SCPI à capital variable ayant pour objectif de constituer un patrimoine immobilier locatif majoritairement fondé sur les bâtiments d'activités, les entrepôts logistiques et la logistique urbaine, en anticipant l'évolution des modes de consommation et le développement du e-commerce entraînant notamment de nouvelles logiques de distribution. LE MOT DE LA SOCIÉTÉ DE GESTION Trois ac",
+   "dates": [
+    "01.10.2020",
+    "30 SEPTEMBRE 2020",
+    "30.09.2020",
+    "31.12.2020",
+    "Juillet 2020",
+    "Septembre 2020",
+    "septembre 2020"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2021/10/ACTIVIMMO_BTI_41122019.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2021/10/ACTIVIMMO_BTI_41122019.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 4318659,
+   "sha256": "93252f6dece23ab6f6684e3278845c71e0a7ac961a7c920602f44d609d4fd4f1",
+   "metadata": {
+    "format": "PDF 1.3",
+    "title": "ACTIVIMMO_BT_31122019.indd",
+    "creator": "Adobe InDesign 15.0 (Macintosh)",
+    "producer": "Adobe PDF Library 15.0",
+    "creationDate": "D:20200207144330+01'00'",
+    "modDate": "D:20200207144337+01'00'"
+   },
+   "page_count": 4,
+   "text_characters": 12620,
+   "kind": "bulletin",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "ActivImmo est une SCPI à capital variable ayant pour objectif de constituer un patrimoine immobilier locatif majoritairement fondé sur les bâtiments d'activités et de logistique urbaine, en anticipant l'évolution des modes de consommation et le développement du e-commerce entraînant notamment de nouvelles logiques de distribution. LE MOT DE LA SOCIÉTÉ DE GESTION L'ESSENTIEL À LA UNE au 31.12.2019 ",
+   "dates": [
+    "01.01.2020",
+    "02.09.2019",
+    "10 décembre 2019",
+    "27 janvier 2020",
+    "29 novembre 2019",
+    "30.09.2019",
+    "31 DECEMBRE 2019",
+    "31.03.2020",
+    "31.12.2019",
+    "Janvier 2020",
+    "Novembre 2019",
+    "avril 2020"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2021/12/20260708-Politique-parties-prenantes.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2021/12/20260708-Politique-parties-prenantes.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3561585,
+   "sha256": "91bc0bddab68b349361be8759f5c779e50386574342381adcaeee8ef1eb13070",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.4 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20260709145245+02'00'",
+    "modDate": "D:20260709145247+02'00'"
+   },
+   "page_count": 7,
+   "text_characters": 21277,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 La politique d'engagement des parties prenantes a été actualisée le 30 juin 2026 sur la base des chiffres arrêtés au 31 décembre 2025. Politique d'engagement vis-à-vis des parties prenantes SCPI logistique by Alderan Siège social : 4, avenue Georges Mandel - Paris (75116) 853 533 594 RCS Paris VISA SCPI n°19-14 du 26.07.2019",
+   "dates": [
+    "26.07.2019",
+    "30 juin 2026",
+    "31 décembre 2025"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://alderan.fr/wp-content/uploads/2026/07/20251209-Rapport-29-LEC-.pdf",
+   "final_url": "https://alderan.fr/wp-content/uploads/2026/07/20251209-Rapport-29-LEC-.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 3832823,
+   "sha256": "c017c9d469eb7e2eb99ac4c16339de7820ad233d19139083bb5b1f3b2a6b5258",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 21.0 (Macintosh)",
+    "producer": "Adobe PDF Library 18.0",
+    "creationDate": "D:20251209152000+01'00'",
+    "modDate": "D:20251209152009+01'00'"
+   },
+   "page_count": 14,
+   "text_characters": 43907,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "activimmo",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "1 Société civile de placement immobilier à capital variable RAPPORT AU TITRE DE L'ARTICLE 29 DE LA LOI ÉNERGIE-CLIMAT Exercice 2024 Siège social : 4, avenue Georges Mandel - Paris (75116) 538 704 479 RCS Paris VISA SCPI n° 19-14 du 26.07.2019",
+   "dates": [
+    "26.07.2019"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  }
+ ],
+ "candidate_count": 48,
+ "summary": {
+  "dic_identity_ok": 1,
+  "note_identity_ok": 5,
+  "fee_clauses": 40,
+  "errors": 1
+ }
+}

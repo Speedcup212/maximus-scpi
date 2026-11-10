@@ -1,0 +1,277 @@
+{
+ "slug": "altixia-commerces",
+ "name": "Altixia Commerces",
+ "manager": "ALTIXIA REIM",
+ "crawl": [
+  {
+   "url": "https://www.altixia.fr/scpi-altixia-commerces.php",
+   "depth": 0,
+   "final_url": "https://www.altixia.fr/scpi-altixia-commerces.php",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 14
+  },
+  {
+   "url": "https://www.altixia.fr/documentation.php?listeProduit=2",
+   "depth": 1,
+   "final_url": "https://www.altixia.fr/documentation.php?listeProduit=2",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.altixia.fr/documentation.php",
+   "depth": 1,
+   "final_url": "https://www.altixia.fr/documentation.php",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 0
+  },
+  {
+   "url": "https://www.altixia.fr/Informations-reglementaires.php",
+   "depth": 1,
+   "final_url": "https://www.altixia.fr/Informations-reglementaires.php",
+   "http_status": 200,
+   "base_href": null,
+   "pdf_links": 0
+  }
+ ],
+ "documents": [
+  {
+   "url": "https://www.altixia.fr/medias/documentations/2023-09-scpi-altixia-commerces-code-de-transparence-187.PDF",
+   "final_url": "https://www.altixia.fr/medias/documentations/2023-09-scpi-altixia-commerces-code-de-transparence-187.PDF",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 568911,
+   "sha256": "b625b09bcd05b924ea9070cfef310299619af9fb58844869eb8354f3c399d629",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Sophie de Roodenbeke",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20230926165601+02'00'",
+    "modDate": "D:20230926165601+02'00'"
+   },
+   "page_count": 24,
+   "text_characters": 47479,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "altixia commerces",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "Page | 1 A L T I X I A C O M M E R C E S Société Civile de Placement Immobilier à capital variable Siège social : 32 avenue marceau 75008 PARIS Visa AMF SCPI n°19-03 du 12 mars 2019 RCS PARIS 844 615 997 C O D E D E T R A N S P A R E N C E Sommaire I. Liste des fonds concernés par ce Code de Transparence .......................................................... 5 II. Données générales sur la soci",
+   "dates": [
+    "12 mars 2019"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.altixia.fr/medias/documentations/2023-09-scpi-altixia-commerces-politique-et-objectifs-extra-financiers-186.PDF",
+   "final_url": "https://www.altixia.fr/medias/documentations/2023-09-scpi-altixia-commerces-politique-et-objectifs-extra-financiers-186.PDF",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 258995,
+   "sha256": "8c2e46a7edd7ead941877e71b00bf7f26e45d9444403996cdd330a1e15f60008",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Sophie de Roodenbeke",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20230926163403+02'00'",
+    "modDate": "D:20230926163403+02'00'"
+   },
+   "page_count": 2,
+   "text_characters": 4080,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "altixia commerces",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "SCPI ALTIXIA COMMERCES Publication sur le site internet d'informations relatives au Label ISR A L T I X I A C O M M E R C E S Société Civile de Placement Immobilier à capital variable Siège social : 32 avenue marceau 75008 PARIS Visa AMF SCPI n°19-03 du 12 mars 2019 RCS PARIS 844 615 997 P O L I T I Q U E E T O B J E C T I F S E X T R A F I N A N C I E R S La SCPI ALTIXIA COMMERCES est la 1ère SCP",
+   "dates": [
+    "12 mars 2019"
+   ],
+   "fee_clauses": [
+    {
+     "page": 1,
+     "label": "frais de souscription",
+     "snippet": "mars 2019 RCS PARIS 844 615 997 P O L I T I Q U E E T O B J E C T I F S E X T R A F I N A N C I E R S La SCPI ALTIXIA COMMERCES est la 1ère SCPI grand public à frais de souscription réduits (2.50% HT). Ce fonds a vocation à être composé majoritairement de commerces, notamment de pieds d'immeubles et de de retail park, et en moindre proportion, de bureaux, hôtels, etc. La SCPI ALTIXIA COMMERCES souhaite soutenir la dynamisation des territoires en investissant notamment dans des zones de renouvellement urbain où émergent des quartiers écoresponsables, des quartiers associant agrément, espaces verts, etc., afin d'y privilégier l'installation d'une offre de commerces de proximité pour les habitants et orientés autour du “bien-vivre”. En ce sens, la pondération retenue entre les différents pili",
+     "percents": [
+      {
+       "raw": "2.50%",
+       "value": 2.5,
+       "tax_hint": "HT",
+       "after": "HT). Ce fonds a vocation à être composé majo"
+      }
+     ],
+     "basis_tags": []
+    }
+   ],
+   "fee_pages": {
+    "1": "SCPI ALTIXIA COMMERCES Publication sur le site internet d'informations relatives au Label ISR A L T I X I A C O M M E R C E S Société Civile de Placement Immobilier à capital variable Siège social : 32 avenue marceau 75008 PARIS Visa AMF SCPI n°19-03 du 12 mars 2019 RCS PARIS 844 615 997 P O L I T I Q U E E T O B J E C T I F S E X T R A F I N A N C I E R S La SCPI ALTIXIA COMMERCES est la 1ère SCPI grand public à frais de souscription réduits (2.50% HT). Ce fonds a vocation à être composé majoritairement de commerces, notamment de pieds d'immeubles et de de retail park, et en moindre proportion, de bureaux, hôtels, etc. La SCPI ALTIXIA COMMERCES souhaite soutenir la dynamisation des territoires en investissant notamment dans des zones de renouvellement urbain où émergent des quartiers écoresponsables, des quartiers associant agrément, espaces verts, etc., afin d'y privilégier l'installation d'une offre de commerces de proximité pour les habitants et orientés autour du “bien-vivre”. En ce sens, la pondération retenue entre les différents piliers montre la volonté de mettre tout particulièrement l'accent sur les thématiques sociales pour ce fonds : Piliers Pondérations retenues Environnement 35 % Social 45 % Gouvernance 20 % L'intégration de cette démarche extra-financière volontaire d'investissement socialement responsable se structure autour d'objectifs saillants pour chacun des piliers suivants : ✓ Concernant l'impact sur l'Environnement pilier E : • Objectif principal : Optimiser les consommations d'énergie et favoriser le développement des énergies renouvelables. o En favorisant l'amélioration des actifs ou en visant des actifs performants d'un point de vue énergétique, o En étudiant la faisabilité d'implantation de production d'énergie renouvelable in situ ou en favorisant la mise en place de contrats d'alimentation auprès de fournisseurs d'ENR."
+   }
+  },
+  {
+   "url": "https://www.altixia.fr/medias/documentations/rapport-isr-scpi-altixia-commerces-2023-235.PDF",
+   "final_url": "https://www.altixia.fr/medias/documentations/rapport-isr-scpi-altixia-commerces-2023-235.PDF",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 5953587,
+   "sha256": "ffa2aaec7883ce733f62616017ee92cf3dc46783815c66f3653ce9330ffd99fb",
+   "metadata": {
+    "format": "PDF 1.7",
+    "creator": "Adobe InDesign 19.4 (Macintosh)",
+    "producer": "iLovePDF",
+    "creationDate": "D:20240902160318+02'00'",
+    "modDate": "D:20240909122421+02'00'"
+   },
+   "page_count": 30,
+   "text_characters": 46620,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "altixia commerces",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "scpi ALTIXIA COMMERCES Rapport ISR 2023",
+   "dates": [],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.altixia.fr/medias/documentations/poitique-d-engagement-isr-aco-182.PDF",
+   "final_url": "https://www.altixia.fr/medias/documentations/poitique-d-engagement-isr-aco-182.PDF",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 501994,
+   "sha256": "2bd04881fbaa52850613907de30bd33bd9da91b2de23c50ae91be977ced72286",
+   "metadata": {
+    "format": "PDF 1.7",
+    "title": "4.1_Politique d'engagement des parties prenantes.pdf",
+    "author": "bgirardon",
+    "producer": "Microsoft: Print To PDF",
+    "creationDate": "D:20230919185537+02'00'",
+    "modDate": "D:20230919185537+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 3791,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "altixia commerces",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "VIS-A-VIS DES PARTIES PRENANTES Décembre 2022",
+   "dates": [
+    "Décembre 2022"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.altixia.fr/medias/documentations/092023-sfdr-aco-def-183.PDF",
+   "final_url": "https://www.altixia.fr/medias/documentations/092023-sfdr-aco-def-183.PDF",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 346243,
+   "sha256": "2b20a1eb21364046ae80dfb8d9c62f2a73d19a7f0dd2287bdc702bfc6cc06486",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Sophie de Roodenbeke",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20230926123006+02'00'",
+    "modDate": "D:20230926123006+02'00'"
+   },
+   "page_count": 9,
+   "text_characters": 21936,
+   "kind": "autre",
+   "identity_match": true,
+   "identity_alias": "altixia commerces",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "SCPI ALTIXIA COMMERCES Publication sur le site internet d'informations relatives aux produits financiers qui promeuvent des caractéristiques environnementales ou sociales A L T I X I A C O M M E R C E S Société Civile de Placement Immobilier à capital variable Siège social : 32 avenue marceau 75008 PARIS Visa AMF SCPI n°19-03 du 12 mars 2019 RCS PARIS 844 615 997 P U B L I C A T I O N D ' I N F O ",
+   "dates": [
+    "12 mars 2019",
+    "23 juillet 2020",
+    "27 novembre 2019",
+    "31 décembre 2022"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.altixia.fr/medias/documentations/092023-taxonomie-aco-179.PDF",
+   "final_url": "https://www.altixia.fr/medias/documentations/092023-taxonomie-aco-179.PDF",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 206961,
+   "sha256": "7ef96e4065ef63e621b13a5080be0989bd4299c12b0c37009ffda4869474254a",
+   "metadata": {
+    "format": "PDF 1.7",
+    "author": "Sophie de Roodenbeke",
+    "creator": "Microsoft® Word pour Microsoft 365",
+    "producer": "Microsoft® Word pour Microsoft 365",
+    "creationDate": "D:20230919183016+02'00'",
+    "modDate": "D:20230919183016+02'00'"
+   },
+   "page_count": 2,
+   "text_characters": 4907,
+   "kind": "note",
+   "identity_match": true,
+   "identity_alias": "altixia commerces",
+   "identity_where": "pages_1_4",
+   "title_excerpt": "SCPI ALTIXIA COMMERCES Publication sur le site internet d'informations relatives au Règlement (UE) 2020/852 sur l'établissement d'un cadre visant à favoriser les investissements durables dit Taxonomie A L T I X I A C O M M E R C E S Société Civile de Placement Immobilier à capital variable Siège social : 32 avenue marceau 75008 PARIS Visa AMF SCPI n°19-03 du 12 mars 2019 RCS PARIS 844 615 997 R E ",
+   "dates": [
+    "12 mars 2019",
+    "18 juin 2020",
+    "septembre 2023"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.altixia.fr/medias/produits/2/scenario-performance-6accde7271fab-2.pdf",
+   "final_url": "https://www.altixia.fr/medias/produits/2/scenario-performance-6accde7271fab-2.pdf",
+   "http_status": 200,
+   "content_type": "application/pdf",
+   "bytes": 153748,
+   "sha256": "e722de10c4b101bc2e008a306af299a1b7b010d125dac0f1808701c2218b6445",
+   "metadata": {
+    "format": "PDF 1.6",
+    "creator": "Acrobat PDFMaker 26 pour Excel",
+    "producer": "Adobe PDF Library 26.2.171",
+    "creationDate": "D:20261012151359+02'00'",
+    "modDate": "D:20261012151402+02'00'"
+   },
+   "page_count": 4,
+   "text_characters": 23293,
+   "kind": "autre",
+   "identity_match": false,
+   "identity_alias": null,
+   "identity_where": null,
+   "title_excerpt": "Identifiant fonds Devise Date de calcul Fréquence de calcul Durée de détention recommandée Mesure de risque de crédit Indicateur de risque synthétique Volatilité Valeur en euros dans le scénario favorable à 1 an Valeur en pourcentage dans le scénario favorable à 1 an Valeur en euros dans le scénario modéré à 1 an Valeur en pourcentage dans le scénario modéré à 1 an Valeur en euros dans le scénario",
+   "dates": [
+    "28/02/2013",
+    "28/02/2015",
+    "28/02/2022",
+    "28/02/2023",
+    "28/02/2025",
+    "28/02/2026",
+    "29/02/2024",
+    "30/04/2012",
+    "30/04/2013",
+    "30/04/2014",
+    "30/04/2021",
+    "30/04/2022"
+   ],
+   "fee_clauses": [],
+   "fee_pages": {}
+  },
+  {
+   "url": "https://www.altixia.fr/produits/2/scenario-performance-6accde7271fab-2.pdf",
+   "error": "HTTPError: HTTP Error 404: Not Found"
+  }
+ ],
+ "candidate_count": 8,
+ "summary": {
+  "dic_identity_ok": 0,
+  "note_identity_ok": 1,
+  "fee_clauses": 1,
+  "errors": 1
+ }
+}
