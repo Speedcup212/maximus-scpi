@@ -9,7 +9,8 @@ import candidate_pdf_binary_proof as proof
 
 HOSTS={"Sofidy":{"www.sofidy.com"},
        "La Française REM":{"www.la-francaise.com","doc.la-francaise.com"},
-       "BNP Paribas REIM":{"reim.bnpparibas-am.com"}}
+       "BNP Paribas REIM":{"reim.bnpparibas-am.com"},
+       "Advenis REIM":{"www.advenis-reim.com"}}
 KINDS={"quarterly_bulletin":("quarterly",r"20\d{2}-T[1-4]"),
        "semiannual_bulletin":("semiannual",r"20\d{2}-S[12]"),
        "annual_report":("annual",r"20\d{2}-RA")}
