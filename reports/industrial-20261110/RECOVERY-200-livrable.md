@@ -57,7 +57,13 @@ Restent bloqués :
 
 ## B — T3 2026
 
-Le blocage atomique par bulletin est confirmé. Pour Buroboutic, Paref Hexa, Comète et Perial O2, la retenue est **justifiée** : les extractions T3 contiennent des erreurs (détail dans le tableau). Aucun T3 n'a été promu. La promotion par métrique reste soumise à décision.
+Le blocage atomique par bulletin est confirmé. Pour Buroboutic, Paref Hexa, Comète et Perial O2, la retenue est **justifiée** : les extractions T3 contiennent des erreurs (détail dans le tableau). **Aucun T3 n'a été promu.**
+
+**Simulation de promotion par métrique**, en lecture seule (`t3-per-metric-shadow-20261110.json`) :
+- 18 SCPI sont encore au T2 alors qu'elles ont des certifications T3.
+- Sur 83 valeurs T3 « prouvées », 5 étaient fausses et ont été rejetées après lecture de leur extrait. Atream et Primovie : le plafond statutaire d'endettement de 40 % avait été pris pour le ratio constaté. Atream : le nombre d'associés avait été pris pour le nombre de parts. Novaxia NEO : « 26 parts en attente » au lieu de 170 415, et un « TOF 3 % » au lieu de 88,3 %.
+- Une promotion par métrique pourrait publier **78 valeurs T3 sur 18 SCPI**, chacune avec sa propre période. 18 valeurs resteraient au T2 : 7 sans preuve, 11 rejetées ou en revue.
+- Ce que je ne sais pas : le taux d'erreur résiduel parmi ces 78 n'est pas mesuré. Si tu décides cette promotion, il faut lui associer une garde de plausibilité et un échantillon de revue humaine.
 
 ## C — Trois états publics
 
@@ -71,6 +77,10 @@ Le blocage atomique par bulletin est confirmé. Pour Buroboutic, Paref Hexa, Com
   - 20 valeurs publiées différentes de leur certification (détail dans `public-quality-20261110.json`) ;
   - 5 frais sans preuve.
 - Sur les 147 rejets « mauvais produit » et les 47 TOF invalides, aucun ne correspond à une valeur actuellement publiée (historique non contrôlé).
+- J'ai revu un par un les 20 écarts entre valeur publiée et certification.
+  - 9 certifications automatiques étaient fausses et ont été rejetées. Erreurs de mise en page « valeurs puis libellés », renvoi de note « (1) » lu comme 1 locataire, WALT lue comme WALB, extrait sans aucun chiffre. Concernées : Aestiam Agora, Cœur d'Europe, Cœur de Ville, Cristal Life, Épargne Pierre Europe, Pierval Santé ×2, Primovie et Remake Live. Elles ne sont plus exposées comme preuves publiques.
+  - La capitalisation T3 de Perial Grand Paris passe en revue (libellé ambigu).
+  - Restent 10 écarts : des arrondis, plus deux valeurs Sogenial T3 publiées avec une date ancienne.
 - Ces états ne sont **pas encore affichés** par le site : il faut raccorder l'interface, puis déployer.
 
 ## D — Registre canonique
