@@ -11,9 +11,16 @@ M=Path(__file__).resolve().parent/"publisher-families/sofidy-2026-t3-financial-q
 class TestT3DecimalQA(unittest.TestCase):
     def manifest(self):return json.loads(M.read_text(encoding="utf-8"))
 
-    def test_41_unapproved_claims_three_sha_locked_originals(self):
+    def test_44_unapproved_claims_three_sha_locked_originals(self):
         m=self.manifest()
-        self.assertEqual(sum(len(d["metrics"]) for d in m["documents"]),41)
+        self.assertEqual(sum(len(d["metrics"]) for d in m["documents"]),44)
+        expected_debt={"sofiboutique":"28.4","sofipierre":"23.8","sofidy-europe-invest":"26.5"}
+        for d in m["documents"]:
+            x=[v for v in d["metrics"] if v["metric"]=="endettement"]
+            self.assertEqual(len(x),1)
+            self.assertEqual(x[0]["exact_value"],expected_debt[d["slug"]])
+            self.assertEqual(x[0]["source_page"],2)
+            self.assertIn("NOT_AVERAGE_LOAN_INTEREST_RATE",x[0]["value_basis"])
         for slug in ("sofiboutique","sofipierre","sofidy-europe-invest"):
             d=probe.check_manifest(m,slug)
             self.assertEqual(d["source_period"],"2026-T3")
