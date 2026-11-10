@@ -5,7 +5,8 @@
 import {chromium} from 'playwright';
 import fs from 'node:fs';
 
-const BASE = 'https://maximusscpi.com';
+// BASE_URL : production par défaut, ou aperçu Netlify d'une PR (deploy-preview-<n>--maximusscpi.netlify.app).
+const BASE = (process.env.BASE_URL || 'https://maximusscpi.com').replace(/\/+$/, '');
 const PAGES = ['perial-o2', 'primovie', 'epargne-fonciere', 'iroko-zen', 'ficommerce-proximite', 'perial-opportunites-europe', 'transitions-europe', 'selectinvest-1', 'perial-grand-paris'];
 const MARKERS = [
   'Variabilité du capital suspendue : pas de souscription au marché primaire.',
@@ -65,8 +66,15 @@ for (const slug of PAGES) {
   for (const [field, re] of Object.entries(EXPECT[slug] || {})) {
     if (!(entry[field] || []).some(snippet => re.test(snippet))) report.failures.push(`${slug}: ${field} attendu ${re} absent du rendu`);
   }
-  if (NO_SUBSCRIPTION_RATE.includes(slug) && (entry.souscription || []).some(snippet => /souscription[^%]{0,40}\d+[.,]\d+ ?%|\d+[.,]\d+ ?%[^%]{0,40}souscription/i.test(snippet))) {
-    report.failures.push(`${slug}: un taux de souscription est affiché alors que la souscription est fermée`);
+  if (NO_SUBSCRIPTION_RATE.includes(slug)) {
+    const snippets = entry.souscription || [];
+    if (snippets.some(snippet => /souscription[^%]{0,40}\d+[.,]\d+ ?%|\d+[.,]\d+ ?%[^%]{0,40}souscription/i.test(snippet))) {
+      report.failures.push(`${slug}: un taux de souscription est affiché alors que la souscription est fermée`);
+    }
+    // Faux zéro rassurant : « Sans frais » / « Aucun frais » sur une souscription fermée ou non prouvée.
+    if (snippets.some(snippet => /(sans|aucun) frais de souscription/i.test(snippet))) {
+      report.failures.push(`${slug}: « sans frais de souscription » affiché alors que la souscription est fermée`);
+    }
   }
 }
 await browser.close();
