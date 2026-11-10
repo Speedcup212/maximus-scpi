@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "publisher": "Advenis REIM",
+  "approved_hosts": [
+    "www.advenis-reim.com"
+  ],
+  "documents": [
+    {
+      "slug": "eden",
+      "name": "Eden",
+      "source_page": "https://www.advenis-reim.com/scpi_sc/scpi-eden/",
+      "source_url": "https://www.advenis-reim.com/wp-content/uploads/2026/02/BI_SCPI_Eden_T42025-2.pdf",
+      "period": "2025-T4",
+      "kind": "quarterly_bulletin"
+    }
+  ]
+}
