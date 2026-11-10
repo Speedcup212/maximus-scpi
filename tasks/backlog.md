@@ -176,3 +176,12 @@ CI distante et contrôle post-déploiement restent requis. Aucun export Supabase
 - B : diagnostic par SCPI des 25 T3 non transférés (promotion atomique par bulletin, preuves paginées manquantes, gardes d'identité PDF). Aucune promotion T3 ni modification de la fonction de publication dans cette passe.
 - Tests : 39/39 node (dont non-régression catalogue), 6/6 unittest relevé, Vitest 280/280, build Vite PASS. Livrable : `reports/industrial-20261109/RECOVERY-200-livrable.md`.
 - État : EN COURS. Restent : 13 SCPI sans document découvert, 49 frais partiels, T3 par métrique (décision requise), états publics raccordés à l'UI, revue humaine des frais, build Netlify et contrôle post-release des pages statiques.
+
+### RECOVERY-200 — Passe du 10/11/2026 (faux zéros, seconde passe frais)
+
+- Faux zéros en production corrigés en base : dividende T3 2026 à 0 € (Ficommerce Proximité, Selectipierre 2) → inconnu ; parts en attente T2 2026 de Primovie à 0 → non applicable (variabilité suspendue le 23/06/2026). Cause : `refresh_scpi_metric_certifications` re-dérivait les certifications rejetées et le rapprocheur prouvait un zéro par proximité.
+- Base : registre `scpi_internal.metric_certification_rejections` (9 rejets revus) et trigger `trg_zzzzzz_reviewed_metric_rejection` (migrations `20261110_recovery200_metric_rejection_*`). Contrôle `scripts/industrial/sql/recovery200_rejection_guard_check.sql` 5/5 PASS.
+- Rapprocheur `scpi-evidence-certify` extrait dans `matcher.mjs` (zéro explicite seulement, unités cohérentes), 14 tests. **Non déployé** (décision requise).
+- Frais, relevé v2 42773336564 (60 DIC, 66 notes) : registre 87 verified / 45 partial / 6 blocked ; `frais_souscription` 41/69 + 8 non applicables, `frais_gestion` 34/69. Revue citée par SHA-256 (`fee-review-20261110.json`), vue `scpi_fee_evidence_current`.
+- Tests : node 57/57, unittest 10/10, Vitest 280/280, build Vite PASS. Livrable : `reports/industrial-20261110/RECOVERY-200-livrable.md`.
+- État : EN COURS. Décisions requises : fusion PR #391 + build Netlify, déploiement du rapprocheur, promotion T3 par métrique, conflits Accimmo/AVP, revue humaine des lignes d'historique manuelles à 0 (Aestiam Horizon 2023-T3/2024-T2, NCap Éducation Santé 2019-T3).
