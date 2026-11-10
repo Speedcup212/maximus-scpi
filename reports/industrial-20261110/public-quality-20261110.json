@@ -1,10 +1,10 @@
 {
  "as_of": "2026-11-10",
- "source": "scpi_internal.metric_public_quality_v1 (migration recovery200_metric_public_quality), 20 métriques publiées par SCPI",
+ "source": "scpi_internal.metric_public_quality_v1 (migrations recovery200_metric_public_quality et _v1b), 20 métriques publiées par SCPI",
  "definition": {
   "verified": "valeur, période, source et preuve concordent (même règle que la politique RLS publique des certifications ; frais : provenance prouvée ou non-applicabilité prouvée)",
   "partial": "valeur publiée sans concordance complète",
-  "blocked": "valeur retirée ou certification rejetée pour la période publiée"
+  "blocked": "valeur retirée, ou valeur publiée égale à celle d'une certification rejetée ; si la certification rejetée porte une autre valeur, l'état est partial"
  },
  "totals_all_69": {
   "verified": 789,
@@ -19,9 +19,10 @@
   "absent": 212
  },
  "partial_reasons": {
-  "certification_without_field_evidence": 212,
+  "certification_without_field_evidence": 213,
   "no_certification_for_period": 57,
-  "certified_value_differs": 20,
+  "certified_value_differs": 10,
+  "certification_rejected_published_value_unproven": 9,
   "fee_without_proof": 5
  },
  "blocked": [
@@ -380,53 +381,11 @@
  },
  "published_value_differs_from_certified": [
   [
-   "aestiam-agora",
-   "nombre_associes",
+   "epargne-pierre-europe",
+   "capitalisation",
    "2026-T2",
-   7820,
-   467
-  ],
-  [
-   "coeur-d-europe",
-   "prix_reconstitution",
-   "2026-T3",
-   219.47,
-   220.4
-  ],
-  [
-   "coeur-d-europe",
-   "td",
-   "2026-T3",
-   6.25,
-   3.52
-  ],
-  [
-   "coeur-d-europe",
-   "valeur_realisation",
-   "2026-T3",
-   180.78,
-   181.19
-  ],
-  [
-   "coeur-de-ville",
-   "prix_reconstitution",
-   "2026-T3",
-   224.28,
-   222.47
-  ],
-  [
-   "coeur-de-ville",
-   "td",
-   "2026-T3",
-   6.2,
-   4.85
-  ],
-  [
-   "coeur-de-ville",
-   "valeur_realisation",
-   "2026-T3",
-   178.63,
-   175.98
+   702.3774,
+   702
   ],
   [
    "cristal-life",
@@ -436,25 +395,18 @@
    424.5
   ],
   [
-   "cristal-life",
-   "nombre_associes",
-   "2026-T2",
-   14724,
-   13291
+   "coeur-de-ville",
+   "valeur_realisation",
+   "2026-T3",
+   178.63,
+   175.98
   ],
   [
-   "epargne-pierre-europe",
-   "capitalisation",
-   "2026-T2",
-   702.3774,
-   702
-  ],
-  [
-   "epargne-pierre-europe",
-   "nombre_locataires",
-   "2026-T2",
-   70,
-   5
+   "coeur-de-ville",
+   "prix_reconstitution",
+   "2026-T3",
+   224.28,
+   222.47
   ],
   [
    "grand-paris-residentiel",
@@ -464,18 +416,18 @@
    60205.11
   ],
   [
-   "iroko-atlas",
-   "capitalisation",
-   "2026-T2",
-   166.923,
-   166.9
+   "coeur-d-europe",
+   "valeur_realisation",
+   "2026-T3",
+   180.78,
+   181.19
   ],
   [
-   "perial-grand-paris",
-   "capitalisation",
+   "coeur-d-europe",
+   "prix_reconstitution",
    "2026-T3",
-   484.550804,
-   441.304564
+   219.47,
+   220.4
   ],
   [
    "pierval-sante",
@@ -485,25 +437,11 @@
    1.5
   ],
   [
-   "pierval-sante",
-   "nombre_locataires",
+   "iroko-atlas",
+   "capitalisation",
    "2026-T2",
-   1003,
-   1
-  ],
-  [
-   "pierval-sante",
-   "walb",
-   "2026-T2",
-   14.0,
-   14.83
-  ],
-  [
-   "primovie",
-   "nombre_immeubles",
-   "2026-T2",
-   297,
-   19
+   166.923,
+   166.9
   ],
   [
    "primovie",
@@ -511,14 +449,19 @@
    "2026-T2",
    9.79,
    9.64
-  ],
-  [
-   "remake-live",
-   "nombre_associes",
-   "2026-T2",
-   13135,
-   904
   ]
  ],
- "latent_defect_fixed": "refresh_scpi_metric_certifications('sofiprime') faisait repasser les 147 rejets « mauvais produit » en validation (preuve en transaction annulée). Après la migration recovery200_freeze_rejected_certifications : 0 rejet revalidé sur les 18 SCPI qui en portent (209 lignes)."
+ "latent_defect_fixed": "refresh_scpi_metric_certifications('sofiprime') faisait repasser les 147 rejets « mauvais produit » en validation (preuve en transaction annulée). Après la migration recovery200_freeze_rejected_certifications : 0 rejet revalidé sur les 18 SCPI qui en portent (209 lignes).",
+ "certifications_rejected_10_11_value_mismatch": [
+  "aestiam-agora:nombre_associes 467 (publié 7 820)",
+  "coeur-d-europe:td 3,52 (publié 6,25)",
+  "coeur-de-ville:td 4,85 (publié 6,20)",
+  "cristal-life:nombre_associes 13 291 (publié 14 724)",
+  "epargne-pierre-europe:nombre_locataires 5 (publié 70)",
+  "pierval-sante:nombre_locataires 1 (publié 1 003)",
+  "pierval-sante:walb 14,83 (publié 14,00)",
+  "primovie:nombre_immeubles 19 (publié 297)",
+  "remake-live:nombre_associes 904 (publié 13 135)",
+  "perial-grand-paris:capitalisation 441,30 M€ → revue requise (libellé ambigu)"
+ ]
 }
