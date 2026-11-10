@@ -5,6 +5,7 @@ import { getVerifiedScpiNews } from '../utils/scpiNewsRecord.mjs';
 import { filterDocumentedNonLiquidityWarnings } from '../utils/scpiLiquidityText.mjs';
 import certifiedScpiCohort from './certified_scpi_cohort.json';
 import { aggregateCountryGeography } from '../utils/scpiGeography';
+import { subscriptionFeeState } from '../utils/scpiFeeState';
 // Force reload: Perial Opportunités Europe prix mis à jour à 44€
 
 // Helper function to parse sectorial distribution from string or JSON
@@ -417,6 +418,7 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     discount: scpi['Surcote/décote (%)'] !== undefined ? scpi['Surcote/décote (%)'] : 0,
     discountQaStatus: scpi['Décote/Surcote QA'] || undefined,
     fees: scpi['Frais de souscription (TTC/%)'] || 0,
+    feesState: subscriptionFeeState(scpi['Frais de souscription (TTC/%)'], scpi.maximus_metric_provenance?.frais_souscription),
     isr: scpi['Label ISR'] === 'Oui',
     european: isEuropean(geography, geoDistribution),
     company: scpi['Société de gestion'],

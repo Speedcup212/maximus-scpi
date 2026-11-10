@@ -4,6 +4,7 @@ import { Scpi } from '../types/scpi';
 import { formatCurrency, getPerformanceColor, resolveDisplayedDiscount } from '../utils/formatters';
 import ComparisonWarning from './ComparisonWarning';
 import { getYieldDisplayInfo } from '../utils/yieldDisplay';
+import { isProvenZeroFee } from '../utils/scpiFeeState';
 // Force rebuild: 2025-10-23 05:55 UTC - CRITICAL: Deploy ComparisonTable accordion to production NOW
 
 interface ComparisonTableProps {
@@ -324,7 +325,7 @@ const ComparisonTable: React.FC<ComparisonTableProps> = ({
                         <Award className="w-4 h-4 text-blue-500" />
                         <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Frais d'entrée</span>
                       </div>
-                      <span className={`font-black ${scpi.fees === 0 ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>
+                      <span className={`font-black ${isProvenZeroFee(scpi) ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>
                         {scpi.fees}%
                       </span>
                     </div>

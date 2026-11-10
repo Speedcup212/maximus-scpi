@@ -5,6 +5,7 @@ import { formatCurrency, formatPercentage, getPerformanceColor, resolveDisplayed
 import { getScpiDatedDiscount } from '../utils/scpiDatedDiscount';
 import { findScpiSlug, createSlugFromName } from '../utils/scpiSlugMapper';
 import {isPublishedWithReserves} from '../utils/scpiPublicationQuality';
+import { isProvenZeroFee } from '../utils/scpiFeeState';
 
 interface ScpiTableProps {
   scpiList: Scpi[];
@@ -116,7 +117,7 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
                         ISR
                       </span>
                     )}
-                    {scpi.fees === 0 && (
+                    {isProvenZeroFee(scpi) && (
                       <span className="inline-block px-1 py-0.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-xs font-semibold rounded">
                         0%
                       </span>

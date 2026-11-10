@@ -6,6 +6,7 @@ import { calculateScpiDiscountPremium, formatScpiDiscountPremium } from './scpiD
 import { Scpi } from '../types/scpi';
 import {isFeatureDisabled} from './scpiPublicationQuality';
 import { getScpiDatedDiscount } from './scpiDatedDiscount';
+import { isProvenZeroFee, subscriptionFeeLabel } from './scpiFeeState';
 
 /**
  * Source unique de la donnée alimentant le template `OptimizedScpiLandingPage`.
@@ -99,7 +100,7 @@ function enrichEditorialWithLive(editorial: ScpiLandingData, scpi?: Scpi): ScpiL
     tof: formatPercent(scpi.tof),
     decote: qualifiedDiscount(scpi),
     endettement: typeof scpi.debt === 'number' ? formatPercent(scpi.debt) : editorial.endettement,
-    frais_souscription: formatFees(scpi.fees),
+    frais_souscription: subscriptionFeeLabel(scpi, formatFees),
     frequence_versement: scpi.versementLoyers || editorial.frequence_versement,
     geographie: Object.keys(liveGeo).length ? liveGeo : editorial.geographie,
     secteurs: Object.keys(liveSectors).length ? liveSectors : editorial.secteurs,
@@ -112,7 +113,7 @@ function enrichEditorialWithLive(editorial: ScpiLandingData, scpi?: Scpi): ScpiL
 /** Avantages strictement factuels (aucun argument marketing non sourcé). */
 function buildFactualAdvantages(scpi: Scpi): string[] {
   const out: string[] = [];
-  if (scpi.fees === 0) out.push("0 % de frais de souscription : capital investi à 100 %.");
+  if (isProvenZeroFee(scpi)) out.push("0 % de frais de souscription : capital investi à 100 %.");
   if (scpi.isr) out.push("Labellisée ISR (Investissement Socialement Responsable).");
   if (typeof scpi.tof === 'number' && scpi.tof >= 90) {
     out.push(`Taux d'occupation financier élevé (${formatPercent(scpi.tof)}).`);
@@ -209,7 +210,7 @@ export function buildScpiLandingData(scpiKey: string): BuiltLandingData | null {
     tof: formatPercent(scpi.tof),
     decote: qualifiedDiscount(scpi),
     endettement: typeof scpi.debt === 'number' ? formatPercent(scpi.debt) : NA,
-    frais_souscription: typeof scpi.fees === 'number' ? formatFees(scpi.fees) : NA,
+    frais_souscription: subscriptionFeeLabel(scpi, formatFees),
     frequence_versement: scpi.versementLoyers || undefined,
     geographie: repartitionToRecord(scpi.repartitionGeo),
     secteurs: repartitionToRecord(scpi.repartitionSector),

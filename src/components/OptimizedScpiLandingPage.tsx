@@ -29,6 +29,7 @@ import ScpiIndicatorHistory from './ScpiIndicatorHistory';
 import { submitLead } from '../utils/leadSubmitter';
 import { getLiveScpiData } from '../utils/scpiLiveData';
 import { annualReferenceYear, distributionYearLabel, distributionYearHelp, debtYearHelp, officialSourceHref } from '../utils/scpiFinancialProvenance';
+import { feeStateOf, isProvenZeroFee } from '../utils/scpiFeeState';
 
 interface OptimizedScpiLandingPageProps {
   scpiKey: string;
@@ -414,8 +415,8 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                           }
                         : {
                             label: "Frais d'entrée",
-                            value: realScpiData.fees !== undefined ? formatPercentage(realScpiData.fees) : 'ND',
-                            help: realScpiData.fees === 0 ? 'Sans frais de souscription' : 'Frais de souscription TTC'
+                            value: ['value', 'zero'].includes(feeStateOf(realScpiData)) ? formatPercentage(realScpiData.fees) : feeStateOf(realScpiData) === 'not_applicable' ? 'Non applicable' : 'ND',
+                            help: isProvenZeroFee(realScpiData) ? 'Sans frais de souscription' : feeStateOf(realScpiData) === 'not_applicable' ? 'Souscription au marché primaire fermée' : feeStateOf(realScpiData) === 'unknown' ? 'Frais de souscription non communiqués' : 'Frais de souscription TTC'
                           },
                       {
                         label: 'Délai de jouissance',
@@ -716,7 +717,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   <strong>Durée recommandée :</strong> 8 à 10 ans minimum. Les SCPI sont des placements de long terme.
                 </p>
                 <p>
-                  <strong>Frais :</strong> Frais de souscription : {landingData.frais_souscription} TTC.
+                  <strong>Frais :</strong> Frais de souscription : {landingData.frais_souscription}{/%$/.test(landingData.frais_souscription) ? ' TTC' : ''}.
                   {realScpiData?.fraisGestionDetails?.kind === 'geographic_tiers' && (
                     <span> Frais de gestion sur les loyers encaissés :
                       {' '}{realScpiData.fraisGestionDetails.euro_zone_percent.toFixed(2).replace('.', ',')} % HT (zone euro) /

@@ -5,6 +5,7 @@ import { aggregateCountryGeography } from './scpiGeography';
 import { createSlugFromName } from './scpiSlugMapper';
 import { selectSupabaseRest } from './supabaseRest';
 import { isSubscriptionReconstitutionComparable, normalizeLiquidityBasis } from './certifiedLiquidity';
+import { subscriptionFeeState } from './scpiFeeState';
 
 type IndicatorRow = {
   scpi_slug: string;
@@ -163,6 +164,7 @@ export function mergeScpiWithLiveIndicators(
     liquidityRegimeChanged: Boolean(liquidity?.regime_changed),
     reconstitutionGate: gate?.reconstitution_gate || scpi.reconstitutionGate,
     fees: subscriptionFee.value,
+    feesState: subscriptionFeeState(subscriptionFee.value, subscriptionFee.proof),
     fraisGestion: managementFee.value,
     profilRisque: toNumber(row.srri) ?? scpi.profilRisque,
     dureeDetentionRecommandee: toNumber(row.duree_detention_recommandee) ?? scpi.dureeDetentionRecommandee,
