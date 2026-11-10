@@ -1,0 +1,77 @@
+name: RECOVERY-200 — contrôle post-publication (lecture seule)
+# Trois usages :
+#  - PR vers main : attend l'aperçu Netlify du commit de tête, puis contrôle cet aperçu (avant merge) ;
+#  - quotidien et à la demande : contrôle la production https://maximusscpi.com (après déploiement) ;
+#  - workflow_dispatch avec base_url : contrôle n'importe quel aperçu.
+on:
+  pull_request:
+    branches: [main]
+    paths: ['src/**', 'public/**', 'index.html', 'package.json', 'vite.config.*',
+            'scripts/industrial/postrelease/**', '.github/workflows/recovery200-postrelease-check.yml']
+  push:
+    branches: [chore/recovery-200-postrelease-check]
+    paths: ['scripts/industrial/postrelease/**', '.github/workflows/recovery200-postrelease-check.yml']
+  schedule:
+    - cron: '37 5 * * *'
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Site à contrôler (production par défaut)'
+        required: false
+        default: 'https://maximusscpi.com'
+permissions:
+  contents: read
+  statuses: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Choisir la cible
+        id: target
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          INPUT_BASE: ${{ inputs.base_url }}
+        run: |
+          if [ "$EVENT" = "pull_request" ]; then
+            # L'aperçu n'est contrôlé qu'une fois construit pour CE commit (statut Netlify du SHA de tête).
+            for i in $(seq 1 40); do
+              state=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/statuses" \
+                --jq '[.[] | select(.context == "netlify/maximusscpi/deploy-preview")][0].state // "absent"')
+              echo "statut aperçu Netlify : $state"
+              [ "$state" = "success" ] && break
+              [ "$state" = "failure" ] || [ "$state" = "error" ] && { echo "::error::aperçu Netlify en échec"; exit 1; }
+              sleep 30
+            done
+            [ "$state" = "success" ] || { echo "::error::aperçu Netlify non disponible après 20 min"; exit 1; }
+            # Netlify publie « success » même quand le build est ignoré (scripts/netlify-ignore.mjs).
+            base="https://deploy-preview-${PR_NUMBER}--maximusscpi.netlify.app"
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$base/")
+            if [ "$code" != "200" ]; then
+              echo "::warning::aperçu non construit ($code) : ajouter [preview] au message du dernier commit de la PR pour le contrôler."
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+            fi
+            echo "base=$base" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=${INPUT_BASE:-https://maximusscpi.com}" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.target.outputs.skip != 'true'
+        with:
+          node-version: '22'
+      - if: steps.target.outputs.skip != 'true'
+        run: npm install --no-save --no-audit --no-fund playwright@1.48.2 && npx playwright install --with-deps chromium
+      - name: Contrôle du rendu
+        if: steps.target.outputs.skip != 'true'
+        env:
+          BASE_URL: ${{ steps.target.outputs.base }}
+        run: node scripts/industrial/postrelease/check-production.mjs
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.target.outputs.skip != 'true'
+        with:
+          name: recovery200-postrelease-report
+          path: postrelease/REPORT.json
