@@ -88,10 +88,13 @@ class LinkParser(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
         self.links: list[tuple[str, str]] = []
+        self.base: str | None = None
         self._href: str | None = None
         self._text: list[str] = []
 
     def handle_starttag(self, tag, attrs):
+        if tag == 'base' and self.base is None:
+            self.base = dict(attrs).get('href')
         if tag == 'a':
             attributes = dict(attrs)
             self._href = attributes.get('href')
@@ -126,6 +129,20 @@ def http_get(url: str, accept: str, limit: int) -> tuple[bytes, str, str, int]:
         return body, final, response.headers.get('Content-Type', ''), response.status
 
 
+RAW_PDF_RE = re.compile(r'''((?:https?:)?(?:\\?/){2}[^"'\s<>\\]+?\.pdf(?:\?[^"'\s<>\\]*)?|/[^"'\s<>\\]+?\.pdf)(?=["'\s<>\\])''', re.I)
+
+
+def raw_pdf_links(html: str) -> list[str]:
+    """Liens PDF présents hors balises <a> (JSON embarqué, scripts) — sites rendus côté client."""
+    text = html.replace('\\/', '/').replace('\\u002F', '/').replace('\\u002f', '/').replace('&amp;', '&')
+    return sorted({m.group(1) for m in RAW_PDF_RE.finditer(text)})
+
+
+def html_title(body: bytes) -> str:
+    match = re.search(rb'<title[^>]*>(.*?)</title>', body[:200000], re.I | re.S)
+    return clean(match.group(1).decode('utf-8', errors='replace'))[:160] if match else ''
+
+
 def allowed(url: str, seeds: set[str]) -> bool:
     host = urllib.parse.urlsplit(url).hostname or ''
     return registrable(host) in seeds or host in EXTRA_HOSTS
@@ -151,6 +168,8 @@ def classify(pages: list[str]) -> str:
     if re.search(r"document d ?informations? cles|key information document|priips", first):
         return 'dic'
     if 'note d information' in head and ('visa' in head or 'autorite des marches financiers' in head or 'amf' in head):
+        return 'note'
+    if 'note d information' in first[:900] and not re.search(r"bulletin (trimestriel|semestriel)|rapport annuel 20", first[:400]):
         return 'note'
     if 'statuts' in first and 'article' in head:
         return 'statuts'
@@ -193,6 +212,9 @@ def probe_pdf(url: str, aliases_norm: list[str]) -> dict:
         result.update({'final_url': final, 'http_status': status, 'content_type': ctype, 'bytes': len(body)})
         if not body.startswith(b'%PDF'):
             result['error'] = 'not_a_pdf'
+            result['html_title'] = html_title(body)
+            if 'html' in ctype.lower():
+                result['_html'] = body.decode('utf-8', errors='replace')
             return result
         result['sha256'] = hashlib.sha256(body).hexdigest()
         import fitz  # PyMuPDF
@@ -202,13 +224,21 @@ def probe_pdf(url: str, aliases_norm: list[str]) -> dict:
         result['page_count'] = len(pages)
         result['text_characters'] = sum(len(p) for p in pages)
         result['kind'] = classify(pages)
-        head = norm(' '.join(pages[:4]))
-        hit = next((a for a in aliases_norm if a and re.search(rf'(^| ){re.escape(a)}( |$)', head)), None)
+        meta_title = norm(str(result['metadata'].get('title', '')))
+        hit, where = None, None
+        for label, zone in (('pages_1_4', norm(' '.join(pages[:4]))), ('pages_5_10', norm(' '.join(pages[4:10]))), ('metadata_title', meta_title)):
+            hit = next((a for a in aliases_norm if a and re.search(rf'(^| ){re.escape(a)}( |$)', zone)), None)
+            if hit:
+                where = label
+                break
         result['identity_match'] = bool(hit)
         result['identity_alias'] = hit
+        result['identity_where'] = where
         result['title_excerpt'] = clean(pages[0])[:400] if pages else ''
         result['dates'] = sorted({m.group(1) for m in DATE_RE.finditer(clean(' '.join(pages[:3])))})[:12]
         result['fee_clauses'] = fee_clauses(pages) if result['kind'] in ('dic', 'note', 'statuts', 'autre') else []
+        fee_page_numbers = sorted({c['page'] for c in result['fee_clauses']})[:10]
+        result['fee_pages'] = {str(n): clean(pages[n - 1])[:7000] for n in fee_page_numbers} if result['identity_match'] else {}
     except (urllib.error.URLError, OSError, ValueError, RuntimeError) as error:
         result['error'] = f'{type(error).__name__}: {str(error)[:300]}'
     return result
@@ -221,6 +251,7 @@ def probe_fund(fund: dict) -> dict:
     report = {'slug': fund['slug'], 'name': fund['name'], 'manager': fund.get('manager'), 'crawl': [], 'documents': []}
     candidates: dict[str, int] = {u: 50 for u in fund.get('known_docs', [])}
     subpages: dict[str, int] = {}
+    linked_from: dict[str, str] = {}
 
     def crawl(url: str, depth: int):
         entry = {'url': url, 'depth': depth}
@@ -231,14 +262,25 @@ def probe_fund(fund: dict) -> dict:
                 candidates.setdefault(final, 20)
                 entry['is_pdf'] = True
                 return
+            html = body.decode('utf-8', errors='replace')
             parser = LinkParser()
-            parser.feed(body.decode('utf-8', errors='replace'))
+            parser.feed(html)
+            base = urllib.parse.urljoin(final, parser.base) if parser.base else final
+            entry['base_href'] = parser.base
             found = 0
-            for href, text in parser.links:
+            links = parser.links + [(href, '') for href in raw_pdf_links(html)]
+            for href, text in links:
                 if not href or href.startswith(('mailto:', 'tel:', 'javascript:', '#')):
                     continue
-                absolute = urllib.parse.urljoin(final, href).split('#')[0]
-                if not absolute.startswith('https://') or not allowed(absolute, seeds):
+                absolute = urllib.parse.urljoin(base, href if not href.startswith('//') else 'https:' + href).split('#')[0]
+                if not absolute.startswith('https://'):
+                    continue
+                if not allowed(absolute, seeds):
+                    # PDF hébergé hors domaine mais lié depuis une page officielle : candidat tracé.
+                    if PDF_HREF.search(absolute):
+                        linked_from.setdefault(absolute, final)
+                        candidates[absolute] = max(candidates.get(absolute, -99), score_link(absolute, text, aliases_norm) - 1)
+                        found += 1
                     continue
                 score = score_link(absolute, text, aliases_norm)
                 if PDF_HREF.search(absolute) or re.search(r'(dic|kid|note).{0,40}(pdf|t[ée]l[ée]charg)', text, re.I):
@@ -260,8 +302,35 @@ def probe_fund(fund: dict) -> dict:
 
     ranked = [u for u, s in sorted(candidates.items(), key=lambda kv: -kv[1]) if s > -4][:MAX_PDFS]
     report['candidate_count'] = len(candidates)
+    seen = set(ranked)
+    hop: list[str] = []
     for url in ranked:
-        report['documents'].append(probe_pdf(url, aliases_norm))
+        doc = probe_pdf(url, aliases_norm)
+        html = doc.pop('_html', None)
+        if url in linked_from:
+            doc['linked_from'] = linked_from[url]
+            doc['off_domain'] = True
+        if html and allowed(doc.get('final_url', url), seeds):
+            # Page HTML intermédiaire (ex. « /documentations/note-... ») : on suit ses liens PDF une fois.
+            parser = LinkParser()
+            parser.feed(html)
+            base = urllib.parse.urljoin(doc.get('final_url', url), parser.base) if parser.base else doc.get('final_url', url)
+            found = []
+            for href, text in parser.links + [(h, '') for h in raw_pdf_links(html)]:
+                absolute = urllib.parse.urljoin(base, href).split('#')[0]
+                if absolute.startswith('https://') and PDF_HREF.search(absolute) and absolute not in seen and score_link(absolute, text, aliases_norm) > 0:
+                    found.append(absolute)
+                    seen.add(absolute)
+                    linked_from.setdefault(absolute, doc.get('final_url', url))
+            doc['followed_pdf_links'] = found[:6]
+            hop.extend(found[:6])
+        report['documents'].append(doc)
+        time.sleep(0.3)
+    for url in hop[:MAX_PDFS]:
+        doc = probe_pdf(url, aliases_norm)
+        doc.pop('_html', None)
+        doc['linked_from'] = linked_from.get(url)
+        report['documents'].append(doc)
         time.sleep(0.3)
     docs = report['documents']
     report['summary'] = {

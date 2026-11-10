@@ -46,5 +46,28 @@ class FeeProbeTest(unittest.TestCase):
                            probe.score_link('https://x.fr/bulletin-trimestriel-T3.pdf', '', aliases))
 
 
+
+class FeeProbeV2Test(unittest.TestCase):
+    def test_raw_pdf_links_in_embedded_json(self):
+        html = '<script>{"url":"https:\\/\\/iroko-documentation.s3.eu-west-3.amazonaws.com\\/doc\\/DIC_Zen.pdf","b":"/files/NI.pdf"}</script>'
+        links = probe.raw_pdf_links(html)
+        self.assertIn('https://iroko-documentation.s3.eu-west-3.amazonaws.com/doc/DIC_Zen.pdf', links)
+        self.assertIn('/files/NI.pdf', links)
+
+    def test_base_href_is_captured(self):
+        parser = probe.LinkParser()
+        parser.feed('<html><head><base href="https://www.arkea-reim.com/"></head><a href="upload/docs/a.pdf">DIC</a></html>')
+        self.assertEqual(parser.base, 'https://www.arkea-reim.com/')
+        self.assertEqual(parser.links[0][0], 'upload/docs/a.pdf')
+
+    def test_note_detected_from_cover_title_without_visa(self):
+        cover = "EPARGNE FONCIERE Société Civile de Placement Immobilier à capital variable NOTE D'INFORMATION JUIN 2026"
+        self.assertEqual(probe.classify([cover, 'Introduction']), 'note')
+        self.assertEqual(probe.classify(["Bulletin trimestriel d'information n°3 — se reporter à la note d'information"]), 'bulletin')
+
+    def test_html_title(self):
+        self.assertEqual(probe.html_title(b'<html><title> Page introuvable </title></html>'), 'Page introuvable')
+
+
 if __name__ == '__main__':
     unittest.main()
