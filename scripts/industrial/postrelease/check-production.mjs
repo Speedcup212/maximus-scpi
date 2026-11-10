@@ -6,12 +6,20 @@ import {chromium} from 'playwright';
 import fs from 'node:fs';
 
 const BASE = 'https://maximusscpi.com';
-const PAGES = ['perial-o2', 'primovie', 'epargne-fonciere', 'iroko-zen', 'ficommerce-proximite', 'perial-opportunites-europe', 'transitions-europe'];
+const PAGES = ['perial-o2', 'primovie', 'epargne-fonciere', 'iroko-zen', 'ficommerce-proximite', 'perial-opportunites-europe', 'transitions-europe', 'selectinvest-1', 'perial-grand-paris'];
 const MARKERS = [
   'Variabilité du capital suspendue : pas de souscription au marché primaire.',
-  'review_pass_2026-11-10',
   'Valeur héritée égale au coût PRIIPs du DIC',
 ];
+// Attendus rendus sur les fiches (catalogue réconcilié RECOVERY-200, 10/11/2026).
+const EXPECT = {
+  'epargne-fonciere': {souscription: /9[.,]00 ?%/},
+  'iroko-zen': {souscription: /0[.,]00 ?%|Sans frais de souscription/},
+  'perial-opportunites-europe': {souscription: /11[.,]40 ?%/},
+  'transitions-europe': {souscription: /12[.,]00 ?%/},
+};
+// Souscription au marché primaire fermée : aucun taux ne doit être affiché.
+const NO_SUBSCRIPTION_RATE = ['perial-o2', 'primovie', 'selectinvest-1', 'perial-grand-paris'];
 const report = {checked_at: new Date().toISOString(), base: BASE, bundle: {}, pages: {}, failures: []};
 
 const home = await (await fetch(BASE + '/', {headers: {'user-agent': 'MaximusSCPI-PostRelease/1.0'}})).text();
@@ -54,6 +62,12 @@ for (const slug of PAGES) {
     report.failures.push(`${slug}: ${entry.error}`);
   }
   report.pages[slug] = entry;
+  for (const [field, re] of Object.entries(EXPECT[slug] || {})) {
+    if (!(entry[field] || []).some(snippet => re.test(snippet))) report.failures.push(`${slug}: ${field} attendu ${re} absent du rendu`);
+  }
+  if (NO_SUBSCRIPTION_RATE.includes(slug) && (entry.souscription || []).some(snippet => /souscription[^%]{0,40}\d+[.,]\d+ ?%|\d+[.,]\d+ ?%[^%]{0,40}souscription/i.test(snippet))) {
+    report.failures.push(`${slug}: un taux de souscription est affiché alors que la souscription est fermée`);
+  }
 }
 await browser.close();
 fs.mkdirSync('postrelease', {recursive: true});
