@@ -34,7 +34,7 @@
           "metric": "dividende_exceptionnel_2026_t3",
           "exact_value": "0.89",
           "unit": "EUR_PER_PART",
-          "value_basis": "EXCEPTIONAL_2026_T3_DISTRIBUTION_DISTINCT_FROM_ORDINARY_COUPON",
+          "value_basis": "EXCEPTIONAL_DIVIDEND_ANNOUNCED_IN_2026_T3_PAYABLE_DECEMBER_2026_NOT_DISTRIBUTED_DURING_T3",
           "source_page": 5,
           "qa_status": "pending_independent_qa"
         },
@@ -270,7 +270,7 @@
           "metric": "dividende_exceptionnel_2026_t3",
           "exact_value": "1",
           "unit": "EUR_PER_PART",
-          "value_basis": "EXCEPTIONAL_2026_T3_DISTRIBUTION_DISTINCT_FROM_ORDINARY_COUPON",
+          "value_basis": "EXCEPTIONAL_DIVIDEND_ANNOUNCED_IN_2026_T3_PAYABLE_DECEMBER_2026_NOT_DISTRIBUTED_DURING_T3",
           "source_page": 5,
           "qa_status": "pending_independent_qa"
         },
