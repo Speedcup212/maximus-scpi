@@ -11,6 +11,7 @@ import RdvModal from './RdvModal';
 import SriRiskProfileBlock from './shared/SriRiskProfileBlock';
 import Logo from './Logo';
 import { computePortfolioDiversificationScore } from '../utils/portfolioDiversificationScore';
+import { isProvenZeroFee } from '../utils/scpiFeeState';
 
 // Version Style Comète avec PieChart Canvas - v4.1 - PROD FIX - 2025-12-20
 console.log('🎯 PortfolioResultsModal PRODUCTION avec bouton Souscrire - v4.1 - 2025-12-20');
@@ -132,7 +133,7 @@ const PortfolioResultsModal: React.FC<PortfolioResultsModalProps> = ({
   const sectors = [...new Set(portfolio.map(item => item.sector))];
   const geographies = [...new Set(portfolio.map(item => item.geography))];
   const isrCount = portfolio.filter(item => item.isr).length;
-  const noFeesCount = portfolio.filter(item => item.fees === 0).length;
+  const noFeesCount = portfolio.filter(item => isProvenZeroFee(item)).length;
   const averageTof = portfolio.length > 0
     ? portfolio.reduce((sum, item) => sum + (item.tof * item.percentage / 100), 0)
     : 0;

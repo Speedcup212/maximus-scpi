@@ -19,6 +19,7 @@ import { createSlugFromName } from '../utils/scpiSlugMapper';
 import { supabase } from '../supabaseClient';
 import { classifyTofOccupation } from '../utils/surveillanceSignals';
 import newsJson from '../../data/news/scpi-investment-news-latest.json';
+import { isProvenZeroFee } from '../utils/scpiFeeState';
 
 interface ScpiPremiumAnalysisProps {
   scpi: Scpi;
@@ -425,7 +426,7 @@ const ScpiPremiumAnalysis: React.FC<ScpiPremiumAnalysisProps> = ({ scpi, landing
       items.push(`Capitalisation supérieure à 100 M€ : ${formatCurrency(scpi.capitalization)}.`);
     }
 
-    if (scpi.fees === 0) items.push('Aucun frais de souscription affiché.');
+    if (isProvenZeroFee(scpi)) items.push('Aucun frais de souscription affiché.');
     if (scpi.isr) items.push('Label ISR indiqué dans les données de la SCPI.');
 
     return items.slice(0, 3);

@@ -1,6 +1,7 @@
 import { Scpi } from '../types/scpi';
 import { resolveScpiIndicator } from '../indicators/resolveScpiIndicator';
 import { formatScpiDiscountPremium } from './scpiDiscountPremium';
+import { isProvenZeroFee } from './scpiFeeState';
 
 /**
  * Décote/surcote telle qu'AFFICHÉE dans le bloc KPI.
@@ -150,7 +151,7 @@ export const getScpiAdvantages = (scpi: Scpi): string[] => {
   }
   
   // Frais
-  if (scpi.fees === 0) {
+  if (isProvenZeroFee(scpi)) {
     advantages.push("Frais d'entrée à 0%");
   }
   
@@ -280,7 +281,7 @@ export const getScpiAnalysis = (scpi: Scpi): string => {
     analysis += "🎯 <strong>Opportunité d'achat :</strong> Forte décote sur le marché secondaire. ";
   }
   
-  if (scpi.fees === 0) {
+  if (isProvenZeroFee(scpi)) {
     analysis += "💰 <strong>Avantage coût :</strong> Sans frais d'entrée, optimise votre investissement initial. ";
   }
   

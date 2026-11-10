@@ -5,6 +5,7 @@ import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from '../utils/formatters';
 import { normalizeGeoLabel, normalizeSectorLabel } from '../utils/labelNormalization';
 import PieChart from './PieChart';
+import { isProvenZeroFee } from '../utils/scpiFeeState';
 
 interface PortfolioItem extends Scpi {
   investedAmount: number;
@@ -64,7 +65,7 @@ const PortfolioJourney: React.FC<PortfolioJourneyProps> = ({
   const sectors = [...new Set(portfolio.map(item => item.sector))];
   const geographies = [...new Set(portfolio.map(item => item.geography))];
   const isrCount = portfolio.filter(item => item.isr).length;
-  const noFeesCount = portfolio.filter(item => item.fees === 0).length;
+  const noFeesCount = portfolio.filter(item => isProvenZeroFee(item)).length;
   const averageTof = portfolio.length > 0 
     ? portfolio.reduce((sum, item) => sum + (item.tof * item.percentage / 100), 0)
     : 0;
@@ -318,7 +319,7 @@ const PortfolioJourney: React.FC<PortfolioJourneyProps> = ({
                                 🌱 ISR
                               </span>
                             )}
-                            {item.fees === 0 && (
+                            {isProvenZeroFee(item) && (
                               <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-xs font-semibold rounded-full">
                                 💰 0% frais
                               </span>

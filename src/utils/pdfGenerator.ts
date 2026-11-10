@@ -3,6 +3,7 @@ import html2canvas from 'html2canvas';
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from './formatters';
+import { isProvenZeroFee } from './scpiFeeState';
 
 interface PortfolioItem extends Scpi {
   investedAmount: number;
@@ -975,7 +976,7 @@ const calculateQualityScore = (portfolio: PortfolioItem[]): number => {
     let itemScore = 50; // Score de base
     if (item.tof >= 95) itemScore += 20;
     if (item.isr) itemScore += 15;
-    if (item.fees === 0) itemScore += 10;
+    if (isProvenZeroFee(item)) itemScore += 10;
     if (item.capitalization >= 500000000) itemScore += 5;
     return sum + (itemScore * item.percentage / 100);
   }, 0);

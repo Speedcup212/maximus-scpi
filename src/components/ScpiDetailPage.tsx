@@ -22,6 +22,7 @@ import ScpiOfficialFacts from './ScpiOfficialFacts';
 import ScpiVisualAnalysis from './ScpiVisualAnalysis';
 import { getScpiDatedDiscount } from '../utils/scpiDatedDiscount';
 import {isFeatureDisabled,isPublishedWithReserves} from '../utils/scpiPublicationQuality';
+import { isProvenZeroFee } from '../utils/scpiFeeState';
 
 interface ScpiDetailPageProps {
   scpi: Scpi;
@@ -185,7 +186,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                 🌱 ISR
               </span>
             )}
-            {scpi.fees === 0 && (
+            {isProvenZeroFee(scpi) && (
               <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-sm font-black rounded-full">
                 💰 0% frais
               </span>
@@ -345,7 +346,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                   )}
                   <div className="flex justify-between items-center p-1.5 bg-white dark:bg-gray-800 rounded-lg">
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Frais</span>
-                    <span className={`font-black text-sm ${scpi.fees === 0 ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>
+                    <span className={`font-black text-sm ${isProvenZeroFee(scpi) ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>
                       {scpi.fees}% TTC
                     </span>
                   </div>

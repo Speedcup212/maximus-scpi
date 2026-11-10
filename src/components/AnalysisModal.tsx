@@ -13,6 +13,7 @@ import { scoreToStars } from '../utils/scoreToStars';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
 import { computeClientScores } from '../utils/computeClientScores';
 import { scpiDataExtended } from '../data/scpiDataExtended';
+import { isProvenZeroFee } from '../utils/scpiFeeState';
 // PDF Generator loaded dynamically if needed
 // Force rebuild: 2025-10-23 05:55 UTC - CRITICAL: Deploy both accordions to production
 
@@ -111,7 +112,7 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, on
                     🌱 ISR
                   </span>
                 )}
-                {scpi.fees === 0 && (
+                {isProvenZeroFee(scpi) && (
                   <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-sm font-black rounded-full">
                     💰 0% frais
                   </span>
@@ -246,7 +247,7 @@ const AnalysisModal: React.FC<AnalysisModalProps> = ({ scpi, isOpen, onClose, on
                     </div>
                     <div className="flex justify-between items-center p-1.5 bg-white dark:bg-gray-800 rounded-lg">
                       <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Frais</span>
-                      <span className={`font-black text-sm ${scpi.fees === 0 ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>
+                      <span className={`font-black text-sm ${isProvenZeroFee(scpi) ? 'text-green-600 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>
                         {scpi.fees}% TTC
                       </span>
                     </div>

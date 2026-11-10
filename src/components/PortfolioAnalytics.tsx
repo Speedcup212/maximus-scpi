@@ -3,6 +3,7 @@ import { TrendingUp, Shield, Target, AlertTriangle, CheckCircle, Info, Clock, Bu
 import { Scpi } from '../types/scpi';
 import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from '../utils/formatters';
+import { isProvenZeroFee } from '../utils/scpiFeeState';
 
 interface PortfolioItem extends Scpi {
   investedAmount: number;
@@ -260,7 +261,7 @@ const PortfolioAnalytics: React.FC<PortfolioAnalyticsProps> = ({
   
   const isrCount = portfolio.filter(item => item.isr).length;
   const europeanCount = portfolio.filter(item => item.european).length;
-  const noFeesCount = portfolio.filter(item => item.fees === 0).length;
+  const noFeesCount = portfolio.filter(item => isProvenZeroFee(item)).length;
 
   const maxAllocation = Math.max(...portfolio.map(item => item.percentage));
   const minAllocation = Math.min(...portfolio.map(item => item.percentage));

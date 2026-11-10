@@ -34,6 +34,8 @@ export interface Scpi {
   // 'publishable' = fiable et affichable ; 'manual_review' = à vérifier, ne pas afficher comme fiable.
   discountQaStatus?: 'publishable' | 'manual_review' | 'excluded_non_scpi';
   fees: number;
+  // RECOVERY-200 : 'zero' seulement pour un 0 % prouvé ; 'unknown'/'not_applicable' ne sont jamais des zéros.
+  feesState?: 'value' | 'zero' | 'unknown' | 'not_applicable';
   isr: boolean;
   european: boolean;
   company: string;

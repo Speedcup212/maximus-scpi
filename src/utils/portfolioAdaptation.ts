@@ -1,5 +1,6 @@
 import { Scpi } from '../types/scpi';
 import { PortfolioType } from '../types/guidedJourney';
+import { isProvenZeroFee } from './scpiFeeState';
 
 /**
  * Détermine le nombre maximum de SCPI selon le montant investi
@@ -60,7 +61,7 @@ function calculatePriorityScore(
   if (scpi.tof >= 95) score += 10;
   if (scpi.capitalization >= 100_000_000) score += 5;
   if (scpi.isr) score += 5;
-  if (scpi.fees === 0) score += 3;
+  if (isProvenZeroFee(scpi)) score += 3;
   
   return score;
 }

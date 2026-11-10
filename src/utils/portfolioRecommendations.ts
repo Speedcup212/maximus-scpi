@@ -1,5 +1,6 @@
 import { Scpi } from '../types/scpi';
 import { RiskProfile, ClientProfile } from '../types/riskProfile';
+import { isProvenZeroFee } from './scpiFeeState';
 
 export interface PortfolioRecommendation {
   scpi: Scpi;
@@ -185,7 +186,7 @@ const calculateQualityScore = (scpi: Scpi): number => {
   else if (age >= 5) score += 0.05;
   
   // Sans frais = avantage coût
-  if (scpi.fees === 0) score += 0.05;
+  if (isProvenZeroFee(scpi)) score += 0.05;
   
   return Math.min(score, 1);
 };

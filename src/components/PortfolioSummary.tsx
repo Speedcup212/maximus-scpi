@@ -5,6 +5,7 @@ import { ClientProfile } from '../types/riskProfile';
 import { formatCurrency } from '../utils/formatters';
 import { normalizeGeoLabel, normalizeSectorLabel } from '../utils/labelNormalization';
 import ChartWidget from './ChartWidget';
+import { isProvenZeroFee } from '../utils/scpiFeeState';
 
 interface PortfolioItem extends Scpi {
   investedAmount: number;
@@ -70,7 +71,7 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
     let score = 0.5;
     if (item.tof >= 95) score += 0.2;
     if (item.isr) score += 0.1;
-    if (item.fees === 0) score += 0.1;
+    if (isProvenZeroFee(item)) score += 0.1;
     if (item.capitalization >= 500000000) score += 0.1;
     return sum + (score * item.percentage / 100);
   }, 0);
@@ -562,7 +563,7 @@ const PortfolioSummary: React.FC<PortfolioSummaryProps> = ({
                         ISR
                       </span>
                     )}
-                    {item.fees === 0 && (
+                    {isProvenZeroFee(item) && (
                       <span className="inline-block px-2 py-0.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-xs font-semibold rounded">
                         0% frais
                       </span>

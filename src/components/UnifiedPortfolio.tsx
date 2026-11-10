@@ -6,6 +6,7 @@ import { formatCurrency } from '../utils/formatters';
 // PDF Generator loaded dynamically
 import AllocationModal from './AllocationModal';
 import PortfolioSummary from './PortfolioSummary'; // v2.0 with tabs
+import { isProvenZeroFee } from '../utils/scpiFeeState';
 
 interface PortfolioItem extends Scpi {
   investedAmount: number;
@@ -65,7 +66,7 @@ const UnifiedPortfolio: React.FC<UnifiedPortfolioProps> = ({
     let score = 0.5;
     if (item.tof >= 95) score += 0.2;
     if (item.isr) score += 0.1;
-    if (item.fees === 0) score += 0.1;
+    if (isProvenZeroFee(item)) score += 0.1;
     if (item.capitalization >= 500000000) score += 0.1;
     return sum + (score * item.percentage / 100);
   }, 0);

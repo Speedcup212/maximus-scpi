@@ -1,5 +1,6 @@
 import { Scpi } from '../types/scpi';
 import { normalizeGeoLabel, normalizeSectorLabel } from './labelNormalization';
+import { isProvenZeroFee } from './scpiFeeState';
 
 export interface PortfolioAnalysis {
   averageYield: number;
@@ -78,7 +79,7 @@ export function analyzePortfolio(
   ];
 
   const isrCount = portfolioScpis.filter(item => item.scpi.isr).length;
-  const noFeesCount = portfolioScpis.filter(item => item.scpi.fees === 0).length;
+  const noFeesCount = portfolioScpis.filter(item => isProvenZeroFee(item.scpi)).length;
 
   const sectorDistribution: Record<string, number> = {};
   portfolioScpis.forEach(({ scpi, allocation }) => {
