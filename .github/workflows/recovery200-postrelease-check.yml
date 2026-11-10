@@ -9,8 +9,7 @@ on:
     paths: ['src/**', 'public/**', 'index.html', 'package.json', 'vite.config.*',
             'scripts/industrial/postrelease/**', '.github/workflows/recovery200-postrelease-check.yml']
   push:
-    branches: [chore/recovery-200-postrelease-check]
-    paths: ['scripts/industrial/postrelease/**', '.github/workflows/recovery200-postrelease-check.yml']
+    branches: [check/preview-405]
   schedule:
     - cron: '37 5 * * *'
   workflow_dispatch:
