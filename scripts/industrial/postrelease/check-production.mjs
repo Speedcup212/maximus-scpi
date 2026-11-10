@@ -78,7 +78,7 @@ for (const slug of PAGES) {
   }
   if (NO_SUBSCRIPTION_RATE.includes(slug)) {
     const snippets = entry.souscription || [];
-    if (snippets.some(snippet => /souscription(?:(?!gestion|retrait|cession|arbitrage)[^%]){0,40}\d+(?:[.,]\d+)? ?%|\d+(?:[.,]\d+)? ?%(?:(?!gestion|retrait|cession|arbitrage)[^%]){0,40}souscription/i.test(snippet))) {
+    if (snippets.some(snippet => /souscription(?:(?!gestion|retrait|cession|arbitrage)[^%]){0,40}\d+(?:[.,]\d+)? ?%|\d+(?:[.,]\d+)? ?%\s*(?:TTC\s*)?(?:sans |de |des )?(?:frais|commissions?) de souscription/i.test(snippet))) {
       report.failures.push(`${slug}: un taux de souscription est affiché alors que la souscription est fermée`);
     }
     // Faux zéro rassurant : « Sans frais » / « Aucun frais » sur une souscription fermée ou non prouvée.
