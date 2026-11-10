@@ -1,0 +1,72 @@
+name: MaximusSCPI - Sofidy T3 portfolio allocations source-only QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/maximus-sofidy-t3-allocation-qa.yml'
+      - 'scripts/agents/sofidy_t3_allocation_source_qa.py'
+      - 'scripts/agents/sofidy_t3_allocation_source_qa_test.py'
+      - 'scripts/agents/publisher-families/sofidy-2026-t3-allocation-claims.json'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/maximus-sofidy-t3-allocation-qa.yml'
+      - 'scripts/agents/sofidy_t3_allocation_source_qa.py'
+      - 'scripts/agents/sofidy_t3_allocation_source_qa_test.py'
+      - 'scripts/agents/publisher-families/sofidy-2026-t3-allocation-claims.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - run: python -m unittest scripts/agents/sofidy_t3_allocation_source_qa_test.py -v
+
+  three-originals:
+    needs: contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        slug: [sofiboutique, sofipierre, sofidy-europe-invest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install both original PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Verify issuer CA against existing OS trust root
+        run: bash scripts/agents/prepare_verified_sofidy_ca.sh
+      - name: Validate geography and sector percentages on issuer original page 2
+        run: |
+          python scripts/agents/sofidy_t3_allocation_source_qa.py \
+            --manifest scripts/agents/publisher-families/sofidy-2026-t3-allocation-claims.json \
+            --slug ${{ matrix.slug }} \
+            --out test-results/sofidy-t3-allocations/${{ matrix.slug }}
+      - name: Preserve original chart and exact numeric checks, no financial signoff
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sofidy-chart-${{ matrix.slug }}-${{ github.run_id }}
+          path: test-results/sofidy-t3-allocations/${{ matrix.slug }}/
+          if-no-files-found: error
+          retention-days: 14

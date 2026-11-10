@@ -1,0 +1,78 @@
+name: MaximusSCPI - Sofidy 2026 T3 exact financial number QA (NO release)
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/maximus-sofidy-t3-numeric-qa.yml'
+      - 'scripts/agents/sofidy_t3_numeric_preflight.py'
+      - 'scripts/agents/sofidy_t3_numeric_preflight_test.py'
+      - 'scripts/agents/publisher-families/sofidy-2026-t3-financial-qa.json'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/maximus-sofidy-t3-numeric-qa.yml'
+      - 'scripts/agents/sofidy_t3_numeric_preflight.py'
+      - 'scripts/agents/sofidy_t3_numeric_preflight_test.py'
+      - 'scripts/agents/publisher-families/sofidy-2026-t3-financial-qa.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: t3-financial-source-only-${{ github.event_name == 'pull_request' && format('pr-{0}',github.event.pull_request.number) || 'main' }}
+  cancel-in-progress: false
+
+jobs:
+  math-security-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install deterministic original PDF parser
+        run: python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Guard exact five-decimal share flows and source-only status
+        run: python -m unittest scripts/agents/sofidy_t3_numeric_preflight_test.py -v
+
+  double-read-real-issuer:
+    needs: math-security-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        slug: [sofiboutique, sofipierre, sofidy-europe-invest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Establish issuer TLS intermediate against OS trust root
+        run: bash scripts/agents/prepare_verified_sofidy_ca.sh
+      - name: Verify 2026 T3 originals and each physical page by two engines
+        run: |
+          python scripts/agents/sofidy_t3_numeric_preflight.py \
+            --manifest scripts/agents/publisher-families/sofidy-2026-t3-financial-qa.json \
+            --slug ${{ matrix.slug }} \
+            --out test-results/sofidy-t3-financial/${{ matrix.slug }}
+      - name: Archive review-only proof and page images, no database writes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sofidy-t3-financial-${{ matrix.slug }}-${{ github.run_id }}
+          path: test-results/sofidy-t3-financial/${{ matrix.slug }}/
+          if-no-files-found: error
+          retention-days: 14

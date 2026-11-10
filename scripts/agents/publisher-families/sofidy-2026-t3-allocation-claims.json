@@ -1,0 +1,207 @@
+{
+  "version": 1,
+  "source_only": true,
+  "financial_qa_autoapprove": false,
+  "publication_authorized": false,
+  "publisher": "Sofidy",
+  "documents": [
+    {
+      "slug": "sofiboutique",
+      "name": "Sofiboutique",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofiboutique_MEL.pdf",
+      "source_sha256": "2ae6890f9a9dcd308219427a168b5ae13bda34dd744dab7e56e1770663876a0e",
+      "source_period": "2026-T3",
+      "source_page": 2,
+      "allocations": [
+        {
+          "type": "geography",
+          "label": "Autres villes régionales (< 300 000 habitants)",
+          "exact_pct": "22.400",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Étranger",
+          "exact_pct": "1.800",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Lyon",
+          "exact_pct": "13.000",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Paris",
+          "exact_pct": "39.400",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Région parisienne",
+          "exact_pct": "5.000",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Villes régionales (> 300 000 habitants)",
+          "exact_pct": "18.300",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "sector",
+          "label": "Commerces de centre-ville",
+          "exact_pct": "100.000",
+          "qa_status": "needs_review"
+        }
+      ]
+    },
+    {
+      "slug": "sofidy-europe-invest",
+      "name": "Sofidy Europe Invest",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/10/Bulletin_Trimestriel_-_SEI_MEL.pdf",
+      "source_sha256": "73b96a909a9600b092b05a62a3a55145bab6389c754262d1733e7bdf69dd2146",
+      "source_period": "2026-T3",
+      "source_page": 2,
+      "allocations": [
+        {
+          "type": "geography",
+          "label": "Allemagne",
+          "exact_pct": "12.800",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Belgique",
+          "exact_pct": "1.700",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Espagne",
+          "exact_pct": "33.800",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Irlande",
+          "exact_pct": "9.200",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Pays-Bas",
+          "exact_pct": "32.900",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Royaume-Uni",
+          "exact_pct": "9.600",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "sector",
+          "label": "Bureaux",
+          "exact_pct": "35.100",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "sector",
+          "label": "Commerces de centre-ville",
+          "exact_pct": "14.600",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "sector",
+          "label": "Galeries et centres commerciaux",
+          "exact_pct": "5.300",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "sector",
+          "label": "Hôtels",
+          "exact_pct": "19.200",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "sector",
+          "label": "Logistique",
+          "exact_pct": "4.600",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "sector",
+          "label": "Moyennes surfaces de périphérie",
+          "exact_pct": "21.100",
+          "qa_status": "needs_review"
+        }
+      ]
+    },
+    {
+      "slug": "sofipierre",
+      "name": "Sofipierre",
+      "source_url": "https://www.sofidy.com/app/uploads/2026/10/Bulletin_Trimestriel_-_Sofipierre_2026-3T_OPTI.pdf",
+      "source_sha256": "6f9caf33ff090b2dd6c6d3366cf6eaaf9ac9da7ffb3ee411f4700e7783ccac8a",
+      "source_period": "2026-T3",
+      "source_page": 2,
+      "allocations": [
+        {
+          "type": "geography",
+          "label": "Étranger",
+          "exact_pct": "2.100",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Paris",
+          "exact_pct": "16.900",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Région",
+          "exact_pct": "65.000",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "geography",
+          "label": "Région parisienne",
+          "exact_pct": "15.900",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "sector",
+          "label": "Activités / Logistique",
+          "exact_pct": "18.700",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "sector",
+          "label": "Bureaux",
+          "exact_pct": "20.600",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "sector",
+          "label": "Commerces de centre-ville et milieu urbain",
+          "exact_pct": "53.300",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "sector",
+          "label": "Commerces de périphérie",
+          "exact_pct": "4.500",
+          "qa_status": "needs_review"
+        },
+        {
+          "type": "sector",
+          "label": "Galeries de centre commercial",
+          "exact_pct": "2.900",
+          "qa_status": "needs_review"
+        }
+      ]
+    }
+  ]
+}
