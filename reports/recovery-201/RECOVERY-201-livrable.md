@@ -13,7 +13,7 @@ Déployé et configuré le 11/11/2026 (Supabase, projet ygvsddcpohsnaowofuwc, et
     - expéditeur vérifié : Eric Bellaiche, `eric.bellaiche@maximusscpi.com`, actif ;
     - attributs créés : `PRENOM`, `TRANCHE_MONTANT`, `MONTANT_50K`, `SOURCE_PAGE`, `CONSENT_DATE`, `RDV_PRIS` ;
     - liste n° 6 « Simulateur SCPI – séquence » ;
-    - modèle transactionnel n° 6 « RECOVERY-201 – Votre simulation SCPI », actif, objet « Votre simulation SCPI ».
+    - modèle transactionnel n° 6 « RECOVERY-201 – Votre simulation SCPI », actif, objet « Votre simulation SCPI : {{ params.MONTANT }} » (montant ajouté le 11/11 à 11 h 11 pour que chaque simulation ait son propre fil dans les messageries).
 
 Pas encore fait : front (pull request non fusionnée), automatisation des emails 2 à 4 (textes à valider).
 
@@ -71,7 +71,7 @@ Rendu vérifié :
 3. **Emails 2 à 4 :** valider les textes, puis créer l'automatisation Brevo (déclenchée par l'ajout à la liste n° 6, sortie si `RDV_PRIS` est vrai ou si le tag « RÉPONDU » est présent). D'ici là, les contacts qui cochent la case restent dans la liste sans recevoir d'email.
 4. **Hors RECOVERY-201, à traiter à part :** les deux anciennes clés Brevo (« Maximus », désactivée ; « API_BREVO », en lecture seule) ne peuvent pas envoyer. Si Netlify utilise l'une d'elles, l'email de bienvenue et les réponses aux demandes d'accès ne partent plus (à vérifier dans les journaux Netlify).
 
-## Email 1 (texte du modèle Brevo n° 6, objet : « Votre simulation SCPI »)
+## Email 1 (texte du modèle Brevo n° 6, objet : « Votre simulation SCPI : {{ params.MONTANT }} »)
 
 ```text
 {% if params.PRENOM %}Bonjour {{ params.PRENOM }},{% else %}Bonjour,{% endif %}
