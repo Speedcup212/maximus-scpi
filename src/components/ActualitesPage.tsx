@@ -342,7 +342,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             portfolioContext: row.portfolio_context || '',
             maximusAnalysis: row.maximus_analysis || '',
             sourceDocumentLabel: row.source_document_label || '',
-            date: row.published_date || (row.detected_at ? row.detected_at.slice(0, 10) : ''),
+            date: row.published_date || '', // Une date de détection ne vaut jamais publication officielle.
             detectedAt: row.detected_at || '',
             investmentRelated: true,
             dataQuality: row.data_quality || 'standard',
