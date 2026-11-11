@@ -73,7 +73,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "accimmo-pierre",
@@ -143,7 +144,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "activimmo",
@@ -212,7 +214,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "aestiam-agora",
@@ -281,7 +284,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "aestiam-horizon",
@@ -354,7 +358,91 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.aestiam.com/doc/horizon/periodique/2026-3t-bti-aestiam-horizon.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire"
+        ],
+        "verifiedFields": [
+          {
+            "metric": "walb",
+            "value": 4.45,
+            "unit": "ans",
+            "page": 3,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "T3 2026 Europe 12 % Dont : 9 % Luxembourg 1 % Allemagne 2 % Belgique 2,81 ans Durée moyenne restante des baux avant les prochaines possibilités de résiliation par les locataires. WALB 4,45 ans Durée moyenne restante des baux avant leur échéance final"
+          },
+          {
+            "metric": "tof",
+            "value": 87,
+            "unit": "%",
+            "page": 3,
+            "method": "issuer_pdf_page_text_verified_against_TopAndTOF",
+            "verifiedAt": "2026-10-28T10:35:45.43246+00:00",
+            "proof": "TOF 87,00 % au 30/09/2026 (page 3). 13,00 % de locaux vacants. 81,12 % de locaux occupés, 3,81 % sous franchise, 0,31 % vacants sous promesse de vente, 1,76 % en restructuration; 81,12 % n est pas le TOF. Bulletin SHA256 c77dc6259fc2e7731db341a4dc7db"
+          },
+          {
+            "metric": "nombre_parts",
+            "value": 1063310,
+            "unit": "parts",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "025 350 € 315,86 € 342,16 € 286,64 € Prix de souscription (€/part) LES MOUVEMENTS DE PARTS 2025 T1 2026 T2 2026 T3 2026 T4 2026 Nombre total de parts 1 086 498 1 081 733 1 068 462 1 063 310 Nombre de parts souscrites 6 498 3 129 1 550 548 Retrait en "
+          },
+          {
+            "metric": "prix_retrait",
+            "value": 315,
+            "unit": "€",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "48 € VALEUR DE RÉFÉRENCE PAR PART DÉLAI DE JOUISSANCE 1 er jour du mois suivant l'enregistrement de la souscription 0 mois Le marché des parts . T3 2026 350 € Prix de souscription 315 € Prix de retrait 8 157 Nombre d'associés 372 M€ Capitalisation Le"
+          },
+          {
+            "metric": "capitalisation",
+            "value": 372,
+            "unit": "M€",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "ISSANCE 1 er jour du mois suivant l'enregistrement de la souscription 0 mois Le marché des parts . T3 2026 350 € Prix de souscription 315 € Prix de retrait 8 157 Nombre d'associés 372 M€ Capitalisation Les chiffres clés . au 30/09/2026 Définitions di"
+          },
+          {
+            "metric": "prix_reconstitution",
+            "value": 343.33,
+            "unit": "€",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "5 au 30/06/2026 Valeur de réalisation ........................................... 283,55 € Valeur de reconstitution .................................... 343,33 € au 31/12/2025 Valeur IFI résident ............................................... 306,00"
+          },
+          {
+            "metric": "nombre_associes",
+            "value": 8157,
+            "unit": "associés",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "CE PAR PART DÉLAI DE JOUISSANCE 1 er jour du mois suivant l'enregistrement de la souscription 0 mois Le marché des parts . T3 2026 350 € Prix de souscription 315 € Prix de retrait 8 157 Nombre d'associés 372 M€ Capitalisation Les chiffres clés . au 3"
+          },
+          {
+            "metric": "prix_souscription",
+            "value": 350,
+            "unit": "€",
+            "page": 1,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "Définitions disponibles dans le lexique à la fin du bulletin. ℹ 5,10 % Taux de distribution 2025 8,63 % Taux de Rendement Interne à 20 ans 5,10 % Performance Globale Annuelle 2025 350 € Prix de souscription au 30/09/2026 LES CHIFFRES CLÉS Source : Ae"
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "alta-convictions",
@@ -443,7 +531,30 @@
           "sourceUrl": "https://www.altarea-im.com/actualites/la-scpi-alta-convictions-renforce-sa-dimension-europeenne-avec-une-nouvelle-acquisition-en-espagne/"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://altarea-im.com/wp-content/uploads/2026/10/06102026_ALTA_BUL_TRIMESTRIEL_T3_26_PPP_WEB.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction automatique chiffrée vide",
+          "Extraction partielle : revue documentaire nécessaire",
+          "Conflits détectés sur certains champs extraits"
+        ],
+        "verifiedFields": [
+          {
+            "metric": "prix_souscription",
+            "value": 308,
+            "unit": "EUR_PER_PART",
+            "page": 6,
+            "method": "pdf_page_text_match_dual_mupdf_poppler",
+            "verifiedAt": "2026-11-10T22:31:16.246846+00:00",
+            "proof": "SHA256=b0e55e0606feb657e11fc12e05b6938422e72c64b07ba3d07a838f483113bf37; reference_date=2026-09-30; MuPDF=308€ Prix de souscription; Poppler=308€ Prix de souscription"
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "altixia-cadence-12",
@@ -511,7 +622,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "altixia-commerces",
@@ -579,7 +691,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "atream-hotel",
@@ -652,7 +765,46 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://atream.com/wp-content/uploads/2020/07/Bulletin-N2026_3T-SCPI_Atream_Hotels_WEB_10-PAGES.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire"
+        ],
+        "verifiedFields": [
+          {
+            "metric": "capitalisation",
+            "value": 330,
+            "unit": "M€",
+            "page": 2,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-10-30T12:45:19.77238+00:00",
+            "proof": "(5) Valeur de reconstitution (1) 1 059,54 € (5) 1 059,54 € (5) Nombre d’associés 6 048 6 195 Nombre de parts 327 606 parts 330 294 parts Capital social 262 084 800 € 264 235 200 € Capitalisation 329 835 500 € 332 780 600 € Ratio d’endettement (6) 22,"
+          },
+          {
+            "metric": "nombre_immeubles",
+            "value": 25,
+            "unit": "immeubles",
+            "page": 3,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-10-30T12:45:19.77238+00:00",
+            "proof": "523 400 € 1 D Hôtel 113 8 390 565 € 1 I Hôtel 216 20 684 895 € Totaux 24 2 867 357 016 823 € Le patrimoine (1) Le patrimoine de la SCPI Atream Hôtels est réparti sur six pays. Les actifs immobiliers du secteur touristique représentent 100 % du patrim"
+          },
+          {
+            "metric": "parts_attente_retrait",
+            "value": 0,
+            "unit": "parts",
+            "page": 1,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-10-30T12:45:19.77238+00:00",
+            "proof": "ée, la SCPI Atream Hôtels offre un portefeuille de 25 actifs dont une participation (non contrôlée) et des solides fondamentaux, caractérisés par une stabilité du prix de sa part, 0 part en attente de retrait, une durée ferme moyenne des baux de 11,8"
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "buroboutic-metropoles",
@@ -732,7 +884,8 @@
           "sourceUrl": "https://www.fiducial-gerance.fr/actualites/dynamique-d-acquisition-pour-les-scpi-ficommerce-et-buroboutic"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "coeur-d-europe",
@@ -820,7 +973,8 @@
           "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-immeuble-de-bureaux-pour-la-scpi-coeur-deurope-2/"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "coeur-de-region",
@@ -914,7 +1068,8 @@
           "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-ensemble-immobilier-mixte-pour-la-scpi-coeur-de-regions/"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "coeur-de-ville",
@@ -982,7 +1137,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "comete",
@@ -1050,7 +1206,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "corum-eurion",
@@ -1119,7 +1276,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "corum-origin",
@@ -1188,7 +1346,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "corum-usa",
@@ -1258,7 +1417,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "corum-xl",
@@ -1327,7 +1487,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "credit-mutuel-pierre-1",
@@ -1392,7 +1553,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "cristal-life",
@@ -1410,11 +1572,7 @@
       "sourceDocument": "Cristal Life - Bulletin T2 2026",
       "sourceQa": "auto_verified_product_alias_period_tof",
       "certifiedAt": "2026-11-10 17:55:19.976553+00",
-      "moreRecentBulletin": {
-        "period": "2026-T3",
-        "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCL_DSPP20261020.pdf",
-        "qaStatus": "needs_review_document_kind_not_bulletin"
-      },
+      "moreRecentBulletin": null,
       "sections": [
         {
           "heading": "Évolution sur la période",
@@ -1464,7 +1622,7 @@
         {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
-            "Bulletin 2026-T3 repéré, mais la synthèse chiffrée reste certifiée au 2026-T2. La nouvelle période ne doit pas être déclarée intégrée.",
+            "Document T3 invalidé par le contrôle d'identité. La nouvelle période ne doit pas être déclarée intégrée.",
             "Les variations présentées comme évolutions sont celles retenues par le contrôle documentaire."
           ],
           "basis": "provenance"
@@ -1477,7 +1635,18 @@
           "sourceUrl": "https://www.inter-gestion.com/corpo/inter-gestion-reim"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "rejected_wrong_document",
+        "sourceUrl": null,
+        "sourceQa": "invalid_document_kind_not_bulletin",
+        "blockingReasons": [
+          "Document non admissible : type de document ou identité SCPI incorrecte"
+        ],
+        "verifiedFields": [],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "cristal-rente",
@@ -1542,7 +1711,18 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "rejected_wrong_document",
+        "sourceUrl": null,
+        "sourceQa": "invalid_wrong_document_kind",
+        "blockingReasons": [
+          "Document non admissible : type de document ou identité SCPI incorrecte"
+        ],
+        "verifiedFields": [],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "edissimo",
@@ -1611,7 +1791,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "edr-europa",
@@ -1629,7 +1810,11 @@
       "sourceDocument": "Bulletin officiel n°9 T2 2026",
       "sourceQa": "manual_verified_official_pdf_sha256_page",
       "certifiedAt": "2026-10-31 11:12:28.973269+00",
-      "moreRecentBulletin": null,
+      "moreRecentBulletin": {
+        "period": "2026-T3",
+        "url": "https://edr-europa.com/wp-content/uploads/2026/10/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-3T-2026.pdf",
+        "qaStatus": "needs_review_issuer_pdf_sha_pending"
+      },
       "sections": [
         {
           "heading": "Faits marquants 2026-T1 → 2026-T2",
@@ -1679,7 +1864,20 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://edr-europa.com/wp-content/uploads/2026/10/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-3T-2026.pdf",
+        "sourceQa": "needs_review_issuer_pdf_sha_pending",
+        "blockingReasons": [
+          "Bulletin d'information T3 retrouvé sur le domaine officiel de la société de gestion ; le fichier original et son empreinte SHA256 restent à contrôler",
+          "Aucune extraction de métrique T3 n'est vérifiée pour ce bulletin",
+          "Certification globale et comparaison T2-T3 interdites avant rapprochement du PDF"
+        ],
+        "verifiedFields": [],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "efimmo-1",
@@ -1749,7 +1947,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "epargne-fonciere",
@@ -1815,7 +2014,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "epargne-pierre",
@@ -1887,7 +2087,46 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EP-vdef-web.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire"
+        ],
+        "verifiedFields": [
+          {
+            "metric": "tof",
+            "value": 94.05,
+            "unit": "%",
+            "page": 2,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "marché des autres locaux non disponibles à la location divisé par le montant total des loyers facturables dans l’hypothèse où l’intégralité du patrimoine de la SCPI serait louée. TOF 94,05 % 16,34 % Sud-Ouest 27,14 % Paris Île-de-France 13,44 % Nord-"
+          },
+          {
+            "metric": "endettement",
+            "value": 10.8,
+            "unit": "%",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": ", un taux d’occupation financier supérieur à 94 %. Elle réunit plus de 53 000 associés, avec une part d’investisseurs institutionnels inférieure à 10% de la capitalisation, et son endettement s’établit à 10,80 %. En 2025, pour la 6 ème année consécut"
+          },
+          {
+            "metric": "nombre_associes",
+            "value": 53497,
+            "unit": "associés",
+            "page": 1,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "de plus-values réalisées. Les revenus ne sont pas garantis et peuvent varier à la hausse comme à la baisse. T3 T1 REVENU DISTRIBUÉ ( €/part) 2,64 € (dont 0,15 € de plus-value) T2 53 497 ASSOCIÉS 762 LOCATAIRES Les performances passées ne préjugent pa"
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "epargne-pierre-europe",
@@ -1959,7 +2198,20 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EPE-vdef-web.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire",
+          "Aucun champ T3 actuellement prouvé par une pièce paginée liée au bulletin retenu",
+          "Conflits détectés sur certains champs extraits"
+        ],
+        "verifiedFields": [],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "epsicap-nano",
@@ -2051,7 +2303,48 @@
           "sourceUrl": "https://epsicap.fr/epsicap-nano-acquisition-grenade/"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://epsicap.fr/app/uploads/2026/11/bulletin-trimestriel-epsicap-nano-t3-2026.pdf",
+        "sourceQa": "auto_partial",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire",
+          "Confiance documentaire insuffisante pour certifier la période entière",
+          "Conflits détectés sur certains champs extraits"
+        ],
+        "verifiedFields": [
+          {
+            "metric": "prix_retrait",
+            "value": 244.15,
+            "unit": "EUR_PER_PART",
+            "page": 4,
+            "method": "pdf_page_text_match_dual_mupdf_poppler",
+            "verifiedAt": "2026-11-04T13:15:27.763556+00:00",
+            "proof": "SHA256=1f7efa004028d10758149d0dcd97677dc22ad679cf314768e0d682add4a4b3e7; reference_date=2026-09-30; MuPDF=Valeur de retrait : 244,15 €; Poppler=Valeur de retrait : 244,15 €"
+          },
+          {
+            "metric": "capitalisation",
+            "value": 227,
+            "unit": "MEUR",
+            "page": 4,
+            "method": "pdf_page_text_match_dual_mupdf_poppler",
+            "verifiedAt": "2026-11-04T13:15:27.763556+00:00",
+            "proof": "SHA256=1f7efa004028d10758149d0dcd97677dc22ad679cf314768e0d682add4a4b3e7; reference_date=2026-09-30; MuPDF=227 M€ CAPITALISATION; Poppler=227 M€ CAPITALISATION"
+          },
+          {
+            "metric": "tof",
+            "value": 97.98,
+            "unit": "%",
+            "page": 5,
+            "method": "issuer_pdf_dual_readers_source_bound_sha256",
+            "verifiedAt": "2026-11-07T19:00:04.462284+00:00",
+            "proof": "Original issuer quarterly PDF, page 5, TOF 97.98 %, reporting basis YTD_FROM_2026_01_01. Source SHA-256 1f7efa004028d10758149d0dcd97677dc22ad679cf314768e0d682add4a4b3e7. MuPDF text: Taux d’occupation financier (depuis le 01/01/2026) | 97,98%; Poppler"
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "esg-pierre-capital",
@@ -2118,7 +2411,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "ficommerce-proximite",
@@ -2198,7 +2492,8 @@
           "sourceUrl": "https://www.fiducial-gerance.fr/actualites/dynamique-d-acquisition-pour-les-scpi-ficommerce-et-buroboutic"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "fonciere-des-praticiens",
@@ -2271,7 +2566,38 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.groupemagellim.com/wp-content/uploads/BT-3T-2026-Fonciere-des-Praticiens-.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire",
+          "Conflits détectés sur certains champs extraits"
+        ],
+        "verifiedFields": [
+          {
+            "metric": "walb",
+            "value": 6.61,
+            "unit": "years",
+            "page": 6,
+            "method": "pdf_page_text_match_dual_mupdf_poppler",
+            "verifiedAt": "2026-11-05T13:28:48.125888+00:00",
+            "proof": "SHA256=119e6ff4d8b63d5ba4137315b16c2a89d7971118ef94f38492b281b0f058e623; reference_date=2026-09-30; MuPDF=WALB | 6,61 ans; Poppler=WALB | 6,61 ans"
+          },
+          {
+            "metric": "capitalisation",
+            "value": 173,
+            "unit": "MEUR",
+            "page": 3,
+            "method": "pdf_page_text_match_dual_mupdf_poppler",
+            "verifiedAt": "2026-11-05T13:28:48.125888+00:00",
+            "proof": "SHA256=119e6ff4d8b63d5ba4137315b16c2a89d7971118ef94f38492b281b0f058e623; reference_date=2026-09-30; MuPDF=Capitalisation | 173 M€; Poppler=Capitalisation | 173 M€"
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "grand-paris-residentiel",
@@ -2339,7 +2665,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "immorente",
@@ -2406,7 +2733,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "iroko-atlas",
@@ -2498,7 +2826,19 @@
           "sourceUrl": "https://www.iroko.eu/actif/commerces-a-lichfield-180"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.iroko.eu/bulletins-trimestriels-atlas/q3-2026",
+        "sourceQa": "auto_verified",
+        "blockingReasons": [
+          "Aucun champ T3 actuellement prouvé par une pièce paginée liée au bulletin retenu",
+          "Confiance documentaire insuffisante pour certifier la période entière"
+        ],
+        "verifiedFields": [],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "iroko-zen",
@@ -2575,7 +2915,8 @@
           "sourceUrl": "https://www.iroko.eu/actif/hotel-a-francfort-181"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "kyaneos-pierre",
@@ -2642,7 +2983,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "lf-avenir-sante",
@@ -2707,7 +3049,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "lf-europimmo",
@@ -2773,7 +3116,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "lf-grand-paris-patrimoine",
@@ -2841,7 +3185,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "log-in",
@@ -2914,7 +3259,62 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://theoreim.com/wp-content/uploads/2022/09/Bulletin_Trimestriel-LOG-IN-T3-2026.pdf",
+        "sourceQa": "auto_verified_product_alias_period_tof",
+        "blockingReasons": [],
+        "verifiedFields": [
+          {
+            "metric": "tof",
+            "value": 100,
+            "unit": "%",
+            "page": 1,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+            "proof": "N : PERFORMANCE GLOBALE ANNUELLE 2025 : 8,21 % TAUX DE DISTRIBUTION 2025 * : BRUT : 6,21 % NET : 4,91 % TAUX DE RENDEMENT ACTE EN MAIN MOYEN ** : 7,07 % TRI CIBLE 10 ANS *** : 5 % TOF : 100 % TOP : 100 % DURÉE MOYENNE FERME DES BAUX : DURÉE MOYENNE A"
+          },
+          {
+            "metric": "nombre_associes",
+            "value": 6805,
+            "unit": "associés",
+            "page": 1,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+            "proof": "d’encaissement des loyers est de 100 %. Au cours de ce trimestre, LOG IN a réalisé une collecte brute de 17,1 M€, portant sa capitalisation à 253,7 M€ au 30 sep- tembre 2026 pour 6 805 associés. L’ensemble des demandes de retrait a été satisfait et a"
+          },
+          {
+            "metric": "nombre_immeubles",
+            "value": 21,
+            "unit": "immeubles",
+            "page": 1,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+            "proof": "des pour faire face à ce contexte. Très faiblement endettée (1,7 % dans le cadre d’un crédit revolving ayant vocation à être remboursé avec la collecte à venir) et inves- tie dans 21 immeubles industriels (locaux d’activité, actifs logistiques, actif"
+          },
+          {
+            "metric": "prix_souscription",
+            "value": 255,
+            "unit": "€",
+            "page": 1,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+            "proof": "50 % pour 2026 (non garanti). Le versement interviendra le 26 octobre 2026. Au 30 septembre 2026, la valeur de reconstitution s’établit à 268,12 € par part, supérieure de 5,1 % au prix de souscription de 255 €. Au regard des fondamentaux de votre SCP"
+          },
+          {
+            "metric": "prix_reconstitution",
+            "value": 268.12,
+            "unit": "€",
+            "page": 1,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+            "proof": "inscrit dans l’objectif de taux de distribution brut compris entre 6,00 % et 6,50 % pour 2026 (non garanti). Le versement interviendra le 26 octobre 2026. Au 30 septembre 2026, la valeur de reconstitution s’établit à 268,12 € par part, supérieure de "
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "ncap-continent",
@@ -2981,7 +3381,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "ncap-education-sante",
@@ -3048,7 +3449,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "ncap-regions",
@@ -3130,7 +3532,8 @@
           "sourceUrl": "https://www.normacapital.fr/2025/11/12/ncap-regions-signe-sa-premiere-acquisition-hoteliere/"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "novapierre-1",
@@ -3200,7 +3603,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "novapierre-residentiel",
@@ -3264,7 +3668,18 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "rejected_wrong_document",
+        "sourceUrl": null,
+        "sourceQa": "invalid_wrong_scpi_document",
+        "blockingReasons": [
+          "Document non admissible : type de document ou identité SCPI incorrecte"
+        ],
+        "verifiedFields": [],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "novaxia-neo",
@@ -3341,7 +3756,55 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.novaxia-investissement.fr/wp-content/uploads/2026/11/Reporting-Novaxia-NEO-T3-2026.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire"
+        ],
+        "verifiedFields": [
+          {
+            "metric": "walb",
+            "value": 3.24,
+            "unit": "ans",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-05T13:15:04.391981+00:00",
+            "proof": "Reporting trimestriel – T3 2026 Le patrimoine . au 30/09/2026 En bref 37 Actifs 117 Locataires 95 % Bureaux 1 % Activités 8 % 53 % 3 % 28 % 8 % 3,24 ans WALB 2 moyenne Taux d’Occupation (méthode ASPIM) 14,4 % 85,6 % TOP 85,6 % 11,7 % 2,7 % 88 ,3 % TO"
+          },
+          {
+            "metric": "capitalisation",
+            "value": 427.9,
+            "unit": "M€",
+            "page": 4,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-05T13:15:04.391981+00:00",
+            "proof": "ses associés. 3 Détails disponibles dans le Glossaire . Les performances de votre SCPI Actif du patrimoine situé à Utrecht, Pays - Bas. ©Droits réservés. À retenir 8 968 Associés 427,9 M € Capitalisation 3 37 Actifs 5,96 % 1 Taux de Rendement Interne"
+          },
+          {
+            "metric": "nombre_associes",
+            "value": 8968,
+            "unit": "associés",
+            "page": 4,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-05T13:15:04.391981+00:00",
+            "proof": "e la SCPI et de ses associés. 3 Détails disponibles dans le Glossaire . Les performances de votre SCPI Actif du patrimoine situé à Utrecht, Pays - Bas. ©Droits réservés. À retenir 8 968 Associés 427,9 M € Capitalisation 3 37 Actifs 5,96 % 1 Taux de R"
+          },
+          {
+            "metric": "nombre_immeubles",
+            "value": 37,
+            "unit": "immeubles",
+            "page": 3,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-05T13:15:04.391981+00:00",
+            "proof": "ovaxia NEO atteint 54 , 2 / 100 , contre 34 , 0 fin 2023 . L’objectif de progression de 20 points en trois ans du label ISR est ainsi atteint, avec une amélioration de la note des 37 immeubles du portefeuille . Le renouvellement du label ISR pour un "
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "opportunite-immo",
@@ -3409,7 +3872,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "optimale",
@@ -3488,7 +3952,8 @@
           "sourceUrl": "https://www.consultim-am.com/actualites/information/optimale-acquisitions-belz-plessis-robinson/"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "paref-evo",
@@ -3559,7 +4024,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "paref-hexa",
@@ -3628,7 +4094,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "patrimmo-commerce",
@@ -3699,7 +4166,64 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.praemiareim.fr/documents/14836074/14836275/PRAEMIA_BTI_Patrimmo+Commerce_T3_2026_VDEF.pdf/629ca819-38be-867c-8edc-181f9159bf3b?t=1793990422410",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire"
+        ],
+        "verifiedFields": [
+          {
+            "metric": "tof",
+            "value": 91.9,
+            "unit": "%",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "es loyers quittancés sur le trimestre 5,25 M€ Taux de recouvrement des loyers 95 % Durée moyenne ferme des baux (WALB) * 2,37 ans Durée moyenne restante des baux (WALT) * 4,04 ans TOF * 91,9 % 87,3% Locaux occupés 2,4% Locaux occupés sous franchise o"
+          },
+          {
+            "metric": "walb",
+            "value": 2.37,
+            "unit": "ans",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "te (hors fonds de remboursement) 184 711 m 2 17 244 671 € Montant des loyers quittancés sur le trimestre 5,25 M€ Taux de recouvrement des loyers 95 % Durée moyenne ferme des baux (WALB) * 2,37 ans Durée moyenne restante des baux (WALT) * 4,04 ans TOF"
+          },
+          {
+            "metric": "walt",
+            "value": 4.04,
+            "unit": "ans",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "4 671 € Montant des loyers quittancés sur le trimestre 5,25 M€ Taux de recouvrement des loyers 95 % Durée moyenne ferme des baux (WALB) * 2,37 ans Durée moyenne restante des baux (WALT) * 4,04 ans TOF * 91,9 % 87,3% Locaux occupés 2,4% Locaux occupés"
+          },
+          {
+            "metric": "capitalisation",
+            "value": 460,
+            "unit": "M€",
+            "page": 2,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "e selon une méthodologie distincte. La fixation du prix d’exécution dépend de cette rencontre entre l’offre et la demande et non pas de la valeur de réalisation* du patrimoine. La capitalisation de la SCPI passe de 460 M€ à 209 M€, son calcul s’appuy"
+          },
+          {
+            "metric": "nombre_immeubles",
+            "value": 186,
+            "unit": "immeubles",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+            "proof": "5 ACTIVITÉ LOCATIVE DU TRIMESTRE PATRIMOINE DE LA SCPI AU 30/09/2026 Nombre d’actifs 186 immeubles 11 Nouveaux baux Surface 1 257 m² Montant total des loyers 237 k€ 7 Libérations Surface 999 m² Montant total des loyers 383 k€ SITUATION LOCATIVE À LA "
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "patrimmo-croissance-impact",
@@ -3771,7 +4295,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "perial-grand-paris",
@@ -3838,7 +4363,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "perial-hospitalite-europe",
@@ -3906,7 +4432,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "perial-o2",
@@ -3972,7 +4499,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "perial-opportunites-europe",
@@ -4053,7 +4581,8 @@
           "sourceUrl": "https://www.perial.com/groupe-perial/actualites/poe-acquisition-immeuble-en-italie"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "pierval-sante",
@@ -4128,7 +4657,57 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.euryale-am.fr/wp-content/uploads/BT_PIERVAL_SANTE_2026_T3.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction automatique chiffrée vide",
+          "Extraction partielle : revue documentaire nécessaire",
+          "Conflits détectés sur certains champs extraits"
+        ],
+        "verifiedFields": [
+          {
+            "metric": "tof",
+            "value": 91.04,
+            "unit": "%",
+            "page": 9,
+            "method": "pdf_page_chart_tof_dual_mupdf_poppler_sha256",
+            "verifiedAt": "2026-11-07T17:49:33.76346+00:00",
+            "proof": "Pierval Sante | bulletin trimestriel officiel T3 2026 | page PDF 9. Taux d'occupation financier global affiche 91,04 % sur la carte et le diagramme. Les 8,96 % correspondent aux locaux en recherche de locataires : cette composante de vacance N'EST PA"
+          },
+          {
+            "metric": "walb",
+            "value": 14.22,
+            "unit": "years",
+            "page": 9,
+            "method": "pdf_page_text_match_dual_mupdf_poppler",
+            "verifiedAt": "2026-10-30T17:09:34.042585+00:00",
+            "proof": "SHA256=823990ec258b0f9d0561e1ac7fef0bcb7905f1f2b235620dde1440c1aba521c1; reference_date=2026-09-30; MuPDF=WALB(2) : 14,22 ans; Poppler=WALB (2) : 14,22 ans"
+          },
+          {
+            "metric": "prix_retrait",
+            "value": 182.56,
+            "unit": "EUR_PER_PART",
+            "page": 11,
+            "method": "pdf_page_text_match_dual_mupdf_poppler",
+            "verifiedAt": "2026-10-30T17:09:34.042585+00:00",
+            "proof": "SHA256=823990ec258b0f9d0561e1ac7fef0bcb7905f1f2b235620dde1440c1aba521c1; reference_date=2026-09-30; MuPDF=Prix de retrait : 182,56 €; Poppler=Prix de retrait : 182,56 €"
+          },
+          {
+            "metric": "prix_souscription",
+            "value": 204,
+            "unit": "EUR_PER_PART",
+            "page": 11,
+            "method": "pdf_page_text_match_dual_mupdf_poppler",
+            "verifiedAt": "2026-10-30T17:09:34.042585+00:00",
+            "proof": "SHA256=823990ec258b0f9d0561e1ac7fef0bcb7905f1f2b235620dde1440c1aba521c1; reference_date=2026-09-30; MuPDF=Prix de souscription : 204 €; Poppler=Prix de souscription : 204 €"
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "praemia-hotels-europe",
@@ -4149,7 +4728,7 @@
       "moreRecentBulletin": {
         "period": "2026-T3",
         "url": "https://www.praemiareim.fr/documents/14836074/14836332/PRAEMIA_BTI_Praemia_Hotels_Europe_T3_2026_VDEF.pdf/6ef65e62-c097-7cce-d524-984e8b402ca0?t=1793984832890",
-        "qaStatus": "auto_verified_product_alias_period_tof"
+        "qaStatus": "auto_partial_review"
       },
       "sections": [
         {
@@ -4199,7 +4778,73 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.praemiareim.fr/documents/14836074/14836332/PRAEMIA_BTI_Praemia_Hotels_Europe_T3_2026_VDEF.pdf/6ef65e62-c097-7cce-d524-984e8b402ca0?t=1793984832890",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire"
+        ],
+        "verifiedFields": [
+          {
+            "metric": "tof",
+            "value": 97.5,
+            "unit": "%",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+            "proof": "ce 7,1% Mixte Résidentiel / Commerce 36,9% France hors région parisienne 16,5% Grèce 16,0% Irlande 12,9% Île-de-France hors Paris 7,4% Paris 5,7% Belgique 4,3% Espagne 0,3% Italie TOF * 97,5 % ACTIVITÉ LOCATIVE DU TRIMESTRE PATRIMOINE DE LA SCPI AU 3"
+          },
+          {
+            "metric": "walb",
+            "value": 8.09,
+            "unit": "ans",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+            "proof": "ncés futurs. Nombre de baux 284 Surface gérée en m 2 Trésorerie directe 89 356 m 2 7 178 949 € Montant des loyers quittancés sur le trimestre 1,87 M€ Durée moyenne ferme des baux (WALB) * 8,09 ans Durée moyenne restante des baux (WALT) * 10,07 ans 96"
+          },
+          {
+            "metric": "walt",
+            "value": 10.07,
+            "unit": "ans",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+            "proof": "2 Trésorerie directe 89 356 m 2 7 178 949 € Montant des loyers quittancés sur le trimestre 1,87 M€ Durée moyenne ferme des baux (WALB) * 8,09 ans Durée moyenne restante des baux (WALT) * 10,07 ans 96,7% Locaux occupés 0,1% Locaux occupés sous franchi"
+          },
+          {
+            "metric": "prix_souscription",
+            "value": 180,
+            "unit": "€",
+            "page": 8,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+            "proof": "00 €. La Société, étant une SCPI à capital variable, est habilitée à recevoir des souscriptions jusqu’à hauteur de ce plafond de 300 000 000 €. Prix de souscription d’une part. Le prix de souscription est de 180 €, dont 179 € de prime d’émission. Cel"
+          },
+          {
+            "metric": "prix_retrait",
+            "value": 163.8,
+            "unit": "€",
+            "page": 2,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+            "proof": "illet, la Société de gestion a décidé de faire converger la valeur de retrait et le prix de retrait sur le fonds de remboursement. La valeur de retrait de la SCPI est désormais de 163,80 € pour un prix de retrait via le fonds de remboursement fixé à "
+          },
+          {
+            "metric": "nombre_immeubles",
+            "value": 116,
+            "unit": "immeubles",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+            "proof": "de 12,9% Île-de-France hors Paris 7,4% Paris 5,7% Belgique 4,3% Espagne 0,3% Italie TOF * 97,5 % ACTIVITÉ LOCATIVE DU TRIMESTRE PATRIMOINE DE LA SCPI AU 30/09/2026 Nombre d’actifs 116 immeubles 2 Nouveaux baux Surface 88 m² Montant total des loyers 1"
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "primovie",
@@ -4270,7 +4915,55 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.praemiareim.fr/documents/14836074/14836311/PRAEMIA_BTI_Primovie_T3_2026_VDEF.pdf/ff0cab84-798b-c7da-8f92-0977a9150f4f?t=1793988668797",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire"
+        ],
+        "verifiedFields": [
+          {
+            "metric": "tof",
+            "value": 94.2,
+            "unit": "%",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-06T18:45:03.683685+00:00",
+            "proof": "caux occupés 5,5% Locaux occupés sous franchise ou mis à disposition d’un futur locataire 0,2% Locaux vacants sous promesse de vente 5,8% Locaux vacants en recherche de locataires TOF * 94,2 % SITUATION LOCATIVE À LA FIN DU TRIMESTRE Nombre de baux 4"
+          },
+          {
+            "metric": "walb",
+            "value": 9.15,
+            "unit": "ans",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-06T18:45:03.683685+00:00",
+            "proof": "acants sous promesse de vente 5,8% Locaux vacants en recherche de locataires TOF * 94,2 % SITUATION LOCATIVE À LA FIN DU TRIMESTRE Nombre de baux 445 Durée moyenne ferme des baux (WALB) * 9,15 ans Durée moyenne restante des baux (WALT) * 9,56 ans CES"
+          },
+          {
+            "metric": "walt",
+            "value": 9.56,
+            "unit": "ans",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-06T18:45:03.683685+00:00",
+            "proof": "en recherche de locataires TOF * 94,2 % SITUATION LOCATIVE À LA FIN DU TRIMESTRE Nombre de baux 445 Durée moyenne ferme des baux (WALB) * 9,15 ans Durée moyenne restante des baux (WALT) * 9,56 ans CESSIONS DU TRIMESTRE ACQUISITION DU TRIMESTRE Aucune"
+          },
+          {
+            "metric": "nombre_immeubles",
+            "value": 291,
+            "unit": "immeubles",
+            "page": 4,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-06T18:45:03.683685+00:00",
+            "proof": "ance hors Paris 19,3% Allemagne 13,4% Italie 4,8% Paris 2,1% Espagne 0,5% Belgique 0,3% Pays-Bas ACTIVITÉ LOCATIVE DU TRIMESTRE PATRIMOINE DE LA SCPI AU 30/09/2026 Nombre d’actifs 291 immeubles 5 Nouveaux baux Surface 2 595 m² Montant total des loyer"
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "remake-live",
@@ -4342,7 +5035,20 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.remake.fr/wp-content/uploads/2026/11/REMAKE_LIVE_BT_T3-nov-2026.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire",
+          "Aucun champ T3 actuellement prouvé par une pièce paginée liée au bulletin retenu",
+          "Conflits détectés sur certains champs extraits"
+        ],
+        "verifiedFields": [],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "remake-uk-2025",
@@ -4413,7 +5119,20 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.remake.fr/wp-content/uploads/2026/10/REMAKE_UK2025_BT_T3_2026_11206.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire",
+          "Aucun champ T3 actuellement prouvé par une pièce paginée liée au bulletin retenu",
+          "Conflits détectés sur certains champs extraits"
+        ],
+        "verifiedFields": [],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "rivoli-avenir-patrimoine",
@@ -4481,7 +5200,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "selectinvest-1",
@@ -4546,7 +5266,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "selectipierre-2",
@@ -4612,7 +5333,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "sofidynamic",
@@ -4685,7 +5407,21 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction automatique chiffrée vide",
+          "Extraction partielle : revue documentaire nécessaire",
+          "Aucun champ T3 actuellement prouvé par une pièce paginée liée au bulletin retenu",
+          "Conflits détectés sur certains champs extraits"
+        ],
+        "verifiedFields": [],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "sofiprime",
@@ -4754,7 +5490,8 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     },
     {
       "slug": "transitions-europe",
@@ -4858,7 +5595,55 @@
           "sourceUrl": "https://www.arkea-reim.com/immobilier/pa_94149/-acquisition-transitions-europe-poursuit-son-deploiement-en-espagne"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.arkea-reim.com/upload/docs/application/pdf/2026-10/te_t3-2026.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire"
+        ],
+        "verifiedFields": [
+          {
+            "metric": "tof",
+            "value": 97.9,
+            "unit": "%",
+            "page": 8,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-08T00:15:03.560952+00:00",
+            "proof": "ires 379 3 Taux d’Occupation Physique 4 Durée moyenne résiduelle ferme des baux signés 5 Durée moyenne résiduelle totale des baux signés Au 30/09/2026 Taux d’occupation financier (TOF) 97.9 %* *Le TOF affiché est supérieur au taux de locaux occupés, "
+          },
+          {
+            "metric": "endettement",
+            "value": 3,
+            "unit": "%",
+            "page": 5,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-08T00:15:03.560952+00:00",
+            "proof": "ux à Dublin (Irlande) 5 2 876 Nouveaux associés 116 M€ Collecte nette sur le trimestre 142 M€ Investissements sur le trimestre 1.48 Md€ Capitalisation 219 M€ Trésorerie disponible 3 % Taux d'endettement 1 6 Nouvelles acquisitions 284 M€ Volume global"
+          },
+          {
+            "metric": "prix_souscription",
+            "value": 202,
+            "unit": "€",
+            "page": 12,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-08T00:15:03.560952+00:00",
+            "proof": "12 Arkéa REIM - Bulletin d’information 30/09/2026 178.95 € Valeur de réalisation 181.80 € Valeur de retrait Tunnel de valeur de reconstitution Prix surcoté 229.27 € +10 % -10 % Prix de la part 202 € Valeur de reconstitution 208.43 € Prix décoté 187.5"
+          },
+          {
+            "metric": "parts_attente_retrait",
+            "value": 0,
+            "unit": "parts",
+            "page": 11,
+            "method": "pdf_page_text_match",
+            "verifiedAt": "2026-11-08T00:15:03.560952+00:00",
+            "proof": "Nombre de parts en début de trimestre 6 844 051 Parts souscrites sur le trimestre 573 676 Retraits en nombre de parts 6 220 Nombre de parts en fin de trimestre 7 411 507 Nombre de part en attente de retrait 0 Part d’investisseurs institutionnels dans"
+          }
+        ],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "urban-coeur-de-commerce",
@@ -4930,7 +5715,19 @@
         }
       ],
       "linkedEvents": [],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/11/UCC_BT_T3-2026.pdf",
+        "sourceQa": "auto_partial_review",
+        "blockingReasons": [
+          "Extraction partielle : revue documentaire nécessaire",
+          "Aucun champ T3 actuellement prouvé par une pièce paginée liée au bulletin retenu"
+        ],
+        "verifiedFields": [],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "wemo-one",
@@ -5028,7 +5825,8 @@
           "sourceUrl": "https://wemo-reim.fr/blog/la-scpi-wemo-one-renforce-son-patrimoine-en-italie-avec-lacquisition-de-deux-commerces-loues-a-ovs-en-lombardie/"
         }
       ],
-      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
+      "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
+      "t3Review": null
     }
   ]
 }

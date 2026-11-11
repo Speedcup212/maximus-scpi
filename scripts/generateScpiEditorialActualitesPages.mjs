@@ -31,9 +31,23 @@ for(const d of dossiers){
    s.paragraphs.map(p=>'<p>'+escape(p)+'</p>').join('\n')+'</section>').join('\n');
  const events=d.linkedEvents.filter(e=>urlOk(e.sourceUrl)).map(e=>'<li><a href="'+escape(e.sourceUrl)+'" target="_blank" rel="noopener noreferrer nofollow">'+escape((e.date||'Date inconnue')+' — '+e.title)+'</a></li>');
  const newer=d.moreRecentBulletin?'<aside class="editorial-reserve">Bulletin '+escape(d.moreRecentBulletin.period)+' repéré, non encore intégré à l’analyse certifiée '+escape(d.period)+'.</aside>':'';
+
+ const t3=d.t3Review;
+ const q3Html=t3
+  ? (t3.state==='rejected_wrong_document'
+     ? '<aside class="editorial-reserve"><strong>Contrôle 2026-T3 :</strong> un document candidat a été écarté. Il ne constitue pas un bulletin trimestriel admissible ; aucune métrique n’a été réutilisée.</aside>'
+     : '<section class="editorial-section"><h2>Bulletin 2026-T3 : preuves par indicateur</h2>'+
+       '<p>Document identifié mais analyse trimestrielle non encore certifiée. Le bilan comparatif ci-dessus demeure celui de '+escape(d.period)+'.</p>'+
+       (t3.verifiedFields.length
+        ? '<ul>'+t3.verifiedFields.slice(0,8).map(f=>'<li>'+escape(f.metric.replace(/_/g,' '))+' : '+escape(Number(f.value).toLocaleString('fr-FR'))+' '+escape(f.unit||'')+' (preuve page '+escape(f.page)+')</li>').join('')+'</ul>'
+        : '<p>Aucun indicateur T3 n’est encore publiable sur preuve documentaire individualisée.</p>')+
+       (t3.sourceUrl?'<p><a href="'+escape(t3.sourceUrl)+'" target="_blank" rel="noopener noreferrer nofollow">Consulter le bulletin officiel T3</a></p>':'')+
+       '<p class="editorial-reserve">Les variations et les chiffres en conflit restent en revue ; aucun indicateur non prouvé n’est présenté comme certifié.</p></section>')
+  : '';
+
  const html='<main class="editorial-report"><nav><a href="/">MaximusSCPI</a> / <a href="/actualites/">Actualités</a> / '+escape(d.name)+'</nav>'+
  '<p class="editorial-kicker">Veille documentée · '+escape(d.period)+'</p><h1>'+escape(d.headline)+'</h1><p class="editorial-lead">'+escape(d.lead)+'</p>'+
- (reserve?'<aside class="editorial-reserve">'+escape(reserve)+'. Les variations non certifiées ne sont pas publiées.</aside>':'')+newer+
+ (reserve?'<aside class="editorial-reserve">'+escape(reserve)+'. Les variations non certifiées ne sont pas publiées.</aside>':'')+newer+q3Html+
  sections+(events.length?'<section><h2>Communications officielles associées</h2><ul>'+events.join('')+'</ul></section>':'')+
  '<p><a href="'+escape(d.sourceUrl)+'" target="_blank" rel="noopener noreferrer nofollow">Consulter le document source de '+escape(d.period)+'</a></p>'+
  '<p class="editorial-legal">Analyse documentaire, non personnalisée. Les SCPI comportent des risques de perte en capital et de liquidité.</p></main>'+
