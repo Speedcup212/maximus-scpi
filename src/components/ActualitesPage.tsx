@@ -31,8 +31,11 @@ import newsJson from '../../data/news/scpi-investment-news-latest.json';
 import sourcesJson from '../../data/scpi-investment-news-sources.json';
 // Liste complète de toutes les SCPI du projet (63+ entrées)
 import scpiCompletRaw from '../data/scpi_complet.json';
+import certifiedCohort from '../data/certified_scpi_cohort.json';
+import { getScpiEditorialDossier, SCPI_EDITORIAL_COUNT, ScpiEditorialArticle } from './ScpiEditorialArticle';
 import { supabase } from '../supabaseClient';
 import { newsExcerpt, newsHeadline, pickFeaturedNews, sortNewsByPublication, withoutFeaturedNews } from '../utils/actualitesPresentation';
+import { isNewsEditoriallyValid } from '../utils/scpiNewsEditorialGate.mjs';
 
 function publicOfficialSourceUrl(sourceUrl?: string): string | null {
   try {
@@ -48,6 +51,7 @@ function publicOfficialSourceUrl(sourceUrl?: string): string | null {
 const isPublishableNews = (item: InvestmentNewsItem) =>
   item.sourceOfficial === true && item.investmentRelated === true &&
   item.dataQuality !== 'weak' && Number(item.editorialPriority) > 0 &&
+  isNewsEditoriallyValid(item) &&
   Boolean(publicOfficialSourceUrl(item.sourceUrl));
 
 const ALL_NEWS: InvestmentNewsItem[] = Array.isArray(newsJson)
@@ -79,7 +83,8 @@ for (const s of sourcesJson as Array<{ slug: string; name: string; enabled: bool
   });
 }
 
-/** Liste COMPLÈTE de toutes les SCPI du projet (63 unique) */
+/** Le journal éditorial concerne les 69 SCPI certifiées, pas les sources périphériques. */
+const trackedEditorialSlugs = new Set(certifiedCohort.slugs);
 const TRACKED_SCPIS: TrackedScpi[] = (() => {
   const seen = new Set<string>();
   const list: TrackedScpi[] = [];
@@ -89,6 +94,7 @@ const TRACKED_SCPIS: TrackedScpi[] = (() => {
     seen.add(name);
     const company = (entry['Société de gestion'] as string) || '';
     const slug = createSlugFromName(name);
+    if (!trackedEditorialSlugs.has(slug)) continue;
     // Détermine le statut à partir du fichier sources
     const src = sourceByName.get(name.toLowerCase()) || sourceByName.get(company.toLowerCase());
     const hasSourceUrl = src?.hasUrl;
@@ -336,7 +342,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             portfolioContext: row.portfolio_context || '',
             maximusAnalysis: row.maximus_analysis || '',
             sourceDocumentLabel: row.source_document_label || '',
-            date: row.published_date || (row.detected_at ? row.detected_at.slice(0, 10) : ''),
+            date: row.published_date || '', // Une date de détection ne vaut jamais publication officielle.
             detectedAt: row.detected_at || '',
             investmentRelated: true,
             dataQuality: row.data_quality || 'standard',
@@ -571,14 +577,14 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             ? `${selectedArticle.title} | MaximusSCPI`
             : selectedWatchScpi
             ? `Actualités et acquisitions ${selectedWatchScpi.name} | MaximusSCPI`
-            : 'Derniers investissements immobiliers des SCPI | MaximusSCPI'
+            : 'Actualités des 69 SCPI : bulletins, acquisitions et analyses | MaximusSCPI'
         }
         description={
           selectedArticle
             ? selectedArticle.summary
             : selectedWatchScpi
             ? `Suivez la veille des acquisitions et investissements immobiliers de la SCPI ${selectedWatchScpi.name}, avec les sources officielles contrôlées par MaximusSCPI.`
-            : 'Suivez les immeubles, actifs et portefeuilles récemment acquis par les SCPI. Lecture claire par société, secteur et localisation.'
+            : 'Consultez 69 bilans SCPI documentés : derniers bulletins analysés, évolutions certifiées, acquisitions, risques et liquidité.'
         }
         keywords={['investissements SCPI', 'acquisitions SCPI', 'immeubles SCPI', 'actualité immobilière SCPI']}
         canonical={
@@ -622,14 +628,14 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                 ? selectedArticle.title
                 : selectedWatchScpi
                 ? `Actualités et acquisitions de ${selectedWatchScpi.name}`
-                : 'Derniers investissements immobiliers des SCPI'}
+                : 'Actualités SCPI : bulletins, acquisitions et risques'}
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto">
               {selectedArticle
                 ? `${selectedArticle.scpi} · ${formatDate(selectedArticle.date)} · article MaximusSCPI`
                 : selectedWatchScpi
-                ? `Veille immobilière mise à jour automatiquement à partir des sources officielles de ${selectedWatchScpi.managementCompany || 'la société de gestion'}.`
-                : 'Suivez les immeubles, actifs et portefeuilles récemment acquis par les SCPI, avec une lecture claire par société, secteur et localisation.'}
+                ? `Veille immobilière issue des sources disponibles de ${selectedWatchScpi.managementCompany || 'la société de gestion'}. Dernier contrôle et statut précisés ci-dessous.`
+                : 'Découvrez les analyses documentées de 69 SCPI : indicateurs, évolutions certifiées, acquisitions et points de vigilance, avec leurs sources.'}
             </p>
           </div>
         </section>
@@ -955,10 +961,10 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
           <section id="actualites-suivi-scpi" className="mt-14 mb-14 scroll-mt-28">
             <div className="text-center mb-6">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                Suivi des SCPI
+                Dossiers d'actualités des {SCPI_EDITORIAL_COUNT} SCPI
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
-                Veille automatisée quotidienne des sources officielles. Le statut de chaque SCPI indique le dernier contrôle réellement effectué.
+                Analyses documentaires : évolutions certifiées, patrimoine, valorisation et risques. Une absence d'événement nouveau n'est jamais remplacée par une information inventée.
               </p>
             </div>
 
@@ -967,11 +973,11 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
                 <Building2 className="w-3.5 h-3.5" />
                 <span className="font-semibold">{filteredScpis.length}</span> SCPI
-                {searchQuery ? ' trouvée' : 's'} suivie{filteredScpis.length > 1 ? 's' : ''}
+                {filteredScpis.length > 1 ? ' documentées' : ' documentée'}
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300">
                 <TrendingUp className="w-3.5 h-3.5" />
-                <span className="font-semibold">{totalAcquisitions}</span> acquisition{totalAcquisitions > 1 ? 's' : ''} détectée{totalAcquisitions > 1 ? 's' : ''}
+                <span className="font-semibold">{totalAcquisitions}</span> acquisition{totalAcquisitions > 1 ? 's' : ''} publiée{totalAcquisitions > 1 ? 's' : ''}
               </span>
               {scpisWithAcquisitions > 0 && (
                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300">
@@ -1013,7 +1019,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                 <button type="button" onClick={() => setShowAllScpis((open) => !open)}
                   aria-expanded={showAllScpis}
                   className="rounded-xl border border-emerald-500 px-5 py-3 font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
-                  {showAllScpis ? 'Réduire la liste' : `Afficher les ${filteredScpis.length} SCPI suivies`}
+                  {showAllScpis ? 'Réduire la liste' : `Afficher les ${filteredScpis.length} dossiers SCPI`}
                 </button>
               </div>
             )}
@@ -1094,6 +1100,8 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                     </p>
                   )}
 
+                  <ScpiEditorialArticle slug={selectedWatchScpi.slug} />
+
                   <div className="flex flex-wrap gap-3 mt-6">
                     {onScpiPageClick && (
                       <button
@@ -1136,6 +1144,7 @@ const ScpiCard: React.FC<{
   const isIncomplete = scpi.status === 'incomplete';
   const isError = scpi.status === 'error';
   const latest = scpi.latest;
+  const report = getScpiEditorialDossier(scpi.slug);
 
   const AssetIcon = latest ? (ASSET_TYPE_ICON_MAP[latest.assetType] || Building) : Building;
 
@@ -1246,17 +1255,24 @@ const ScpiCard: React.FC<{
         )}
       </div>
 
+      {report && (
+        <div className="mt-4 rounded-lg border border-gray-700/30 bg-gray-900/25 p-3">
+          <p className="text-xs font-semibold text-emerald-300">Point documentaire {report.period}</p>
+          <p className="mt-1 text-xs leading-relaxed text-gray-300 line-clamp-3">{report.lead}</p>
+          {!report.comparisonCertified && <p className="mt-1.5 text-[11px] text-amber-300">Historique sous réserves</p>}
+        </div>
+      )}
       {isAcquisition ? (
         <div className="mt-3 pt-2 border-t border-gray-700/30">
           <span className="text-[11px] text-emerald-400 font-medium flex items-center gap-1 group-hover:text-emerald-300 transition-colors">
-            Voir les acquisitions
+            Lire les acquisitions et le dossier
             <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </span>
         </div>
       ) : (
         <div className="mt-3 pt-2 border-t border-gray-700/30">
           <span className="text-[11px] text-gray-500 font-medium flex items-center gap-1 group-hover:text-gray-400 transition-colors">
-            Voir le suivi
+            Lire le dossier d'actualités
             <ArrowUpRight className="w-3 h-3 opacity-40 group-hover:opacity-60 transition-opacity" />
           </span>
         </div>
