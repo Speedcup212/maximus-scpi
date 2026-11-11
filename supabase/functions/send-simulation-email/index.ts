@@ -6,7 +6,8 @@
 //   - form_type = lead_simulation_email, ligne de moins de 15 minutes, envoi unique ;
 //   - au plus 3 envois par adresse sur 24 heures ;
 //   - valeurs numériques bornées, aucun texte libre à part le prénom nettoyé (40 caractères).
-// Secrets : BREVO_API_KEY, BREVO_SIM_TEMPLATE_ID, BREVO_SIM_LIST_ID, SIM_REPLY_TO.
+// Secret obligatoire : BREVO_API_KEY.
+// Facultatifs (priment sur les valeurs par défaut ci-dessous) : BREVO_SIM_TEMPLATE_ID, BREVO_SIM_LIST_ID, SIM_REPLY_TO.
 // Aucune donnée personnelle n'est renvoyée dans la réponse ni écrite dans les journaux.
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
@@ -28,6 +29,11 @@ const ALLOWED_ORIGINS = new Set([
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const BREVO_API = "https://api.brevo.com/v3";
+
+// Objets Brevo créés le 11/11/2026 pour RECOVERY-201 (modèle n° 6, liste n° 6).
+const DEFAULT_TEMPLATE_ID = 6;
+const DEFAULT_LIST_ID = 6;
+const DEFAULT_REPLY_TO = "eric.bellaiche@maximusscpi.com";
 
 function corsHeaders(origin: string | null): Record<string, string> {
   return {
@@ -127,9 +133,9 @@ Deno.serve(async (req) => {
   }
 
   const brevoApiKey = Deno.env.get("BREVO_API_KEY");
-  const templateId = Number(Deno.env.get("BREVO_SIM_TEMPLATE_ID"));
-  const listId = Number(Deno.env.get("BREVO_SIM_LIST_ID"));
-  const replyTo = Deno.env.get("SIM_REPLY_TO");
+  const templateId = Number(Deno.env.get("BREVO_SIM_TEMPLATE_ID") ?? DEFAULT_TEMPLATE_ID);
+  const listId = Number(Deno.env.get("BREVO_SIM_LIST_ID") ?? DEFAULT_LIST_ID);
+  const replyTo = Deno.env.get("SIM_REPLY_TO") ?? DEFAULT_REPLY_TO;
   const missing = [
     !brevoApiKey && "BREVO_API_KEY",
     !(templateId > 0) && "BREVO_SIM_TEMPLATE_ID",

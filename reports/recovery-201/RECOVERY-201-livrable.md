@@ -4,12 +4,18 @@ Date : 11/11/2026 · Branche : `recovery-201-capture-simulation` · Cadrage : `d
 
 État : **EN COURS**. Le code est prêt et testé.
 
-Déployé le 11/11/2026 vers 9 h 45 (Supabase, projet ygvsddcpohsnaowofuwc) :
+Déployé et configuré le 11/11/2026 (Supabase, projet ygvsddcpohsnaowofuwc, et Brevo) :
 - migration `recovery201_simulation_email_capture` appliquée (colonnes et index vérifiés en base) ;
-- fonction `send-simulation-email` version 1, sans vérification JWT ;
-- fonction `calendly-webhook` version 3, sans vérification JWT (ajout de `RDV_PRIS` uniquement).
+- fonction `send-simulation-email` version 3, sans vérification JWT. Modèle Brevo n° 6, liste n° 6 et adresse de réponse `eric.bellaiche@maximusscpi.com` par défaut (les secrets du même nom, s'ils sont créés, priment) ;
+- fonction `calendly-webhook` version 3, sans vérification JWT (ajout de `RDV_PRIS` uniquement) ;
+- secret `BREVO_API_KEY` ajouté par Eric dans Supabase (nouvelle clé Brevo `supabase-maximusscpi`) ;
+- Brevo, via une fonction ponctuelle protégée par jeton (`brevo-setup-recovery201`, neutralisée ensuite : elle répond 410 et peut être supprimée) :
+    - expéditeur vérifié : Eric Bellaiche, `eric.bellaiche@maximusscpi.com`, actif ;
+    - attributs créés : `PRENOM`, `TRANCHE_MONTANT`, `MONTANT_50K`, `SOURCE_PAGE`, `CONSENT_DATE`, `RDV_PRIS` ;
+    - liste n° 6 « Simulateur SCPI – séquence » ;
+    - modèle transactionnel n° 6 « RECOVERY-201 – Votre simulation SCPI », actif, objet « Votre simulation SCPI ».
 
-Pas encore fait : secrets `BREVO_SIM_TEMPLATE_ID`, `BREVO_SIM_LIST_ID` et `SIM_REPLY_TO`, configuration Brevo, front (pull request non fusionnée).
+Pas encore fait : front (pull request non fusionnée), automatisation des emails 2 à 4 (textes à valider).
 
 ## Fichiers
 
@@ -58,26 +64,14 @@ Rendu vérifié :
 - **Attributs Brevo à créer avant la mise en ligne** (voir étape 1 ci-dessous). *À vérifier :* le comportement de l'API si un attribut n'existe pas.
 - **Règle de gouvernance.** Ce chantier déroge à AGENTS.md (nouveau chantier produit, RECOVERY-200 encore ouverte). Ouverture décidée par Eric, tracée dans `tasks/backlog.md`.
 
-## À faire par Eric, dans cet ordre
+## À faire, dans cet ordre
 
-1. **Brevo**
-    - Créer les attributs de contact : `TRANCHE_MONTANT` (texte), `MONTANT_50K` (booléen), `SOURCE_PAGE` (texte), `CONSENT_DATE` (date), `RDV_PRIS` (booléen). `PRENOM` existe déjà.
-    - Créer la liste « Simulateur SCPI – séquence » et noter son identifiant.
-    - Créer le modèle transactionnel de l'email 1 (texte proposé ci-dessous) et noter son identifiant.
-    - Créer l'automatisation des emails 2 à 4 (J+2, J+5, J+9) : déclenchée par l'ajout à la liste, avec une sortie si `RDV_PRIS` est vrai ou si le tag « RÉPONDU » est présent.
-2. **Migration :** demander à Claude de l'appliquer seule, ou passer par Supabase, SQL Editor, puis coller le fichier de migration et lancer Run. Ne pas utiliser `supabase db push`.
-3. **Secrets et fonctions :**
+1. **Front :** fusionner la pull request en squash avec un titre contenant `[deploy]`, par exemple `[deploy] RECOVERY-201: capture email apres simulation`.
+2. **Contrôle post-release :** sur `/simulateur-scpi/?utm_source=test_eric`, faire un envoi sans la case puis un avec la case, à 100 000 €. Vérifier ensuite la boîte de réception, `contact_submissions` (`confirmation_sent_at`, `confirmation_error`) et la liste Brevo n° 6.
+3. **Emails 2 à 4 :** valider les textes, puis créer l'automatisation Brevo (déclenchée par l'ajout à la liste n° 6, sortie si `RDV_PRIS` est vrai ou si le tag « RÉPONDU » est présent). D'ici là, les contacts qui cochent la case restent dans la liste sans recevoir d'email.
+4. **Hors RECOVERY-201, à traiter à part :** les deux anciennes clés Brevo (« Maximus », désactivée ; « API_BREVO », en lecture seule) ne peuvent pas envoyer. Si Netlify utilise l'une d'elles, l'email de bienvenue et les réponses aux demandes d'accès ne partent plus (à vérifier dans les journaux Netlify).
 
-```bash
-supabase secrets set BREVO_SIM_TEMPLATE_ID=<id> BREVO_SIM_LIST_ID=<id> SIM_REPLY_TO=<ton-email> --project-ref ygvsddcpohsnaowofuwc
-supabase functions deploy send-simulation-email --no-verify-jwt --project-ref ygvsddcpohsnaowofuwc
-supabase functions deploy calendly-webhook --no-verify-jwt --project-ref ygvsddcpohsnaowofuwc
-```
-
-4. **Front :** fusionner la pull request en squash avec un titre contenant `[deploy]`, par exemple `[deploy] RECOVERY-201: capture email apres simulation`.
-5. **Contrôle post-release :** sur `/simulateur-scpi/?utm_source=test_eric`, faire un envoi sans la case puis un avec la case, à 100 000 €. Vérifier ensuite la boîte de réception, `contact_submissions` (`confirmation_sent_at`) et la liste Brevo.
-
-## Email 1 proposé pour le modèle Brevo (objet : « Votre simulation SCPI »)
+## Email 1 (texte du modèle Brevo n° 6, objet : « Votre simulation SCPI »)
 
 ```text
 {% if params.PRENOM %}Bonjour {{ params.PRENOM }},{% else %}Bonjour,{% endif %}
