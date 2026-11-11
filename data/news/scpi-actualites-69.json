@@ -1810,7 +1810,11 @@
       "sourceDocument": "Bulletin officiel n°9 T2 2026",
       "sourceQa": "manual_verified_official_pdf_sha256_page",
       "certifiedAt": "2026-10-31 11:12:28.973269+00",
-      "moreRecentBulletin": null,
+      "moreRecentBulletin": {
+        "period": "2026-T3",
+        "url": "https://edr-europa.com/wp-content/uploads/2026/10/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-3T-2026.pdf",
+        "qaStatus": "needs_review_issuer_pdf_sha_pending"
+      },
       "sections": [
         {
           "heading": "Faits marquants 2026-T1 → 2026-T2",
@@ -1861,7 +1865,19 @@
       ],
       "linkedEvents": [],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source.",
-      "t3Review": null
+      "t3Review": {
+        "period": "2026-T3",
+        "state": "field_verified_analysis_pending",
+        "sourceUrl": "https://edr-europa.com/wp-content/uploads/2026/10/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-3T-2026.pdf",
+        "sourceQa": "needs_review_issuer_pdf_sha_pending",
+        "blockingReasons": [
+          "Bulletin d'information T3 retrouvé sur le domaine officiel de la société de gestion ; le fichier original et son empreinte SHA256 restent à contrôler",
+          "Aucune extraction de métrique T3 n'est vérifiée pour ce bulletin",
+          "Certification globale et comparaison T2-T3 interdites avant rapprochement du PDF"
+        ],
+        "verifiedFields": [],
+        "certifiedQuarter": false
+      }
     },
     {
       "slug": "efimmo-1",
