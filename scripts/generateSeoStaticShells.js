@@ -224,25 +224,23 @@ for (const page of PAGES) {
   fs.writeFileSync(target,html,'utf-8');
   generated++;
 }
-// Unknown /actualites/:slug/ paths return 404, while existing static news pages
-// shadow the UNFORCED guard. Preserve the SPA fallback byte-for-byte.
+// Les actualités dynamiques Supabase sont routées côté React.
+// Une règle /actualites/* 404 casserait les liens directs d'articles vérifiés
+// après rechargement. On supprime uniquement ce garde historique et l'on
+// conserve le fallback SPA d'origine pour les URL non statiques.
 const redirectFile = path.join(distDir, '_redirects');
 if (!fs.existsSync(redirectFile)) {
   throw new Error('Missing generated _redirects: cannot guarantee correct routing');
 }
 let rules = fs.readFileSync(redirectFile, 'utf8');
-const unknownNewsGuard = '/actualites/* /404.html 404';
+const oldRules = rules;
+rules = rules.split(/\r?\n/).filter((line) =>
+  !/^\s*\/actualites\/\*\s+\/404\.html\s+404\s*$/.test(line)
+).join('\n');
 const spaFallback = /^\/\*\s+\/index\.html\s+200\s*$/m;
 if (!spaFallback.test(rules)) {
   throw new Error('SPA fallback missing: refuse to ship invalid Netlify redirects');
 }
-if (!rules.split(/\r?\n/).some(line => line.trim() === unknownNewsGuard)) {
-  rules = rules.replace(spaFallback, original => unknownNewsGuard + '\n' + original);
-  fs.writeFileSync(redirectFile, rules, 'utf8');
-}
-if (rules.indexOf(unknownNewsGuard) < 0 ||
-    rules.indexOf(unknownNewsGuard) > rules.search(spaFallback)) {
-  throw new Error('Unknown-news 404 must precede unchanged SPA fallback');
-}
+if (oldRules !== rules) fs.writeFileSync(redirectFile, rules, 'utf8');
 console.log(`✅ Rattrapage SEO statique : ${generated} pages générées, ${skipped} déjà couvertes.`);
 if (generated + skipped !== PAGES.length) process.exit(1);
