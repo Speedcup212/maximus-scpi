@@ -57,7 +57,7 @@ Rendu vérifié :
 
 ## Limites
 
-- **Pixel d'ouverture.** Même avec le réglage Brevo, un suivi agrégé (non nominatif) des ouvertures peut subsister. *À vérifier* dans la documentation Brevo, et à confronter à l'exemption prévue par la recommandation CNIL du 14/04/2026 (mesure agrégée).
+- **Pixel d'ouverture.** Avec le réglage Brevo activé, `contactPixelTrackingConsent: false` rend l'ouverture anonyme : elle n'est comptée que dans les statistiques agrégées (changelog Brevo du 20/07/2026). *À vérifier* : que cette mesure agrégée entre bien dans l'exemption prévue par la recommandation CNIL du 14/04/2026. Pour les emails 2 à 4 (automatisation), seuls les contacts dont l'attribut `_PIXEL_TRACKING_CONSENT` vaut Oui sont suivis ; nos contacts ne l'ont pas, donc ne sont pas suivis individuellement.
 - **Texte de la case v2.** Les lignes déjà enregistrées en `sim-email-v1` (tests d'Eric uniquement) ne couvrent pas les propositions de rendez-vous.
 - **Fonctions Supabase non vérifiées avec Deno.** Deno n'est pas installé ici. Seule la logique (`logic.ts`) est testée. Le reste suit le même modèle que `calendly-webhook`.
 - **Build complet non lancé.** `npm run build` (préchargement Puppeteer et pages statiques) ne l'a pas été, seulement `npx vite build`. La CI GitHub et Netlify le lanceront.
