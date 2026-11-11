@@ -1,5 +1,15 @@
 # Backlog — MaximusSCPI Recovery
 
+## RECOVERY-202 — Exécution documentaire de bout en bout (11/11/2026)
+
+Mission explicitement autorisée par Eric : auditer et réparer les agents et workflows existants, tester bulletin → Supabase → fiche, intégrer et déployer uniquement les corrections validées. P0 actif de cette intervention, sans nouvel orchestrateur. Branche isolée `fix/recovery-202-documentary-execution-20261111`, issue du commit de production `8535b1c02f86c13c306fcc249ee797abede2d6c2` ; cette autorisation remplace les anciens gels de release pour ce seul périmètre.
+
+Périmètre : droit d'exécution du prédicat privé de contrôle TOF pour `service_role` ; registre privé du domaine officiel Advenis ; reprise OCR des originaux déjà archivés avec contrôle de bail, source, taille et SHA-256 ; tests, workflows existants et preuves de recette. Aucun changement des seuils financiers, aucune promotion de candidat ni de faux PASS. Le watchdog est conservé.
+
+Erreurs reproduites : CORUM `42501 permission denied for function tof_explicit_vacancy_conflict` (transaction annulée) ; manifestes Advenis refusés car domaine absent du registre ; OCR PAREF bloqué au téléchargement chez l'émetteur, originaux présents dans Storage. Avec le seul GRANT ciblé en transaction annulée, CORUM T3 retourne `ok=true, unchanged`.
+
+État : EN COURS. Tests locaux, CI exacte, écritures réelles contrôlées et consommation en production à consigner avant clôture.
+
 > Ordre strict. Aucun chantier ne saute la file sans défaut P0 de production.
 > WIP = 1.
 

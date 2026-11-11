@@ -11,6 +11,8 @@ on:
       - ".github/workflows/maximus-scpi-ocr.yml"
       - "scripts/agents/scpi_ocr_worker.py"
       - "scripts/agents/ocrIdentityQuarantine.test.mjs"
+      - "scripts/agents/ocrArchiveBridge.test.mjs"
+      - "scripts/agents/ocr_archive_test.py"
       - "supabase/functions/maximus-scpi-ocr-oidc/index.ts"
       - "supabase/migrations/20261016_ocr_permanent_identity_quarantine.sql"
   pull_request:
@@ -19,6 +21,8 @@ on:
       - ".github/workflows/maximus-scpi-ocr.yml"
       - "scripts/agents/scpi_ocr_worker.py"
       - "scripts/agents/ocrIdentityQuarantine.test.mjs"
+      - "scripts/agents/ocrArchiveBridge.test.mjs"
+      - "scripts/agents/ocr_archive_test.py"
       - "supabase/functions/maximus-scpi-ocr-oidc/index.ts"
       - "supabase/migrations/20261016_ocr_permanent_identity_quarantine.sql"
 
@@ -60,7 +64,9 @@ jobs:
         run: python scripts/agents/scpi_ocr_worker.py --self-test
 
       - name: Verify identity quarantine contract against worker and OIDC bridge
-        run: node --test scripts/agents/ocrIdentityQuarantine.test.mjs
+        run: |
+          node --test scripts/agents/ocrIdentityQuarantine.test.mjs scripts/agents/ocrArchiveBridge.test.mjs
+          python -m unittest discover -s scripts/agents -p 'ocr_archive_test.py' -v
 
       - name: OCR one queued official SCPI PDF through restricted OIDC bridge
         if: github.event_name != 'pull_request'

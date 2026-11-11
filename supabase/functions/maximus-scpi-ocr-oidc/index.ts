@@ -29,6 +29,48 @@ Deno.serve(async(req:Request)=>{
 
   try{
     const body=await req.json().catch(()=>({}));
+    if(body.op==="original"){
+      const t=body.task||{};
+      if(!validStr(t.slug,100)||!validStr(t.period,16)||
+         t.kind!=="quarterly_bulletin"||
+         !/^[0-9a-f-]{36}$/i.test(String(t.lease_token||"")))
+        return fail(t.kind==="annual_report"?404:400,"no_eligible_original");
+      const [job]=await sql`select d.direct_document_url as url
+        from maximus_agents.scpi_ocr_jobs j
+        join maximus_agents.scpi_candidate_document_index d
+          using(scpi_slug,source_period,document_kind)
+        where j.scpi_slug=${t.slug} and j.source_period=${t.period}
+          and j.document_kind=${t.kind} and j.status='running'
+          and j.lease_token=${t.lease_token}::uuid
+          and j.claimed_at>now()-interval '45 minutes'`;
+      if(!job||job.url!==t.url)return fail(409,"stale_or_invalid_lease");
+      const [file]=await sql`select b.pdf_path,b.pdf_sha256,
+          o.metadata->>'size' as archive_bytes
+        from public.scpi_bulletins b
+        join storage.objects o on o.bucket_id='scpi-bulletins' and o.name=b.pdf_path
+        where b.scpi_slug=${t.slug} and b.period=${t.period}
+          and b.source_url=${job.url}`;
+      if(!file)return fail(404,"original_not_archived");
+      const size=Number(file.archive_bytes);
+      if(!/^[0-9a-f]{64}$/.test(String(file.pdf_sha256||""))||
+         file.pdf_path!==t.slug+'/'+t.period+'/'+file.pdf_sha256+'.pdf'||
+         !Number.isSafeInteger(size)||size<1024||size>20000000)
+        return fail(422,"archive_metadata_invalid");
+      const secret=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+      if(!secret)return fail(503,"private_storage_unavailable");
+      const url="https://ygvsddcpohsnaowofuwc.supabase.co/storage/v1/object/authenticated/scpi-bulletins/"
+        +file.pdf_path.split('/').map(encodeURIComponent).join('/');
+      const response=await fetch(url,{headers:{apikey:secret,Authorization:'Bearer '+secret},
+        redirect:'error',signal:AbortSignal.timeout(20000)});
+      if(!response.ok)return fail(424,"archive_inaccessible");
+      const bytes=await response.arrayBuffer();
+      const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)))
+        .map(x=>x.toString(16).padStart(2,'0')).join('');
+      if(bytes.byteLength!==size||hash!==file.pdf_sha256)
+        return fail(422,"archive_sha_or_size_changed");
+      return new Response(bytes,{headers:{'Content-Type':'application/pdf',
+        'Cache-Control':'no-store','X-Original-Sha256':hash}});
+    }
     if(body.op==="claim"){
       await sql`SELECT * FROM maximus_agents.scpi_ocr_seed_backlog(12)`;
       // A native extraction or certified financial record can arrive after
