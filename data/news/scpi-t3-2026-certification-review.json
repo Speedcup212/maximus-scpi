@@ -1,0 +1,978 @@
+{
+  "asOf": "2026-11-11",
+  "candidates": 22,
+  "validBulletins": 19,
+  "rejectedDocuments": 3,
+  "methodology": "Les champs affichables disposent de preuves paginées sur le même bulletin. Leur certification individuelle ne certifie ni le document entier ni les tendances trimestrielles. Les analyses certifiées antérieures restent inchangées.",
+  "items": [
+    {
+      "slug": "aestiam-horizon",
+      "name": "Aestiam Horizon",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "7cd577d3-9d24-4005-ae2b-eae7ce29c529",
+      "sourceUrl": "https://www.aestiam.com/doc/horizon/periodique/2026-3t-bti-aestiam-horizon.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "c77dc6259fc2e7731db341a4dc7db8475653b77ebe7be98ad42ae3ac7e588309",
+      "foundAt": "2026-11-11 05:30:05.799+00",
+      "extractedMetricCount": 17,
+      "verifiedFields": [
+        {
+          "metric": "walb",
+          "value": 4.45,
+          "unit": "ans",
+          "page": 3,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "T3 2026 Europe 12 % Dont : 9 % Luxembourg 1 % Allemagne 2 % Belgique 2,81 ans Durée moyenne restante des baux avant les prochaines possibilités de résiliation par les locataires. WALB 4,45 ans Durée moyenne restante des baux avant leur échéance final"
+        },
+        {
+          "metric": "tof",
+          "value": 87,
+          "unit": "%",
+          "page": 3,
+          "method": "issuer_pdf_page_text_verified_against_TopAndTOF",
+          "verifiedAt": "2026-10-28T10:35:45.43246+00:00",
+          "proof": "TOF 87,00 % au 30/09/2026 (page 3). 13,00 % de locaux vacants. 81,12 % de locaux occupés, 3,81 % sous franchise, 0,31 % vacants sous promesse de vente, 1,76 % en restructuration; 81,12 % n est pas le TOF. Bulletin SHA256 c77dc6259fc2e7731db341a4dc7db"
+        },
+        {
+          "metric": "nombre_parts",
+          "value": 1063310,
+          "unit": "parts",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "025 350 € 315,86 € 342,16 € 286,64 € Prix de souscription (€/part) LES MOUVEMENTS DE PARTS 2025 T1 2026 T2 2026 T3 2026 T4 2026 Nombre total de parts 1 086 498 1 081 733 1 068 462 1 063 310 Nombre de parts souscrites 6 498 3 129 1 550 548 Retrait en "
+        },
+        {
+          "metric": "prix_retrait",
+          "value": 315,
+          "unit": "€",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "48 € VALEUR DE RÉFÉRENCE PAR PART DÉLAI DE JOUISSANCE 1 er jour du mois suivant l'enregistrement de la souscription 0 mois Le marché des parts . T3 2026 350 € Prix de souscription 315 € Prix de retrait 8 157 Nombre d'associés 372 M€ Capitalisation Le"
+        },
+        {
+          "metric": "capitalisation",
+          "value": 372,
+          "unit": "M€",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "ISSANCE 1 er jour du mois suivant l'enregistrement de la souscription 0 mois Le marché des parts . T3 2026 350 € Prix de souscription 315 € Prix de retrait 8 157 Nombre d'associés 372 M€ Capitalisation Les chiffres clés . au 30/09/2026 Définitions di"
+        },
+        {
+          "metric": "prix_reconstitution",
+          "value": 343.33,
+          "unit": "€",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "5 au 30/06/2026 Valeur de réalisation ........................................... 283,55 € Valeur de reconstitution .................................... 343,33 € au 31/12/2025 Valeur IFI résident ............................................... 306,00"
+        },
+        {
+          "metric": "nombre_associes",
+          "value": 8157,
+          "unit": "associés",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "CE PAR PART DÉLAI DE JOUISSANCE 1 er jour du mois suivant l'enregistrement de la souscription 0 mois Le marché des parts . T3 2026 350 € Prix de souscription 315 € Prix de retrait 8 157 Nombre d'associés 372 M€ Capitalisation Les chiffres clés . au 3"
+        },
+        {
+          "metric": "prix_souscription",
+          "value": 350,
+          "unit": "€",
+          "page": 1,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "Définitions disponibles dans le lexique à la fin du bulletin. ℹ 5,10 % Taux de distribution 2025 8,63 % Taux de Rendement Interne à 20 ans 5,10 % Performance Globale Annuelle 2025 350 € Prix de souscription au 30/09/2026 LES CHIFFRES CLÉS Source : Ae"
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "alta-convictions",
+      "name": "Alta Convictions",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "0eb15f22-6094-48c6-af4e-a64ddee34217",
+      "sourceUrl": "https://altarea-im.com/wp-content/uploads/2026/10/06102026_ALTA_BUL_TRIMESTRIEL_T3_26_PPP_WEB.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "b0e55e0606feb657e11fc12e05b6938422e72c64b07ba3d07a838f483113bf37",
+      "foundAt": "2026-11-10 22:31:16.246846+00",
+      "extractedMetricCount": 0,
+      "verifiedFields": [
+        {
+          "metric": "prix_souscription",
+          "value": 308,
+          "unit": "EUR_PER_PART",
+          "page": 6,
+          "method": "pdf_page_text_match_dual_mupdf_poppler",
+          "verifiedAt": "2026-11-10T22:31:16.246846+00:00",
+          "proof": "SHA256=b0e55e0606feb657e11fc12e05b6938422e72c64b07ba3d07a838f483113bf37; reference_date=2026-09-30; MuPDF=308€ Prix de souscription; Poppler=308€ Prix de souscription"
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction automatique chiffrée vide",
+        "Extraction partielle : revue documentaire nécessaire",
+        "Conflits détectés sur certains champs extraits"
+      ],
+      "conflicts": [
+        "new_field_numeric_review:tof",
+        "new_field_numeric_review:nombre_parts"
+      ]
+    },
+    {
+      "slug": "atream-hotel",
+      "name": "Atream Hôtels",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "97afbd39-066d-4f90-936d-96a6e8a3310a",
+      "sourceUrl": "https://atream.com/wp-content/uploads/2020/07/Bulletin-N2026_3T-SCPI_Atream_Hotels_WEB_10-PAGES.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "9d14845c524f53e72412952de654eb4ed0c2d85264224109bf9e0a1a94fe3ff0",
+      "foundAt": "2026-10-31 20:00:04.781+00",
+      "extractedMetricCount": 13,
+      "verifiedFields": [
+        {
+          "metric": "capitalisation",
+          "value": 330,
+          "unit": "M€",
+          "page": 2,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-10-30T12:45:19.77238+00:00",
+          "proof": "(5) Valeur de reconstitution (1) 1 059,54 € (5) 1 059,54 € (5) Nombre d’associés 6 048 6 195 Nombre de parts 327 606 parts 330 294 parts Capital social 262 084 800 € 264 235 200 € Capitalisation 329 835 500 € 332 780 600 € Ratio d’endettement (6) 22,"
+        },
+        {
+          "metric": "nombre_immeubles",
+          "value": 25,
+          "unit": "immeubles",
+          "page": 3,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-10-30T12:45:19.77238+00:00",
+          "proof": "523 400 € 1 D Hôtel 113 8 390 565 € 1 I Hôtel 216 20 684 895 € Totaux 24 2 867 357 016 823 € Le patrimoine (1) Le patrimoine de la SCPI Atream Hôtels est réparti sur six pays. Les actifs immobiliers du secteur touristique représentent 100 % du patrim"
+        },
+        {
+          "metric": "parts_attente_retrait",
+          "value": 0,
+          "unit": "parts",
+          "page": 1,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-10-30T12:45:19.77238+00:00",
+          "proof": "ée, la SCPI Atream Hôtels offre un portefeuille de 25 actifs dont une participation (non contrôlée) et des solides fondamentaux, caractérisés par une stabilité du prix de sa part, 0 part en attente de retrait, une durée ferme moyenne des baux de 11,8"
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "cristal-life",
+      "name": "Cristal Life",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "47e00ad0-a53f-4031-a0ca-42c2b0ba4d70",
+      "sourceUrl": null,
+      "rejectedSourceUrl": "https://corpocdn.blob.core.windows.net/blobfiles/IGCL_DSPP20261020.pdf",
+      "sourceQa": "invalid_document_kind_not_bulletin",
+      "sourceHash": "be7c84ea510ad440e89987c376736cc55fc963498f3f124ac618a27f9993100a",
+      "foundAt": "2026-11-02 21:00:07.273+00",
+      "extractedMetricCount": 2,
+      "verifiedFields": [],
+      "state": "rejected_wrong_document",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Document non admissible : type de document ou identité SCPI incorrecte"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "cristal-rente",
+      "name": "Cristal Rente",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "c96ca905-f44a-42fa-8bb9-6947a67d8992",
+      "sourceUrl": null,
+      "rejectedSourceUrl": "https://corpocdn.blob.core.windows.net/blobfiles/IGCRPlaquetteComFR20261030.pdf",
+      "sourceQa": "invalid_wrong_document_kind",
+      "sourceHash": "83a5598b60e80f31588eb52e990961b6a4667e40d33e0610b95ddfd48367f239",
+      "foundAt": "2026-11-02 21:30:05.275+00",
+      "extractedMetricCount": 3,
+      "verifiedFields": [],
+      "state": "rejected_wrong_document",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Document non admissible : type de document ou identité SCPI incorrecte"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "epargne-pierre",
+      "name": "Épargne Pierre",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "4f6c8d1f-1f0e-496d-b34b-380bbbc960ff",
+      "sourceUrl": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EP-vdef-web.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "ab652dc2f490ccd8a7ed223bd0afd12a584b99eb46f43b9ea495b149096b94eb",
+      "foundAt": "2026-11-11 06:00:03.836+00",
+      "extractedMetricCount": 13,
+      "verifiedFields": [
+        {
+          "metric": "tof",
+          "value": 94.05,
+          "unit": "%",
+          "page": 2,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "marché des autres locaux non disponibles à la location divisé par le montant total des loyers facturables dans l’hypothèse où l’intégralité du patrimoine de la SCPI serait louée. TOF 94,05 % 16,34 % Sud-Ouest 27,14 % Paris Île-de-France 13,44 % Nord-"
+        },
+        {
+          "metric": "endettement",
+          "value": 10.8,
+          "unit": "%",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": ", un taux d’occupation financier supérieur à 94 %. Elle réunit plus de 53 000 associés, avec une part d’investisseurs institutionnels inférieure à 10% de la capitalisation, et son endettement s’établit à 10,80 %. En 2025, pour la 6 ème année consécut"
+        },
+        {
+          "metric": "nombre_associes",
+          "value": 53497,
+          "unit": "associés",
+          "page": 1,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "de plus-values réalisées. Les revenus ne sont pas garantis et peuvent varier à la hausse comme à la baisse. T3 T1 REVENU DISTRIBUÉ ( €/part) 2,64 € (dont 0,15 € de plus-value) T2 53 497 ASSOCIÉS 762 LOCATAIRES Les performances passées ne préjugent pa"
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "epargne-pierre-europe",
+      "name": "Épargne Pierre Europe",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "d1cf0df6-e268-4e8b-979f-6f07e8d238e2",
+      "sourceUrl": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EPE-vdef-web.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "1aa34456ae6d2b32ef9284913fb774794ebf58d4c8e94afde086d299fe616a29",
+      "foundAt": "2026-10-31 16:00:06.789+00",
+      "extractedMetricCount": 17,
+      "verifiedFields": [],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire",
+        "Aucun champ T3 actuellement prouvé par une pièce paginée liée au bulletin retenu",
+        "Conflits détectés sur certains champs extraits"
+      ],
+      "conflicts": [
+        "prix_retrait"
+      ]
+    },
+    {
+      "slug": "epsicap-nano",
+      "name": "Epsicap Nano",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "2fd87718-cd56-42d2-944d-c6acbf59113a",
+      "sourceUrl": "https://epsicap.fr/app/uploads/2026/11/bulletin-trimestriel-epsicap-nano-t3-2026.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial",
+      "sourceHash": "1f7efa004028d10758149d0dcd97677dc22ad679cf314768e0d682add4a4b3e7",
+      "foundAt": "2026-11-04 00:30:18.725+00",
+      "extractedMetricCount": 9,
+      "verifiedFields": [
+        {
+          "metric": "prix_retrait",
+          "value": 244.15,
+          "unit": "EUR_PER_PART",
+          "page": 4,
+          "method": "pdf_page_text_match_dual_mupdf_poppler",
+          "verifiedAt": "2026-11-04T13:15:27.763556+00:00",
+          "proof": "SHA256=1f7efa004028d10758149d0dcd97677dc22ad679cf314768e0d682add4a4b3e7; reference_date=2026-09-30; MuPDF=Valeur de retrait : 244,15 €; Poppler=Valeur de retrait : 244,15 €"
+        },
+        {
+          "metric": "capitalisation",
+          "value": 227,
+          "unit": "MEUR",
+          "page": 4,
+          "method": "pdf_page_text_match_dual_mupdf_poppler",
+          "verifiedAt": "2026-11-04T13:15:27.763556+00:00",
+          "proof": "SHA256=1f7efa004028d10758149d0dcd97677dc22ad679cf314768e0d682add4a4b3e7; reference_date=2026-09-30; MuPDF=227 M€ CAPITALISATION; Poppler=227 M€ CAPITALISATION"
+        },
+        {
+          "metric": "tof",
+          "value": 97.98,
+          "unit": "%",
+          "page": 5,
+          "method": "issuer_pdf_dual_readers_source_bound_sha256",
+          "verifiedAt": "2026-11-07T19:00:04.462284+00:00",
+          "proof": "Original issuer quarterly PDF, page 5, TOF 97.98 %, reporting basis YTD_FROM_2026_01_01. Source SHA-256 1f7efa004028d10758149d0dcd97677dc22ad679cf314768e0d682add4a4b3e7. MuPDF text: Taux d’occupation financier (depuis le 01/01/2026) | 97,98%; Poppler"
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire",
+        "Confiance documentaire insuffisante pour certifier la période entière",
+        "Conflits détectés sur certains champs extraits"
+      ],
+      "conflicts": [
+        "new_field_numeric_review:tof",
+        "prix_souscription",
+        "prix_reconstitution",
+        "new_field_numeric_review:retraits_executes_trimestre"
+      ]
+    },
+    {
+      "slug": "fonciere-des-praticiens",
+      "name": "Foncière des Praticiens",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "6e78cf46-dd86-4b19-829a-fc2bb1aac741",
+      "sourceUrl": "https://www.groupemagellim.com/wp-content/uploads/BT-3T-2026-Fonciere-des-Praticiens-.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "119e6ff4d8b63d5ba4137315b16c2a89d7971118ef94f38492b281b0f058e623",
+      "foundAt": "2026-11-05 11:00:06.885+00",
+      "extractedMetricCount": 16,
+      "verifiedFields": [
+        {
+          "metric": "walb",
+          "value": 6.61,
+          "unit": "years",
+          "page": 6,
+          "method": "pdf_page_text_match_dual_mupdf_poppler",
+          "verifiedAt": "2026-11-05T13:28:48.125888+00:00",
+          "proof": "SHA256=119e6ff4d8b63d5ba4137315b16c2a89d7971118ef94f38492b281b0f058e623; reference_date=2026-09-30; MuPDF=WALB | 6,61 ans; Poppler=WALB | 6,61 ans"
+        },
+        {
+          "metric": "capitalisation",
+          "value": 173,
+          "unit": "MEUR",
+          "page": 3,
+          "method": "pdf_page_text_match_dual_mupdf_poppler",
+          "verifiedAt": "2026-11-05T13:28:48.125888+00:00",
+          "proof": "SHA256=119e6ff4d8b63d5ba4137315b16c2a89d7971118ef94f38492b281b0f058e623; reference_date=2026-09-30; MuPDF=Capitalisation | 173 M€; Poppler=Capitalisation | 173 M€"
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire",
+        "Conflits détectés sur certains champs extraits"
+      ],
+      "conflicts": [
+        "nombre_parts",
+        "prix_retrait",
+        "prix_souscription",
+        "new_field_numeric_review:retraits_executes_trimestre"
+      ]
+    },
+    {
+      "slug": "iroko-atlas",
+      "name": "Iroko Atlas",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "3b099d3a-f8cd-4580-b773-699d083cce1b",
+      "sourceUrl": "https://www.iroko.eu/bulletins-trimestriels-atlas/q3-2026",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_verified",
+      "sourceHash": "df981cf33989eb173dd3d3e24eaa5b170f5e5983a3c25e08b7070b866a34c41d",
+      "foundAt": "2026-11-08 09:00:05.316+00",
+      "extractedMetricCount": 8,
+      "verifiedFields": [],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Aucun champ T3 actuellement prouvé par une pièce paginée liée au bulletin retenu",
+        "Confiance documentaire insuffisante pour certifier la période entière"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "log-in",
+      "name": "Log In",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "e58c19fc-ca85-455c-adf8-6fd9d0bc016a",
+      "sourceUrl": "https://theoreim.com/wp-content/uploads/2022/09/Bulletin_Trimestriel-LOG-IN-T3-2026.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_verified_product_alias_period_tof",
+      "sourceHash": "f751ec19947d36897e3eb64d15297eec84469ed0d6dd32cf6e27760cb9d31dad",
+      "foundAt": "2026-11-10 14:03:03.669+00",
+      "extractedMetricCount": 8,
+      "verifiedFields": [
+        {
+          "metric": "tof",
+          "value": 100,
+          "unit": "%",
+          "page": 1,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+          "proof": "N : PERFORMANCE GLOBALE ANNUELLE 2025 : 8,21 % TAUX DE DISTRIBUTION 2025 * : BRUT : 6,21 % NET : 4,91 % TAUX DE RENDEMENT ACTE EN MAIN MOYEN ** : 7,07 % TRI CIBLE 10 ANS *** : 5 % TOF : 100 % TOP : 100 % DURÉE MOYENNE FERME DES BAUX : DURÉE MOYENNE A"
+        },
+        {
+          "metric": "nombre_associes",
+          "value": 6805,
+          "unit": "associés",
+          "page": 1,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+          "proof": "d’encaissement des loyers est de 100 %. Au cours de ce trimestre, LOG IN a réalisé une collecte brute de 17,1 M€, portant sa capitalisation à 253,7 M€ au 30 sep- tembre 2026 pour 6 805 associés. L’ensemble des demandes de retrait a été satisfait et a"
+        },
+        {
+          "metric": "nombre_immeubles",
+          "value": 21,
+          "unit": "immeubles",
+          "page": 1,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+          "proof": "des pour faire face à ce contexte. Très faiblement endettée (1,7 % dans le cadre d’un crédit revolving ayant vocation à être remboursé avec la collecte à venir) et inves- tie dans 21 immeubles industriels (locaux d’activité, actifs logistiques, actif"
+        },
+        {
+          "metric": "prix_souscription",
+          "value": 255,
+          "unit": "€",
+          "page": 1,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+          "proof": "50 % pour 2026 (non garanti). Le versement interviendra le 26 octobre 2026. Au 30 septembre 2026, la valeur de reconstitution s’établit à 268,12 € par part, supérieure de 5,1 % au prix de souscription de 255 €. Au regard des fondamentaux de votre SCP"
+        },
+        {
+          "metric": "prix_reconstitution",
+          "value": 268.12,
+          "unit": "€",
+          "page": 1,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+          "proof": "inscrit dans l’objectif de taux de distribution brut compris entre 6,00 % et 6,50 % pour 2026 (non garanti). Le versement interviendra le 26 octobre 2026. Au 30 septembre 2026, la valeur de reconstitution s’établit à 268,12 € par part, supérieure de "
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [],
+      "conflicts": []
+    },
+    {
+      "slug": "novapierre-residentiel",
+      "name": "Novapierre Résidentiel",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "b036d69b-a456-4d1b-97a1-07f0d8c4d422",
+      "sourceUrl": null,
+      "rejectedSourceUrl": "https://paref-gestion.com/wp-content/uploads/2026/10/fbc6e38d-220a-46d2-b471-c7be98cb7d5c-BTI-T3-2026-Novapierre-1.pdf",
+      "sourceQa": "invalid_wrong_scpi_document",
+      "sourceHash": "e421b3128173c23c26998c0975087c6c202d3b17d7e20cf1e8c7ba9a958e7042",
+      "foundAt": "2026-11-01 00:00:09.644+00",
+      "extractedMetricCount": 15,
+      "verifiedFields": [],
+      "state": "rejected_wrong_document",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Document non admissible : type de document ou identité SCPI incorrecte"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "novaxia-neo",
+      "name": "Novaxia NEO",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "e7b3eb50-e577-44da-a0b2-5b0ac8a23c16",
+      "sourceUrl": "https://www.novaxia-investissement.fr/wp-content/uploads/2026/11/Reporting-Novaxia-NEO-T3-2026.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "a004d88d5484e1f86e3710e6a8ea8fc29dd204844fb491359bf5804e49e11737",
+      "foundAt": "2026-11-07 01:30:11.133+00",
+      "extractedMetricCount": 16,
+      "verifiedFields": [
+        {
+          "metric": "walb",
+          "value": 3.24,
+          "unit": "ans",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-05T13:15:04.391981+00:00",
+          "proof": "Reporting trimestriel – T3 2026 Le patrimoine . au 30/09/2026 En bref 37 Actifs 117 Locataires 95 % Bureaux 1 % Activités 8 % 53 % 3 % 28 % 8 % 3,24 ans WALB 2 moyenne Taux d’Occupation (méthode ASPIM) 14,4 % 85,6 % TOP 85,6 % 11,7 % 2,7 % 88 ,3 % TO"
+        },
+        {
+          "metric": "capitalisation",
+          "value": 427.9,
+          "unit": "M€",
+          "page": 4,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-05T13:15:04.391981+00:00",
+          "proof": "ses associés. 3 Détails disponibles dans le Glossaire . Les performances de votre SCPI Actif du patrimoine situé à Utrecht, Pays - Bas. ©Droits réservés. À retenir 8 968 Associés 427,9 M € Capitalisation 3 37 Actifs 5,96 % 1 Taux de Rendement Interne"
+        },
+        {
+          "metric": "nombre_associes",
+          "value": 8968,
+          "unit": "associés",
+          "page": 4,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-05T13:15:04.391981+00:00",
+          "proof": "e la SCPI et de ses associés. 3 Détails disponibles dans le Glossaire . Les performances de votre SCPI Actif du patrimoine situé à Utrecht, Pays - Bas. ©Droits réservés. À retenir 8 968 Associés 427,9 M € Capitalisation 3 37 Actifs 5,96 % 1 Taux de R"
+        },
+        {
+          "metric": "nombre_immeubles",
+          "value": 37,
+          "unit": "immeubles",
+          "page": 3,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-05T13:15:04.391981+00:00",
+          "proof": "ovaxia NEO atteint 54 , 2 / 100 , contre 34 , 0 fin 2023 . L’objectif de progression de 20 points en trois ans du label ISR est ainsi atteint, avec une amélioration de la note des 37 immeubles du portefeuille . Le renouvellement du label ISR pour un "
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "patrimmo-commerce",
+      "name": "Patrimmo Commerce",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "5e1a7158-77c0-4254-9a7c-6bdb6bd57713",
+      "sourceUrl": "https://www.praemiareim.fr/documents/14836074/14836275/PRAEMIA_BTI_Patrimmo+Commerce_T3_2026_VDEF.pdf/629ca819-38be-867c-8edc-181f9159bf3b?t=1793990422410",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "6f685b4657e12f246a209ce30bb11c246051d2c43276922420844db7d43f65b5",
+      "foundAt": "2026-11-11 07:00:07.714+00",
+      "extractedMetricCount": 12,
+      "verifiedFields": [
+        {
+          "metric": "tof",
+          "value": 91.9,
+          "unit": "%",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "es loyers quittancés sur le trimestre 5,25 M€ Taux de recouvrement des loyers 95 % Durée moyenne ferme des baux (WALB) * 2,37 ans Durée moyenne restante des baux (WALT) * 4,04 ans TOF * 91,9 % 87,3% Locaux occupés 2,4% Locaux occupés sous franchise o"
+        },
+        {
+          "metric": "walb",
+          "value": 2.37,
+          "unit": "ans",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "te (hors fonds de remboursement) 184 711 m 2 17 244 671 € Montant des loyers quittancés sur le trimestre 5,25 M€ Taux de recouvrement des loyers 95 % Durée moyenne ferme des baux (WALB) * 2,37 ans Durée moyenne restante des baux (WALT) * 4,04 ans TOF"
+        },
+        {
+          "metric": "walt",
+          "value": 4.04,
+          "unit": "ans",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "4 671 € Montant des loyers quittancés sur le trimestre 5,25 M€ Taux de recouvrement des loyers 95 % Durée moyenne ferme des baux (WALB) * 2,37 ans Durée moyenne restante des baux (WALT) * 4,04 ans TOF * 91,9 % 87,3% Locaux occupés 2,4% Locaux occupés"
+        },
+        {
+          "metric": "capitalisation",
+          "value": 460,
+          "unit": "M€",
+          "page": 2,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "e selon une méthodologie distincte. La fixation du prix d’exécution dépend de cette rencontre entre l’offre et la demande et non pas de la valeur de réalisation* du patrimoine. La capitalisation de la SCPI passe de 460 M€ à 209 M€, son calcul s’appuy"
+        },
+        {
+          "metric": "nombre_immeubles",
+          "value": 186,
+          "unit": "immeubles",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:59:51.33928+00:00",
+          "proof": "5 ACTIVITÉ LOCATIVE DU TRIMESTRE PATRIMOINE DE LA SCPI AU 30/09/2026 Nombre d’actifs 186 immeubles 11 Nouveaux baux Surface 1 257 m² Montant total des loyers 237 k€ 7 Libérations Surface 999 m² Montant total des loyers 383 k€ SITUATION LOCATIVE À LA "
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "pierval-sante",
+      "name": "Pierval Santé",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "596f5f03-df53-4a6c-97a9-6c53fe1af303",
+      "sourceUrl": "https://www.euryale-am.fr/wp-content/uploads/BT_PIERVAL_SANTE_2026_T3.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "823990ec258b0f9d0561e1ac7fef0bcb7905f1f2b235620dde1440c1aba521c1",
+      "foundAt": "2026-10-30 17:09:34.042585+00",
+      "extractedMetricCount": 0,
+      "verifiedFields": [
+        {
+          "metric": "tof",
+          "value": 91.04,
+          "unit": "%",
+          "page": 9,
+          "method": "pdf_page_chart_tof_dual_mupdf_poppler_sha256",
+          "verifiedAt": "2026-11-07T17:49:33.76346+00:00",
+          "proof": "Pierval Sante | bulletin trimestriel officiel T3 2026 | page PDF 9. Taux d'occupation financier global affiche 91,04 % sur la carte et le diagramme. Les 8,96 % correspondent aux locaux en recherche de locataires : cette composante de vacance N'EST PA"
+        },
+        {
+          "metric": "walb",
+          "value": 14.22,
+          "unit": "years",
+          "page": 9,
+          "method": "pdf_page_text_match_dual_mupdf_poppler",
+          "verifiedAt": "2026-10-30T17:09:34.042585+00:00",
+          "proof": "SHA256=823990ec258b0f9d0561e1ac7fef0bcb7905f1f2b235620dde1440c1aba521c1; reference_date=2026-09-30; MuPDF=WALB(2) : 14,22 ans; Poppler=WALB (2) : 14,22 ans"
+        },
+        {
+          "metric": "prix_retrait",
+          "value": 182.56,
+          "unit": "EUR_PER_PART",
+          "page": 11,
+          "method": "pdf_page_text_match_dual_mupdf_poppler",
+          "verifiedAt": "2026-10-30T17:09:34.042585+00:00",
+          "proof": "SHA256=823990ec258b0f9d0561e1ac7fef0bcb7905f1f2b235620dde1440c1aba521c1; reference_date=2026-09-30; MuPDF=Prix de retrait : 182,56 €; Poppler=Prix de retrait : 182,56 €"
+        },
+        {
+          "metric": "prix_souscription",
+          "value": 204,
+          "unit": "EUR_PER_PART",
+          "page": 11,
+          "method": "pdf_page_text_match_dual_mupdf_poppler",
+          "verifiedAt": "2026-10-30T17:09:34.042585+00:00",
+          "proof": "SHA256=823990ec258b0f9d0561e1ac7fef0bcb7905f1f2b235620dde1440c1aba521c1; reference_date=2026-09-30; MuPDF=Prix de souscription : 204 €; Poppler=Prix de souscription : 204 €"
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction automatique chiffrée vide",
+        "Extraction partielle : revue documentaire nécessaire",
+        "Conflits détectés sur certains champs extraits"
+      ],
+      "conflicts": [
+        "new_field_numeric_review:td",
+        "new_field_numeric_review:tof",
+        "new_field_numeric_review:walt",
+        "new_field_numeric_review:capitalisation"
+      ]
+    },
+    {
+      "slug": "praemia-hotels-europe",
+      "name": "Praemia Hôtels Europe",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "f2248c10-415d-421c-b186-8f25e9bbc838",
+      "sourceUrl": "https://www.praemiareim.fr/documents/14836074/14836332/PRAEMIA_BTI_Praemia_Hotels_Europe_T3_2026_VDEF.pdf/6ef65e62-c097-7cce-d524-984e8b402ca0?t=1793984832890",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "0c1fd34bc775e93a503fd1587117ec6ce1670055bca710b042b102c36eff4b62",
+      "foundAt": "2026-11-11 10:30:05.907+00",
+      "extractedMetricCount": 15,
+      "verifiedFields": [
+        {
+          "metric": "tof",
+          "value": 97.5,
+          "unit": "%",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+          "proof": "ce 7,1% Mixte Résidentiel / Commerce 36,9% France hors région parisienne 16,5% Grèce 16,0% Irlande 12,9% Île-de-France hors Paris 7,4% Paris 5,7% Belgique 4,3% Espagne 0,3% Italie TOF * 97,5 % ACTIVITÉ LOCATIVE DU TRIMESTRE PATRIMOINE DE LA SCPI AU 3"
+        },
+        {
+          "metric": "walb",
+          "value": 8.09,
+          "unit": "ans",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+          "proof": "ncés futurs. Nombre de baux 284 Surface gérée en m 2 Trésorerie directe 89 356 m 2 7 178 949 € Montant des loyers quittancés sur le trimestre 1,87 M€ Durée moyenne ferme des baux (WALB) * 8,09 ans Durée moyenne restante des baux (WALT) * 10,07 ans 96"
+        },
+        {
+          "metric": "walt",
+          "value": 10.07,
+          "unit": "ans",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+          "proof": "2 Trésorerie directe 89 356 m 2 7 178 949 € Montant des loyers quittancés sur le trimestre 1,87 M€ Durée moyenne ferme des baux (WALB) * 8,09 ans Durée moyenne restante des baux (WALT) * 10,07 ans 96,7% Locaux occupés 0,1% Locaux occupés sous franchi"
+        },
+        {
+          "metric": "prix_souscription",
+          "value": 180,
+          "unit": "€",
+          "page": 8,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+          "proof": "00 €. La Société, étant une SCPI à capital variable, est habilitée à recevoir des souscriptions jusqu’à hauteur de ce plafond de 300 000 000 €. Prix de souscription d’une part. Le prix de souscription est de 180 €, dont 179 € de prime d’émission. Cel"
+        },
+        {
+          "metric": "prix_retrait",
+          "value": 163.8,
+          "unit": "€",
+          "page": 2,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+          "proof": "illet, la Société de gestion a décidé de faire converger la valeur de retrait et le prix de retrait sur le fonds de remboursement. La valeur de retrait de la SCPI est désormais de 163,80 € pour un prix de retrait via le fonds de remboursement fixé à "
+        },
+        {
+          "metric": "nombre_immeubles",
+          "value": 116,
+          "unit": "immeubles",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-10T17:58:14.234521+00:00",
+          "proof": "de 12,9% Île-de-France hors Paris 7,4% Paris 5,7% Belgique 4,3% Espagne 0,3% Italie TOF * 97,5 % ACTIVITÉ LOCATIVE DU TRIMESTRE PATRIMOINE DE LA SCPI AU 30/09/2026 Nombre d’actifs 116 immeubles 2 Nouveaux baux Surface 88 m² Montant total des loyers 1"
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "primovie",
+      "name": "Primovie",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "b639b3b3-77ac-4ea5-9bed-ebb418bdda10",
+      "sourceUrl": "https://www.praemiareim.fr/documents/14836074/14836311/PRAEMIA_BTI_Primovie_T3_2026_VDEF.pdf/ff0cab84-798b-c7da-8f92-0977a9150f4f?t=1793988668797",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "009f4129002d61abc399810a252d13091bd406dc500f36d5dc88ae8cb557dd60",
+      "foundAt": "2026-11-07 11:00:03.755+00",
+      "extractedMetricCount": 12,
+      "verifiedFields": [
+        {
+          "metric": "tof",
+          "value": 94.2,
+          "unit": "%",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-06T18:45:03.683685+00:00",
+          "proof": "caux occupés 5,5% Locaux occupés sous franchise ou mis à disposition d’un futur locataire 0,2% Locaux vacants sous promesse de vente 5,8% Locaux vacants en recherche de locataires TOF * 94,2 % SITUATION LOCATIVE À LA FIN DU TRIMESTRE Nombre de baux 4"
+        },
+        {
+          "metric": "walb",
+          "value": 9.15,
+          "unit": "ans",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-06T18:45:03.683685+00:00",
+          "proof": "acants sous promesse de vente 5,8% Locaux vacants en recherche de locataires TOF * 94,2 % SITUATION LOCATIVE À LA FIN DU TRIMESTRE Nombre de baux 445 Durée moyenne ferme des baux (WALB) * 9,15 ans Durée moyenne restante des baux (WALT) * 9,56 ans CES"
+        },
+        {
+          "metric": "walt",
+          "value": 9.56,
+          "unit": "ans",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-06T18:45:03.683685+00:00",
+          "proof": "en recherche de locataires TOF * 94,2 % SITUATION LOCATIVE À LA FIN DU TRIMESTRE Nombre de baux 445 Durée moyenne ferme des baux (WALB) * 9,15 ans Durée moyenne restante des baux (WALT) * 9,56 ans CESSIONS DU TRIMESTRE ACQUISITION DU TRIMESTRE Aucune"
+        },
+        {
+          "metric": "nombre_immeubles",
+          "value": 291,
+          "unit": "immeubles",
+          "page": 4,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-06T18:45:03.683685+00:00",
+          "proof": "ance hors Paris 19,3% Allemagne 13,4% Italie 4,8% Paris 2,1% Espagne 0,5% Belgique 0,3% Pays-Bas ACTIVITÉ LOCATIVE DU TRIMESTRE PATRIMOINE DE LA SCPI AU 30/09/2026 Nombre d’actifs 291 immeubles 5 Nouveaux baux Surface 2 595 m² Montant total des loyer"
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "remake-live",
+      "name": "Remake Live",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "f5f909fb-8b0a-40c6-92df-8df347ca1c0e",
+      "sourceUrl": "https://www.remake.fr/wp-content/uploads/2026/11/REMAKE_LIVE_BT_T3-nov-2026.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "48f90511d82e6f4ccdd28e9698784b93bd74360baf56f0965d0abbdb69e1148e",
+      "foundAt": "2026-11-06 21:00:09.051+00",
+      "extractedMetricCount": 15,
+      "verifiedFields": [],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire",
+        "Aucun champ T3 actuellement prouvé par une pièce paginée liée au bulletin retenu",
+        "Conflits détectés sur certains champs extraits"
+      ],
+      "conflicts": [
+        "nombre_associes"
+      ]
+    },
+    {
+      "slug": "remake-uk-2025",
+      "name": "Remake UK 2025",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "d4187aaf-d66c-4e3f-aa6c-34930278636f",
+      "sourceUrl": "https://www.remake.fr/wp-content/uploads/2026/10/REMAKE_UK2025_BT_T3_2026_11206.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "5a621b7e7e44a72d97d0b66b7b5bf17f818b3ee57aff0edf8a6d5bfce7e42cc3",
+      "foundAt": "2026-11-06 18:30:20.486+00",
+      "extractedMetricCount": 12,
+      "verifiedFields": [],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire",
+        "Aucun champ T3 actuellement prouvé par une pièce paginée liée au bulletin retenu",
+        "Conflits détectés sur certains champs extraits"
+      ],
+      "conflicts": [
+        "walb",
+        "nombre_associes"
+      ]
+    },
+    {
+      "slug": "sofidynamic",
+      "name": "Sofidynamic",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "2ae57c3c-a5ac-4cbb-bbb0-84661c8825e8",
+      "sourceUrl": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "1898d414b5195c8e0f675ef9041e3142e2e53f720f238fd6ca6cdcf2f8992c38",
+      "foundAt": "2026-11-05 22:49:47.702583+00",
+      "extractedMetricCount": 0,
+      "verifiedFields": [],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction automatique chiffrée vide",
+        "Extraction partielle : revue documentaire nécessaire",
+        "Aucun champ T3 actuellement prouvé par une pièce paginée liée au bulletin retenu",
+        "Conflits détectés sur certains champs extraits"
+      ],
+      "conflicts": [
+        "new_field_numeric_review:tof",
+        "new_field_numeric_review:prix_retrait",
+        "new_field_numeric_review:nombre_associes",
+        "new_field_numeric_review:nombre_immeubles",
+        "new_field_numeric_review:prix_souscription",
+        "new_field_numeric_review:retraits_executes_trimestre"
+      ]
+    },
+    {
+      "slug": "transitions-europe",
+      "name": "Transitions Europe",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "20ad2db0-f272-4dae-8535-702f7be3d844",
+      "sourceUrl": "https://www.arkea-reim.com/upload/docs/application/pdf/2026-10/te_t3-2026.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "55f3596af5933891f0e94cf59356491a93931f080543d5c3ee5e8eef89ace1e1",
+      "foundAt": "2026-11-08 20:00:09.192+00",
+      "extractedMetricCount": 19,
+      "verifiedFields": [
+        {
+          "metric": "tof",
+          "value": 97.9,
+          "unit": "%",
+          "page": 8,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-08T00:15:03.560952+00:00",
+          "proof": "ires 379 3 Taux d’Occupation Physique 4 Durée moyenne résiduelle ferme des baux signés 5 Durée moyenne résiduelle totale des baux signés Au 30/09/2026 Taux d’occupation financier (TOF) 97.9 %* *Le TOF affiché est supérieur au taux de locaux occupés, "
+        },
+        {
+          "metric": "endettement",
+          "value": 3,
+          "unit": "%",
+          "page": 5,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-08T00:15:03.560952+00:00",
+          "proof": "ux à Dublin (Irlande) 5 2 876 Nouveaux associés 116 M€ Collecte nette sur le trimestre 142 M€ Investissements sur le trimestre 1.48 Md€ Capitalisation 219 M€ Trésorerie disponible 3 % Taux d'endettement 1 6 Nouvelles acquisitions 284 M€ Volume global"
+        },
+        {
+          "metric": "prix_souscription",
+          "value": 202,
+          "unit": "€",
+          "page": 12,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-08T00:15:03.560952+00:00",
+          "proof": "12 Arkéa REIM - Bulletin d’information 30/09/2026 178.95 € Valeur de réalisation 181.80 € Valeur de retrait Tunnel de valeur de reconstitution Prix surcoté 229.27 € +10 % -10 % Prix de la part 202 € Valeur de reconstitution 208.43 € Prix décoté 187.5"
+        },
+        {
+          "metric": "parts_attente_retrait",
+          "value": 0,
+          "unit": "parts",
+          "page": 11,
+          "method": "pdf_page_text_match",
+          "verifiedAt": "2026-11-08T00:15:03.560952+00:00",
+          "proof": "Nombre de parts en début de trimestre 6 844 051 Parts souscrites sur le trimestre 573 676 Retraits en nombre de parts 6 220 Nombre de parts en fin de trimestre 7 411 507 Nombre de part en attente de retrait 0 Part d’investisseurs institutionnels dans"
+        }
+      ],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "urban-coeur-de-commerce",
+      "name": "Urban Coeur de Commerce",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "b778684e-0188-4f52-bc67-15ab1fdc5710",
+      "sourceUrl": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/11/UCC_BT_T3-2026.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "auto_partial_review",
+      "sourceHash": "0655a664b92c3ef9e7d5aeb74699d0d4b3b784e0f80deda0fe171553d7ee974e",
+      "foundAt": "2026-11-06 14:00:06.612+00",
+      "extractedMetricCount": 16,
+      "verifiedFields": [],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Extraction partielle : revue documentaire nécessaire",
+        "Aucun champ T3 actuellement prouvé par une pièce paginée liée au bulletin retenu"
+      ],
+      "conflicts": []
+    }
+  ]
+}
