@@ -11,8 +11,10 @@ describe('Actualités — aucun retour arrière du collecteur',()=>{
   city:'Lyon',country:'France',assetType:'bureaux',
  };
  it('conserve les 31 actualités corrigées et écarte le contenu historique non certifié',()=>{
+  const baseline=reconcileScpiNewsSnapshot(published,[]);
+  expect(baseline).toHaveLength(published.length);
   const merged=reconcileScpiNewsSnapshot(published,history);
-  expect(merged).toHaveLength(published.length);
+  for(const entry of published) expect(merged.find(x=>x.id===entry.id)).toEqual(entry);
   expect(merged.find(x=>x.scpi==='Optimale')?.city).toBe('Belz et Le Plessis-Robinson');
   expect(merged.filter(x=>x.scpi==='Transitions Europe')).toHaveLength(7);
   expect(merged.some(x=>!x.date)).toBe(false);
