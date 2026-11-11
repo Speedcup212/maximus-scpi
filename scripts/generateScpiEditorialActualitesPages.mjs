@@ -58,4 +58,20 @@ if(!hub.includes('class="editorial-scpi-index"')){
  hub=hub.replace('</main>',index+'</main>');
  fs.writeFileSync(hubPath,hub,'utf8');
 }
+// Retirer l'ancien lien corrompu et transmettre son équité SEO vers le dossier certifié.
+// La redirection précède le fallback SPA ; elle ne doit pas être ajoutée en double.
+const redirectPath=path.join(dist,'_redirects');
+if(!fs.existsSync(redirectPath))throw Error('Netlify redirect file missing');
+let rules=fs.readFileSync(redirectPath,'utf8');
+const canonicalCristal='/actualites/cristal-life/';
+const brokenPaths=[
+  '/actualites/cristal-life/2026-10-21-intergestion',
+  '/actualites/cristal-life/2026-10-21-intergestion/',
+];
+for(const brokenPath of brokenPaths){
+  if(!rules.split(/\r?\n/).some(line=>line.trim().startsWith(brokenPath+' '))){
+    rules=brokenPath+' '+canonicalCristal+' 301\n'+rules;
+  }
+}
+fs.writeFileSync(redirectPath,rules,'utf8');
 console.log('69 dossiers SCPI détaillés publiables avec canonical, source et sitemap.');
