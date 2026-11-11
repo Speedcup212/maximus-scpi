@@ -676,6 +676,17 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             </div>
           )}
 
+          <nav aria-label="Accès aux rubriques des actualités" className="mb-9 flex flex-wrap justify-center gap-3 text-sm">
+            <a href="#actualites-liste"
+              className="rounded-lg border border-emerald-500/40 px-4 py-2 font-medium text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/10">
+              Parcourir les acquisitions
+            </a>
+            <a href="#actualites-suivi-scpi"
+              className="rounded-lg border border-gray-300 dark:border-gray-700 px-4 py-2 font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
+              Suivi des SCPI
+            </a>
+          </nav>
+
           {/* ====== À LA UNE ====== */}
           {showFeatured && featured.length > 0 && (
             <section className="mb-14">
@@ -888,7 +899,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
           )}
 
           {/* ====== LISTE COMPLÈTE ====== */}
-          <section>
+          <section id="actualites-liste" className="scroll-mt-28">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                 {selectedWatchScpi
@@ -941,7 +952,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
           </section>
 
           {/* ====== INVESTISSEMENTS PAR SCPI — GRILLE COMPLÈTE ====== */}
-          <section className="mb-14">
+          <section id="actualites-suivi-scpi" className="mt-14 mb-14 scroll-mt-28">
             <div className="text-center mb-6">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
                 Suivi des SCPI
