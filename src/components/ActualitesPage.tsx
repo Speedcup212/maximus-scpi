@@ -1098,6 +1098,8 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                     </p>
                   )}
 
+                  <ScpiEditorialArticle slug={selectedWatchScpi.slug} />
+
                   <div className="flex flex-wrap gap-3 mt-6">
                     {onScpiPageClick && (
                       <button
@@ -1140,6 +1142,7 @@ const ScpiCard: React.FC<{
   const isIncomplete = scpi.status === 'incomplete';
   const isError = scpi.status === 'error';
   const latest = scpi.latest;
+  const report = getScpiEditorialDossier(scpi.slug);
 
   const AssetIcon = latest ? (ASSET_TYPE_ICON_MAP[latest.assetType] || Building) : Building;
 
@@ -1250,6 +1253,13 @@ const ScpiCard: React.FC<{
         )}
       </div>
 
+      {report && (
+        <div className="mt-4 rounded-lg border border-gray-700/30 bg-gray-900/25 p-3">
+          <p className="text-xs font-semibold text-emerald-300">Point documentaire {report.period}</p>
+          <p className="mt-1 text-xs leading-relaxed text-gray-300 line-clamp-3">{report.lead}</p>
+          {!report.comparisonCertified && <p className="mt-1.5 text-[11px] text-amber-300">Historique sous réserves</p>}
+        </div>
+      )}
       {isAcquisition ? (
         <div className="mt-3 pt-2 border-t border-gray-700/30">
           <span className="text-[11px] text-emerald-400 font-medium flex items-center gap-1 group-hover:text-emerald-300 transition-colors">
