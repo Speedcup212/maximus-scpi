@@ -17,4 +17,9 @@ for(const [label,pattern] of [
  ['partial source reporting',/sourceStatus=ok\?"active":r\.partial\?"incomplete":"error"/]
 ])assert.match(source,pattern,label);
 assert.doesNotMatch(source,/for\(let i=0;i<gs\.length;i\+=4\)/,'Unbounded all-groups scan reintroduced');
+const certify=fs.readFileSync('supabase/functions/scpi-evidence-certify/index.ts','utf8');
+transformSync(certify,{loader:'ts',format:'esm',target:'es2022'});
+assert.match(certify,/requestedIds\.length[\s\S]{0,180}row\.period === "2026-T3"/,'Only targeted T3 partial documents can receive field proof');
+assert.match(certify,/!\/\^invalid_\|not_bulletin\|wrong_document/,'Invalid source exclusion must remain');
+assert.doesNotMatch(certify,/\.update\(\{\s*qa_status:/,'Evidence verifier must never auto-promote the quarter');
 console.log('News Watch runtime: TypeScript parse + bounded retry, QA and final-state gates PASS');
