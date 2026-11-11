@@ -575,14 +575,14 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             ? `${selectedArticle.title} | MaximusSCPI`
             : selectedWatchScpi
             ? `Actualités et acquisitions ${selectedWatchScpi.name} | MaximusSCPI`
-            : 'Derniers investissements immobiliers des SCPI | MaximusSCPI'
+            : 'Actualités des 69 SCPI : bulletins, acquisitions et analyses | MaximusSCPI'
         }
         description={
           selectedArticle
             ? selectedArticle.summary
             : selectedWatchScpi
             ? `Suivez la veille des acquisitions et investissements immobiliers de la SCPI ${selectedWatchScpi.name}, avec les sources officielles contrôlées par MaximusSCPI.`
-            : 'Suivez les immeubles, actifs et portefeuilles récemment acquis par les SCPI. Lecture claire par société, secteur et localisation.'
+            : 'Consultez 69 bilans SCPI documentés : derniers bulletins analysés, évolutions certifiées, acquisitions, risques et liquidité.'
         }
         keywords={['investissements SCPI', 'acquisitions SCPI', 'immeubles SCPI', 'actualité immobilière SCPI']}
         canonical={
@@ -626,14 +626,14 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                 ? selectedArticle.title
                 : selectedWatchScpi
                 ? `Actualités et acquisitions de ${selectedWatchScpi.name}`
-                : 'Derniers investissements immobiliers des SCPI'}
+                : 'Actualités SCPI : bulletins, acquisitions et risques'}
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto">
               {selectedArticle
                 ? `${selectedArticle.scpi} · ${formatDate(selectedArticle.date)} · article MaximusSCPI`
                 : selectedWatchScpi
                 ? `Veille immobilière mise à jour automatiquement à partir des sources officielles de ${selectedWatchScpi.managementCompany || 'la société de gestion'}.`
-                : 'Suivez les immeubles, actifs et portefeuilles récemment acquis par les SCPI, avec une lecture claire par société, secteur et localisation.'}
+                : 'Découvrez les analyses documentées de 69 SCPI : indicateurs, évolutions certifiées, acquisitions et points de vigilance, avec leurs sources.'}
             </p>
           </div>
         </section>
@@ -1263,14 +1263,14 @@ const ScpiCard: React.FC<{
       {isAcquisition ? (
         <div className="mt-3 pt-2 border-t border-gray-700/30">
           <span className="text-[11px] text-emerald-400 font-medium flex items-center gap-1 group-hover:text-emerald-300 transition-colors">
-            Voir les acquisitions
+            Lire les acquisitions et le dossier
             <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </span>
         </div>
       ) : (
         <div className="mt-3 pt-2 border-t border-gray-700/30">
           <span className="text-[11px] text-gray-500 font-medium flex items-center gap-1 group-hover:text-gray-400 transition-colors">
-            Voir le suivi
+            Lire le dossier d'actualités
             <ArrowUpRight className="w-3 h-3 opacity-40 group-hover:opacity-60 transition-opacity" />
           </span>
         </div>
