@@ -46,6 +46,11 @@ const optimale=byTitle('Optimale investit environ 4,4');assert.ok(optimale&&opti
 const ficommerce=byTitle('Ficommerce Proximité acquiert un restaurant');assert.equal(ficommerce?.city,'La Garde');assert.equal(ficommerce?.surface,'390 m²');
 const buroboutic=byTitle('Buroboutic Métropoles acquiert un restaurant');assert.equal(buroboutic?.city,'Séquedin (Englos)');assert.equal(buroboutic?.surface,'545 m²');
 assert.equal(byTitle('Iroko Atlas acquiert un actif logistique à Portlaoise')?.city,'Portlaoise');
+const altaLeyment=news.find(e=>e.scpi==='Alta Convictions'&&e.city==='Leyment');
+assert.equal(altaLeyment?.surface,'13 030 m²','Leyment logistics property size');
+assert.equal(altaLeyment?.tenant,'Filiale du groupe Jacky Perrenot','Leyment tenant');
+const ncapHotel=byTitle('NCap Régions signe sa première acquisition');
+assert.ok(ncapHotel&&ncapHotel.operationType==='acquisition_vefa'&&ncapHotel.surface==='5 383 m²');
 const transitions=news.filter(e=>e.scpi==='Transitions Europe');
 assert.ok(transitions.length>=7&&transitions.every(e=>e.date),'Transitions Europe missing publication dates');
 const epsicap=news.filter(e=>e.scpi==='Epsicap Nano');
