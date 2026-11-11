@@ -19,7 +19,10 @@ const eventSources=new Set(snapshot.map(x=>x.sourceUrl));
 for(const dossier of reports.dossiers){
   for(const event of dossier.linkedEvents){
     assert.ok(eventSources.has(event.sourceUrl),'a 69 SCPI brief links to a quarantined or missing event: '+dossier.slug);
-    assert.ok(isNewsEditoriallyValid(event),'a 69 SCPI brief links to a contaminated event: '+dossier.slug);
+    const completeEvent = snapshot.find(item =>
+      item.sourceUrl === event.sourceUrl && item.title === event.title && item.date === event.date);
+    assert.ok(completeEvent && isNewsEditoriallyValid(completeEvent),
+      'a 69 SCPI brief links to a missing or contaminated published event: '+dossier.slug);
   }
 }
 if(fs.existsSync('dist/actualites/index.html')){
