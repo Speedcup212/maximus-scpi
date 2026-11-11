@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { isNewsEditoriallyValid } from '../src/utils/scpiNewsEditorialGate.mjs';
+import { isNewsEditoriallyValid } from '../../src/utils/scpiNewsEditorialGate.mjs';
 const dist=path.resolve('dist');
 const news=JSON.parse(fs.readFileSync('data/news/scpi-investment-news-latest.json','utf8'));
 const reports=JSON.parse(fs.readFileSync('data/news/scpi-actualites-69.json','utf8')).dossiers;
