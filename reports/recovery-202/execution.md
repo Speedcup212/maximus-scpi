@@ -22,3 +22,23 @@ Mission autorisée : corriger les agents existants, sans nouvel orchestrateur. B
 ## État
 
 EN COURS. Les corrections SQL sont appliquées. Les relances GitHub, le déploiement du pont OCR, le build/preview et le cycle jusqu'à la fiche doivent être vérifiés et consignés avant clôture. Aucun candidat promu, aucune certification financière déclarée à ce stade.
+
+## Recette réelle après PR #423
+
+- Fusion contrôlée `007b8f1adfc1f970f9d59c865fff8292192dd886`, après 84 étapes PASS de la CI `43106406084` et preview Netlify `6af4e2dc3862498211e07819` prêt.
+- Migration Supabase `20261111214610`, pont OCR v8 déployé. Advisors sécurité : 9 constats préexistants avant/après, aucun nouveau.
+- Dossiers Advenis : run `43107246708`, 3 source-proof + 3 QA PASS. Supabase : les 12 tâches sont `done`, les 3 QA portent `binary_proof_status=live_binary_proof`. Les 9 analyses amont restent à une seule tentative ; pas de remise à zéro du quota.
+- OCR : run `43107246731`, Novapierre 1 2021-T4 extrait de l'original archivé : 10 pages, 18 507 caractères, SHA vérifié, `page_verified`. Cela ne certifie aucune valeur financière. Deux anciens bulletins de Paref Evo sont correctement bloqués faute de reconnaissance de leur ancienne dénomination ; défaut complémentaire corrigé ci-dessous.
+- CORUM : second essai `43024447171/attempts/2`, 158 documents, 157 transactions reconnues / un refus `EXTENDED_PDF_HASH_OR_URL_MISMATCH` pour Origin 2026-T2. L'ancien PDF publié a le SHA `1c6a537714151489b38c7591140040262129187124acb170a14b171b977ed1dc`, le nouvel URL de novembre le SHA `faeb58603b932d09c9693e80e0302c3a29f247b4d335e5c3494c771c9b7cf3eb`. Aucune substitution de source. Tentative de relecture du précédent original chez CORUM : HTTP 403. Cette comparaison reste non résolue.
+- Cycle pilote CORUM Origin : T3 2026 SHA `42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43`, TOF 95,48 % p.4, 3 670 342 parts p.3, 0 part en attente p.3. Concordance `scpi_indicators`, `scpi_indicator_history`, `scpi_bulletin_analysis` et fiche réelle `https://maximusscpi.com/corum-origin/`, ainsi que preview #423. Rejeu d'un bulletin réel déjà découvert, pas preuve d'une nouvelle détection ni certification des 69 SCPI.
+
+## Complément PAREF : identité historique, sans approbation financière
+
+Le téléchargement d'archive est maintenant opérationnel ; les anciens noms n'étaient admis ni par le worker ni par son pont. Deux alias précis sont ajoutés seulement sur les PDF officiels PAREF, périodes antérieures au changement de nom (jusqu'à T2 2024 ou RA antérieurs à 2024). Les deux fonds ne sont jamais interchangeables ; ni nom générique, ni domaine ressemblant, ni période future ne passent.
+
+Preuves juridiques primaires :
+
+- PAREF Evo : résolution de modification de dénomination, page 18 du dépôt des comptes 2023 (AG 28 juin 2024), Interpierre Europe Centrale → PAREF Evo : https://www.pappers.fr/entreprise/paref-evo-880615463/comptes/PAREF%20EVO%20-%20Comptes%20sociaux%202023%2005-07-2024.pdf
+- PAREF Hexa : résolution de modification de dénomination, page 30 (AG 11 juillet 2024), Interpierre France → PAREF Hexa : https://www.pappers.fr/entreprise/paref-hexa-383356755/comptes/PAREF%20HEXA%20-%20Comptes%20sociaux%202023%2002-08-2024.pdf
+
+Tests ciblés : 9 Node et 4 Python PASS, incluant refus inter-fonds, faux domaines et période postérieure. Les quarantaines des vrais mauvais documents restent inchangées. Le retrait des seules quarantaines faussement causées par ces renommages et la reprise réelle doivent encore être prouvés.

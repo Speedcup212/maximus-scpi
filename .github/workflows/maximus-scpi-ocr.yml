@@ -12,8 +12,10 @@ on:
       - "scripts/agents/scpi_ocr_worker.py"
       - "scripts/agents/ocrIdentityQuarantine.test.mjs"
       - "scripts/agents/ocrArchiveBridge.test.mjs"
+      - "scripts/agents/ocrHistoricalIdentity.test.mjs"
       - "scripts/agents/ocr_archive_test.py"
       - "supabase/functions/maximus-scpi-ocr-oidc/index.ts"
+      - "supabase/functions/maximus-scpi-ocr-oidc/historicalIdentity.mjs"
       - "supabase/migrations/20261016_ocr_permanent_identity_quarantine.sql"
   pull_request:
     branches: [main]
@@ -22,8 +24,10 @@ on:
       - "scripts/agents/scpi_ocr_worker.py"
       - "scripts/agents/ocrIdentityQuarantine.test.mjs"
       - "scripts/agents/ocrArchiveBridge.test.mjs"
+      - "scripts/agents/ocrHistoricalIdentity.test.mjs"
       - "scripts/agents/ocr_archive_test.py"
       - "supabase/functions/maximus-scpi-ocr-oidc/index.ts"
+      - "supabase/functions/maximus-scpi-ocr-oidc/historicalIdentity.mjs"
       - "supabase/migrations/20261016_ocr_permanent_identity_quarantine.sql"
 
 permissions:
@@ -65,7 +69,7 @@ jobs:
 
       - name: Verify identity quarantine contract against worker and OIDC bridge
         run: |
-          node --test scripts/agents/ocrIdentityQuarantine.test.mjs scripts/agents/ocrArchiveBridge.test.mjs
+          node --test scripts/agents/ocrIdentityQuarantine.test.mjs scripts/agents/ocrArchiveBridge.test.mjs scripts/agents/ocrHistoricalIdentity.test.mjs
           python -m unittest discover -s scripts/agents -p 'ocr_archive_test.py' -v
 
       - name: OCR one queued official SCPI PDF through restricted OIDC bridge

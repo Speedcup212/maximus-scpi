@@ -1,5 +1,6 @@
 import {createRemoteJWKSet,jwtVerify} from "npm:jose@6.1.0";
 import postgres from "npm:postgres@3.4.7";
+import {historicalIssuerIdentityMatches} from "./historicalIdentity.mjs";
 
 const issuer="https://token.actions.githubusercontent.com";
 const jwks=createRemoteJWKSet(new URL(issuer+"/.well-known/jwks"));
@@ -199,7 +200,9 @@ Deno.serve(async(req:Request)=>{
       const combined=pages.map((x:any)=>x.text).join(" ");
       const chars=combined.replace(/\s+/g,"").length;
       const scanned=pages.filter((x:any)=>x.method==="tesseract_ocr").length;
-      if(chars<150||!(norm(combined).includes(norm(String(job.name)))||(t.slug==="epsicap-nano"&&norm(combined).includes("epsilon 360"))))
+      if(chars<150||!(norm(combined).includes(norm(String(job.name)))||
+         (t.slug==="epsicap-nano"&&norm(combined).includes("epsilon 360"))||
+         historicalIssuerIdentityMatches(t.slug,t.period,job.url,norm(combined))))
         return fail(422,"document_identity_or_text_not_verified");
       if(JSON.stringify(pages).length>3500000)return fail(413,"too_large");
       const safePages=pages.filter((x:any)=>x.text.trim().length>0).map((x:any)=>({
