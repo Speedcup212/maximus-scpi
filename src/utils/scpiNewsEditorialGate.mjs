@@ -54,6 +54,9 @@ export function newsEditorialReviewReason(item) {
   if (/^rte en capital et un risque de liquidite\b/i.test(text)) {
     return 'Texte légal tronqué, non une description de l’opération';
   }
+  if (/-->|\btemps de lecture\b|\baccueil\s+actualites\b/i.test(text)) {
+    return 'Résidu de navigation ou d’interface éditoriale dans le résumé';
+  }
   const first = text.slice(0, 570);
   const distinctive = PRIMARY_NAV_SIGNATURES.filter((re) => re.test(first)).length;
   const navCount = BOILERPLATE_TERMS.filter((re) => re.test(first)).length;
