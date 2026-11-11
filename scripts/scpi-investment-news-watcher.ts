@@ -22,6 +22,7 @@
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { newsEditorialReviewReason, isNewsEditoriallyValid } from '../src/utils/scpiNewsEditorialGate.mjs';
 
 // pdf-parse en dynamic import (compatibilité ESM)
 let pdfParse: ((buf: Buffer) => Promise<{ text: string }>) | null = null;
@@ -1007,6 +1008,8 @@ function finalValidateAcquisition(
   item: InvestmentNewsItem,
   block: string,
 ): { valid: boolean; reason: string } {
+  const rejected = newsEditorialReviewReason(item);
+  if (rejected) return { valid: false, reason: rejected };
   const blockLower = block.toLowerCase();
   const docTitle = (item.documentTitle || '').toLowerCase();
   const srcUrl = (item.sourceUrl || '').toLowerCase();
@@ -1297,7 +1300,7 @@ function writeJsonOutputs(items: InvestmentNewsItem[]): { displayable: Investmen
   const history = [...prev];
   let added = 0;
   for (const item of items) { item.id = generateId(item); if (!existingIds.has(item.id)) { history.push(item); existingIds.add(item.id); added++; } }
-  const displayable = history.filter(i => i.dataQuality !== 'weak' && i.editorialPriority > 0);
+  const displayable = history.filter(i => i.dataQuality !== 'weak' && i.editorialPriority > 0 && isNewsEditoriallyValid(i));
 
   fs.mkdirSync(path.dirname(LATEST_PATH), { recursive: true });
   fs.writeFileSync(LATEST_PATH, JSON.stringify(displayable, null, 2), 'utf-8');

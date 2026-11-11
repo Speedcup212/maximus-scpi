@@ -5,6 +5,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { isNewsEditoriallyValid } from '../src/utils/scpiNewsEditorialGate.mjs';
 
 const dist = path.resolve('dist');
 const shellPath = path.join(dist, 'index.html');
@@ -49,7 +50,7 @@ const items = JSON.parse(fs.readFileSync(newsPath, 'utf8'));
 if (!Array.isArray(items)) throw Error('Export actualités non valide.');
 const sorted = items.filter((item) =>
   item && item.sourceOfficial === true &&
-  item.investmentRelated === true && item.dataQuality !== 'weak' &&
+  item.investmentRelated === true && isNewsEditoriallyValid(item) && item.dataQuality !== 'weak' &&
   Number(item.editorialPriority) > 0 &&
   typeof item.scpi === 'string' && item.scpi.trim() &&
   typeof item.title === 'string' && item.title.trim() &&

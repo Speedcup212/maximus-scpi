@@ -1455,9 +1455,11 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Acquisition de Dublin publiée le 21 octobre 2026",
           "paragraphs": [
-            "2026-10-21 — InterGestion. TAL Rente CRISTAL Life CRISTAL Care Votre profil CGP Jeune actif Célibataire ou en couple Parent Senior actif Retraité À la une --> Simulateur SCPI gérées Lexique FAQ Relations associés 01 43 12 52 52."
+            "Cristal Life a acquis un immeuble de bureaux situé dans les South Docklands à Dublin pour 27,65 M€ acte en main. L'actif de 3 167 m², construit en 2004 et rénové en 2024, est certifié BER B1.",
+            "Le locataire Regus (groupe IWG) occupe l'ensemble dans le cadre d'un bail de 25 ans, avec environ 12 années fermes résiduelles annoncées. La concentration locative sur un occupant et la demande de bureaux flexibles restent des points de risque spécifiques.",
+            "L'acquisition renforce l'exposition à Dublin ; son effet sur la diversification globale doit être mesuré à partir des valeurs et pondérations officielles du portefeuille, sans extrapoler un rendement ou un changement du taux de distribution."
           ],
           "basis": "actualites_sourcées"
         },
@@ -1472,8 +1474,8 @@
       ],
       "linkedEvents": [
         {
-          "title": "InterGestion",
-          "sourceUrl": "https://www.inter-gestion.com/corpo/acquisition-cristal-life-dublin%60",
+          "title": "Cristal Life acquiert un immeuble de bureaux à Dublin pour 27,65 M€",
+          "sourceUrl": "https://www.inter-gestion.com/corpo/inter-gestion-reim",
           "date": "2026-10-21"
         }
       ],
@@ -2025,8 +2027,6 @@
         {
           "heading": "Acquisitions et opérations officiellement publiées",
           "paragraphs": [
-            "2026-11-04 — Epsicap Nano : résultats du 3e trimestre 2026. rte en capital et un risque de liquidité. Les revenus distribués ne sont pas garantis et peuvent varier..",
-            "2026-09-23 — Epsicap REIM franchit les 300 M€ sous gestion. savoir plus ? 23/09/2026 Epsicap REIM franchit le cap des 300 M€ d'actifs sous gestion et vise 1 Md€ d'ici 5 ans Cinq ans après sa création, Epsicap REIM franchit le cap des&hellip; Lire la suite Info.",
             "2026-09-15 — Epsicap Nano acquiert un retail park à Perth, Écosse. Epsicap Nano s'implante à Perth avec un retail park de 5 268 m² en Écosse Temps de lecture : 3 min La SCPI Epsicap Nano, gérée par Epsicap REIM, renforce sa présence au Royaume-Uni avec l'acquisition .",
             "2026-09-15 — Communiqué : Epsicap Nano acquiert un retail park à Perth. La SCPI Epsicap Nano s'implante à Perth avec l'acquisition d'un retail park en Écosse Temps de lecture : 1 min La société de gestion Epsicap REIM annonce une nouvelle acquisition au Royaume-Uni pour E."
           ],
@@ -2042,16 +2042,6 @@
         }
       ],
       "linkedEvents": [
-        {
-          "title": "Epsicap Nano : résultats du 3e trimestre 2026",
-          "sourceUrl": "https://epsicap.fr/epsicap-nano-resultats-t3-2026/",
-          "date": "2026-11-04"
-        },
-        {
-          "title": "Epsicap REIM franchit les 300 M€ sous gestion",
-          "sourceUrl": "https://epsicap.fr/epsicap-reim-5-ans-300-millions/",
-          "date": "2026-09-23"
-        },
         {
           "title": "Epsicap Nano acquiert un retail park à Perth, Écosse",
           "sourceUrl": "https://epsicap.fr/epsicap-nano-acquisition-perth/",
@@ -2190,8 +2180,7 @@
         {
           "heading": "Acquisitions et opérations officiellement publiées",
           "paragraphs": [
-            "2026-07-23 — Dynamique d’acquisition pour les SCPI FICOMMERCE et BUROBOUTIC. 23/07/2026 Communiqués de presse Courbevoie, le 23 juillet 2026 COMMUNIQUE DE PRESSE ______________________________________________________________________________ Dynamique d'acquisition pour les SCP.",
-            "2026-06-23 — Actualités de FIDUCIAL Gérance. LOGIPIERRE 3 récompensée par une Victoire d’Or 2026 du magazine Le Particulier. Créée en 1986, LOGIPIERRE 3, SCPI historique de FIDUCIAL Gérance, vient de recevoir le Lauréat d’Or des Victoires des SC."
+            "2026-07-23 — Dynamique d’acquisition pour les SCPI FICOMMERCE et BUROBOUTIC. 23/07/2026 Communiqués de presse Courbevoie, le 23 juillet 2026 COMMUNIQUE DE PRESSE ______________________________________________________________________________ Dynamique d'acquisition pour les SCP."
           ],
           "basis": "actualites_sourcées"
         },
@@ -2209,11 +2198,6 @@
           "title": "Dynamique d’acquisition pour les SCPI FICOMMERCE et BUROBOUTIC",
           "sourceUrl": "https://www.fiducial-gerance.fr/actualites/dynamique-d-acquisition-pour-les-scpi-ficommerce-et-buroboutic",
           "date": "2026-07-23"
-        },
-        {
-          "title": "Actualités de FIDUCIAL Gérance",
-          "sourceUrl": "https://www.fiducial-gerance.fr/actualites?page=1",
-          "date": "2026-06-23"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."

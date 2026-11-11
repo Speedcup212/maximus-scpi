@@ -35,6 +35,7 @@ import certifiedCohort from '../data/certified_scpi_cohort.json';
 import { getScpiEditorialDossier, SCPI_EDITORIAL_COUNT, ScpiEditorialArticle } from './ScpiEditorialArticle';
 import { supabase } from '../supabaseClient';
 import { newsExcerpt, newsHeadline, pickFeaturedNews, sortNewsByPublication, withoutFeaturedNews } from '../utils/actualitesPresentation';
+import { isNewsEditoriallyValid } from '../utils/scpiNewsEditorialGate.mjs';
 
 function publicOfficialSourceUrl(sourceUrl?: string): string | null {
   try {
@@ -50,6 +51,7 @@ function publicOfficialSourceUrl(sourceUrl?: string): string | null {
 const isPublishableNews = (item: InvestmentNewsItem) =>
   item.sourceOfficial === true && item.investmentRelated === true &&
   item.dataQuality !== 'weak' && Number(item.editorialPriority) > 0 &&
+  isNewsEditoriallyValid(item) &&
   Boolean(publicOfficialSourceUrl(item.sourceUrl));
 
 const ALL_NEWS: InvestmentNewsItem[] = Array.isArray(newsJson)
