@@ -31,6 +31,8 @@ import newsJson from '../../data/news/scpi-investment-news-latest.json';
 import sourcesJson from '../../data/scpi-investment-news-sources.json';
 // Liste complète de toutes les SCPI du projet (63+ entrées)
 import scpiCompletRaw from '../data/scpi_complet.json';
+import certifiedCohort from '../data/certified_scpi_cohort.json';
+import { getScpiEditorialDossier, SCPI_EDITORIAL_COUNT, ScpiEditorialArticle } from './ScpiEditorialArticle';
 import { supabase } from '../supabaseClient';
 import { newsExcerpt, newsHeadline, pickFeaturedNews, sortNewsByPublication, withoutFeaturedNews } from '../utils/actualitesPresentation';
 
@@ -79,7 +81,8 @@ for (const s of sourcesJson as Array<{ slug: string; name: string; enabled: bool
   });
 }
 
-/** Liste COMPLÈTE de toutes les SCPI du projet (63 unique) */
+/** Le journal éditorial concerne les 69 SCPI certifiées, pas les sources périphériques. */
+const trackedEditorialSlugs = new Set(certifiedCohort.slugs);
 const TRACKED_SCPIS: TrackedScpi[] = (() => {
   const seen = new Set<string>();
   const list: TrackedScpi[] = [];
@@ -89,6 +92,7 @@ const TRACKED_SCPIS: TrackedScpi[] = (() => {
     seen.add(name);
     const company = (entry['Société de gestion'] as string) || '';
     const slug = createSlugFromName(name);
+    if (!trackedEditorialSlugs.has(slug)) continue;
     // Détermine le statut à partir du fichier sources
     const src = sourceByName.get(name.toLowerCase()) || sourceByName.get(company.toLowerCase());
     const hasSourceUrl = src?.hasUrl;
@@ -955,10 +959,10 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
           <section id="actualites-suivi-scpi" className="mt-14 mb-14 scroll-mt-28">
             <div className="text-center mb-6">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                Suivi des SCPI
+                Dossiers d'actualités des {SCPI_EDITORIAL_COUNT} SCPI
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
-                Veille automatisée quotidienne des sources officielles. Le statut de chaque SCPI indique le dernier contrôle réellement effectué.
+                Analyses documentaires : évolutions certifiées, patrimoine, valorisation et risques. Une absence d'événement nouveau n'est jamais remplacée par une information inventée.
               </p>
             </div>
 
