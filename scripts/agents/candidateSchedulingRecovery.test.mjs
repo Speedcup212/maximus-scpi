@@ -57,3 +57,17 @@ test('P0 daily dedupe and financial gates remain impossible to bypass by retry',
   assert.match(admission,/p\.pdf_sha256 ~ '\^\[0-9a-f\]\{64\}\$'/);
   assert.match(admission,/'deploy_allowed',false/);
 });
+
+test('RECOVERY-202 validated main push resumes the fixed daily cohort, refused reruns fail visibly',()=>{
+  const control=candidate.slice(candidate.indexOf('      - name: CONTROL — prepare'),
+    candidate.indexOf('      - name: CONTROL — classify'));
+  assert.match(control,/github\.event_name == 'push'/);
+  assert.match(control,/op:'prepare_batch20'/);
+  const refusal=candidate.slice(candidate.indexOf('  rerun-guard:'),candidate.indexOf('  contract:'));
+  assert.match(refusal,/github\.run_attempt != 1/);
+  assert.match(refusal,/exit 1/);
+  assert.doesNotMatch(refusal,/createWorkflowDispatch|reset_quota|prepare_batch20/);
+  // Re-running CONTROL does not enroll or charge a second cohort.
+  assert.match(admission,/Idempotence: the first batch selected/);
+  assert.match(admission,/IF NOT EXISTS \(/);
+});

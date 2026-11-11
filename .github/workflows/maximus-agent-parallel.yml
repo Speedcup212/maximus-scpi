@@ -95,6 +95,20 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  rerun-guard:
+    # Existing OIDC budget policy denies reruns. Make that refusal explicit:
+    # an entirely skipped matrix must never appear as a successful repair.
+    if: github.event_name != 'pull_request' && github.run_attempt != 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    permissions:
+      contents: read
+    steps:
+      - name: Refuse a false green recovery without source proof or QA
+        run: |
+          echo '::error::Reruns are denied by the existing OIDC quota policy. Start workflow_dispatch on current main; the daily SQL cohort is idempotent.'
+          exit 1
+
   contract:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
@@ -139,7 +153,9 @@ jobs:
           persist-credentials: false
       - name: CONTROL — prepare exactly one 20-SCPI cohort on existing Supabase queue
         id: dispatch
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        # A validated repair pushed to main resumes the same immutable daily
+        # cohort. Existing done tasks and daily AI quotas are never reset.
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
         uses: actions/github-script@v7
         with:
           script: |

@@ -109,6 +109,34 @@ def get_pdf(url: str) -> bytes:
     return content
 
 
+def get_task_pdf(task: dict) -> bytes:
+    """Use the exact archived issuer original when the live publisher is down.
+
+    The protected bridge resolves the path from the active lease. Neither this
+    worker nor a caller can choose an object path. An invalid archive is fatal;
+    only a missing archive permits the ordinary official-source download.
+    """
+    token = oidc_token()
+    req = urllib.request.Request(BRIDGE,
+        data=json.dumps({"op": "original", "task": task}).encode("utf-8"),
+        headers={"Content-Type": "application/json", "Authorization": "Bearer " + token},
+        method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=45) as resp:
+            expected = resp.headers.get("X-Original-Sha256", "")
+            content = resp.read(MAX_PDF_BYTES + 1)
+    except urllib.error.HTTPError as err:
+        if err.code == 404:
+            return get_pdf(str(task["url"]))
+        raise
+    if (not re.fullmatch(r"[a-f0-9]{64}", expected)
+            or len(content) > MAX_PDF_BYTES or not content.startswith(b"%PDF")
+            or hashlib.sha256(content).hexdigest() != expected):
+        raise ValueError("archived original SHA-256 or PDF invalid")
+    print("OCR source: exact archived issuer PDF; SHA-256 verified")
+    return content
+
+
 def ocr_page(page: fitz.Page) -> str:
     # Local Tesseract, no third-party document-upload API.
     pix = page.get_pixmap(matrix=fitz.Matrix(2.2, 2.2), alpha=False)
@@ -194,7 +222,7 @@ def run_worker() -> None:
     print("OCR claimed:", task["slug"], task["period"], task["kind"])
     run_id = os.environ.get("GITHUB_RUN_ID", "0")
     try:
-        pdf = get_pdf(str(task["url"]))
+        pdf = get_task_pdf(task)
         sha = hashlib.sha256(pdf).hexdigest()
         pages = extract_pages(pdf)
         all_text = " ".join(p["text"] for p in pages)
