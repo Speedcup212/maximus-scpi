@@ -248,7 +248,12 @@ Deno.serve(async (req: Request) => {
   if (error) return Response.json({ error: error.message }, { status: 500 });
 
   const rows = ((data || []) as BulletinRow[])
-    .filter((row) => isStrongQa(row.qa_status))
+    // En mode ciblé, documenter les preuves des bulletins partiels sans les promouvoir.
+    // Les pièces invalides (mauvaise SCPI ou hors bulletin) restent toujours exclues.
+    .filter((row) => requestedIds.length
+      ? row.period === "2026-T3" && /^https:\/\//i.test(row.source_url || "") &&
+        !/^invalid_|not_bulletin|wrong_document/i.test(String(row.qa_status || ""))
+      : isStrongQa(row.qa_status))
     .filter((row) => {
       if (requestedIds.length) return true;
       const extraction = row.extraction_json as Record<string, any> | null;
