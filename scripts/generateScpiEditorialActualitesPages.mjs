@@ -63,7 +63,7 @@ if(!hub.includes('class="editorial-scpi-index"')){
 const redirectPath=path.join(dist,'_redirects');
 if(!fs.existsSync(redirectPath))throw Error('Netlify redirect file missing');
 let rules=fs.readFileSync(redirectPath,'utf8');
-const canonicalCristal='/actualites/cristal-life/';
+const canonicalCristal='/actualites/cristal-life/2026-10-21-cristal-life-acquiert-un-immeuble-de-bureaux-a-dublin-pour-27-65-m';
 const brokenPaths=[
   '/actualites/cristal-life/2026-10-21-intergestion',
   '/actualites/cristal-life/2026-10-21-intergestion/',
