@@ -1,5 +1,4 @@
 /**
-import { newsEditorialReviewReason, isNewsEditoriallyValid } from '../src/utils/scpiNewsEditorialGate.mjs';
  * SCPI Investment News Watcher v6.1 — Validation finale & anti-mojibake
  *
  * Modules :
@@ -23,6 +22,7 @@ import { newsEditorialReviewReason, isNewsEditoriallyValid } from '../src/utils/
 
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { newsEditorialReviewReason, isNewsEditoriallyValid } from '../src/utils/scpiNewsEditorialGate.mjs';
 
 // pdf-parse en dynamic import (compatibilité ESM)
 let pdfParse: ((buf: Buffer) => Promise<{ text: string }>) | null = null;
