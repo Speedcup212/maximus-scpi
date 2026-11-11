@@ -6,14 +6,15 @@ Date : 11/11/2026 · Branche : `recovery-201-capture-simulation` · Cadrage : `d
 
 Déployé et configuré le 11/11/2026 (Supabase, projet ygvsddcpohsnaowofuwc, et Brevo) :
 - migration `recovery201_simulation_email_capture` appliquée (colonnes et index vérifiés en base) ;
-- fonction `send-simulation-email` mise à jour en version 4 : modèle Brevo n° 6, liste n° 6 et adresse de réponse `eric.bellaiche@gmail.com` par défaut (expéditeur : `eric.bellaiche@maximusscpi.com`, vérifié dans Brevo) (les secrets du même nom, s'ils sont créés, priment) ;
+- fonction `send-simulation-email` en version 5 : modèle Brevo n° 6, liste n° 6 et adresse de réponse `eric.bellaiche@gmail.com` par défaut (expéditeur : `eric.bellaiche@maximusscpi.com`, vérifié dans Brevo) (les secrets du même nom, s'ils sont créés, priment). Depuis la v5 : bouton rendez-vous conditionnel (paramètres `CONSENTEMENT`, `AFFICHER_RDV`, `LIEN_RDV`) et `contactPixelTrackingConsent: false` sur chaque destinataire ;
 - fonction `calendly-webhook` version 3, sans vérification JWT (ajout de `RDV_PRIS` uniquement) ;
 - secret `BREVO_API_KEY` ajouté par Eric dans Supabase (nouvelle clé Brevo `supabase-maximusscpi`) ;
 - Brevo, via une fonction ponctuelle protégée par jeton (`brevo-setup-recovery201`, neutralisée ensuite : elle répond 410 et peut être supprimée) :
     - expéditeur vérifié : Eric Bellaiche, `eric.bellaiche@maximusscpi.com`, actif ;
     - attributs créés : `PRENOM`, `TRANCHE_MONTANT`, `MONTANT_50K`, `SOURCE_PAGE`, `CONSENT_DATE`, `RDV_PRIS` ;
     - liste n° 6 « Simulateur SCPI – séquence » ;
-    - modèle transactionnel n° 6 « RECOVERY-201 – Votre simulation SCPI », actif, objet « Votre simulation SCPI : {{ params.MONTANT }} » (montant ajouté le 11/11 à 11 h 11 pour que chaque simulation ait son propre fil dans les messageries).
+    - modèle transactionnel n° 6 « RECOVERY-201 – Votre simulation SCPI », actif, objet « Votre simulation SCPI : {{ params.MONTANT }} » (montant ajouté le 11/11 à 11 h 11 pour que chaque simulation ait son propre fil dans les messageries) ;
+    - 11/11 à 11 h 35 : modèle mis à jour avec le bloc rendez-vous conditionnel, la nouvelle phrase de réponse et la mention STOP. Deux envois de contrôle sur `maximusscpi@gmail.com` (case cochée à 200 000 € ; case non cochée à 30 000 €) : acceptés par Brevo, sans erreur. L'adresse `maximusscpi@gmail.com` est donc dans la liste n° 6 : elle servira de témoin pour la séquence.
 
 Pas encore fait : front (pull request non fusionnée), automatisation des emails 2 à 4 (textes à valider).
 
@@ -31,7 +32,7 @@ Pas encore fait : front (pull request non fusionnée), automatisation des emails
 | `supabase/functions/send-simulation-email/logic.ts` | Créé | Validation et formatage côté serveur, testés par Vitest |
 | `supabase/functions/calendly-webhook/index.ts` | Modifié | `RDV_PRIS = true` dans Brevo après une réservation, sans bloquer le webhook |
 | `supabase/migrations/20261111120000_simulation_email_capture.sql` | Créé | Colonnes `confirmation_sent_at` et `confirmation_error`, plus un index (email, date) |
-| `src/tests/simulationEmailCapture.test.ts` | Créé | 34 tests |
+| `src/tests/simulationEmailCapture.test.ts` | Créé | 39 tests |
 | `tasks/backlog.md` | Modifié | Entrée RECOVERY-201 |
 | `docs/cadrage/RECOVERY-201-capture-simulation.md` | Créé | Cadrage de référence |
 
@@ -41,9 +42,9 @@ Fichiers protégés (`EducationArticlesIndexPage.tsx`, `FiscaliteScpiPage.tsx`, 
 
 | Contrôle | Résultat |
 | --- | --- |
-| `npx vitest run src/tests/simulationEmailCapture.test.ts` | PASS, 34/34 |
-| `npx vitest run` (suite complète) | PASS, 317/317 (38 fichiers) |
-| `npx vite build` | PASS (21 s) |
+| `npx vitest run src/tests/simulationEmailCapture.test.ts` | PASS, 39/39 |
+| `npx vitest run` (suite complète) | PASS, 322/322 (38 fichiers) |
+| `npx vite build` | PASS (27 s) |
 | `npx tsc -p tsconfig.app.json --noEmit` | 1 026 erreurs avant et après : aucune nouvelle, aucune dans les fichiers touchés |
 | `npx eslint` sur les fichiers front et de test touchés | PASS |
 | Rendu navigateur (build local, Chrome headless) | Voir ci-dessous |
@@ -56,6 +57,8 @@ Rendu vérifié :
 
 ## Limites
 
+- **Pixel d'ouverture.** Même avec le réglage Brevo, un suivi agrégé (non nominatif) des ouvertures peut subsister. *À vérifier* dans la documentation Brevo, et à confronter à l'exemption prévue par la recommandation CNIL du 14/04/2026 (mesure agrégée).
+- **Texte de la case v2.** Les lignes déjà enregistrées en `sim-email-v1` (tests d'Eric uniquement) ne couvrent pas les propositions de rendez-vous.
 - **Fonctions Supabase non vérifiées avec Deno.** Deno n'est pas installé ici. Seule la logique (`logic.ts`) est testée. Le reste suit le même modèle que `calendly-webhook`.
 - **Build complet non lancé.** `npm run build` (préchargement Puppeteer et pages statiques) ne l'a pas été, seulement `npx vite build`. La CI GitHub et Netlify le lanceront.
 - **Mesure de `simulation_start` légèrement gonflée.** Saisir dans le bloc compte comme une interaction de simulation, à cause du `onChangeCapture` existant sur la grille du simulateur. Effet limité à `simulation_start` et `simulation_result`. Le taux de capture se mesure sur `simulation_email_viewed`.
@@ -69,7 +72,9 @@ Rendu vérifié :
 1. **Front :** fusionner la pull request en squash avec un titre contenant `[deploy]`, par exemple `[deploy] RECOVERY-201: capture email apres simulation`.
 2. **Contrôle post-release :** sur `/simulateur-scpi/?utm_source=test_eric`, faire un envoi sans la case puis un avec la case, à 100 000 €. Vérifier ensuite la boîte de réception, `contact_submissions` (`confirmation_sent_at`, `confirmation_error`) et la liste Brevo n° 6.
 3. **Emails 2 à 4 :** valider les textes, puis créer l'automatisation Brevo (déclenchée par l'ajout à la liste n° 6, sortie si `RDV_PRIS` est vrai ou si le tag « RÉPONDU » est présent). D'ici là, les contacts qui cochent la case restent dans la liste sans recevoir d'email.
-4. **Hors RECOVERY-201, à traiter à part :** les deux anciennes clés Brevo (« Maximus », désactivée ; « API_BREVO », en lecture seule) ne peuvent pas envoyer. Si Netlify utilise l'une d'elles, l'email de bienvenue et les réponses aux demandes d'accès ne partent plus (à vérifier dans les journaux Netlify).
+4. **Brevo, réglage du pixel (Eric, dans l'interface) :** activer le consentement au pixel par contact et ne pas suivre les contacts dont le consentement est inconnu. Sans ce réglage, le champ `contactPixelTrackingConsent: false` envoyé par la fonction est ignoré et les ouvertures restent suivies individuellement.
+5. **Réponses « STOP » :** retirer à la main le contact de la liste n° 6 (ou le passer en liste noire marketing). Le lien de désinscription Brevo d'un email transactionnel ne le retire pas des envois marketing.
+6. **Hors RECOVERY-201, à traiter à part :** les deux anciennes clés Brevo (« Maximus », désactivée ; « API_BREVO », en lecture seule) ne peuvent pas envoyer. Si Netlify utilise l'une d'elles, l'email de bienvenue et les réponses aux demandes d'accès ne partent plus (à vérifier dans les journaux Netlify).
 
 ## Email 1 (texte du modèle Brevo n° 6, objet : « Votre simulation SCPI : {{ params.MONTANT }} »)
 
@@ -94,14 +99,21 @@ Vos résultats estimés
 
 Bon à savoir. Ces chiffres reposent sur vos hypothèses et sur une fiscalité simplifiée. Une SCPI reste un placement immobilier de long terme : les revenus versés et le prix de la part peuvent varier, à la hausse comme à la baisse, et vous pourriez récupérer moins que votre investissement. La revente des parts peut aussi prendre du temps : on raisonne en général sur 8 à 10 ans. Simulation indicative, qui ne constitue pas une recommandation personnalisée.
 
-Refaire ma simulation : {{ params.LIEN_SIMULATION }}
+{% if params.AFFICHER_RDV %}
+Vous voulez savoir si ces hypothèses tiennent pour votre situation ? Je regarde votre simulation avec vous : 30 minutes en visio, gratuit et sans engagement.
+[Faire analyser ma simulation] → {{ params.LIEN_RDV }}
+Refaire ma simulation (lien simple) → {{ params.LIEN_SIMULATION }}
+{% else %}
+[Refaire ma simulation] → {{ params.LIEN_SIMULATION }}
+{% endif %}
 
-Une question sur ces chiffres ? Répondez simplement à cet email.
+Une question sur ces chiffres ? Répondez à cet email, je vous réponds personnellement.
 
 Eric Bellaiche, conseiller financier – MaximusSCPI · CIF immatriculé à l'ORIAS sous le n° 13001580 (orias.fr), adhérent CNCEF Patrimoine.
 Les SCPI présentent un risque de perte en capital et de liquidité. Les revenus ne sont pas garantis et dépendent du marché immobilier. Durée de placement recommandée : 8 à 10 ans minimum.
+{% if params.CONSENTEMENT %}Vous recevez cet email parce que vous avez demandé votre simulation sur maximusscpi.com et accepté de recevoir des informations de ma part. Pour ne plus en recevoir, répondez « STOP » à cet email.{% else %}Vous recevez cet email parce que vous avez demandé votre simulation sur maximusscpi.com.{% endif %}
 ```
 
-Pas d'appel au rendez-vous dans cet email : il part à tous, case cochée ou non (cadrage, section Conformité).
+Le bouton rendez-vous n'apparaît que si la case est cochée (texte `sim-email-v2`, qui couvre les propositions de rendez-vous) **et** que la tranche est de 50 000 € ou plus. Sans la case, l'email reste transactionnel : aucun appel au rendez-vous. Le lien Calendly est prérempli (prénom, email) et tracé (`utm_medium=email`, `utm_campaign=simulation_email_1`, `utm_content=<page>-email`).
 
 Version C (11/11/2026, 11 h) : le paragraphe « Bon à savoir » est placé juste sous les résultats, dans la même taille de texte que le corps, sans couleur ni icône. Il remplace l'ancien encadré gris en petits caractères, pour respecter l'exigence d'une présentation équilibrée des risques sans ton alarmiste.
