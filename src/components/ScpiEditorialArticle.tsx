@@ -55,8 +55,8 @@ export const ScpiEditorialArticle: React.FC<{ slug: string }> = ({ slug }) => {
       {dossier.moreRecentBulletin && (
         <div className="mt-5 rounded-xl border border-blue-300/40 bg-blue-50/60 dark:bg-blue-950/20 p-4">
           <p className="text-sm text-blue-950 dark:text-blue-100">
-            Un bulletin {dossier.moreRecentBulletin.period} est identifié. Les chiffres analysés restent ceux de {dossier.period}
-            tant qu'une nouvelle certification n'a pas été publiée.
+            Un bulletin {dossier.moreRecentBulletin.period} est repéré. Le bilan comparatif certifié demeure celui de {dossier.period}.
+            Les quelques indicateurs T3 vérifiés individuellement sont distingués ci-dessous.
           </p>
           {dossier.moreRecentBulletin.url && (
             <a href={dossier.moreRecentBulletin.url} target="_blank" rel="noopener noreferrer nofollow"
@@ -65,6 +65,62 @@ export const ScpiEditorialArticle: React.FC<{ slug: string }> = ({ slug }) => {
             </a>
           )}
         </div>
+      )}
+
+
+      {dossier.t3Review && (
+        <section className="mt-6 rounded-xl border border-amber-400/30 bg-amber-950/10 p-5">
+          <h5 className="text-lg font-semibold text-gray-900 dark:text-white">Point documentaire 2026-T3</h5>
+          {dossier.t3Review.state === 'rejected_wrong_document' ? (
+            <p className="mt-2 text-sm text-amber-800 dark:text-amber-200">
+              Une pièce reçue comme bulletin trimestriel a été écartée après contrôle du type de document ou de l'identité de la SCPI.
+              Aucun chiffre de cette pièce n'est utilisé pour actualiser l'analyse.
+            </p>
+          ) : (
+            <>
+              <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                Bulletin officiel repéré. La comparaison trimestrielle reste certifiée sur {dossier.period}.
+                Seuls les indicateurs T3 disposant d'une preuve documentaire individualisée figurent ci-dessous.
+              </p>
+              {dossier.t3Review.verifiedFields.length > 0 ? (
+                <dl className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {dossier.t3Review.verifiedFields.slice(0, 8).map((field) => (
+                    <div key={field.metric} className="rounded-lg border border-gray-600/30 p-3">
+                      <dt className="text-xs text-gray-600 dark:text-gray-400">
+                        {({
+                          tof:'TOF', capitalisation:'Capitalisation', prix_souscription:'Prix de souscription',
+                          prix_retrait:'Prix de retrait', prix_reconstitution:'Valeur de reconstitution',
+                          endettement:'Endettement', walb:'WALB', walt:'WALT', nombre_associes:'Associés',
+                          nombre_parts:'Parts', nombre_immeubles:'Immeubles', nombre_locataires:'Locataires',
+                          parts_attente_retrait:'Parts en attente de retrait'
+                        } as Record<string, string>)[field.metric] || field.metric}
+                      </dt>
+                      <dd className="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100">
+                        {field.value.toLocaleString('fr-FR')} {field.unit || ''}
+                      </dd>
+                      <dd className="mt-1 text-xs text-gray-600 dark:text-gray-400">
+                        Preuve individualisée — page {field.page}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : (
+                <p className="mt-3 text-sm text-amber-800 dark:text-amber-200">
+                  Aucun indicateur nouveau n'atteint encore le seuil de preuve nécessaire à l'affichage.
+                </p>
+              )}
+              {dossier.t3Review.sourceUrl && (
+                <a href={dossier.t3Review.sourceUrl} rel="noopener noreferrer nofollow" target="_blank"
+                  className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 dark:text-emerald-300 hover:underline">
+                  Source officielle T3 <ArrowUpRight className="h-4 w-4" />
+                </a>
+              )}
+              <p className="mt-3 text-xs text-amber-800 dark:text-amber-200">
+                Certification globale T3 non acquise. Les écarts T2–T3 et les métriques en conflit ne sont pas publiés.
+              </p>
+            </>
+          )}
+        </section>
       )}
 
       <div className="mt-8 space-y-8">
