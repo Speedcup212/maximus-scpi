@@ -61,8 +61,8 @@ const sorted = items.filter((item) =>
 const cards = sorted.map((item) => {
   const dated = eventDate(item);
   const dateLabel = dated
-    ? `Événement daté du ${readableDate(dated)}`
-    : 'Date de l’événement non confirmée';
+    ? `Publication datée du ${readableDate(dated)}`
+    : 'Date de publication indisponible';
   return `<article class="actualites-card">
     <div class="actualites-small">${esc(item.scpi)} · ${esc(dateLabel)}</div>
     <h2>${esc(item.title)}</h2>
