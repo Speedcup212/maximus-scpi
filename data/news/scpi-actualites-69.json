@@ -1455,6 +1455,15 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisition de Dublin publiée le 21 octobre 2026",
+          "paragraphs": [
+            "Cristal Life a acquis un immeuble de bureaux situé dans les South Docklands à Dublin pour 27,65 M€ acte en main. L'actif de 3 167 m², construit en 2004 et rénové en 2024, est certifié BER B1.",
+            "Le locataire Regus (groupe IWG) occupe l'ensemble dans le cadre d'un bail de 25 ans, avec environ 12 années fermes résiduelles annoncées. La concentration locative sur un occupant et la demande de bureaux flexibles restent des points de risque spécifiques.",
+            "L'acquisition renforce l'exposition à Dublin ; son effet sur la diversification globale doit être mesuré à partir des valeurs et pondérations officielles du portefeuille, sans extrapoler un rendement ou un changement du taux de distribution."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Bulletin 2026-T3 repéré, mais la synthèse chiffrée reste certifiée au 2026-T2. La nouvelle période ne doit pas être déclarée intégrée.",
@@ -1463,7 +1472,13 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "Cristal Life acquiert un immeuble de bureaux à Dublin pour 27,65 M€",
+          "sourceUrl": "https://www.inter-gestion.com/corpo/inter-gestion-reim",
+          "date": "2026-10-21"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
