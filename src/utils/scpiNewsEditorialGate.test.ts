@@ -33,6 +33,11 @@ describe('Actualités — contrôle anti extraction de navigation', () => {
     ]) expect(isNewsEditoriallyValid({ ...valid, title })).toBe(false);
   });
 
+  it('rejette les résidus de navigation HTML des communiqués', () => {
+    expect(newsEditorialReviewReason({ ...valid, summary: valid.summary + ' --> [Acquisition]' })).toMatch(/Résidu de navigation/);
+    expect(newsEditorialReviewReason({ ...valid, summary: valid.summary + ' Temps de lecture : 3 min' })).toMatch(/Résidu de navigation/);
+  });
+
   it('rejette une actualité sans date, une date de détection déguisée ou un titre répété', () => {
     expect(newsEditorialReviewReason({ ...valid, date: '' })).toMatch(/Date de publication/);
     expect(newsEditorialReviewReason({ ...valid, summary: valid.title })).toMatch(/Texte trop court|copie du titre/);
