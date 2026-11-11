@@ -1,4 +1,6 @@
 export type ScpiNewsEditorialCandidate = {
+  date?: string | null;
+  published_date?: string | null;
   title?: string | null;
   summary?: string | null;
   sourceUrl?: string | null;
