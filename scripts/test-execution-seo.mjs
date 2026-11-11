@@ -148,12 +148,12 @@ test('Vite head entry produces dedicated SCPI roots and analyses HTML with sourc
     const redirectsPath = path.join(fixture, 'dist/_redirects');
     const rules = fs.readFileSync(redirectsPath, 'utf8');
     const unknownNewsGuard = '/actualites/* /404.html 404';
-    assert.equal(rules.split(/\r?\n/).filter(x => x.trim() === unknownNewsGuard).length, 1);
+    assert.equal(rules.split(/\r?\n/).filter(x => x.trim() === unknownNewsGuard).length, 0);
     assert.equal(rules.split(/\r?\n/).filter(x => x.trim() === spaRedirect).length, 1);
-    assert.ok(rules.indexOf(unknownNewsGuard) < rules.indexOf(spaRedirect));
+    assert.ok(!rules.includes(unknownNewsGuard), 'dynamic /actualites/* links must keep SPA fallback');
     assert.doesNotMatch(rules, /console\.log|generated|skipped|Rattrapage SEO/);
     execFileSync(process.execPath, [path.join(fixture, 'scripts/generateSeoStaticShells.js')], { cwd: fixture });
-    assert.equal(fs.readFileSync(redirectsPath, 'utf8'), rules, 'rerun must not duplicate the news guard');
+    assert.equal(fs.readFileSync(redirectsPath, 'utf8'), rules, 'rerun must preserve SPA redirects without reintroducing the news guard');
     const transitions = fs.readFileSync(path.join(fixture, 'dist/transitions-europe/index.html'), 'utf8');
     assert.match(transitions, /<h1>SCPI Transitions Europe : analyse, indicateurs et risques<\/h1>/);
     assert.doesNotMatch(transitions, /135 M€|Testez\. Comparez\. Décidez\.|\\n/);
