@@ -18,6 +18,9 @@ export const TRANCHE_LABELS: Record<string, string> = {
 const AT_LEAST_50K = new Set(['50-100k', '100-300k', 'plus-300k']);
 const SOURCES = new Set(['simulateur-scpi', 'simulateur-revenus-nets-scpi']);
 
+// Rendez-vous « strategique SCPI » (meme URL que src/config/calendly.ts).
+const CALENDLY_BASE_URL = 'https://calendly.com/eric-bellaiche/rdv-strategique-scpi';
+
 export interface SimulationAnswers {
   tranche_montant: string;
   montant_simule: number;
@@ -108,8 +111,34 @@ export const formatMoney = (value: number | null): string => (value === null ? '
 const percent = (value: number) =>
   `${new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(value)} %`;
 
-/** Paramètres du modèle Brevo de l'email 1 (« Votre simulation SCPI »). */
-export function buildEmailParams(answers: SimulationAnswers, prenom: string, source: string) {
+/**
+ * Le bouton rendez-vous n'apparaît que si la personne a coché la case (prospection consentie)
+ * et a choisi une tranche de 50 000 € ou plus. Sinon l'email 1 reste purement transactionnel.
+ */
+export function shouldOfferRdv(tranche: string, consentMarketing: boolean): boolean {
+  return consentMarketing === true && AT_LEAST_50K.has(tranche);
+}
+
+/** Lien Calendly prérempli et traçable (utm_content suffixé « -email »). */
+export function buildRdvUrl(email: string, prenom: string, source: string): string {
+  const url = new URL(CALENDLY_BASE_URL);
+  url.searchParams.set('utm_source', 'maximusscpi');
+  url.searchParams.set('utm_medium', 'email');
+  url.searchParams.set('utm_campaign', 'simulation_email_1');
+  url.searchParams.set('utm_content', `${normalizeSource(source)}-email`);
+  if (prenom) url.searchParams.set('name', prenom);
+  url.searchParams.set('email', email);
+  return url.toString();
+}
+
+/** Paramètres du modèle Brevo de l'email 1 (« Votre simulation SCPI : <montant> »). */
+export function buildEmailParams(
+  answers: SimulationAnswers,
+  prenom: string,
+  source: string,
+  options: { consentMarketing: boolean; email: string } = { consentMarketing: false, email: '' },
+) {
+  const offerRdv = shouldOfferRdv(answers.tranche_montant, options.consentMarketing);
   return {
     PRENOM: prenom,
     TRANCHE: TRANCHE_LABELS[answers.tranche_montant],
@@ -125,6 +154,10 @@ export function buildEmailParams(answers: SimulationAnswers, prenom: string, sou
     PREMIERE_ANNEE: formatMoney(answers.revenu_premiere_annee),
     CUMUL: formatMoney(answers.cumul_horizon),
     LIEN_SIMULATION: `https://www.maximusscpi.com/${normalizeSource(source)}/`,
+    // Chaînes vides = faux dans le modèle Brevo ({% if params.X %}).
+    CONSENTEMENT: options.consentMarketing ? 'oui' : '',
+    AFFICHER_RDV: offerRdv ? 'oui' : '',
+    LIEN_RDV: offerRdv && options.email ? buildRdvUrl(options.email, prenom, source) : '',
   };
 }
 

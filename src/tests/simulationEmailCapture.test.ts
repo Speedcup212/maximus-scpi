@@ -15,9 +15,11 @@ import {
 import {
   buildContactAttributes,
   buildEmailParams,
+  buildRdvUrl,
   cleanPrenom,
   formatMoney,
   isFresh,
+  shouldOfferRdv,
   validateAnswers,
 } from '../../supabase/functions/send-simulation-email/logic';
 
@@ -280,6 +282,50 @@ describe('fonction send-simulation-email : logique serveur', () => {
       PRENOM: 'Anne', TRANCHE_MONTANT: '50-100k', MONTANT_50K: true,
       SOURCE_PAGE: 'simulateur-scpi', CONSENT_DATE: '2026-11-11', RDV_PRIS: false,
     });
+  });
+
+  it('ne propose le rendez-vous dans l’email qu’avec la case cochée et 50 k€ ou plus', () => {
+    expect(shouldOfferRdv('50-100k', true)).toBe(true);
+    expect(shouldOfferRdv('plus-300k', true)).toBe(true);
+    expect(shouldOfferRdv('50-100k', false)).toBe(false);
+    expect(shouldOfferRdv('20-50k', true)).toBe(false);
+  });
+
+  it('sans case cochée, l’email 1 reste transactionnel (aucun lien de rendez-vous)', () => {
+    const params = buildEmailParams(validateAnswers(answers)!, 'Anne', 'simulateur-scpi', {
+      consentMarketing: false, email: 'anne@exemple.fr',
+    });
+    expect(params.AFFICHER_RDV).toBe('');
+    expect(params.LIEN_RDV).toBe('');
+    expect(params.CONSENTEMENT).toBe('');
+  });
+
+  it('avec la case cochée et 50 k€ ou plus, le lien Calendly est prérempli et traçable', () => {
+    const params = buildEmailParams(validateAnswers(answers)!, 'Anne', 'simulateur-scpi', {
+      consentMarketing: true, email: 'anne@exemple.fr',
+    });
+    expect(params.AFFICHER_RDV).toBe('oui');
+    expect(params.CONSENTEMENT).toBe('oui');
+    const url = new URL(params.LIEN_RDV);
+    expect(url.origin + url.pathname).toBe('https://calendly.com/eric-bellaiche/rdv-strategique-scpi');
+    expect(url.searchParams.get('utm_content')).toBe('simulateur-scpi-email');
+    expect(url.searchParams.get('utm_medium')).toBe('email');
+    expect(url.searchParams.get('email')).toBe('anne@exemple.fr');
+    expect(url.searchParams.get('name')).toBe('Anne');
+  });
+
+  it('case cochée sous 50 k€ : pas de rendez-vous, mais consentement transmis', () => {
+    const params = buildEmailParams(validateAnswers({ ...answers, tranche_montant: '20-50k' })!, '', 'simulateur-scpi', {
+      consentMarketing: true, email: 'anne@exemple.fr',
+    });
+    expect(params.AFFICHER_RDV).toBe('');
+    expect(params.CONSENTEMENT).toBe('oui');
+  });
+
+  it('borne aussi le lien de rendez-vous aux pages connues', () => {
+    const url = new URL(buildRdvUrl('a@b.fr', '', 'https://evil.example'));
+    expect(url.searchParams.get('utm_content')).toBe('simulateur-scpi-email');
+    expect(url.searchParams.has('name')).toBe(false);
   });
 
   it('refuse une ligne de plus de 15 minutes', () => {

@@ -14,7 +14,8 @@ export type Tranche = 'moins-20k' | '20-50k' | '50-100k' | '100-300k' | 'plus-30
 
 export type SimulationSource = 'simulateur-scpi' | 'simulateur-revenus-nets-scpi';
 
-export const CONSENT_TEXT_VERSION = 'sim-email-v1';
+// v2 (11/11/2026) : la case couvre aussi les propositions de rendez-vous.
+export const CONSENT_TEXT_VERSION = 'sim-email-v2';
 
 export const TRANCHE_OPTIONS: ReadonlyArray<{ value: Tranche; label: string }> = [
   { value: 'moins-20k', label: 'Moins de 20 000 €' },

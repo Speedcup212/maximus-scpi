@@ -161,10 +161,16 @@ Deno.serve(async (req) => {
     method: "POST",
     headers: brevoHeaders,
     body: JSON.stringify({
-      to: [prenom ? { email, name: prenom } : { email }],
+      // Pixel d'ouverture non identifiant (recommandation CNIL du 14/04/2026) : la case ne couvre pas le suivi.
+      to: [prenom
+        ? { email, name: prenom, contactPixelTrackingConsent: false }
+        : { email, contactPixelTrackingConsent: false }],
       templateId,
       replyTo: { email: replyTo },
-      params: buildEmailParams(answers, prenom, source),
+      params: buildEmailParams(answers, prenom, source, {
+        consentMarketing: lead.consentement_marketing === true,
+        email,
+      }),
     }),
   }).catch(() => null);
 

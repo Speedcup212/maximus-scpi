@@ -304,8 +304,9 @@ const SimulationEmailCapture: React.FC<SimulationEmailCaptureProps> = ({ snapsho
             className="mt-1 h-4 w-4 shrink-0 rounded border-gray-300 text-green-600 focus:ring-green-500"
           />
           <label htmlFor="sim-consent" className="text-sm leading-6 text-gray-700 dark:text-gray-300">
-            J'accepte de recevoir par email des informations sur l'investissement en SCPI de la part d'Eric
-            Bellaiche, conseiller financier (MaximusSCPI). Je peux me désinscrire en un clic dans chaque email.
+            J'accepte de recevoir par email des informations sur l'investissement en SCPI et des propositions de
+            rendez-vous de la part d'Eric Bellaiche, conseiller financier (MaximusSCPI). Je peux me désinscrire à
+            tout moment.
           </label>
         </div>
 
