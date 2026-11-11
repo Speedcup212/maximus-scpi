@@ -58,7 +58,8 @@
             "Concentration sectorielle très forte : Bureaux représente environ 92.1 % du patrimoine. — vigilance élevée neutralisée : preuve de champ insuffisante.",
             "TOF à 86.5 % : niveau suffisamment faible pour constituer un facteur de vigilance.",
             "Durée ferme des baux : 2 ans : échéances locatives relativement proches.",
-            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée."
+            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée.",
+            "Sur les bureaux (exposition géographique de référence : Paris intra-muros), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -127,7 +128,8 @@
           "paragraphs": [
             "TOF à 87.52 % : niveau suffisamment faible pour constituer un facteur de vigilance.",
             "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée.",
-            "Liquidité : 3.42 % des parts sont en attente de retrait, tension à surveiller."
+            "Liquidité : 3.42 % des parts sont en attente de retrait, tension à surveiller.",
+            "Sur les bureaux (exposition géographique de référence : Région parisienne), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -185,15 +187,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Entrepôt logistique 53,2 % ; Locaux d'activités 30,8 % ; Logistique urbaine 8,5 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 77,5 % ; Espagne 13,4 % ; Italie 4,1 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Pour les actifs logistiques et d'activité, il convient de vérifier les baux, la qualité des locataires et les investissements nécessaires à la remise aux normes."
           ],
           "basis": "vigilance"
         },
@@ -252,14 +257,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Commerces 57 % ; Séminaires / Hôtels 34 % ; Bureaux 6 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Paris 31 % ; Région 30 % ; Île-de-France 28 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Liquidité : 8.21 % des parts sont en attente de retrait, tension importante."
+            "Liquidité : 8.21 % des parts sont en attente de retrait, tension importante.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -321,15 +329,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 76 % ; Commerces 16 % ; Hôtels 4 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : IDF 29 % ; Paris 21 % ; Sud-Est 12 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "Durée ferme des baux : 2.83 ans : échéances locatives relativement proches.",
-            "Liquidité : 3.42 % des parts sont en attente de retrait, tension à surveiller."
+            "Liquidité : 3.42 % des parts sont en attente de retrait, tension à surveiller.",
+            "Sur les bureaux (exposition géographique de référence : IDF), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -389,14 +400,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Commerces 36 % ; Logistique 28 % ; Retail Parks 21 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Auvergne-Rhône-Alpes 42 % ; Nouvelle-Aquitaine 24 % ; Paris & Île-de-France 12 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante."
+            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -472,15 +486,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Commerces 37 % ; Activités 30 % ; Bureaux 29 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Régions 56 % ; Ile-de-France 22 % ; Espagne 13 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "Durée ferme des baux : 2.3 ans : échéances locatives relativement proches.",
-            "Évolution WALT/WALB non comparable : la période précédente publie une durée ferme supérieure à la durée totale restante ; vérifier la présentation du bulletin avant de calculer une tendance."
+            "Évolution WALT/WALB non comparable : la période précédente publie une durée ferme supérieure à la durée totale restante ; vérifier la présentation du bulletin avant de calculer une tendance.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -537,15 +554,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Commerces en retail park 61 % ; Commerces de pied d'immeuble 35 % ; Bureaux 2 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Régions 65 % ; Ile-de-France 27 % ; Paris 8 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "Durée ferme des baux : 2.05 ans : échéances locatives relativement proches.",
-            "Liquidité : 3.98 % des parts sont en attente de retrait, tension à surveiller. Hausse de 1.41 point(s) sur le trimestre."
+            "Liquidité : 3.98 % des parts sont en attente de retrait, tension à surveiller. Hausse de 1.41 point(s) sur le trimestre.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -607,15 +627,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Hôtels 71 % ; Autres types d'hébergements touristiques 29 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 32 % ; Allemagne 29 % ; Belgique 22 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "La valorisation hôtelière dépend aussi de la qualité des exploitants, du tourisme local et de la structure des baux."
           ],
           "basis": "vigilance"
         },
@@ -672,14 +695,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T3** : Locaux commerciaux 52,6 % ; Bureaux 31,8 % ; Locaux d'activités 15,6 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Régions 53,6 % ; Ile-de-France 30,6 % ; Paris 15,8 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante."
+            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -750,15 +776,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T3** : Commerces 47,2 % ; Logistique et locaux d'activités 29,3 % ; Bureaux 20,2 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Espagne 43,8 % ; Portugal 33,5 % ; Belgique 15,5 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -835,15 +864,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 46 % ; Commerces 31,4 % ; Logistique et locaux d'activités 21,4 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Régions 86,7 % ; Île-de-France 13,3 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les bureaux (exposition géographique de référence : Régions), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -926,14 +958,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T3** : Commerces alimentaires 55,9 % ; Commerces non alimentaires 25,7 % ; Services 15,8 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Régions 80,2 % ; Île-de-France 19,8 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante."
+            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -990,15 +1025,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T3** : Logistique & Activités 27,5 % ; Commerce 24,1 % ; Mixte 16,3 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Royaume-Uni 46,9 % ; Canada 14 % ; Espagne 13,2 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Pour les actifs logistiques et d'activité, il convient de vérifier les baux, la qualité des locataires et les investissements nécessaires à la remise aux normes."
           ],
           "basis": "vigilance"
         },
@@ -1066,7 +1104,8 @@
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les bureaux (exposition géographique de référence : Pays-Bas), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -1134,7 +1173,8 @@
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les bureaux (exposition géographique de référence : Pays-Bas), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -1203,7 +1243,8 @@
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "Concentration géographique très forte : États-Unis représente environ 100.0 % du patrimoine. — vigilance élevée neutralisée : preuve de champ insuffisante.",
-            "Mutualisation encore limitée : capitalisation d’environ 82.0 M€, 6 immeuble(s), 13 locataire(s)."
+            "Mutualisation encore limitée : capitalisation d’environ 82.0 M€, 6 immeuble(s), 13 locataire(s).",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -1271,7 +1312,8 @@
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les bureaux (exposition géographique de référence : Royaume-Uni), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -1325,15 +1367,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 84,9 % ; Commerces 13,1 % ; Hôtels, tourisme et loisirs 2 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Île-de-France 51,5 % ; Régions 22,6 % ; Paris 21,8 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "TOF à 81.40 % : niveau faible, vigilance renforcée sur l’occupation.",
-            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée."
+            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée.",
+            "Sur les bureaux (exposition géographique de référence : Île-de-France), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -1394,15 +1439,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Commerce 29,3 % ; Bureau 26,7 % ; Santé 23 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France (Régions) 56,3 % ; Espagne 17,9 % ; Irlande 9,2 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -1470,14 +1518,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Commerce alimentaire 48,9 % ; Bricolage et jardinerie 28 % ; Restauration 13,2 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Régions 67,8 % ; Île-de-France 16,8 % ; Espagne 8,8 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Durée ferme des baux : 2.51 ans : échéances locatives relativement proches."
+            "Durée ferme des baux : 2.51 ans : échéances locatives relativement proches.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -1534,16 +1585,19 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 68,9 % ; Commerces 14,5 % ; Logistique 9 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Île-de-France 30,2 % ; Paris 24,8 % ; Régions 21 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "TOF faible à 83.84% : niveau inférieur au seuil de vigilance de 90%.",
             "Endettement à 29.1% : levier significatif à surveiller.",
-            "Liquidité : 4.89 % des parts sont en attente de retrait, tension à surveiller."
+            "Liquidité : 4.89 % des parts sont en attente de retrait, tension à surveiller.",
+            "Sur les bureaux (exposition géographique de référence : Île-de-France), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -1610,7 +1664,8 @@
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Pour les actifs logistiques et d'activité, il convient de vérifier les baux, la qualité des locataires et les investissements nécessaires à la remise aux normes."
           ],
           "basis": "vigilance"
         },
@@ -1668,16 +1723,19 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 74,4 % ; Divers 9,4 % ; Autres locaux commerciaux 7,6 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 74,1 % ; Allemagne 10 % ; Pays-Bas 5,2 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "Liquidité : 5.67 % des parts sont en attente de retrait, tension importante.",
             "TOF à 86.88 % : niveau suffisamment faible pour constituer un facteur de vigilance.",
-            "Surcote de 7.44 % par rapport à la valeur de reconstitution : information à suivre."
+            "Surcote de 7.44 % par rapport à la valeur de reconstitution : information à suivre.",
+            "Sur les bureaux (exposition géographique de référence : France), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -1732,15 +1790,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 69,6 % ; Commerces 19,9 % ; Hôtels, tourisme et loisirs 6,3 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Île-de-France 36,9 % ; Régions 32,7 % ; Paris 21,9 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "Liquidité : 8.47 % des parts sont en attente de retrait, tension importante.",
-            "Surcote de 5.03 % par rapport à la valeur de reconstitution : information à suivre."
+            "Surcote de 5.03 % par rapport à la valeur de reconstitution : information à suivre.",
+            "Sur les bureaux (exposition géographique de référence : Île-de-France), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -1801,15 +1862,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 46,9 % ; Commerces 29 % ; Tourisme / Hôtel 10,1 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Paris / Île-de-France 27,1 % ; Nord-Ouest 17,4 % ; Sud-Ouest 16,2 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les bureaux (exposition géographique de référence : Paris / Île-de-France), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -1880,7 +1944,8 @@
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "La valorisation hôtelière dépend aussi de la qualité des exploitants, du tourisme local et de la structure des baux."
           ],
           "basis": "vigilance"
         },
@@ -1942,15 +2007,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Commerces 54 % ; Logistique et locaux d'activités 20 % ; Bureaux 12 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 59 % ; Royaume-Uni 22 % ; Espagne 13 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -2038,14 +2106,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Services 27,3 % ; Logistique 24,2 % ; Bureaux 19,6 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Regions 49,2 % ; Paris 28,5 % ; Ile_de_France 17,9 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Mutualisation encore limitée : capitalisation d’environ 116.9 M€, 10 immeuble(s)."
+            "Mutualisation encore limitée : capitalisation d’environ 116.9 M€, 10 immeuble(s).",
+            "Les évolutions d'occupation, de collecte et de valorisation doivent être confrontées entre plusieurs bulletins, plutôt que d'interpréter isolément 2026-T2."
           ],
           "basis": "vigilance"
         },
@@ -2102,14 +2173,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T3** : Locaux commerciaux 84,9 % ; Bureaux 14,9 % ; Entrepôts, activités et divers 0,2 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Régions 51,9 % ; Paris 25,3 % ; Île-de-France 20,3 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante."
+            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -2190,15 +2264,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Lieux de soins, de traitement et de consultation 45 % ; Locaux d'accompagnement et rééducation 39 % ; Locaux supports au secteur de la santé 16 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 68 % ; Belgique 32 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur la santé et l'éducation, la pérennité réglementaire des exploitants et la spécialisation des bâtiments doivent être examinées."
           ],
           "basis": "vigilance"
         },
@@ -2253,9 +2330,11 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Logement 99,6 % ; Commerces 0,4 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Île-de-France 87 % ; Régions 13 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
@@ -2263,7 +2342,8 @@
             "TOF à 86.03 % : niveau suffisamment faible pour constituer un facteur de vigilance.",
             "Surcote de 7.38 % par rapport à la valeur de reconstitution : information à suivre.",
             "Mutualisation encore limitée : capitalisation d’environ 12.0 M€, 7 immeuble(s).",
-            "Reporting semestriel : la période précédente disponible est 2025-T4. La comparaison trimestrielle est volontairement neutralisée afin de ne pas fabriquer un trimestre intermédiaire."
+            "Reporting semestriel : la période précédente disponible est 2025-T4. La comparaison trimestrielle est volontairement neutralisée afin de ne pas fabriquer un trimestre intermédiaire.",
+            "Sur le résidentiel, les arbitrages, les travaux et la réglementation locative peuvent expliquer des écarts entre rendement courant et potentiel patrimonial."
           ],
           "basis": "vigilance"
         },
@@ -2320,14 +2400,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 36,3 % ; Commerces de centre-ville et milieu urbain 24,1 % ; Moyennes surfaces commerciales de périphéries 16,4 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Métropoles françaises 32,8 % ; Grand Paris 25 % ; Paris Centre 22,5 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Écart prix/valeur non publié automatiquement : validation sémantique manuelle requise pour les deux valeurs sources."
+            "Écart prix/valeur non publié automatiquement : validation sémantique manuelle requise pour les deux valeurs sources.",
+            "Sur les bureaux (exposition géographique de référence : Métropoles françaises), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -2389,15 +2472,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Commerces 56,4 % ; Locaux d'activités 18,9 % ; Santé & hôtellerie 13,9 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Royaume-Uni 31,3 % ; Pays-Bas 28,5 % ; Espagne 12,9 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -2469,15 +2555,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T3** : Commerces 37 % ; Bureaux 27,7 % ; Locaux d'activités 12,9 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 27,5 % ; Royaume-Uni 27,4 % ; Pays-Bas 13,7 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -2546,15 +2635,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Habitations 89,3 % ; Commerces et bureaux 10,7 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 100 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur le résidentiel, les arbitrages, les travaux et la réglementation locative peuvent expliquer des écarts entre rendement courant et potentiel patrimonial."
           ],
           "basis": "vigilance"
         },
@@ -2609,14 +2701,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Santé et éducation 100 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Régions 51,8 % ; Paris 26 % ; Belgique 9,6 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Surcote de 6.41 % par rapport à la valeur de reconstitution : information à suivre."
+            "Surcote de 6.41 % par rapport à la valeur de reconstitution : information à suivre.",
+            "Sur la santé et l'éducation, la pérennité réglementaire des exploitants et la spécialisation des bâtiments doivent être examinées."
           ],
           "basis": "vigilance"
         },
@@ -2672,14 +2767,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 76,8 % ; Commerces 13,5 % ; Hôtels, tourisme et loisirs 6,8 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Allemagne 56,5 % ; Royaume-Uni 18 % ; Pays-Bas 8 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Liquidité : 7.58 % des parts sont en attente de retrait, tension importante."
+            "Liquidité : 7.58 % des parts sont en attente de retrait, tension importante.",
+            "Sur les bureaux (exposition géographique de référence : Allemagne), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -2736,15 +2834,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 92 % ; Santé et éducation 7,9 % ; Commerces 0,2 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Ile-de-France 67,3 % ; Paris 26,8 % ; Régions 5,9 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "TOF à 86.4 % : niveau suffisamment faible pour constituer un facteur de vigilance.",
-            "File de retraits non utilisée pour le niveau de vigilance : le régime de capital ou de marché secondaire exige une lecture spécifique de la liquidité."
+            "File de retraits non utilisée pour le niveau de vigilance : le régime de capital ou de marché secondaire exige une lecture spécifique de la liquidité.",
+            "Sur les bureaux (exposition géographique de référence : Ile-de-France), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -2806,15 +2907,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Locaux d'activités et sites de production 71 % ; Logistique 23 % ; Life Science 5 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Italie 28 % ; Espagne 26 % ; Royaume-Uni 22 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Pour les actifs logistiques et d'activité, il convient de vérifier les baux, la qualité des locataires et les investissements nécessaires à la remise aux normes."
           ],
           "basis": "vigilance"
         },
@@ -2870,15 +2974,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Commerce 77 % ; Bureaux 10 % ; Éducation 8 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Royaume-Uni 57 % ; Espagne 36 % ; Allemagne 7 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -2935,14 +3042,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Santé/Social 66 % ; Bien-être 17 % ; Éducation 10 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 70 % ; Europe 30 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante."
+            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante.",
+            "Sur la santé et l'éducation, la pérennité réglementaire des exploitants et la spécialisation des bâtiments doivent être examinées."
           ],
           "basis": "vigilance"
         },
@@ -2999,16 +3109,19 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 57 % ; Commerce 30 % ; Activités 13 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Ile-de-France 22 % ; PACA 19 % ; Occitanie 11 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée.",
             "Source courante à vérifier : aucune vigilance élevée ne peut être publiée tant que la source exacte n’est pas certifiée.",
-            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante."
+            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante.",
+            "Sur les bureaux (exposition géographique de référence : Ile-de-France), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -3080,15 +3193,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Équipement de la maison 30,3 % ; Restauration 15,7 % ; Alimentaire 15,2 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Autres régions 30,8 % ; Paris 28,6 % ; 12 métropoles régionales 21,2 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "Liquidité : 9.03 % des parts sont en attente de retrait, tension importante.",
-            "TOF à 84.60 % : niveau faible, vigilance renforcée sur l’occupation."
+            "TOF à 84.60 % : niveau faible, vigilance renforcée sur l’occupation.",
+            "Les évolutions d'occupation, de collecte et de valorisation doivent être confrontées entre plusieurs bulletins, plutôt que d'interpréter isolément 2026-T2."
           ],
           "basis": "vigilance"
         },
@@ -3142,14 +3258,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Résidentiel 100 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Paris 76,9 % ; Région parisienne 12,6 % ; Nice 7,4 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée."
+            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée.",
+            "Sur le résidentiel, les arbitrages, les travaux et la réglementation locative peuvent expliquer des écarts entre rendement courant et potentiel patrimonial."
           ],
           "basis": "vigilance"
         },
@@ -3214,16 +3333,19 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 94 % ; Hôtels 4 % ; Activités 1 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 54 % ; Allemagne 28 % ; Espagne 8 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "Liquidité : 5.98 % des parts sont en attente de retrait, tension importante.",
             "Endettement à 35 % : niveau matériel à surveiller.",
-            "Écart prix/valeur non publié automatiquement : validation sémantique manuelle requise pour les deux valeurs sources."
+            "Écart prix/valeur non publié automatiquement : validation sémantique manuelle requise pour les deux valeurs sources.",
+            "Sur les bureaux (exposition géographique de référence : France), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -3280,15 +3402,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Logistique et locaux d'activités 90 % ; Bureaux 10 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Île-de-France 45,1 % ; Régions 40 % ; Espagne 5,5 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "9 immeuble(s) seulement : concentration patrimoniale réellement marquée.",
-            "Liquidité : 3.02 % des parts sont en attente de retrait, tension à surveiller."
+            "Liquidité : 3.02 % des parts sont en attente de retrait, tension à surveiller.",
+            "Pour les actifs logistiques et d'activité, il convient de vérifier les baux, la qualité des locataires et les investissements nécessaires à la remise aux normes."
           ],
           "basis": "vigilance"
         },
@@ -3344,14 +3469,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 40,2 % ; Commerces 28,3 % ; Activités et Logistique 26,4 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 100 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "TOF en baisse de 3.09 points sur le trimestre, à 91.16 % : dégradation suffisamment marquée pour être suivie."
+            "TOF en baisse de 3.09 points sur le trimestre, à 91.16 % : dégradation suffisamment marquée pour être suivie.",
+            "Sur les bureaux (exposition géographique de référence : France), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -3423,16 +3551,19 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T3** : Bureaux 89,4 % ; Locaux d'activité 10,6 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Pologne - Cracovie 53,3 % ; Pologne - Varsovie 46,7 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "TOF à 69.1 % : niveau très faible, signal majeur sur l’occupation.",
             "Mutualisation encore limitée : capitalisation d’environ 49.3 M€, 5 immeuble(s).",
-            "Liquidité : 4.50 % des parts sont en attente de retrait, tension à surveiller. Hausse de 0.84 point(s) sur le trimestre."
+            "Liquidité : 4.50 % des parts sont en attente de retrait, tension à surveiller. Hausse de 0.84 point(s) sur le trimestre.",
+            "Sur les bureaux (exposition géographique de référence : Pologne - Cracovie), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -3490,15 +3621,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T3** : Bureaux 65,1 % ; Autres 26,2 % ; Logistique & Messagerie 4,8 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Métropoles régionales 56 % ; Ile-de-France hors Paris 25,5 % ; Autres régions 12,9 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "TOF à 84.50 % : niveau faible, vigilance renforcée sur l’occupation.",
-            "Liquidité : 3.06 % des parts sont en attente de retrait, tension à surveiller."
+            "Liquidité : 3.06 % des parts sont en attente de retrait, tension à surveiller.",
+            "Sur les bureaux (exposition géographique de référence : Métropoles régionales), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -3559,14 +3693,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Commerces 87,2 % ; Bureaux 11,5 % ; Activités / Logistique 1,3 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 72,9 % ; Belgique 14,6 % ; Pays-Bas 5,7 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Durée ferme des baux : 2.87 ans : échéances locatives relativement proches."
+            "Durée ferme des baux : 2.87 ans : échéances locatives relativement proches.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -3619,16 +3756,28 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Résidentiel 97,6 % ; SCPI 2,4 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Île-de-France hors Paris 36,8 % ; Paris 32,4 % ; France hors région parisienne 28,4 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée."
+            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée.",
+            "Sur le résidentiel, les arbitrages, les travaux et la réglementation locative peuvent expliquer des écarts entre rendement courant et potentiel patrimonial."
           ],
           "basis": "vigilance"
+        },
+        {
+          "heading": "Questions concrètes à la prochaine actualisation",
+          "basis": "lecture_analytique_non_predictive",
+          "paragraphs": [
+            "Pour juger de la qualité de cette période, il faut rapprocher les loyers effectivement encaissés, les charges et travaux, ainsi que les expertises immobilières. Un taux de distribution passé ne suffit pas à caractériser la rentabilité future.",
+            "La prochaine publication permettra de vérifier si les niveaux de location, la valorisation et les opérations patrimoniales du 2026-T2 se prolongent ou s'inversent.",
+            "Les implications pour l'associé doivent intégrer les délais de retrait, le risque de perte en capital, les frais et l'horizon de placement, au-delà du rendement annuel communiqué."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -3681,16 +3830,19 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T3** : Bureaux 95,2 % ; Logistique et locaux d'activités 1,9 % ; Hôtels, tourisme, loisirs 1,7 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Région Parisienne 76,2 % ; Paris 19,6 % ; Régions 4,2 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "Endettement à 40 % : levier financier élevé, signal majeur.",
             "TOF à 84.70 % : niveau faible, vigilance renforcée sur l’occupation.",
-            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée."
+            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée.",
+            "Sur les bureaux (exposition géographique de référence : Région Parisienne), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -3748,14 +3900,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T3** : Santé et éducation 59 % ; Hôtels, tourisme, loisirs 40,4 % ; Alternatifs (résidence étudiante) 0,6 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Allemagne 65,1 % ; Espagne 18 % ; Italie 13,2 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Liquidité : 3.38 % des parts sont en attente de retrait, tension à surveiller."
+            "Liquidité : 3.38 % des parts sont en attente de retrait, tension à surveiller.",
+            "Sur la santé et l'éducation, la pérennité réglementaire des exploitants et la spécialisation des bâtiments doivent être examinées."
           ],
           "basis": "vigilance"
         },
@@ -3811,14 +3966,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T3** : Bureaux 85,2 % ; Hôtels, tourisme, loisirs 6,1 % ; Santé et éducation 5 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 76,5 % ; Pays-Bas 9,9 % ; Allemagne 4,4 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "TOF à 83.40 % : niveau faible, vigilance renforcée sur l’occupation."
+            "TOF à 83.40 % : niveau faible, vigilance renforcée sur l’occupation.",
+            "Sur les bureaux (exposition géographique de référence : France), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -3875,15 +4033,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T3** : Bureaux 47,7 % ; Hôtels, tourisme, loisirs 27,3 % ; Commerces 18,6 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 58,7 % ; Pays-Bas 14 % ; Espagne 12,7 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "TOF à 87.6 % : niveau suffisamment faible pour constituer un facteur de vigilance.",
-            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée."
+            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée.",
+            "Sur les bureaux (exposition géographique de référence : France), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -3961,14 +4122,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Médico-social 72,6 % ; Sanitaire et soins de ville 20,4 % ; Autres secteurs de la santé 7 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 33,7 % ; Royaume-Uni 19,6 % ; Allemagne 13,8 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Liquidité : 3.40 % des parts sont en attente de retrait, tension à surveiller."
+            "Liquidité : 3.40 % des parts sont en attente de retrait, tension à surveiller.",
+            "Sur la santé et l'éducation, la pérennité réglementaire des exploitants et la spécialisation des bâtiments doivent être examinées."
           ],
           "basis": "vigilance"
         },
@@ -4029,14 +4193,17 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Hôtellerie 67,9 % ; Résidentiel 15,1 % ; Commerces 9,9 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France 57,8 % ; Grèce 16,3 % ; Irlande 15,7 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Liquidité critique : 13.64 % des parts sont en attente de retrait."
+            "Liquidité critique : 13.64 % des parts sont en attente de retrait.",
+            "La valorisation hôtelière dépend aussi de la qualité des exploitants, du tourisme local et de la structure des baux."
           ],
           "basis": "vigilance"
         },
@@ -4096,15 +4263,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Santé / Sénior 78,7 % ; Bureaux 16,1 % ; Éducation 4 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : France hors région parisienne 36,9 % ; Île-de-France hors Paris 23,5 % ; Allemagne 18,9 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur la santé et l'éducation, la pérennité réglementaire des exploitants et la spécialisation des bâtiments doivent être examinées."
           ],
           "basis": "vigilance"
         },
@@ -4165,15 +4335,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 39,8 % ; Santé & éducation 19,6 % ; Logistique et locaux d'activité 15,3 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Royaume-Uni 29,8 % ; France 23,9 % ; Espagne 10 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les bureaux (exposition géographique de référence : Royaume-Uni), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -4233,15 +4406,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 88,6 % ; Commerces 11,4 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Royaume-Uni 100 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "TOF en baisse de 9.15 points sur le trimestre, à 90.85 % : dégradation suffisamment marquée pour être suivie.",
-            "Mutualisation encore limitée : capitalisation d’environ 23.0 M€, 1 immeuble(s), 5 locataire(s)."
+            "Mutualisation encore limitée : capitalisation d’environ 23.0 M€, 1 immeuble(s), 5 locataire(s).",
+            "Sur les bureaux (exposition géographique de référence : Royaume-Uni), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -4298,15 +4474,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 76,6 % ; Commerces 14 % ; Hôtels 4,6 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Paris 44 % ; Île-de-France 23,5 % ; Europe 20,2 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "Liquidité : 6.38 % des parts sont en attente de retrait, tension importante.",
-            "TOF à 85.01 % : niveau suffisamment faible pour constituer un facteur de vigilance."
+            "TOF à 85.01 % : niveau suffisamment faible pour constituer un facteur de vigilance.",
+            "Sur les bureaux (exposition géographique de référence : Paris), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -4360,15 +4539,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 70,9 % ; Commerces 22 % ; Logistique et locaux d'activités 4,2 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Île-de-France 54,9 % ; Régions 26,6 % ; Paris 15,1 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
             "TOF à 83.70 % : niveau faible, vigilance renforcée sur l’occupation.",
-            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée."
+            "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée.",
+            "Sur les bureaux (exposition géographique de référence : Île-de-France), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -4433,7 +4615,8 @@
         {
           "heading": "Alertes documentées et risques à examiner",
           "paragraphs": [
-            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante."
+            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante.",
+            "Sur les bureaux (exposition géographique de référence : Paris), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -4505,7 +4688,8 @@
           "paragraphs": [
             "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée.",
             "Source courante à vérifier : aucune vigilance élevée ne peut être publiée tant que la source exacte n’est pas certifiée.",
-            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante."
+            "Liquidité non classée automatiquement : la preuve documentaire du ratio courant est insuffisante.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -4561,9 +4745,11 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 98 % ; Commerces 2 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Paris 41 % ; Île-de-France hors Paris 34 % ; Régions françaises 25 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Alertes documentées et risques à examiner",
@@ -4571,7 +4757,8 @@
             "TOF à 84.02 % : niveau très faible, signal majeur sur l’occupation.",
             "Comparaison historique neutralisée : la période précédente ou sa comparabilité n’est pas certifiée.",
             "Source courante à vérifier : aucune vigilance élevée ne peut être publiée tant que la source exacte n’est pas certifiée.",
-            "File de retraits non utilisée pour le niveau de vigilance : le régime de capital ou de marché secondaire exige une lecture spécifique de la liquidité."
+            "File de retraits non utilisée pour le niveau de vigilance : le régime de capital ou de marché secondaire exige une lecture spécifique de la liquidité.",
+            "Sur les bureaux (exposition géographique de référence : Paris), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -4633,15 +4820,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Bureaux 35 % ; Commerce 25 % ; Logistique 15 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Espagne 34 % ; Allemagne 20 % ; Pays-Bas 14 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les bureaux (exposition géographique de référence : Espagne), la remise en location, les rénovations et l'évolution des valeurs locatives conditionnent les perspectives de revenus."
           ],
           "basis": "vigilance"
         },
@@ -4733,15 +4923,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Alimentation / Restauration 34 % ; Opportunités & tendances (discount, bijouteries...) 27 % ; Santé, sport & bien-être 26 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Province 86 % ; Île-de-France 14 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
@@ -4797,15 +4990,18 @@
         {
           "heading": "Patrimoine : analyse sectorielle et géographique",
           "paragraphs": [
+            "Répartition de référence MaximusSCPI, **historique non certifié pour 2026-T2** : Commerces 53,1 % ; Activités 18,6 % ; Hôtellerie 8,1 %. Elle sert à identifier des expositions à vérifier, pas à présenter la composition courante du portefeuille.",
+            "Ventilation géographique du référentiel, période à confirmer : Italie 42 % ; Espagne 23 % ; France 16,8 %. Ces poids doivent être confrontés au bulletin officiel le plus récent.",
             "Les paramètres déterminants restent l'occupation, la diversification effective et les travaux à financer."
           ],
-          "basis": "lecture_analytique"
+          "basis": "contexte_historique_non_certifie"
         },
         {
           "heading": "Surveillance : paramètres à confirmer",
           "paragraphs": [
             "Aucun signal qualifié majeur ne dispense de contrôler l'évolution de la collecte, de la liquidité des parts, des baux et de la valorisation.",
-            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs."
+            "Les résultats passés et l'occupation de la période ne préjugent pas des revenus futurs.",
+            "Sur les commerces, la solidité des enseignes, la fréquentation et le niveau des loyers doivent être suivis avant de conclure à la résilience du portefeuille."
           ],
           "basis": "vigilance"
         },
