@@ -26,4 +26,7 @@ if(fs.existsSync('dist/actualites/index.html')){
   const html=fs.readFileSync('dist/actualites/index.html','utf8');
   assert.doesNotMatch(html,/>InterGestion<\/h2>|Votre profil CGP|Relations associés/);
 }
+const redirects=fs.readFileSync('dist/_redirects','utf8');
+assert.match(redirects,/^\/actualites\/cristal-life\/2026-10-21-intergestion\s+\/actualites\/cristal-life\/\s+301\s*$/m);
+assert.match(redirects,/^\/actualites\/cristal-life\/2026-10-21-intergestion\/\s+\/actualites\/cristal-life\/\s+301\s*$/m);
 console.log('Editorial QA: clean acquisition snapshot, 69 valid dossiers, verified Cristal Life replacement and no stale event cross-links.');
