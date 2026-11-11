@@ -6,7 +6,7 @@ Date : 11/11/2026 · Branche : `recovery-201-capture-simulation` · Cadrage : `d
 
 Déployé et configuré le 11/11/2026 (Supabase, projet ygvsddcpohsnaowofuwc, et Brevo) :
 - migration `recovery201_simulation_email_capture` appliquée (colonnes et index vérifiés en base) ;
-- fonction `send-simulation-email` version 3, sans vérification JWT. Modèle Brevo n° 6, liste n° 6 et adresse de réponse `eric.bellaiche@maximusscpi.com` par défaut (les secrets du même nom, s'ils sont créés, priment) ;
+- fonction `send-simulation-email` mise à jour en version 4 : modèle Brevo n° 6, liste n° 6 et adresse de réponse `eric.bellaiche@gmail.com` par défaut (expéditeur : `eric.bellaiche@maximusscpi.com`, vérifié dans Brevo) (les secrets du même nom, s'ils sont créés, priment) ;
 - fonction `calendly-webhook` version 3, sans vérification JWT (ajout de `RDV_PRIS` uniquement) ;
 - secret `BREVO_API_KEY` ajouté par Eric dans Supabase (nouvelle clé Brevo `supabase-maximusscpi`) ;
 - Brevo, via une fonction ponctuelle protégée par jeton (`brevo-setup-recovery201`, neutralisée ensuite : elle répond 410 et peut être supprimée) :

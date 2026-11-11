@@ -33,7 +33,7 @@ const BREVO_API = "https://api.brevo.com/v3";
 // Objets Brevo créés le 11/11/2026 pour RECOVERY-201 (modèle n° 6, liste n° 6).
 const DEFAULT_TEMPLATE_ID = 6;
 const DEFAULT_LIST_ID = 6;
-const DEFAULT_REPLY_TO = "eric.bellaiche@maximusscpi.com";
+const DEFAULT_REPLY_TO = "eric.bellaiche@gmail.com";
 
 function corsHeaders(origin: string | null): Record<string, string> {
   return {
