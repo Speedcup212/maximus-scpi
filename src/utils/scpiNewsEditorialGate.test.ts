@@ -39,6 +39,10 @@ describe('Actualités — contrôle anti extraction de navigation', () => {
   it('garantit le fallback local intégralement validé', () => {
     expect(news.length).toBeGreaterThanOrEqual(33);
     expect(news.every(isNewsEditoriallyValid)).toBe(true);
-    expect(news.filter((e) => e.scpi === 'Cristal Life')).toHaveLength(1);
+    const cristals = news.filter((e) => e.scpi === 'Cristal Life');
+    expect(cristals).toHaveLength(1);
+    expect(cristals[0].summary).toContain('Regus');
+    expect(cristals[0].summary).toContain('3 167 m²');
+    expect(cristals[0].sourceUrl).toMatch(/^https:\/\/www\.inter-gestion\.com\/corpo\//);
   });
 });
