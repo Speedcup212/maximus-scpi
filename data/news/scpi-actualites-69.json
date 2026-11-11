@@ -16,7 +16,7 @@
       "certificationStatus": "current_certified_history_unverified",
       "currentSourceCertified": true,
       "comparisonCertified": false,
-      "sourceUrl": null,
+      "sourceUrl": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
       "sourceDocument": "Bulletin officiel BNP REIM 2026-T3 (SHA256: 40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e)",
       "sourceQa": "source_verified_approved_release",
       "certifiedAt": "2026-11-02 13:49:35.450149+00",
@@ -86,7 +86,7 @@
       "certificationStatus": "current_certified_history_unverified",
       "currentSourceCertified": true,
       "comparisonCertified": false,
-      "sourceUrl": null,
+      "sourceUrl": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AP_3T2026_4%20vdef.pdf",
       "sourceDocument": "Bulletin officiel BNP REIM 2026-T3 (SHA256: f3728c05968e39e3b106a0052c4968c18ab5eb17edc9ff7c10c468daaa3480c5)",
       "sourceQa": "source_verified_approved_release",
       "certifiedAt": "2026-11-02 13:49:39.936168+00",
@@ -155,7 +155,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://alderan.fr/wp-content/uploads/2026/08/20260807-BTI-T2-2026-ActivImmo.pdf",
       "sourceDocument": "20260807-BTI-T2-2026-ActivImmo.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-01 03:45:03.181348+00",
@@ -221,7 +221,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.aestiam.com/doc/agora/periodique/2026-2t-bti-aestiam-agora.pdf",
       "sourceDocument": "2026-1t-bti-aestiam-agora.pdf",
       "sourceQa": "manual_verified_current_lineage",
       "certifiedAt": "2026-10-27 13:43:40.840734+00",
@@ -287,13 +287,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.aestiam.com/doc/horizon/periodique/2026-2t-bti-aestiam-horizon.pdf",
       "sourceDocument": "2026-2t-bti-aestiam-horizon.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-11 05:30:05.906744+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.aestiam.com/doc/horizon/periodique/2026-3t-bti-aestiam-horizon.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -357,13 +357,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.altarea-im.com/wp-content/uploads/2026/07/03072026_ALTA_BUL_TRIMESTRIEL_T2_26_WEB_PPP.pdf",
       "sourceDocument": null,
       "sourceQa": "manual_verified_current_lineage",
       "certifiedAt": "2026-11-10 22:31:16.246846+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://altarea-im.com/wp-content/uploads/2026/10/06102026_ALTA_BUL_TRIMESTRIEL_T3_26_PPP_WEB.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -401,6 +401,14 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2026-03-19 — La SCPI Alta Convictions poursuit sa croissance avec une nouvelle acquisition logistique en région lyonnaise - Altarea. La SCPI Alta Convictions poursuit sa croissance avec une nouvelle acquisition logistique en région lyonnaise --> [🚀 Acquisition] Alta Convictions entre sur le segment de la messagerie ! La SCPI Alta .",
+            "2026-02-11 — La SCPI Alta Convictions renforce sa dimension européenne avec une nouvelle acquisition en Espagne - Altarea. La SCPI Alta Convictions renforce sa dimension européenne avec une nouvelle acquisition en Espagne --> Alta Convictions renforce sa dimension européenne ! La SCPI Alta Convictions réalise sa première ."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Bulletin 2026-T3 repéré, mais la synthèse chiffrée reste certifiée au 2026-T2. La nouvelle période ne doit pas être déclarée intégrée.",
@@ -409,7 +417,18 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "La SCPI Alta Convictions poursuit sa croissance avec une nouvelle acquisition logistique en région lyonnaise - Altarea",
+          "sourceUrl": "https://www.altarea-im.com/actualites/la-scpi-alta-convictions-poursuit-sa-croissance-avec-une-nouvelle-acquisition-logistique-en-region-lyonnaise/",
+          "date": "2026-03-19"
+        },
+        {
+          "title": "La SCPI Alta Convictions renforce sa dimension européenne avec une nouvelle acquisition en Espagne - Altarea",
+          "sourceUrl": "https://www.altarea-im.com/actualites/la-scpi-alta-convictions-renforce-sa-dimension-europeenne-avec-une-nouvelle-acquisition-en-espagne/",
+          "date": "2026-02-11"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -424,7 +443,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://api.rock-n-data.io/fichiers/publications/6a708fd02b6f8415260897.pdf",
       "sourceDocument": "ALTIXIA CADENCE XII — Bulletin 26-02 (30/07/2026), PDF éditeur copié par Rock-n-Data",
       "sourceQa": "manual_verified_issuer_authored_distributor_mirror_pdf",
       "certifiedAt": "2026-11-01 13:45:03.690975+00",
@@ -489,7 +508,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.altixia.fr/medias/documentations/doc1-20260730-213819.pdf",
       "sourceDocument": "Bulletin trimestriel d’information T2 2026 - SCPI Altixia Commerces",
       "sourceQa": "manual_verified_official",
       "certifiedAt": "2026-10-05 09:36:35.73162+00",
@@ -554,13 +573,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://atream.com/wp-content/uploads/2026/07/Bulletin-N2026_2T-SCPI_Atream_Hotels_WEB_10-PAGES.pdf",
       "sourceDocument": "Bulletin-N2026_2T-SCPI_Atream_Hotels_WEB_10-PAGES.pdf",
       "sourceQa": "manual_verified_issuer_pdf_page_visual_and_text",
       "certifiedAt": "2026-10-31 08:52:31.581456+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://atream.com/wp-content/uploads/2020/07/Bulletin-N2026_3T-SCPI_Atream_Hotels_WEB_10-PAGES.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -624,7 +643,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.fiducial-gerance.fr/content/download/544/12625?version=14",
       "sourceDocument": "bulletin_trimestriel_T3_2026",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-10 12:54:59.922231+00",
@@ -665,6 +684,13 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2026-07-23 — Dynamique d’acquisition pour les SCPI FICOMMERCE et BUROBOUTIC. 23/07/2026 Communiqués de presse Courbevoie, le 23 juillet 2026 COMMUNIQUE DE PRESSE ______________________________________________________________________________ Dynamique d'acquisition pour les SCP."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Période analysée : 2026-T3. Document de référence contrôlé.",
@@ -673,7 +699,13 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "Dynamique d’acquisition pour les SCPI FICOMMERCE et BUROBOUTIC",
+          "sourceUrl": "https://www.fiducial-gerance.fr/actualites/dynamique-d-acquisition-pour-les-scpi-ficommerce-et-buroboutic",
+          "date": "2026-07-23"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -688,7 +720,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.sogenial.fr/wp-content/uploads/2026/11/Coeur-dEurope-Bulletin-Trimestriel-3T2026.pdf",
       "sourceDocument": "Coeur-dEurope-Bulletin-Trimestriel-3T2026.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-07 09:20:02.601904+00",
@@ -731,6 +763,14 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2026-11-03 — SOGENIAL Immobilier acquiert un entrepôt logistique pour la SCPI Cœur d'Europe - Sogenial. SOGENIAL Immobilier acquiert un entrepôt logistique pour la SCPI Cœur d'Europe 3 novembre 2026 CP Partager l'article : --> 핏 --> VOIR LE COMMUNIQUÉ (PDF) La SCPI Cœur d’Europe poursuit son développeme.",
+            "2026-10-20 — SOGENIAL Immobilier acquiert un immeuble de bureaux pour la SCPI Cœur d'Europe - Sogenial. SOGENIAL Immobilier acquiert un immeuble de bureaux pour la SCPI Cœur d'Europe 20 octobre 2026 CP Partager l'article : --> 핏 --> VOIR LE COMMUNIQUÉ (PDF) La SCPI Coeur d'Europe a fait l'acquisition d'."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Période analysée : 2026-T3. Document de référence contrôlé.",
@@ -739,7 +779,18 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "SOGENIAL Immobilier acquiert un entrepôt logistique pour la SCPI Cœur d'Europe - Sogenial",
+          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-entrepot-logistique-pour-la-scpi-coeur-deurope-2/",
+          "date": "2026-11-03"
+        },
+        {
+          "title": "SOGENIAL Immobilier acquiert un immeuble de bureaux pour la SCPI Cœur d'Europe - Sogenial",
+          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-immeuble-de-bureaux-pour-la-scpi-coeur-deurope-2/",
+          "date": "2026-10-20"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -754,7 +805,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.sogenial.fr/wp-content/uploads/2026/07/Bulletin-Trimestriel-2T-2026-%E2%80%93-Coeur-de-Regions.pdf",
       "sourceDocument": "Bulletin-Trimestriel-2T-2026-–-Coeur-de-Regions.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-10-31 16:45:03.471855+00",
@@ -797,6 +848,15 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2026-10-13 — SOGENIAL Immobilier acquiert un commerce pour la SCPI Cœur de Régions - Sogenial. SOGENIAL Immobilier acquiert un commerce pour la SCPI Cœur de Régions 13 octobre 2026 CP Partager l'article : --> 핏 --> VOIR LE COMMUNIQUÉ (PDF) Sogenial Immobilier poursuit le développement de la SCP.",
+            "2026-09-08 — SOGENIAL Immobilier acquiert un ensemble commercial pour la SCPI Cœur de Régions - Sogenial. SOGENIAL Immobilier acquiert un ensemble commercial pour la SCPI Cœur de Régions 8 septembre 2026 CP Partager l'article : --> 핏 --> VOIR LE COMMUNIQUÉ (PDF) Sogenial Immobilier annonce l'acquisition d.",
+            "2026-09-01 — SOGENIAL Immobilier acquiert un ensemble immobilier mixte pour la SCPI Cœur de Régions - Sogenial. SOGENIAL Immobilier acquiert un ensemble immobilier mixte pour la SCPI Cœur de Régions 1 septembre 2026 CP Partager l'article : --> 핏 --> VOIR LE COMMUNIQUÉ (PDF) La SCPI Coeur de Régions poursuit le ."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Période analysée : 2026-T2. Document de référence contrôlé.",
@@ -805,7 +865,23 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "SOGENIAL Immobilier acquiert un commerce pour la SCPI Cœur de Régions - Sogenial",
+          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-commerce-pour-la-scpi-coeur-de-regions/",
+          "date": "2026-10-13"
+        },
+        {
+          "title": "SOGENIAL Immobilier acquiert un ensemble commercial pour la SCPI Cœur de Régions - Sogenial",
+          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-ensemble-commercial-pour-la-scpi-coeur-de-regions/",
+          "date": "2026-09-08"
+        },
+        {
+          "title": "SOGENIAL Immobilier acquiert un ensemble immobilier mixte pour la SCPI Cœur de Régions - Sogenial",
+          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-ensemble-immobilier-mixte-pour-la-scpi-coeur-de-regions/",
+          "date": "2026-09-01"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -820,7 +896,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.sogenial.fr/wp-content/uploads/2026/11/Coeur-de-Ville-Bulletin-Trimestriel-3T2026.pdf",
       "sourceDocument": "Coeur-de-Ville-Bulletin-Trimestriel-3T2026.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-07 09:20:04.316405+00",
@@ -885,7 +961,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://alderan.fr/wp-content/uploads/2026/11/BTI-T3-2026-Comete.pdf",
       "sourceDocument": "bulletin_trimestriel_T3_2026",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-10 18:03:04.252657+00",
@@ -950,7 +1026,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
       "sourceDocument": "Bulletin officiel CORUM 2026-T3; reference dates and exact page evidence stored per metric; SHA256=e42b7e567b2271db2fab85e07d367eb8f2a26a53eca20f6a8b9fda7160060afa",
       "sourceQa": "auto_verified_dual_pdf_evidence",
       "certifiedAt": "2026-11-07 20:28:22.793779+00",
@@ -1018,7 +1094,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
       "sourceDocument": "Bulletin officiel CORUM 2026-T3; reference dates and exact page evidence stored per metric; SHA256=42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
       "sourceQa": "auto_verified_dual_pdf_evidence",
       "certifiedAt": "2026-11-07 20:28:12.497565+00",
@@ -1086,7 +1162,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20USA%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3%207.pdf",
       "sourceDocument": "Bulletin officiel CORUM 2026-T3; reference dates and exact page evidence stored per metric; SHA256=680f2bad842bfa7586908c5ac0ba532f5d17682aa530a9915a1246070c64d4c4",
       "sourceQa": "auto_verified_dual_pdf_evidence",
       "certifiedAt": "2026-11-07 20:28:26.472838+00",
@@ -1155,7 +1231,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
       "sourceDocument": "Bulletin officiel CORUM 2026-T3; reference dates and exact page evidence stored per metric; SHA256=7033aea37cc61baec474807378399fe47b017fdd20d265891f97a28ad92dd2e3",
       "sourceQa": "auto_verified_dual_pdf_evidence",
       "certifiedAt": "2026-11-07 20:28:18.694563+00",
@@ -1223,7 +1299,7 @@
       "certificationStatus": "current_certified_history_unverified",
       "currentSourceCertified": true,
       "comparisonCertified": false,
-      "sourceUrl": null,
+      "sourceUrl": "https://doc.la-francaise.com/documents/bulletin-trimestriel-credit-mutuel-pierre-1-30062026",
       "sourceDocument": "bulletin-trimestriel-credit-mutuel-pierre-1-30062026",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-10-27 13:45:21.784289+00",
@@ -1285,13 +1361,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://corpocdn.blob.core.windows.net/blobfiles/IG_CLBulletin_Trimestriel2026_T2.pdf",
       "sourceDocument": "Cristal Life - Bulletin T2 2026",
       "sourceQa": "auto_verified_product_alias_period_tof",
       "certifiedAt": "2026-11-10 17:55:19.976553+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://corpocdn.blob.core.windows.net/blobfiles/IGCL_DSPP20261020.pdf",
         "qaStatus": "needs_review_document_kind_not_bulletin"
       },
       "sections": [
@@ -1331,6 +1407,13 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2026-10-21 — InterGestion. TAL Rente CRISTAL Life CRISTAL Care Votre profil CGP Jeune actif Célibataire ou en couple Parent Senior actif Retraité À la une --> Simulateur SCPI gérées Lexique FAQ Relations associés 01 43 12 52 52."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Bulletin 2026-T3 repéré, mais la synthèse chiffrée reste certifiée au 2026-T2. La nouvelle période ne doit pas être déclarée intégrée.",
@@ -1339,7 +1422,13 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "InterGestion",
+          "sourceUrl": "https://www.inter-gestion.com/corpo/acquisition-cristal-life-dublin%60",
+          "date": "2026-10-21"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -1354,7 +1443,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://corpocdn.blob.core.windows.net/blobfiles/IG_CRBulletin_Trimestriel2026_T2_V2_.pdf",
       "sourceDocument": "CRISTAL Rente - bulletin trimestriel officiel Inter Gestion",
       "sourceQa": "manual_verified_issuer_cdn_pdf_sha256",
       "certifiedAt": "2026-11-10 17:55:19.976553+00",
@@ -1416,7 +1505,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_b1f04db8-c532-40f1-9847-b0f840fff7d6",
       "sourceDocument": "Amundi - valeurs au 30/06/2026 + prix applicables au 28/08/2026",
       "sourceQa": "manual_verified_amundi_original_s1_2026_pdf_sha256",
       "certifiedAt": "2026-10-31 09:03:59.431052+00",
@@ -1482,7 +1571,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
       "sourceDocument": "Bulletin officiel n°9 T2 2026",
       "sourceQa": "manual_verified_official_pdf_sha256_page",
       "certifiedAt": "2026-10-31 11:12:28.973269+00",
@@ -1549,7 +1638,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Efimmo_OPTI.pdf?period=T2-2026",
       "sourceDocument": "Bulletin Trimestriel Efimmo 1 - T2 2026",
       "sourceQa": "manual_verified_official",
       "certifiedAt": "2026-10-05 07:51:07.106154+00",
@@ -1616,7 +1705,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://doc.la-francaise.com/documents/bulletin-trimestriel-epargne-fonciere-30062026",
       "sourceDocument": "bulletin-trimestriel-epargne-fonciere-30062026",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-10-27 13:53:31.712332+00",
@@ -1679,13 +1768,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://atland-voisin.com/wp-content/uploads/2026/07/BPI2T2026-EP-VDEF-web-5.pdf",
       "sourceDocument": "BPI2T2026-EP-VDEF-web-5.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-11 06:00:03.869605+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EP-vdef-web.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -1748,13 +1837,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://atland-voisin.com/wp-content/uploads/2026/07/BPI2T2026-EPE-VDEF-web-2.pdf",
       "sourceDocument": "BPI2T2026-EPE-VDEF-web-2.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-10-31 16:00:06.827325+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EPE-vdef-web.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -1819,13 +1908,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://epsicap.fr/app/uploads/2026/09/BT-T2-2026-Epsicap-Nano.pdf",
       "sourceDocument": "https://epsicap.fr/app/uploads/2026/09/BT-T2-2026-Epsicap-Nano.pdf",
       "sourceQa": "manual_verified_current_lineage",
       "certifiedAt": "2026-11-10 17:58:14.234521+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://epsicap.fr/app/uploads/2026/11/bulletin-trimestriel-epsicap-nano-t3-2026.pdf",
         "qaStatus": "auto_partial"
       },
       "sections": [
@@ -1866,6 +1955,16 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2026-11-04 — Epsicap Nano : résultats du 3e trimestre 2026. rte en capital et un risque de liquidité. Les revenus distribués ne sont pas garantis et peuvent varier..",
+            "2026-09-23 — Epsicap REIM franchit les 300 M€ sous gestion. savoir plus ? 23/09/2026 Epsicap REIM franchit le cap des 300 M€ d'actifs sous gestion et vise 1 Md€ d'ici 5 ans Cinq ans après sa création, Epsicap REIM franchit le cap des&hellip; Lire la suite Info.",
+            "2026-09-15 — Epsicap Nano acquiert un retail park à Perth, Écosse. Epsicap Nano s'implante à Perth avec un retail park de 5 268 m² en Écosse Temps de lecture : 3 min La SCPI Epsicap Nano, gérée par Epsicap REIM, renforce sa présence au Royaume-Uni avec l'acquisition .",
+            "2026-09-15 — Communiqué : Epsicap Nano acquiert un retail park à Perth. La SCPI Epsicap Nano s'implante à Perth avec l'acquisition d'un retail park en Écosse Temps de lecture : 1 min La société de gestion Epsicap REIM annonce une nouvelle acquisition au Royaume-Uni pour E."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Bulletin 2026-T3 repéré, mais la synthèse chiffrée reste certifiée au 2026-T2. La nouvelle période ne doit pas être déclarée intégrée.",
@@ -1874,7 +1973,28 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "Epsicap Nano : résultats du 3e trimestre 2026",
+          "sourceUrl": "https://epsicap.fr/epsicap-nano-resultats-t3-2026/",
+          "date": "2026-11-04"
+        },
+        {
+          "title": "Epsicap REIM franchit les 300 M€ sous gestion",
+          "sourceUrl": "https://epsicap.fr/epsicap-reim-5-ans-300-millions/",
+          "date": "2026-09-23"
+        },
+        {
+          "title": "Epsicap Nano acquiert un retail park à Perth, Écosse",
+          "sourceUrl": "https://epsicap.fr/epsicap-nano-acquisition-perth/",
+          "date": "2026-09-15"
+        },
+        {
+          "title": "Communiqué : Epsicap Nano acquiert un retail park à Perth",
+          "sourceUrl": "https://epsicap.fr/cp-acquisition-perth-epsicap-nano/",
+          "date": "2026-09-15"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -1889,7 +2009,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://fr.swisslife-am.com/content/dam/slamfr/internet/particuliers/documentation---retail/scpi-pierre-capitale/bulletin-trimestriel/2026/Bulletin_Trimestriel_%20SCPI_%20ESG_Pierre%20Capitale%20_Juin_26.pdf",
       "sourceDocument": "Bulletin_Trimestriel_ SCPI_ ESG_Pierre Capitale _Juin_26.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-10-08 17:23:03.512629+00",
@@ -1953,7 +2073,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.fiducial-gerance.fr/content/download/582/14809?version=11",
       "sourceDocument": "14809?version=11",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-10 09:42:54.126949+00",
@@ -1994,6 +2114,14 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2026-07-23 — Dynamique d’acquisition pour les SCPI FICOMMERCE et BUROBOUTIC. 23/07/2026 Communiqués de presse Courbevoie, le 23 juillet 2026 COMMUNIQUE DE PRESSE ______________________________________________________________________________ Dynamique d'acquisition pour les SCP.",
+            "2026-06-23 — Actualités de FIDUCIAL Gérance. LOGIPIERRE 3 récompensée par une Victoire d’Or 2026 du magazine Le Particulier. Créée en 1986, LOGIPIERRE 3, SCPI historique de FIDUCIAL Gérance, vient de recevoir le Lauréat d’Or des Victoires des SC."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Période analysée : 2026-T3. Document de référence contrôlé.",
@@ -2002,7 +2130,18 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "Dynamique d’acquisition pour les SCPI FICOMMERCE et BUROBOUTIC",
+          "sourceUrl": "https://www.fiducial-gerance.fr/actualites/dynamique-d-acquisition-pour-les-scpi-ficommerce-et-buroboutic",
+          "date": "2026-07-23"
+        },
+        {
+          "title": "Actualités de FIDUCIAL Gérance",
+          "sourceUrl": "https://www.fiducial-gerance.fr/actualites?page=1",
+          "date": "2026-06-23"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -2017,13 +2156,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.groupemagellim.com/wp-content/uploads/BT-2T-2026-Fonciere-des-Praticiens.pdf",
       "sourceDocument": "BT-2T-2026-Fonciere-des-Praticiens.pdf",
       "sourceQa": "manual_verified",
       "certifiedAt": "2026-11-05 11:00:06.93874+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.groupemagellim.com/wp-content/uploads/BT-3T-2026-Fonciere-des-Praticiens-.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -2087,7 +2226,7 @@
       "certificationStatus": "current_certified_history_unverified",
       "currentSourceCertified": true,
       "comparisonCertified": false,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.inter-gestion.com/corpo/scpi-gerees/grand-paris-residentiels",
       "sourceDocument": "Bulletin semestriel S1 2026",
       "sourceQa": "manual_verified",
       "certifiedAt": "2026-10-05 07:51:07.106154+00",
@@ -2152,7 +2291,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Immorente_2026_2T_OPTI.pdf",
       "sourceDocument": "Bulletin_Trimestriel_-_Immorente_2026_2T_OPTI.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-10-28 14:21:37.747489+00",
@@ -2216,13 +2355,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.iroko.eu/bulletins-trimestriels-atlas/t2-2026",
       "sourceDocument": "Iroko_Atlas_bulletin_trimestriel_T2_2026.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-10 17:54:32.700453+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.iroko.eu/bulletins-trimestriels-atlas/q3-2026",
         "qaStatus": "auto_verified"
       },
       "sections": [
@@ -2263,6 +2402,14 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2026-09-10 — Découvrez notre acquisition n°182 à Portlaoise. Entrepôts à Portlaoise Nouveauté PORTLAOISE - Stradbally Road · Acquis le 10/9/2026 Iroko Zen Iroko Atlas Pourquoi cette acquisition est le meilleur choix ? La SCPI Iroko Atlas poursuit son développem.",
+            "2026-08-24 — Découvrez notre acquisition n°180 à Lichfield. Commerces à Lichfield Nouveauté LICHFIELD - Vulcan Road, WS13 6GB · Acquis le 24/8/2026 Iroko Zen Iroko Atlas Pourquoi cette acquisition est le meilleur choix ? La SCPI Iroko Atlas fait l'acquisition ."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Bulletin 2026-T3 repéré, mais la synthèse chiffrée reste certifiée au 2026-T2. La nouvelle période ne doit pas être déclarée intégrée.",
@@ -2271,7 +2418,18 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "Découvrez notre acquisition n°182 à Portlaoise",
+          "sourceUrl": "https://www.iroko.eu/actif/entrepots-a-portlaoise-182",
+          "date": "2026-09-10"
+        },
+        {
+          "title": "Découvrez notre acquisition n°180 à Lichfield",
+          "sourceUrl": "https://www.iroko.eu/actif/commerces-a-lichfield-180",
+          "date": "2026-08-24"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -2286,7 +2444,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://iroko-documents.s3.eu-west-3.amazonaws.com/Iroko_Zen_bulletin_trimestriel_T3_2026.pdf",
       "sourceDocument": "bulletin-web-2026-T3",
       "sourceQa": "verified_issuer_html_8_metrics_pdf_tof",
       "certifiedAt": "2026-11-08 19:57:48.251377+00",
@@ -2324,6 +2482,13 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2026-08-31 — Découvrez notre acquisition n°181 à Francfort. Hôtel à Francfort Nouveauté FRANKFURT - Gutleutstrasse 85 · Acquis le 31/8/2026 Iroko Zen Iroko Atlas Pourquoi cette acquisition est le meilleur choix ? La SCPI Iroko Zen renforce son patrimoine en Al."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Période analysée : 2026-T3. Document de référence contrôlé.",
@@ -2332,7 +2497,13 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "Découvrez notre acquisition n°181 à Francfort",
+          "sourceUrl": "https://www.iroko.eu/actif/hotel-a-francfort-181",
+          "date": "2026-08-31"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -2347,7 +2518,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://kyaneosam.com/wp-content/uploads/2026/08/BT-T2-2026-KP.pdf",
       "sourceDocument": "https://kyaneosam.com/wp-content/uploads/2026/08/BT-T2-2026-KP.pdf",
       "sourceQa": "manual_verified",
       "certifiedAt": "2026-10-27 13:52:59.252323+00",
@@ -2411,7 +2582,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://doc.la-francaise.com/documents/bulletin-trimestriel-lf-avenir-sante-30062026",
       "sourceDocument": "bulletin-trimestriel-lf-avenir-sante-30062026",
       "sourceQa": "manual_verified_crash_test",
       "certifiedAt": "2026-10-29 09:45:09.98091+00",
@@ -2473,7 +2644,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://doc.la-francaise.com/documents/bulletin-trimestriel-lf-europimmo-30062026",
       "sourceDocument": "bulletin-trimestriel-lf-europimmo-30062026",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-01 06:45:17.950253+00",
@@ -2536,7 +2707,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://doc.la-francaise.com/documents/bulletin-trimestriel-lf-grand-paris-patrimoine-30062026",
       "sourceDocument": "bulletin-trimestriel-lf-grand-paris-patrimoine-30062026",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-10-27 13:44:16.31015+00",
@@ -2601,13 +2772,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://adm759yhg8h.scpi-lab.com/upload/produit/122/11139-LOG%20IN-BI-2026-T2.pdf",
       "sourceDocument": "LOG IN-BI-2026-T2.pdf — document éditeur contrôlé, source canonique Theoreim",
       "sourceQa": "manual_verified_fallback",
       "certifiedAt": "2026-11-10 17:58:14.234521+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://theoreim.com/wp-content/uploads/2022/09/Bulletin_Trimestriel-LOG-IN-T3-2026.pdf",
         "qaStatus": "auto_verified_product_alias_period_tof"
       },
       "sections": [
@@ -2671,7 +2842,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.normacapital.fr/documentation/bulletin-dinformation-trimestriel-t2-2026-3/",
       "sourceDocument": "https://www.normacapital.fr/documentation/bulletin-dinformation-trimestriel-t2-2026-3/",
       "sourceQa": "manual_verified",
       "certifiedAt": "2026-10-27 13:45:14.302216+00",
@@ -2735,7 +2906,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.normacapital.fr/documentation/bulletin-dinformation-trimestriel-t2-2026-2/",
       "sourceDocument": "https://www.normacapital.fr/documentation/bulletin-dinformation-trimestriel-t2-2026-2/",
       "sourceQa": "manual_verified_current_lineage",
       "certifiedAt": "2026-10-27 13:45:09.431312+00",
@@ -2799,7 +2970,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.normacapital.fr/documentation/bulletin-dinformation-trimestriel-t2-2026/",
       "sourceDocument": "https://www.normacapital.fr/documentation/bulletin-dinformation-trimestriel-t2-2026/",
       "sourceQa": "manual_verified_current_lineage",
       "certifiedAt": "2026-10-05 07:51:07.106154+00",
@@ -2842,6 +3013,13 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2025-11-12 — NCap Régions signe sa première acquisition hôtelière | Norma Capital. NCap Régions signe sa première acquisition hôtelière Accueil Actualités NCap Régions signe sa première acquisition hôtelière NCap Régions signe sa première acquisition hôtelière à Nantes Norma Capital."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Période analysée : 2026-T2. Document de référence contrôlé.",
@@ -2850,7 +3028,13 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "NCap Régions signe sa première acquisition hôtelière | Norma Capital",
+          "sourceUrl": "https://www.normacapital.fr/2025/11/12/ncap-regions-signe-sa-premiere-acquisition-hoteliere/",
+          "date": "2025-11-12"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -2865,7 +3049,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://paref-gestion.com/wp-content/uploads/2026/08/61b5f2bd-6843-4c10-9890-dc71eaf026dc-BTIT22026-Novapierre1.pdf",
       "sourceDocument": "61b5f2bd-6843-4c10-9890-dc71eaf026dc-BTIT22026-Novapierre1.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-10-28 14:25:41.474656+00",
@@ -2932,7 +3116,7 @@
       "certificationStatus": "current_certified_history_unverified",
       "currentSourceCertified": true,
       "comparisonCertified": false,
-      "sourceUrl": null,
+      "sourceUrl": "https://paref-gestion.com/wp-content/uploads/2026/08/708667cb-d741-49e5-9ba9-5c011f742062-BTIT22026-NovapierreResidentiel.pdf",
       "sourceDocument": "708667cb-d741-49e5-9ba9-5c011f742062-BTIT22026-NovapierreResidentiel.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-10 12:59:41.505821+00",
@@ -2993,13 +3177,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.novaxia-investissement.fr/wp-content/uploads/2026/08/Novaxia-NEO-PPT-T2-2026.pdf",
       "sourceDocument": "Novaxia-NEO-PPT-T2-2026.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-07 01:30:11.27078+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.novaxia-investissement.fr/wp-content/uploads/2026/11/Reporting-Novaxia-NEO-T3-2026.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -3067,7 +3251,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://doc.la-francaise.com/documents/bulletin-trimestriel-lf-opportunite-immo-30062026",
       "sourceDocument": "bulletin-trimestriel-lf-opportunite-immo-30062026",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-02 03:45:03.462134+00",
@@ -3132,7 +3316,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.consultim-am.com/wp-content/uploads/2026/09/062026-Bulletin-trimestriel.pdf",
       "sourceDocument": "062026-Bulletin-trimestriel.pdf",
       "sourceQa": "auto_verified_product_alias_period_tof",
       "certifiedAt": "2026-11-08 03:30:45.253494+00",
@@ -3172,6 +3356,13 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2026-10-07 — SCPI Optimale : deux acquisitions à Belz et au Plessis-Robinson. Optimale poursuit sa stratégie de petites surfaces avec deux nouvelles acquisitions en France Accueil / Actualités / Information / Optimale, deux acquisitions à Belz et au Plessis-Robinson La SCPI Opt."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Période analysée : 2026-T2. Document de référence contrôlé.",
@@ -3180,7 +3371,13 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "SCPI Optimale : deux acquisitions à Belz et au Plessis-Robinson",
+          "sourceUrl": "https://www.consultim-am.com/actualites/information/optimale-acquisitions-belz-plessis-robinson/",
+          "date": "2026-10-07"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -3195,7 +3392,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://paref-gestion.com/wp-content/uploads/2026/10/a68d4a69-ad68-4cf6-a141-76a819963883-BTI-T3-2026-PAREF-Evo.pdf",
       "sourceDocument": "a68d4a69-ad68-4cf6-a141-76a819963883-BTI-T3-2026-PAREF-Evo.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-01 05:45:03.363558+00",
@@ -3263,7 +3460,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://paref-gestion.com/wp-content/uploads/2026/10/dc0cd675-deb0-4ab0-b928-040f9aafd157-BTI-T3-2026-PAREF-Hexa.pdf",
       "sourceDocument": "bulletin_trimestriel_T3_2026",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-10 12:54:59.922231+00",
@@ -3329,13 +3526,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.praemiareim.fr/documents/14836074/14836275/PRAEMIA_BTI_Patrimmo+Commerce_T2_2026_VDEF+%281%29.pdf/99ff97ba-a933-030e-da41-1ab9f47c97cb?t=1786019920553",
       "sourceDocument": "99ff97ba-a933-030e-da41-1ab9f47c97cb",
       "sourceQa": "manual_verified_current_lineage",
       "certifiedAt": "2026-11-11 07:00:07.840729+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.praemiareim.fr/documents/14836074/14836275/PRAEMIA_BTI_Patrimmo+Commerce_T3_2026_VDEF.pdf/629ca819-38be-867c-8edc-181f9159bf3b?t=1793990422410",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -3397,7 +3594,7 @@
       "certificationStatus": "current_certified_history_unverified",
       "currentSourceCertified": true,
       "comparisonCertified": false,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.praemiareim.fr/documents/14836074/14836299/PRAEMIA_BTI_Patrimmo+Croissance_T2_2026_VDEF.pdf/246c9091-ec34-d4b6-e358-5554542e52d9?t=1786020043083",
       "sourceDocument": "https://www.praemiareim.fr/documents/14836074/14836299/PRAEMIA_BTI_Patrimmo+Croissance_T2_2026_VDEF.pdf/246c9091-ec34-d4b6-e358-5554542e52d9",
       "sourceQa": "manual_verified",
       "certifiedAt": "2026-10-27 13:43:43.872527+00",
@@ -3457,7 +3654,7 @@
       "certificationStatus": "current_certified_history_unverified",
       "currentSourceCertified": true,
       "comparisonCertified": false,
-      "sourceUrl": null,
+      "sourceUrl": "https://cdn.prod.website-files.com/68d505281630e4a2223e1bee/6ae388fb36c133576bb09925_PGP%20BTI%203T%2026%201.pdf",
       "sourceDocument": "6ae34849ea4ce4034930897a_PGP_BTI 3T 26 VDEF 1.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-03 12:15:04.13153+00",
@@ -3521,7 +3718,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://cdn.prod.website-files.com/68d505281630e4a2223e1bee/6ae349760f12930f5d8262a3_PHE_BTI%20T3%2026%20VDEF%201.pdf",
       "sourceDocument": "6ae349760f12930f5d8262a3_PHE_BTI T3 26 VDEF 1.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-03 03:45:04.570444+00",
@@ -3586,7 +3783,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://cdn.prod.website-files.com/68d505281630e4a2223e1bee/6ae8a69663da12ce50f89ad0_PO2%20BTI%20T3%202026.pdf",
       "sourceDocument": "bulletin_trimestriel_T3_2026",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-10 12:54:59.922231+00",
@@ -3649,7 +3846,7 @@
       "certificationStatus": "current_certified_history_unverified",
       "currentSourceCertified": true,
       "comparisonCertified": false,
-      "sourceUrl": null,
+      "sourceUrl": "https://cdn.prod.website-files.com/68d505281630e4a2223e1bee/6ae34a5e78b4a8d441ecf51f_POE_BTI%20T3%2026%20VDEF%201.pdf",
       "sourceDocument": "6ae34a5e78b4a8d441ecf51f_POE_BTI%20T3%2026%20VDEF%201.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-02 23:45:02.940719+00",
@@ -3691,6 +3888,13 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2026-05-18 — La SCPI PERIAL Opportunités Europe poursuit son déploiement européen avec l’acquisition d’un immeuble d’activité en Italie. PERIAL Asset Management annonce la reprise des investissements de sa SCPI PERIAL Opportunités Europe avec l’acquisition d’un immeuble industriel situé à Trévise, dans le nord de l’Italie. 20.."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Période analysée : 2026-T3. Document de référence contrôlé.",
@@ -3699,7 +3903,13 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "La SCPI PERIAL Opportunités Europe poursuit son déploiement européen avec l’acquisition d’un immeuble d’activité en Italie",
+          "sourceUrl": "https://www.perial.com/groupe-perial/actualites/poe-acquisition-immeuble-en-italie",
+          "date": "2026-05-18"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -3714,13 +3924,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.euryale-am.fr/wp-content/uploads/BT_PIERVAL_SANTE_2026_T2.pdf",
       "sourceDocument": "BT_PIERVAL_SANTE_2026_T2.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-10 17:58:14.234521+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.euryale-am.fr/wp-content/uploads/BT_PIERVAL_SANTE_2026_T3.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -3786,13 +3996,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.praemiareim.fr/documents/14836074/14836335/BROCHURE_PRAEMIA_HOTELS_EUROPE_T2_2026.pdf/44eb171e-630c-77a5-fc89-d5761aa02afa?t=1789481979548",
       "sourceDocument": "https://www.praemiareim.fr/documents/14836074/14836335/BROCHURE_PRAEMIA_HOTELS_EUROPE_T2_2026.pdf/44eb171e-630c-77a5-fc89-d5761aa02afa",
       "sourceQa": "manual_verified_current_lineage",
       "certifiedAt": "2026-11-10 17:58:14.234521+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.praemiareim.fr/documents/14836074/14836332/PRAEMIA_BTI_Praemia_Hotels_Europe_T3_2026_VDEF.pdf/6ef65e62-c097-7cce-d524-984e8b402ca0?t=1793984832890",
         "qaStatus": "auto_verified_product_alias_period_tof"
       },
       "sections": [
@@ -3854,13 +4064,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.praemiareim.fr/documents/14836074/14836311/PRAEMIA_BTI_Primovie_T2_2026_VDEF.pdf/75be2008-57b4-4dff-3a1a-e04b2918c386?t=1786020291862",
       "sourceDocument": "75be2008-57b4-4dff-3a1a-e04b2918c386",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-10 17:59:51.33928+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.praemiareim.fr/documents/14836074/14836311/PRAEMIA_BTI_Primovie_T3_2026_VDEF.pdf/ff0cab84-798b-c7da-8f92-0977a9150f4f?t=1793988668797",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -3922,13 +4132,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.remake.fr/wp-content/uploads/2026/08/remake-live-bulletin-information-30-07-2026.pdf",
       "sourceDocument": "remake-live-bulletin-information-30-07-2026.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-06 21:00:09.149883+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.remake.fr/wp-content/uploads/2026/11/REMAKE_LIVE_BT_T3-nov-2026.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -3991,13 +4201,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.remake.fr/wp-content/uploads/2026/08/remake-uk-bulletin-information-13-05-2026.pdf",
       "sourceDocument": "remake-uk-bulletin-information-13-05-2026.pdf",
       "sourceQa": "manual_verified",
       "certifiedAt": "2026-11-06 18:30:20.612812+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.remake.fr/wp-content/uploads/2026/10/REMAKE_UK2025_BT_T3_2026_11206.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -4059,7 +4269,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.amundi-immobilier.com/ezjscore/call/ezjscamundibuzz::sfForwardFront::paramsList=service=ProxyGedApi&routeId=_dl_0b692331-20c6-4ef9-a5e7-b79ba1651047",
       "sourceDocument": "Amundi - valeurs au 30/06/2026 + prix applicables au 28/08/2026",
       "sourceQa": "manual_verified_amundi_original_s1_2026_pdf_sha256",
       "certifiedAt": "2026-10-31 11:12:32.923914+00",
@@ -4124,7 +4334,7 @@
       "certificationStatus": "current_certified_history_unverified",
       "currentSourceCertified": true,
       "comparisonCertified": false,
-      "sourceUrl": null,
+      "sourceUrl": "https://doc.la-francaise.com/documents/bulletin-trimestriel-selectinvest-1-30062026",
       "sourceDocument": "bulletin-trimestriel-selectinvest-1-30062026",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-10-27 13:45:26.053907+00",
@@ -4186,7 +4396,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.fiducial-gerance.fr/content/download/607/16792?version=10",
       "sourceDocument": "16792",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-10 07:13:06.687954+00",
@@ -4251,13 +4461,13 @@
       "certificationStatus": "review_required",
       "currentSourceCertified": false,
       "comparisonCertified": false,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
       "sourceDocument": null,
       "sourceQa": "verified_primary_source_with_reserves",
       "certifiedAt": null,
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -4323,7 +4533,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.sofidy.com/app/uploads/2026/08/Bulletin_Trimestriel_-_Sofiprime_OPTI.pdf",
       "sourceDocument": "Bulletin trimestriel T2 2026",
       "sourceQa": "manual_verified_current_lineage",
       "certifiedAt": "2026-10-05 07:51:07.106154+00",
@@ -4389,13 +4599,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.arkea-reim.com/upload/docs/application/pdf/2026-07/te_s1-2026.pdf",
       "sourceDocument": "Bulletin semestriel S1 2026",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-11-10 17:58:14.234521+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.arkea-reim.com/upload/docs/application/pdf/2026-10/te_t3-2026.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -4436,6 +4646,16 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "Date non attestée — Acquisition transitions europe s offre un centre commercial regional dans l aire metropolitaine d amsterdam.",
+            "Date non attestée — Acquisition transitions europe se renforce sur le diy en italie.",
+            "Date non attestée — Acquisition transitions europe realise sa premiere acquisition en suisse.",
+            "Date non attestée — Acquisition transitions europe poursuit son deploiement en espagne."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Bulletin 2026-T3 repéré, mais la synthèse chiffrée reste certifiée au 2026-T2. La nouvelle période ne doit pas être déclarée intégrée.",
@@ -4444,7 +4664,28 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "Acquisition transitions europe s offre un centre commercial regional dans l aire metropolitaine d amsterdam",
+          "sourceUrl": "https://www.arkea-reim.com/immobilier/mz_87256/immobilier/pa_94264/-acquisition-transitions-europe-s-offre-un-centre-commercial-regional-dans-l-aire-metropolitaine-d-amsterdam",
+          "date": null
+        },
+        {
+          "title": "Acquisition transitions europe se renforce sur le diy en italie",
+          "sourceUrl": "https://www.arkea-reim.com/immobilier/mz_87256/immobilier/pa_94214/-acquisition-transitions-europe-se-renforce-sur-le-diy-en-italie",
+          "date": null
+        },
+        {
+          "title": "Acquisition transitions europe realise sa premiere acquisition en suisse",
+          "sourceUrl": "https://www.arkea-reim.com/immobilier/mz_87256/immobilier/pa_94163/-acquisition-transitions-europe-realise-sa-premiere-acquisition-en-suisse",
+          "date": null
+        },
+        {
+          "title": "Acquisition transitions europe poursuit son deploiement en espagne",
+          "sourceUrl": "https://www.arkea-reim.com/immobilier/mz_87256/immobilier/pa_94149/-acquisition-transitions-europe-poursuit-son-deploiement-en-espagne",
+          "date": null
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     },
     {
@@ -4459,13 +4700,13 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/08/UCC_BT_2T-2026.pdf",
       "sourceDocument": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/08/UCC_BT_2T-2026.pdf",
       "sourceQa": "manual_verified",
       "certifiedAt": "2026-11-06 14:00:06.663107+00",
       "moreRecentBulletin": {
         "period": "2026-T3",
-        "url": null,
+        "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/11/UCC_BT_T3-2026.pdf",
         "qaStatus": "auto_partial_review"
       },
       "sections": [
@@ -4528,7 +4769,7 @@
       "certificationStatus": "certified",
       "currentSourceCertified": true,
       "comparisonCertified": true,
-      "sourceUrl": null,
+      "sourceUrl": "https://wemo-reim.fr/wp-content/uploads/2026/07/BULLETIN-TRIMESTRIEL-N08-2T-2026_final-24-07-protege.pdf",
       "sourceDocument": "BULLETIN-TRIMESTRIEL-N08-2T-2026_final-24-07-protege.pdf",
       "sourceQa": "auto_verified",
       "certifiedAt": "2026-10-05 07:51:07.106154+00",
@@ -4569,6 +4810,16 @@
           "basis": "vigilance"
         },
         {
+          "heading": "Acquisitions et opérations officiellement publiées",
+          "paragraphs": [
+            "2026-07-30 — Wemo One acquiert un hôtel Holiday Inn 4 étoiles à Gênes. Wemo One acquiert un hôtel Holiday Inn 4 étoiles de 139 chambres à Gênes pour 14 M€ net vendeur. L’actif est exploité sous enseigne Holiday Inn et bénéficie d’un bail ferme de 12 ans..",
+            "2026-07-10 — Wemo One acquiert un hôtel Travelodge à Plymouth. Wemo One réalise sa première acquisition au Royaume-Uni avec un hôtel Travelodge situé à Plymouth. L’investissement s’élève à 9,2 M€ pour 2 150 m², avec un bail ferme résiduel de 22,1 ans..",
+            "2026-06-29 — Wemo One acquiert un actif logistique loué à GLS à Castel Maggiore. Wemo One acquiert à Castel Maggiore, près de Bologne, un actif logistique de 3 455 m² loué à GLS. L’investissement représente 3,7 M€ avec une durée ferme résiduelle du bail de 5,5 ans..",
+            "2026-02-03 — Wemo One acquiert deux commerces loués à OVS en Lombardie. Wemo One acquiert deux commerces en Lombardie, à Pieve Fissiraga et Lecco, loués à OVS. Les deux actifs représentent 4,7 M€ d’investissement et 2 149 m² de surface locative.."
+          ],
+          "basis": "actualites_sourcées"
+        },
+        {
           "heading": "Sources et statut de la mise à jour",
           "paragraphs": [
             "Période analysée : 2026-T2. Document de référence contrôlé.",
@@ -4577,7 +4828,28 @@
           "basis": "provenance"
         }
       ],
-      "linkedEvents": [],
+      "linkedEvents": [
+        {
+          "title": "Wemo One acquiert un hôtel Holiday Inn 4 étoiles à Gênes",
+          "sourceUrl": "https://wemo-reim.fr/blog/wemo-one-poursuit-sa-diversification-sectorielle-avec-une-deuxieme-acquisition-hoteliere-a-genes-italie/",
+          "date": "2026-07-30"
+        },
+        {
+          "title": "Wemo One acquiert un hôtel Travelodge à Plymouth",
+          "sourceUrl": "https://wemo-reim.fr/blog/le-royaume-uni-nouveau-pays-pour-wemo-one/",
+          "date": "2026-07-10"
+        },
+        {
+          "title": "Wemo One acquiert un actif logistique loué à GLS à Castel Maggiore",
+          "sourceUrl": "https://wemo-reim.fr/blog/la-scpi-wemo-one-realise-une-nouvelle-acquisition-en-italie/",
+          "date": "2026-06-29"
+        },
+        {
+          "title": "Wemo One acquiert deux commerces loués à OVS en Lombardie",
+          "sourceUrl": "https://wemo-reim.fr/blog/la-scpi-wemo-one-renforce-son-patrimoine-en-italie-avec-lacquisition-de-deux-commerces-loues-a-ovs-en-lombardie/",
+          "date": "2026-02-03"
+        }
+      ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
     }
   ]
