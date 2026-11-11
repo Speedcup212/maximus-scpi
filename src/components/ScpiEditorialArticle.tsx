@@ -69,7 +69,7 @@ export const ScpiEditorialArticle: React.FC<{ slug: string }> = ({ slug }) => {
 
 
       {dossier.t3Review && (
-        <section className="mt-6 rounded-xl border border-amber-400/30 bg-amber-950/10 p-5">
+        <section aria-label={`Contrôle documentaire T3 de ${dossier.name}`} data-evidence-quarter="2026-T3" className="mt-6 rounded-xl border border-amber-400/30 bg-amber-950/10 p-5">
           <h5 className="text-lg font-semibold text-gray-900 dark:text-white">Point documentaire 2026-T3</h5>
           {dossier.t3Review.state === 'rejected_wrong_document' ? (
             <p className="mt-2 text-sm text-amber-800 dark:text-amber-200">
