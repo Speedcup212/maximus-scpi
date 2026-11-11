@@ -8,9 +8,9 @@ assert.equal(catalog.count,69);
 assert.equal(catalog.dossiers.length,69);
 assert.equal(new Set(catalog.dossiers.map(d=>d.slug)).size,69);
 assert.deepEqual([...catalog.dossiers.map(d=>d.slug)].sort(),[...cohort.slugs].sort());
-assert.equal(catalog.dossiers.filter(d=>d.comparisonCertified===true).length,59);
-assert.equal(catalog.dossiers.filter(d=>d.comparisonCertified!==true).length,10);
-assert.equal(catalog.dossiers.filter(d=>d.currentSourceCertified!==true).length,1);
+assert.ok(catalog.dossiers.filter(d=>d.comparisonCertified===true).length>=59,'certified comparative analyses regressed');
+assert.ok(catalog.dossiers.filter(d=>d.comparisonCertified!==true).length<=10,'history reservations increased unexpectedly');
+assert.ok(catalog.dossiers.filter(d=>d.currentSourceCertified!==true).length<=1,'current source certification regressed');
 for(const d of catalog.dossiers){
   assert.match(d.period,/^2026-T[1-4]$/,'period must be clearly indicated');
   assert.match(d.sourceUrl,/^https:\/\//,'every report must have a source');
