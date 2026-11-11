@@ -33,7 +33,25 @@ import sourcesJson from '../../data/scpi-investment-news-sources.json';
 import scpiCompletRaw from '../data/scpi_complet.json';
 import { supabase } from '../supabaseClient';
 
-const ALL_NEWS: InvestmentNewsItem[] = Array.isArray(newsJson) ? (newsJson as InvestmentNewsItem[]) : [];
+function publicOfficialSourceUrl(sourceUrl?: string): string | null {
+  try {
+    const url = new URL(sourceUrl || '');
+    if (url.protocol !== 'https:' || url.username || url.password ||
+        ['localhost', '127.0.0.1'].includes(url.hostname)) return null;
+    return url.href;
+  } catch { return null; }
+}
+
+// Un événement n'est affiché comme vérifié que si une URL officielle HTTPS
+// exploitable est présente. Les rejets restent disponibles pour diagnostic.
+const isPublishableNews = (item: InvestmentNewsItem) =>
+  item.sourceOfficial === true && item.investmentRelated === true &&
+  item.dataQuality !== 'weak' && Number(item.editorialPriority) > 0 &&
+  Boolean(publicOfficialSourceUrl(item.sourceUrl));
+
+const ALL_NEWS: InvestmentNewsItem[] = Array.isArray(newsJson)
+  ? (newsJson as InvestmentNewsItem[]).filter(isPublishableNews)
+  : [];
 
 type ScpiStatus = 'acquisition' | 'active' | 'incomplete' | 'error';
 
@@ -253,6 +271,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<'all' | AssetType>('all');
   const [newsItems, setNewsItems] = useState<InvestmentNewsItem[]>(ALL_NEWS);
+  const [showAllScpis, setShowAllScpis] = useState(false);
   const [selectedWatchSlug, setSelectedWatchSlug] = useState<string | null>(() => {
     const match = window.location.pathname.match(/^\/actualites\/([^/?#]+)/i);
     return match ? decodeURIComponent(match[1]) : null;
@@ -286,6 +305,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             .from('scpi_news_items')
             .select('*')
             .eq('status', 'published')
+            .eq('source_official', true)
             .gt('editorial_priority', 0)
             .neq('data_quality', 'weak')
             .order('published_date', { ascending: false })
@@ -316,7 +336,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             title: row.title,
             summary: row.summary || '',
             sourceUrl: row.source_url || '',
-            sourceOfficial: row.source_official !== false,
+            sourceOfficial: row.source_official === true,
             imageUrl: row.image_url || '',
             imageAlt: row.image_alt || '',
             imageCredit: row.image_credit || '',
@@ -336,7 +356,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             confidence: Number(row.confidence || 0.85),
             disclaimer: "Information factuelle issue d'une source officielle. Ne constitue pas une recommandation d'investissement.",
           }));
-          setNewsItems(mapped);
+          setNewsItems(mapped.filter(isPublishableNews));
         }
 
         if (!sourcesResult.error && sourcesResult.data) {
@@ -671,6 +691,20 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             </div>
           )}
 
+          {/* ====== À LA UNE ====== */}
+          {!searchQuery && activeFilter === 'all' && featured.length > 0 && (
+            <section className="mb-14">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+                Derniers investissements à la une
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {featured.map((item, idx) => (
+                  <InvestmentCard key={item.id || idx} item={item} onOpen={() => openNewsArticle(item)} />
+                ))}
+              </div>
+            </section>
+          )}
+
           {/* ====== INVESTISSEMENTS PAR SCPI — GRILLE COMPLÈTE ====== */}
           <section className="mb-14">
             <div className="text-center mb-6">
@@ -720,7 +754,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
 
             {/* Grille premium des SCPI — TOUJOURS visible par défaut */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {filteredScpis.map((scpi) => (
+              {(showAllScpis || searchQuery ? filteredScpis : filteredScpis.slice(0, 12)).map((scpi) => (
                 <ScpiCard
                   key={scpi.slug}
                   scpi={scpi}
@@ -728,6 +762,15 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                 />
               ))}
             </div>
+            {!searchQuery && filteredScpis.length > 12 && (
+              <div className="mt-6 text-center">
+                <button type="button" onClick={() => setShowAllScpis((open) => !open)}
+                  aria-expanded={showAllScpis}
+                  className="rounded-xl border border-emerald-500 px-5 py-3 font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
+                  {showAllScpis ? 'Réduire la liste' : `Afficher les ${filteredScpis.length} SCPI suivies`}
+                </button>
+              </div>
+            )}
 
             {selectedWatchScpi && (
               <div
@@ -793,8 +836,8 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                       </p>
                     ) : (
                       <p className="text-sm text-gray-700 dark:text-gray-300">
-                        Aucune acquisition récente n'a été détectée pour {selectedWatchScpi.name}.
-                        La veille automatique continue de contrôler les sources officielles et cette page sera mise à jour dès qu'une opération sera identifiée.
+                        Aucune acquisition suffisamment documentée n'est publiée pour {selectedWatchScpi.name} dans les données disponibles.
+                        Le dernier contrôle enregistré est indiqué ci-dessus ; l'absence d'article ne prouve pas l'absence d'événement.
                       </p>
                     )}
                   </div>
@@ -850,20 +893,6 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                       {assetCounts[value] || 0} investissement{(assetCounts[value] || 0) > 1 ? 's' : ''}
                     </p>
                   </button>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* ====== À LA UNE ====== */}
-          {!searchQuery && activeFilter === 'all' && featured.length > 0 && (
-            <section className="mb-14">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-                Derniers investissements à la une
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {featured.map((item, idx) => (
-                  <InvestmentCard key={item.id || idx} item={item} onOpen={() => openNewsArticle(item)} />
                 ))}
               </div>
             </section>
@@ -1028,10 +1057,22 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                       </div>
                     </section>
 
+                    {selectedArticle.sourceOfficial && publicOfficialSourceUrl(selectedArticle.sourceUrl) && (
+                      <section className="pt-1">
+                        <a href={publicOfficialSourceUrl(selectedArticle.sourceUrl) || '#'}
+                          target="_blank" rel="noopener noreferrer nofollow"
+                          className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 dark:text-emerald-300 hover:underline">
+                          Consulter la source officielle <ArrowUpRight className="h-4 w-4" />
+                        </a>
+                        <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                          Vérifie la date et la portée des chiffres dans le document d'origine.
+                        </p>
+                      </section>
+                    )}
                     {!!selectedArticle.sourceDocumentLabel && (
                       <section className="pt-1">
                         <p className="text-xs text-gray-400 dark:text-gray-500">
-                          Source documentaire vérifiée : {selectedArticle.sourceDocumentLabel}. La source externe est conservée en base pour contrôle, sans redirection du lecteur hors de MaximusSCPI.
+                          Référence documentaire déclarée : {selectedArticle.sourceDocumentLabel}.
                         </p>
                       </section>
                     )}
@@ -1058,7 +1099,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                   </div>
 
                   <p className="mt-7 text-xs italic text-gray-400 dark:text-gray-500">
-                    Information factuelle issue de sources officielles vérifiées par MaximusSCPI. Le rendement AEM est un indicateur immobilier à l'acquisition et ne constitue pas le rendement futur de la SCPI. Investir en SCPI comporte notamment un risque de perte en capital et de liquidité.
+                    Information datée issue d'une source officielle citée. Le rendement AEM est un indicateur immobilier à l'acquisition et ne constitue pas le rendement futur de la SCPI. Investir en SCPI comporte notamment un risque de perte en capital et de liquidité.
                   </p>
                 </div>
               </article>
