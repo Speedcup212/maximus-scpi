@@ -1,0 +1,70 @@
+{
+  "reason": "Éviter les soft-404 après nettoyage documenté des acquisitions",
+  "redirects": [
+    {
+      "from": "/actualites/optimale/2026-10-07-scpi-optimale-deux-acquisitions-a-belz-et-au-plessis-robinson/",
+      "to": "/actualites/optimale/2026-10-07-optimale-investit-environ-4-4-m-dans-trois-commerces-a-belz-et-au-plessis-robinson/",
+      "id": "55d91937-5e31-4c93-b7c6-ee1d45cff5dd"
+    },
+    {
+      "from": "/actualites/epsicap-nano/2026-09-15-communique-epsicap-nano-acquiert-un-retail-park-a-perth/",
+      "to": "/actualites/epsicap-nano/2026-09-15-epsicap-nano-acquiert-un-retail-park-a-perth-ecosse/",
+      "id": "bc35e7ac-4d31-457c-bd8c-6527b92b0d87"
+    },
+    {
+      "from": "/actualites/iroko-atlas/2026-09-10-decouvrez-notre-acquisition-n-182-a-portlaoise/",
+      "to": "/actualites/iroko-atlas/2026-09-10-iroko-atlas-acquiert-un-actif-logistique-a-portlaoise-en-irlande/",
+      "id": "53e16aae-03f6-4a84-8b0e-5f8ab2c62a57"
+    },
+    {
+      "from": "/actualites/epsicap-nano/2026-09-09-cp-epsicap-nano-acquiert-une-plateforme-a-grenade/",
+      "to": "/actualites/epsicap-nano/2026-09-09-epsicap-nano-acquiert-une-plateforme-logistique-a-grenade/",
+      "id": "21e1c9d5-667b-47ed-81a6-73f34c07cdec"
+    },
+    {
+      "from": "/actualites/buroboutic-metropoles/2026-07-23-dynamique-d-acquisition-pour-les-scpi-ficommerce-et-buroboutic/",
+      "to": "/actualites/buroboutic-metropoles/2026-07-23-buroboutic-metropoles-acquiert-un-restaurant-il-ristorante-a-sequedin-englos/",
+      "id": "c911d853-a9d7-476c-96b1-6cdc31016917"
+    },
+    {
+      "from": "/actualites/ficommerce-proximite/2026-07-23-dynamique-d-acquisition-pour-les-scpi-ficommerce-et-buroboutic/",
+      "to": "/actualites/ficommerce-proximite/2026-07-23-ficommerce-proximite-acquiert-un-restaurant-hippopotamus-a-la-garde-var/",
+      "id": "f77f3b23-ba45-4435-815a-6f064d154b8b"
+    },
+    {
+      "from": "/actualites/transitions-europe/actualite-acquisition-transitions-europe-s-offre-un-centre-commercial-regional-dans-l-aire-metropoli/",
+      "to": "/actualites/transitions-europe/2026-11-03-transitions-europe-acquiert-un-centre-commercial-de-20-000-m-a-purmerend-pres-d-amsterdam/",
+      "id": "6535cd34-b5aa-41a2-ae06-a0a8ea7f7fa1"
+    },
+    {
+      "from": "/actualites/transitions-europe/actualite-acquisition-transitions-europe-se-renforce-sur-le-diy-en-italie/",
+      "to": "/actualites/transitions-europe/2026-10-22-transitions-europe-renforce-son-patrimoine-en-italie-avec-quatre-actifs-commerciaux-et-log/",
+      "id": "df5292c6-55b4-4641-b25d-0e6dfd63189d"
+    },
+    {
+      "from": "/actualites/transitions-europe/actualite-acquisition-transitions-europe-realise-sa-premiere-acquisition-en-suisse/",
+      "to": "/actualites/transitions-europe/2026-10-06-transitions-europe-realise-sa-premiere-acquisition-suisse-bureaux-a-eysins/",
+      "id": "88f88ac1-ddd6-4e66-97d7-868f9e8a03de"
+    },
+    {
+      "from": "/actualites/transitions-europe/actualite-acquisition-transitions-europe-poursuit-son-deploiement-en-espagne/",
+      "to": "/actualites/transitions-europe/2026-09-28-transitions-europe-acquiert-une-plateforme-frigorifique-de-plus-de-25-600-m-au-nord-de-mad/",
+      "id": "7e76a88f-69a0-4728-a640-91d3fd10472a"
+    },
+    {
+      "from": "/actualites/transitions-europe/actualite-acquisition-transitions-europe-premier-actif-de-commerce-en-allemagne/",
+      "to": "/actualites/transitions-europe/2026-06-11-transitions-europe-entre-dans-le-commerce-allemand-avec-un-investissement-a-neubrandenburg/",
+      "id": "a1a611dc-0493-4899-b111-f905479a2a0c"
+    },
+    {
+      "from": "/actualites/transitions-europe/actualite-acquisition-nouvelle-acquisition-en-irlande-pour-transitions-europe/",
+      "to": "/actualites/transitions-europe/2026-06-25-transitions-europe-acquiert-plus-de-6-200-m-de-bureaux-dans-le-citywest-business-campus-a-/",
+      "id": "ec94f6b0-d1ec-4c88-8d24-7d17fe1753e1"
+    },
+    {
+      "from": "/actualites/transitions-europe/actualite-acquisition-premiere-acquisition-a-hambourg-pour-transitions-europe/",
+      "to": "/actualites/transitions-europe/2026-07-29-transitions-europe-investit-dans-l-immeuble-de-bureaux-hansa-carree-a-hambourg/",
+      "id": "f6da7c3e-c8f9-4ad1-bd5b-9843e67aba78"
+    }
+  ]
+}

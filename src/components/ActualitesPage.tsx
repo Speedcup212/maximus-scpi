@@ -342,7 +342,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
             portfolioContext: row.portfolio_context || '',
             maximusAnalysis: row.maximus_analysis || '',
             sourceDocumentLabel: row.source_document_label || '',
-            date: row.published_date || (row.detected_at ? row.detected_at.slice(0, 10) : ''),
+            date: row.published_date || '', // Une date de détection ne vaut jamais publication officielle.
             detectedAt: row.detected_at || '',
             investmentRelated: true,
             dataQuality: row.data_quality || 'standard',
@@ -634,7 +634,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
               {selectedArticle
                 ? `${selectedArticle.scpi} · ${formatDate(selectedArticle.date)} · article MaximusSCPI`
                 : selectedWatchScpi
-                ? `Veille immobilière mise à jour automatiquement à partir des sources officielles de ${selectedWatchScpi.managementCompany || 'la société de gestion'}.`
+                ? `Veille immobilière issue des sources disponibles de ${selectedWatchScpi.managementCompany || 'la société de gestion'}. Dernier contrôle et statut précisés ci-dessous.`
                 : 'Découvrez les analyses documentées de 69 SCPI : indicateurs, évolutions certifiées, acquisitions et points de vigilance, avec leurs sources.'}
             </p>
           </div>
@@ -973,11 +973,11 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
                 <Building2 className="w-3.5 h-3.5" />
                 <span className="font-semibold">{filteredScpis.length}</span> SCPI
-                {searchQuery ? ' trouvée' : 's'} suivie{filteredScpis.length > 1 ? 's' : ''}
+                {filteredScpis.length > 1 ? ' documentées' : ' documentée'}
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300">
                 <TrendingUp className="w-3.5 h-3.5" />
-                <span className="font-semibold">{totalAcquisitions}</span> acquisition{totalAcquisitions > 1 ? 's' : ''} détectée{totalAcquisitions > 1 ? 's' : ''}
+                <span className="font-semibold">{totalAcquisitions}</span> acquisition{totalAcquisitions > 1 ? 's' : ''} publiée{totalAcquisitions > 1 ? 's' : ''}
               </span>
               {scpisWithAcquisitions > 0 && (
                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300">
@@ -1019,7 +1019,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                 <button type="button" onClick={() => setShowAllScpis((open) => !open)}
                   aria-expanded={showAllScpis}
                   className="rounded-xl border border-emerald-500 px-5 py-3 font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
-                  {showAllScpis ? 'Réduire la liste' : `Afficher les ${filteredScpis.length} SCPI suivies`}
+                  {showAllScpis ? 'Réduire la liste' : `Afficher les ${filteredScpis.length} dossiers SCPI`}
                 </button>
               </div>
             )}

@@ -222,6 +222,18 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: Real Actualités browser crash test (desktop and mobile, fallback data)
+        run: node scripts/qa/actualitesBrowserCrashTest.mjs
+
+      - name: Archive Actualités crash-test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: actualites-crash-test-${{ github.run_id }}
+          path: test-results/actualites-crash-test/
+          retention-days: 30
+          if-no-files-found: warn
+
       - name: Twelve real progressive SCPI source/disclosure checks at desktop and mobile widths
         run: node scripts/scpi-onboarding/progressivePublicBrowser.mjs
       - name: Validate Netlify-native production proof stamp against exact checked-out SHA

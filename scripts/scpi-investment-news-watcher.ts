@@ -23,6 +23,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { newsEditorialReviewReason, isNewsEditoriallyValid } from '../src/utils/scpiNewsEditorialGate.mjs';
+import { reconcileScpiNewsSnapshot } from '../src/utils/scpiNewsSnapshotMerge.mjs';
 
 // pdf-parse en dynamic import (compatibilité ESM)
 let pdfParse: ((buf: Buffer) => Promise<{ text: string }>) | null = null;
@@ -1300,7 +1301,12 @@ function writeJsonOutputs(items: InvestmentNewsItem[]): { displayable: Investmen
   const history = [...prev];
   let added = 0;
   for (const item of items) { item.id = generateId(item); if (!existingIds.has(item.id)) { history.push(item); existingIds.add(item.id); added++; } }
-  const displayable = history.filter(i => i.dataQuality !== 'weak' && i.editorialPriority > 0 && isNewsEditoriallyValid(i));
+  // Le registre historique n'a pas autorité pour republier des contenus corrigés
+  // ou mis en révision. Préserver le dernier instantané approuvé.
+  const approved = fs.existsSync(LATEST_PATH)
+    ? JSON.parse(fs.readFileSync(LATEST_PATH, 'utf-8')) as InvestmentNewsItem[]
+    : [];
+  const displayable = reconcileScpiNewsSnapshot(approved, items);
 
   fs.mkdirSync(path.dirname(LATEST_PATH), { recursive: true });
   fs.writeFileSync(LATEST_PATH, JSON.stringify(displayable, null, 2), 'utf-8');

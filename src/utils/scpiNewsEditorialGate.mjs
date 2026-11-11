@@ -35,6 +35,15 @@ export function newsEditorialReviewReason(item) {
   const headline = normalize(item?.title);
   const text = normalize(item?.summary);
   const rawUrl = String(item?.sourceUrl ?? item?.source_url ?? '').trim();
+  const date = String(item?.date ?? item?.published_date ?? '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date)) ||
+      Date.parse(date) > Date.now() + 86400000) {
+    return 'Date de publication officielle non documentée ou invalide';
+  }
+  if (text.length < 90 || headline === text) {
+    return 'Texte trop court ou copie du titre, sans valeur documentaire suffisante';
+  }
+
   if (!headline || headline.length < 12) return 'Titre générique ou insuffisant pour une actualité immobilière';
   if (NOT_ACQUISITION_HEADLINES.some((pattern) => pattern.test(headline))) {
     return 'Titre de navigation, page générique ou information hors acquisitions';
@@ -44,6 +53,9 @@ export function newsEditorialReviewReason(item) {
   }
   if (/^rte en capital et un risque de liquidite\b/i.test(text)) {
     return 'Texte légal tronqué, non une description de l’opération';
+  }
+  if (/-->|\btemps de lecture\b|\baccueil\s+actualites\b/i.test(text)) {
+    return 'Résidu de navigation ou d’interface éditoriale dans le résumé';
   }
   const first = text.slice(0, 570);
   const distinctive = PRIMARY_NAV_SIGNATURES.filter((re) => re.test(first)).length;

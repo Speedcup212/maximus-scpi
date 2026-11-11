@@ -415,12 +415,12 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "2026-03-19 — La SCPI Alta Convictions poursuit sa croissance avec une nouvelle acquisition logistique en région lyonnaise - Altarea. La SCPI Alta Convictions poursuit sa croissance avec une nouvelle acquisition logistique en région lyonnaise --> [🚀 Acquisition] Alta Convictions entre sur le segment de la messagerie ! La SCPI Alta .",
-            "2026-02-11 — La SCPI Alta Convictions renforce sa dimension européenne avec une nouvelle acquisition en Espagne - Altarea. La SCPI Alta Convictions renforce sa dimension européenne avec une nouvelle acquisition en Espagne --> Alta Convictions renforce sa dimension européenne ! La SCPI Alta Convictions réalise sa première ."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-03-19 — La SCPI Alta Convictions poursuit sa croissance avec une nouvelle acquisition logistique en région lyonnaise - Altarea. Alta Convictions acquiert un entrepôt de messagerie de 13 030 m² situé à Leyment (Ain), près de l'autoroute A42 et du Parc Industriel de la Plaine de l'Ain. L'actif a été acheté pour 9 M€ et est loué à une filiale du groupe Jacky Perrenot dans le cadre d'une opération de cession-bail avec une durée ferme de 12 ans. Ces paramètres sont publiés par Altarea IM et doivent être distingués du rendement distribué aux associés.",
+            "2026-02-11 — La SCPI Alta Convictions renforce sa dimension européenne avec une nouvelle acquisition en Espagne - Altarea. Alta Convictions renforce son portefeuille espagnol avec un actif industriel et de recherche-développement de 4 319 m² dans le parc technologique d'Álava à Vitoria-Gasteiz. L'acquisition est annoncée à 4,2 M€ acte en main et porte sur un ensemble loué à AEG Solution Power Iberica, filiale d'AEG Power Solutions. Le site comprend des bureaux et des installations d'activité ; il ne doit pas être classé comme un simple immeuble de bureaux."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -434,13 +434,13 @@
       "linkedEvents": [
         {
           "title": "La SCPI Alta Convictions poursuit sa croissance avec une nouvelle acquisition logistique en région lyonnaise - Altarea",
-          "sourceUrl": "https://www.altarea-im.com/actualites/la-scpi-alta-convictions-poursuit-sa-croissance-avec-une-nouvelle-acquisition-logistique-en-region-lyonnaise/",
-          "date": "2026-03-19"
+          "date": "2026-03-19",
+          "sourceUrl": "https://www.altarea-im.com/actualites/la-scpi-alta-convictions-poursuit-sa-croissance-avec-une-nouvelle-acquisition-logistique-en-region-lyonnaise/"
         },
         {
           "title": "La SCPI Alta Convictions renforce sa dimension européenne avec une nouvelle acquisition en Espagne - Altarea",
-          "sourceUrl": "https://www.altarea-im.com/actualites/la-scpi-alta-convictions-renforce-sa-dimension-europeenne-avec-une-nouvelle-acquisition-en-espagne/",
-          "date": "2026-02-11"
+          "date": "2026-02-11",
+          "sourceUrl": "https://www.altarea-im.com/actualites/la-scpi-alta-convictions-renforce-sa-dimension-europeenne-avec-une-nouvelle-acquisition-en-espagne/"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -710,11 +710,11 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "2026-07-23 — Dynamique d’acquisition pour les SCPI FICOMMERCE et BUROBOUTIC. 23/07/2026 Communiqués de presse Courbevoie, le 23 juillet 2026 COMMUNIQUE DE PRESSE ______________________________________________________________________________ Dynamique d'acquisition pour les SCP."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-07-23 — Buroboutic Métropoles acquiert un restaurant IL RISTORANTE à Séquedin (Englos). FIDUCIAL Gérance annonce l'acquisition pour Buroboutic Métropoles d'un restaurant IL RISTORANTE situé à Séquedin, dans la zone commerciale d'Englos près de Lille. L'actif développe 545 m² et fait l'objet d'un bail de 12 ans, dont six ans fermes. Il ne s'agit pas du restaurant Hippopotamus de 390 m² acquis pour Ficommerce dans le Var."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -727,9 +727,9 @@
       ],
       "linkedEvents": [
         {
-          "title": "Dynamique d’acquisition pour les SCPI FICOMMERCE et BUROBOUTIC",
-          "sourceUrl": "https://www.fiducial-gerance.fr/actualites/dynamique-d-acquisition-pour-les-scpi-ficommerce-et-buroboutic",
-          "date": "2026-07-23"
+          "title": "Buroboutic Métropoles acquiert un restaurant IL RISTORANTE à Séquedin (Englos)",
+          "date": "2026-07-23",
+          "sourceUrl": "https://www.fiducial-gerance.fr/actualites/dynamique-d-acquisition-pour-les-scpi-ficommerce-et-buroboutic"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -792,12 +792,12 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "2026-11-03 — SOGENIAL Immobilier acquiert un entrepôt logistique pour la SCPI Cœur d'Europe - Sogenial. SOGENIAL Immobilier acquiert un entrepôt logistique pour la SCPI Cœur d'Europe 3 novembre 2026 CP Partager l'article : --> 핏 --> VOIR LE COMMUNIQUÉ (PDF) La SCPI Cœur d’Europe poursuit son développeme.",
-            "2026-10-20 — SOGENIAL Immobilier acquiert un immeuble de bureaux pour la SCPI Cœur d'Europe - Sogenial. SOGENIAL Immobilier acquiert un immeuble de bureaux pour la SCPI Cœur d'Europe 20 octobre 2026 CP Partager l'article : --> 핏 --> VOIR LE COMMUNIQUÉ (PDF) La SCPI Coeur d'Europe a fait l'acquisition d'."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-11-03 — SOGENIAL Immobilier acquiert un entrepôt logistique pour la SCPI Cœur d'Europe - Sogenial. Sogenial Immobilier annonce pour Cœur d'Europe l'acquisition d'un entrepôt logistique de 18 580 m² à Arazuri, dans la région de Pampelune, en Espagne. Cette opération renforce le portefeuille logistique européen de la SCPI.",
+            "2026-10-20 — SOGENIAL Immobilier acquiert un immeuble de bureaux pour la SCPI Cœur d'Europe - Sogenial. Cœur d'Europe acquiert un immeuble de bureaux à Neu-Isenburg, au sud de Francfort en Allemagne. L'opération est annoncée par Sogenial Immobilier dans son communiqué du 20 octobre 2026. Le montant, la surface et les conditions locatives doivent être consultés dans le document source avant toute analyse chiffrée."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -811,13 +811,13 @@
       "linkedEvents": [
         {
           "title": "SOGENIAL Immobilier acquiert un entrepôt logistique pour la SCPI Cœur d'Europe - Sogenial",
-          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-entrepot-logistique-pour-la-scpi-coeur-deurope-2/",
-          "date": "2026-11-03"
+          "date": "2026-11-03",
+          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-entrepot-logistique-pour-la-scpi-coeur-deurope-2/"
         },
         {
           "title": "SOGENIAL Immobilier acquiert un immeuble de bureaux pour la SCPI Cœur d'Europe - Sogenial",
-          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-immeuble-de-bureaux-pour-la-scpi-coeur-deurope-2/",
-          "date": "2026-10-20"
+          "date": "2026-10-20",
+          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-immeuble-de-bureaux-pour-la-scpi-coeur-deurope-2/"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -880,13 +880,13 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "2026-10-13 — SOGENIAL Immobilier acquiert un commerce pour la SCPI Cœur de Régions - Sogenial. SOGENIAL Immobilier acquiert un commerce pour la SCPI Cœur de Régions 13 octobre 2026 CP Partager l'article : --> 핏 --> VOIR LE COMMUNIQUÉ (PDF) Sogenial Immobilier poursuit le développement de la SCP.",
-            "2026-09-08 — SOGENIAL Immobilier acquiert un ensemble commercial pour la SCPI Cœur de Régions - Sogenial. SOGENIAL Immobilier acquiert un ensemble commercial pour la SCPI Cœur de Régions 8 septembre 2026 CP Partager l'article : --> 핏 --> VOIR LE COMMUNIQUÉ (PDF) Sogenial Immobilier annonce l'acquisition d.",
-            "2026-09-01 — SOGENIAL Immobilier acquiert un ensemble immobilier mixte pour la SCPI Cœur de Régions - Sogenial. SOGENIAL Immobilier acquiert un ensemble immobilier mixte pour la SCPI Cœur de Régions 1 septembre 2026 CP Partager l'article : --> 핏 --> VOIR LE COMMUNIQUÉ (PDF) La SCPI Coeur de Régions poursuit le ."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-10-13 — SOGENIAL Immobilier acquiert un commerce pour la SCPI Cœur de Régions - Sogenial. Sogenial Immobilier annonce l'acquisition pour Cœur de Régions d'un local commercial à Saint-Denis-lès-Sens, dans l'Yonne. L'actif est loué à l'enseigne B&M dans le cadre d'un bail commercial récemment conclu. La pérennité de l'occupation et les conditions du bail devront être suivies.",
+            "2026-09-08 — SOGENIAL Immobilier acquiert un ensemble commercial pour la SCPI Cœur de Régions - Sogenial. La SCPI Cœur de Régions acquiert un ensemble commercial de 3 450 m² à Corbeil-Essonnes en région parisienne. Le site se compose de deux cellules commerciales et la société de gestion indique qu'il est entièrement loué. La diversification locative reste à apprécier selon l'identité des locataires et la durée des baux.",
+            "2026-09-01 — SOGENIAL Immobilier acquiert un ensemble immobilier mixte pour la SCPI Cœur de Régions - Sogenial. Cœur de Régions renforce son patrimoine par l'acquisition d'un ensemble à usage mixte de bureaux et d'activités à La Roche-sur-Yon. Le bâtiment est annoncé intégralement occupé par ENEDIS. Cette concentration sur un seul locataire demande un suivi de la durée ferme du bail et de l'adaptabilité des locaux."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -900,18 +900,18 @@
       "linkedEvents": [
         {
           "title": "SOGENIAL Immobilier acquiert un commerce pour la SCPI Cœur de Régions - Sogenial",
-          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-commerce-pour-la-scpi-coeur-de-regions/",
-          "date": "2026-10-13"
+          "date": "2026-10-13",
+          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-commerce-pour-la-scpi-coeur-de-regions/"
         },
         {
           "title": "SOGENIAL Immobilier acquiert un ensemble commercial pour la SCPI Cœur de Régions - Sogenial",
-          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-ensemble-commercial-pour-la-scpi-coeur-de-regions/",
-          "date": "2026-09-08"
+          "date": "2026-09-08",
+          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-ensemble-commercial-pour-la-scpi-coeur-de-regions/"
         },
         {
           "title": "SOGENIAL Immobilier acquiert un ensemble immobilier mixte pour la SCPI Cœur de Régions - Sogenial",
-          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-ensemble-immobilier-mixte-pour-la-scpi-coeur-de-regions/",
-          "date": "2026-09-01"
+          "date": "2026-09-01",
+          "sourceUrl": "https://www.sogenial.fr/actualites/sogenial-immobilier-acquiert-un-ensemble-immobilier-mixte-pour-la-scpi-coeur-de-regions/"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -1455,13 +1455,11 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisition de Dublin publiée le 21 octobre 2026",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "Cristal Life a acquis un immeuble de bureaux situé dans les South Docklands à Dublin pour 27,65 M€ acte en main. L'actif de 3 167 m², construit en 2004 et rénové en 2024, est certifié BER B1.",
-            "Le locataire Regus (groupe IWG) occupe l'ensemble dans le cadre d'un bail de 25 ans, avec environ 12 années fermes résiduelles annoncées. La concentration locative sur un occupant et la demande de bureaux flexibles restent des points de risque spécifiques.",
-            "L'acquisition renforce l'exposition à Dublin ; son effet sur la diversification globale doit être mesuré à partir des valeurs et pondérations officielles du portefeuille, sans extrapoler un rendement ou un changement du taux de distribution."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-10-21 — Cristal Life acquiert un immeuble de bureaux à Dublin pour 27,65 M€. Cristal Life, gérée par Inter Gestion REIM, annonce l'acquisition d'un immeuble de bureaux de 3 167 m² dans les South Docklands de Dublin pour 27,65 M€ acte en main. L'ensemble est entièrement occupé par Regus, enseigne du groupe IWG. Construit en 2004, rénové en 2024 et certifié BER B1, il bénéficie d'un bail de 25 ans, dont environ 12 années fermes résiduelles."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -1475,8 +1473,8 @@
       "linkedEvents": [
         {
           "title": "Cristal Life acquiert un immeuble de bureaux à Dublin pour 27,65 M€",
-          "sourceUrl": "https://www.inter-gestion.com/corpo/inter-gestion-reim",
-          "date": "2026-10-21"
+          "date": "2026-10-21",
+          "sourceUrl": "https://www.inter-gestion.com/corpo/inter-gestion-reim"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -2025,12 +2023,12 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "2026-09-15 — Epsicap Nano acquiert un retail park à Perth, Écosse. Epsicap Nano s'implante à Perth avec un retail park de 5 268 m² en Écosse Temps de lecture : 3 min La SCPI Epsicap Nano, gérée par Epsicap REIM, renforce sa présence au Royaume-Uni avec l'acquisition .",
-            "2026-09-15 — Communiqué : Epsicap Nano acquiert un retail park à Perth. La SCPI Epsicap Nano s'implante à Perth avec l'acquisition d'un retail park en Écosse Temps de lecture : 1 min La société de gestion Epsicap REIM annonce une nouvelle acquisition au Royaume-Uni pour E."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-09-15 — Epsicap Nano acquiert un retail park à Perth, Écosse. Epsicap Nano acquiert trois cellules commerciales au sein du St Catherine Retail Park à Perth, en Écosse. L'opération représente 10,5 M£ (environ 12,2 M€) pour 5 268 m². L'ensemble est occupé par les enseignes B&M, Pets at Home et Wickes selon Epsicap REIM. Le montant annoncé est un prix immobilier d'acquisition et ne constitue pas le rendement distribué par la SCPI.",
+            "2026-09-09 — Epsicap Nano acquiert une plateforme logistique à Grenade. Epsicap Nano annonce l'acquisition à Grenade, en Espagne, d'une plateforme logistique de 10 539 m² pour environ 9,3 M€. L'opération est structurée sous forme de cession-bail (sale and leaseback) avec le groupe espagnol Ontime, qui exploite le site. La rentabilité doit être analysée au regard du bail ferme, des charges et des frais d'acquisition."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -2044,13 +2042,13 @@
       "linkedEvents": [
         {
           "title": "Epsicap Nano acquiert un retail park à Perth, Écosse",
-          "sourceUrl": "https://epsicap.fr/epsicap-nano-acquisition-perth/",
-          "date": "2026-09-15"
+          "date": "2026-09-15",
+          "sourceUrl": "https://epsicap.fr/epsicap-nano-acquisition-perth/"
         },
         {
-          "title": "Communiqué : Epsicap Nano acquiert un retail park à Perth",
-          "sourceUrl": "https://epsicap.fr/cp-acquisition-perth-epsicap-nano/",
-          "date": "2026-09-15"
+          "title": "Epsicap Nano acquiert une plateforme logistique à Grenade",
+          "date": "2026-09-09",
+          "sourceUrl": "https://epsicap.fr/epsicap-nano-acquisition-grenade/"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -2178,11 +2176,11 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "2026-07-23 — Dynamique d’acquisition pour les SCPI FICOMMERCE et BUROBOUTIC. 23/07/2026 Communiqués de presse Courbevoie, le 23 juillet 2026 COMMUNIQUE DE PRESSE ______________________________________________________________________________ Dynamique d'acquisition pour les SCP."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-07-23 — Ficommerce Proximité acquiert un restaurant Hippopotamus à La Garde (Var). FIDUCIAL Gérance annonce l'acquisition pour Ficommerce Proximité d'un restaurant Hippopotamus de 390 m² à La Garde, près de Toulon. Rénové en 2020, l'actif comprend 15 places de stationnement et se situe dans une zone commerciale du Var où la SCPI détient déjà un autre local. L'opération est distincte de l'acquisition réalisée pour Buroboutic à Séquedin."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -2195,9 +2193,9 @@
       ],
       "linkedEvents": [
         {
-          "title": "Dynamique d’acquisition pour les SCPI FICOMMERCE et BUROBOUTIC",
-          "sourceUrl": "https://www.fiducial-gerance.fr/actualites/dynamique-d-acquisition-pour-les-scpi-ficommerce-et-buroboutic",
-          "date": "2026-07-23"
+          "title": "Ficommerce Proximité acquiert un restaurant Hippopotamus à La Garde (Var)",
+          "date": "2026-07-23",
+          "sourceUrl": "https://www.fiducial-gerance.fr/actualites/dynamique-d-acquisition-pour-les-scpi-ficommerce-et-buroboutic"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -2472,12 +2470,12 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "2026-09-10 — Découvrez notre acquisition n°182 à Portlaoise. Entrepôts à Portlaoise Nouveauté PORTLAOISE - Stradbally Road · Acquis le 10/9/2026 Iroko Zen Iroko Atlas Pourquoi cette acquisition est le meilleur choix ? La SCPI Iroko Atlas poursuit son développem.",
-            "2026-08-24 — Découvrez notre acquisition n°180 à Lichfield. Commerces à Lichfield Nouveauté LICHFIELD - Vulcan Road, WS13 6GB · Acquis le 24/8/2026 Iroko Zen Iroko Atlas Pourquoi cette acquisition est le meilleur choix ? La SCPI Iroko Atlas fait l'acquisition ."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-09-10 — Iroko Atlas acquiert un actif logistique à Portlaoise en Irlande. La SCPI Iroko Atlas renforce son exposition logistique irlandaise avec l'acquisition d'entrepôts situés à Portlaoise, sur Stradbally Road. L'actif est implanté à Portlaoise et non dans la ville de Dublin. L'opération a été annoncée par Iroko, avec une date d'acquisition mentionnée au 10 septembre 2026.",
+            "2026-08-24 — Découvrez notre acquisition n°180 à Lichfield. Iroko Atlas annonce l'acquisition d'un retail park situé sur Vulcan Road à Lichfield, dans le Staffordshire au Royaume-Uni, à environ 25 kilomètres au nord de Birmingham. L'ensemble appartient à la catégorie commerciale et contribue à l'exposition britannique de la SCPI. Les montants d'acquisition, l'occupation réelle et la durée des baux doivent être vérifiés dans la documentation officielle avant toute analyse de rendement."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -2490,14 +2488,14 @@
       ],
       "linkedEvents": [
         {
-          "title": "Découvrez notre acquisition n°182 à Portlaoise",
-          "sourceUrl": "https://www.iroko.eu/actif/entrepots-a-portlaoise-182",
-          "date": "2026-09-10"
+          "title": "Iroko Atlas acquiert un actif logistique à Portlaoise en Irlande",
+          "date": "2026-09-10",
+          "sourceUrl": "https://www.iroko.eu/actif/entrepots-a-portlaoise-182"
         },
         {
           "title": "Découvrez notre acquisition n°180 à Lichfield",
-          "sourceUrl": "https://www.iroko.eu/actif/commerces-a-lichfield-180",
-          "date": "2026-08-24"
+          "date": "2026-08-24",
+          "sourceUrl": "https://www.iroko.eu/actif/commerces-a-lichfield-180"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -2555,11 +2553,11 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "2026-08-31 — Découvrez notre acquisition n°181 à Francfort. Hôtel à Francfort Nouveauté FRANKFURT - Gutleutstrasse 85 · Acquis le 31/8/2026 Iroko Zen Iroko Atlas Pourquoi cette acquisition est le meilleur choix ? La SCPI Iroko Zen renforce son patrimoine en Al."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-08-31 — Découvrez notre acquisition n°181 à Francfort. Iroko Zen annonce l'acquisition d'un hôtel situé au 85 Gutleutstrasse à Francfort, en Allemagne, dans le cadre de la diversification de son patrimoine immobilier européen. La communication de la société de gestion présente l'opération comme l'acquisition d'un actif hôtelier dans la capitale financière allemande. Le montant, les conditions locatives et les performances de l'exploitant restent à documenter pour mesurer l'effet économique sur la SCPI."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -2573,8 +2571,8 @@
       "linkedEvents": [
         {
           "title": "Découvrez notre acquisition n°181 à Francfort",
-          "sourceUrl": "https://www.iroko.eu/actif/hotel-a-francfort-181",
-          "date": "2026-08-31"
+          "date": "2026-08-31",
+          "sourceUrl": "https://www.iroko.eu/actif/hotel-a-francfort-181"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -3110,11 +3108,11 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "2025-11-12 — NCap Régions signe sa première acquisition hôtelière | Norma Capital. NCap Régions signe sa première acquisition hôtelière Accueil Actualités NCap Régions signe sa première acquisition hôtelière NCap Régions signe sa première acquisition hôtelière à Nantes Norma Capital."
-          ],
-          "basis": "actualites_sourcées"
+            "2025-11-12 — NCap Régions signe sa première acquisition hôtelière | Norma Capital. NCap Régions, gérée par Norma Capital, annonce une première acquisition hôtelière en VEFA face à la gare de Nantes. L'immeuble de 5 383 m² accueillera un hôtel quatre étoiles Voco de 127 chambres, dont la livraison est prévue au quatrième trimestre 2028. L'exploitation est annoncée avec un bail ferme de 12 ans. Le risque de livraison, le crédit de l'exploitant et l'état du marché hôtelier local doivent être suivis jusqu'à l'ouverture."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -3128,8 +3126,8 @@
       "linkedEvents": [
         {
           "title": "NCap Régions signe sa première acquisition hôtelière | Norma Capital",
-          "sourceUrl": "https://www.normacapital.fr/2025/11/12/ncap-regions-signe-sa-premiere-acquisition-hoteliere/",
-          "date": "2025-11-12"
+          "date": "2025-11-12",
+          "sourceUrl": "https://www.normacapital.fr/2025/11/12/ncap-regions-signe-sa-premiere-acquisition-hoteliere/"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -3468,11 +3466,11 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "2026-10-07 — SCPI Optimale : deux acquisitions à Belz et au Plessis-Robinson. Optimale poursuit sa stratégie de petites surfaces avec deux nouvelles acquisitions en France Accueil / Actualités / Information / Optimale, deux acquisitions à Belz et au Plessis-Robinson La SCPI Opt."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-10-07 — Optimale investit environ 4,4 M€ dans trois commerces à Belz et au Plessis-Robinson. Consultim Asset Management annonce deux acquisitions totalisant environ 4,4 M€ acte en main pour la SCPI Optimale. À Belz (Morbihan), deux cellules neuves sont louées à Action et Espaces des Marques pour un investissement d'environ 3,6 M€. Au Plessis-Robinson (Hauts-de-Seine), une cellule de commerce de proximité louée à une boulangerie indépendante a été acquise pour environ 760 k€. La société de gestion indique un rendement immobilier moyen à l'acquisition voisin de 7,50 %, distinct du taux de distribution de la SCPI."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -3485,9 +3483,9 @@
       ],
       "linkedEvents": [
         {
-          "title": "SCPI Optimale : deux acquisitions à Belz et au Plessis-Robinson",
-          "sourceUrl": "https://www.consultim-am.com/actualites/information/optimale-acquisitions-belz-plessis-robinson/",
-          "date": "2026-10-07"
+          "title": "Optimale investit environ 4,4 M€ dans trois commerces à Belz et au Plessis-Robinson",
+          "date": "2026-10-07",
+          "sourceUrl": "https://www.consultim-am.com/actualites/information/optimale-acquisitions-belz-plessis-robinson/"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -4033,11 +4031,11 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "2026-05-18 — La SCPI PERIAL Opportunités Europe poursuit son déploiement européen avec l’acquisition d’un immeuble d’activité en Italie. PERIAL Asset Management annonce la reprise des investissements de sa SCPI PERIAL Opportunités Europe avec l’acquisition d’un immeuble industriel situé à Trévise, dans le nord de l’Italie. 20.."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-05-18 — La SCPI PERIAL Opportunités Europe poursuit son déploiement européen avec l’acquisition d’un immeuble d’activité en Italie. PERIAL Asset Management annonce la reprise des investissements de sa SCPI PERIAL Opportunités Europe avec l’acquisition d’un immeuble industriel situé à Trévise, dans le nord de l’Italie. 20."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -4051,8 +4049,8 @@
       "linkedEvents": [
         {
           "title": "La SCPI PERIAL Opportunités Europe poursuit son déploiement européen avec l’acquisition d’un immeuble d’activité en Italie",
-          "sourceUrl": "https://www.perial.com/groupe-perial/actualites/poe-acquisition-immeuble-en-italie",
-          "date": "2026-05-18"
+          "date": "2026-05-18",
+          "sourceUrl": "https://www.perial.com/groupe-perial/actualites/poe-acquisition-immeuble-en-italie"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -4820,14 +4818,14 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "Date non attestée — Acquisition transitions europe s offre un centre commercial regional dans l aire metropolitaine d amsterdam.",
-            "Date non attestée — Acquisition transitions europe se renforce sur le diy en italie.",
-            "Date non attestée — Acquisition transitions europe realise sa premiere acquisition en suisse.",
-            "Date non attestée — Acquisition transitions europe poursuit son deploiement en espagne."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-11-03 — Transitions Europe acquiert un centre commercial de 20 000 m² à Purmerend, près d’Amsterdam. Arkéa REIM annonce l'acquisition par Transitions Europe d'un centre commercial de 20 000 m² au cœur de Purmerend, dans l'aire d'Amsterdam. Le site rassemble environ 60 locataires et reçoit plus de quatre millions de visiteurs par an selon la société de gestion. Cette opération renforce la part de commerces dans le patrimoine européen de la SCPI.",
+            "2026-10-22 — Transitions Europe renforce son patrimoine en Italie avec quatre actifs commerciaux et logistiques. Arkéa REIM présente un investissement de Transitions Europe dans le nord de l'Italie : trois actifs commerciaux et une plateforme logistique, totalisant plus de 33 000 m² à Trente, Feltre, Schio et Castel Ivano. La société de gestion fait état d'une visibilité locative de 20 ans auprès d'un opérateur régional, sans que cette indication constitue une garantie de distribution pour les associés.",
+            "2026-10-06 — Transitions Europe réalise sa première acquisition suisse : bureaux à Eysins. Transitions Europe annonce son entrée en Suisse grâce à un ensemble de bureaux d'environ 8 000 m² à Eysins, dans le canton de Vaud, entre Genève et Lausanne. Le bâtiment est annoncé entièrement occupé par deux groupes internationaux, avec une durée moyenne résiduelle des baux de 7,6 ans et une certification Minergie. L'opération ouvre un huitième pays d'investissement pour la SCPI.",
+            "2026-09-28 — Transitions Europe acquiert une plateforme frigorifique de plus de 25 600 m² au nord de Madrid. La société de gestion Arkéa REIM annonce l'acquisition d'une plateforme logistique frigorifique à San Agustín del Guadalix, au nord de Madrid. Cet actif de plus de 25 600 m² est intégralement loué à un opérateur de la chaîne du froid et dispose de plus de 2 300 panneaux photovoltaïques en toiture. L'opération complète l'exposition logistique espagnole de Transitions Europe."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -4840,24 +4838,24 @@
       ],
       "linkedEvents": [
         {
-          "title": "Acquisition transitions europe s offre un centre commercial regional dans l aire metropolitaine d amsterdam",
-          "sourceUrl": "https://www.arkea-reim.com/immobilier/mz_87256/immobilier/pa_94264/-acquisition-transitions-europe-s-offre-un-centre-commercial-regional-dans-l-aire-metropolitaine-d-amsterdam",
-          "date": null
+          "title": "Transitions Europe acquiert un centre commercial de 20 000 m² à Purmerend, près d’Amsterdam",
+          "date": "2026-11-03",
+          "sourceUrl": "https://www.arkea-reim.com/immobilier/pa_94264/-acquisition-transitions-europe-s-offre-un-centre-commercial-regional-dans-l-aire-metropolitaine-d-amsterdam"
         },
         {
-          "title": "Acquisition transitions europe se renforce sur le diy en italie",
-          "sourceUrl": "https://www.arkea-reim.com/immobilier/mz_87256/immobilier/pa_94214/-acquisition-transitions-europe-se-renforce-sur-le-diy-en-italie",
-          "date": null
+          "title": "Transitions Europe renforce son patrimoine en Italie avec quatre actifs commerciaux et logistiques",
+          "date": "2026-10-22",
+          "sourceUrl": "https://www.arkea-reim.com/immobilier/pa_94214/-acquisition-transitions-europe-se-renforce-sur-le-diy-en-italie"
         },
         {
-          "title": "Acquisition transitions europe realise sa premiere acquisition en suisse",
-          "sourceUrl": "https://www.arkea-reim.com/immobilier/mz_87256/immobilier/pa_94163/-acquisition-transitions-europe-realise-sa-premiere-acquisition-en-suisse",
-          "date": null
+          "title": "Transitions Europe réalise sa première acquisition suisse : bureaux à Eysins",
+          "date": "2026-10-06",
+          "sourceUrl": "https://www.arkea-reim.com/immobilier/pa_94163/-acquisition-transitions-europe-realise-sa-premiere-acquisition-en-suisse"
         },
         {
-          "title": "Acquisition transitions europe poursuit son deploiement en espagne",
-          "sourceUrl": "https://www.arkea-reim.com/immobilier/mz_87256/immobilier/pa_94149/-acquisition-transitions-europe-poursuit-son-deploiement-en-espagne",
-          "date": null
+          "title": "Transitions Europe acquiert une plateforme frigorifique de plus de 25 600 m² au nord de Madrid",
+          "date": "2026-09-28",
+          "sourceUrl": "https://www.arkea-reim.com/immobilier/pa_94149/-acquisition-transitions-europe-poursuit-son-deploiement-en-espagne"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
@@ -4990,14 +4988,14 @@
           "basis": "vigilance"
         },
         {
-          "heading": "Acquisitions et opérations officiellement publiées",
+          "heading": "Opérations officiellement publiées",
+          "basis": "actualites_sourcées",
           "paragraphs": [
-            "2026-07-30 — Wemo One acquiert un hôtel Holiday Inn 4 étoiles à Gênes. Wemo One acquiert un hôtel Holiday Inn 4 étoiles de 139 chambres à Gênes pour 14 M€ net vendeur. L’actif est exploité sous enseigne Holiday Inn et bénéficie d’un bail ferme de 12 ans..",
-            "2026-07-10 — Wemo One acquiert un hôtel Travelodge à Plymouth. Wemo One réalise sa première acquisition au Royaume-Uni avec un hôtel Travelodge situé à Plymouth. L’investissement s’élève à 9,2 M€ pour 2 150 m², avec un bail ferme résiduel de 22,1 ans..",
-            "2026-06-29 — Wemo One acquiert un actif logistique loué à GLS à Castel Maggiore. Wemo One acquiert à Castel Maggiore, près de Bologne, un actif logistique de 3 455 m² loué à GLS. L’investissement représente 3,7 M€ avec une durée ferme résiduelle du bail de 5,5 ans..",
-            "2026-02-03 — Wemo One acquiert deux commerces loués à OVS en Lombardie. Wemo One acquiert deux commerces en Lombardie, à Pieve Fissiraga et Lecco, loués à OVS. Les deux actifs représentent 4,7 M€ d’investissement et 2 149 m² de surface locative.."
-          ],
-          "basis": "actualites_sourcées"
+            "2026-07-30 — Wemo One acquiert un hôtel Holiday Inn 4 étoiles à Gênes. Wemo One acquiert un hôtel Holiday Inn 4 étoiles de 139 chambres à Gênes pour 14 M€ net vendeur. L’actif est exploité sous enseigne Holiday Inn et bénéficie d’un bail ferme de 12 ans.",
+            "2026-07-10 — Wemo One acquiert un hôtel Travelodge à Plymouth. Wemo One réalise sa première acquisition au Royaume-Uni avec un hôtel Travelodge situé à Plymouth. L’investissement s’élève à 9,2 M€ pour 2 150 m², avec un bail ferme résiduel de 22,1 ans.",
+            "2026-06-29 — Wemo One acquiert un actif logistique loué à GLS à Castel Maggiore. Wemo One acquiert à Castel Maggiore, près de Bologne, un actif logistique de 3 455 m² loué à GLS. L’investissement représente 3,7 M€ avec une durée ferme résiduelle du bail de 5,5 ans.",
+            "2026-02-03 — Wemo One acquiert deux commerces loués à OVS en Lombardie. Wemo One acquiert deux commerces en Lombardie, à Pieve Fissiraga et Lecco, loués à OVS. Les deux actifs représentent 4,7 M€ d’investissement et 2 149 m² de surface locative."
+          ]
         },
         {
           "heading": "Sources et statut de la mise à jour",
@@ -5011,23 +5009,23 @@
       "linkedEvents": [
         {
           "title": "Wemo One acquiert un hôtel Holiday Inn 4 étoiles à Gênes",
-          "sourceUrl": "https://wemo-reim.fr/blog/wemo-one-poursuit-sa-diversification-sectorielle-avec-une-deuxieme-acquisition-hoteliere-a-genes-italie/",
-          "date": "2026-07-30"
+          "date": "2026-07-30",
+          "sourceUrl": "https://wemo-reim.fr/blog/wemo-one-poursuit-sa-diversification-sectorielle-avec-une-deuxieme-acquisition-hoteliere-a-genes-italie/"
         },
         {
           "title": "Wemo One acquiert un hôtel Travelodge à Plymouth",
-          "sourceUrl": "https://wemo-reim.fr/blog/le-royaume-uni-nouveau-pays-pour-wemo-one/",
-          "date": "2026-07-10"
+          "date": "2026-07-10",
+          "sourceUrl": "https://wemo-reim.fr/blog/le-royaume-uni-nouveau-pays-pour-wemo-one/"
         },
         {
           "title": "Wemo One acquiert un actif logistique loué à GLS à Castel Maggiore",
-          "sourceUrl": "https://wemo-reim.fr/blog/la-scpi-wemo-one-realise-une-nouvelle-acquisition-en-italie/",
-          "date": "2026-06-29"
+          "date": "2026-06-29",
+          "sourceUrl": "https://wemo-reim.fr/blog/la-scpi-wemo-one-realise-une-nouvelle-acquisition-en-italie/"
         },
         {
           "title": "Wemo One acquiert deux commerces loués à OVS en Lombardie",
-          "sourceUrl": "https://wemo-reim.fr/blog/la-scpi-wemo-one-renforce-son-patrimoine-en-italie-avec-lacquisition-de-deux-commerces-loues-a-ovs-en-lombardie/",
-          "date": "2026-02-03"
+          "date": "2026-02-03",
+          "sourceUrl": "https://wemo-reim.fr/blog/la-scpi-wemo-one-renforce-son-patrimoine-en-italie-avec-lacquisition-de-deux-commerces-loues-a-ovs-en-lombardie/"
         }
       ],
       "editorialDisclaimer": "Point de veille fondé sur les données tracées. Ce contenu n'est ni une recommandation personnalisée ni une annonce d'événement nouveau en l'absence de source."
