@@ -1260,119 +1260,112 @@ const ScpiCard: React.FC<{
 
 const InvestmentCard: React.FC<{ item: InvestmentNewsItem; onOpen: () => void }> = ({ item, onOpen }) => {
   const AssetIcon = ASSET_TYPE_ICON_MAP[item.assetType] || Building;
-  const colorClass = ASSET_COLORS[item.assetType] || 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300';
+  const colorClass = ASSET_COLORS[item.assetType] || ASSET_COLORS.autre_immobilier;
+  const source = item.sourceOfficial ? publicOfficialSourceUrl(item.sourceUrl) : null;
+  const excerpt = newsExcerpt(item);
 
   return (
-    <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
-      <div className="h-40 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center relative overflow-hidden">
-        {item.imageUrl ? (
-          <img src={item.imageUrl} alt={item.imageAlt || item.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
-        ) : (
-          <Building2 className="w-16 h-16 text-slate-400 dark:text-slate-500" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
-        <span className={`absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${colorClass}`}>
-          <AssetIcon className="w-3.5 h-3.5" />
+    <article className="flex h-full flex-col rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 sm:p-6 shadow-sm hover:border-emerald-500/40 hover:shadow-md transition-all">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
+        <span className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium ${colorClass}`}>
+          <AssetIcon className="h-3.5 w-3.5" />
           {ASSET_TYPE_LABELS[item.assetType]}
         </span>
+        <span className="text-xs text-gray-500 dark:text-gray-400" aria-label="Date de publication">
+          {formatDate(item.date)}
+        </span>
       </div>
-      <div className="p-5 flex-1 flex flex-col">
-        <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-2 line-clamp-2">{item.title}</h3>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-          <span className="font-medium text-emerald-600 dark:text-emerald-400">{item.scpi}</span>
-          {' — '}
-          {item.city}, {item.country}
+      <p className="text-xs font-bold text-emerald-700 dark:text-emerald-400 mb-2">{item.scpi}</p>
+      <h3 className="text-lg font-bold leading-snug text-gray-900 dark:text-white mb-3">
+        <button type="button" onClick={onOpen} className="text-left hover:text-emerald-600 dark:hover:text-emerald-300 transition-colors">
+          {newsHeadline(item)}
+        </button>
+      </h3>
+      {excerpt && (
+        <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">
+          {excerpt}
         </p>
-        <p className="text-xs text-gray-600 dark:text-gray-300 mb-3 line-clamp-3 flex-1">{item.summary}</p>
-        <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100 dark:border-gray-700">
-          <span className="text-xs text-gray-400 dark:text-gray-500 flex items-center gap-1">
-            <Calendar className="w-3 h-3" />
-            {formatDate(item.date)}
-          </span>
-          <button
-            type="button"
-            onClick={onOpen}
-            className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
-          >
-            Lire l'article
-            <ArrowUpRight className="w-3 h-3" />
+      )}
+      <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+        {(item.city || item.country) && (
+          <p className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 mb-3">
+            <MapPin className="h-3.5 w-3.5" />
+            {[item.city, item.country].filter(Boolean).join(', ')}
+          </p>
+        )}
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <button type="button" onClick={onOpen} className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:underline">
+            Lire l'analyse <ArrowUpRight className="h-4 w-4" />
           </button>
+          {source && (
+            <a href={source} target="_blank" rel="noopener noreferrer nofollow"
+              className="text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-300 underline underline-offset-2">
+              Source officielle
+            </a>
+          )}
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 
 const InvestmentRow: React.FC<{ item: InvestmentNewsItem; onOpen: () => void }> = ({ item, onOpen }) => {
   const AssetIcon = ASSET_TYPE_ICON_MAP[item.assetType] || Building;
-  const colorClass = ASSET_COLORS[item.assetType] || 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300';
+  const colorClass = ASSET_COLORS[item.assetType] || ASSET_COLORS.autre_immobilier;
+  const source = item.sourceOfficial ? publicOfficialSourceUrl(item.sourceUrl) : null;
+  const excerpt = newsExcerpt(item);
 
   return (
-    <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 sm:p-6 hover:shadow-md transition-shadow">
-      {item.imageUrl && (
-        <button
-          type="button"
-          onClick={onOpen}
-          className="block w-full mb-5 overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-900"
-          aria-label={`Lire l'article : ${item.title}`}
-        >
-          <img
-            src={item.imageUrl}
-            alt={item.imageAlt || item.title}
-            loading="lazy"
-            className="w-full h-48 sm:h-56 object-cover hover:scale-[1.01] transition-transform duration-300"
-          />
+    <article className="flex h-full flex-col rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 hover:border-emerald-500/40 hover:shadow-sm transition-colors">
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <span className={`inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium ${colorClass}`}>
+          <AssetIcon className="h-3.5 w-3.5" />
+          {ASSET_TYPE_LABELS[item.assetType]}
+        </span>
+        <span className="inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400" aria-label="Date de publication">
+          <Calendar className="h-3.5 w-3.5" />
+          {formatDate(item.date)}
+        </span>
+      </div>
+      <h3 className="text-base font-semibold leading-snug text-gray-900 dark:text-white mb-2">
+        <button type="button" onClick={onOpen} className="text-left hover:text-emerald-600 dark:hover:text-emerald-300">
+          {newsHeadline(item)}
         </button>
-      )}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-        <div className="flex items-center gap-3 flex-wrap">
-          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${colorClass}`}>
-            <AssetIcon className="w-3.5 h-3.5" />
-            {ASSET_TYPE_LABELS[item.assetType]}
-          </span>
-          <button
-            type="button"
-            onClick={onOpen}
-            className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base text-left hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-          >
-            {item.title}
-          </button>
-        </div>
-        <div className="flex items-center gap-3 text-xs text-gray-400 dark:text-gray-500 flex-shrink-0">
-          <span className="flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5" />
-            {formatDate(item.date)}
-          </span>
-          <button
-            type="button"
-            onClick={onOpen}
-            className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 font-semibold"
-          >
-            Lire l'article
-            <ArrowUpRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-3">
-        <DetailBadge label="SCPI" value={item.scpi} />
-        <DetailBadge label="Société de gestion" value={item.managementCompany} />
-        {!!item.city && <DetailBadge label="Ville" value={item.city} icon={MapPin} />}
-        {!!item.country && <DetailBadge label="Pays" value={item.country} />}
-        {!!item.amount && item.amount !== 'Non communiqué' && <DetailBadge label="Montant" value={item.amount} />}
-        {!!item.surface && item.surface !== 'Non communiqué' && <DetailBadge label="Surface" value={item.surface} />}
-        {!!item.tenant && item.tenant !== 'Non communiqué' && <DetailBadge label="Locataire" value={item.tenant} />}
-        {!!item.leaseDuration && item.leaseDuration !== 'Non communiqué' && <DetailBadge label="Durée de bail" value={item.leaseDuration} />}
-      </div>
-
-      {item.summary && (
-        <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 leading-relaxed">{item.summary}</p>
-      )}
-
-      <p className="text-xs text-gray-400 dark:text-gray-500 italic mt-2 pt-2 border-t border-gray-100 dark:border-gray-700">
-        {item.disclaimer}
+      </h3>
+      <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-400 mb-3">
+        {item.scpi}{item.managementCompany ? ` · ${item.managementCompany}` : ''}
       </p>
-    </div>
+      {excerpt && (
+        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed line-clamp-2 mb-3">
+          {excerpt}
+        </p>
+      )}
+      <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mb-4">
+        {(item.city || item.country) && (
+          <span className="inline-flex items-center gap-1">
+            <MapPin className="h-3.5 w-3.5" />
+            {[item.city, item.country].filter(Boolean).join(', ')}
+          </span>
+        )}
+        {item.amount && item.amount !== 'Non communiqué' && (
+          <span className="font-medium">{item.amount}</span>
+        )}
+        {item.surface && item.surface !== 'Non communiqué' && (
+          <span>{item.surface}</span>
+        )}
+      </div>
+      <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-gray-200 dark:border-gray-700 pt-3">
+        <button type="button" onClick={onOpen} className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:underline">
+          Lire l'analyse <ArrowUpRight className="h-4 w-4" />
+        </button>
+        {source && (
+          <a href={source} target="_blank" rel="noopener noreferrer nofollow"
+            className="text-xs text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-300 underline underline-offset-2">
+            Vérifier la source
+          </a>
+        )}
+      </div>
+    </article>
   );
 };
 
