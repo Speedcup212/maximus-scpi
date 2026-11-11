@@ -35,6 +35,15 @@ export function newsEditorialReviewReason(item) {
   const headline = normalize(item?.title);
   const text = normalize(item?.summary);
   const rawUrl = String(item?.sourceUrl ?? item?.source_url ?? '').trim();
+  const date = String(item?.date ?? item?.published_date ?? '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date)) ||
+      Date.parse(date) > Date.now() + 86400000) {
+    return 'Date de publication officielle non documentée ou invalide';
+  }
+  if (text.length < 90 || headline === text) {
+    return 'Texte trop court ou copie du titre, sans valeur documentaire suffisante';
+  }
+
   if (!headline || headline.length < 12) return 'Titre générique ou insuffisant pour une actualité immobilière';
   if (NOT_ACQUISITION_HEADLINES.some((pattern) => pattern.test(headline))) {
     return 'Titre de navigation, page générique ou information hors acquisitions';
