@@ -92,7 +92,7 @@ Vos résultats estimés
 - Première année : {{ params.PREMIERE_ANNEE }}
 - Revenus nets cumulés sur {{ params.HORIZON }}, sans réinvestissement : {{ params.CUMUL }}
 
-Ces chiffres reposent uniquement sur vos hypothèses et sur une approche fiscale simplifiée. La base imposable réelle, la situation de votre foyer et la SCPI retenue peuvent modifier le résultat. Simulation indicative et non contractuelle, qui ne constitue pas une recommandation personnalisée.
+Bon à savoir. Ces chiffres reposent sur vos hypothèses et sur une fiscalité simplifiée. Une SCPI reste un placement immobilier de long terme : les revenus versés et le prix de la part peuvent varier, à la hausse comme à la baisse, et vous pourriez récupérer moins que votre investissement. La revente des parts peut aussi prendre du temps : on raisonne en général sur 8 à 10 ans. Simulation indicative, qui ne constitue pas une recommandation personnalisée.
 
 Refaire ma simulation : {{ params.LIEN_SIMULATION }}
 
@@ -103,3 +103,5 @@ Les SCPI présentent un risque de perte en capital et de liquidité. Les revenus
 ```
 
 Pas d'appel au rendez-vous dans cet email : il part à tous, case cochée ou non (cadrage, section Conformité).
+
+Version C (11/11/2026, 11 h) : le paragraphe « Bon à savoir » est placé juste sous les résultats, dans la même taille de texte que le corps, sans couleur ni icône. Il remplace l'ancien encadré gris en petits caractères, pour respecter l'exigence d'une présentation équilibrée des risques sans ton alarmiste.
