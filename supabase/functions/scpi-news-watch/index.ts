@@ -262,9 +262,9 @@ async function pdfText(buffer:ArrayBuffer){
 function groups(sources:Source[]){const m=new Map<string,Source[]>();for(const s of sources){const u=(s.news_url||s.documents_url||s.official_url||"").replace(/\/+$/,"");if(!u)continue;if(!m.has(u))m.set(u,[]);m.get(u)!.push(s);}return [...m.entries()];}
 
 async function processGroup(url:string,sources:Source[]){
-  const errors:string[]=[]; const docs:Doc[]=[];
+  const errors:string[]=[]; const docs:Doc[]=[];let mainOk=false;
   try{
-    const main=await fetchResource(url);
+    const main=await fetchResource(url);mainOk=true;
     if(main.kind==="html"){
       const links=extractLinks(main.html,main.url);
       const interesting=links.filter(l=>{
@@ -272,7 +272,7 @@ async function processGroup(url:string,sources:Source[]){
         if(yearFromUrl(l.url) && yearFromUrl(l.url)!<2025)return false;
         return isAcq(local) || hasAny(local,DOC_HINTS);
       });
-      const unique=[...new Map(interesting.map(l=>[l.url,l])).values()].slice(0,24);
+      const unique=[...new Map(interesting.map(l=>[l.url,l])).values()].slice(0,10);
       const results=await Promise.allSettled(unique.map(async l=>{
         const r=await fetchResource(l.url,11000);
         if(r.kind==="pdf"){
@@ -318,18 +318,20 @@ async function processGroup(url:string,sources:Source[]){
         ? s.slug+"|"+d+"|"+loc.country+"|"+at+"|"+amt+"|"+surf
         : s.slug+"|"+doc.url+"|"+norm(doc.title);
       const fp=await sha(dedupeKey);
+      const headline=cleanTitle(doc.title).slice(0,220),description=doc.genericPage?cleanTitle(doc.title).slice(0,220):summary(cleanTitle(doc.title),win);
+      const published=Boolean(d && /^20\d{2}-\d{2}-\d{2}$/.test(d) && !Number.isNaN(Date.parse(d)) && Date.parse(d)<=Date.now()+86400000 && !doc.genericPage && doc.sourceType==="web_page" && matched.length===1 && loc.city && loc.country && headline.length>=26 && description.length>=110 && headline.toLowerCase()!==description.toLowerCase() && !/partager l.article|temps de lecture|votre profil cgp|relations associ|-->\s*\[|contactez-nous|simulez votre/i.test(description));
       items.push({
         fingerprint:fp,scpi_slug:s.slug,scpi_name:s.name,management_company:s.management_company,
         operation_type:"acquisition",asset_type:at,country:loc.country,city:loc.city,amount:amt,
-        surface:surf,title:cleanTitle(doc.title).slice(0,220),summary:doc.genericPage?cleanTitle(doc.title).slice(0,220):summary(cleanTitle(doc.title),win),source_url:doc.url,...(doc.imageUrl?{image_url:doc.imageUrl,image_alt:cleanTitle(doc.title),image_credit:s.management_company||s.name}:{}),...(aem?{yield_aem:aem}:{}),...(rent?{annual_rent:rent}:{}),...(roomCount?{rooms:roomCount}:{}),...(doc.sourceType==="web_page"?{source_document_label:(s.management_company||s.name)+" — publication officielle"}:{}),
+        surface:surf,title:headline,summary:description,source_url:doc.url,...(doc.imageUrl?{image_url:doc.imageUrl,image_alt:cleanTitle(doc.title),image_credit:s.management_company||s.name}:{}),...(aem?{yield_aem:aem}:{}),...(rent?{annual_rent:rent}:{}),...(roomCount?{rooms:roomCount}:{}),...(doc.sourceType==="web_page"?{source_document_label:(s.management_company||s.name)+" — publication officielle"}:{}),
         source_type:doc.sourceType,source_official:true,published_date:d,detected_at:new Date().toISOString(),
-        data_quality:(loc.city||loc.country)?"standard":"partial",editorial_priority:(loc.city||loc.country)?2:3,
-        confidence:(loc.city||loc.country)?0.94:0.86,status:"published"
+        data_quality:published?"standard":"weak",editorial_priority:published?2:0,
+        confidence:published?0.94:0.55,status:published?"published":"review"
       });
       counts.set(s.slug,(counts.get(s.slug)||0)+1);
     }
   }
-  return {items:[...new Map(items.map(i=>[i.fingerprint,i])).values()],errors,counts,ok:docs.length>0||errors.length===0};
+  return {items:[...new Map(items.map(i=>[i.fingerprint,i])).values()],errors,counts,ok:mainOk&&errors.length===0,partial:mainOk&&errors.length>0};
 }
 
 Deno.serve(async(req:Request)=>{
@@ -344,20 +346,45 @@ Deno.serve(async(req:Request)=>{
 
   const {data:sources,error}=await db.from("scpi_news_sources").select("*").eq("enabled",true);
   if(error)return Response.json({error:error.message},{status:500});
-  const gs=groups((sources||[]) as Source[]);
-  const {data:run}=await db.from("scpi_news_runs").insert({sources_total:(sources||[]).length,status:"running"}).select("id").single();
-
-  let success=0,failed=0,detected=0,inserted=0;const details:any[]=[];
-  for(let i=0;i<gs.length;i+=4){
-    const batch=gs.slice(i,i+4),results=await Promise.all(batch.map(([u,ss])=>processGroup(u,ss)));
+  const gs=groups((sources||[]) as Source[]).sort((a,b)=>a[0].localeCompare(b[0]));
+  const today=new Date();today.setUTCHours(0,0,0,0);
+  const {data:recent}=await db.from("scpi_news_runs").select("id,started_at,status,details,sources_success,sources_error,items_detected,items_inserted").gte("started_at",today.toISOString()).order("started_at",{ascending:false}).limit(1).maybeSingle();
+  let body:any={};try{body=await req.json();}catch{}
+  const trigger=String(body.trigger||"resume");
+  if(!["cron","resume","manual"].includes(trigger))return Response.json({error:"invalid trigger"},{status:400});
+  let run:any=recent;
+  if(run && run.status!=="running" && !(trigger==="manual"&&body.force===true))return Response.json({ok:true,status:run.status,skipped:"already_completed"});
+  if(!run && trigger==="resume")return Response.json({ok:true,status:"idle",skipped:"no_daily_run"});
+  if(run && run.status==="running" && Date.now()-Date.parse(run.started_at)>4*3600000){
+    await db.from("scpi_news_runs").update({status:"error",finished_at:new Date().toISOString(),error_message:"Collection exceeded four-hour runtime",details:{...(run.details||{}),timed_out_at:new Date().toISOString()}}).eq("id",run.id).eq("status","running");
+    return Response.json({ok:false,status:"error",reason:"stale_run"},{status:503});
+  }
+  if(!run || (trigger==="manual"&&body.force===true)){
+    const {data:created,error:insertError}=await db.from("scpi_news_runs").insert({sources_total:(sources||[]).length,status:"running",details:{cursor:0,group_urls:gs.map(g=>g[0]),progress:[],engine_version:"2026-11-11-resume-v13"}}).select("id,started_at,status,details,sources_success,sources_error,items_detected,items_inserted").single();
+    if(insertError||!created)return Response.json({error:insertError?.message||"run insert failed"},{status:500});
+    run=created;
+  }
+  const state=run.details&&typeof run.details==="object"&&!Array.isArray(run.details)?run.details:{};
+  const urls:string[]=Array.isArray(state.group_urls)?state.group_urls:gs.map(g=>g[0]),byUrl=new Map(gs);
+  const start=Math.max(0,Math.min(urls.length,Number(state.cursor)||0)),end=Math.min(urls.length,start+2);
+  let success=Number(run.sources_success)||0,failed=Number(run.sources_error)||0,detected=Number(run.items_detected)||0,inserted=Number(run.items_inserted)||0;
+  const details:any[]=Array.isArray(state.progress)?state.progress:[];
+  const {error:leaseError}=await db.from("scpi_news_runs").update({details:{...state,cursor:start,group_urls:urls,lease_started_at:new Date().toISOString(),last_tick:new Date().toISOString()}}).eq("id",run.id).eq("status","running");
+  if(leaseError)return Response.json({error:"Cannot checkpoint lease"},{status:500});
+  try{
+  for(let i=start;i<end;i+=2){
+    const keys=urls.slice(i,Math.min(i+2,end)),batch=keys.map(url=>[url,byUrl.get(url)||[]] as [string,Source[]]);
+    const results=await Promise.allSettled(batch.map(([u,ss])=>processGroup(u,ss)));
     for(let j=0;j<results.length;j++){
-      const [u,ss]=batch[j],r=results[j];detected+=r.items.length;
+      const [u,ss]=batch[j],attempt=results[j];
+      const r=attempt.status==="fulfilled"?attempt.value:{items:[],errors:[String(attempt.reason)],counts:new Map<string,number>(),ok:false,partial:false};
+      detected+=r.items.length;
       if(r.items.length){
         const up=await db.from("scpi_news_items").upsert(r.items,{onConflict:"fingerprint",ignoreDuplicates:true}).select("id");
         if(up.error)r.errors.push(up.error.message);else inserted+=(up.data||[]).length;
       }
       for(const s of ss){
-        const ok=r.ok,patch:any={status:ok?"active":"error",last_checked_at:new Date().toISOString(),last_items_found:r.counts.get(s.slug)||0,last_error:ok?null:(r.errors[0]||"Source inaccessible"),updated_at:new Date().toISOString()};
+        const ok=r.ok,sourceStatus=ok?"active":r.partial?"incomplete":"error",patch:any={status:sourceStatus,last_checked_at:new Date().toISOString(),last_items_found:r.counts.get(s.slug)||0,last_error:ok?null:(r.errors[0]||"Source inaccessible"),updated_at:new Date().toISOString()};
         if(ok)patch.last_success_at=new Date().toISOString();
         await db.from("scpi_news_sources").update(patch).eq("slug",s.slug);
         if(ok)success++;else failed++;
@@ -365,7 +392,19 @@ Deno.serve(async(req:Request)=>{
       details.push({url:u,sources:ss.map(s=>s.slug),items:r.items.length,errors:r.errors.slice(0,3)});
     }
   }
-  const status=failed===0?"success":success>0?"partial":"error";
-  if(run?.id)await db.from("scpi_news_runs").update({finished_at:new Date().toISOString(),status,sources_success:success,sources_error:failed,items_detected:detected,items_inserted:inserted,details}).eq("id",run.id);
-  return Response.json({ok:status!=="error",status,sources:(sources||[]).length,groups:gs.length,success,failed,detected,inserted});
+  const done=end>=urls.length,status=done?(failed===0?"success":success>0?"partial":"error"):"running";
+  const {error:saveError}=await db.from("scpi_news_runs").update({
+    finished_at:done?new Date().toISOString():null,status,sources_success:success,sources_error:failed,items_detected:detected,items_inserted:inserted,
+    error_message:done&&failed>0?String(failed)+" unavailable/incomplete sources":null,
+    details:{engine_version:"2026-11-11-resume-v13",cursor:end,group_urls:urls,progress:details,last_tick:new Date().toISOString()}
+  }).eq("id",run.id).eq("status","running");
+  if(saveError)throw new Error("Checkpoint: "+saveError.message);
+  return Response.json({ok:status!=="error",status,run_id:run.id,groups_done:end,groups_total:urls.length,success,failed,detected,inserted});
+  }catch(e){
+    const message=String(e instanceof Error?e.message:e).slice(0,650);
+    await db.from("scpi_news_runs").update({finished_at:new Date().toISOString(),status:"error",error_message:message,
+      sources_success:success,sources_error:failed,items_detected:detected,items_inserted:inserted,
+      details:{...state,cursor:start,group_urls:urls,last_tick:new Date().toISOString(),error:message}}).eq("id",run.id).eq("status","running");
+    return Response.json({ok:false,status:"error",error:message},{status:500});
+  }
 });
