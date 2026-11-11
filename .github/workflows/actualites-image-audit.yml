@@ -1,0 +1,43 @@
+name: Actualites image source audit (read-only)
+on:
+  pull_request:
+    paths:
+      - 'scripts/qa/validate-actualites-images.mjs'
+      - 'data/news/scpi-investment-news-latest.json'
+      - '.github/workflows/actualites-image-audit.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '17 5 * * 1'
+permissions:
+  contents: read
+jobs:
+  source-image-audit:
+    name: Validate 36 news image references without publishing
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install pinned dependencies
+        run: npm ci
+      - name: Probe official images (network, MIME, dimensions)
+        run: node scripts/qa/validate-actualites-images.mjs
+      - name: Publish audit summary
+        if: always()
+        run: |
+          if [ -f artifacts/actualites-images/validation.json ]; then
+            node --input-type=module -e "import fs from 'node:fs'; const x=JSON.parse(fs.readFileSync('artifacts/actualites-images/validation.json')); console.log(JSON.stringify(x.summary,null,2)); fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,'## Actualités image audit\n\n\x60\x60\x60json\n'+JSON.stringify(x.summary,null,2)+'\n\x60\x60\x60\n\n**No rights have been granted or images published by this workflow.**\n')"
+          fi
+      - name: Store image validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: actualites-images-validation
+          path: artifacts/actualites-images/validation.json
+          retention-days: 30
+          if-no-files-found: warn
