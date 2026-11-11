@@ -24,12 +24,16 @@ const EVENTS = new Set([
   'lead_form_submitted',
   'calendly_opened',
   'calendly_booking_completed',
+  'simulation_email_viewed',
+  'simulation_email_submitted',
+  'simulation_email_calendly_clicked',
 ]);
 const METADATA_KEYS = new Set([
   'step', 'source', 'scpi_id', 'scpi_name', 'portfolio_size',
   'form_type', 'action', 'lead_request_id', 'amount',
   'yield_rate', 'origin', 'horizon', 'threshold',
   'utm_source', 'utm_medium', 'utm_campaign',
+  'tranche_montant', 'consent_marketing',
 ]);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const COMMON_HEADERS = {

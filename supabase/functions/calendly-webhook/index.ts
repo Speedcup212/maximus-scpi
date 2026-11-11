@@ -233,6 +233,30 @@ Deno.serve(async (req) => {
       .invoke("send-lead-notification", { body: row })
       .catch((error) => console.warn("Lead notification failed:", error));
 
+    // RECOVERY-201 : un rendez-vous réservé arrête la séquence Brevo du simulateur.
+    // Non bloquant : un échec Brevo ne fait jamais échouer le webhook. 404 = pas de contact Brevo.
+    const brevoApiKey = Deno.env.get("BREVO_API_KEY");
+    if (brevoApiKey) {
+      const brevoUpdate = fetch(`https://api.brevo.com/v3/contacts/${encodeURIComponent(email)}`, {
+        method: "PUT",
+        headers: {
+          accept: "application/json",
+          "api-key": brevoApiKey,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ attributes: { RDV_PRIS: true } }),
+      })
+        .then((response) => {
+          if (!response.ok && response.status !== 404) {
+            console.warn("Brevo RDV_PRIS update failed:", response.status);
+          }
+        })
+        .catch(() => console.warn("Brevo RDV_PRIS update failed: network"));
+
+      (globalThis as { EdgeRuntime?: { waitUntil?: (p: Promise<unknown>) => void } })
+        .EdgeRuntime?.waitUntil?.(brevoUpdate);
+    }
+
     return new Response(
       JSON.stringify({ ok: true, request_id: row.request_id }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 200 },

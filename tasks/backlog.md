@@ -189,3 +189,14 @@ CI distante et contrôle post-déploiement restent requis. Aucun export Supabase
 - Chantier C : migration `recovery200_freeze_rejected_certifications` (défaut prouvé : les 147 rejets Sofiprime revenaient en validation au rafraîchissement ; 0 après correctif) ; vue `scpi_internal.metric_public_quality_v1` (789 verified / 294 partial / 5 blocked). Affichage à raccorder.
 - Chantier D : `scpi_internal.scpi_canonical_registry_v1` (79 SCPI, 32 sociétés de gestion, 0 alias en collision). Capacité par jour ouvré : non mesurée.
 - Revue des écarts : 9 + 5 certifications automatiques fausses rejetées (registre : 24 décisions). Simulation T3 par métrique en lecture seule : 78 valeurs publiables sur 18 SCPI, décision requise (garde de plausibilité et échantillon humain recommandés).
+
+## RECOVERY-201 — Capture email après simulation (11/11/2026)
+
+Ouverture décidée explicitement par Eric le 11/11/2026, en dérogation à la règle « aucun nouveau chantier produit » et alors que RECOVERY-200 reste EN COURS (WIP > 1 assumé par le responsable).
+Cadrage de référence : `docs/cadrage/RECOVERY-201-capture-simulation.md`.
+
+- Objectif : sous le résultat du simulateur direct (/simulateur-scpi/ et /simulateur-revenus-nets-scpi/), un bloc « Recevoir ma simulation par email » (email, prénom facultatif, tranche de montant, case de consentement facultative et décochée). Email 1 transactionnel pour tous ; séquence Brevo uniquement avec consentement ; routage Calendly à partir de 50 k€.
+- Fichiers créés : `src/utils/simulationEmailCapture.ts`, `src/components/SimulationEmailCapture.tsx`, `supabase/functions/send-simulation-email/index.ts`, `supabase/migrations/20261111120000_simulation_email_capture.sql`, `src/tests/simulationEmailCapture.test.ts`, `reports/recovery-201/RECOVERY-201-livrable.md`, `docs/cadrage/RECOVERY-201-capture-simulation.md`.
+- Fichiers modifiés : `src/components/ScpiDirectIncomeSimulator.tsx` (insertion du bloc uniquement), `src/utils/leadSubmitter.ts`, `src/utils/funnelAnalytics.ts`, `netlify/functions/funnel-event.ts`, `supabase/functions/calendly-webhook/index.ts`, `tasks/backlog.md`.
+- Tests nommés : `npx vitest run src/tests/simulationEmailCapture.test.ts`, Vitest complet, `npx vite build`.
+- État : EN COURS. Restent : modèle, liste, attributs et automatisation Brevo ; secrets `BREVO_SIM_TEMPLATE_ID`, `BREVO_SIM_LIST_ID`, `SIM_REPLY_TO` ; migration et déploiement des deux fonctions ; fusion avec `[deploy]` ; contrôle post-release avec `utm_source=test_eric`.
