@@ -32,6 +32,7 @@ import sourcesJson from '../../data/scpi-investment-news-sources.json';
 // Liste complète de toutes les SCPI du projet (63+ entrées)
 import scpiCompletRaw from '../data/scpi_complet.json';
 import { supabase } from '../supabaseClient';
+import { newsExcerpt, newsHeadline, pickFeaturedNews, sortNewsByPublication, withoutFeaturedNews } from '../utils/actualitesPresentation';
 
 function publicOfficialSourceUrl(sourceUrl?: string): string | null {
   try {
@@ -139,17 +140,6 @@ const PILL_FILTERS: { value: 'all' | AssetType; label: string }[] = [
   { value: 'portefeuille_multi_actifs', label: 'Portefeuilles multi-actifs' },
 ];
 
-const QUICK_ACCESS: { value: AssetType; icon: React.FC<{ className?: string }> }[] = [
-  { value: 'bureaux', icon: Building2 },
-  { value: 'commerce', icon: ShoppingBag },
-  { value: 'logistique', icon: Warehouse },
-  { value: 'sante', icon: Heart },
-  { value: 'education', icon: GraduationCap },
-  { value: 'hotellerie', icon: Hotel },
-  { value: 'residentiel_gere', icon: Home },
-  { value: 'portefeuille_multi_actifs', icon: Briefcase },
-];
-
 function calculateInvestmentSearchScore(item: InvestmentNewsItem, query: string): number {
   const q = query.toLowerCase();
   let score = 0;
@@ -164,13 +154,10 @@ function calculateInvestmentSearchScore(item: InvestmentNewsItem, query: string)
 }
 
 function formatDate(dateStr: string): string {
-  if (!dateStr) return '';
-  try {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-  } catch {
-    return dateStr;
-  }
+  if (!dateStr) return 'Date non précisée';
+  const date = new Date(dateStr);
+  if (Number.isNaN(date.getTime())) return 'Date non précisée';
+  return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 }
 
 function formatWatchDate(dateStr?: string | null): string {
@@ -272,6 +259,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
   const [activeFilter, setActiveFilter] = useState<'all' | AssetType>('all');
   const [newsItems, setNewsItems] = useState<InvestmentNewsItem[]>(ALL_NEWS);
   const [showAllScpis, setShowAllScpis] = useState(false);
+  const [visibleNewsCount, setVisibleNewsCount] = useState(8);
   const [selectedWatchSlug, setSelectedWatchSlug] = useState<string | null>(() => {
     const match = window.location.pathname.match(/^\/actualites\/([^/?#]+)/i);
     return match ? decodeURIComponent(match[1]) : null;
@@ -392,7 +380,7 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
   }, [activeFilter, newsItems]);
 
   const searched = useMemo(() => {
-    if (!searchQuery.trim()) return filteredByAsset;
+    if (!searchQuery.trim()) return sortNewsByPublication(filteredByAsset);
     const q = searchQuery.trim().toLowerCase();
     return filteredByAsset
       .filter((item) => {
@@ -491,18 +479,6 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
   const totalAcquisitions = useMemo(() => filteredScpis.reduce((sum, s) => sum + s.count, 0), [filteredScpis]);
   const scpisWithAcquisitions = useMemo(() => filteredScpis.filter((s) => s.count > 0).length, [filteredScpis]);
 
-  // ── Compteurs par type d'actif ──
-  const assetCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    for (const item of newsItems) {
-      if (item.dataQuality !== 'weak' && item.editorialPriority > 0) {
-        counts[item.assetType] = (counts[item.assetType] || 0) + 1;
-      }
-    }
-    return counts;
-  }, [newsItems]);
-  const hasAnyAcquisition = totalAcquisitions > 0;
-
   const selectedWatchScpi = useMemo(
     () => enrichedScpis.find((scpi) => scpi.slug === selectedWatchSlug) || null,
     [enrichedScpis, selectedWatchSlug],
@@ -569,7 +545,16 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
     window.history.pushState({}, '', '/actualites');
   };
 
-  const featured = useMemo(() => searchedDisplayable.slice(0, 3), [searchedDisplayable]);
+  // La une privilégie trois SCPI différentes. Les articles déjà mis en avant ne
+  // sont pas répétés dans la liste générale, mais restent visibles lors d'une recherche.
+  const showFeatured = !searchQuery && activeFilter === 'all' && !selectedWatchSlug;
+  const featured = useMemo(() => pickFeaturedNews(searchedDisplayable), [searchedDisplayable]);
+  const listNews = useMemo(
+    () => showFeatured ? withoutFeaturedNews(searchedDisplayable, featured) : searchedDisplayable,
+    [showFeatured, searchedDisplayable, featured],
+  );
+  const visibleNews = listNews.slice(0, visibleNewsCount);
+  useEffect(() => { setVisibleNewsCount(8); }, [searchQuery, activeFilter, selectedWatchSlug]);
   const clearSearch = () => {
     setSearchQuery('');
     if (selectedWatchSlug) {
@@ -692,207 +677,14 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
           )}
 
           {/* ====== À LA UNE ====== */}
-          {!searchQuery && activeFilter === 'all' && featured.length > 0 && (
+          {showFeatured && featured.length > 0 && (
             <section className="mb-14">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-                Derniers investissements à la une
+                À la une — dernières acquisitions documentées
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {featured.map((item, idx) => (
                   <InvestmentCard key={item.id || idx} item={item} onOpen={() => openNewsArticle(item)} />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* ====== INVESTISSEMENTS PAR SCPI — GRILLE COMPLÈTE ====== */}
-          <section className="mb-14">
-            <div className="text-center mb-6">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                Investissements par SCPI
-              </h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
-                Veille automatisée quotidienne des sources officielles. Le statut de chaque SCPI indique le dernier contrôle réellement effectué.
-              </p>
-            </div>
-
-            {/* Compteurs */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mb-8 text-sm">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
-                <Building2 className="w-3.5 h-3.5" />
-                <span className="font-semibold">{filteredScpis.length}</span> SCPI
-                {searchQuery ? ' trouvée' : 's'} suivie{filteredScpis.length > 1 ? 's' : ''}
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300">
-                <TrendingUp className="w-3.5 h-3.5" />
-                <span className="font-semibold">{totalAcquisitions}</span> acquisition{totalAcquisitions > 1 ? 's' : ''} détectée{totalAcquisitions > 1 ? 's' : ''}
-              </span>
-              {scpisWithAcquisitions > 0 && (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300">
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                  <span className="font-semibold">{scpisWithAcquisitions}</span> SCPI concernée{scpisWithAcquisitions > 1 ? 's' : ''}
-                </span>
-              )}
-            </div>
-
-            {/* Phrase d'explication quand 0 acquisition détectée */}
-            {!searchQuery && totalAcquisitions === 0 && (
-              <p className="text-center text-sm text-gray-500 dark:text-gray-400 mb-8">
-                Les acquisitions apparaîtront automatiquement dès qu'elles seront identifiées dans les sources officielles.
-              </p>
-            )}
-
-            {/* État vide recherche */}
-            {filteredScpis.length === 0 && searchQuery && (
-              <div className="text-center py-12">
-                <Search className="w-10 h-10 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-                <p className="text-gray-500 dark:text-gray-400">
-                  Aucune SCPI ne correspond à votre recherche.
-                </p>
-              </div>
-            )}
-
-            {/* Grille premium des SCPI — TOUJOURS visible par défaut */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {(showAllScpis || searchQuery ? filteredScpis : filteredScpis.slice(0, 12)).map((scpi) => (
-                <ScpiCard
-                  key={scpi.slug}
-                  scpi={scpi}
-                  onClick={() => openWatchDetail(scpi)}
-                />
-              ))}
-            </div>
-            {!searchQuery && filteredScpis.length > 12 && (
-              <div className="mt-6 text-center">
-                <button type="button" onClick={() => setShowAllScpis((open) => !open)}
-                  aria-expanded={showAllScpis}
-                  className="rounded-xl border border-emerald-500 px-5 py-3 font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
-                  {showAllScpis ? 'Réduire la liste' : `Afficher les ${filteredScpis.length} SCPI suivies`}
-                </button>
-              </div>
-            )}
-
-            {selectedWatchScpi && (
-              <div
-                id="scpi-watch-detail"
-                className="mt-8 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/80 shadow-lg overflow-hidden scroll-mt-24"
-              >
-                <div className="p-5 sm:p-7">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <Eye className="w-4 h-4 text-emerald-500" />
-                        <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                          Veille MaximusSCPI
-                        </span>
-                      </div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
-                        {selectedWatchScpi.name}
-                      </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        {selectedWatchScpi.managementCompany}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={closeWatchDetail}
-                      className="self-start inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                    >
-                      <X className="w-4 h-4" />
-                      Fermer
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
-                    <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-700 p-4">
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Statut de la veille</p>
-                      <p className="font-semibold text-gray-900 dark:text-white mt-1">
-                        {selectedWatchScpi.status === 'error'
-                          ? 'Erreur de veille'
-                          : selectedWatchScpi.status === 'incomplete'
-                          ? 'Source à compléter'
-                          : 'Veille opérationnelle'}
-                      </p>
-                    </div>
-                    <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-700 p-4">
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Dernier contrôle</p>
-                      <p className="font-semibold text-gray-900 dark:text-white mt-1">
-                        {formatWatchDate(selectedWatchScpi.lastCheckedAt)}
-                      </p>
-                    </div>
-                    <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-700 p-4">
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Acquisitions détectées</p>
-                      <p className="font-semibold text-gray-900 dark:text-white mt-1">
-                        {selectedWatchScpi.count}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-5 rounded-xl border border-emerald-500/15 bg-emerald-50/60 dark:bg-emerald-950/20 p-4">
-                    {selectedWatchScpi.count > 0 ? (
-                      <p className="text-sm text-gray-700 dark:text-gray-300">
-                        {selectedWatchScpi.count} acquisition{selectedWatchScpi.count > 1 ? 's' : ''} officiellement identifiée{selectedWatchScpi.count > 1 ? 's' : ''}.
-                        Les opérations correspondantes sont affichées plus bas sur cette page.
-                      </p>
-                    ) : (
-                      <p className="text-sm text-gray-700 dark:text-gray-300">
-                        Aucune acquisition suffisamment documentée n'est publiée pour {selectedWatchScpi.name} dans les données disponibles.
-                        Le dernier contrôle enregistré est indiqué ci-dessus ; l'absence d'article ne prouve pas l'absence d'événement.
-                      </p>
-                    )}
-                  </div>
-
-                  {selectedWatchScpi.lastError && (
-                    <p className="mt-4 text-sm text-red-600 dark:text-red-300">
-                      {selectedWatchScpi.lastError}
-                    </p>
-                  )}
-
-                  <div className="flex flex-wrap gap-3 mt-6">
-                    {onScpiPageClick && (
-                      <button
-                        type="button"
-                        onClick={() => onScpiPageClick(selectedWatchScpi.slug)}
-                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold transition-colors"
-                      >
-                        <Building2 className="w-4 h-4" />
-                        Voir la fiche {selectedWatchScpi.name}
-                      </button>
-                    )}
-
-                  </div>
-                </div>
-              </div>
-            )}
-          </section>
-
-          {/* ====== ACCÈS RAPIDE PAR TYPE D'ACTIF ====== */}
-          {!searchQuery && hasAnyAcquisition && (
-            <section className="mb-14">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="h-px flex-1 max-w-16 bg-gray-200 dark:bg-gray-700" />
-                <h3 className="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-                  Accès rapide par type d'actif
-                </h3>
-                <div className="h-px flex-1 max-w-16 bg-gray-200 dark:bg-gray-700" />
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {QUICK_ACCESS.map(({ value, icon: Icon }) => (
-                  <button
-                    key={value}
-                    onClick={() => setActiveFilter(value)}
-                    className="group p-5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-emerald-300 dark:hover:border-emerald-600 hover:shadow-md transition-all text-left"
-                  >
-                    <div className="p-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 w-fit mb-3 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/30 transition-colors">
-                      <Icon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-                    </div>
-                    <p className="font-semibold text-gray-900 dark:text-white text-sm">
-                      {ASSET_TYPE_LABELS[value]}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      {assetCounts[value] || 0} investissement{(assetCounts[value] || 0) > 1 ? 's' : ''}
-                    </p>
-                  </button>
                 ))}
               </div>
             </section>
@@ -901,19 +693,6 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
           {selectedArticle && (
             <section id="news-article-detail" className="mb-12 scroll-mt-24">
               <article className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden shadow-lg">
-                {selectedArticle.imageUrl && (
-                  <figure className="relative">
-                    <img
-                      src={selectedArticle.imageUrl}
-                      alt={selectedArticle.imageAlt || selectedArticle.title}
-                      loading="eager"
-                      className="w-full h-[260px] sm:h-[380px] lg:h-[480px] object-cover"
-                    />
-                    <figcaption className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 to-transparent px-5 pt-12 pb-4 text-xs text-white/80">
-                      Photo officielle{selectedArticle.imageCredit ? ` — ${selectedArticle.imageCredit}` : ''}
-                    </figcaption>
-                  </figure>
-                )}
 
                 <div className="p-6 sm:p-8 lg:p-10">
                   <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mb-5">
@@ -951,9 +730,11 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                     {selectedArticle.title}
                   </h2>
 
-                  <p className="mt-5 text-base sm:text-lg leading-8 text-gray-700 dark:text-gray-300">
-                    {selectedArticle.summary}
-                  </p>
+                  {newsExcerpt(selectedArticle) && (
+                    <p className="mt-5 text-base sm:text-lg leading-8 text-gray-700 dark:text-gray-300">
+                      {newsExcerpt(selectedArticle)}
+                    </p>
+                  )}
 
                   <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
                     {!!selectedArticle.amount && <DetailBadge label="Prix d'acquisition" value={selectedArticle.amount} />}
@@ -1116,34 +897,206 @@ const ActualitesPage: React.FC<ActualitesPageProps> = ({
                   ? `Résultats pour "${searchQuery}"`
                   : activeFilter !== 'all'
                   ? ASSET_TYPE_LABELS[activeFilter]
-                  : 'Tous les investissements détectés'}
+                  : 'Autres acquisitions documentées'}
               </h2>
               {!searchQuery && (
                 <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {searchedDisplayable.length} investissement{searchedDisplayable.length > 1 ? 's' : ''}
+                  {listNews.length} acquisition{listNews.length > 1 ? 's' : ''} dans cette liste
                 </span>
               )}
             </div>
 
-            {searchedDisplayable.length === 0 ? (
+            {listNews.length === 0 ? (
               <div className="text-center py-16">
                 <Newspaper className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
                 <p className="text-gray-500 dark:text-gray-400">
                   {selectedWatchScpi
-                    ? `Aucune acquisition récente n'a été détectée pour ${selectedWatchScpi.name}.`
-                    : "Aucun investissement récent n'a encore été détecté dans les sources suivies."}
+                    ? `Aucune acquisition documentée disponible pour ${selectedWatchScpi.name}.`
+                    : 'Aucune acquisition documentée pour ce filtre.'}
                 </p>
                 <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">
                   {selectedWatchScpi
-                    ? 'La veille automatique continue de contrôler les sources officielles.'
-                    : 'Les acquisitions officiellement identifiées apparaîtront ici avec la SCPI concernée, le type d’actif, la localisation et la source.'}
+                    ? 'L’absence de résultat ne signifie pas l’absence d’opération.'
+                    : 'Essaie une autre catégorie ou une autre recherche.'}
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-6">
-                {searchedDisplayable.map((item, idx) => (
-                  <InvestmentRow key={item.id || idx} item={item} onOpen={() => openNewsArticle(item)} />
-                ))}
+              <>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  {visibleNews.map((item, idx) => (
+                    <InvestmentRow key={item.id || idx} item={item} onOpen={() => openNewsArticle(item)} />
+                  ))}
+                </div>
+                {visibleNewsCount < listNews.length && (
+                  <div className="mt-7 text-center">
+                    <button type="button"
+                      onClick={() => setVisibleNewsCount((count) => count + 8)}
+                      className="inline-flex items-center justify-center rounded-xl border border-emerald-500/50 px-5 py-3 text-sm font-semibold text-emerald-600 dark:text-emerald-300 hover:bg-emerald-500/10">
+                      Afficher 8 actualités supplémentaires ({Math.min(visibleNewsCount, listNews.length)} sur {listNews.length})
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+          </section>
+
+          {/* ====== INVESTISSEMENTS PAR SCPI — GRILLE COMPLÈTE ====== */}
+          <section className="mb-14">
+            <div className="text-center mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                Suivi des SCPI
+              </h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
+                Veille automatisée quotidienne des sources officielles. Le statut de chaque SCPI indique le dernier contrôle réellement effectué.
+              </p>
+            </div>
+
+            {/* Compteurs */}
+            <div className="flex flex-wrap items-center justify-center gap-3 mb-8 text-sm">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+                <Building2 className="w-3.5 h-3.5" />
+                <span className="font-semibold">{filteredScpis.length}</span> SCPI
+                {searchQuery ? ' trouvée' : 's'} suivie{filteredScpis.length > 1 ? 's' : ''}
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300">
+                <TrendingUp className="w-3.5 h-3.5" />
+                <span className="font-semibold">{totalAcquisitions}</span> acquisition{totalAcquisitions > 1 ? 's' : ''} détectée{totalAcquisitions > 1 ? 's' : ''}
+              </span>
+              {scpisWithAcquisitions > 0 && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300">
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                  <span className="font-semibold">{scpisWithAcquisitions}</span> SCPI concernée{scpisWithAcquisitions > 1 ? 's' : ''}
+                </span>
+              )}
+            </div>
+
+            {/* Phrase d'explication quand 0 acquisition détectée */}
+            {!searchQuery && totalAcquisitions === 0 && (
+              <p className="text-center text-sm text-gray-500 dark:text-gray-400 mb-8">
+                Les acquisitions apparaîtront automatiquement dès qu'elles seront identifiées dans les sources officielles.
+              </p>
+            )}
+
+            {/* État vide recherche */}
+            {filteredScpis.length === 0 && searchQuery && (
+              <div className="text-center py-12">
+                <Search className="w-10 h-10 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+                <p className="text-gray-500 dark:text-gray-400">
+                  Aucune SCPI ne correspond à votre recherche.
+                </p>
+              </div>
+            )}
+
+            {/* Grille premium des SCPI — TOUJOURS visible par défaut */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {(showAllScpis || searchQuery ? filteredScpis : filteredScpis.slice(0, 12)).map((scpi) => (
+                <ScpiCard
+                  key={scpi.slug}
+                  scpi={scpi}
+                  onClick={() => openWatchDetail(scpi)}
+                />
+              ))}
+            </div>
+            {!searchQuery && filteredScpis.length > 12 && (
+              <div className="mt-6 text-center">
+                <button type="button" onClick={() => setShowAllScpis((open) => !open)}
+                  aria-expanded={showAllScpis}
+                  className="rounded-xl border border-emerald-500 px-5 py-3 font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
+                  {showAllScpis ? 'Réduire la liste' : `Afficher les ${filteredScpis.length} SCPI suivies`}
+                </button>
+              </div>
+            )}
+
+            {selectedWatchScpi && (
+              <div
+                id="scpi-watch-detail"
+                className="mt-8 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/80 shadow-lg overflow-hidden scroll-mt-24"
+              >
+                <div className="p-5 sm:p-7">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <Eye className="w-4 h-4 text-emerald-500" />
+                        <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                          Veille MaximusSCPI
+                        </span>
+                      </div>
+                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                        {selectedWatchScpi.name}
+                      </h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        {selectedWatchScpi.managementCompany}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={closeWatchDetail}
+                      className="self-start inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                      Fermer
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
+                    <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-700 p-4">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Statut de la veille</p>
+                      <p className="font-semibold text-gray-900 dark:text-white mt-1">
+                        {selectedWatchScpi.status === 'error'
+                          ? 'Erreur de veille'
+                          : selectedWatchScpi.status === 'incomplete'
+                          ? 'Source à compléter'
+                          : 'Veille opérationnelle'}
+                      </p>
+                    </div>
+                    <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-700 p-4">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Dernier contrôle</p>
+                      <p className="font-semibold text-gray-900 dark:text-white mt-1">
+                        {formatWatchDate(selectedWatchScpi.lastCheckedAt)}
+                      </p>
+                    </div>
+                    <div className="rounded-xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-700 p-4">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Acquisitions détectées</p>
+                      <p className="font-semibold text-gray-900 dark:text-white mt-1">
+                        {selectedWatchScpi.count}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 rounded-xl border border-emerald-500/15 bg-emerald-50/60 dark:bg-emerald-950/20 p-4">
+                    {selectedWatchScpi.count > 0 ? (
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
+                        {selectedWatchScpi.count} acquisition{selectedWatchScpi.count > 1 ? 's' : ''} officiellement identifiée{selectedWatchScpi.count > 1 ? 's' : ''}.
+                        Les opérations correspondantes sont affichées plus bas sur cette page.
+                      </p>
+                    ) : (
+                      <p className="text-sm text-gray-700 dark:text-gray-300">
+                        Aucune acquisition suffisamment documentée n'est publiée pour {selectedWatchScpi.name} dans les données disponibles.
+                        Le dernier contrôle enregistré est indiqué ci-dessus ; l'absence d'article ne prouve pas l'absence d'événement.
+                      </p>
+                    )}
+                  </div>
+
+                  {selectedWatchScpi.lastError && (
+                    <p className="mt-4 text-sm text-red-600 dark:text-red-300">
+                      {selectedWatchScpi.lastError}
+                    </p>
+                  )}
+
+                  <div className="flex flex-wrap gap-3 mt-6">
+                    {onScpiPageClick && (
+                      <button
+                        type="button"
+                        onClick={() => onScpiPageClick(selectedWatchScpi.slug)}
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold transition-colors"
+                      >
+                        <Building2 className="w-4 h-4" />
+                        Voir la fiche {selectedWatchScpi.name}
+                      </button>
+                    )}
+
+                  </div>
+                </div>
               </div>
             )}
           </section>
