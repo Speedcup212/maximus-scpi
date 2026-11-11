@@ -2,7 +2,14 @@
 
 Date : 11/11/2026 · Branche : `recovery-201-capture-simulation` · Cadrage : `docs/cadrage/RECOVERY-201-capture-simulation.md`
 
-État : **EN COURS**. Le code est prêt et testé. Rien n'est déployé : ni migration, ni fonctions, ni secrets, ni front.
+État : **EN COURS**. Le code est prêt et testé.
+
+Déployé le 11/11/2026 vers 9 h 45 (Supabase, projet ygvsddcpohsnaowofuwc) :
+- migration `recovery201_simulation_email_capture` appliquée (colonnes et index vérifiés en base) ;
+- fonction `send-simulation-email` version 1, sans vérification JWT ;
+- fonction `calendly-webhook` version 3, sans vérification JWT (ajout de `RDV_PRIS` uniquement).
+
+Pas encore fait : secrets `BREVO_SIM_TEMPLATE_ID`, `BREVO_SIM_LIST_ID` et `SIM_REPLY_TO`, configuration Brevo, front (pull request non fusionnée).
 
 ## Fichiers
 
