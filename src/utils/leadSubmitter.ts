@@ -18,7 +18,8 @@ export type LeadChannel =
   | 'partner'
   | 'access'
   | 'souscription'
-  | 'lead_magnet';
+  | 'lead_magnet'
+  | 'simulateur';
 
 export type LeadFormType =
   | 'lead_pdf'
@@ -29,7 +30,8 @@ export type LeadFormType =
   | 'lead_access_request'
   | 'lead_souscription'
   | 'lead_magnet'
-  | 'portfolio_validation';
+  | 'portfolio_validation'
+  | 'lead_simulation_email';
 
 export interface LeadIdentity {
   nom?: string | number | null;
@@ -46,6 +48,14 @@ export interface LeadPayload {
   identity: LeadIdentity;
   message?: string;
   answers?: Record<string, unknown>;
+  /**
+   * Consentement marketing explicite (RECOVERY-201). Absent pour les autres
+   * formulaires : leurs lignes restent strictement identiques à avant.
+   */
+  consent?: {
+    marketing: boolean;
+    textVersion: string;
+  };
 }
 
 export interface LeadResult {
@@ -146,7 +156,17 @@ export async function submitLead(payload: LeadPayload): Promise<LeadResult> {
     telephone,
 
     message: payload.message ?? null,
-    answers: payload.answers ?? {},
+    answers: payload.consent
+      ? { ...(payload.answers ?? {}), consent_text_version: payload.consent.textVersion }
+      : payload.answers ?? {},
+
+    // Colonnes de consentement : écrites uniquement quand le formulaire en recueille un.
+    ...(payload.consent
+      ? {
+          consentement_marketing: payload.consent.marketing,
+          consentement_date: payload.consent.marketing ? new Date().toISOString() : null,
+        }
+      : {}),
 
     utm_source: tracking.utm_source,
     utm_medium: tracking.utm_medium,

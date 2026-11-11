@@ -3,6 +3,7 @@ import { Calculator, Calendar, Euro, Info } from 'lucide-react';
 import { estimateSimpleScpiIncomeTax } from '../domain/scpi/simpleDirectFiscal';
 import EricAvatar from './EricAvatar';
 import { trackFunnelEvent } from '../utils/funnelAnalytics';
+import SimulationEmailCapture from './SimulationEmailCapture';
 
 interface ScpiDirectIncomeSimulatorProps {
   defaultAmount?: number;
@@ -336,6 +337,24 @@ const ScpiDirectIncomeSimulator: React.FC<ScpiDirectIncomeSimulatorProps> = ({
                 </p>
               </div>
             )}
+
+            {/* RECOVERY-201 : capture email, après le bloc rendez-vous (≥ 50 k€) ou avant le lien comparateur (< 50 k€). */}
+            <SimulationEmailCapture
+              hasRdvBlock={Boolean(onRdvClick)}
+              snapshot={{
+                montantSimule: amount,
+                tauxHypothese: yieldRate,
+                delaiJouissanceMois,
+                origine: origin,
+                tmi,
+                horizonAns: horizon,
+                revenuBrutAnnuel: calculations.fullYearGross,
+                revenuNetAnnuel: netAnnual,
+                revenuNetMensuel: netMonthly,
+                revenuPremiereAnnee: firstYearNet,
+                cumulHorizon: calculations.cumulativeNet,
+              }}
+            />
 
             {onRdvClick && amount < 50000 && (
               <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-gray-800">

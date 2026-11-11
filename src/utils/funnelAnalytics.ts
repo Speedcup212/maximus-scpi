@@ -18,7 +18,10 @@ export type FunnelEventName =
   | 'lead_form_opened'
   | 'lead_form_submitted'
   | 'calendly_opened'
-  | 'calendly_booking_completed';
+  | 'calendly_booking_completed'
+  | 'simulation_email_viewed'
+  | 'simulation_email_submitted'
+  | 'simulation_email_calendly_clicked';
 
 type FunnelMetadata = Record<string, string | number | boolean | null | undefined>;
 
@@ -51,6 +54,8 @@ const sanitizeMetadata = (metadata: FunnelMetadata) => {
     'utm_source',
     'utm_medium',
     'utm_campaign',
+    'tranche_montant',
+    'consent_marketing',
   ]);
 
   return Object.fromEntries(
