@@ -74,9 +74,9 @@ for(const item of news){
  html=replaceMeta(html,/<meta\s+property=["']og:title["'][^>]*>/i,'<meta property="og:title" content="'+esc(seoTitle)+'" />');
  html=replaceMeta(html,/<meta\s+property=["']og:description["'][^>]*>/i,'<meta property="og:description" content="'+esc(description)+'" />');
  html=html.replace(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/gi,'');
- const structured={'@context':'https://schema.org','@type':'NewsArticle',headline:title,description:summary.slice(0,300),datePublished:item.date+'T12:00:00+01:00',dateModified:new Date().toISOString(),inLanguage:'fr-FR',mainEntityOfPage:url,isBasedOn:official,publisher:{'@type':'Organization',name:'MaximusSCPI'},about:{'@type':'Thing',name:item.scpi}};
+ const structured={'@context':'https://schema.org','@type':'NewsArticle',headline:title,description:summary.slice(0,300),datePublished:item.date,dateModified:new Date().toISOString(),inLanguage:'fr-FR',mainEntityOfPage:url,isBasedOn:official,publisher:{'@type':'Organization',name:'MaximusSCPI'},about:{'@type':'Thing',name:item.scpi}};
  html=html.replace('</head>','<script type="application/ld+json">'+JSON.stringify(structured).replace(/</g,'\\u003c')+'</script></head>');
- const dest=path.join(dist,local);fs.mkdirSync(dest,{recursive:true});fs.writeFileSync(path.join(dest,'index.html'),putRoot(html,article));
+ const dest=path.join(dist,local.slice(1));fs.mkdirSync(dest,{recursive:true});fs.writeFileSync(path.join(dest,'index.html'),putRoot(html,article));
  if(!sitemap.includes('<loc>'+url+'</loc>'))sitemap=sitemap.replace('</urlset>','<url><loc>'+url+'</loc></url>\n</urlset>');
  index.push('<li><a href="'+esc(local)+'">'+esc(title)+'</a><small>'+esc(item.date)+' · '+esc(item.scpi)+'</small></li>');
 }
