@@ -5,8 +5,8 @@ const manifest=JSON.parse(fs.readFileSync('data/news/scpi-t3-2026-certification-
 const journal=JSON.parse(fs.readFileSync('data/news/scpi-actualites-69.json','utf8'));
 assert.equal(journal.dossiers.length,69);
 assert.equal(manifest.candidates,manifest.items.length);
-assert.ok(manifest.items.length>=20);
-assert.equal(manifest.items.filter(x=>x.state!=='rejected_wrong_document').length,19);
+assert.equal(manifest.items.length,23);
+assert.equal(manifest.items.filter(x=>x.state!=='rejected_wrong_document').length,20);
 assert.equal(manifest.items.filter(x=>x.state==='rejected_wrong_document').length,3);
 assert.equal(new Set(manifest.items.map(x=>x.slug)).size,manifest.items.length);
 const by=new Map(journal.dossiers.map(x=>[x.slug,x]));
@@ -38,4 +38,4 @@ for(const entry of manifest.items){
 }
 assert.ok(proofCount>=50,'Evidence fields unexpectedly lost');
 assert.ok(manifest.items.every(x=>x.certifiedQuarter===false),'Unsafe full-quarter certification claim');
-console.log('T3 source review QA PASS: '+manifest.items.length+' source candidates, 19 valid documents, 3 rejected, '+proofCount+' independently proven fields, 69 certified analyses unchanged.');
+console.log('T3 source review QA PASS: '+manifest.items.length+' source candidates, 20 T3 issuer document links, 3 rejected, '+proofCount+' independently proven fields, 69 certified analyses unchanged.');
