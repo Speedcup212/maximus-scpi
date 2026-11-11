@@ -3,7 +3,7 @@ const normalize=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
 const safe=x=>x&&x.sourceOfficial===true&&x.investmentRelated===true&&
  x.dataQuality!=='weak'&&Number(x.editorialPriority)>0&&isNewsEditoriallyValid(x);
 const signature=x=>[normalize(x.scpi),x.date,normalize(x.city),normalize(x.country),normalize(x.assetType)].join('|');
-const sourceKey=x=>String(x.sourceUrl||'').trim().replace(/\/+$/,'').toLowerCase();
+const sourceKey=x=>normalize(x.scpi)+'|'+String(x.sourceUrl||'').trim().replace(/\/+$/,'').toLowerCase();
 /**
  * Keep editorially approved current entries as the authority; audit history is not
  * publication authority. Only append independently validated, non-duplicate news.
