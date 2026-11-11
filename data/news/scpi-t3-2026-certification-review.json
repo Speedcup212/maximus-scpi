@@ -1,7 +1,7 @@
 {
   "asOf": "2026-11-11",
-  "candidates": 22,
-  "validBulletins": 19,
+  "candidates": 23,
+  "validBulletins": 20,
   "rejectedDocuments": 3,
   "methodology": "Les champs affichables disposent de preuves paginées sur le même bulletin. Leur certification individuelle ne certifie ni le document entier ni les tendances trimestrielles. Les analyses certifiées antérieures restent inchangées.",
   "items": [
@@ -218,6 +218,28 @@
       "certifiedQuarter": false,
       "blockingReasons": [
         "Document non admissible : type de document ou identité SCPI incorrecte"
+      ],
+      "conflicts": []
+    },
+    {
+      "slug": "edr-europa",
+      "name": "EdR Europa",
+      "certifiedAnalysisPeriod": "2026-T2",
+      "candidatePeriod": "2026-T3",
+      "bulletinId": "e0aa5ab0-e3a9-415b-bacb-d21584762c88",
+      "sourceUrl": "https://edr-europa.com/wp-content/uploads/2026/10/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-3T-2026.pdf",
+      "rejectedSourceUrl": null,
+      "sourceQa": "needs_review_issuer_pdf_sha_pending",
+      "sourceHash": null,
+      "foundAt": "2026-11-11",
+      "extractedMetricCount": 0,
+      "verifiedFields": [],
+      "state": "field_verified_analysis_pending",
+      "certifiedQuarter": false,
+      "blockingReasons": [
+        "Bulletin d'information T3 retrouvé sur le domaine officiel de la société de gestion ; le fichier original et son empreinte SHA256 restent à contrôler",
+        "Aucune extraction de métrique T3 n'est vérifiée pour ce bulletin",
+        "Certification globale et comparaison T2-T3 interdites avant rapprochement du PDF"
       ],
       "conflicts": []
     },
