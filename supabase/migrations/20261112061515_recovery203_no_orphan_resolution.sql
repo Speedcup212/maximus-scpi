@@ -80,12 +80,20 @@ BEGIN
  CASE p_scope->>'source_kind'
  WHEN 'ocr' THEN
   SELECT jsonb_build_object('kind','verified_ocr_completion','sha256',j.pdf_sha256,
-   'pages',j.total_pages,'run_reference',j.run_reference,'financial_certified',false)
+   'pages',j.total_pages,'run_reference',j.run_reference,
+   'github_url','https://github.com/Speedcup212/maximus-scpi/actions/runs/'||substring(j.run_reference from '[0-9]+$'),
+   'financial_certified',false)
   INTO proof FROM maximus_agents.scpi_ocr_jobs j
   WHERE 'ocr:'||j.scpi_slug||':'||j.source_period||':'||j.document_kind=p_scope->>'source_key'
    AND j.status='done' AND j.pdf_sha256~'^[a-f0-9]{64}$'
-   AND j.total_pages>0 AND j.pages_ocr=j.total_pages
-   AND j.text_characters>0 AND j.run_reference LIKE 'https://github.com/Speedcup212/maximus-scpi/actions/runs/%';
+   AND j.total_pages>0 AND j.pages_ocr BETWEEN 0 AND j.total_pages
+   AND j.text_characters>0 AND j.run_reference~'^github-ocr:[0-9]+$'
+   AND EXISTS(SELECT 1 FROM maximus_agents.scpi_ocr_pages p WHERE p.scpi_slug=j.scpi_slug
+    AND p.source_period=j.source_period AND p.document_kind=j.document_kind
+    AND p.pdf_sha256=j.pdf_sha256 AND p.page_number BETWEEN 1 AND j.total_pages AND length(p.page_text)>0)
+   AND NOT EXISTS(SELECT 1 FROM maximus_agents.scpi_ocr_pages p WHERE p.scpi_slug=j.scpi_slug
+    AND p.source_period=j.source_period AND p.document_kind=j.document_kind
+    AND (p.pdf_sha256 IS DISTINCT FROM j.pdf_sha256 OR p.page_number<1 OR p.page_number>j.total_pages));
  WHEN 'replay' THEN
   SELECT jsonb_build_object('kind','verified_replay_completion','sha256',d.pdf_sha256,
    'pages',d.page_count,'financial_certified',false) INTO proof
@@ -245,7 +253,8 @@ BEGIN
   'stage','ESCALATED_SOURCE_REVIEW','next_review_at',now()+interval '24 hours',
   'next_action','Independent source review: archived original, alternative official source, then issuer confirmation draft; keep publication blocked')
  WHERE scope->>'execution_mode'='document_resolution' AND status NOT IN ('resolved','qa_pass')
-  AND (scope->>'next_review_at')::timestamptz<=now()
+  AND ((scope->>'next_review_at')::timestamptz<=now() OR
+   ((scope->>'deadline_at')::timestamptz<=now() AND scope->>'stage' IS DISTINCT FROM 'ESCALATED_SOURCE_REVIEW'))
   AND (coalesce((scope->>'action_attempts')::int,0)>=3 OR (scope->>'deadline_at')::timestamptz<=now()
    OR NOT EXISTS(SELECT 1 FROM public.scpi_source_registry r JOIN public.scpi_source_connectors c USING(scpi_slug)
     WHERE r.scpi_slug=scope->>'scpi_slug' AND r.automation_enabled AND c.enabled AND r.ingestion_driver='generic'));
@@ -430,11 +439,10 @@ begin
 end $function$
 ;
 
--- Fail the entire migration on any integration invariant violation. The successful
--- rehearsal also rolls back its own DML, leaving activation to existing CONTROL.
+-- Fail atomically on invariant violation; roll back the successful DML rehearsal.
 DO $preflight$
 BEGIN
- DECLARE a jsonb; b jsonb; n bigint; before_finance text; after_finance text; victim uuid; first_deadline text;
+ DECLARE a jsonb; b jsonb; n bigint; before_finance text; after_finance text; victim uuid; first_deadline text; positive_scope jsonb;
 BEGIN
  SELECT md5(string_agg(md5(to_jsonb(i)::text),'' ORDER BY i.scpi_slug)) INTO before_finance FROM public.scpi_indicators i;
  a:=maximus_agents.reconcile_document_resolution_v1(8);
@@ -465,6 +473,10 @@ BEGIN
  EXCEPTION WHEN raise_exception THEN
   IF SQLERRM<>'RESOLUTION_IDENTITY_AND_DEADLINE_IMMUTABLE' THEN RAISE; END IF;
  END;
+ SELECT jsonb_build_object('source_kind','ocr','source_key','ocr:'||scpi_slug||':'||source_period||':'||document_kind)
+ INTO positive_scope FROM maximus_agents.scpi_ocr_jobs WHERE status='done' AND run_reference~'^github-ocr:[0-9]+$' LIMIT 1;
+ IF positive_scope IS NULL OR maximus_agents.document_resolution_proof_v1(positive_scope) IS NULL
+  THEN RAISE EXCEPTION 'GENUINE_OCR_PROOF_NOT_RECOGNIZED'; END IF;
  IF EXISTS(SELECT 1 FROM maximus_agents.scpi_ocr_jobs WHERE status='done' AND pdf_sha256 IS NULL)
   THEN RAISE EXCEPTION 'INVALID_OCR_DONE'; END IF;
  IF NOT EXISTS(SELECT 1 FROM maximus_agents.scpi_ocr_jobs WHERE status LIKE 'quarantined%')

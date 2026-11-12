@@ -1,7 +1,7 @@
 -- Execute as the private database owner. Every mutation below is rolled back.
 BEGIN;
 DO $$
-DECLARE a jsonb; b jsonb; n bigint; before_finance text; after_finance text; victim uuid; first_deadline text;
+DECLARE a jsonb; b jsonb; n bigint; before_finance text; after_finance text; victim uuid; first_deadline text; positive_scope jsonb;
 BEGIN
  SELECT md5(string_agg(md5(to_jsonb(i)::text),'' ORDER BY i.scpi_slug)) INTO before_finance FROM public.scpi_indicators i;
  a:=maximus_agents.reconcile_document_resolution_v1(8);
@@ -32,6 +32,10 @@ BEGIN
  EXCEPTION WHEN raise_exception THEN
   IF SQLERRM<>'RESOLUTION_IDENTITY_AND_DEADLINE_IMMUTABLE' THEN RAISE; END IF;
  END;
+ SELECT jsonb_build_object('source_kind','ocr','source_key','ocr:'||scpi_slug||':'||source_period||':'||document_kind)
+ INTO positive_scope FROM maximus_agents.scpi_ocr_jobs WHERE status='done' AND run_reference~'^github-ocr:[0-9]+$' LIMIT 1;
+ IF positive_scope IS NULL OR maximus_agents.document_resolution_proof_v1(positive_scope) IS NULL
+  THEN RAISE EXCEPTION 'GENUINE_OCR_PROOF_NOT_RECOGNIZED'; END IF;
  IF EXISTS(SELECT 1 FROM maximus_agents.scpi_ocr_jobs WHERE status='done' AND pdf_sha256 IS NULL)
   THEN RAISE EXCEPTION 'INVALID_OCR_DONE'; END IF;
  IF NOT EXISTS(SELECT 1 FROM maximus_agents.scpi_ocr_jobs WHERE status LIKE 'quarantined%')
