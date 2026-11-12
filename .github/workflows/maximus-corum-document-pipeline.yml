@@ -11,6 +11,7 @@ on:
       - '.github/workflows/maximus-corum-document-pipeline.yml'
       - 'supabase/migrations/20261107_recovery130_corum_service_role_review_read.sql'
       - 'scripts/agents/corumPermissionContract.test.mjs'
+      - 'supabase/functions/scpi-corum-document-oidc/**'
   pull_request:
     paths:
       - 'scripts/agents/corum_document_pipeline*'
@@ -18,6 +19,7 @@ on:
       - '.github/workflows/maximus-corum-document-pipeline.yml'
       - 'supabase/migrations/20261107_recovery130_corum_service_role_review_read.sql'
       - 'scripts/agents/corumPermissionContract.test.mjs'
+      - 'supabase/functions/scpi-corum-document-oidc/**'
 permissions:
   contents: read
   id-token: write

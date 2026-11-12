@@ -76,6 +76,14 @@ Deno.serve(async request=>{
         throw Error("CONTROL_TRIAGE_FINANCIAL_SAFETY");
       return Response.json(plan);
     }
+    if(body.op==="reconcile_document_resolution"){
+      const [row]=await sql`select maximus_agents.reconcile_document_resolution_v1(8) as plan`;
+      const plan=row?.plan;
+      if(!plan||plan.orphaned!==0||plan.financial_certified!==false||
+         plan.deploy_allowed!==false||plan.model_calls!==0||plan.official_discovery_scheduled>8)
+        throw Error("CONTROL_RESOLUTION_UNSAFE");
+      return Response.json(plan);
+    }
     if(body.op==="historical_prepare"){
       // Reuse the existing CONTROL job, queue and credentials. At most 3 jobs.
       if(Number(payload.run_attempt||1)!==1)

@@ -1,4 +1,5 @@
 import {createRemoteJWKSet,jwtVerify} from 'npm:jose@6.1.0';
+import {refusalEvent} from './refusalEvent.mjs';
 import {createClient} from 'npm:@supabase/supabase-js@2.58.0';
 const issuer='https://token.actions.githubusercontent.com';
 const jwks=createRemoteJWKSet(new URL(issuer+'/.well-known/jwks'));
@@ -34,7 +35,14 @@ Deno.serve(async(req:Request)=>{
     .select('automation_enabled,ingestion_driver').eq('scpi_slug',body.doc.slug).single();
    if(registryError||!registry?.automation_enabled||registry.ingestion_driver!=='corum_dual_pdf_v1')return fail(409,'driver disabled');
    const {data,error}=await db.rpc('scpi_corum_record_document',{p_doc:body.doc});
-   if(error)throw error;
+   if(error){
+    const event=refusalEvent(body.doc,error);
+    if(event){
+     const {error:journalError}=await db.from('scpi_ingestion_events').insert(event);
+     if(journalError)return fail(503,'REFUSAL_JOURNAL_UNAVAILABLE');
+    }
+    throw error;
+   }
    const checked=new Date().toISOString();
    const progress:any={last_checked_at:checked,next_check_at:new Date(Date.now()+24*3600*1000).toISOString()};
    if(['certified_core','certified_core_existing','source_verified','unchanged','duplicate_sha256'].includes(String(data?.status)))progress.last_success_at=checked;
