@@ -11,6 +11,9 @@ on:
     paths:
       - ".github/workflows/maximus-agent-parallel.yml"
       - "scripts/agents/parallelAuditRunner.mjs"
+      - "supabase/migrations/20261112061515_recovery203_no_orphan_resolution.sql"
+      - "scripts/agents/documentResolution.mjs"
+      - "scripts/agents/documentResolution.test.mjs"
       - "scripts/agents/controlEvidenceRouting.mjs"
       - "scripts/agents/controlEvidenceRouting.test.mjs"
       - "supabase/migrations/20261109_recovery195_orphan_running_lease_guard.sql"
@@ -49,6 +52,9 @@ on:
     paths:
       - ".github/workflows/maximus-agent-parallel.yml"
       - "scripts/agents/parallelAuditRunner.mjs"
+      - "supabase/migrations/20261112061515_recovery203_no_orphan_resolution.sql"
+      - "scripts/agents/documentResolution.mjs"
+      - "scripts/agents/documentResolution.test.mjs"
       - "scripts/agents/controlEvidenceRouting.mjs"
       - "scripts/agents/controlEvidenceRouting.test.mjs"
       - "supabase/migrations/20261109_recovery195_orphan_running_lease_guard.sql"
@@ -123,7 +129,7 @@ jobs:
       - name: Contract, crash, cross-SCPI and admission safety
         run: |
           node --check scripts/agents/parallelAuditRunner.mjs
-          node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs scripts/agents/candidateBinaryEvidence.test.mjs scripts/agents/agentSchedulingCrash.test.mjs scripts/agents/candidate20Batch.test.mjs scripts/agents/recovery126IndustrialGates.test.mjs scripts/agents/candidateSchedulingRecovery.test.mjs scripts/agents/controlEvidenceRouting.test.mjs
+          node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs scripts/agents/candidateBinaryEvidence.test.mjs scripts/agents/agentSchedulingCrash.test.mjs scripts/agents/candidate20Batch.test.mjs scripts/agents/recovery126IndustrialGates.test.mjs scripts/agents/candidateSchedulingRecovery.test.mjs scripts/agents/controlEvidenceRouting.test.mjs scripts/agents/documentResolution.test.mjs
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -203,6 +209,24 @@ jobs:
                 '; '+family.funds+' SCPI; '+family.evidence_items+
                 ' cases; overlap in '+family.existing_role_task_overlaps+' current tasks');
             }
+
+      - name: CONTROL — reconcile every known documentary defect on existing workers
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {pathToFileURL}=require('node:url');
+            const path=require('node:path');
+            const {validateResolutionSummary}=await import(pathToFileURL(path.join(
+              process.env.GITHUB_WORKSPACE,'scripts/agents/documentResolution.mjs')).href);
+            const token=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
+            const res=await fetch('https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
+              method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
+              body:JSON.stringify({op:'reconcile_document_resolution'}),signal:AbortSignal.timeout(25000)});
+            if(!res.ok)throw Error('CONTROL resolution HTTP '+res.status);
+            const plan=validateResolutionSummary(await res.json());
+            core.notice('Documentary defects: '+plan.inventoried+' inventoried; '+plan.orphaned+
+              ' orphaned; '+plan.official_discovery_scheduled+' native searches scheduled; '+
+              plan.unresolved+' unresolved, '+plan.overdue+' overdue. No financial certification.');
 
       - name: CONTROL — dispatch historical TOF QA jobs on existing task queue
         id: historical

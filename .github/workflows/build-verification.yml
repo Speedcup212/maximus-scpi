@@ -95,6 +95,9 @@ jobs:
       - name: Baseline cohort isolation and worker recovery regression
         run: node --test scripts/agents/watchdogCohortInvariant.test.mjs
 
+      - name: Documentary resolution coverage, guarded closure and refusal privacy
+        run: node --test scripts/agents/documentResolution.test.mjs scripts/agents/controlEvidenceRouting.test.mjs
+
       - name: Candidate public Data API policy and view-security contract
         run: node --test scripts/scpi-candidates/publicCandidateRls.test.mjs
 
