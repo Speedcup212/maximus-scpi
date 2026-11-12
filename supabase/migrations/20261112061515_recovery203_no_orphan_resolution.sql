@@ -204,9 +204,11 @@ BEGIN
     'source_url',excluded.scope->'source_url','source_hash',excluded.scope->'source_hash','last_seen_at',now());
  GET DIAGNOSTICS registered=ROW_COUNT;
  -- Close only defects for which a dedicated positive verifier is available.
- FOR x IN SELECT id,scope FROM maximus_agents.issues
+ FOR x IN WITH live_keys AS MATERIALIZED (SELECT source_key FROM maximus_agents.document_resolution_backlog_v1)
+  SELECT id,scope FROM maximus_agents.issues
   WHERE scope->>'execution_mode'='document_resolution' AND status NOT IN ('resolved','qa_pass')
    AND scope->>'source_kind' IN ('ocr','replay','metric','fee','registry','task','refusal')
+   AND (scope->>'source_kind'='refusal' OR NOT EXISTS(SELECT 1 FROM live_keys b WHERE b.source_key=scope->>'source_key'))
  LOOP
   proof:=maximus_agents.document_resolution_proof_v1(x.scope);
   IF proof IS NOT NULL THEN UPDATE maximus_agents.issues SET status='resolved',updated_at=now() WHERE id=x.id; END IF;
