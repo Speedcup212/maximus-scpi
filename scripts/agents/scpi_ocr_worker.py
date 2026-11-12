@@ -62,10 +62,25 @@ def identity_failure_is_permanent(err: Exception) -> bool:
     )
 
 
-def document_identity_matches(slug: str, name: str, text: str) -> bool:
+def document_identity_matches(slug: str, name: str, text: str,
+                              period: str = "", source_url: str = "") -> bool:
     recovered = normalized(text)
     permitted_names = (name, *OFFICIAL_HISTORICAL_ALIASES.get(slug, ()))
-    return any(normalized(alias) in recovered for alias in permitted_names)
+    if any(normalized(alias) in recovered for alias in permitted_names):
+        return True
+    # Corporate resolutions, 28 June / 11 July 2024. Never interchange the
+    # two different Interpierre entities or accept a generic "Interpierre".
+    aliases = {"paref-evo": "interpierre europe centrale",
+               "paref-hexa": "interpierre france"}
+    issue = re.fullmatch(r"(20\d{2})-(?:T([1-4])|RA)", period)
+    before_rename = issue and (int(issue[1]) < 2024 or
+        (int(issue[1]) == 2024 and issue[2] and int(issue[2]) <= 2))
+    u = urllib.parse.urlsplit(source_url)
+    official = (u.scheme == "https" and u.hostname == "paref-gestion.com"
+                and not u.username and not u.password and u.port in (None, 443)
+                and u.path.startswith("/wp-content/uploads/"))
+    return bool(before_rename and official and aliases.get(slug)
+                and aliases[slug] in recovered)
 
 
 def post_json(url: str, payload: dict, headers: dict[str, str], timeout: int = 35) -> dict:
@@ -226,7 +241,8 @@ def run_worker() -> None:
         sha = hashlib.sha256(pdf).hexdigest()
         pages = extract_pages(pdf)
         all_text = " ".join(p["text"] for p in pages)
-        if not document_identity_matches(task["slug"], task["name"], all_text):
+        if not document_identity_matches(task["slug"], task["name"], all_text,
+                                         task["period"], task["url"]):
             raise ValueError("document identity mismatch; no numbers published")
         if len(re.sub(r"\s+", "", all_text)) < 150:
             raise ValueError("no legible text after mandatory OCR")

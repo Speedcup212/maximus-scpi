@@ -52,3 +52,15 @@ class ArchiveTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+class HistoricalIssuerTests(unittest.TestCase):
+    def test_two_different_paref_renames_are_never_interchanged(self):
+        url = 'https://paref-gestion.com/wp-content/uploads/2024/old.pdf'
+        for slug,name,alias,other in (
+            ('paref-evo','Paref Evo','INTERPIERRE EUROPE CENTRALE','INTERPIERRE FRANCE'),
+            ('paref-hexa','Paref Hexa','INTERPIERRE FRANCE','INTERPIERRE EUROPE CENTRALE')):
+            self.assertTrue(worker.document_identity_matches(slug,name,alias,'2022-T2',url))
+            self.assertFalse(worker.document_identity_matches(slug,name,other,'2022-T2',url))
+            self.assertFalse(worker.document_identity_matches(slug,name,alias,'2026-T3',url))
+            self.assertFalse(worker.document_identity_matches(slug,name,alias,'2022-T2',url.replace('.com/','.com.attacker.org/')))
+            self.assertFalse(worker.document_identity_matches(slug,name,'INTERPIERRE','2022-T2',url))
