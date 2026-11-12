@@ -44,9 +44,9 @@ SELECT 'issue:'||id::text,'issue',scope->>'scpi_slug',scope->>'source_period',st
 FROM maximus_agents.issues WHERE status='blocked'
  AND coalesce(scope->>'execution_mode','')<>'document_resolution'
 UNION ALL
-SELECT 'fee:'||id::text,'fee',scpi_slug,NULL,verification_status,'ANALYST',source_url,
+SELECT 'fee:'||scpi_slug||':'||fee_kind,'fee',scpi_slug,NULL,verification_status,'ANALYST',source_url,
  coalesce(pdf_sha256,''),'Read the contractual fee clause; distinguish HT/TTC, PRIIPs cost and effective dates'
-FROM public.scpi_fee_evidence WHERE verification_status IS DISTINCT FROM 'verified'
+FROM public.scpi_fee_evidence_current WHERE verification_status IS DISTINCT FROM 'verified'
 UNION ALL
 SELECT 'history-quarantine:'||id::text,'history_quarantine',scpi_slug,
  original_row->>'source_period',reason,'ANALYST',NULL,'',
@@ -104,7 +104,7 @@ BEGIN
  WHEN 'fee' THEN
   SELECT jsonb_build_object('kind','verified_contractual_fee','sha256',f.pdf_sha256,
    'page',f.source_page,'financial_certified',false) INTO proof
-  FROM public.scpi_fee_evidence f WHERE 'fee:'||f.id::text=p_scope->>'source_key'
+  FROM public.scpi_fee_evidence_current f WHERE 'fee:'||f.scpi_slug||':'||f.fee_kind=p_scope->>'source_key'
    AND f.verification_status='verified' AND f.product_identity_verified AND f.semantic_review_verified
    AND f.pdf_sha256~'^[a-f0-9]{64}$' AND f.source_page>0 AND f.source_url LIKE 'https://%'
    AND length(f.evidence_text)>30;
