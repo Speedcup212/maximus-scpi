@@ -58,8 +58,8 @@ const PolitiqueConfidentialitePage: React.FC = () => {
           </h2>
           <div className="prose max-w-none">
             <p className="text-gray-700">
-              Vos données sont conservées pendant 3 ans maximum,
-              conformément à la réglementation en vigueur.
+              Prospects : 3 ans après le dernier contact. Clients : 5 ans après la fin
+              de la relation. Statistiques de fréquentation : 25 mois maximum.
             </p>
           </div>
         </div>
