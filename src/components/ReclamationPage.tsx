@@ -56,8 +56,8 @@ const ReclamationPage: React.FC = () => {
                 <h3 className="text-lg font-semibold text-gray-900">Par courrier</h3>
               </div>
               <p className="text-gray-700">
-                1020, route de Saint-Jean, M1<br />
-                38500 Coublevie
+                33 avenue de Savoie<br />
+                38580 Allevard
               </p>
             </div>
           </div>
