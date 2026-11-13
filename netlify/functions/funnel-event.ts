@@ -33,8 +33,11 @@ const METADATA_KEYS = new Set([
   'form_type', 'action', 'lead_request_id', 'amount',
   'yield_rate', 'origin', 'horizon', 'threshold',
   'utm_source', 'utm_medium', 'utm_campaign',
-  'tranche_montant', 'consent_marketing',
+  'tranche_montant', 'consent_marketing', 'measurement',
 ]);
+// RECOVERY-203 — seule valeur admise : mesure d'audience exemptée de
+// consentement. Les lignes sans cette clé restent les lignes consenties.
+const MEASUREMENT_MODES = new Set(['exempt']);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const COMMON_HEADERS = {
   'Content-Type': 'application/json; charset=utf-8',
@@ -94,6 +97,7 @@ export const handler: Handler = async (event) => {
     if (typeof value === 'string') {
       if (value.length > 160) return respond(400, 'oversized_metadata');
       if (key === 'lead_request_id' && !UUID.test(value)) return respond(400, 'invalid_request_id');
+      if (key === 'measurement' && !MEASUREMENT_MODES.has(value)) return respond(400, 'invalid_measurement');
       metadata[key] = value;
     } else if (typeof value === 'number' && Number.isFinite(value)) {
       metadata[key] = value;
@@ -102,6 +106,13 @@ export const handler: Handler = async (event) => {
     } else {
       return respond(400, 'invalid_metadata_value');
     }
+  }
+  if ('measurement' in metadata && typeof metadata.measurement !== 'string') {
+    return respond(400, 'invalid_measurement');
+  }
+  // Une mesure exemptée ne doit jamais être reliée à une fiche de contact.
+  if (metadata.measurement === 'exempt' && 'lead_request_id' in metadata) {
+    return respond(400, 'exempt_with_lead_reference');
   }
 
   const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;

@@ -71,6 +71,10 @@ test('rejects malformed events and identifying metadata without a DB write', asy
     assert.equal((await handler(input({ ...eventPayload, session_id: 'not-a-uuid' }))).statusCode, 400);
     assert.equal((await handler(input({ ...eventPayload, metadata: { email: 'sensitive@example.com' } }))).statusCode, 400);
     assert.equal((await handler(input({ ...eventPayload, metadata: { lead_request_id: 'not-uuid' } }))).statusCode, 400);
+    assert.equal((await handler(input({ ...eventPayload, metadata: { measurement: 'other' } }))).statusCode, 400);
+    assert.equal((await handler(input({
+      ...eventPayload, metadata: { measurement: 'exempt', lead_request_id: requestId },
+    }))).statusCode, 400);
     assert.equal(env.calls.length, 0);
   } finally { env.restore(); }
 });

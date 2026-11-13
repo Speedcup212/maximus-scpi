@@ -28,7 +28,10 @@ const eventNames: FunnelEventName[] = [
 describe('funnel and existing lead consumers receive session attribution', () => {
   let browser: { location: URL; dataLayer: unknown[]; gtag: ReturnType<typeof vi.fn> };
   let consent: string | null;
+  let optOut: string | null;
   let session: Map<string, string>;
+  const SESSION_KEY = 'maximus_funnel_session_id';
+  const utmKeys = () => [...session.keys()].filter((key) => key !== SESSION_KEY);
   const send = vi.fn<typeof fetch>();
 
   beforeEach(async () => {
@@ -36,13 +39,16 @@ describe('funnel and existing lead consumers receive session attribution', () =>
     vi.clearAllMocks();
     session = new Map<string, string>();
     consent = JSON.stringify({ analytics: true });
+    optOut = null;
     browser = {
       location: new URL('https://maximusscpi.com/simulateur-scpi/'),
       dataLayer: [], gtag: vi.fn(),
     };
     vi.stubGlobal('window', browser);
     vi.stubGlobal('document', { referrer: '' });
-    vi.stubGlobal('localStorage', { getItem: () => consent });
+    vi.stubGlobal('localStorage', {
+      getItem: (key: string) => (key === 'maximus-audience-optout' ? optOut : consent),
+    });
     vi.stubGlobal('sessionStorage', {
       getItem: (key: string) => session.get(key) ?? null,
       setItem: vi.fn((key: string, value: string) => session.set(key, value)),
@@ -89,15 +95,40 @@ describe('funnel and existing lead consumers receive session attribution', () =>
   });
 
   it.each([null, '{}', '{bad json', '{"analytics":false}'])(
-    'sends nothing when analytics consent is absent or refused: %s', (value) => {
+    'without consent (%s) logs only an anonymous exempt event, never to third parties', (value) => {
       consent = value;
+      arriveThenNavigate();
+      for (const name of eventNames) {
+        trackFunnelEvent(name, { lead_request_id: '622489bf-981b-4cee-b2ce-ea8ca988b724', step: 1 });
+      }
+      expect(send).toHaveBeenCalledTimes(eventNames.length);
+      for (const [url, request] of send.mock.calls) {
+        expect(url).toBe('/api/funnel-event');
+        expect(JSON.parse(request?.body as string).metadata).toEqual({
+          step: 1, ...attribution, measurement: 'exempt',
+        });
+      }
+      expect(browser.dataLayer).toEqual([]);
+      expect(browser.gtag).not.toHaveBeenCalled();
+      expect(utmKeys()).toEqual([]);
+      for (const [key] of vi.mocked(sessionStorage.setItem).mock.calls) {
+        expect(key).toBe(SESSION_KEY);
+      }
+    },
+  );
+
+  it.each([JSON.stringify({ analytics: true }), null])(
+    'sends nothing at all after an audience opt-out (consent: %s)', (value) => {
+      consent = value;
+      optOut = '1';
       arriveThenNavigate();
       for (const name of eventNames) trackFunnelEvent(name);
       expect(send).not.toHaveBeenCalled();
       expect(browser.dataLayer).toEqual([]);
       expect(browser.gtag).not.toHaveBeenCalled();
-      expect(session.size).toBe(0);
-      expect(sessionStorage.setItem).not.toHaveBeenCalled();
+      // Avec consentement, la persistance des UTM pour les leads reste couverte
+      // par ce consentement ; sans consentement, rien n'est écrit.
+      if (value === null) expect(session.size).toBe(0);
     },
   );
 
@@ -177,17 +208,19 @@ describe('funnel and existing lead consumers receive session attribution', () =>
     expect(result.ok).toBe(true);
     expect(database.insert).toHaveBeenCalledTimes(1);
     expect(database.insert.mock.calls[0][0][0]).toMatchObject(attribution);
-    if (allowed) {
-      expect(send).toHaveBeenCalledTimes(2);
+    expect(send).toHaveBeenCalledTimes(2);
+    for (const [, request] of send.mock.calls) {
+      expect(JSON.parse(request?.body as string).metadata).toMatchObject(attribution);
+    }
+    if (!allowed) {
       for (const [, request] of send.mock.calls) {
-        expect(JSON.parse(request?.body as string).metadata).toMatchObject(attribution);
+        const metadata = JSON.parse(request?.body as string).metadata;
+        expect(metadata.measurement).toBe('exempt');
+        expect(metadata).not.toHaveProperty('lead_request_id');
       }
-    } else {
-      expect(send).not.toHaveBeenCalled();
       expect(browser.dataLayer).toEqual([]);
       expect(browser.gtag).not.toHaveBeenCalled();
-      expect(session.size).toBe(0);
-      expect(sessionStorage.setItem).not.toHaveBeenCalled();
+      expect(utmKeys()).toEqual([]);
     }
   });
 
@@ -210,9 +243,12 @@ describe('funnel and existing lead consumers receive session attribution', () =>
     for (const [key, value] of Object.entries(attribution)) {
       expect(calendlyUrl.searchParams.get(key)).toBe(value);
     }
-    expect(session.size).toBe(0);
-    expect(sessionStorage.setItem).not.toHaveBeenCalled();
-    expect(send).not.toHaveBeenCalled();
+    expect(utmKeys()).toEqual([]);
+    for (const [, request] of send.mock.calls) {
+      const metadata = JSON.parse(request?.body as string).metadata;
+      expect(metadata.measurement).toBe('exempt');
+      expect(metadata).not.toHaveProperty('lead_request_id');
+    }
     expect(browser.dataLayer).toEqual([]);
     expect(browser.gtag).not.toHaveBeenCalled();
   });

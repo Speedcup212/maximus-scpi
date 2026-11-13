@@ -214,3 +214,14 @@ Cadrage de référence : `docs/cadrage/RECOVERY-201-capture-simulation.md`.
 ### RECOVERY-202 — Complément identité PAREF après recette réelle
 
 PR #423 fusionnée après CI 84 étapes PASS. Origine du complément : le transport OCR sur archives fonctionne, mais les anciens noms Interpierre Europe Centrale / Interpierre France provoquent des quarantaines de Paref Evo / Hexa. Alias légaux précisément sourcés (AG 28/06 et 11/07/2024), bornés au domaine officiel et aux périodes antérieures au changement ; aucun assouplissement pour les mauvais fonds ou dates. Branche `fix/recovery-202-paref-historical-identity`, même mission P0. 9 tests Node et 4 Python PASS ; CI et reprise réelle à vérifier. Une divergence d'empreinte Origin T2 subsiste, sources certifiées conservées.
+
+## RECOVERY-203 — Bandeau cookies non bloquant et mesure d'audience exemptée (13/11/2026)
+
+Ouverture décidée explicitement par Eric le 13/11/2026 (« fait A et B »), en dérogation à la règle « aucun nouveau chantier produit » (WIP > 1 assumé par le responsable).
+Cadrage de référence : `docs/cadrage/RECOVERY-203-cookies-mesure-exemptee.md`.
+
+- Objectif : (A) remplacer la fenêtre cookies plein écran par un bandeau bas qui laisse la page utilisable ; (B) mesurer le parcours interne (`funnel_events`) sans consentement, dans le cadre de l'exemption CNIL « mesure d'audience » : anonyme, sans tiers, sans `lead_request_id`, avec opposition dans « Personnaliser ». Corrige aussi le lien « Gérer les cookies » du pied de page, sans effet jusqu'ici.
+- Fichiers modifiés : `src/components/CookieConsent.tsx`, `src/components/CookieSettings.tsx`, `src/hooks/useCookieConsent.ts`, `src/utils/analyticsConsent.ts`, `src/utils/funnelAnalytics.ts`, `netlify/functions/funnel-event.ts`, `src/tests/funnelAttribution.test.ts`, `src/tests/funnelEventEndpoint.test.ts`, `scripts/analytics/funnelConversions.test.mjs`, `scripts/analytics/funnelEndpoint.test.mjs`, `tasks/backlog.md`. Créés : `docs/cadrage/RECOVERY-203-cookies-mesure-exemptee.md`, `src/tests/cookieConsentExempt.test.ts`.
+- Tests : Vitest complet 332/332 ; `node --import tsx/esm --test scripts/analytics/funnelConversions.test.mjs scripts/analytics/funnelEndpoint.test.mjs` 12/12 ; `npx vite build` PASS ; contrôle navigateur headless (390 × 844 et 1440 × 900) : bandeau en bas, page utilisable, « Continuer sans accepter » enregistre le refus, événements `simulation_start` / `simulation_result` envoyés avec `measurement = exempt` et l'UTM, lien du pied de page ouvrant les réglages, opposition enregistrée puis 0 événement.
+- Hors périmètre : mise à jour de la politique de confidentialité (PDF), purge à 25 mois de `funnel_events`, expéditeur des alertes « Nouveau lead », région des fonctions Netlify.
+- État : EN COURS. Restent : fusion avec `[deploy]` dans le titre ; contrôle post-release décrit dans le cadrage.

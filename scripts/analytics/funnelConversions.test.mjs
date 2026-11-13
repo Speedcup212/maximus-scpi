@@ -78,15 +78,37 @@ test('booking has a distinct GA4 event and no identifying third-party payload', 
   }
 });
 
-test('analytics refusal prevents emission and first-party funnel logging', () => {
+test('analytics refusal blocks third parties but keeps an anonymous exempt first-party log', () => {
   const ctx = setup({ consent: false });
   try {
-    trackFunnelEvent('lead_form_submitted', { form_type: 'lead_rdv' });
+    trackFunnelEvent('lead_form_submitted', {
+      form_type: 'lead_rdv', lead_request_id: '622489bf-981b-4cee-b2ce-ea8ca988b724',
+    });
     assert.equal(ctx.events.length, 0);
     assert.equal(ctx.gtag.length, 0);
-    assert.equal(ctx.logged.length, 0);
+    assert.equal(ctx.logged.length, 1);
+    assert.equal(ctx.logged[0].url, '/api/funnel-event');
+    assert.deepEqual(ctx.logged[0].metadata, { form_type: 'lead_rdv', measurement: 'exempt' });
   } finally {
     ctx.restore();
+  }
+});
+
+test('an audience opt-out stops every emission, with or without consent', () => {
+  for (const consent of [true, false]) {
+    const ctx = setup({ consent });
+    const consentStorage = globalThis.localStorage;
+    globalThis.localStorage = {
+      getItem: (key) => key === 'maximus-audience-optout' ? '1' : consentStorage.getItem(key),
+    };
+    try {
+      trackFunnelEvent('simulation_start', { source: 'simulateur_scpi' });
+      assert.equal(ctx.events.length, 0);
+      assert.equal(ctx.gtag.length, 0);
+      assert.equal(ctx.logged.length, 0);
+    } finally {
+      ctx.restore();
+    }
   }
 });
 
