@@ -256,3 +256,14 @@ Demande d'Eric du 13/11/2026 (« fait tous les changements ») sur les trois éc
 - Tests : Vitest 339/339 ; `npx vite build` PASS ; aucun fichier protégé ni `src/App.tsx` modifié.
 - Reste à traiter, hors périmètre : `public/mentions_legales_maximusscpi.pdf` indique encore IONOS comme hébergeur alors que le site est servi par Netlify.
 - État : EN COURS jusqu'à publication (fusion avec `[deploy]`) et contrôle des PDF en ligne.
+
+## RECOVERY-207 — Nouvelle adresse : 33 avenue de Savoie, 38580 Allevard (13/11/2026)
+
+Demande d'Eric du 13/11/2026 (« change mon adresse de partout »).
+
+- Pages du site : `ReclamationPage.tsx` (courrier), `AboutUsPage.tsx`, `ConditionsUtilisationPage.tsx`.
+- PDF régénérés : politique de confidentialité (siège), CGU (éditeur), mentions légales (éditeur et adresse des réclamations). Les mentions légales sont désormais produites par `scripts/legal/build_mentions_legales.py` (texte de la version Word du 11/09/2025 repris mot pour mot ; hébergeur corrigé : Netlify au lieu d'IONOS ; coquilles corrigées : « investissements financiers », « sauf survenance de circonstances »).
+- `legal_docx.py` : un bloc de plus de 1 800 caractères s'écoule sur plusieurs pages au lieu de laisser son titre seul.
+- Contrôle : plus aucune occurrence de l'ancienne adresse dans le dépôt ni dans `public/*.pdf` ; Vitest 339/339 ; `npx vite build` PASS.
+- Hors dépôt, à faire par Eric : RCS (guichet unique INPI), ORIAS, CNCEF Patrimoine, Brevo (adresse du pied des emails), fiche Google, documents réglementaires (DER, lettre de mission), site eric-bellaiche.fr (dépôt sans droit d'écriture pour Claude).
+- État : EN COURS jusqu'à publication (fusion de la PR #429 avec `[deploy]`).
