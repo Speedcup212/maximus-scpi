@@ -267,3 +267,11 @@ Demande d'Eric du 13/11/2026 (« change mon adresse de partout »).
 - Contrôle : plus aucune occurrence de l'ancienne adresse dans le dépôt ni dans `public/*.pdf` ; Vitest 339/339 ; `npx vite build` PASS.
 - Hors dépôt, à faire par Eric : RCS (guichet unique INPI), ORIAS, CNCEF Patrimoine, Brevo (adresse du pied des emails), fiche Google, documents réglementaires (DER, lettre de mission), site eric-bellaiche.fr (dépôt sans droit d'écriture pour Claude).
 - État : EN COURS jusqu'à publication (fusion de la PR #429 avec `[deploy]`).
+
+## RECOVERY-208 — Mentions légales : cookies renvoyés vers la politique (13/11/2026)
+
+Accord d'Eric du 13/11/2026 (« ok ») à la proposition de remplacer la partie « Cookies » des mentions légales MaximusSCPI, qui décrivait encore un réglage par le navigateur.
+
+- `scripts/legal/build_mentions_legales.py` : pour MaximusSCPI, section « Cookies et mesure d'audience » de trois phrases (cookies nécessaires, mesure exemptée, Google avec accord, lien « Gérer les cookies ») renvoyant à la section 9 de la politique de confidentialité. Le texte historique est conservé pour la variante eric-bellaiche.fr (dispositif de cookies distinct, texte inchangé vérifié).
+- `public/mentions_legales_maximusscpi.pdf` régénéré.
+- État : EN COURS jusqu'à publication (fusion de la PR #429 avec `[deploy]`).
