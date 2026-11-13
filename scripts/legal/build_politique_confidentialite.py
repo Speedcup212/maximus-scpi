@@ -4,7 +4,8 @@ Reprend la structure et la mise en forme de la version du 28/04/2025
 (python-docx, modèle par défaut, titres bleus #0056B3) ; seules changent
 la date d'entrée en vigueur, la section 5 (durée de conservation des
 statistiques de mesure d'audience) et la section 9 (cookies et mesure
-d'audience exemptée, RECOVERY-203).
+d'audience exemptée, RECOVERY-203), puis les sections 5 (prospects /
+clients) et 6 (prestataires et transferts hors UE), RECOVERY-206.
 
 Régénération (RECOVERY-205) :
     python3 scripts/legal/build_politique_confidentialite.py /tmp/politique.docx
@@ -14,12 +15,10 @@ Toute modification du texte juridique doit être validée par Eric Bellaiche
 et s'accompagner de la mise à jour de la date « En vigueur au ».
 """
 import sys
-from docx import Document
-from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Pt, RGBColor
+
+from legal_docx import build
 
 OUT = sys.argv[1]
-BLUE = RGBColor(0x00, 0x56, 0xB3)
 
 SECTIONS = [
     ("1. Responsable du traitement", [
@@ -48,15 +47,28 @@ SECTIONS = [
         "- Obligations légales et réglementaires (CIF-CGP).",
     ]),
     ("5. Durée de conservation", [
-        "- Données commerciales : 5 ans après la fin de la relation.",
+        "- Prospects (demandes de simulation, de rendez-vous ou d’information) : 3 ans après "
+        "le dernier contact.",
+        "- Clients : 5 ans après la fin de la relation.",
         "- Données légales : durée imposée par la réglementation.",
         "- Cookies : 13 mois maximum.",
         "- Statistiques de mesure d’audience : 25 mois maximum.",
     ]),
     ("6. Partage des données", [
-        "- Sociétés de gestion de SCPI, assureurs, établissements bancaires.",
-        "- Prestataires techniques (IONOS, signature électronique).",
+        "- Sociétés de gestion de SCPI, assureurs, établissements bancaires et plateformes de "
+        "souscription partenaires, pour l’exécution des opérations demandées par l’Utilisateur.",
+        "- Prestataires techniques agissant pour le compte de MaximusSCPI :",
+        "   • hébergement du site : Netlify (États-Unis) ;",
+        "   • base de données : Supabase, hébergée dans l’Union européenne (Suède) ;",
+        "   • envoi des emails : Resend (États-Unis) et Brevo (France) ;",
+        "   • prise de rendez-vous en ligne : Calendly (États-Unis) ;",
+        "   • mesure d’audience et publicité, avec l’accord de l’Utilisateur : Google ;",
+        "   • autres : IONOS, prestataire de signature électronique.",
         "- Autorités de contrôle (ACPR, AMF) si requis.",
+        "Certains prestataires sont établis aux États-Unis. Ces transferts de données hors de "
+        "l’Union européenne sont encadrés par les garanties prévues par le RGPD : décision "
+        "d’adéquation « Data Privacy Framework » pour les entreprises certifiées, ou clauses "
+        "contractuelles types de la Commission européenne.",
         "Aucune donnée n’est vendue à des tiers.",
     ]),
     ("7. Sécurité", [
@@ -99,32 +111,4 @@ SECTIONS = [
     ]),
 ]
 
-doc = Document()
-doc.core_properties.author = "MaximusSCPI"
-doc.core_properties.title = "Politique de Confidentialité – MaximusSCPI"
-
-doc.add_heading("MaximusSCPI", 0).alignment = WD_ALIGN_PARAGRAPH.CENTER
-
-title = doc.add_paragraph()
-title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-run = title.add_run("Politique de Confidentialité")
-run.bold = True
-run.font.size = Pt(16)
-
-date = doc.add_paragraph("En vigueur au 13/11/2026")
-date.alignment = WD_ALIGN_PARAGRAPH.CENTER
-doc.add_page_break()
-
-for heading, lines in SECTIONS:
-    if heading.startswith("9."):
-        # La section 9 s'allonge : elle commence sur une nouvelle page
-        # plutôt que d'être coupée au milieu d'un paragraphe.
-        doc.add_page_break()
-    h = doc.add_heading(level=1)
-    h_run = h.add_run(heading)
-    h_run.font.color.rgb = BLUE
-    # Espaces insécables autour des guillemets français : pas de « orphelin.
-    body = "\n".join(lines).replace("« ", "«\u00a0").replace(" »", "\u00a0»")
-    doc.add_paragraph("\n" + body + "\n")
-
-doc.save(OUT)
+build(OUT, "Politique de Confidentialité", "13/11/2026", SECTIONS, )
