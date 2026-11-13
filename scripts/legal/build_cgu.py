@@ -26,7 +26,7 @@ SECTIONS = [
     ("2. Éditeur du Site", [
         "Eric Bellaiche – MaximusSCPI, entreprise individuelle immatriculée au RCS de Grenoble "
         "sous le n° 441 861 135.",
-        "Adresse : 1020, route de Saint-Jean, M1, 38500 Coublevie – Contact : "
+        "Adresse : 33 avenue de Savoie, 38580 Allevard – Contact : "
         "eric.bellaiche@gmail.com",
         "Conseiller en investissements financiers (CIF), adhérent n° D016571 de la CNCEF "
         "Patrimoine, association agréée par l’Autorité des marchés financiers ; immatriculé à "

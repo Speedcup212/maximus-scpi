@@ -13,6 +13,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt, RGBColor
 
 BLUE = RGBColor(0x00, 0x56, 0xB3)
+KEEP_TOGETHER_MAX_CHARS = 1800
 
 
 def build(out, title, effective_date, sections, page_break_before=()):
@@ -42,9 +43,11 @@ def build(out, title, effective_date, sections, page_break_before=()):
         # Espaces insécables autour des guillemets français : pas de « orphelin.
         body = "\n".join(lines).replace("« ", "« ").replace(" »", " »")
         paragraph = doc.add_paragraph("\n" + body + "\n")
-        # Un bloc de texte n'est jamais coupé entre deux pages : il passe en
+        # Un bloc court n'est jamais coupé entre deux pages : il passe en
         # entier sur la page suivante, avec son titre (« keep with next »).
-        paragraph.paragraph_format.keep_together = True
+        # Un bloc plus long qu'une demi-page s'écoule normalement, sans
+        # laisser son titre seul en bas de page.
+        paragraph.paragraph_format.keep_together = len(body) < KEEP_TOGETHER_MAX_CHARS
         paragraph.paragraph_format.widow_control = True
 
     doc.save(out)

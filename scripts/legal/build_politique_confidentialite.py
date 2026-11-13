@@ -25,7 +25,7 @@ SECTIONS = [
         "MaximusSCPI – Eric Bellaiche",
         "Conseiller en Gestion de Patrimoine – CIF-CGP",
         "Email : eric.bellaiche@gmail.com",
-        "Siège social : Coublevie, France",
+        "Siège social : 33 avenue de Savoie, 38580 Allevard, France",
     ]),
     ("2. Données collectées", [
         "- Données d’identification : nom, prénom, adresse email, numéro de téléphone.",
