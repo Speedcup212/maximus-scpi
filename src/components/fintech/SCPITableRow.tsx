@@ -1,6 +1,7 @@
 import React from 'react';
 import { Check, Plus, BarChart3, Sparkles } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
+import ScpiPgaIndicator from './ScpiPgaIndicator';
 import { TMIValue, isEuropeanSCPI, shouldOptimizeForTax } from '../../utils/taxOptimization';
 
 interface SCPITableRowProps {
@@ -80,8 +81,7 @@ const SCPITableRow: React.FC<SCPITableRowProps> = ({ scpi, score = null, isSelec
       </div>
       <div>
         <div className="flex flex-col gap-0.5">
-          <div className="text-base font-bold text-emerald-400">{scpi.yield.toFixed(2)}%</div>
-          <div className="text-xs text-slate-500">Taux de distribution brut</div>
+          <ScpiPgaIndicator name={scpi.name} variant="row" />
         </div>
       </div>
       <div>

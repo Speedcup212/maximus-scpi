@@ -3,6 +3,8 @@ import { ChevronDown, ChevronUp, TrendingUp, Building2, Plus, Check, BarChart3, 
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { TMIValue, isEuropeanSCPI, shouldOptimizeForTax } from '../../utils/taxOptimization';
 import { scoreToStars } from '../../utils/scoreToStars';
+import { getVerifiedPga2025 } from '../../utils/scpiPga';
+import ScpiPgaIndicator from './ScpiPgaIndicator';
 
 interface SCPICardDarkProps {
   scpi: SCPIExtended;
@@ -18,6 +20,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
   const [isExpanded, setIsExpanded] = useState(false);
 
   const partial = scpi.maximusPublicationStatus === 'published_with_reserves';
+  const officialPga2025 = getVerifiedPga2025(scpi.name);
   const isEuropean = isEuropeanSCPI(scpi);
   const showTaxOptimization = shouldOptimizeForTax(userTmi) && isEuropean;
 
@@ -163,14 +166,17 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
         <div className="flex items-center justify-between">
           <div className="flex-1">
             <p className="text-xs font-medium text-emerald-100 uppercase tracking-wide mb-0.5">
-              Taux de distribution brut
+              Performance globale annuelle (PGA) 2025
             </p>
             <div className="flex items-baseline gap-2 flex-wrap">
-              <p className="text-4xl font-bold">{scpi.yield.toFixed(2)}%</p>
+              <p className="text-3xl font-bold">{officialPga2025 ? `${officialPga2025.pgaPct.toFixed(2)}%` : 'Non vérifiée'}</p>
             </div>
+            {officialPga2025?.distributionPct != null && (
+              <p className="mt-1 text-xs text-white/90">Taux de distribution brut 2025 inclus : {officialPga2025.distributionPct.toFixed(2)} %</p>
+            )}
             {(scpi.dataPeriod || scpi.dataDate) && (
               <p className="mt-1 text-[10px] text-emerald-100/80">
-                Données actualisées : {scpi.dataPeriod || scpi.dataDate}
+                Autres indicateurs (bulletin) : {scpi.dataPeriod || scpi.dataDate}
               </p>
             )}
             {isExpanded && (
@@ -183,6 +189,10 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
           </div>
           <TrendingUp className="w-12 h-12 text-emerald-200 opacity-40" />
         </div>
+      </div>
+
+      <div className="px-3 py-2 bg-slate-800">
+        <ScpiPgaIndicator name={scpi.name} variant="source" />
       </div>
 
       {/* Primary Metrics - Compact */}

@@ -107,7 +107,7 @@ const ComparatorApp: React.FC = () => {
               Comparateur SCPI 2026 : comparez {certifiedScpiCohort.count} SCPI
             </h1>
             <p className="mt-1 text-sm text-slate-400 max-w-3xl">
-              Comparez les SCPI sur des indicateurs documentés : distribution, frais, TOF, valorisation, dette et liquidité. Approfondissez chaque fiche avec l’Historique, le Radar, la Trajectoire et la Surveillance.
+              Comparez les SCPI sur des indicateurs documentés : taux de distribution et PGA (performance globale annuelle) sourcée, frais, TOF, valorisation, dette et liquidité. Approfondissez chaque fiche avec l’Historique, le Radar, la Trajectoire et la Surveillance.
             </p>
           </div>
 

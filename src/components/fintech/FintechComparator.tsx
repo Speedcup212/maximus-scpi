@@ -17,6 +17,7 @@ import { computeClientScores } from '../../utils/computeClientScores';
 import ComparisonWarning from '../ComparisonWarning';
 import Toast from '../Toast';
 import { getLiveScpiDataBatch } from '../../utils/scpiLiveData';
+import { compareVerified2025Distribution, getVerifiedPga2025 } from '../../utils/scpiPga';
 
 const SelectionSidebar = lazy(() => import('./SelectionSidebar'));
 const AnalysisDetailModal = lazy(() => import('./AnalysisDetailModal'));
@@ -112,7 +113,10 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   const applyFilters = (scpi: SCPIExtended): boolean => {
     if (!matchesComparatorFinancialFilters(financialDataByName.get(scpi.name.toLowerCase()), filters)) return false;
 
-    if (scpi.yield < filters.minYield) return false;
+    if (filters.minYield > 0) {
+      const verifiedAnnualTD = getVerifiedPga2025(scpi.name)?.distributionPct;
+      if (verifiedAnnualTD == null || verifiedAnnualTD < filters.minYield) return false;
+    }
 
     if (filters.priceRange !== 'all') {
       if (filters.priceRange === 'accessible' && scpi.price >= 300) return false;
@@ -185,12 +189,16 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
       .sort((a, b) => {
         if (a.taxScore !== b.taxScore) return b.taxScore - a.taxScore;
         if (a.sectorScore !== b.sectorScore) return b.sectorScore - a.sectorScore;
-        if (sortBy === 'yield') return b.scpi.yield - a.scpi.yield;
+        if (sortBy === 'yield') return compareVerified2025Distribution(a.scpi.name, b.scpi.name);
         return a.scpi.price - b.scpi.price;
       })
       .map(item => item.scpi);
   } else {
     filteredData = sortSCPIByTaxOptimization(filteredData, filters.tmi, sortBy);
+    if (sortBy === 'yield') {
+      // Les TD sans PGA comparable ne peuvent pas être mis en avant par le classement.
+      filteredData.sort((a, b) => compareVerified2025Distribution(a.name, b.name));
+    }
   }
 
   const itemsPerPage = viewMode === 'grid' ? 9 : 15;
@@ -241,7 +249,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
     ) : 0);
 
   const sortCriterionLabel = sortBy === 'yield'
-    ? 'taux de distribution décroissant'
+    ? 'taux de distribution 2025 décroissant (PGA associée ; non documentées en dernier)'
     : 'prix croissant';
   const sortDescription = filters.sectors.length > 0
     ? (shouldOptimizeForTax(filters.tmi)
@@ -394,7 +402,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                       <div className="grid grid-cols-[minmax(180px,1.4fr)_130px_120px_70px_80px_100px_72px_180px] items-center border-b border-slate-700 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
                         <div>SCPI</div>
                         <div>Catégorie</div>
-                        <div>Rendement</div>
+                        <div>TD / PGA 2025</div>
                         <div>TOF</div>
                         <div>Prix</div>
                         <div>Invest. Min.</div>
