@@ -245,3 +245,14 @@ Demande d'Eric du 13/11/2026 (« modifie le paragraphe pour ta politique de conf
 - Conservation : job pg_cron `funnel-events-retention-25-mois` (n° 76, quotidien 03:17 UTC) appliqué en production par la migration `20261113104709_funnel_events_retention_25_mois.sql` ; 0 ligne concernée au 13/11/2026.
 - Écarts relevés, non modifiés (décision d'Eric requise) : section 6 limitée à IONOS alors que le site utilise Netlify, Supabase, Resend, Brevo, Calendly et Google ; section 5 « 5 ans après la fin de la relation » alors que le formulaire de simulation annonce « 3 ans après le dernier contact » pour les prospects ; `public/cgu_maximusscpi.pdf` est un fichier de remplacement de 64 octets (« placeholder ») servi en production.
 - État : EN COURS jusqu'à publication (fusion avec `[deploy]`) et contrôle du PDF en ligne.
+
+## RECOVERY-206 — Cohérence des documents juridiques (13/11/2026)
+
+Demande d'Eric du 13/11/2026 (« fait tous les changements ») sur les trois écarts relevés en RECOVERY-205.
+
+- Politique de confidentialité (PDF, même version du 13/11/2026) : section 5 distingue prospects (3 ans après le dernier contact, comme le formulaire de simulation) et clients (5 ans après la fin de la relation) ; section 6 liste les prestataires réels (Netlify, Supabase en UE, Resend, Brevo, Calendly, Google, IONOS, signature électronique) et l'encadrement des transferts hors UE.
+- `public/cgu_maximusscpi.pdf` : le fichier de remplacement de 64 octets est remplacé par de vraies CGU (13 sections), cohérentes avec les mentions légales (RCS, CNCEF n° D016571, ORIAS 13001580, conseil non indépendant) et la page Réclamations (délais AMF 10 jours ouvrables / 2 mois, Médiateur de l'AMF, CNPM). Source : `scripts/legal/build_cgu.py`, mise en forme commune `scripts/legal/legal_docx.py`.
+- Textes du site alignés : fenêtres « Mentions légales », « Politique de confidentialité » et « CGU » de `LegalFooter.tsx` (CNCEF et ORIAS, durées, liens vers les PDF complets), conservation dans `PolitiqueConfidentialitePage.tsx`.
+- Tests : Vitest 339/339 ; `npx vite build` PASS ; aucun fichier protégé ni `src/App.tsx` modifié.
+- Reste à traiter, hors périmètre : `public/mentions_legales_maximusscpi.pdf` indique encore IONOS comme hébergeur alors que le site est servi par Netlify.
+- État : EN COURS jusqu'à publication (fusion avec `[deploy]`) et contrôle des PDF en ligne.
