@@ -38,7 +38,7 @@ def validation(manifest,slug):
     selected=[d for d in docs if d["slug"]==slug]
     if len(selected)!=1:raise ValueError("UNKNOWN_FUND")
     d=selected[0]
-    if d.get("source_period")!="2026-T3" or d.get("page_count")!=6:
+    if d.get("source_period") not in ("2026-T1","2026-T3") or d.get("page_count")!=6:
         raise ValueError("WRONG_PERIOD_OR_PAGE_COUNT")
     if not isinstance(d.get("pdf_sha256"),str) or not re.fullmatch("[a-f0-9]{64}",d["pdf_sha256"]):
         raise ValueError("INVALID_ORIGINAL_SHA")
@@ -54,7 +54,7 @@ def probe(manifest,slug,destination):
     destination.mkdir(parents=True,exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="sofidy-t3-page-proof-") as folder:
         path=Path(folder)/"original.pdf";path.write_bytes(original)
-        if publisher.proof.independent_poppler(path,d["name"],"2026-T3","quarterly_bulletin",d["page_count"]) != d["page_count"]:
+        if publisher.proof.independent_poppler(path,d["name"],d["source_period"],"quarterly_bulletin",d["page_count"]) != d["page_count"]:
             raise ValueError("INDEPENDENT_PDF_READER_REJECTED")
         pages=[]
         with fitz.open(path) as pdf:
@@ -66,7 +66,7 @@ def probe(manifest,slug,destination):
                          capture_output=True,text=True,timeout=32,check=False)
                 if proc.returncode!=0 or len(proc.stdout)<200 or len(native)<200:
                     raise ValueError(f"INDEPENDENT_PAGE_TEXT_MISSING_{n}")
-                visual=destination/f"2026-T3-page-{n}.png"
+                visual=destination/f"{d['source_period']}-page-{n}.png"
                 visual.write_bytes(page.get_pixmap(matrix=fitz.Matrix(1.35,1.35),alpha=False).tobytes("png"))
                 lines=[x.strip() for x in proc.stdout.splitlines() if x.strip()]
                 hints=[]
@@ -79,7 +79,7 @@ def probe(manifest,slug,destination):
                               "mupdf_page_text_len":len(native),"poppler_page_text_len":len(proc.stdout),
                               "unapproved_candidate_contexts":hints,
                               "financial_certified":False,"independent_financial_review_required":True})
-        return {"slug":slug,"status":"SOURCE_PAGES_RENDERED_FOR_REVIEW","source_period":"2026-T3",
+        return {"slug":slug,"status":"SOURCE_PAGES_RENDERED_FOR_REVIEW","source_period":d["source_period"],
                 "source_url":url,"pdf_sha256":d["pdf_sha256"],"pages":pages,
                 "financial_certified":False,"publication_authorized":False,"database_modified":False}
 
