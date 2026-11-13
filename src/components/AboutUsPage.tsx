@@ -166,7 +166,7 @@ const AboutUsPage: React.FC = () => {
                         <li><strong>RCS :</strong> Grenoble</li>
                         <li><strong>SIREN :</strong> 441861135</li>
                         <li><strong>Code APE (NAF) :</strong> 6619B</li>
-                        <li><strong>Adresse :</strong> 1020, route de Saint-Jean, M1, 38500 Coublevie</li>
+                        <li><strong>Adresse :</strong> 33 avenue de Savoie, 38580 Allevard</li>
                         <li><strong>Téléphone :</strong> 06 52 56 56 54</li>
                         <li><strong>Email :</strong> eric.bellaiche@gmail.com</li>
                       </ul>

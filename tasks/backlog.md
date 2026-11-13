@@ -224,4 +224,54 @@ Cadrage de référence : `docs/cadrage/RECOVERY-203-cookies-mesure-exemptee.md`.
 - Fichiers modifiés : `src/components/CookieConsent.tsx`, `src/components/CookieSettings.tsx`, `src/hooks/useCookieConsent.ts`, `src/utils/analyticsConsent.ts`, `src/utils/funnelAnalytics.ts`, `netlify/functions/funnel-event.ts`, `src/tests/funnelAttribution.test.ts`, `src/tests/funnelEventEndpoint.test.ts`, `scripts/analytics/funnelConversions.test.mjs`, `scripts/analytics/funnelEndpoint.test.mjs`, `tasks/backlog.md`. Créés : `docs/cadrage/RECOVERY-203-cookies-mesure-exemptee.md`, `src/tests/cookieConsentExempt.test.ts`.
 - Tests : Vitest complet 332/332 ; `node --import tsx/esm --test scripts/analytics/funnelConversions.test.mjs scripts/analytics/funnelEndpoint.test.mjs` 12/12 ; `npx vite build` PASS ; contrôle navigateur headless (390 × 844 et 1440 × 900) : bandeau en bas, page utilisable, « Continuer sans accepter » enregistre le refus, événements `simulation_start` / `simulation_result` envoyés avec `measurement = exempt` et l'UTM, lien du pied de page ouvrant les réglages, opposition enregistrée puis 0 événement.
 - Hors périmètre : mise à jour de la politique de confidentialité (PDF), purge à 25 mois de `funnel_events`, expéditeur des alertes « Nouveau lead », région des fonctions Netlify.
-- État : EN COURS. Restent : fusion avec `[deploy]` dans le titre ; contrôle post-release décrit dans le cadrage.
+- État : CLÔTURÉE le 13/11/2026. PR #428 fusionnée avec `[deploy]`, publiée à 10 h 18 (déploiement Netlify `6af6d525`). Contrôle post-release PASS en navigation privée : événements `measurement = exempt` avec `utm_source = test_eric_exempt`, lien « Gérer les cookies » du pied de page opérationnel, aucun événement après opposition puis rechargement.
+- Constats annexes : `netlify/functions/track-funnel-event.mts` déclare aussi `/api/funnel-event` mais n'est pas servi (la redirection vers `funnel-event` l'emporte, prouvé par les événements email et UTM enregistrés) ; doublon à supprimer. Fonctions Netlify exécutées en région `iad` (Virginie). L'expéditeur des alertes est déjà `leads@maximusscpi.com` en production (le dépôt était en retard sur la version déployée).
+
+## RECOVERY-204 — Alerte « Nouveau prospect » lisible (13/11/2026)
+
+Ouverture décidée par Eric le 13/11/2026 (« ok » à la proposition : objet avec montant et prénom, « Répondre » adressé au prospect, fiche lisible à l'heure de Paris).
+
+- Constat : la fonction déployée (v12) différait du dépôt (anti-relais, anti-doublon, expéditeur `leads@maximusscpi.com`) ; son contenu était brut (JSON, heure UTC) et « Répondre » écrivait à l'expéditeur, pas au prospect.
+- Correction : `supabase/functions/send-lead-notification/index.ts` reprend la v12 et construit l'alerte depuis la ligne en base ; `logic.ts` (logique pure) produit l'objet `[TEST] Nouveau prospect · montant · prénom · formulaire`, `reply_to` = email du prospect, blocs Contact / Projet / Accord marketing / Origine, HTML échappé.
+- Tests : `npx vitest run src/tests/leadNotificationAlert.test.ts` 7/7 ; Vitest complet.
+- Déploiement : fonction Supabase v13 déployée le 13/11/2026 ; appel réel sur un lead de test du 11/11 (`ea0dd22f`) : `notified_at` renseigné à 10 h 45, sans erreur. Aucun déploiement Netlify nécessaire.
+- État : EN COURS jusqu'à la confirmation visuelle par Eric de l'alerte reçue.
+
+## RECOVERY-205 — Politique de confidentialité : mesure d'audience exemptée (13/11/2026)
+
+Demande d'Eric du 13/11/2026 (« modifie le paragraphe pour ta politique de confidentialité »), suite de RECOVERY-203.
+
+- `public/politique_confidentialite_maximusscpi.pdf` régénéré (version « En vigueur au 13/11/2026 ») par `scripts/legal/build_politique_confidentialite.py` : même structure et même mise en forme que la version du 28/04/2025 ; seules changent la date, la section 5 (« Statistiques de mesure d'audience : 25 mois maximum ») et la section 9, réécrite en « Cookies et mesure d'audience » (bandeau, cookies nécessaires, mesure exemptée et opposition, Google Analytics et Google Ads avec accord, transfert hors UE).
+- Conservation : job pg_cron `funnel-events-retention-25-mois` (n° 76, quotidien 03:17 UTC) appliqué en production par la migration `20261113104709_funnel_events_retention_25_mois.sql` ; 0 ligne concernée au 13/11/2026.
+- Écarts relevés, non modifiés (décision d'Eric requise) : section 6 limitée à IONOS alors que le site utilise Netlify, Supabase, Resend, Brevo, Calendly et Google ; section 5 « 5 ans après la fin de la relation » alors que le formulaire de simulation annonce « 3 ans après le dernier contact » pour les prospects ; `public/cgu_maximusscpi.pdf` est un fichier de remplacement de 64 octets (« placeholder ») servi en production.
+- État : EN COURS jusqu'à publication (fusion avec `[deploy]`) et contrôle du PDF en ligne.
+
+## RECOVERY-206 — Cohérence des documents juridiques (13/11/2026)
+
+Demande d'Eric du 13/11/2026 (« fait tous les changements ») sur les trois écarts relevés en RECOVERY-205.
+
+- Politique de confidentialité (PDF, même version du 13/11/2026) : section 5 distingue prospects (3 ans après le dernier contact, comme le formulaire de simulation) et clients (5 ans après la fin de la relation) ; section 6 liste les prestataires réels (Netlify, Supabase en UE, Resend, Brevo, Calendly, Google, IONOS, signature électronique) et l'encadrement des transferts hors UE.
+- `public/cgu_maximusscpi.pdf` : le fichier de remplacement de 64 octets est remplacé par de vraies CGU (13 sections), cohérentes avec les mentions légales (RCS, CNCEF n° D016571, ORIAS 13001580, conseil non indépendant) et la page Réclamations (délais AMF 10 jours ouvrables / 2 mois, Médiateur de l'AMF, CNPM). Source : `scripts/legal/build_cgu.py`, mise en forme commune `scripts/legal/legal_docx.py`.
+- Textes du site alignés : fenêtres « Mentions légales », « Politique de confidentialité » et « CGU » de `LegalFooter.tsx` (CNCEF et ORIAS, durées, liens vers les PDF complets), conservation dans `PolitiqueConfidentialitePage.tsx`.
+- Tests : Vitest 339/339 ; `npx vite build` PASS ; aucun fichier protégé ni `src/App.tsx` modifié.
+- Reste à traiter, hors périmètre : `public/mentions_legales_maximusscpi.pdf` indique encore IONOS comme hébergeur alors que le site est servi par Netlify.
+- État : EN COURS jusqu'à publication (fusion avec `[deploy]`) et contrôle des PDF en ligne.
+
+## RECOVERY-207 — Nouvelle adresse : 33 avenue de Savoie, 38580 Allevard (13/11/2026)
+
+Demande d'Eric du 13/11/2026 (« change mon adresse de partout »).
+
+- Pages du site : `ReclamationPage.tsx` (courrier), `AboutUsPage.tsx`, `ConditionsUtilisationPage.tsx`.
+- PDF régénérés : politique de confidentialité (siège), CGU (éditeur), mentions légales (éditeur et adresse des réclamations). Les mentions légales sont désormais produites par `scripts/legal/build_mentions_legales.py` (texte de la version Word du 11/09/2025 repris mot pour mot ; hébergeur corrigé : Netlify au lieu d'IONOS ; coquilles corrigées : « investissements financiers », « sauf survenance de circonstances »).
+- `legal_docx.py` : un bloc de plus de 1 800 caractères s'écoule sur plusieurs pages au lieu de laisser son titre seul.
+- Contrôle : plus aucune occurrence de l'ancienne adresse dans le dépôt ni dans `public/*.pdf` ; Vitest 339/339 ; `npx vite build` PASS.
+- Hors dépôt, à faire par Eric : RCS (guichet unique INPI), ORIAS, CNCEF Patrimoine, Brevo (adresse du pied des emails), fiche Google, documents réglementaires (DER, lettre de mission), site eric-bellaiche.fr (dépôt sans droit d'écriture pour Claude).
+- État : EN COURS jusqu'à publication (fusion de la PR #429 avec `[deploy]`).
+
+## RECOVERY-208 — Mentions légales : cookies renvoyés vers la politique (13/11/2026)
+
+Accord d'Eric du 13/11/2026 (« ok ») à la proposition de remplacer la partie « Cookies » des mentions légales MaximusSCPI, qui décrivait encore un réglage par le navigateur.
+
+- `scripts/legal/build_mentions_legales.py` : pour MaximusSCPI, section « Cookies et mesure d'audience » de trois phrases (cookies nécessaires, mesure exemptée, Google avec accord, lien « Gérer les cookies ») renvoyant à la section 9 de la politique de confidentialité. Le texte historique est conservé pour la variante eric-bellaiche.fr (dispositif de cookies distinct, texte inchangé vérifié).
+- `public/mentions_legales_maximusscpi.pdf` régénéré.
+- État : EN COURS jusqu'à publication (fusion de la PR #429 avec `[deploy]`).

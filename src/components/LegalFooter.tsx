@@ -222,7 +222,7 @@ const LegalFooter: React.FC = () => {
                     <strong>MaximusSCPI</strong><br />
                     Représenté par Eric Bellaiche<br />
                     Conseiller en Gestion de Patrimoine – CIF<br />
-                    CIF n°D016571
+                    Membre de la CNCEF Patrimoine n°D016571 · ORIAS n°13001580
                   </p>
 
                   <h3>Hébergement</h3>
@@ -252,7 +252,8 @@ const LegalFooter: React.FC = () => {
                   <h3>Collecte des données</h3>
                   <p>
                     Nous collectons uniquement les données nécessaires au fonctionnement du service :
-                    nom, email, téléphone pour les prises de rendez-vous.
+                    nom, prénom, email et téléphone lorsque vous demandez un rendez-vous ou l'envoi
+                    d'une simulation, ainsi que des statistiques de fréquentation anonymes.
                   </p>
 
                   <h3>Utilisation des données</h3>
@@ -267,14 +268,19 @@ const LegalFooter: React.FC = () => {
 
                   <h3>Conservation</h3>
                   <p>
-                    Vos données sont conservées pendant 3 ans maximum, 
-                    conformément à la réglementation en vigueur.
+                    Prospects : 3 ans après le dernier contact. Clients : 5 ans après la fin
+                    de la relation. Statistiques de fréquentation : 25 mois maximum.
                   </p>
 
                   <h3>Vos droits</h3>
                   <p>
-                    Vous disposez d'un droit d'accès, de rectification et de suppression 
+                    Vous disposez d'un droit d'accès, de rectification et de suppression
                     de vos données personnelles. Contactez-nous à eric.bellaiche@gmail.com
+                  </p>
+                  <p>
+                    <a href="/politique_confidentialite_maximusscpi.pdf" target="_blank" rel="noopener noreferrer">
+                      Lire la politique de confidentialité complète (PDF)
+                    </a>
                   </p>
                 </div>
               )}
@@ -299,15 +305,20 @@ const LegalFooter: React.FC = () => {
 
                   <h3>Limitation de responsabilité</h3>
                   <p>
-                    Les analyses et recommandations fournies sont indicatives. 
-                    MaximusSCPI ne peut être tenu responsable des décisions d'investissement 
-                    prises sur la base de ces informations.
+                    Les analyses, comparaisons et simulations fournies sont indicatives et ne
+                    constituent pas un conseil personnalisé. MaximusSCPI ne peut être tenu
+                    responsable des décisions d'investissement prises sur la seule base de ces informations.
                   </p>
 
                   <h3>Modification des CGU</h3>
                   <p>
-                    Ces conditions peuvent être modifiées à tout moment. 
+                    Ces conditions peuvent être modifiées à tout moment.
                     Les utilisateurs seront informés des changements significatifs.
+                  </p>
+                  <p>
+                    <a href="/cgu_maximusscpi.pdf" target="_blank" rel="noopener noreferrer">
+                      Lire les conditions générales d'utilisation complètes (PDF)
+                    </a>
                   </p>
                 </div>
               )}

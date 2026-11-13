@@ -133,7 +133,7 @@ const ConditionsUtilisationPage: React.FC = () => {
 
           <div className="mt-6 p-4 bg-gray-50 rounded-lg">
             <p className="text-sm text-gray-700">
-              <strong>Adresse :</strong> 1020, route de Saint-Jean, M1, 38500 Coublevie
+              <strong>Adresse :</strong> 33 avenue de Savoie, 38580 Allevard
             </p>
             <p className="text-sm text-gray-700 mt-2">
               <strong>Site internet :</strong>{' '}
