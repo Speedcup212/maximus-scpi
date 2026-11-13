@@ -224,4 +224,15 @@ Cadrage de référence : `docs/cadrage/RECOVERY-203-cookies-mesure-exemptee.md`.
 - Fichiers modifiés : `src/components/CookieConsent.tsx`, `src/components/CookieSettings.tsx`, `src/hooks/useCookieConsent.ts`, `src/utils/analyticsConsent.ts`, `src/utils/funnelAnalytics.ts`, `netlify/functions/funnel-event.ts`, `src/tests/funnelAttribution.test.ts`, `src/tests/funnelEventEndpoint.test.ts`, `scripts/analytics/funnelConversions.test.mjs`, `scripts/analytics/funnelEndpoint.test.mjs`, `tasks/backlog.md`. Créés : `docs/cadrage/RECOVERY-203-cookies-mesure-exemptee.md`, `src/tests/cookieConsentExempt.test.ts`.
 - Tests : Vitest complet 332/332 ; `node --import tsx/esm --test scripts/analytics/funnelConversions.test.mjs scripts/analytics/funnelEndpoint.test.mjs` 12/12 ; `npx vite build` PASS ; contrôle navigateur headless (390 × 844 et 1440 × 900) : bandeau en bas, page utilisable, « Continuer sans accepter » enregistre le refus, événements `simulation_start` / `simulation_result` envoyés avec `measurement = exempt` et l'UTM, lien du pied de page ouvrant les réglages, opposition enregistrée puis 0 événement.
 - Hors périmètre : mise à jour de la politique de confidentialité (PDF), purge à 25 mois de `funnel_events`, expéditeur des alertes « Nouveau lead », région des fonctions Netlify.
-- État : EN COURS. Restent : fusion avec `[deploy]` dans le titre ; contrôle post-release décrit dans le cadrage.
+- État : CLÔTURÉE le 13/11/2026. PR #428 fusionnée avec `[deploy]`, publiée à 10 h 18 (déploiement Netlify `6af6d525`). Contrôle post-release PASS en navigation privée : événements `measurement = exempt` avec `utm_source = test_eric_exempt`, lien « Gérer les cookies » du pied de page opérationnel, aucun événement après opposition puis rechargement.
+- Constats annexes : `netlify/functions/track-funnel-event.mts` déclare aussi `/api/funnel-event` mais n'est pas servi (la redirection vers `funnel-event` l'emporte, prouvé par les événements email et UTM enregistrés) ; doublon à supprimer. Fonctions Netlify exécutées en région `iad` (Virginie). L'expéditeur des alertes est déjà `leads@maximusscpi.com` en production (le dépôt était en retard sur la version déployée).
+
+## RECOVERY-204 — Alerte « Nouveau prospect » lisible (13/11/2026)
+
+Ouverture décidée par Eric le 13/11/2026 (« ok » à la proposition : objet avec montant et prénom, « Répondre » adressé au prospect, fiche lisible à l'heure de Paris).
+
+- Constat : la fonction déployée (v12) différait du dépôt (anti-relais, anti-doublon, expéditeur `leads@maximusscpi.com`) ; son contenu était brut (JSON, heure UTC) et « Répondre » écrivait à l'expéditeur, pas au prospect.
+- Correction : `supabase/functions/send-lead-notification/index.ts` reprend la v12 et construit l'alerte depuis la ligne en base ; `logic.ts` (logique pure) produit l'objet `[TEST] Nouveau prospect · montant · prénom · formulaire`, `reply_to` = email du prospect, blocs Contact / Projet / Accord marketing / Origine, HTML échappé.
+- Tests : `npx vitest run src/tests/leadNotificationAlert.test.ts` 7/7 ; Vitest complet.
+- Déploiement : fonction Supabase v13 déployée le 13/11/2026 ; appel réel sur un lead de test du 11/11 (`ea0dd22f`) : `notified_at` renseigné à 10 h 45, sans erreur. Aucun déploiement Netlify nécessaire.
+- État : EN COURS jusqu'à la confirmation visuelle par Eric de l'alerte reçue.
