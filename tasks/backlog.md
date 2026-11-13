@@ -236,3 +236,12 @@ Ouverture décidée par Eric le 13/11/2026 (« ok » à la proposition : objet a
 - Tests : `npx vitest run src/tests/leadNotificationAlert.test.ts` 7/7 ; Vitest complet.
 - Déploiement : fonction Supabase v13 déployée le 13/11/2026 ; appel réel sur un lead de test du 11/11 (`ea0dd22f`) : `notified_at` renseigné à 10 h 45, sans erreur. Aucun déploiement Netlify nécessaire.
 - État : EN COURS jusqu'à la confirmation visuelle par Eric de l'alerte reçue.
+
+## RECOVERY-205 — Politique de confidentialité : mesure d'audience exemptée (13/11/2026)
+
+Demande d'Eric du 13/11/2026 (« modifie le paragraphe pour ta politique de confidentialité »), suite de RECOVERY-203.
+
+- `public/politique_confidentialite_maximusscpi.pdf` régénéré (version « En vigueur au 13/11/2026 ») par `scripts/legal/build_politique_confidentialite.py` : même structure et même mise en forme que la version du 28/04/2025 ; seules changent la date, la section 5 (« Statistiques de mesure d'audience : 25 mois maximum ») et la section 9, réécrite en « Cookies et mesure d'audience » (bandeau, cookies nécessaires, mesure exemptée et opposition, Google Analytics et Google Ads avec accord, transfert hors UE).
+- Conservation : job pg_cron `funnel-events-retention-25-mois` (n° 76, quotidien 03:17 UTC) appliqué en production par la migration `20261113104709_funnel_events_retention_25_mois.sql` ; 0 ligne concernée au 13/11/2026.
+- Écarts relevés, non modifiés (décision d'Eric requise) : section 6 limitée à IONOS alors que le site utilise Netlify, Supabase, Resend, Brevo, Calendly et Google ; section 5 « 5 ans après la fin de la relation » alors que le formulaire de simulation annonce « 3 ans après le dernier contact » pour les prospects ; `public/cgu_maximusscpi.pdf` est un fichier de remplacement de 64 octets (« placeholder ») servi en production.
+- État : EN COURS jusqu'à publication (fusion avec `[deploy]`) et contrôle du PDF en ligne.
