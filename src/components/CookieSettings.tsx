@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, Cookie, BarChart3, Target, Shield } from 'lucide-react';
+import { X, Cookie, BarChart3, Target, Shield, Activity } from 'lucide-react';
 import { useCookieConsent } from '../hooks/useCookieConsent';
+import { hasAudienceOptOut, setAudienceOptOut } from '../utils/analyticsConsent';
 
 interface CookieSettingsProps {
   onClose: () => void;
@@ -11,8 +12,10 @@ export const CookieSettings: React.FC<CookieSettingsProps> = ({ onClose }) => {
 
   const [analytics, setAnalytics] = useState(consent?.analytics ?? false);
   const [marketing, setMarketing] = useState(consent?.marketing ?? false);
+  const [audienceMeasurement, setAudienceMeasurement] = useState(() => !hasAudienceOptOut());
 
   const handleSave = () => {
+    setAudienceOptOut(!audienceMeasurement);
     saveConsent({ analytics, marketing });
     onClose();
   };
@@ -23,7 +26,7 @@ export const CookieSettings: React.FC<CookieSettingsProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
       <div className="bg-slate-900 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-slate-900 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -65,6 +68,34 @@ export const CookieSettings: React.FC<CookieSettingsProps> = ({ onClose }) => {
             <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
+                  <Activity className="h-5 w-5 text-emerald-400" />
+                  <h3 className="text-lg font-semibold text-white">Mesure d'audience anonyme (sans consentement)</h3>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={audienceMeasurement}
+                    onChange={(e) => setAudienceMeasurement(e.target.checked)}
+                    className="sr-only peer"
+                    aria-label="Mesure d'audience anonyme : décochez pour vous y opposer"
+                  />
+                  <div className="w-11 h-6 bg-slate-700 peer-focus:ring-2 peer-focus:ring-green-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                </label>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed mb-2">
+                Statistiques de fréquentation internes, réservées à MaximusSCPI : pages vues et étapes
+                du simulateur, avec un identifiant aléatoire effacé à la fermeture de l'onglet. Aucune
+                donnée n'est transmise à un tiers ni reliée à votre identité. Cette mesure est dispensée
+                de consentement ; vous pouvez vous y opposer en la désactivant.
+              </p>
+              <p className="text-slate-500 text-xs">
+                Service : mesure interne MaximusSCPI
+              </p>
+            </div>
+
+            <div className="bg-slate-800/50 rounded-xl p-5 border border-slate-700">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center gap-3">
                   <BarChart3 className="h-5 w-5 text-blue-400" />
                   <h3 className="text-lg font-semibold text-white">Cookies analytiques</h3>
                 </div>
@@ -79,8 +110,8 @@ export const CookieSettings: React.FC<CookieSettingsProps> = ({ onClose }) => {
                 </label>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed mb-2">
-                Ces cookies nous aident à comprendre comment les visiteurs utilisent notre site
-                en collectant des informations de manière anonyme.
+                Avec votre accord, ces cookies permettent à Google Analytics de mesurer de façon
+                détaillée l'utilisation du site.
               </p>
               <p className="text-slate-500 text-xs">
                 Services : Google Analytics (GA4)

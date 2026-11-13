@@ -69,4 +69,23 @@ describe('first-party funnel endpoint UTM allowlist', () => {
     expect((await handler(input({ step: 1, source: 'site' }))).statusCode).toBe(204);
     expect(JSON.parse(write.mock.calls[0][1]?.body as string).metadata).toEqual({ step: 1, source: 'site' });
   });
+
+  it('records an exempt audience event with its UTM (RECOVERY-203)', async () => {
+    expect((await handler(input({ source: 'simulateur_scpi', ...attribution, measurement: 'exempt' }))).statusCode)
+      .toBe(204);
+    expect(JSON.parse(write.mock.calls[0][1]?.body as string).metadata).toEqual({
+      source: 'simulateur_scpi', ...attribution, measurement: 'exempt',
+    });
+  });
+
+  it.each([
+    [{ measurement: 'consent' }, 'invalid_measurement'],
+    [{ measurement: true }, 'invalid_measurement'],
+    [{ measurement: 'exempt', lead_request_id: '5125479b-03a1-4a22-9d45-bb6359d0e5af' }, 'exempt_with_lead_reference'],
+  ])('rejects %j without a database write', async (metadata, code) => {
+    const response = await handler(input(metadata));
+    expect(response.statusCode).toBe(400);
+    expect(JSON.parse(response.body)).toEqual({ error: code });
+    expect(write).not.toHaveBeenCalled();
+  });
 });

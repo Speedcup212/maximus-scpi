@@ -1,4 +1,4 @@
-import { hasAnalyticsConsent } from './analyticsConsent';
+import { hasAnalyticsConsent, hasAudienceOptOut } from './analyticsConsent';
 import { getAttribution, persistAttribution } from './attribution';
 
 export type FunnelEventName =
@@ -27,13 +27,21 @@ type FunnelMetadata = Record<string, string | number | boolean | null | undefine
 
 const SESSION_KEY = 'maximus_funnel_session_id';
 
+let memorySessionId: string | null = null;
+
 const getSessionId = () => {
-  let sessionId = sessionStorage.getItem(SESSION_KEY);
-  if (!sessionId) {
-    sessionId = crypto.randomUUID();
-    sessionStorage.setItem(SESSION_KEY, sessionId);
+  try {
+    let sessionId = sessionStorage.getItem(SESSION_KEY);
+    if (!sessionId) {
+      sessionId = crypto.randomUUID();
+      sessionStorage.setItem(SESSION_KEY, sessionId);
+    }
+    return sessionId;
+  } catch {
+    // sessionStorage bloqué : identifiant gardé en mémoire pour la page.
+    memorySessionId = memorySessionId || crypto.randomUUID();
+    return memorySessionId;
   }
-  return sessionId;
 };
 
 const sanitizeMetadata = (metadata: FunnelMetadata) => {
@@ -68,11 +76,44 @@ const sanitizeMetadata = (metadata: FunnelMetadata) => {
   );
 };
 
+const sendFirstPartyEvent = (
+  eventName: FunnelEventName,
+  sessionId: string,
+  metadata: FunnelMetadata,
+) => {
+  // First-party operational funnel log. Never blocks the user journey.
+  void fetch('/api/funnel-event', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    keepalive: true,
+    body: JSON.stringify({
+      event_name: eventName,
+      session_id: sessionId,
+      path: window.location.pathname,
+      metadata,
+    }),
+  }).catch(() => undefined);
+};
+
 export const trackFunnelEvent = (
   eventName: FunnelEventName,
   metadata: FunnelMetadata = {},
 ) => {
-  if (typeof window === 'undefined' || !hasAnalyticsConsent()) return;
+  if (typeof window === 'undefined' || hasAudienceOptOut()) return;
+
+  if (!hasAnalyticsConsent()) {
+    // RECOVERY-203 — mesure d'audience exemptée de consentement (CNIL) :
+    // statistiques internes anonymes, pour le seul compte de MaximusSCPI.
+    // Aucun tiers (GTM, GA4, Ads), aucune écriture d'UTM en sessionStorage,
+    // et aucun lien avec une fiche de contact (lead_request_id retiré).
+    const exemptMetadata = sanitizeMetadata({ ...metadata, ...getAttribution() });
+    delete exemptMetadata.lead_request_id;
+    sendFirstPartyEvent(eventName, getSessionId(), {
+      ...exemptMetadata,
+      measurement: 'exempt',
+    });
+    return;
+  }
 
   persistAttribution();
   const safeMetadata = sanitizeMetadata({ ...metadata, ...getAttribution() });
@@ -106,16 +147,5 @@ export const trackFunnelEvent = (
     });
   }
 
-  // First-party operational funnel log. Never blocks the user journey.
-  void fetch('/api/funnel-event', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    keepalive: true,
-    body: JSON.stringify({
-      event_name: eventName,
-      session_id: sessionId,
-      path: window.location.pathname,
-      metadata: safeMetadata,
-    }),
-  }).catch(() => undefined);
+  sendFirstPartyEvent(eventName, sessionId, safeMetadata);
 };

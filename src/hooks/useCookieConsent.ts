@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { setAudienceOptOut } from '../utils/analyticsConsent';
 
 export interface CookieConsent {
   necessary: boolean;
@@ -19,6 +20,13 @@ const defaultConsent: CookieConsent = {
   timestamp: 0,
   version: CONSENT_VERSION,
 };
+
+// RECOVERY-203 — chaque composant (bandeau, réglages, pied de page) a sa
+// propre instance du hook. Ces deux événements les synchronisent : sans eux,
+// le lien « Gérer les cookies » du pied de page n'ouvrait rien et le bandeau
+// réapparaissait après « Enregistrer mes choix ».
+export const COOKIE_SETTINGS_OPEN_EVENT = 'maximus:cookie-settings-open';
+const COOKIE_CONSENT_UPDATED_EVENT = 'maximus:cookie-consent-updated';
 
 export const useCookieConsent = () => {
   const [consent, setConsentState] = useState<CookieConsent | null>(null);
@@ -48,6 +56,15 @@ export const useCookieConsent = () => {
     } else {
       setShowBanner(true);
     }
+
+    const onConsentUpdated = (event: Event) => {
+      const updated = (event as CustomEvent<CookieConsent>).detail;
+      if (!updated) return;
+      setConsentState(updated);
+      setShowBanner(false);
+    };
+    window.addEventListener(COOKIE_CONSENT_UPDATED_EVENT, onConsentUpdated);
+    return () => window.removeEventListener(COOKIE_CONSENT_UPDATED_EVENT, onConsentUpdated);
   }, []);
 
   const saveConsent = (newConsent: Partial<CookieConsent>) => {
@@ -63,18 +80,23 @@ export const useCookieConsent = () => {
     setConsentState(fullConsent);
     setShowBanner(false);
     applyConsent(fullConsent);
+    window.dispatchEvent(new CustomEvent(COOKIE_CONSENT_UPDATED_EVENT, { detail: fullConsent }));
   };
 
   const acceptAll = () => {
+    // Le consentement couvre la mesure d'audience : l'opposition est levée.
+    setAudienceOptOut(false);
     saveConsent({ analytics: true, marketing: true });
   };
 
   const rejectAll = () => {
+    // Refuser les cookies soumis à consentement ne vaut pas opposition à la
+    // mesure d'audience exemptée ; l'opposition se règle dans « Personnaliser ».
     saveConsent({ analytics: false, marketing: false });
   };
 
   const openSettings = () => {
-    setShowBanner(true);
+    window.dispatchEvent(new Event(COOKIE_SETTINGS_OPEN_EVENT));
   };
 
   const closeBanner = () => {
