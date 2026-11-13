@@ -5,7 +5,9 @@ présentation commune des documents juridiques (legal_docx.py). Seuls
 changent :
 - l'adresse, désormais 33 avenue de Savoie, 38580 Allevard, dans
   « Éditeur du site » et dans « Réclamation – Médiation CIF » ;
-- l'hébergeur : Netlify (le site n'est plus servi par IONOS).
+- l'hébergeur : Netlify (le site n'est plus servi par IONOS) ;
+- pour MaximusSCPI, la partie « Cookies » renvoie à la section 9 de la
+  politique de confidentialité (RECOVERY-208).
 
 Deux variantes : `maximusscpi` (public/mentions_legales_maximusscpi.pdf) et
 `eric-bellaiche` (public/ml.pdf du site eric-bellaiche.fr).
@@ -26,6 +28,75 @@ EDITOR_HEADING = {
 }[VARIANT]
 
 ADDRESS = "33 avenue de Savoie, 38580 Allevard"
+
+# RECOVERY-208 — MaximusSCPI : renvoi vers la section 9 de la politique de
+# confidentialité, seule description à jour (bandeau, mesure exemptée,
+# opposition). Le texte historique reste celui de eric-bellaiche.fr, dont le
+# dispositif de cookies est distinct.
+MAXIMUS_COOKIES = ("Cookies et mesure d’audience", [
+    "Le site utilise des cookies nécessaires à son fonctionnement, une mesure d’audience "
+    "anonyme dispensée de consentement et, avec l’accord de l’utilisateur, des cookies "
+    "Google Analytics et Google Ads.",
+    "Lors de sa première visite, l’utilisateur peut accepter, refuser ou personnaliser ces "
+    "cookies ; il peut modifier ses choix à tout moment grâce au lien « Gérer les cookies » "
+    "en bas de chaque page.",
+    "Le détail (finalités, durées de conservation, droit d’opposition) figure dans la "
+    "section 9 « Cookies et mesure d’audience » de la politique de confidentialité.",
+])
+
+LEGACY_COOKIES = ("Cookies", [
+    "Lors d’une visite sur le site, un cookie est installé dans le terminal de l’utilisateur "
+    "sous réserve des choix et options qui résultent des paramètres de son logiciel de "
+    "navigation.",
+    "Les cookies sont des données utilisées par un serveur pour envoyer des informations "
+    "d’état au navigateur d’un utilisateur, et par ce navigateur pour renvoyer des "
+    "informations d’état au serveur d’origine.",
+    "Les informations collectées par ce biais ne seront utilisées que pour suivre le volume, "
+    "le type et la configuration du trafic utilisant ce site, pour en développer la "
+    "conception et l'agencement et à d'autres fins administratives et de planification et "
+    "plus généralement pour améliorer le service que nous vous offrons.",
+    "Les informations d’état peuvent être par exemple un identifiant de session, une langue, "
+    "une date d’expiration, un domaine de réponse, etc.",
+    "Les cookies permettent de conserver, pendant la durée de validité du cookie concerné, des "
+    "informations d'état lorsqu’un navigateur accède aux différentes pages d'un site ou "
+    "lorsque ce navigateur retourne ultérieurement sur ce site.",
+    "La durée de conservation maximale de ces cookies est établie à 13 mois.",
+    "Seul l’émetteur d’un cookie peut lire ou modifier les informations qui y sont contenues.",
+    "Il existe différents types de cookies :",
+    "- des cookies de session qui disparaissent dès que l’Utilisateur quitte le site ;",
+    "- des cookies permanents qui demeurent sur le terminal jusqu’à expiration de leur durée "
+    "de vie ou jusqu’à ce qu’ils soient supprimés à l’aide des fonctionnalités du navigateur.",
+    "Certains de ces cookies ont pour finalité exclusive de permettre ou faciliter la "
+    "communication par voie électronique.",
+    "D’autres sont strictement nécessaires à la fourniture d'un service de communication en "
+    "ligne.",
+    "En l’espèce la finalité des cookies est :",
+    "• de faciliter la navigation sur le site ;",
+    "• d’optimiser le site ;",
+    "• analyser des tendances et des mesures d’audience du site et établir des statistiques ;",
+    "• permettre la fourniture d’un service expressément demandé par l’utilisateur.",
+    "L’utilisateur dispose de plusieurs options pour gérer les cookies. Il peut faire le choix "
+    "à tout moment d'exprimer et de modifier ses souhaits en matière de cookies, par les "
+    "moyens décrits ci-dessous.",
+    "En effet, si la plupart des navigateurs sont paramétrés par défaut et acceptent "
+    "l’installation de cookies, l’Utilisateur a la possibilité, s’il le souhaite, de choisir "
+    "d’accepter tous les cookies, ou de les rejeter systématiquement ou encore de choisir "
+    "ceux qu’il accepte selon l’émetteur.",
+    "L’Utilisateur peut également paramétrer son navigateur pour accepter ou refuser au cas "
+    "par cas les cookies préalablement à leur installation. Il peut également régulièrement "
+    "supprimer les cookies de son terminal via son navigateur.",
+    "Il ne doit pas oublier de paramétrer l’ensemble des navigateurs de ses différents "
+    "terminaux (tablettes, smartphones, ordinateurs...).",
+    "Pour la gestion des cookies et des choix, la configuration de chaque navigateur est "
+    "différente. Elle est décrite dans le menu d'aide du navigateur, qui permettra à "
+    "l’Utilisateur de savoir de quelle manière modifier ses souhaits en matière de cookies.",
+    "Il est précisé qu’une désactivation des cookies pourrait empêcher l’utilisation ou "
+    "l’accès à certaines fonctionnalités du site.",
+    "Plus d’informations sur les cookies : https://www.cnil.fr/fr/site-web-cookies-et-autres-"
+    "traceurs et https://www.cnil.fr/fr/cookies-les-outils-pour-les-maitriser.",
+])
+
+COOKIES_SECTION = MAXIMUS_COOKIES if VARIANT == "maximusscpi" else LEGACY_COOKIES
 
 SECTIONS = [
     (EDITOR_HEADING, [
@@ -74,57 +145,7 @@ SECTIONS = [
         "Pour plus d’information sur le traitement de vos données, Eric Bellaiche vous invite à "
         "consulter sa politique de protection des données.",
     ]),
-    ("Cookies", [
-        "Lors d’une visite sur le site, un cookie est installé dans le terminal de l’utilisateur "
-        "sous réserve des choix et options qui résultent des paramètres de son logiciel de "
-        "navigation.",
-        "Les cookies sont des données utilisées par un serveur pour envoyer des informations "
-        "d’état au navigateur d’un utilisateur, et par ce navigateur pour renvoyer des "
-        "informations d’état au serveur d’origine.",
-        "Les informations collectées par ce biais ne seront utilisées que pour suivre le volume, "
-        "le type et la configuration du trafic utilisant ce site, pour en développer la "
-        "conception et l'agencement et à d'autres fins administratives et de planification et "
-        "plus généralement pour améliorer le service que nous vous offrons.",
-        "Les informations d’état peuvent être par exemple un identifiant de session, une langue, "
-        "une date d’expiration, un domaine de réponse, etc.",
-        "Les cookies permettent de conserver, pendant la durée de validité du cookie concerné, des "
-        "informations d'état lorsqu’un navigateur accède aux différentes pages d'un site ou "
-        "lorsque ce navigateur retourne ultérieurement sur ce site.",
-        "La durée de conservation maximale de ces cookies est établie à 13 mois.",
-        "Seul l’émetteur d’un cookie peut lire ou modifier les informations qui y sont contenues.",
-        "Il existe différents types de cookies :",
-        "- des cookies de session qui disparaissent dès que l’Utilisateur quitte le site ;",
-        "- des cookies permanents qui demeurent sur le terminal jusqu’à expiration de leur durée "
-        "de vie ou jusqu’à ce qu’ils soient supprimés à l’aide des fonctionnalités du navigateur.",
-        "Certains de ces cookies ont pour finalité exclusive de permettre ou faciliter la "
-        "communication par voie électronique.",
-        "D’autres sont strictement nécessaires à la fourniture d'un service de communication en "
-        "ligne.",
-        "En l’espèce la finalité des cookies est :",
-        "• de faciliter la navigation sur le site ;",
-        "• d’optimiser le site ;",
-        "• analyser des tendances et des mesures d’audience du site et établir des statistiques ;",
-        "• permettre la fourniture d’un service expressément demandé par l’utilisateur.",
-        "L’utilisateur dispose de plusieurs options pour gérer les cookies. Il peut faire le choix "
-        "à tout moment d'exprimer et de modifier ses souhaits en matière de cookies, par les "
-        "moyens décrits ci-dessous.",
-        "En effet, si la plupart des navigateurs sont paramétrés par défaut et acceptent "
-        "l’installation de cookies, l’Utilisateur a la possibilité, s’il le souhaite, de choisir "
-        "d’accepter tous les cookies, ou de les rejeter systématiquement ou encore de choisir "
-        "ceux qu’il accepte selon l’émetteur.",
-        "L’Utilisateur peut également paramétrer son navigateur pour accepter ou refuser au cas "
-        "par cas les cookies préalablement à leur installation. Il peut également régulièrement "
-        "supprimer les cookies de son terminal via son navigateur.",
-        "Il ne doit pas oublier de paramétrer l’ensemble des navigateurs de ses différents "
-        "terminaux (tablettes, smartphones, ordinateurs...).",
-        "Pour la gestion des cookies et des choix, la configuration de chaque navigateur est "
-        "différente. Elle est décrite dans le menu d'aide du navigateur, qui permettra à "
-        "l’Utilisateur de savoir de quelle manière modifier ses souhaits en matière de cookies.",
-        "Il est précisé qu’une désactivation des cookies pourrait empêcher l’utilisation ou "
-        "l’accès à certaines fonctionnalités du site.",
-        "Plus d’informations sur les cookies : https://www.cnil.fr/fr/site-web-cookies-et-autres-"
-        "traceurs et https://www.cnil.fr/fr/cookies-les-outils-pour-les-maitriser.",
-    ]),
+    COOKIES_SECTION,
     ("Propriété intellectuelle et responsabilité", [
         "L’ensemble du site, ses éléments et ses contenus relève de la législation internationale "
         "sur le droit d’auteur, le droit des marques et, de façon générale, sur la propriété "
