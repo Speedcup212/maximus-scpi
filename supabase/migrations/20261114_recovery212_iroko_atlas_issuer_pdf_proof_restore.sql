@@ -141,3 +141,127 @@ BEGIN
     'Issuer PDF 96.65% page 6, SHA 301b326b, two independent readers; restored original provenance. T3 shares versus capitalisation mismatch remains FAIL_STRICT. No value changed or fictitious human attestation.',
     '2026-T3',d.source_url,1,1,now());
 END $repair$;
+
+
+-- Strengthen the EXISTING guarded TOF trigger, exact one-fund exception only.
+-- No new engine, no changed approval thresholds for other SCPI.
+CREATE OR REPLACE FUNCTION scpi_internal.guard_proven_tof_certificate_replay()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SET search_path TO ''
+AS $function$
+DECLARE
+  h record;
+  safe_new boolean;
+BEGIN
+  -- RECOVERY-212: protect this EXACT independent issuer-PDF TOF certificate.
+  -- The ingestion crawler must not replace page-anchored PDF evidence with HTML
+  -- or a certificate lacking field-level evidence. An independently verified
+  -- successor can still be admitted through the original generic gate.
+  IF TG_OP='UPDATE'
+    AND OLD.id='9036a11c-367c-4dd5-897c-b7cc7bd222c8'::uuid
+    AND OLD.scpi_slug='iroko-atlas' AND OLD.source_period='2026-T3'
+    AND OLD.metric='tof' AND OLD.value_numeric=96.65
+    AND OLD.source_url='https://iroko-documents.s3.eu-west-3.amazonaws.com/Iroko_Atlas_bulletin_trimestriel_T3_2026.pdf'
+    AND OLD.source_page=6
+    AND OLD.verification_status='independent_verified_official_bulletin'
+    AND OLD.verification_method='archived_issuer_pdf_two_independent_readers'
+    AND NEW.verification_method IN ('html_text_match','certified_bulletin_without_field_evidence')
+    AND (NEW.source_url IS DISTINCT FROM OLD.source_url
+      OR NEW.source_page IS DISTINCT FROM OLD.source_page
+      OR NEW.verification_status IS DISTINCT FROM OLD.verification_status)
+    AND EXISTS (
+      SELECT 1
+      FROM public.scpi_source_registry sr
+      JOIN maximus_agents.scpi_bulletin_replay_documents d
+        ON d.scpi_slug=sr.scpi_slug
+        AND d.source_period=sr.issuer_source_period
+        AND d.pdf_sha256=sr.issuer_source_sha256
+        AND d.source_url=sr.issuer_source_url
+      JOIN storage.objects o ON o.bucket_id='scpi-bulletins'
+        AND o.name=d.result->>'archive_path'
+      WHERE sr.scpi_slug=OLD.scpi_slug
+        AND sr.verification_status='verified'
+        AND sr.issuer_source_period='2026-T3'
+        AND sr.issuer_source_sha256='301b326b2c149f75cd94f563401b9c9748779e64cf63e430b5d8c1a42d85918a'
+        AND d.processing_complete AND d.status='extracted'
+        AND d.result->>'identity_verified'='true'
+        AND d.result->>'period_verified'='true'
+        AND (d.result->'evidence'->'tof'->>'page')::integer=6
+        AND (d.result->'evidence'->'tof'->>'value')::numeric=96.65
+        AND d.result->'evidence'->'tof'->'independent_engines'='["MuPDF","Poppler"]'::jsonb
+        AND (o.metadata->>'size')::bigint=3971612)
+  THEN
+    RETURN OLD;
+  END IF;
+  IF NEW.metric <> 'tof' THEN RETURN NEW; END IF;
+  SELECT hist.tof,hist.source_url,hist.qa_status,hist.source_confidence,
+         hist.metric_provenance->'tof'->>'sha256' AS proof_sha,
+         (hist.metric_provenance->'tof'->>'source_page')::integer AS proof_page,
+         b.pdf_sha256,b.source_url AS bulletin_url
+  INTO h
+  FROM public.scpi_indicator_history hist
+  JOIN public.scpi_bulletins b
+   ON b.scpi_slug=hist.scpi_slug AND b.period=hist.source_period
+  WHERE hist.scpi_slug=NEW.scpi_slug AND hist.source_period=NEW.source_period
+    AND (
+      hist.qa_status IN ('auto_verified_dual_pdf_evidence',
+        'independent_verified_official_geometric_pdf_page4')
+      OR (
+        hist.scpi_slug='accimmo-pierre'
+        AND hist.source_period='2026-T2'
+        AND hist.qa_status='source_verified_delegated_review'
+        AND scpi_internal.accimmo_t2_exact_tof_proof_valid(
+          hist.scpi_slug,hist.source_period,hist.source_url,hist.tof,
+          (hist.metric_provenance->'tof'->>'source_page')::integer)
+      )
+      OR (
+        hist.scpi_slug='pierval-sante'
+        AND hist.source_period='2026-T3'
+        AND hist.qa_status='source_verified_independent_tof_page9'
+        AND scpi_internal.pierval_t3_exact_tof_proof_valid(
+          hist.scpi_slug,hist.source_period,hist.source_url,hist.tof,
+          (hist.metric_provenance->'tof'->>'source_page')::integer)
+      )
+    )
+    AND hist.source_confidence>=0.95 AND hist.tof IS NOT NULL
+  ORDER BY hist.snapshot_at DESC
+  LIMIT 1;
+
+  IF NOT FOUND OR h.proof_sha IS NULL
+    OR h.proof_sha<>h.pdf_sha256 OR h.source_url<>h.bulletin_url
+    OR h.proof_page IS NULL OR h.proof_page<1
+  THEN RETURN NEW; END IF;
+
+  safe_new:=NEW.value_numeric IS NOT DISTINCT FROM h.tof
+    AND NEW.source_url=h.source_url
+    AND NEW.source_page=h.proof_page
+    AND NEW.verification_status IN (
+      'auto_verified_with_evidence','independent_verified_official_geometric_pdf')
+    AND COALESCE(NEW.extraction_confidence,0)>=0.95;
+
+  IF NOT safe_new THEN
+    -- Ignore weaker rewrites to a previously source-certified record. This
+    -- protects data integrity while allowing the scheduler to continue.
+    IF TG_OP='UPDATE' THEN RETURN OLD; END IF;
+    -- INSERT ... ON CONFLICT executes BEFORE INSERT BEFORE deciding whether
+    -- to run its UPDATE branch. Skip ONLY the stale uncertified TOF row;
+    -- do not abort the entire independent financial analysis refresh.
+    RETURN NULL;
+  END IF;
+  RETURN NEW;
+END;
+$function$
+;
+
+-- Post-install anti-regression checks: same value+page+issuer SHA must survive
+-- future HTML replays. No authorization to fabricate independent proof.
+DO $guardcheck$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_trigger t
+    JOIN pg_class c ON c.oid=t.tgrelid
+    WHERE c.oid='public.scpi_metric_certifications'::regclass
+      AND t.tgname='trg_a0_guard_proven_tof_certificate_replay' AND NOT t.tgisinternal)
+  THEN RAISE EXCEPTION 'REC212_MISSING_EXISTING_GUARD_TRIGGER'; END IF;
+END $guardcheck$;
