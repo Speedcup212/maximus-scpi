@@ -1,0 +1,1146 @@
+[
+  {
+    "scpi_slug": "acces-valeur-pierre",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+    "source_status": "verified",
+    "quarterly": null,
+    "historical": [
+      {
+        "qa": "source_verified_delegated_review",
+        "tof": null,
+        "url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-08/ACCES%20VALEUR%20PIERRE_BT_FR_T2%202026_DEF.pdf",
+        "period": "2026-T2",
+        "sha256": "ef0480622e4a8ed94f37195158606e098f321dcc8d136f78b813924d96e275da",
+        "certificate_page": null,
+        "certificate_status": null
+      }
+    ]
+  },
+  {
+    "scpi_slug": "aestiam-agora",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://www.aestiam.com/doc/agora/periodique/2026-2t-bti-aestiam-agora.pdf",
+    "source_status": "verified",
+    "quarterly": null,
+    "historical": [
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://www.aestiam.com/doc/agora/periodique/2025-3t-bti-aestiam-agora.pdf",
+        "period": "2025-T3",
+        "sha256": "302f534025960a5c4c59fc21582d93c07eb220bf792fc0a2b846c11cd14f7602",
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      }
+    ]
+  },
+  {
+    "scpi_slug": "aestiam-horizon",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://www.aestiam.com/doc/horizon/periodique/2026-3t-bti-aestiam-horizon.pdf",
+    "source_status": "verified",
+    "quarterly": null,
+    "historical": [
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://aestiam.com/wp-content/uploads/2023/07/app-1t2023-bulletin-trimestriel.pdf",
+        "period": "2023-T1",
+        "sha256": "94b4b920fa5daced34780a06df2f78e84914de9cd87c40069367dde0a6562ad2",
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://www.aestiam.com/doc/app/periodique/2023-2t-bti-aestiam-placement-pierre.pdf",
+        "period": "2023-T2",
+        "sha256": "db80ff7a0da9097f7b693d26acc0c1aa4a367f1b2ff49222004ebbdcb660a13d",
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://www.aestiam.com/doc/app/periodique/2023-4t-bti-aestiam-placement-pierre.pdf",
+        "period": "2023-T4",
+        "sha256": "52fcfcbab36689c1ee207441b87dd6f846299c48dc325b5f2660fbea15ca1661",
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://www.aestiam.com/doc/horizon/periodique/2024-4t-bti-aestiam-placement-pierre.pdf",
+        "period": "2024-T4",
+        "sha256": "fc4e2d0bb69d2ddc5954e30eec5ce2074758a51c9c84102c1e9f128b966a5cbc",
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://www.aestiam.com/doc/horizon/periodique/2025-2t-bti-aestiam-placement-pierre.pdf",
+        "period": "2025-T2",
+        "sha256": "0e94df184e3ee491616546c7cdcb0ffa60c9898ee76e6a5fb90ca3055bbd55db",
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://www.aestiam.com/doc/horizon/periodique/2025-3t-bti-aestiam-horizon.pdf",
+        "period": "2025-T3",
+        "sha256": "319b819f4c1bc1fe61e7caf38f419769b440ba647eaf9dea806292d1c1f65fd7",
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      }
+    ]
+  },
+  {
+    "scpi_slug": "alta-convictions",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://www.altarea-im.com/wp-content/uploads/2026/07/03072026_ALTA_BUL_TRIMESTRIEL_T2_26_WEB_PPP.pdf",
+    "source_status": "verified",
+    "quarterly": null,
+    "historical": [
+      {
+        "qa": "auto_partial_review",
+        "tof": null,
+        "url": "https://altarea-im.com/wp-content/uploads/2026/10/06102026_ALTA_BUL_TRIMESTRIEL_T3_26_PPP_WEB.pdf",
+        "period": "2026-T3",
+        "sha256": "b0e55e0606feb657e11fc12e05b6938422e72c64b07ba3d07a838f483113bf37",
+        "certificate_page": null,
+        "certificate_status": null
+      }
+    ]
+  },
+  {
+    "scpi_slug": "altixia-cadence-12",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://www.altixia.fr/medias/documentations/doc1-20260430-122013.pdf",
+    "source_status": "verified",
+    "quarterly": null,
+    "historical": [
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://api.rock-n-data.io/fichiers/publications/6a708fd02b6f8415260897.pdf",
+        "period": "2026-T2",
+        "sha256": "615fb9558ae83874716c928fa4ef2ec06da2028b7effa67bb6d65d51dfd425f1",
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      }
+    ]
+  },
+  {
+    "scpi_slug": "atream-hotel",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://atream.com/wp-content/uploads/2020/07/Bulletin-N2026_3T-SCPI_Atream_Hotels_WEB_10-PAGES.pdf",
+    "source_status": "incomplete",
+    "quarterly": [
+      {
+        "url": "https://atream.com/wp-content/uploads/2020/07/Bulletin-N2026_3T-SCPI_Atream_Hotels_WEB_10-PAGES.pdf",
+        "error": null,
+        "period": "2026-T3",
+        "sha256": "9d14845c524f53e72412952de654eb4ed0c2d85264224109bf9e0a1a94fe3ff0",
+        "status": "discovered"
+      }
+    ],
+    "historical": [
+      {
+        "qa": "auto_verified_product_alias_period_tof",
+        "tof": 100,
+        "url": "https://atream.com/wp-content/uploads/2020/07/Bulletin-N2026_3T-SCPI_Atream_Hotels_WEB_10-PAGES.pdf",
+        "period": "2026-T3",
+        "sha256": "9d14845c524f53e72412952de654eb4ed0c2d85264224109bf9e0a1a94fe3ff0",
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      }
+    ]
+  },
+  {
+    "scpi_slug": "corum-eurion",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+    "source_status": "verified",
+    "quarterly": [
+      {
+        "url": "https://www.corum.fr/sites/default/files/2023-01/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202022-T3%20%28Bulletin%20d%27Information%29.pdf",
+        "error": "[\"missing_core:tof\"]",
+        "period": "2022-T3",
+        "sha256": "2794cf2b40c7d5e43ff3c70d425f52e72b7d1fb2101dbb38a11654f271e0e12a",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2023-01/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202022-T4%20%28Bulletin%20d%27Information%29.pdf",
+        "error": "[\"tof:single_engine\", \"missing_core:tof\"]",
+        "period": "2022-T4",
+        "sha256": "6f9f636221c9c13d4007f8632b381c4385bdf5877d556521be23716278b592e7",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2023-04/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202023%20-T1%20%28Bulletin%20d%27Information%29-.pdf",
+        "error": "[\"missing_core:tof\"]",
+        "period": "2023-T1",
+        "sha256": null,
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2023-10/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202023-T2%20%28Bulletin%20d%27Information%29.pdf",
+        "error": "[\"tof:single_engine\", \"missing_core:tof\"]",
+        "period": "2023-T2",
+        "sha256": null,
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2023-11/CORUM%20Eurion%20-%20Fil%20d%27Actualit%C3%A9s%202023-T3%20%28Bulletin%20d%27Information%29_0.pdf",
+        "error": "[\"missing_core:tof\"]",
+        "period": "2023-T3",
+        "sha256": null,
+        "status": "qa_review"
+      }
+    ],
+    "historical": null
+  },
+  {
+    "scpi_slug": "corum-origin",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+    "source_status": "verified",
+    "quarterly": [
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%201T13.pdf",
+        "error": "[\"missing_core:tof\"]",
+        "period": "2013-T1",
+        "sha256": null,
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%202T13.pdf",
+        "error": "[\"missing_core:tof\", \"missing_core:nombre_parts\", \"missing_core:parts_attente_retrait\"]",
+        "period": "2013-T2",
+        "sha256": null,
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%203T13.pdf",
+        "error": "[\"missing_core:tof\", \"missing_core:nombre_parts\"]",
+        "period": "2013-T3",
+        "sha256": null,
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%204T13.pdf",
+        "error": "[\"missing_core:tof\", \"missing_core:parts_attente_retrait\"]",
+        "period": "2013-T4",
+        "sha256": null,
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%201T14.pdf",
+        "error": "[\"missing_core:tof\", \"missing_core:nombre_parts\", \"missing_core:parts_attente_retrait\"]",
+        "period": "2014-T1",
+        "sha256": null,
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%202T14.pdf",
+        "error": "[\"missing_core:tof\", \"missing_core:nombre_parts\", \"missing_core:parts_attente_retrait\"]",
+        "period": "2014-T2",
+        "sha256": "68809ab3e89b262eb05f3f73186c9df99d4b8459f8a0dd3d68417cfba44f3be9",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%203T14.pdf",
+        "error": "[\"missing_core:tof\", \"missing_core:nombre_parts\", \"missing_core:parts_attente_retrait\"]",
+        "period": "2014-T3",
+        "sha256": "78b90c383b6b8790fbb7aa493e97c83d4ea7e47c333c08fdade07366bf5442be",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%204T14.pdf",
+        "error": "[\"missing_core:tof\", \"missing_core:nombre_parts\", \"missing_core:parts_attente_retrait\"]",
+        "period": "2014-T4",
+        "sha256": "b0002ead69c76c073df84b67a7019a8beabf521cebcb3dd8e338ab803df6e930",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%201T15.pdf",
+        "error": "[\"missing_core:tof\", \"missing_core:parts_attente_retrait\"]",
+        "period": "2015-T1",
+        "sha256": "1f4e3d0ce88558b01899a230f509d4f455c8a4e4d26a419505ae54e5b1702882",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%202T15.pdf",
+        "error": "[\"parts_attente_retrait:single_engine\", \"missing_core:tof\", \"missing_core:parts_attente_retrait\"]",
+        "period": "2015-T2",
+        "sha256": "bd81b831720fc31c7cd2cc4847cfea3b13f0c33ff425492c6b523aa73327923f",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%203T15.pdf",
+        "error": "[\"parts_attente_retrait:single_engine\", \"missing_core:tof\", \"missing_core:parts_attente_retrait\"]",
+        "period": "2015-T3",
+        "sha256": "8c8299f8d7b25fccc6ff2b703559f813e9648024177ea200370331c57fdc21ac",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%204T15_0.pdf",
+        "error": "[\"nombre_parts:single_engine\", \"parts_attente_retrait:single_engine\", \"missing_core:tof\", \"missing_core:nombre_parts\", \"missing_core:parts_attente_retrait\"]",
+        "period": "2015-T4",
+        "sha256": "93d7ac830a5bccd7dbc7eefd4c7514ac87fa09b75ec3bf81f13ffb33585637da",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CORUM%20-%20BTI%201T16.pdf",
+        "error": "[\"nombre_parts:single_engine\", \"parts_attente_retrait:single_engine\", \"missing_core:tof\", \"missing_core:nombre_parts\", \"missing_core:parts_attente_retrait\"]",
+        "period": "2016-T1",
+        "sha256": "45db0560ebe53e950c53211af64d38368125009af7ac2a0f427b3279b34d3484",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CORUM%20-%20BTI%202T16.pdf",
+        "error": "[\"missing_core:tof\"]",
+        "period": "2016-T2",
+        "sha256": "ad89d1cf56b30b34efd470fe53e2891f7f45830da5dceac895b83ae250dd9be1",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CORUM%20-%20BTI%203T16.pdf",
+        "error": "[\"missing_core:tof\"]",
+        "period": "2016-T3",
+        "sha256": "49965acf05af6e2bd5cdaffd8a44ee9e9a0563ae176520dd058b8cfbd2cb6451",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2021-01/CORUM%20Origin%20-%20Fil%20d%E2%80%99Actualit%C3%A9s%201T2017%20%28Bulletin%20d%E2%80%99Information%29.pdf",
+        "error": "[\"missing_core:tof\"]",
+        "period": "2017-T1",
+        "sha256": null,
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2021-01/CORUM%20Origin%20-%20Fil%20d%E2%80%99Actualit%C3%A9s%202T2017%20%28Bulletin%20d%E2%80%99Information%29.pdf",
+        "error": "[\"missing_core:tof\"]",
+        "period": "2017-T2",
+        "sha256": "b737ddf0db3785a0a5197f0293fa8b0f3438f32ba563813440ad2a60172aab7f",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2021-01/CORUM%20Origin%20-%20Fil%20d%E2%80%99Actualit%C3%A9s%203T2017%20%28Bulletin%20d%E2%80%99Information%29.pdf",
+        "error": "[\"missing_core:tof\"]",
+        "period": "2017-T3",
+        "sha256": "d2fde2d55bb93a61f1a0ded803ccd86e6ccb05cea26edbfb630b50ebbd99d1df",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2021-01/CORUM%20Origin%20-%20Fil%20d%E2%80%99Actualit%C3%A9s%203T2018%20%28Bulletin%20d%E2%80%99Information%29.pdf",
+        "error": "[\"nombre_parts:single_engine\", \"missing_core:tof\", \"missing_core:nombre_parts\"]",
+        "period": "2018-T3",
+        "sha256": "bc5393ee84d35462763788b4e581a5f551f5e8f4025218de187325070b5707a2",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2021-01/CORUM%20Origin%20-%20Fil%20d%27Actualit%C3%A9s%202T2019%20%28Bulletin%20d%27Information%29.pdf",
+        "error": "[\"missing_core:parts_attente_retrait\"]",
+        "period": "2019-T2",
+        "sha256": "764e62f0b3d52e5d5734d43f963b1267fdc6a1c4421db268d7a0c9f0e8a1a88d",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2021-01/CORUM%20Origin%20-%20Fil%20d%27actualit%C3%A9s%203T2019%20%28Bulletin%20d%27information%29.pdf",
+        "error": "[\"missing_core:parts_attente_retrait\"]",
+        "period": "2019-T3",
+        "sha256": "2fa1597693bd29e8b5d21b3129273f231455b25f2f8e8290ae27badf49fae960",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2021-01/CORUM%20Origin%20-%20Fil%20d%E2%80%99Actualit%C3%A9s%204T2019%20%28Bulletin%20d%E2%80%99Information%29.pdf",
+        "error": "[\"missing_core:parts_attente_retrait\"]",
+        "period": "2019-T4",
+        "sha256": "814f69fd93a0242c1177d1a594d8ffdc754e6ba173577df202acacd6a23fb198",
+        "status": "qa_review"
+      }
+    ],
+    "historical": [
+      {
+        "qa": "auto_partial_review",
+        "tof": null,
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%201T15.pdf",
+        "period": "2015-T1",
+        "sha256": "1f4e3d0ce88558b01899a230f509d4f455c8a4e4d26a419505ae54e5b1702882",
+        "certificate_page": null,
+        "certificate_status": null
+      },
+      {
+        "qa": "manual_verified_official_tof_not_reported_quarterly",
+        "tof": null,
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CorumAM%20Convictions%20-%20BTI%204T15_0.pdf",
+        "period": "2015-T4",
+        "sha256": "93d7ac830a5bccd7dbc7eefd4c7514ac87fa09b75ec3bf81f13ffb33585637da",
+        "certificate_page": 5,
+        "certificate_status": "manual_verified_official_not_reported"
+      }
+    ]
+  },
+  {
+    "scpi_slug": "corum-xl",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web.pdf",
+    "source_status": "verified",
+    "quarterly": [
+      {
+        "url": "https://www.corum.fr/sites/default/files/2019-05/CORUM%20XL%20-%20Fil%20d%E2%80%99Actualit%C3%A9s%201T2019%20%28Bulletin%20d%E2%80%99Information%29.pdf",
+        "error": "[\"missing_core:nombre_parts\"]",
+        "period": "2019-T1",
+        "sha256": "5773fdf45a3c556e5f343a36cff1049d5bf1a91366fc72d745ef5dbe679063e7",
+        "status": "qa_review"
+      },
+      {
+        "url": "https://www.corum.fr/sites/default/files/2020-07/CORUM%20XL%20-%20Fil%20d%27Actualit%C3%A9s%202T2020%20%28Bulletin%20d%27Information%29.pdf",
+        "error": "[\"missing_core:parts_attente_retrait\"]",
+        "period": "2020-T2",
+        "sha256": "173b4d5dd0085d8ffd0d5864c76b0c6514d59110ff99f8e1184f0e7adf2816be",
+        "status": "qa_review"
+      }
+    ],
+    "historical": null
+  },
+  {
+    "scpi_slug": "cristal-life",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_CLBulletin_Trimestriel2026_T2.pdf",
+    "source_status": "incomplete",
+    "quarterly": null,
+    "historical": [
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_CLBulletin_Trimestriel3T2024.pdf",
+        "period": "2024-T3",
+        "sha256": "85519764d60087fcb060aa8fe7fe551c98109326259013c6410b19ef1066aba8",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_CLBulletin_Trimestriel2025_T2.pdf",
+        "period": "2025-T2",
+        "sha256": "182dd52c42d044a98af242ae89f102f44caae101143a5a5bba3f650429577461",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      }
+    ]
+  },
+  {
+    "scpi_slug": "cristal-rente",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_CRBulletin_Trimestriel2026_T2_V2_.pdf",
+    "source_status": "incomplete",
+    "quarterly": null,
+    "historical": [
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://corpocdn.blob.core.windows.net/blobfiles/IG_CRBulletin_Trimestriel2026_T2_V2_.pdf",
+        "period": "2026-T2",
+        "sha256": "d3cdc6ce4955a226accf191df1c1a9a2ffda38605f1bece8d76cac9761fe680a",
+        "certificate_page": null,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      }
+    ]
+  },
+  {
+    "scpi_slug": "edr-europa",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+    "source_status": "verified",
+    "quarterly": null,
+    "historical": [
+      {
+        "qa": "manual_verified_issuer_authored_bulletin_pdf_page",
+        "tof": 100,
+        "url": "https://francescpi.com/scpi-de-rendement/edmond-de-rothschild-europa/bi/edmond-de-rothschild-europa-bulletin-2024-t3.pdf",
+        "period": "2024-T3",
+        "sha256": null,
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "manual_verified_quarterly_dividend_and_dated_annual_valuation",
+        "tof": 100,
+        "url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "period": "2024-T4",
+        "sha256": null,
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "manual_verified_distributions_only_official_pdf_page_3",
+        "tof": 100,
+        "url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "period": "2025-T1",
+        "sha256": null,
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "manual_verified_issuer_authored_T2_2025_PDF_page_4_valuations",
+        "tof": 100,
+        "url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "period": "2025-T2",
+        "sha256": null,
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "manual_verified_distributions_only_official_pdf_page_3",
+        "tof": 100,
+        "url": "https://edr-europa.com/wp-content/uploads/2026/07/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-T2-2026.pdf",
+        "period": "2025-T3",
+        "sha256": null,
+        "certificate_page": 2,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      }
+    ]
+  },
+  {
+    "scpi_slug": "epargne-pierre",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EP-vdef-web.pdf",
+    "source_status": "incomplete",
+    "quarterly": null,
+    "historical": null
+  },
+  {
+    "scpi_slug": "epargne-pierre-europe",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EPE-vdef-web.pdf",
+    "source_status": "incomplete",
+    "quarterly": [
+      {
+        "url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EPE-vdef-web.pdf",
+        "error": null,
+        "period": "2026-T3",
+        "sha256": "1aa34456ae6d2b32ef9284913fb774794ebf58d4c8e94afde086d299fe616a29",
+        "status": "qa_review"
+      }
+    ],
+    "historical": null
+  },
+  {
+    "scpi_slug": "epsicap-nano",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://epsicap.fr/app/uploads/2026/11/bulletin-trimestriel-epsicap-nano-t3-2026.pdf",
+    "source_status": "verified",
+    "quarterly": [
+      {
+        "url": "https://epsicap.fr/app/uploads/2026/11/bulletin-trimestriel-epsicap-nano-t3-2026.pdf",
+        "error": null,
+        "period": "2026-T3",
+        "sha256": "1f7efa004028d10758149d0dcd97677dc22ad679cf314768e0d682add4a4b3e7",
+        "status": "discovered"
+      }
+    ],
+    "historical": null
+  },
+  {
+    "scpi_slug": "fonciere-des-praticiens",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://www.groupemagellim.com/wp-content/uploads/BT-3T-2026-Fonciere-des-Praticiens-.pdf",
+    "source_status": "incomplete",
+    "quarterly": [
+      {
+        "url": "https://www.groupemagellim.com/wp-content/uploads/BT-3T-2026-Fonciere-des-Praticiens-.pdf",
+        "error": null,
+        "period": "2026-T3",
+        "sha256": "119e6ff4d8b63d5ba4137315b16c2a89d7971118ef94f38492b281b0f058e623",
+        "status": "discovered"
+      }
+    ],
+    "historical": [
+      {
+        "qa": "auto_partial_review",
+        "tof": null,
+        "url": "https://www.groupemagellim.com/wp-content/uploads/BT-3T-2026-Fonciere-des-Praticiens-.pdf",
+        "period": "2026-T3",
+        "sha256": "119e6ff4d8b63d5ba4137315b16c2a89d7971118ef94f38492b281b0f058e623",
+        "certificate_page": null,
+        "certificate_status": null
+      }
+    ]
+  },
+  {
+    "scpi_slug": "iroko-atlas",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": null,
+    "bulletin_url": "https://www.iroko.eu/bulletins-trimestriels-atlas/q3-2026",
+    "source_status": "verified",
+    "quarterly": null,
+    "historical": null
+  },
+  {
+    "scpi_slug": "kyaneos-pierre",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://kyaneosam.com/wp-content/uploads/2026/08/BT-T2-2026-KP.pdf",
+    "source_status": "verified",
+    "quarterly": null,
+    "historical": [
+      {
+        "qa": "manual_verified_official_tof_not_reported",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-KP-BT-3T18.pdf",
+        "period": "2018-T3",
+        "sha256": "850837d91473c97085751a095aea794477ee4b25b337cab0e90a26f00e6cfc3b",
+        "certificate_page": null,
+        "certificate_status": "manual_verified_official_not_reported"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-KP-BT-4T18.pdf",
+        "period": "2018-T4",
+        "sha256": "d03dd799b64376807b4cd8f87d2093c22c23136f18f43274fe57c5404fd22b30",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-KP-BT-1T19.pdf",
+        "period": "2019-T1",
+        "sha256": "f6fe9c55866c92cab92cd2fd47820206eeae1bc96e2edba613544eb11f84b48a",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-KP-BT-2T19.pdf",
+        "period": "2019-T2",
+        "sha256": "7cee8b0629f947361aae26eb9f84eb9034399be625f77feeebf6e815ded09767",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-KP-BT-4T19.pdf",
+        "period": "2019-T4",
+        "sha256": "4c0e484622841939e1842b5fbdc61b291e5e9120e12c4850d83b4e8894ed324b",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-KP-BT-1T20.pdf",
+        "period": "2020-T1",
+        "sha256": "e4e78ffdd079ba2ecc6f5b00d57d3b2f961f34e2311ff3639252fd5ce4621193",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-KP-BT-2T20.pdf",
+        "period": "2020-T2",
+        "sha256": "c1e8a0f4ac75caf35808cec02cff516faf5d5148f9cf562aee23b5596132a935",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-KP-BT-3T20.pdf",
+        "period": "2020-T3",
+        "sha256": "e85551f975b5b91589edb594fa91338c89aa32fdfa96c762bec4e8e7243998c7",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-Kyaneos-Pierre-BT-4T20.pdf",
+        "period": "2020-T4",
+        "sha256": "c0fccf00b7bac8e655e49522322a13f8655cd9e898e269153bfd10e508d85889",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-Kyaneos-Pierre-BT-1T2021-vdef.pdf",
+        "period": "2021-T1",
+        "sha256": "f2d602fa17882a0ce64a85c4091fb38860d8d162f513e488ba2d553663844513",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-Kyaneos-Pierre-BT-2T2021.pdf",
+        "period": "2021-T2",
+        "sha256": "73b7ccc6d87c4e9a73e80941f4cc12da44e70ffffc7e6cfe6180052b5ca07f30",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-Kyaneos-Pierre-BT-3T2021.pdf",
+        "period": "2021-T3",
+        "sha256": "2cfcdfa0cb210d272791b55bfaf6f1617d8a5ad29890813ef9d6803e00375d13",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-Kyaneos-Pierre-BT-T4-2021.pdf",
+        "period": "2021-T4",
+        "sha256": "d57680bdd67066ce4b672fa2ff73b90ffc07795976287b013db150af86a8acbe",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/SCPI-Kyaneos-Pierre-BT-2T2022-vdef.pdf",
+        "period": "2022-T2",
+        "sha256": "73f3b9d065a76e66c88feb7d39b2dbfc00079d1b2830a580720e9955e59a2b13",
+        "certificate_page": 3,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/09/BT-Kyaneos-Pierre-2T2023.pdf",
+        "period": "2023-T2",
+        "sha256": "f1d0802a1f9d97ccc0c290084aa66d619b5ff03d5f5083e6c4d77c6557edf708",
+        "certificate_page": 4,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2023/10/Bulletin-trimestriel-3T2023-SCPI-Kyaneos-Pierre.pdf",
+        "period": "2023-T3",
+        "sha256": "b691ecbf024f27e7badbe08ef96c97c1c2c878ee146041ebee911814cf77794f",
+        "certificate_page": 4,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2024/02/SCPI-KP-Bulletin-trimestriel-4T2023.pdf",
+        "period": "2023-T4",
+        "sha256": "db8ce9596211d43cf530d5f3c120b3c50f38ac90d6766d0c9f54f4a3393482c5",
+        "certificate_page": 4,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2024/05/SCPI-KP-Bulletin-trimestriel-1T2024.pdf",
+        "period": "2024-T1",
+        "sha256": "6569d256d4b499d67bda867f97ffe68e79be046467e9229c574090fd204bf820",
+        "certificate_page": 4,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2024/07/SCPI-KP-Bulletin-trimestriel-2T2024.pdf",
+        "period": "2024-T2",
+        "sha256": "d3d3847c41259bd0276a2cfaea70f696eead9f065ff56bae964dafd773d7f43c",
+        "certificate_page": 4,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2025/01/SCPI-KP-Bulletin-trimestriel-3T2024.pdf",
+        "period": "2024-T3",
+        "sha256": "f8083c75f236fe0cdb492d9850125f76242ee417cc9dd7cef1a676e698d9c628",
+        "certificate_page": 4,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2025/02/SCPI-KP-Bulletin-trimestriel-4T2024.pdf",
+        "period": "2024-T4",
+        "sha256": "6cdbdd2f8cc8a954dd95ed8d382db26ba84ce56c521ebb4cafb02d0c200e8bab",
+        "certificate_page": 4,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://kyaneosam.com/wp-content/uploads/2025/05/SCPI-KP-Bulletin-trimestriel-1T2025.pdf",
+        "period": "2025-T1",
+        "sha256": "efba024481c44fb240c7033405af9f08f2849448ec9c9c61d0f1a1711e77701f",
+        "certificate_page": 4,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      }
+    ]
+  },
+  {
+    "scpi_slug": "log-in",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://theoreim.com/wp-content/uploads/2022/09/Bulletin_Trimestriel-LOG-IN-T3-2026.pdf",
+    "source_status": "incomplete",
+    "quarterly": null,
+    "historical": null
+  },
+  {
+    "scpi_slug": "novapierre-1",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "PDF_SHA256_PERIOD_OR_PRODUCT_COLLISION: existing novapierre-residentiel / 2026-T3; candidate novapierre-1 / 2026-T3",
+    "bulletin_url": "https://paref-gestion.com/wp-content/uploads/2026/08/61b5f2bd-6843-4c10-9890-dc71eaf026dc-BTIT22026-Novapierre1.pdf",
+    "source_status": "manual_review_required",
+    "quarterly": null,
+    "historical": [
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://paref-gestion.com/wp-content/uploads/2025/02/ba9e87ab-0585-4faa-aa87-288ce666deff-BTI-T4-2024-Novapierre1.pdf",
+        "period": "2024-T4",
+        "sha256": "3296b51f63b420914be88a4004179d40cf3b2f2bdd3baee9cd4d8e4f241f1c54",
+        "certificate_page": 4,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      },
+      {
+        "qa": "auto_verified_product_alias_period_tof",
+        "tof": 83.2,
+        "url": "https://paref-gestion.com/wp-content/uploads/2026/10/fbc6e38d-220a-46d2-b471-c7be98cb7d5c-BTI-T3-2026-Novapierre-1.pdf",
+        "period": "2026-T3",
+        "sha256": null,
+        "certificate_page": null,
+        "certificate_status": null
+      }
+    ]
+  },
+  {
+    "scpi_slug": "novapierre-residentiel",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://paref-gestion.com/wp-content/uploads/2026/08/708667cb-d741-49e5-9ba9-5c011f742062-BTIT22026-NovapierreResidentiel.pdf",
+    "source_status": "incomplete",
+    "quarterly": null,
+    "historical": [
+      {
+        "qa": "manual_verified_official_tof_not_reported",
+        "tof": null,
+        "url": "https://paref-gestion.com/wp-content/uploads/2024/07/511420f1-dc0a-4a28-99ec-63edcdfb47bd-BTI-1T2021-Novapierre-Residentiel-1.pdf",
+        "period": "2021-T1",
+        "sha256": "6f54ab5bcdb6b45d235ddc2953bbbcfe6210f44136c2a096f7014c19dcb41e88",
+        "certificate_page": 3,
+        "certificate_status": "manual_verified_official_not_reported"
+      },
+      {
+        "qa": "manual_verified_official_tof_not_reported",
+        "tof": null,
+        "url": "https://paref-gestion.com/wp-content/uploads/2024/07/b879adf5-0b7d-4742-b643-8aee33a5819c-BTI-2T2021-Novapierre-Residentiel.pdf",
+        "period": "2021-T2",
+        "sha256": "92b92249397eebe5e3ea9d9ca445e9d7bbbc21f9ae7a4ce18178d0486c3faeca",
+        "certificate_page": 5,
+        "certificate_status": "manual_verified_official_not_reported"
+      },
+      {
+        "qa": "manual_verified_official_tof_not_reported",
+        "tof": null,
+        "url": "https://paref-gestion.com/wp-content/uploads/2024/07/35bac9f0-046f-4736-8a8e-0e1766a75d97-BTI-3T2021-Novapierre-Residentiel.pdf",
+        "period": "2021-T3",
+        "sha256": "b0b4c111de6492a404755577ae7adcba23debc3a0ff37bf745787007f6b7f826",
+        "certificate_page": 5,
+        "certificate_status": "manual_verified_official_not_reported"
+      },
+      {
+        "qa": "manual_verified_official_tof_not_reported",
+        "tof": null,
+        "url": "https://paref-gestion.com/wp-content/uploads/2024/07/1a98deb6-9266-41d6-a688-b921ce729d24-BTI-4T2021-Novapierre-Residentiel.pdf",
+        "period": "2021-T4",
+        "sha256": "3b9aad16751f547bbce804154126308d160e5ba1c70efbac440ba9ac3d43b97d",
+        "certificate_page": 5,
+        "certificate_status": "manual_verified_official_not_reported"
+      },
+      {
+        "qa": "invalid_tof_bulletin_source_policy",
+        "tof": null,
+        "url": "https://paref-gestion.com/wp-content/uploads/2024/07/6d13e584-58d0-4ef5-87b9-c5a0e25582b6-BTI-T1-2022-Novapierre-Residentiel.pdf",
+        "period": "2022-T1",
+        "sha256": "6997ac5572b2907f6ab4e3b4d1f8dce08a750e266b1431dc8dbe6dab4a450708",
+        "certificate_page": 4,
+        "certificate_status": "invalid_tof_bulletin_source_policy"
+      }
+    ]
+  },
+  {
+    "scpi_slug": "novaxia-neo",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://www.novaxia-investissement.fr/wp-content/uploads/2026/11/Reporting-Novaxia-NEO-T3-2026.pdf",
+    "source_status": "incomplete",
+    "quarterly": [
+      {
+        "url": "https://www.novaxia-investissement.fr/wp-content/uploads/2026/11/Reporting-Novaxia-NEO-T3-2026.pdf",
+        "error": null,
+        "period": "2026-T3",
+        "sha256": "a004d88d5484e1f86e3710e6a8ea8fc29dd204844fb491359bf5804e49e11737",
+        "status": "discovered"
+      }
+    ],
+    "historical": [
+      {
+        "qa": "auto_partial_review",
+        "tof": null,
+        "url": "https://www.novaxia-investissement.fr/wp-content/uploads/2026/11/Reporting-Novaxia-NEO-T3-2026.pdf",
+        "period": "2026-T3",
+        "sha256": "a004d88d5484e1f86e3710e6a8ea8fc29dd204844fb491359bf5804e49e11737",
+        "certificate_page": 5,
+        "certificate_status": "invalid_value_contradicted_by_evidence"
+      }
+    ]
+  },
+  {
+    "scpi_slug": "optimale",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "repartition_sectorielle: total suspect 47.31 %",
+    "bulletin_url": "https://www.consultim-am.com/wp-content/uploads/2026/09/062026-Bulletin-trimestriel.pdf",
+    "source_status": "incomplete",
+    "quarterly": null,
+    "historical": null
+  },
+  {
+    "scpi_slug": "paref-hexa",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://paref-gestion.com/wp-content/uploads/2026/10/dc0cd675-deb0-4ab0-b928-040f9aafd157-BTI-T3-2026-PAREF-Hexa.pdf",
+    "source_status": "verified",
+    "quarterly": null,
+    "historical": null
+  },
+  {
+    "scpi_slug": "patrimmo-commerce",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://www.praemiareim.fr/documents/14836074/14836275/PRAEMIA_BTI_Patrimmo+Commerce_T3_2026_VDEF.pdf/629ca819-38be-867c-8edc-181f9159bf3b?t=1793990422410",
+    "source_status": "incomplete",
+    "quarterly": null,
+    "historical": null
+  },
+  {
+    "scpi_slug": "pierval-sante",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "PDF_SHA256_PERIOD_OR_PRODUCT_COLLISION: existing pierval-sante / 2025-T4; candidate pierval-sante / 2026-T4",
+    "bulletin_url": "https://www.euryale-am.fr/wp-content/uploads/BT_PIERVAL_SANTE_2026_T3.pdf",
+    "source_status": "incomplete",
+    "quarterly": [
+      {
+        "url": "https://www.euryale-am.fr/wp-content/uploads/BT_PIERVAL_SANTE_2026_T3.pdf",
+        "error": null,
+        "period": "2026-T3",
+        "sha256": "823990ec258b0f9d0561e1ac7fef0bcb7905f1f2b235620dde1440c1aba521c1",
+        "status": "discovered"
+      }
+    ],
+    "historical": null
+  },
+  {
+    "scpi_slug": "praemia-hotels-europe",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://www.praemiareim.fr/documents/14836074/14836332/PRAEMIA_BTI_Praemia_Hotels_Europe_T3_2026_VDEF.pdf/6ef65e62-c097-7cce-d524-984e8b402ca0?t=1793984832890",
+    "source_status": "incomplete",
+    "quarterly": null,
+    "historical": null
+  },
+  {
+    "scpi_slug": "primovie",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://www.praemiareim.fr/documents/14836074/14836311/PRAEMIA_BTI_Primovie_T3_2026_VDEF.pdf/ff0cab84-798b-c7da-8f92-0977a9150f4f?t=1793988668797",
+    "source_status": "incomplete",
+    "quarterly": [
+      {
+        "url": "https://www.praemiareim.fr/documents/14836074/14836311/PRAEMIA_BTI_Primovie_T3_2026_VDEF.pdf/ff0cab84-798b-c7da-8f92-0977a9150f4f?t=1793988668797",
+        "error": null,
+        "period": "2026-T3",
+        "sha256": "009f4129002d61abc399810a252d13091bd406dc500f36d5dc88ae8cb557dd60",
+        "status": "discovered"
+      }
+    ],
+    "historical": null
+  },
+  {
+    "scpi_slug": "remake-live",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://www.remake.fr/wp-content/uploads/2026/11/REMAKE_LIVE_BT_T3-nov-2026.pdf",
+    "source_status": "incomplete",
+    "quarterly": [
+      {
+        "url": "https://www.remake.fr/wp-content/uploads/2026/11/REMAKE_LIVE_BT_T3-nov-2026.pdf",
+        "error": "tof_not_found_or_not_period_bound",
+        "period": "2026-T3",
+        "sha256": "48f90511d82e6f4ccdd28e9698784b93bd74360baf56f0965d0abbdb69e1148e",
+        "status": "qa_review"
+      }
+    ],
+    "historical": [
+      {
+        "qa": "auto_partial_review",
+        "tof": null,
+        "url": "https://www.remake.fr/wp-content/uploads/2026/10/REMAKE_LIVE_BT_T3-2026.pdf",
+        "period": "2026-T3",
+        "sha256": "48f90511d82e6f4ccdd28e9698784b93bd74360baf56f0965d0abbdb69e1148e",
+        "certificate_page": null,
+        "certificate_status": null
+      }
+    ]
+  },
+  {
+    "scpi_slug": "remake-uk-2025",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Rejets QA: prix_souscription, prix_reconstitution",
+    "bulletin_url": "https://www.remake.fr/wp-content/uploads/2026/10/REMAKE_UK2025_BT_T3_2026_11206.pdf",
+    "source_status": "incomplete",
+    "quarterly": [
+      {
+        "url": "https://www.remake.fr/wp-content/uploads/2026/10/REMAKE_UK2025_BT_T3_2026_11206.pdf",
+        "error": "tof_not_found_or_not_period_bound",
+        "period": "2026-T3",
+        "sha256": "5a621b7e7e44a72d97d0b66b7b5bf17f818b3ee57aff0edf8a6d5bfce7e42cc3",
+        "status": "qa_review"
+      }
+    ],
+    "historical": null
+  },
+  {
+    "scpi_slug": "sofidynamic",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": null,
+    "bulletin_url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+    "source_status": "incomplete",
+    "quarterly": [
+      {
+        "url": "https://www.sofidy.com/app/uploads/2026/11/Bulletin_Trimestriel_-_Sofidynamic.pdf",
+        "error": null,
+        "period": "2026-T3",
+        "sha256": "1898d414b5195c8e0f675ef9041e3142e2e53f720f238fd6ca6cdcf2f8992c38",
+        "status": "qa_review"
+      }
+    ],
+    "historical": [
+      {
+        "qa": "official_verified_with_evidence",
+        "tof": 97.7,
+        "url": "https://www.sofidy.com/app/uploads/2026/05/SOFIDYNAMIC-BT-1T-2026.pdf",
+        "period": "2026-T1",
+        "sha256": "059156b1025ec6f2ee0f65bae19574b56de74d71ed933760b7cd5ad7ba65b0d7",
+        "certificate_page": null,
+        "certificate_status": null
+      },
+      {
+        "qa": "verified_primary_source_with_reserves",
+        "tof": 97.73,
+        "url": "https://www.sofidy.com/app/uploads/2026/07/Bulletin_Trimestriel_-_Sofidynamic_OPTI.pdf",
+        "period": "2026-T2",
+        "sha256": "89ecdf2e2765a98a930e1883a69403029cfe789c0a9da7c51b7ee3e622023376",
+        "certificate_page": null,
+        "certificate_status": null
+      }
+    ]
+  },
+  {
+    "scpi_slug": "transitions-europe",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": false,
+    "source_error": "Extraction existante partielle",
+    "bulletin_url": "https://www.arkea-reim.com/upload/docs/application/pdf/2026-10/te_t3-2026.pdf",
+    "source_status": "incomplete",
+    "quarterly": [
+      {
+        "url": "https://www.arkea-reim.com/upload/docs/application/pdf/2026-10/te_t3-2026.pdf",
+        "error": null,
+        "period": "2026-T3",
+        "sha256": "55f3596af5933891f0e94cf59356491a93931f080543d5c3ee5e8eef89ace1e1",
+        "status": "qa_review"
+      }
+    ],
+    "historical": null
+  },
+  {
+    "scpi_slug": "urban-coeur-de-commerce",
+    "crash_test_status": "FAIL_STRICT",
+    "source_ready": true,
+    "source_error": null,
+    "bulletin_url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/11/UCC_BT_T3-2026.pdf",
+    "source_status": "verified",
+    "quarterly": [
+      {
+        "url": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/11/UCC_BT_T3-2026.pdf",
+        "error": "product_identity_mismatch",
+        "period": "2026-T3",
+        "sha256": "0655a664b92c3ef9e7d5aeb74699d0d4b3b784e0f80deda0fe171553d7ee974e",
+        "status": "qa_review"
+      }
+    ],
+    "historical": null
+  }
+]

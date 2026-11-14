@@ -1,0 +1,81 @@
+{
+  "status": "read_only_exact_archive_source_qa",
+  "records": [
+    {
+      "slug": "paref-evo",
+      "period": "2024-T4",
+      "sha256": "c9abf92651017d3d83400949a07d5a41aef594775c48bd7e0065da391d1e17d9",
+      "original_archive_bytes": 2171159,
+      "tof_candidate_percent": 94.4,
+      "target_position_matches": [
+        {
+          "page": 4,
+          "mupdf_target_boxes": [
+            [
+              529.37,
+              135.32,
+              550.6,
+              145.84
+            ],
+            [
+              77.3,
+              167.25,
+              108.37,
+              183.96
+            ]
+          ],
+          "poppler_target_boxes": [
+            [
+              77.3,
+              167.25,
+              108.37,
+              183.96
+            ]
+          ],
+          "same_numeric_word_coordinates": true,
+          "local_tof_context": "l de la gestion taux dʼoccupation financier (tof) évolution du tof 2024 tof t4 2024 locaux occupés : 78,3 % locaux occupés sous franchise de loyer ou mis à disposition"
+        }
+      ],
+      "review_kind": "exact_archived_original_sha_plus_dual_pdf_geometry",
+      "status": "issuer_binary_verified_candidate_geometry",
+      "financial_certified": false,
+      "human_attestation": false,
+      "publication_authorized": false
+    },
+    {
+      "slug": "paref-hexa",
+      "period": "2026-T3",
+      "sha256": "ca4a3569a990f99b376268875440ebc1e1aadefa85aab582ebca96cbce0c62ce",
+      "original_archive_bytes": 1775561,
+      "tof_candidate_percent": 84.5,
+      "target_position_matches": [
+        {
+          "page": 5,
+          "mupdf_target_boxes": [
+            [
+              75.69,
+              327.38,
+              107.28,
+              345.53
+            ]
+          ],
+          "poppler_target_boxes": [
+            [
+              75.69,
+              327.38,
+              107.28,
+              345.53
+            ]
+          ],
+          "same_numeric_word_coordinates": true,
+          "local_tof_context": "9 années 4,2 m€ taux d’occupation financier (tof)* 84,5 % locaux occupés 1,5 % locaux occupés sous franchise de loyer ou mis à disposition d’un futur locatai"
+        }
+      ],
+      "review_kind": "exact_archived_original_sha_plus_dual_pdf_geometry",
+      "status": "issuer_binary_verified_candidate_geometry",
+      "financial_certified": false,
+      "human_attestation": false,
+      "publication_authorized": false
+    }
+  ]
+}

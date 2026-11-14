@@ -1,5 +1,15 @@
 # Backlog — MaximusSCPI Recovery
 
+## RECOVERY-204 — Certification des 69 SCPI existantes (#311)
+
+Mission explicitement autorisée par Eric les 13–14/11/2026. Branche ciblée `fix/recovery-204-strict-proof-repair` issue de main `2500ca88`, dans la continuité RECOVERY-202. Aucun nouvel orchestrateur ni nouvelle SCPI ; aucun assouplissement des garde-fous. Priorité actuelle de cette intervention : preuves et reprises existantes.
+
+- Baseline nominative conservée dans `docs/recovery-204/baseline.json` : 36 PASS / 33 FAIL ; matrice et périodes dans ce même dossier.
+- 14/11 : rattachement d’EdR Europa, déjà publiée et présente dans la vue stricte, à `maximus_agents.scpi_universe` comme `existing`, sans certification ni nouvelle autorisation de publication. Transaction annulée testée, QA indépendante favorable puis application réelle ; supervision 69/69, strict 36/33 inchangé, audit durable `recovery204:edr-europa:existing-agent-cohort`.
+- PAREF Hexa : restauration administrative REFUSÉE par QA. La preuve géométrique 84,5 % indique « locaux occupés » ; le replay du même SHA indique TOF global 86 %. Lecture intégrale de la page 5 requise avant rectification financière ; ne pas faire passer artificiellement le verrou figé à 84,5.
+- CORUM XL : correction d’extraction géométrique et reprise des deux périodes 2019-T1 / 2020-T2 en cours. Aucune certification supplémentaire annoncée.
+- État : EN COURS. Tests, revue indépendante, preuve SQL et contrôle produit requis avant clôture.
+
 ## RECOVERY-202 — Exécution documentaire de bout en bout (11/11/2026)
 
 Mission explicitement autorisée par Eric : auditer et réparer les agents et workflows existants, tester bulletin → Supabase → fiche, intégrer et déployer uniquement les corrections validées. P0 actif de cette intervention, sans nouvel orchestrateur. Branche isolée `fix/recovery-202-documentary-execution-20261111`, issue du commit de production `8535b1c02f86c13c306fcc249ee797abede2d6c2` ; cette autorisation remplace les anciens gels de release pour ce seul périmètre.
