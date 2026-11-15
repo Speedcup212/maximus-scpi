@@ -25,7 +25,7 @@ SPECS=[
       bytes=2171159,tof=94.4,label="94,4",vacant=5.6,aliases=["paref evo","interpierre europe centrale"]),
  dict(slug="paref-hexa",period="2026-T3",
       sha256="ca4a3569a990f99b376268875440ebc1e1aadefa85aab582ebca96cbce0c62ce",
-      bytes=1775561,tof=84.5,label="84,5",vacant=None,aliases=["paref hexa"]),
+      bytes=1775561,tof=86.0,label="86,0",vacant=14.0,total_page=5,aliases=["paref hexa"]),
 ]
 
 def issuer_token():
@@ -82,7 +82,36 @@ def words_poppler(path,page,target):
         # Fail closed; no OCR invented and no guessed PDF values
         raise ValueError("POPPLER_BBOX_MALFORMED_ON_TOF_PAGE")
 
+def total_caption_box(words, period, label):
+    """Require a value directly below TOF + exact quarter/year, not its legend."""
+    quarter, year = period.split("-")[1], period.split("-")[0]
+    matches=[]
+    for value in words:
+        if value[4].strip("%*") != label:
+            continue
+        x,y,x2,y2=value[:4]
+        nearby=[w for w in words if abs((w[0]+w[2])/2-(x+x2)/2)<40
+                and 0 <= y-w[1] <= 45]
+        if not all(any(w[4]==token for w in nearby) for token in ("TOF",quarter,year)):
+            continue
+        matches.append([round(float(v),2) for v in value[:4]])
+    if len(matches)!=1:
+        raise ValueError("TOTAL_TOF_EXACT_QUARTER_CAPTION_REQUIRED")
+    return matches[0]
+
+def page_words_poppler(path,page):
+    r=subprocess.run(["pdftotext","-f",str(page),"-l",str(page),
+                      "-bbox",str(path),"-"],capture_output=True,text=True,timeout=45,check=True)
+    try:
+        root=ET.fromstring(r.stdout)
+        return [tuple(float(e.attrib[k]) for k in ("xMin","yMin","xMax","yMax"))+(e.text,)
+                for e in root.iter() if e.tag.endswith("word") and e.text]
+    except ET.ParseError:
+        raise ValueError("POPPLER_BBOX_MALFORMED_ON_TOF_PAGE")
+
 def source_qa(spec,raw):
+    if len(raw)!=spec["bytes"] or hashlib.sha256(raw).hexdigest()!=spec["sha256"]:
+        raise ValueError("REGISTERED_ARCHIVE_SHA256_MISMATCH")
     with tempfile.TemporaryDirectory() as td:
         path=Path(td)/"verified-original.pdf"
         path.write_bytes(raw)
@@ -97,6 +126,8 @@ def source_qa(spec,raw):
                 raise ValueError("ARCHIVED_ORIGINAL_COVER_PERIOD_MISMATCH")
             positions=[]
             for i,page in enumerate(doc):
+                if spec.get("total_page") and i+1!=spec["total_page"]:
+                    continue
                 text=page.get_text("text").lower()
                 if "tof" not in text and "occupation financier" not in text:
                     continue
@@ -107,12 +138,20 @@ def source_qa(spec,raw):
                 if not po: continue
                 pairs=[(m,p) for m in mu for p in po
                        if all(abs(a-b)<1 for a,b in zip(m,p))]
+                if pairs and spec.get("total_page"):
+                    total_mu=total_caption_box(page.get_text("words"),spec["period"],spec["label"])
+                    total_po=total_caption_box(page_words_poppler(path,i+1),spec["period"],spec["label"])
+                    if not all(abs(a-b)<1 for a,b in zip(total_mu,total_po)):
+                        raise ValueError("TOTAL_TOF_TWO_READERS_DISAGREE")
+                    mu,po=[total_mu],[total_po]
                 if pairs:
                     positions.append({
                         "page":i+1,
                         "mupdf_target_boxes":mu,
                         "poppler_target_boxes":po,
                         "same_numeric_word_coordinates":True,
+                        "exact_total_caption_verified":bool(spec.get("total_page")),
+                        "caption_period":spec["period"] if spec.get("total_page") else None,
                         "local_tof_context":" ".join(
                             text[max(0,text.index("tof")-45):text.index("tof")+125].split())[:170]
                             if "tof" in text else "TOF label present as occupation financier",

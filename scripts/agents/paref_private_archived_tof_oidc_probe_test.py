@@ -58,5 +58,23 @@ class ArchiveSourceBridgeSecurity(unittest.TestCase):
     self.assertIn('"Poppler"',code) if '"Poppler"' in code else self.assertIn("pdftotext",code)
     self.assertIn('if not positions:raise ValueError',code)
 
+class TotalCaptionSemantics(unittest.TestCase):
+ def words(self):
+    return [(84,217,119,239,"TOF"),(82,239,94,251,"T3"),
+            (97,239,121,251,"2026"),(71,251,113,275,"86,0"),
+            (76,327,107,346,"84,5"),(140,327,180,346,"Locaux"),
+            (185,327,220,346,"occupés"),(245,652,269,669,"86,0")]
+ def test_total_caption_excludes_occupied_and_history_legend(self):
+    self.assertEqual(qa.total_caption_box(self.words(),"2026-T3","86,0"),[71,251,113,275])
+ def test_occupied_component_rejected_even_with_tof_on_page(self):
+    with self.assertRaisesRegex(ValueError,"TOTAL_TOF_EXACT_QUARTER_CAPTION_REQUIRED"):
+        qa.total_caption_box(self.words(),"2026-T3","84,5")
+ def test_wrong_period_rejected(self):
+    with self.assertRaises(ValueError): qa.total_caption_box(self.words(),"2026-T2","86,0")
+ def test_ambiguous_totals_rejected(self):
+    with self.assertRaises(ValueError): qa.total_caption_box(self.words()+[(71,252,113,276,"86,0")],"2026-T3","86,0")
+ def test_missing_tof_caption_rejected(self):
+    with self.assertRaises(ValueError): qa.total_caption_box(self.words()[1:],"2026-T3","86,0")
+
 if __name__=="__main__":
  unittest.main()
