@@ -225,3 +225,13 @@ Cadrage de référence : `docs/cadrage/RECOVERY-203-cookies-mesure-exemptee.md`.
 - Tests : Vitest complet 332/332 ; `node --import tsx/esm --test scripts/analytics/funnelConversions.test.mjs scripts/analytics/funnelEndpoint.test.mjs` 12/12 ; `npx vite build` PASS ; contrôle navigateur headless (390 × 844 et 1440 × 900) : bandeau en bas, page utilisable, « Continuer sans accepter » enregistre le refus, événements `simulation_start` / `simulation_result` envoyés avec `measurement = exempt` et l'UTM, lien du pied de page ouvrant les réglages, opposition enregistrée puis 0 événement.
 - Hors périmètre : mise à jour de la politique de confidentialité (PDF), purge à 25 mois de `funnel_events`, expéditeur des alertes « Nouveau lead », région des fonctions Netlify.
 - État : EN COURS. Restent : fusion avec `[deploy]` dans le titre ; contrôle post-release décrit dans le cadrage.
+
+## RECOVERY-216 — Alta Convictions 2026-T3 : TOF officiel applique (15/11/2026)
+
+Mission P0 #311 (69/69). Perimetre : `scripts/industrial/sql/recovery216_alta_convictions_t3_tof.sql`, `tasks/backlog.md`.
+
+- Cause : la preuve TOF du replay (MuPDF + Poppler, `dual_pdf_geometry`, champ VERIFIED, p.3) existait depuis le 11/11 mais n'a jamais ete appliquee : garde canonique en echec, `permission denied for function tof_explicit_vacancy_conflict`. Ligne d'historique 2026-T3 restee avec `tof` NULL => `missing_tof=1`.
+- Preuve : PDF emetteur archive SHA-256 `b0e55e0606feb657e11fc12e05b6938422e72c64b07ba3d07a838f483113bf37`, 1 034 887 octets, page 3 : « Taux d'occupation financier 97% », TOF 97 % = locaux occupes 97 % + vacants 3 %, au 30/09/2026. Texte natif de la meme empreinte dans `maximus_agents.scpi_ocr_pages`.
+- Correction : certificat TOF 97 / p.3 / `auto_verified_with_evidence`, historique `tof=97` avec provenance, avant-image `recovery216:alta-convictions:2026-T3:tof-p3-applied`. Seul le TOF est certifie ; la ligne reste `auto_partial_review` pour les autres champs. Aucune modification de la vue stricte ni des seuils. Aucune attestation humaine.
+- Test : execution du script exact en production sous transaction annulee : 38 -> 39 PASS_100, 0 regression, tous les declencheurs de garde passes.
+- Etat : voir le journal du ticket #311 pour l'application et la relecture.
