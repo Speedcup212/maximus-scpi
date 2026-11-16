@@ -28,6 +28,8 @@ on:
       - "supabase/migrations/20261108_recovery192_staged_historical_tof_geometry_qa.sql"
       - "supabase/migrations/20261108_recovery191_iroko_atlas_independent_tof_and_source_attestation.sql"
       - "supabase/migrations/20261108_recovery181_attest_issuer_source_sha.sql"
+      - "supabase/migrations/20261116_recovery219_existing_strict_evidence_queue.sql"
+      - "scripts/agents/strictEvidenceQueueContract.test.mjs"
       - "supabase/functions/scpi-bulletin-watch/index.ts"
       - "supabase/functions/scpi-bulletin-watch/sourceProvenance.mjs"
       - "scripts/scpi-onboarding/publisherPdfAudit.py"
@@ -68,6 +70,8 @@ on:
       - "supabase/migrations/20261108_recovery192_staged_historical_tof_geometry_qa.sql"
       - "supabase/migrations/20261108_recovery191_iroko_atlas_independent_tof_and_source_attestation.sql"
       - "supabase/migrations/20261108_recovery181_attest_issuer_source_sha.sql"
+      - "supabase/migrations/20261116_recovery219_existing_strict_evidence_queue.sql"
+      - "scripts/agents/strictEvidenceQueueContract.test.mjs"
       - "supabase/functions/scpi-bulletin-watch/index.ts"
       - "supabase/functions/scpi-bulletin-watch/sourceProvenance.mjs"
       - "scripts/scpi-onboarding/publisherPdfAudit.py"
@@ -128,6 +132,7 @@ jobs:
         run: |
           node --check scripts/agents/parallelAuditRunner.mjs
           node --test scripts/agents/strictCandidateGate.test.mjs
+          node --test scripts/agents/strictEvidenceQueueContract.test.mjs
           node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs scripts/agents/candidateBinaryEvidence.test.mjs scripts/agents/agentSchedulingCrash.test.mjs scripts/agents/candidate20Batch.test.mjs scripts/agents/recovery126IndustrialGates.test.mjs scripts/agents/candidateSchedulingRecovery.test.mjs scripts/agents/controlEvidenceRouting.test.mjs
       - uses: actions/setup-python@v5
         with:
@@ -231,6 +236,24 @@ jobs:
                 ' cases; overlap in '+family.existing_role_task_overlaps+' current tasks');
             }
 
+      - name: CONTROL — enqueue bounded strict evidence tasks for existing 69 SCPI
+        # Uses the same tasks/runs table; zero financial mutations and zero model calls.
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const token=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
+            const response=await fetch('https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
+              method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
+              body:JSON.stringify({op:'existing_prepare'}),signal:AbortSignal.timeout(25000)});
+            if(!response.ok)throw Error('Existing strict evidence prepare HTTP '+response.status);
+            const x=await response.json();
+            if(x.strict_total!==69||x.strict_pass+x.strict_fail!==69||
+               x.financial_certified!==false||x.deploy_allowed!==false)
+              throw Error('Unsafe strict evidence queue');
+            core.notice('Existing 69: '+x.strict_pass+' PASS / '+x.strict_fail+
+              ' FAIL; '+x.created+' new scoped evidence tasks; '+x.pending+
+              ' pending. No numeric finance approved.');
+
       - name: CONTROL — dispatch historical TOF QA jobs on existing task queue
         id: historical
         uses: actions/github-script@v7
@@ -250,6 +273,57 @@ jobs:
             core.setOutput('documents',JSON.stringify(p.documents));
             core.notice('Historical source QA: '+p.documents.length+' jobs, '+p.prepared+
               ' newly queued; 0 certifications');
+
+  existing-strict-evidence:
+    # Existing workers only; immutable source-registry/replay metadata snapshot.
+    # This stage creates REVIEW dossiers, NOT automatic financial certification.
+    needs: control
+    if: needs.control.result == 'success' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        role: [DATA, SEARCH, ANALYST, QA]
+    steps:
+      - name: Claim one strict-failure evidence dossier and record truthful outcome
+        uses: actions/github-script@v7
+        env:
+          ROLE: ${{ matrix.role }}
+        with:
+          script: |
+            const token=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
+            const endpoint='https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc';
+            async function call(body){
+              const r=await fetch(endpoint,{method:'POST',
+                headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
+                body:JSON.stringify(body),signal:AbortSignal.timeout(25000)});
+              if(!r.ok)throw Error('Strict evidence '+body.op+' HTTP '+r.status);
+              return r.json();
+            }
+            const x=await call({op:'existing_claim',role:process.env.ROLE});
+            if(!x.task){
+              core.notice(process.env.ROLE+' has no eligible strict evidence task / daily budget');
+              return;
+            }
+            const t=x.task;
+            if(t.role!==process.env.ROLE||t.kind!=='audit'||!t.lease_token||
+               t.payload?.mode!=='existing_strict_evidence'||
+               t.payload?.financial_certified!==false||t.payload?.deploy_allowed!==false)
+              throw Error('Unexpected strict evidence lease');
+            const result=await call({op:'existing_complete',
+              task_id:t.id,lease_token:t.lease_token});
+            if(result.financial_certified!==false||result.deploy_allowed!==false||
+               result.result?.verdict!=='REVIEW')
+              throw Error('Evidence task attempted financial promotion');
+            core.notice('Source-only case '+t.payload.scpi_slug+
+              ' owner='+t.role+' route='+t.payload.route_family+
+              ' outcome='+result.result.status+
+              '; no finance certified; next='+result.result.next_action);
 
   historical-tof-financial-geometry:
     # Read-only follow-up to RECOVERY-186 on three original source PDFs.

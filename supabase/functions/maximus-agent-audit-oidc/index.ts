@@ -76,6 +76,46 @@ Deno.serve(async request=>{
         throw Error("CONTROL_TRIAGE_FINANCIAL_SAFETY");
       return Response.json(plan);
     }
+    if(body.op==="existing_prepare"){
+      // Exact 69-existing-fund queue. No paid model and no financial mutation.
+      if(Number(payload.run_attempt||1)!==1)
+        return Response.json({created:0,reason:"rerun_denied",deploy_allowed:false,financial_certified:false});
+      const [row]=await sql`select maximus_agents.prepare_existing_strict_evidence_v1(29) as batch`;
+      const batch=row?.batch;
+      if(!batch||batch.strict_total!==69||batch.strict_pass+batch.strict_fail!==69||
+         batch.deploy_allowed!==false||batch.financial_certified!==false||
+         !Number.isInteger(batch.created)||batch.created>29)
+        throw Error("REC219_UNSAFE_STRICT_BATCH");
+      return Response.json(batch);
+    }
+    if(body.op==="existing_claim"&&roles.has(body.role)){
+      if(Number(payload.run_attempt||1)!==1)
+        return Response.json({task:null,reason:"rerun_denied"});
+      const rows=await sql`select id,role,kind,status,lease_token,payload
+         from maximus_agents.claim_existing_strict_evidence_v1(${body.role})`;
+      const t=rows[0];
+      if(!t)return Response.json({task:null,reason:"no_eligible_strict_evidence_task_or_budget"});
+      if(t.role!==body.role||t.kind!=="audit"||t.status!=="running"||
+         t.payload?.mode!=="existing_strict_evidence"||!t.lease_token||
+         t.payload?.financial_certified!==false||t.payload?.deploy_allowed!==false)
+        throw Error("REC219_UNSAFE_TASK_SCOPE");
+      return Response.json({task:{...t,deploy_allowed:false,financial_certified:false}});
+    }
+    if(body.op==="existing_complete"&&typeof body.task_id==="string"&&
+       typeof body.lease_token==="string"){
+      // The SQL function re-reads current primary-source registry and replay
+      // metadata itself; no model/user-supplied proof can upgrade the verdict.
+      if(!/^[0-9a-f-]{36}$/i.test(body.task_id)||
+         !/^[0-9a-f-]{36}$/i.test(body.lease_token))
+        return Response.json({error:"invalid_task_reference"},{status:400});
+      const [row]=await sql`select maximus_agents.complete_existing_strict_evidence_v1(
+        ${body.task_id}::uuid,${body.lease_token}::uuid) as result`;
+      const result=row?.result;
+      if(!result||result.verdict!=="REVIEW"||
+         result.financial_certified!==false||result.deploy_allowed!==false)
+        throw Error("REC219_COMPLETION_SAFETY");
+      return Response.json({result,financial_certified:false,deploy_allowed:false});
+    }
     if(body.op==="historical_prepare"){
       // Reuse the existing CONTROL job, queue and credentials. At most 3 jobs.
       if(Number(payload.run_attempt||1)!==1)
