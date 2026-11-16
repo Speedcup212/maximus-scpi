@@ -94,7 +94,7 @@ BEGIN
         ' | independent financial QA pending; no source-registry approval.',
       verification_status='review_required_independent_financial_qa',
       verification_method='dual_pdf_geometry_current_value_pending_qa',
-      verified_at=NULL
+      verified_at=now() -- timestamp of documentary reconciliation, NOT final independent financial QA
   WHERE c.scpi_slug='patrimmo-commerce' AND c.source_period='2026-T3'
     AND c.metric='capitalisation' AND c.value_numeric=460
     AND c.source_page=2 AND c.source_url=v_url
