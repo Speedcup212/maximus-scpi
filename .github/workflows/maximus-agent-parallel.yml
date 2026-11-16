@@ -160,6 +160,27 @@ jobs:
         with:
           script: |
             const token=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
+            // Strict-first admission lock: never spend the daily agent budget on
+            // future candidates while any of the existing 69 is FAIL_STRICT.
+            // Read-only gate; official-source collection and historical QA continue.
+            const endpoint='https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc';
+            const guardRes=await fetch(endpoint,{
+              method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
+              body:JSON.stringify({op:'control_existing_metric_triage'}),
+              signal:AbortSignal.timeout(25000)});
+            if(!guardRes.ok)throw Error('Strict cohort safety gate HTTP '+guardRes.status);
+            const guard=await guardRes.json();
+            const passed=Number(guard.strict_pass),failed=Number(guard.strict_fail);
+            if(guard.deploy_allowed!==false||guard.financial_certified!==false||
+               guard.existing_total!==69||!Number.isInteger(passed)||!Number.isInteger(failed)||
+               passed<0||failed<0||passed+failed!==69)
+              throw Error('Invalid strict cohort gate: candidate20 dispatch denied');
+            if(failed>0){
+              core.setOutput('slugs','[]');
+              core.notice('STRICT-FIRST LOCK: '+passed+'/69 PASS, '+failed+
+                ' FAIL. Candidate20 agent claims suspended; original 69 remain priority.');
+              return;
+            }
             const res=await fetch('https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
               method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
               body:JSON.stringify({op:'prepare_batch20'}),signal:AbortSignal.timeout(25000)});
