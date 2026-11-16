@@ -53,7 +53,7 @@ BEGIN
  'source_fingerprint',fingerprint,'source_registry_status',verification_status,
  'recorded_issuer_sha',issuer_source_sha256,'scope','existing_69_only',
  'financial_certified',false,'deploy_allowed',false,'independent_qa_required',true)
- FROM selected ON CONFLICT(dedupe_key) DO NOTHING RETURNING id
+ FROM selected WHERE true ON CONFLICT(dedupe_key) DO NOTHING RETURNING id
  ) SELECT count(*)::int INTO n_created FROM created;
  SELECT count(*)::int INTO n_pending FROM maximus_agents.tasks
  WHERE payload->>'mode'='existing_strict_evidence' AND status='pending';
