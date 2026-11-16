@@ -11,6 +11,8 @@ on:
     paths:
       - ".github/workflows/maximus-agent-parallel.yml"
       - "scripts/agents/parallelAuditRunner.mjs"
+      - "scripts/agents/strictCandidateGate.mjs"
+      - "scripts/agents/strictCandidateGate.test.mjs"
       - "scripts/agents/controlEvidenceRouting.mjs"
       - "scripts/agents/controlEvidenceRouting.test.mjs"
       - "supabase/migrations/20261109_recovery195_orphan_running_lease_guard.sql"
@@ -49,6 +51,8 @@ on:
     paths:
       - ".github/workflows/maximus-agent-parallel.yml"
       - "scripts/agents/parallelAuditRunner.mjs"
+      - "scripts/agents/strictCandidateGate.mjs"
+      - "scripts/agents/strictCandidateGate.test.mjs"
       - "scripts/agents/controlEvidenceRouting.mjs"
       - "scripts/agents/controlEvidenceRouting.test.mjs"
       - "supabase/migrations/20261109_recovery195_orphan_running_lease_guard.sql"
@@ -123,6 +127,7 @@ jobs:
       - name: Contract, crash, cross-SCPI and admission safety
         run: |
           node --check scripts/agents/parallelAuditRunner.mjs
+          node --test scripts/agents/strictCandidateGate.test.mjs
           node --test scripts/agents/parallelAuditRunner.test.mjs scripts/agents/candidateDocumentEvidence.test.mjs scripts/agents/candidateBinaryEvidence.test.mjs scripts/agents/agentSchedulingCrash.test.mjs scripts/agents/candidate20Batch.test.mjs scripts/agents/recovery126IndustrialGates.test.mjs scripts/agents/candidateSchedulingRecovery.test.mjs scripts/agents/controlEvidenceRouting.test.mjs
       - uses: actions/setup-python@v5
         with:
@@ -160,6 +165,28 @@ jobs:
         with:
           script: |
             const token=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
+            // Strict-first admission lock: never spend the daily agent budget on
+            // future candidates while any of the existing 69 is FAIL_STRICT.
+            // Read-only gate; official-source collection and historical QA continue.
+            const endpoint='https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc';
+            const guardRes=await fetch(endpoint,{
+              method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
+              body:JSON.stringify({op:'control_existing_metric_triage'}),
+              signal:AbortSignal.timeout(25000)});
+            if(!guardRes.ok)throw Error('Strict cohort safety gate HTTP '+guardRes.status);
+            const guard=await guardRes.json();
+            const path=require('node:path');
+            const {pathToFileURL}=require('node:url');
+            const {decideCandidate20Dispatch}=await import(pathToFileURL(
+              path.join(process.env.GITHUB_WORKSPACE,'scripts/agents/strictCandidateGate.mjs')).href);
+            const decision=decideCandidate20Dispatch(guard);
+            const passed=decision.strictPass,failed=decision.strictFail;
+            if(!decision.dispatch){
+              core.setOutput('slugs','[]');
+              core.notice('STRICT-FIRST LOCK: '+passed+'/69 PASS, '+failed+
+                ' FAIL. Candidate20 agent claims suspended; original 69 remain priority.');
+              return;
+            }
             const res=await fetch('https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc',{
               method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
               body:JSON.stringify({op:'prepare_batch20'}),signal:AbortSignal.timeout(25000)});
