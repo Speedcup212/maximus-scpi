@@ -5,6 +5,8 @@ on:
     - cron: "27 6 * * *"
     # Recovery window: the daily SQL cohort is idempotent; no duplicate claims.
     - cron: "43 7 * * *"
+    # Existing 69 strict evidence only, quotas retained per role.
+    - cron: "15 10,13,16,19 * * *"
   workflow_dispatch:
   push:
     branches: [main]
@@ -29,6 +31,7 @@ on:
       - "supabase/migrations/20261108_recovery191_iroko_atlas_independent_tof_and_source_attestation.sql"
       - "supabase/migrations/20261108_recovery181_attest_issuer_source_sha.sql"
       - "supabase/migrations/20261116_recovery219_existing_strict_evidence_queue.sql"
+      - "supabase/migrations/20261117_recovery222_strict_finisher_binary_proof.sql"
       - "scripts/agents/strictEvidenceQueueContract.test.mjs"
       - "supabase/functions/scpi-bulletin-watch/index.ts"
       - "supabase/functions/scpi-bulletin-watch/sourceProvenance.mjs"
@@ -71,6 +74,7 @@ on:
       - "supabase/migrations/20261108_recovery191_iroko_atlas_independent_tof_and_source_attestation.sql"
       - "supabase/migrations/20261108_recovery181_attest_issuer_source_sha.sql"
       - "supabase/migrations/20261116_recovery219_existing_strict_evidence_queue.sql"
+      - "supabase/migrations/20261117_recovery222_strict_finisher_binary_proof.sql"
       - "scripts/agents/strictEvidenceQueueContract.test.mjs"
       - "supabase/functions/scpi-bulletin-watch/index.ts"
       - "supabase/functions/scpi-bulletin-watch/sourceProvenance.mjs"
@@ -275,12 +279,12 @@ jobs:
               ' newly queued; 0 certifications');
 
   existing-strict-evidence:
-    # Existing workers only; immutable source-registry/replay metadata snapshot.
-    # This stage creates REVIEW dossiers, NOT automatic financial certification.
+    # Finish one leased SOURCE-PROOF task only after downloading official PDF
+    # and checking SHA, issuer identity and period with two independent readers.
     needs: control
     if: needs.control.result == 'success' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 16
     permissions:
       contents: read
       id-token: write
@@ -290,41 +294,95 @@ jobs:
       matrix:
         role: [DATA, SEARCH, ANALYST, QA]
     steps:
-      - name: Claim one strict-failure evidence dossier and record truthful outcome
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install issuer PDF independent readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: FINISHER — claim, independently read PDF, commit proof
         uses: actions/github-script@v7
         env:
           ROLE: ${{ matrix.role }}
         with:
           script: |
+            const fs=require('node:fs'),path=require('node:path');
+            const cp=require('node:child_process');
             const token=await core.getIDToken('maximus-parallel-audit-ygvsddcpohsnaowofuwc');
             const endpoint='https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/maximus-agent-audit-oidc';
             async function call(body){
-              const r=await fetch(endpoint,{method:'POST',
+              const response=await fetch(endpoint,{method:'POST',
                 headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
                 body:JSON.stringify(body),signal:AbortSignal.timeout(25000)});
-              if(!r.ok)throw Error('Strict evidence '+body.op+' HTTP '+r.status);
-              return r.json();
+              if(!response.ok)throw Error('Strict finisher '+body.op+' HTTP '+response.status);
+              return response.json();
             }
-            const x=await call({op:'existing_claim',role:process.env.ROLE});
-            if(!x.task){
-              core.notice(process.env.ROLE+' has no eligible strict evidence task / daily budget');
-              return;
+            const role=process.env.ROLE;
+            const root=path.join(process.env.RUNNER_TEMP,'strict-finisher');
+            fs.mkdirSync(root,{recursive:true});
+            let realProofs=0,blocked=0;
+            // At most two previously queued cases per role/run; no new queue.
+            for(let seq=0;seq<2;seq++){
+              const claimed=await call({op:'existing_claim',role});
+              if(!claimed.task){
+                core.notice(role+' no claim: '+(claimed.reason||'none'));
+                break;
+              }
+              const task=claimed.task,manifest=claimed.manifest;
+              if(task.role!==role||task.kind!=='audit'||!task.lease_token||
+                 task.payload?.mode!=='existing_strict_evidence'||
+                 task.payload?.financial_certified!==false||
+                 task.payload?.deploy_allowed!==false||
+                 manifest?.candidate_slug!==task.payload.scpi_slug)
+                throw Error('FINISHER_UNSAFE_LEASE_OR_MANIFEST');
+              const dir=path.join(root,task.id);
+              fs.mkdirSync(dir,{recursive:true});
+              const manifestFile=path.join(dir,'manifest.json');
+              const output=path.join(dir,'pdf');
+              fs.writeFileSync(manifestFile,JSON.stringify(manifest),{mode:0o600});
+              const proc=cp.spawnSync('python',[
+                'scripts/agents/candidate_pdf_binary_proof.py',
+                '--manifest',manifestFile,'--out',output
+              ],{encoding:'utf8',timeout:115000,env:process.env});
+              if(proc.stdout)core.info(proc.stdout.trim().slice(0,900));
+              const proofFile=path.join(output,'proof.json');
+              if(!fs.existsSync(proofFile))
+                throw Error('FINISHER_MISSING_BINARY_PROOF');
+              const proof=JSON.parse(fs.readFileSync(proofFile,'utf8'));
+              if(proof.financial_certified!==false||proof.deploy_allowed!==false)
+                throw Error('FINISHER_INVALID_FINANCIAL_FLAG');
+              const done=await call({op:'existing_proof_complete',
+                task_id:task.id,lease_token:task.lease_token,proof});
+              if(done.result?.financial_certified!==false||
+                 done.result?.deploy_allowed!==false||
+                 done.result?.verdict!=='REVIEW')
+                throw Error('FINISHER_FALSE_FINANCIAL_APPROVAL');
+              if(done.result?.source_pdf_verified===true&&done.result?.status==='done')
+                realProofs++;
+              else blocked++;
+              core.notice('FINISHER '+task.payload.scpi_slug+' '+done.result.status+
+                ' proof='+done.result.source_pdf_verified+
+                ' next='+done.result.next_action+' python_exit='+proc.status);
             }
-            const t=x.task;
-            if(t.role!==process.env.ROLE||t.kind!=='audit'||!t.lease_token||
-               t.payload?.mode!=='existing_strict_evidence'||
-               t.payload?.financial_certified!==false||t.payload?.deploy_allowed!==false)
-              throw Error('Unexpected strict evidence lease');
-            const result=await call({op:'existing_complete',
-              task_id:t.id,lease_token:t.lease_token});
-            if(result.financial_certified!==false||result.deploy_allowed!==false||
-               result.result?.verdict!=='REVIEW')
-              throw Error('Evidence task attempted financial promotion');
-            core.notice('Source-only case '+t.payload.scpi_slug+
-              ' owner='+t.role+' route='+t.payload.route_family+
-              ' outcome='+result.result.status+
-              '; no finance certified; next='+result.result.next_action);
-
+            core.notice('FINISHER '+role+' SOURCE PDFs verified='+realProofs+
+              ' blocked='+blocked+'; finance PASS never asserted');
+            // Blocked source is a genuine outstanding requirement, not a
+            // false green. Other roles still execute thanks to fail-fast=false.
+            if(blocked>0)core.setFailed(role+' original PDF proof blocked for '+blocked+' case(s)');
+      - name: Archive independently verifiable issuer evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strict-finisher-${{ matrix.role }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/strict-finisher/
+          if-no-files-found: warn
+          retention-days: 14
   historical-tof-financial-geometry:
     # Read-only follow-up to RECOVERY-186 on three original source PDFs.
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
