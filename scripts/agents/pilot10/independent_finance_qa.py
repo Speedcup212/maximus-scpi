@@ -12,6 +12,8 @@ import subprocess
 import unicodedata
 import fitz
 
+from geometry_review import analyze_geometry,pdf_words_mupdf,pdf_words_poppler
+
 FIELD_LABELS = {
     "tof": r"(?:\btaux\s+d.?\s*occupation\s+financier(?:e)?\b|\btof\b)",
     "top": r"(?:\btaux\s+d.?\s*occupation\s+physique\b|\btop\b)",
@@ -120,6 +122,12 @@ def run(manifest, proof, proof_root):
     if not baseline_metrics:
         result["reason"] = "NO_UPSTREAM_EXTRACTED_METRIC_TO_CONFRONT"
         return result
+    # Structural numeric QA: both *independent* engines must locate the same
+    # value near the same financial field in compatible page coordinates.
+    # This remains candidate evidence and never a financial certification.
+    geo_mupdf=pdf_words_mupdf(pdfpath)
+    geo_poppler=pdf_words_poppler(pdfpath)
+    geometry_count=0
     dual_count = 0
     for field, baseline in baseline_metrics.items():
         if field not in FIELD_LABELS or not isinstance(baseline, (int, float)):
@@ -132,7 +140,10 @@ def run(manifest, proof, proof_root):
         overlap = sorted(pages_a & pages_b)
         status = "DUAL_READER_CONTEXT_MATCH" if overlap else "NEEDS_SEMANTIC_REVIEW"
         dual_count += bool(overlap)
+        geom=analyze_geometry(pdfpath,field,baseline,geo_mupdf,geo_poppler)
+        geometry_count+=bool(geom.get("same_page_coordinates_verified"))
         result["metrics"][field] = {
+            "geometry":geom,
             "baseline_value_from_replay": baseline,
             "status": status,
             "matching_pages_both_engines": overlap,
@@ -140,6 +151,7 @@ def run(manifest, proof, proof_root):
             "poppler_contexts": b[:2],
             "semantic_qa_certified": False,
         }
+    result["dual_geometry_candidates"] = geometry_count
     result["dual_context_candidates"] = dual_count
     result["metrics_tested"] = len(baseline_metrics)
     # Deliberately do not turn a textual match into a numeric certification.
@@ -159,6 +171,7 @@ def main():
     print("PILOT10", result["scpi_slug"], result["source_status"],
           "context_candidates", result.get("dual_context_candidates", 0),
           "of", result.get("metrics_tested", 0),
+          "geometric_candidates",result.get("dual_geometry_candidates",0),
           "reason", result.get("reason", ""),
           "FINANCIAL_CERTIFIED=false")
     for field, m in result["metrics"].items():
