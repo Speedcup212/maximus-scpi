@@ -117,3 +117,41 @@ jobs:
           path: pilot10-consolidated.json
           retention-days: 21
           if-no-files-found: warn
+
+
+  title-diagnostics:
+    # Diagnostic on original SHA-locked rejected PDFs; NO weakening of title QA.
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        slug: [epargne-pierre, epsicap-nano]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Independent publisher title diagnostic dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils jq
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Verify registry issuer SHA and inspect both front-page extracts
+        env:
+          SCPI_SLUG: ${{ matrix.slug }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/title-diagnostics"
+          jq -e -c --arg s "$SCPI_SLUG" '.[] | select(.candidate_slug == $s)' scripts/agents/pilot10/financial_pilot_manifest.json > "$RUNNER_TEMP/title-diagnostics/manifest.json"
+          python scripts/agents/pilot10/title_diagnostics.py \
+            --manifest "$RUNNER_TEMP/title-diagnostics/manifest.json" \
+            --out "$RUNNER_TEMP/title-diagnostics/diagnosis.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pilot10-title-${{ matrix.slug }}
+          path: ${{ runner.temp }}/title-diagnostics/diagnosis.json
+          retention-days: 14
+          if-no-files-found: warn
