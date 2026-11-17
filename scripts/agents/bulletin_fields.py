@@ -195,7 +195,7 @@ def competing_reference_caption_is_closer(metric,label_group,value_group,groups)
         # sufficient to VETO a borrowed number, never to approve it.
         distinctive="reconstitution" if rival=="prix_reconstitution" else "realisation"
         if not (any(re.search(pattern,caption) for pattern in FIELDS[rival][1])
-                or re.search(r"\\b"+distinctive+r"\\b",caption)):
+                or distinctive in caption):
             continue
         rival_distance=distance(group)
         if rival_distance+1<own_distance and rival_distance<100:
