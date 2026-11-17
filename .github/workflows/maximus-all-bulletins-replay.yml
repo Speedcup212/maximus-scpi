@@ -9,6 +9,8 @@ on:
       - scripts/agents/bulletin_complete_pipeline*
       - scripts/agents/missing_metric_policy.py
       - scripts/agents/bulletin_fields.py
+      - scripts/agents/bulletin_fields_semantic_guard_test.py
+      - scripts/agents/novaxia_exact_semantic_regression.py
       - scripts/agents/corum_bulletin_fields.py
       - supabase/migrations/20261107_recovery175_missing_metric_evidence_triage.sql
       - supabase/migrations/20261107_recovery176_missing_metric_triage_semantics.sql
@@ -24,6 +26,8 @@ on:
       - scripts/agents/bulletin_complete_pipeline*
       - scripts/agents/missing_metric_policy.py
       - scripts/agents/bulletin_fields.py
+      - scripts/agents/bulletin_fields_semantic_guard_test.py
+      - scripts/agents/novaxia_exact_semantic_regression.py
       - scripts/agents/corum_bulletin_fields.py
       - supabase/migrations/20261107_recovery175_missing_metric_evidence_triage.sql
       - supabase/migrations/20261107_recovery176_missing_metric_triage_semantics.sql
@@ -41,6 +45,34 @@ concurrency:
   group: all-scpi-bulletin-replay-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref }}
   cancel-in-progress: false
 jobs:
+  novaxia-original-semantic-guard:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned independent PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Verify exact original Novaxia 2026-T3 semantic reconciliation, read-only
+        run: python scripts/agents/novaxia_exact_semantic_regression.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: novaxia-exact-original-semantic-proof
+          path: test-results/novaxia-exact-semantic.json
+          retention-days: 14
+          if-no-files-found: warn
+
   seed-replay:
     # Single authenticated source-index mutation: do NOT run this inside
     # the 4-slot matrix (RECOVERY-174 lock contention incident).
