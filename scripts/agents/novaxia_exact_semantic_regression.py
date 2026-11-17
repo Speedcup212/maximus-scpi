@@ -49,6 +49,17 @@ def run():
         result=bulletin_fields.reconcile(
             bulletin_fields.extract(*a,PERIOD),
             bulletin_fields.extract(*b,PERIOD))
+    for engine_name,words in [("MuPDF",a[1][6]),("Poppler",b[1][6])]:
+        if True:
+            for grp in bulletin_fields.line_groups(words):
+                t=bulletin_fields.text(grp)
+                if any(key in bulletin_fields.norm(t) for key in
+                       ("realisation","reconstitution","145,51","171,25")):
+                    print("NOVAXIA_BBOX",engine_name,bulletin_fields.rect(grp),repr(t[:140]),flush=True)
+    for field in ("valeur_realisation","prix_reconstitution"):
+        for eng,raw in [("MuPDF",a),("Poppler",b)]:
+            hits,_=bulletin_fields.extract(*raw,PERIOD)
+            print("NOVAXIA_FIELD_HITS",field,eng,json.dumps(hits.get(field,[])[:6],ensure_ascii=False),flush=True)
     metrics,proofs,coverage,candidates=result
     real=metrics.get("valeur_realisation")
     recon=metrics.get("prix_reconstitution")
