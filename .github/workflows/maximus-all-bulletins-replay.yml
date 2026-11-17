@@ -86,7 +86,7 @@ jobs:
       - name: Install independent original PDF engines
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends poppler-utils
+          sudo apt-get install -y --no-install-recommends poppler-utils tesseract-ocr tesseract-ocr-fra tesseract-ocr-eng
           python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
       - name: Authenticate OIDC and read exact NCap T3 archive (read-only)
         run: python scripts/agents/ncap_t3_source_probe.py
