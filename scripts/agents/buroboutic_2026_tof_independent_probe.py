@@ -22,7 +22,7 @@ from pilot10.geometry_review import pdf_words_mupdf,pdf_words_poppler,box_center
 
 DOCS={
  "2026-T2":{
-  "url":"https://www.fiducial-gerance.fr/content/download/1410/40287?version=4",
+  "url":"https://www.fiducial-gerance.fr/content/download/1410/file/BTI%20Buroboutic%20T2%202026%20WEB.pdf?version=4",
   "sha256":"2cc87a2cf3536f145bc6db7d71f8cef69190379fa2e2c369ae8052de896c99ba",
   "value":91.56,"old_bad_value":91,"expected_pages":6,
  },
