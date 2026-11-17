@@ -5,7 +5,7 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/"scpi-onboarding"))
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from publisherPdfAudit import quarter_title_matches
-from geometry_review import analyze_geometry
+from geometry_review import analyze_geometry,parse_poppler_bbox
 
 
 def w(t,x,y,width=22):
@@ -48,6 +48,13 @@ class IndependentGeometry(unittest.TestCase):
         outcome=analyze_geometry("unused.pdf","tof",92.5,mu,po)
         self.assertEqual(outcome["status"],"NO_LABELLED_GEOMETRIC_VALUE")
         self.assertFalse(outcome["semantic_financial_qa"])
+
+    def test_poppler_bbox_with_invalid_xml_ampersand_is_still_parsed(self):
+        html='<html><body><page width="595" height="842"><word xMin="50" yMin="100" xMax="115" yMax="110">Capitalisation &amp;</word><word xMin="120" yMin="100" xMax="150" yMax="110">209</word><word xMin="160" yMin="100" xMax="180" yMax="110">A & B</word></page></body></html>'
+        out=parse_poppler_bbox(html)
+        self.assertEqual(len(out),1)
+        self.assertEqual(len(out[0]),3)
+        self.assertEqual(out[0][1]["t"],"209")
 
     def test_two_readers_at_different_positions_not_approved(self):
         mu=[[w("TOF",20,20),w("92,5",50,20)]]
