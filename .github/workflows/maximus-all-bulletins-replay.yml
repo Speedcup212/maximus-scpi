@@ -17,6 +17,7 @@ on:
       - 'supabase/migrations/*_source_qa.sql'
       - scripts/agents/bulletin_source_resolver*
       - scripts/agents/bulletin_source_transport*
+      - scripts/agents/ncap_t3_source_probe.py
       - scripts/agents/paref_private_archived_tof_oidc_probe*
       - scripts/agents/certificates/**
       - supabase/functions/scpi-bulletin-replay-oidc/**
@@ -34,6 +35,7 @@ on:
       - 'supabase/migrations/*_source_qa.sql'
       - scripts/agents/bulletin_source_resolver*
       - scripts/agents/bulletin_source_transport*
+      - scripts/agents/ncap_t3_source_probe.py
       - scripts/agents/paref_private_archived_tof_oidc_probe*
       - scripts/agents/certificates/**
       - supabase/functions/scpi-bulletin-replay-oidc/**
@@ -45,6 +47,58 @@ concurrency:
   group: all-scpi-bulletin-replay-${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref }}
   cancel-in-progress: false
 jobs:
+  ncap-original-proof-contract:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify pinned issuer source allowlist and syntax offline
+        run: |
+          python -m py_compile scripts/agents/ncap_t3_source_probe.py
+          python - <<'PY'
+          from pathlib import Path
+          edge=Path('supabase/functions/scpi-bulletin-replay-oidc/index.ts').read_text()
+          flow=Path('.github/workflows/maximus-all-bulletins-replay.yml').read_text()
+          assert "ncap-education-sante" in edge
+          assert "cd81cb7ec3750dd7fef05d3720729748896acc3f659f7b7a872ad6ff242cbf96" in edge
+          assert "body.op==='archived_exact_source_probe'" in edge
+          assert "jwt.workflow_ref!==repo+'/.github/workflows/maximus-all-bulletins-replay.yml@'+jwt.ref" in edge
+          assert "ncap_t3_source_probe.py" in flow
+          PY
+
+  ncap-private-original-tof-diagnostic:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent original PDF engines
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Authenticate OIDC and read exact NCap T3 archive (read-only)
+        run: python scripts/agents/ncap_t3_source_probe.py
+      - name: Keep bounded source report, never signed URL or raw private PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ncap-t3-exact-issuer-tof-proof
+          path: test-results/ncap-t3-source-proof/bounded-source-evidence.json
+          retention-days: 14
+          if-no-files-found: warn
+
   novaxia-original-semantic-guard:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
