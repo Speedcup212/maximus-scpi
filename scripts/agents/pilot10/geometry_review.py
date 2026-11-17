@@ -10,7 +10,7 @@ import math
 import re
 import subprocess
 import unicodedata
-import xml.etree.ElementTree as ET
+from html.parser import HTMLParser
 from pathlib import Path
 import fitz
 
@@ -70,28 +70,54 @@ def pdf_words_mupdf(path):
     return out
 
 
+class PopplerBBoxHTML(HTMLParser):
+    """Tolerant to literal ampersands and occasional broken XML text characters.
+    The original pdftotext -bbox-layout retains numeric page coordinates.
+    """
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.pages=[]
+        self.current=None
+        self.current_word=None
+    def handle_starttag(self,tag,attrs):
+        props=dict(attrs)
+        if tag=="page":
+            self.current=[]
+            self.pages.append(self.current)
+        elif tag=="word" and self.current is not None:
+            try:
+                bbox=[float(props[k]) for k in ("xmin","ymin","xmax","ymax")]
+            except (KeyError,ValueError,TypeError):
+                self.current_word=None;return
+            self.current_word={"bbox":[round(v,2) for v in bbox],"text":[]}
+    def handle_data(self,data):
+        if self.current_word is not None:
+            self.current_word["text"].append(data)
+    def handle_endtag(self,tag):
+        if tag=="word":
+            w=self.current_word
+            if w is not None and self.current is not None:
+                value="".join(w["text"]).strip()
+                if value:self.current.append({"t":value,"bbox":w["bbox"]})
+            self.current_word=None
+        elif tag=="page":
+            self.current=None
+
+
+def parse_poppler_bbox(raw):
+    parser=PopplerBBoxHTML()
+    parser.feed(raw)
+    parser.close()
+    if not parser.pages:
+        raise ValueError("POPPLER_GEOMETRY_NO_PAGES")
+    return parser.pages
+
+
 def pdf_words_poppler(path):
     proc=subprocess.run(["pdftotext","-bbox-layout","-enc","UTF-8",str(path),"-"],
-                        capture_output=True, text=True,timeout=50)
+                        capture_output=True,text=True,timeout=50)
     if proc.returncode:raise ValueError("POPPLER_GEOMETRY_FAILED")
-    root=ET.fromstring(proc.stdout)
-    out=[]
-    for page in root.iter():
-        if not page.tag.endswith("page"):continue
-        words=[]
-        for node in page.iter():
-            if not node.tag.endswith("word"):continue
-            s="".join(node.itertext()).strip()
-            if not s:continue
-            try:
-                b=[float(node.attrib[k]) for k in ("xMin","yMin","xMax","yMax")]
-            except (ValueError,KeyError):
-                continue
-            words.append({"t":s,"bbox":[round(v,2) for v in b]})
-        out.append(words)
-    if not out: raise ValueError("POPPLER_GEOMETRY_NO_PAGES")
-    return out
-
+    return parse_poppler_bbox(proc.stdout)
 
 def labels(words, field):
     aliases=LABEL_TOKENS.get(field,())
