@@ -20,6 +20,21 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  qa-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned independent reader for unit contract
+        run: python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Verify title-spacing evidence and fail-closed numeric geometry
+        run: python -m unittest scripts/agents/pilot10/test_geometry_title.py -v
+
   ten-originals:
     strategy:
       fail-fast: false
@@ -97,9 +112,10 @@ jobs:
           if len(set(slugs))!=10 or any(x.get('financial_certified') is not False or x.get('deploy_allowed') is not False for x in rows):
               raise SystemExit('UNSAFE_FINANCIAL_QA_OR_DUPLICATE_SLUG')
           for r in sorted(rows,key=lambda x:x['scpi_slug']):
-              print(r['scpi_slug'],r['source_status'],r.get('dual_context_candidates',0),'/',r.get('metrics_tested',0),'metric candidates',r.get('reason',''))
+              print(r['scpi_slug'],r['source_status'],r.get('dual_context_candidates',0),'/',r.get('metrics_tested',0),'context candidates; ',r.get('dual_geometry_candidates',0),'geometric candidates',r.get('reason',''))
           summary={'funds':10,'source_verified':sum(x['source_status']=='VERIFIED_TWO_READERS' for x in rows),
             'metric_context_candidates':sum(x.get('dual_context_candidates',0) for x in rows),
+            'metric_geometry_candidates':sum(x.get('dual_geometry_candidates',0) for x in rows),
             'metrics_tested':sum(x.get('metrics_tested',0) for x in rows),
             'financial_certified':False,'deploy_allowed':False,
             'results':rows}
