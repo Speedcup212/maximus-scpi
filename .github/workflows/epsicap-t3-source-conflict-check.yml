@@ -1,0 +1,39 @@
+name: Epsicap Nano 2026-T3 exact original financial reconciliation
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/agents/epsicap_t3_semantic_reconcile.py"
+      - "scripts/agents/pilot10/geometry_review.py"
+      - ".github/workflows/epsicap-t3-source-conflict-check.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  independent-source-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Compare SHA-locked issuer PDF to conflicting source snapshot
+        run: python scripts/agents/epsicap_t3_semantic_reconcile.py
+      - name: Archive real independent proof and labeled source-page crops
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: epsicap-t3-2026-original-financial-proof
+          path: |
+            test-results/epsicap-t3-semantic-proof.json
+            test-results/epsicap-t3-field-crops/*.png
+          if-no-files-found: warn
+          retention-days: 21
