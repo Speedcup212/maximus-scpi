@@ -20,6 +20,8 @@ LABEL_TOKENS={
     "capitalisation": (("capitalisation",),),
     "valeur_realisation": (("valeur","realisation"),),
     "prix_reconstitution": (("valeur","reconstitution"),("prix","reconstitution")),
+    "prix_souscription": (("prix","souscription"),),
+    "prix_retrait": (("valeur","retrait"),("prix","retrait")),
 }
 NUMERIC = re.compile(r"^(?:[0-9]{1,8}(?:[.,][0-9]{1,6})?|[0-9]{1,3}(?:[ .\u00a0\u202f][0-9]{3})+(?:[.,][0-9]+)?)$")
 TEXT_SANITIZE = re.compile(r"[^a-z0-9]+")
