@@ -1,0 +1,119 @@
+name: MaximusSCPI - independent financial evidence pilot on 10 existing FAIL
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/scpi-independent-finance-pilot10.yml"
+      - "scripts/agents/pilot10/**"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/scpi-independent-finance-pilot10.yml"
+      - "scripts/agents/pilot10/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: scpi-independent-finance-pilot10-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  ten-originals:
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        slug: [aestiam-agora, epargne-pierre, patrimmo-commerce, praemia-hotels-europe, log-in, novaxia-neo, epsicap-nano, acces-valeur-pierre, transitions-europe, corum-origin]
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install two independent original PDF readers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils jq
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Select original source exactly for this SCPI
+        env:
+          SCPI_SLUG: ${{ matrix.slug }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/pilot10"
+          jq -e -c --arg s "$SCPI_SLUG" '.[] | select(.candidate_slug == $s)' scripts/agents/pilot10/financial_pilot_manifest.json > "$RUNNER_TEMP/pilot10/manifest.json"
+          test "$(jq -r '.candidate_slug' "$RUNNER_TEMP/pilot10/manifest.json")" = "$SCPI_SLUG"
+      - name: Download issuer original, verify SHA, pages, identity, and period
+        id: original
+        continue-on-error: true
+        run: |
+          python scripts/agents/candidate_pdf_binary_proof.py \
+            --manifest "$RUNNER_TEMP/pilot10/manifest.json" \
+            --out "$RUNNER_TEMP/pilot10/proof"
+      - name: Independent numeric context review - two PDF readers, no certification
+        if: always()
+        run: |
+          test -f "$RUNNER_TEMP/pilot10/proof/proof.json"
+          python scripts/agents/pilot10/independent_finance_qa.py \
+            --manifest "$RUNNER_TEMP/pilot10/manifest.json" \
+            --proof "$RUNNER_TEMP/pilot10/proof/proof.json" \
+            --proof-root "$RUNNER_TEMP/pilot10/proof" \
+            --out "$RUNNER_TEMP/pilot10/financial-review.json"
+      - name: Save evidence without publishing PDF or changing finance flags
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pilot10-${{ matrix.slug }}
+          path: ${{ runner.temp }}/pilot10/financial-review.json
+          retention-days: 21
+          if-no-files-found: error
+
+  summary:
+    needs: ten-originals
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: pilot10-*
+          path: audit-results
+          merge-multiple: false
+      - name: Consolidate exactly 10 real checks - always fail closed
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          p=pathlib.Path('audit-results')
+          files=sorted(p.glob('*/financial-review.json'))
+          print('TEN_SCPI_REPORT actual_reports=',len(files))
+          if len(files)!=10:
+              raise SystemExit('MISSING_PILOT_EVIDENCE: expected 10 independent reports')
+          rows=[json.loads(f.read_text()) for f in files]
+          slugs=[x['scpi_slug'] for x in rows]
+          if len(set(slugs))!=10 or any(x.get('financial_certified') is not False or x.get('deploy_allowed') is not False for x in rows):
+              raise SystemExit('UNSAFE_FINANCIAL_QA_OR_DUPLICATE_SLUG')
+          for r in sorted(rows,key=lambda x:x['scpi_slug']):
+              print(r['scpi_slug'],r['source_status'],r.get('dual_context_candidates',0),'/',r.get('metrics_tested',0),'metric candidates',r.get('reason',''))
+          summary={'funds':10,'source_verified':sum(x['source_status']=='VERIFIED_TWO_READERS' for x in rows),
+            'metric_context_candidates':sum(x.get('dual_context_candidates',0) for x in rows),
+            'metrics_tested':sum(x.get('metrics_tested',0) for x in rows),
+            'financial_certified':False,'deploy_allowed':False,
+            'results':rows}
+          pathlib.Path('pilot10-consolidated.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2))
+          with open(__import__('os').environ['GITHUB_STEP_SUMMARY'],'a') as f:
+              f.write('## 10 SCPI — revue financière documentaire indépendante\n\n')
+              f.write('PDF officiels vérifiés MuPDF/Poppler: **'+str(summary['source_verified'])+'/10**\n\n')
+              f.write('Valeurs retrouvées dans le contexte du libellé par les deux lecteurs: **'+str(summary['metric_context_candidates'])+'/'+str(summary['metrics_tested'])+'**\n\n')
+              f.write('**Certification financière : AUCUNE. QA sémantique et règles strictes encore requises.**\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pilot10-consolidated
+          path: pilot10-consolidated.json
+          retention-days: 21
+          if-no-files-found: warn
