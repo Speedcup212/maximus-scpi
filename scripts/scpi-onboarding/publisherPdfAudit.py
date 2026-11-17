@@ -75,6 +75,22 @@ def semester_title_matches(raw_text, source_period):
     return bool(re.search(marker,opening))
 
 
+def quarter_title_matches(raw_text, source_period):
+    """Match an explicit quarter and year even when PDF text spacing differs.
+    Never infer the document period merely from its URL or validity dates.
+    """
+    if not isinstance(source_period,str) or not re.fullmatch(r"20\d{2}-T[1-4]",source_period):
+        return False
+    opening=normalize(raw_text)
+    year=source_period[:4]
+    quarter=source_period[-1]
+    # Publisher variants: '3 eme trimestre 2026', '3eme trimestre 2026bulletin'.
+    # The final digit must end the year; a concatenated non-digit word is fine.
+    long=(r"(?<![a-z0-9])"+quarter+r"\s*(?:eme|er|e)?\s*(?:trimestre|trim)\b"
+          r"[\W\s]{0,15}"+year+r"(?!\d)")
+    short=(r"\b(?:t|q)\s*"+quarter+r"\s*"+year+r"(?!\d)")
+    return bool(re.search(long,opening) or re.search(short,opening))
+
 def audit_document(d,c,fetcher=download):
     kind=d.get("kind")
     period=d.get("reference_period")
@@ -104,10 +120,7 @@ def audit_document(d,c,fetcher=download):
         raise ValueError("FUND_IDENTITY_NOT_FOUND:"+str(kind)+":"+str(period)+":"+opening[:350])
     if kind=="quarterly":
         if not re.fullmatch(r"20\d{2}-T[1-4]",period):raise ValueError("INVALID_QUARTER_PERIOD")
-        quarter=period[-1]
-        year=period[:4]
-        rx=r"\b"+quarter+r"(?:e|eme|er)?\s*(?:trimestre|trim)\b[\W\s]{0,15}"+year+r"\b|\b(?:t|q)"+quarter+r"\s*"+year+r"\b"
-        if not re.search(rx,opening):
+        if not quarter_title_matches(opening,period):
             raise ValueError("QUARTER_TITLE_UNCONFIRMED:"+opening[:160])
     elif kind=="semiannual":
         if not re.fullmatch(r"20\d{2}-S[12]",period):
