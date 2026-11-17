@@ -30,6 +30,8 @@ test('REC219 never produces PASS or approves financial provenance',()=>{
  assert.match(workflow,/existing-strict-evidence:/);
  assert.match(workflow,/existing_prepare/);
  assert.match(workflow,/existing_claim/);
- assert.match(workflow,/existing_complete/);
+ // RECOVERY-222 supersedes the metadata-only completion with issuer PDF proof.
+ assert.match(workflow,/existing_proof_complete/);
+ assert.match(edge,/body.op==="existing_complete"/);
  assert.match(workflow,/role: \[DATA, SEARCH, ANALYST, QA\]/);
 });

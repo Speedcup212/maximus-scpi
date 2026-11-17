@@ -99,7 +99,38 @@ Deno.serve(async request=>{
          t.payload?.mode!=="existing_strict_evidence"||!t.lease_token||
          t.payload?.financial_certified!==false||t.payload?.deploy_allowed!==false)
         throw Error("REC219_UNSAFE_TASK_SCOPE");
-      return Response.json({task:{...t,deploy_allowed:false,financial_certified:false}});
+      // Exact original publisher PDF manifest, scoped to an OIDC leased existing-69 task.
+      const manifestRows=await sql`
+        select r.scpi_name,c.allowed_hosts,
+          d.source_period,d.source_url,d.pdf_sha256,d.page_count
+        from public.scpi_source_registry r
+        join public.scpi_source_connectors c using(scpi_slug)
+        left join lateral (
+          select d.source_period,d.source_url,d.pdf_sha256,d.page_count
+          from maximus_agents.scpi_bulletin_replay_documents d
+          where d.scpi_slug=r.scpi_slug
+            and d.source_period=${t.payload.target_period}
+            and d.source_url=r.bulletin_url
+            and d.status='extracted'
+            and d.pdf_sha256 ~ '^[a-f0-9]{64}$'
+            and d.page_count>0
+            and d.result->>'identity_verified'='true'
+            and d.result->>'period_verified'='true'
+          order by d.processed_at desc nulls last limit 1
+        ) d on true
+        where r.scpi_slug=${t.payload.scpi_slug} limit 1`;
+      const record=manifestRows[0];
+      const manifest={
+        exists:Boolean(record),candidate_slug:t.payload.scpi_slug,
+        candidate_name:record?.scpi_name||t.payload.scpi_slug,
+        allowed_hosts:record?.allowed_hosts||[],
+        documents:record?.pdf_sha256?[{
+          source_period:record.source_period,document_kind:'quarterly_bulletin',
+          source_url:record.source_url,pdf_sha256:record.pdf_sha256,
+          page_count:record.page_count
+        }]:[]
+      };
+      return Response.json({task:{...t,deploy_allowed:false,financial_certified:false},manifest});
     }
     if(body.op==="existing_complete"&&typeof body.task_id==="string"&&
        typeof body.lease_token==="string"){
@@ -114,6 +145,21 @@ Deno.serve(async request=>{
       if(!result||result.verdict!=="REVIEW"||
          result.financial_certified!==false||result.deploy_allowed!==false)
         throw Error("REC219_COMPLETION_SAFETY");
+      return Response.json({result,financial_certified:false,deploy_allowed:false});
+    }
+    if(body.op==="existing_proof_complete"&&typeof body.task_id==="string"&&
+       typeof body.lease_token==="string"){
+      if(!/^[0-9a-f-]{36}$/i.test(body.task_id)||
+         !/^[0-9a-f-]{36}$/i.test(body.lease_token)||
+         !body.proof||typeof body.proof!=="object"||
+         body.proof.financial_certified!==false||body.proof.deploy_allowed!==false)
+        return Response.json({error:"invalid_strict_proof_envelope"},{status:400});
+      const [row]=await sql`select maximus_agents.complete_existing_strict_binary_proof_v1(
+        ${body.task_id}::uuid,${body.lease_token}::uuid,${sql.json(body.proof)}::jsonb) as result`;
+      const result=row?.result;
+      if(!result||result.verdict!=="REVIEW"||result.financial_certified!==false||
+         result.deploy_allowed!==false||!["done","blocked"].includes(result.status))
+        throw Error("FINISHER_COMPLETION_SAFETY");
       return Response.json({result,financial_certified:false,deploy_allowed:false});
     }
     if(body.op==="historical_prepare"){
