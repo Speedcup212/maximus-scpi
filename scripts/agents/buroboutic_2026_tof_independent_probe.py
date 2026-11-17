@@ -10,7 +10,8 @@ Never accept 91% generic narrative (T2), 0.07% vacancy subcomponent
 import hashlib,json,re,subprocess,sys,tempfile
 from pathlib import Path
 import fitz
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit,urljoin
+import urllib.request,urllib.error,ssl
 
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE))
@@ -62,7 +63,29 @@ def main():
     folder=Path("test-results/buroboutic-2026-tof")
     folder.mkdir(parents=True,exist_ok=True)
     for period,info in DOCS.items():
-        data,effective=download_official(info["url"],["www.fiducial-gerance.fr","fiducial-gerance.fr"])
+        try:
+            data,effective=download_official(info["url"],["www.fiducial-gerance.fr","fiducial-gerance.fr"])
+        except ValueError as exc:
+            if "ISSUER_REDIRECT_NEEDS_INDEPENDENT_APPROVAL" not in str(exc):raise
+            # Read ONLY the first issuer Location header; never follow a
+            # redirect, never approve a host/URL based on a redirect alone.
+            class StopRedirect(urllib.request.HTTPRedirectHandler):
+                def redirect_request(self,req,fp,code,msg,headers,newurl):return None
+            opener=urllib.request.build_opener(
+                StopRedirect(),urllib.request.HTTPSHandler(context=ssl.create_default_context()))
+            request=urllib.request.Request(info["url"],headers={
+                "User-Agent":"Mozilla/5.0 (compatible; MaximusSCPI-DocumentProof/1.0)",
+                "Accept":"application/pdf"},method="GET")
+            try:
+                with opener.open(request,timeout=35) as response:pass
+            except urllib.error.HTTPError as error:
+                loc=error.headers.get("Location")
+                target=urljoin(info["url"],loc) if loc else None
+                print("BURO_REDIRECT_BLOCKED",period,"status",error.code,
+                      "location",target,"same_issuer_host",
+                      urlsplit(target).hostname in ("www.fiducial-gerance.fr","fiducial-gerance.fr")
+                      if target else False,flush=True)
+            raise
         if effective!=info["url"] or hashlib.sha256(data).hexdigest()!=info["sha256"]:
             raise RuntimeError(period+":PUBLISHER_PDF_IDENTITY_FAILED")
         with tempfile.TemporaryDirectory() as tmp:
