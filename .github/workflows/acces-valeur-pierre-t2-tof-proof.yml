@@ -1,0 +1,35 @@
+name: Acces Valeur Pierre 2026-T2 independent TOF proof
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/agents/acces_valeur_pierre_t2_tof_probe.py"
+      - ".github/workflows/acces-valeur-pierre-t2-tof-proof.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  issuer-t2-original:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install independent native PDF engines
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
+      - name: Verify original publisher T2 2026 PDF and independent TOF reading
+        run: python scripts/agents/acces_valeur_pierre_t2_tof_probe.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acces-valeur-pierre-t2-tof-evidence
+          path: test-results/acces-valeur-pierre-t2/
+          retention-days: 14
+          if-no-files-found: warn
