@@ -64,6 +64,23 @@ def main():
         po_identity="acces valeur pierre" in normalize(" ".join(texts))
         if not (mu_identity and po_identity and mu_title and po_title):
             raise RuntimeError("IDENTITY_OR_PERIOD_NOT_CONFIRMED_TWO_ENGINES")
+        # The source MUST explicitly print the same TOF twice: in the
+        # 30 June 2026 KPI panel (page 2) AND in the S1 2026 ASPIM
+        # comparative table (page 4). Do not infer from the T3 bulletin.
+        exact_checks={}
+        for engine,pages in (("MuPDF",a[0]),("Poppler",texts)):
+            p2=normalize(pages[1])
+            p4=normalize(pages[3])
+            exact_checks[engine]={
+              "kpi_tof_label":bool(re.search(r"taux d.occupation financier",p2)),
+              "kpi_value":bool(re.search(r"87[,.]07\s*%",p2)),
+              "kpi_reference_date":"30 juin 2026" in p2 or "30/06/2026" in p2,
+              "table_tof_label":"tof" in p4,
+              "table_value":bool(re.search(r"87[,.]07\s*%",p4)),
+              "table_period":"s1 2026" in p4,
+            }
+        if not all(all(fields.values()) for fields in exact_checks.values()):
+            raise RuntimeError("ACCES_T2_FINANCIAL_SOURCE_PROOF_INCOMPLETE:"+str(exact_checks))
         hits_a,seen_a=bulletin_fields.extract(*a,PERIOD)
         hits_b,seen_b=bulletin_fields.extract(*b,PERIOD)
         result={
@@ -75,7 +92,11 @@ def main():
            "metric_candidates":{"MuPDF":hits_a.get("tof",[]),"Poppler":hits_b.get("tof",[])},
            "text_occurrences":scan("MuPDF",a[0])+scan("Poppler",texts),
            "financial_certified":False,"deploy_allowed":False,
-           "semantic_qa":"REVIEW_REQUIRED"
+           "semantic_qa":"SOURCE_PROOF_COMPLETE_CERTIFICATE_REQUIRES_SQL_READBACK",
+           "reported_tof_percent":87.07,
+           "reported_reference_date":"2026-06-30",
+           "reported_reporting_period":"2026-S1",
+           "readers_exact_kpi_and_table":exact_checks
         }
         out=Path("test-results/acces-valeur-pierre-t2")
         out.mkdir(parents=True,exist_ok=True)
