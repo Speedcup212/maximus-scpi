@@ -166,6 +166,43 @@ def metric_date(metric,label,words,groups,period):
         return None
     return end
 
+def competing_reference_caption_is_closer(metric,label_group,value_group,groups):
+    """Prevent two PDF engines agreeing on the SAME wrong adjacent number.
+
+    A realization value may sit just to the left of a *reconstitution*
+    caption while a 'realisation' caption is in the row above. Competing
+    financial labels always take priority over nearest-number borrowing.
+    The rule only vetoes a candidate: it does not infer replacement values.
+    """
+    if metric not in ('valeur_realisation','prix_reconstitution'):
+        return False
+    x0,y0,x1,y1=rect(value_group)
+    def distance(g):
+        ax0,ay0,ax1,ay1=rect(g)
+        dx=max(0,ax0-x1,x0-ax1)
+        dy=max(0,ay0-y1,y0-ay1)
+        return (dx*dx+dy*dy)**.5
+    own_distance=distance(label_group)
+    rival='prix_reconstitution' if metric=='valeur_realisation' else 'valeur_realisation'
+    for group in groups:
+        if group is label_group or group is value_group:
+            continue
+        caption=norm(text(group))
+        if len(caption)>110:
+            continue
+        # Some issuers split "Valeur de" and "reconstitution" into
+        # separate PDF line groups. The distinctive rival noun remains
+        # sufficient to VETO a borrowed number, never to approve it.
+        distinctive="reconstitution" if rival=="prix_reconstitution" else "realisation"
+        if not (any(re.search(pattern,caption) for pattern in FIELDS[rival][1])
+                or distinctive in caption):
+            continue
+        rival_distance=distance(group)
+        if rival_distance+1<own_distance and rival_distance<100:
+            return True
+    return False
+
+
 def extract(pages,wordpages,widths,period):
     hits={};seen=set();end=end_date(period)
     if not end:return {},set()
@@ -192,12 +229,24 @@ def extract(pages,wordpages,widths,period):
                         if other is group:continue
                         ox0,oy0,ox1,oy1=rect(other)
                         overlap=min(x1,ox1)-max(x0,ox0)
-                        if overlap<=0 or min(abs(oy1-y0),abs(oy0-y1))>38:continue
+                        # Value-to-caption may be in neighboring columns with
+                        # a small horizontal gap, not an overlapping rectangle.
+                        # Only reference values get this strict same-row path.
+                        gap=max(0,ox0-x1,x0-ox1)
+                        center_delta=abs((y0+y1-oy0-oy1)/2)
+                        adjacent_reference=(
+                            metric in ('valeur_realisation','prix_reconstitution')
+                            and gap<=32 and center_delta<=14)
+                        if (overlap<=0 and not adjacent_reference) or min(abs(oy1-y0),abs(oy0-y1))>38:continue
                         t=text(other);ns=values(t,unit)
                         if not numeric_fragment(t,unit):continue
                         if len(ns)!=1:continue
                         # A nearby number labelled as another metric is never borrowed.
                         if any(any(re.search(p,norm(t)) for p in ps) for k,(_,ps) in FIELDS.items() if k!=metric):continue
+                        # Block wrong-row association when the same figure is
+                        # closer to the competing realization/reconstitution label.
+                        if competing_reference_caption_is_closer(metric,group,other,groups):
+                            continue
                         dist=min(abs(oy1-y0),abs(oy0-y1))
                         nearby.append((dist,ns[0][0],t))
                     nearby.sort()
