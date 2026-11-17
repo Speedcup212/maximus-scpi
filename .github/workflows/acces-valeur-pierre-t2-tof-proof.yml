@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - "scripts/agents/acces_valeur_pierre_t2_tof_probe.py"
+      - "scripts/agents/acces_valeur_pierre_t3_retrospective_conflict.py"
       - ".github/workflows/acces-valeur-pierre-t2-tof-proof.yml"
   workflow_dispatch:
 permissions:
@@ -26,10 +27,14 @@ jobs:
           python -m pip install --disable-pip-version-check 'PyMuPDF==1.26.5'
       - name: Verify original publisher T2 2026 PDF and independent TOF reading
         run: python scripts/agents/acces_valeur_pierre_t2_tof_probe.py
+      - name: Independently inspect retrospective T2 TOF claim in official T3 report
+        run: python scripts/agents/acces_valeur_pierre_t3_retrospective_conflict.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: acces-valeur-pierre-t2-tof-evidence
-          path: test-results/acces-valeur-pierre-t2/
+          path: |
+            test-results/acces-valeur-pierre-t2/
+            test-results/acces-valeur-pierre-t3-conflict/
           retention-days: 14
           if-no-files-found: warn
