@@ -19,7 +19,7 @@ import urllib.request
 from urllib.parse import urlsplit
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scpi-onboarding"))
-from publisherPdfAudit import MAX_BYTES, audit_document, normalize, official_url, semester_title_matches
+from publisherPdfAudit import MAX_BYTES, audit_document, normalize, official_url, semester_title_matches, quarter_title_matches
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -89,11 +89,7 @@ def independent_poppler(pdf_path,fund_name,reference_period,kind,expected_page_c
     if kind=="quarterly_bulletin":
         if not re.fullmatch(r"20\d{2}-T[1-4]",reference_period):
             raise ValueError("INVALID_QUARTER_PERIOD")
-        quarter=reference_period[-1]
-        year=reference_period[:4]
-        rx=(r"\b"+quarter+r"(?:e|eme|er)?\s*(?:trimestre|trim)\b[\W\s]{0,15}"+
-            year+r"\b|\b(?:t|q)"+quarter+r"\s*"+year+r"\b")
-        if not re.search(rx,opening):
+        if not quarter_title_matches(opening,reference_period):
             raise ValueError("POPPLER_QUARTER_UNCONFIRMED")
     elif kind=="semiannual_bulletin":
         if not re.fullmatch(r"20\d{2}-S[12]",reference_period):
