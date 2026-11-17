@@ -11,7 +11,7 @@ import sys
 import tempfile
 import fitz
 
-ROOT=Path(__file__).resolve().parents[2]
+ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"agents"))
 sys.path.insert(0,str(ROOT/"agents"/"pilot10"))
 import bulletin_fields
