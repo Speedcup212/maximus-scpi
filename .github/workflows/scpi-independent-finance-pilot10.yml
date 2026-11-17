@@ -78,6 +78,24 @@ jobs:
             --proof "$RUNNER_TEMP/pilot10/proof/proof.json" \
             --proof-root "$RUNNER_TEMP/pilot10/proof" \
             --out "$RUNNER_TEMP/pilot10/financial-review.json"
+      - name: Crop source-PDF field regions for semantic human/independent QA
+        if: always()
+        run: |
+          test -f "$RUNNER_TEMP/pilot10/financial-review.json"
+          python scripts/agents/pilot10/render_visual_evidence.py \
+            --report "$RUNNER_TEMP/pilot10/financial-review.json" \
+            --archive-root "$RUNNER_TEMP/pilot10/proof" \
+            --out "$RUNNER_TEMP/pilot10/visual-review.json"
+      - name: Archive exact-SHA PDF evidence crops (not full PDF)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pilot10-visual-${{ matrix.slug }}
+          path: |
+            ${{ runner.temp }}/pilot10/visual-review.json
+            ${{ runner.temp }}/pilot10/field-crops/*.png
+          retention-days: 14
+          if-no-files-found: warn
       - name: Save evidence without publishing PDF or changing finance flags
         if: always()
         uses: actions/upload-artifact@v4
