@@ -1,0 +1,226 @@
+[
+  {
+    "exists": true,
+    "candidate_slug": "aestiam-agora",
+    "candidate_name": "Aestiam Agora",
+    "allowed_hosts": [
+      "www.aestiam.com"
+    ],
+    "documents": [
+      {
+        "source_period": "2026-T2",
+        "source_url": "https://www.aestiam.com/doc/agora/periodique/2026-2t-bti-aestiam-agora.pdf",
+        "pdf_sha256": "3a24e11dc4f1757e0d89e0eefa5027b9128146533215b292a745f5ff16cb3a74",
+        "page_count": 7,
+        "document_kind": "quarterly_bulletin"
+      }
+    ],
+    "baseline_metrics": {
+      "capitalisation": 467,
+      "valeur_realisation": 786.95,
+      "prix_reconstitution": 953.88
+    },
+    "baseline_source": "Supabase replay metric snapshot, 17 November 2026; independently verified against PDF only by runner"
+  },
+  {
+    "exists": true,
+    "candidate_slug": "epargne-pierre",
+    "candidate_name": "Épargne Pierre",
+    "allowed_hosts": [
+      "atland-voisin.com",
+      "www.atland-voisin.com"
+    ],
+    "documents": [
+      {
+        "source_period": "2026-T3",
+        "source_url": "https://atland-voisin.com/wp-content/uploads/2026/10/BPI3T2026-EP-vdef-web.pdf",
+        "pdf_sha256": "ab652dc2f490ccd8a7ed223bd0afd12a584b99eb46f43b9ea495b149096b94eb",
+        "page_count": 6,
+        "document_kind": "quarterly_bulletin"
+      }
+    ],
+    "baseline_metrics": {
+      "capitalisation": 2811
+    },
+    "baseline_source": "Supabase replay metric snapshot, 17 November 2026; independently verified against PDF only by runner"
+  },
+  {
+    "exists": true,
+    "candidate_slug": "patrimmo-commerce",
+    "candidate_name": "Patrimmo Commerce",
+    "allowed_hosts": [
+      "praemiareim.fr",
+      "www.praemiareim.fr",
+      "extranet.praemiareim.fr"
+    ],
+    "documents": [
+      {
+        "source_period": "2026-T3",
+        "source_url": "https://www.praemiareim.fr/documents/14836074/14836275/PRAEMIA_BTI_Patrimmo+Commerce_T3_2026_VDEF.pdf/629ca819-38be-867c-8edc-181f9159bf3b?t=1793990422410",
+        "pdf_sha256": "6f685b4657e12f246a209ce30bb11c246051d2c43276922420844db7d43f65b5",
+        "page_count": 9,
+        "document_kind": "quarterly_bulletin"
+      }
+    ],
+    "baseline_metrics": {
+      "tof": 91.9,
+      "capitalisation": 209
+    },
+    "baseline_source": "Supabase replay metric snapshot, 17 November 2026; independently verified against PDF only by runner"
+  },
+  {
+    "exists": true,
+    "candidate_slug": "praemia-hotels-europe",
+    "candidate_name": "Praemia Hôtels Europe",
+    "allowed_hosts": [
+      "praemiareim.fr",
+      "www.praemiareim.fr",
+      "extranet.praemiareim.fr"
+    ],
+    "documents": [
+      {
+        "source_period": "2026-T3",
+        "source_url": "https://www.praemiareim.fr/documents/14836074/14836332/PRAEMIA_BTI_Praemia_Hotels_Europe_T3_2026_VDEF.pdf/6ef65e62-c097-7cce-d524-984e8b402ca0?t=1793984832890",
+        "pdf_sha256": "0c1fd34bc775e93a503fd1587117ec6ce1670055bca710b042b102c36eff4b62",
+        "page_count": 9,
+        "document_kind": "quarterly_bulletin"
+      }
+    ],
+    "baseline_metrics": {
+      "tof": 97.5,
+      "capitalisation": 209.4
+    },
+    "baseline_source": "Supabase replay metric snapshot, 17 November 2026; independently verified against PDF only by runner"
+  },
+  {
+    "exists": true,
+    "candidate_slug": "log-in",
+    "candidate_name": "Log In",
+    "allowed_hosts": [
+      "theoreim.com",
+      "www.theoreim.com"
+    ],
+    "documents": [
+      {
+        "source_period": "2026-T3",
+        "source_url": "https://theoreim.com/wp-content/uploads/2022/09/Bulletin_Trimestriel-LOG-IN-T3-2026.pdf",
+        "pdf_sha256": "f751ec19947d36897e3eb64d15297eec84469ed0d6dd32cf6e27760cb9d31dad",
+        "page_count": 6,
+        "document_kind": "quarterly_bulletin"
+      }
+    ],
+    "baseline_metrics": {
+      "top": 100
+    },
+    "baseline_source": "Supabase replay metric snapshot, 17 November 2026; independently verified against PDF only by runner"
+  },
+  {
+    "exists": true,
+    "candidate_slug": "novaxia-neo",
+    "candidate_name": "Novaxia NEO",
+    "allowed_hosts": [
+      "novaxia-investissement.fr",
+      "www.novaxia-investissement.fr"
+    ],
+    "documents": [
+      {
+        "source_period": "2026-T3",
+        "source_url": "https://www.novaxia-investissement.fr/wp-content/uploads/2026/11/Reporting-Novaxia-NEO-T3-2026.pdf",
+        "pdf_sha256": "a004d88d5484e1f86e3710e6a8ea8fc29dd204844fb491359bf5804e49e11737",
+        "page_count": 14,
+        "document_kind": "quarterly_bulletin"
+      }
+    ],
+    "baseline_metrics": {
+      "capitalisation": 427.9,
+      "valeur_realisation": 171.25
+    },
+    "baseline_source": "Supabase replay metric snapshot, 17 November 2026; independently verified against PDF only by runner"
+  },
+  {
+    "exists": true,
+    "candidate_slug": "epsicap-nano",
+    "candidate_name": "Epsicap Nano",
+    "allowed_hosts": [
+      "epsicap.fr",
+      "www.epsicap.fr"
+    ],
+    "documents": [
+      {
+        "source_period": "2026-T3",
+        "source_url": "https://epsicap.fr/app/uploads/2026/11/bulletin-trimestriel-epsicap-nano-t3-2026.pdf",
+        "pdf_sha256": "1f7efa004028d10758149d0dcd97677dc22ad679cf314768e0d682add4a4b3e7",
+        "page_count": 11,
+        "document_kind": "quarterly_bulletin"
+      }
+    ],
+    "baseline_metrics": {
+      "tof": 97.98,
+      "capitalisation": 227
+    },
+    "baseline_source": "Supabase replay metric snapshot, 17 November 2026; independently verified against PDF only by runner"
+  },
+  {
+    "exists": true,
+    "candidate_slug": "acces-valeur-pierre",
+    "candidate_name": "Accès Valeur Pierre",
+    "allowed_hosts": [
+      "reim.bnpparibas-am.com"
+    ],
+    "documents": [
+      {
+        "source_period": "2026-T3",
+        "source_url": "https://reim.bnpparibas-am.com/sites/default/files/docs/2026-10/BT_AVP_3T2026_5%20def.pdf",
+        "pdf_sha256": "40c7f721cfe7008cf833efe4f9ce6ea821c18dc3c5c1fdf37a826c428dabfa8e",
+        "page_count": 7,
+        "document_kind": "quarterly_bulletin"
+      }
+    ],
+    "baseline_metrics": {},
+    "baseline_source": "Supabase replay metric snapshot, 17 November 2026; independently verified against PDF only by runner"
+  },
+  {
+    "exists": true,
+    "candidate_slug": "transitions-europe",
+    "candidate_name": "Transitions Europe",
+    "allowed_hosts": [
+      "www.arkea-reim.com"
+    ],
+    "documents": [
+      {
+        "source_period": "2026-T3",
+        "source_url": "https://www.arkea-reim.com/upload/docs/application/pdf/2026-10/te_t3-2026.pdf",
+        "pdf_sha256": "55f3596af5933891f0e94cf59356491a93931f080543d5c3ee5e8eef89ace1e1",
+        "page_count": 27,
+        "document_kind": "quarterly_bulletin"
+      }
+    ],
+    "baseline_metrics": {
+      "tof": 97.9
+    },
+    "baseline_source": "Supabase replay metric snapshot, 17 November 2026; independently verified against PDF only by runner"
+  },
+  {
+    "exists": true,
+    "candidate_slug": "corum-origin",
+    "candidate_name": "CORUM Origin",
+    "allowed_hosts": [
+      "www.corum.fr",
+      "corum.fr"
+    ],
+    "documents": [
+      {
+        "source_period": "2026-T3",
+        "source_url": "https://www.corum.fr/sites/default/files/2026-10/CORUM%20Origin-%20Fil%20d%27Actualit%C3%A9s%202026-T3-web%20%281%29.pdf",
+        "pdf_sha256": "42dc72447853212c97b769ed027c998dd368faf3e73ea5763b3e00a7ae80fb43",
+        "page_count": 9,
+        "document_kind": "quarterly_bulletin"
+      }
+    ],
+    "baseline_metrics": {
+      "tof": 95.48,
+      "capitalisation": 4165
+    },
+    "baseline_source": "Supabase replay metric snapshot, 17 November 2026; independently verified against PDF only by runner"
+  }
+]
