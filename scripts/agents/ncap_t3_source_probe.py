@@ -92,12 +92,34 @@ def main():
                        "fair invest" in alltext)
             period=quarter_title_matches(" ".join(pages[:2]),PERIOD)
             checks[engine]={"product_named":full_name,"quarter_visible":period}
+        # Last-resort single OCR pass on issuer KPI page 3: native MuPDF
+        # and Poppler found no numerical TOF near a label (only footnote
+        # definition on page 6). OCR is NOT independent financial QA.
+        with fitz.open(file) as pdf:
+            pix=pdf[2].get_pixmap(matrix=fitz.Matrix(2.1,2.1),alpha=False)
+            ocr=subprocess.run(
+                ["tesseract","stdin","stdout","-l","fra+eng","--psm","3"],
+                input=pix.tobytes("png"),capture_output=True,timeout=75,
+                env={**os.environ,"OMP_THREAD_LIMIT":"1"})
+        if ocr.returncode:
+            raise RuntimeError("SINGLE_PAGE_KPI_OCR_FAILED")
+        ocr_text=normalize(ocr.stdout.decode("utf-8","replace"))
+        ocr_hits=[]
+        for x in list(MATCH.finditer(ocr_text))[:12]:
+            local=ocr_text[max(0,x.start()-150):min(len(ocr_text),x.end()+180)]
+            ocr_hits.append({"page":3,"method":"one_page_Tesseract_OCR_NOT_QA",
+                             "text":re.sub(r"\s+"," ",local)[:300]})
+        value_regex=re.compile(r"(?<!\d)(?:\d{1,3})[.,]\d{1,2}\s*%")
+        ocr_percentages=sorted({m.group() for m in value_regex.finditer(ocr_text)})
         report={"scpi_slug":SLUG,"source_period":PERIOD,
             "source_url":ISSUER_URL,"issuer_original_sha256":SHA,
             "bytes":len(raw),"pages":EXPECTED_PAGES,
             "source_type":"registered_private_issuer_pdf",
             "reader_checks":checks,
             "evidence":excerpts("MuPDF",a)+excerpts("Poppler",b),
+            "page3_one_shot_ocr_tof_hits":ocr_hits,
+            "page3_one_shot_ocr_percentages":ocr_percentages,
+            "ocr_financial_certified":False,
             "source_integrity_verified":True,
             "source_period_confirmed_two_readers":all(x["quarter_visible"] for x in checks.values()),
             "financial_certified":False,
@@ -109,6 +131,7 @@ def main():
         print("NCAP_EXACT_ARCHIVED_SHA",SHA,"page_count",EXPECTED_PAGES)
         print("NCAP_ISSUER_PERIOD_CHECKS",json.dumps(checks,ensure_ascii=False))
         print("NCAP_TOF_SNIPPETS",json.dumps(report["evidence"][:18],ensure_ascii=False))
+        print("NCAP_KPI_PAGE3_OCR",json.dumps({"tof_hits":ocr_hits,"percentages":ocr_percentages},ensure_ascii=False))
         print("NCAP_CERTIFICATION false, QA_NOT_YET_GRANTED")
         if not all(x["product_named"] and x["quarter_visible"] for x in checks.values()):
             raise RuntimeError("NCAP_ORIGINAL_IDENTITY_OR_PERIOD_FAIL_CLOSED")
