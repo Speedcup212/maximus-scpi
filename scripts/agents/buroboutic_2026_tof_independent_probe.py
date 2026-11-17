@@ -27,7 +27,7 @@ DOCS={
   "value":91.56,"old_bad_value":91,"expected_pages":6,
  },
  "2026-T3":{
-  "url":"https://www.fiducial-gerance.fr/content/download/544/12625?version=14",
+  "url":"https://www.fiducial-gerance.fr/content/download/544/file/BTI%20Buroboutic%20T3%202026%20WEB.pdf?version=14",
   "sha256":"5837592186764194f265f2af2ddf6386c8ef980947eb3f088af6a2419d68a89d",
   "value":91.37,"old_bad_value":0.07,"expected_pages":6,
  }
