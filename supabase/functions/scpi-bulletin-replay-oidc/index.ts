@@ -58,6 +58,11 @@ Deno.serve(async(req:Request)=>{
     {slug:'paref-hexa',period:'2026-T3',
      sha:'ca4a3569a990f99b376268875440ebc1e1aadefa85aab582ebca96cbce0c62ce',
      url:'https://paref-gestion.com/wp-content/uploads/2026/10/dc0cd675-deb0-4ab0-b928-040f9aafd157-BTI-T3-2026-PAREF-Hexa.pdf'},
+    // Diagnostic only: registered source exists in private Storage.
+    // SHA and issuer URL both pinned; no human/financial attestation implied.
+    {slug:'ncap-education-sante',period:'2026-T3',
+     sha:'cd81cb7ec3750dd7fef05d3720729748896acc3f659f7b7a872ad6ff242cbf96',
+     url:'https://www.normacapital.fr/documentation/bulletin-dinformation-trimestriel-t3-2026/'},
    ];
    const matched=allowlist.find(x=>x.slug===body.slug&&x.period===body.period&&x.sha===body.sha256);
    if(!matched)return fail(403,'archive source not explicitly allowlisted');
