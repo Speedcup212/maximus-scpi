@@ -190,10 +190,15 @@ def competing_reference_caption_is_closer(metric,label_group,value_group,groups)
         caption=norm(text(group))
         if len(caption)>110:
             continue
-        if not any(re.search(pattern,caption) for pattern in FIELDS[rival][1]):
+        # Some issuers split "Valeur de" and "reconstitution" into
+        # separate PDF line groups. The distinctive rival noun remains
+        # sufficient to VETO a borrowed number, never to approve it.
+        distinctive="reconstitution" if rival=="prix_reconstitution" else "realisation"
+        if not (any(re.search(pattern,caption) for pattern in FIELDS[rival][1])
+                or re.search(r"\\b"+distinctive+r"\\b",caption)):
             continue
         rival_distance=distance(group)
-        if rival_distance+6<own_distance and rival_distance<100:
+        if rival_distance+1<own_distance and rival_distance<100:
             return True
     return False
 
@@ -224,7 +229,15 @@ def extract(pages,wordpages,widths,period):
                         if other is group:continue
                         ox0,oy0,ox1,oy1=rect(other)
                         overlap=min(x1,ox1)-max(x0,ox0)
-                        if overlap<=0 or min(abs(oy1-y0),abs(oy0-y1))>38:continue
+                        # Value-to-caption may be in neighboring columns with
+                        # a small horizontal gap, not an overlapping rectangle.
+                        # Only reference values get this strict same-row path.
+                        gap=max(0,ox0-x1,x0-ox1)
+                        center_delta=abs((y0+y1-oy0-oy1)/2)
+                        adjacent_reference=(
+                            metric in ('valeur_realisation','prix_reconstitution')
+                            and gap<=32 and center_delta<=14)
+                        if (overlap<=0 and not adjacent_reference) or min(abs(oy1-y0),abs(oy0-y1))>38:continue
                         t=text(other);ns=values(t,unit)
                         if not numeric_fragment(t,unit):continue
                         if len(ns)!=1:continue
