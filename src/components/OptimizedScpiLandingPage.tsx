@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PgaIndicator from './PgaIndicator';
 import {
   TrendingUp, Shield, Phone, Mail, User, Euro,
   ArrowRight, Award, Building2, Globe, BarChart3, Leaf,
@@ -468,6 +469,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
                         <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatPercentage(realScpiData.yield)}</div>
                         <div className={`text-sm text-${colors.secondary}-100 mt-2`}>Taux de distribution</div>
+                        <PgaIndicator scpi={realScpiData} light className="block mt-2" />
                       </div>
                       <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
                         <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{formatCurrency(realScpiData.capitalization)}</div>
