@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import PgaIndicator from '../PgaIndicator';
 import { Search, SlidersHorizontal, X, Grid3x3, List, ChevronLeft, ChevronRight, ChevronDown, Calculator, Link, Copy, ArrowLeft, ArrowRight, RotateCcw, Download, PlayCircle, FileText, User, Star, Award, TrendingUp, DollarSign, Sliders, PieChart as PieChartIcon, CheckCircle2, BarChart3 } from 'lucide-react';
 import { scpiDataExtended, SCPIExtended } from '../../data/scpiDataExtended';
 import { scpiData } from '../../data/scpiData';
@@ -1133,6 +1134,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                       <div>
                         <p className="text-xs text-slate-500">Rendement</p>
                         <p className="text-lg font-bold text-emerald-400">{scpi.yield.toFixed(2)}%</p>
+                         <PgaIndicator scpi={scpi} compact className="block mt-1" />
                       </div>
                       <div className="text-right">
                         <p className="text-xs text-slate-500">Prix</p>
@@ -1991,6 +1993,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                                   {/* Rendement */}
                                   <td className="py-2.5 px-3 text-right">
                                     <span className="font-semibold text-violet-400">{scpi.yield.toFixed(2)}%</span>
+                                     <PgaIndicator scpi={scpi} compact className="block mt-0.5" />
                                   </td>
                                   {/* TOF */}
                                   <td className="py-2.5 px-3 text-right">
@@ -2272,7 +2275,8 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                       <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                         <span className="text-slate-300">{formatPercent(item.percentage)}</span>
                         <span className="text-violet-300 text-right tabular-nums min-w-[65px] sm:min-w-[80px]">{formatCurrency(item.amount)}</span>
-                        <span className="text-emerald-400 font-semibold text-right tabular-nums min-w-[55px] sm:min-w-[64px]">{item.yield.toFixed(2)}%</span>
+                        <div className="text-right min-w-[55px] sm:min-w-[64px]"><span className="text-emerald-400 font-semibold tabular-nums">{item.yield.toFixed(2)}%</span>
+                         {selectedScpis.find(s => s.id === item.id) && <PgaIndicator scpi={selectedScpis.find(s => s.id === item.id)!} compact className="block" />}</div>
                       </div>
                     </div>
                   ))}
@@ -2299,6 +2303,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                     <p className="text-xs text-slate-400 mt-1">{scpi.managementCompany}</p>
                     <div className="flex flex-wrap items-center gap-2 mt-2">
                       <span className="text-xs text-emerald-400 font-semibold">{scpi.yield.toFixed(2)}%</span>
+                       <PgaIndicator scpi={scpi} compact />
                       <span className="text-xs text-slate-500">TOF {scpi.tof}%</span>
                       <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 whitespace-nowrap">{geoNames}</span>
                     </div>
