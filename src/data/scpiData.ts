@@ -376,7 +376,12 @@ const certifiedAnnualBySlug = new Map(pgaCertified2025.map(entry => [entry.slug,
 
 export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
   // PGA : données officielles historisées, jamais extrapolées depuis le TD.
-  const certifiedAnnual = certifiedAnnualBySlug.get(toCertifiedScpiSlug(String(scpi['Nom SCPI'] || '')));
+  const annualRecord = certifiedAnnualBySlug.get(toCertifiedScpiSlug(String(scpi['Nom SCPI'] || '')));
+  const certifiedAnnual = annualRecord?.year === 2025 &&
+    Number.isFinite(annualRecord.td) && Number.isFinite(annualRecord.pga) &&
+    /^https:\/\//.test(annualRecord.sourceUrl) &&
+    ['manual_verified_official', 'source_verified_official_crosschecked'].includes(annualRecord.verificationStatus)
+    ? annualRecord : undefined;
   const pgaEvidence = scpi.maximus_metric_provenance?.pga;
   const historicPgaKey = Object.keys(scpi).find(key => key.startsWith('Performance globale annuelle 20') && key.endsWith(' (%)'));
   const historicPgaYear = historicPgaKey?.match(/20\d{2}/)?.[0];
