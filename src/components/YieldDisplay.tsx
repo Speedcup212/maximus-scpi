@@ -7,6 +7,7 @@ import { TrendingUp, AlertTriangle } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { SCPIExtended } from '../data/scpiDataExtended';
 import { getYieldDisplayInfo } from '../utils/yieldDisplay';
+import PgaIndicator from './PgaIndicator';
 
 interface YieldDisplayProps {
   scpi: Scpi | SCPIExtended;
@@ -27,6 +28,7 @@ const YieldDisplay: React.FC<YieldDisplayProps> = ({
     return (
       <div className={`flex items-center gap-2 ${className}`}>
         <span className="font-bold text-green-600">{yieldInfo.primaryValue.toFixed(2)}%</span>
+        <PgaIndicator scpi={scpi} compact />
         {yieldInfo.secondaryValue && (
           <span className="text-xs text-gray-500">({yieldInfo.secondaryValue.toFixed(2)}% brut)</span>
         )}
@@ -39,6 +41,7 @@ const YieldDisplay: React.FC<YieldDisplayProps> = ({
       <div className={className}>
         <div className="font-bold text-green-600">{yieldInfo.primaryValue.toFixed(2)}%</div>
         <div className="text-xs text-gray-500">{yieldInfo.primaryLabel}</div>
+        <PgaIndicator scpi={scpi} compact />
         {yieldInfo.secondaryValue && (
           <div className="text-xs text-gray-400 mt-0.5">
             {yieldInfo.secondaryLabel}: {yieldInfo.secondaryValue.toFixed(2)}%
@@ -62,6 +65,7 @@ const YieldDisplay: React.FC<YieldDisplayProps> = ({
               {yieldInfo.primaryLabel}
             </p>
             <p className="text-4xl font-bold">{yieldInfo.primaryValue.toFixed(2)}%</p>
+            <PgaIndicator scpi={scpi} light className="block mt-1" />
             {yieldInfo.secondaryValue && (
               <div className="mt-2 pt-2 border-t border-emerald-400/30">
                 <p className="text-xs font-medium text-emerald-100 uppercase tracking-wide mb-0.5">
@@ -103,6 +107,7 @@ const YieldDisplay: React.FC<YieldDisplayProps> = ({
       <div className="text-2xl font-bold text-emerald-400">
         {yieldInfo.primaryValue.toFixed(2)}%
       </div>
+      <PgaIndicator scpi={scpi} className="block mt-1" />
       {yieldInfo.secondaryValue && (
         <div className="mt-2 pt-2 border-t border-slate-600">
           <div className="text-xs text-slate-500 mb-1">{yieldInfo.secondaryLabel}</div>
