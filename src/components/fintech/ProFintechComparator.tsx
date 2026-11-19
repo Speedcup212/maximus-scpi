@@ -1790,6 +1790,7 @@ const ProFintechComparatorContent: React.FC<ProFintechComparatorContentProps> = 
                                   {' • '}
                                   {item.yield.toFixed(2)}%
                                 </p>
+                                <PgaIndicator scpi={scpi} compact className="block mt-1" />
                               </div>
                               <div className="text-right flex-shrink-0">
                                 <p className="text-base sm:text-lg font-bold text-violet-400">{item.percentage.toFixed(1)}%</p>
