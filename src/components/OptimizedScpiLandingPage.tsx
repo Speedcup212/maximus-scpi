@@ -341,6 +341,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                   {realScpiData && isPublishedWithReserves(realScpiData) ? 'Informations financières datées' : landingData.frais_souscription === "0%" ? "Sans frais d’entrée" : yieldQualif.label}
                 </span>
               </h1>
+              {realScpiData && <PgaIndicator scpi={realScpiData} light className="block mt-2" />}
 
               <p className={`text-xl sm:text-2xl text-${colors.secondary}-50 leading-relaxed`}>
                 {landingData.description_courte}
