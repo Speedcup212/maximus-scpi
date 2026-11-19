@@ -6,6 +6,7 @@ import { createSlugFromName } from './scpiSlugMapper';
 import { selectSupabaseRest } from './supabaseRest';
 import { isSubscriptionReconstitutionComparable, normalizeLiquidityBasis } from './certifiedLiquidity';
 import { subscriptionFeeState } from './scpiFeeState';
+import { getPgaDisplayInfo } from './scpiPga';
 
 type IndicatorRow = {
   scpi_slug: string;
@@ -14,6 +15,7 @@ type IndicatorRow = {
   societe_gestion?: string | null;
   annee_creation?: number | string | null;
   td?: number | string | null;
+  td_annee?: number | string | null;
   tof?: number | string | null;
   capitalisation?: number | string | null;
   prix_souscription?: number | string | null;
@@ -67,7 +69,7 @@ type GateRow = {
 };
 
 const INDICATOR_SELECT = [
-  'metric_provenance','scpi_slug','nom','societe_gestion','annee_creation','td','tof','capitalisation',
+  'metric_provenance','scpi_slug','nom','societe_gestion','annee_creation','td','td_annee','tof','capitalisation',
   'prix_souscription','prix_reconstitution','prix_retrait','valeur_realisation',
   'frais_souscription','frais_gestion','srri','duree_detention_recommandee','endettement',
   'delai_jouissance','walt','walb','nombre_locataires','nombre_associes','nombre_immeubles','nombre_parts',
@@ -133,6 +135,21 @@ export function mergeScpiWithLiveIndicators(
     'TTC', scpi.fees, scpi.metricProvenance?.frais_souscription);
   const managementFee = selectProvenFee(toNumber(row.frais_gestion), row.metric_provenance?.frais_gestion,
     'HT', scpi.fraisGestion, scpi.metricProvenance?.frais_gestion);
+
+  // The build-time issuer-verified 2025 TD and PGA must remain a coherent pair.
+  // Quarterly ingestion can misclassify a TRI as TD or omit the annual reference.
+  // Only a distinctly newer, explicitly dated annual TD can supersede the 2025 pair.
+  const certifiedPga2025 = getPgaDisplayInfo(scpi).available && scpi.pgaYear === 2025;
+  const rawLiveYear = toNumber(row.td_annee);
+  const periodMatch = row.td_reference_period?.match(/^20\\d{2}-RA$/);
+  const liveYear = periodMatch ? Number(periodMatch[0].slice(0, 4)) : rawLiveYear;
+  const hasNewAnnualTD = typeof liveYear === 'number' && liveYear > 2025 &&
+    row.td_reference_period === `${liveYear}-RA` &&
+    typeof row.td_reference_url === 'string' && /^https:\/\//.test(row.td_reference_url);
+  const preserveCertified2025 = certifiedPga2025 && !hasNewAnnualTD;
+  const liveTd = toNumber(row.td);
+  const resolvedTdPeriod = preserveCertified2025 ? scpi.distributionReferencePeriod :
+    (liveYear && liveTd !== undefined ? `${liveYear}-RA` : scpi.distributionReferencePeriod);
   return {
     ...scpi,
     metricProvenance: {
@@ -143,11 +160,10 @@ export function mergeScpiWithLiveIndicators(
     name: row.nom || scpi.name,
     company: row.societe_gestion || scpi.company,
     creation: toNumber(row.annee_creation) ?? scpi.creation,
-    yield: toNumber(row.td) ?? scpi.yield,
-    distributionReferencePeriod: toNumber(row.td) !== undefined && row.td_reference_period
-      ? row.td_reference_period : scpi.distributionReferencePeriod,
-    distributionReferenceUrl: toNumber(row.td) !== undefined && row.td_reference_period
-      ? row.td_reference_url || undefined : scpi.distributionReferenceUrl,
+    yield: preserveCertified2025 ? scpi.yield : (liveTd ?? scpi.yield),
+    distributionReferencePeriod: resolvedTdPeriod,
+    distributionReferenceUrl: preserveCertified2025 ? scpi.distributionReferenceUrl :
+      (liveTd !== undefined && liveYear ? row.td_reference_url || undefined : scpi.distributionReferenceUrl),
     tof: toNumber(row.tof) ?? scpi.tof,
     capitalization: toNumber(row.capitalisation) !== undefined
       ? (toNumber(row.capitalisation) as number) * 1_000_000
