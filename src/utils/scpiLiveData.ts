@@ -141,7 +141,7 @@ export function mergeScpiWithLiveIndicators(
   // Only a distinctly newer, explicitly dated annual TD can supersede the 2025 pair.
   const certifiedPga2025 = getPgaDisplayInfo(scpi).available && scpi.pgaYear === 2025;
   const rawLiveYear = toNumber(row.td_annee);
-  const periodMatch = row.td_reference_period?.match(/^20\\d{2}-RA$/);
+  const periodMatch = row.td_reference_period?.match(/^20\d{2}-RA$/);
   const liveYear = periodMatch ? Number(periodMatch[0].slice(0, 4)) : rawLiveYear;
   const hasNewAnnualTD = typeof liveYear === 'number' && liveYear > 2025 &&
     row.td_reference_period === `${liveYear}-RA` &&
