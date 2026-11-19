@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PgaIndicator from './PgaIndicator';
+import PgaMetricCard from './PgaMetricCard';
 import {
   TrendingUp, Shield, Phone, Mail, User, Euro,
   ArrowRight, Award, Building2, Globe, BarChart3, Leaf,
@@ -363,14 +364,29 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 gap-3 mb-3">
+                    <section data-testid="scpi-td-metric"
+                      className="rounded-xl border border-white/15 bg-slate-950/20 p-4 min-h-[132px]">
+                      <div className="text-xs sm:text-sm font-semibold uppercase tracking-wide text-white/70">
+                        TD{annualDistributionYear !== null ? ` ${annualDistributionYear}` : ''}
+                      </div>
+                      <div className="mt-2 text-3xl sm:text-[32px] font-extrabold text-yellow-300 tabular-nums">
+                        {formatPercentage(realScpiData.yield)}
+                      </div>
+                      <p className="mt-2 text-xs sm:text-[13px] text-white/70">
+                        {distributionYearHelp(realScpiData.distributionReferencePeriod)}
+                      </p>
+                      {officialSourceHref(realScpiData.distributionReferenceUrl) && (
+                        <a href={officialSourceHref(realScpiData.distributionReferenceUrl)!} target="_blank"
+                          rel="noopener noreferrer" className="mt-2 inline-block text-xs text-white/85 underline underline-offset-2">
+                          Publication officielle
+                        </a>
+                      )}
+                    </section>
+                    <PgaMetricCard scpi={realScpiData} variant="hero" />
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {[
-                      {
-                        label: 'Rendement',
-                        value: formatPercentage(realScpiData.yield),
-                        help: distributionYearHelp(realScpiData.distributionReferencePeriod),
-                        sourceHref: officialSourceHref(realScpiData.distributionReferenceUrl)
-                      },
                       {
                         label: 'Capitalisation',
                         value: formatCurrency(realScpiData.capitalization),
