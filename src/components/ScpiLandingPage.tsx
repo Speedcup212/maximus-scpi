@@ -15,6 +15,7 @@ import { submitLead } from '../utils/leadSubmitter';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
 import ScpiVisualAnalysis from './ScpiVisualAnalysis';
 import PgaIndicator from './PgaIndicator';
+import PgaMetricCard from './PgaMetricCard';
 
 interface ScpiLandingPageProps {
   scpiKey: string;
@@ -214,12 +215,13 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
               </p>
 
               {/* Key Metrics */}
-              <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 mb-6">
                 <div className="bg-green-50 border border-green-200 rounded-lg p-2 sm:p-4 text-center">
                   <div className="text-2xl sm:text-3xl font-bold text-green-600">{scpiData.rendement}</div>
                   <div className="text-xs sm:text-sm text-gray-600">Taux de distribution</div>
-                   {officialScpiData && <PgaIndicator scpi={officialScpiData} compact className="block mt-1" />}
+
                 </div>
+                <PgaMetricCard scpi={officialScpiData ?? {}} variant="surface" />
                 <div className="bg-green-50 border border-green-200 rounded-lg p-2 sm:p-4 text-center">
                   <div className="text-2xl sm:text-3xl font-bold text-green-600">{scpiData.tof}</div>
                   <div className="text-xs sm:text-sm text-gray-600">Taux d'occupation</div>
