@@ -370,6 +370,13 @@ function mergeScpiEntries(entries: any[]): any[] {
 const mergedData = mergeScpiEntries(sourceData);
 
 export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
+  // PGA : données officielles historisées, jamais extrapolées depuis le TD.
+  const pgaEvidence = scpi.maximus_metric_provenance?.pga;
+  const historicPgaKey = Object.keys(scpi).find(key => /^Performance globale annuelle 20\\d{2} \\(%)$/.test(key));
+  const historicPgaYear = historicPgaKey?.match(/20\\d{2}/)?.[0];
+  const pgaYear = Number(scpi.pga_reference_year ?? historicPgaYear);
+  const pgaValue = cleanNumericValue(pgaEvidence?.value_numeric ?? scpi['PGA (%)'] ??
+    (historicPgaKey ? scpi[historicPgaKey] : undefined));
   const editorialNews = getVerifiedScpiNews(scpi.maximus_editorial_news);
   // Utiliser les champs JSON structurés s'ils existent (nouveau format), sinon parser les chaînes
   let sectorDistribution: Record<string, number> = {};
@@ -410,6 +417,11 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     sector: sector,
     geography: geography,
     yield: scpi['Taux de distribution (%)'] || 0,
+    pga: pgaValue,
+    pgaYear: Number.isInteger(pgaYear) && pgaYear > 2000 ? pgaYear : undefined,
+    pgaSourceUrl: typeof pgaEvidence?.source_url === 'string' ? pgaEvidence.source_url :
+      (typeof scpi.pga_reference_url === 'string' ? scpi.pga_reference_url : undefined),
+    pgaQaStatus: typeof pgaEvidence?.qa_status === 'string' ? pgaEvidence.qa_status : undefined,
     distributionReferencePeriod: typeof scpi['td_reference_period'] === 'string' ? scpi['td_reference_period'] : undefined,
     distributionReferenceUrl: typeof scpi['td_reference_url'] === 'string' ? scpi['td_reference_url'] : undefined,
     capitalization: (scpi['Capitalisation (M€)'] || 0) * 1000000,
