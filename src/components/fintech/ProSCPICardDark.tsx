@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, TrendingUp, Building2, Plus, Check, BarChart3, Heart, Home, ShoppingCart, Package, Building, Briefcase, TreePine, Sparkles, Star } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
+import PgaIndicator from '../PgaIndicator';
 import { TMIValue, isEuropeanSCPI, shouldOptimizeForTax } from '../../utils/taxOptimization';
 import { scoreToStars } from '../../utils/scoreToStars';
 
@@ -187,6 +188,7 @@ const SCPICardDark: React.FC<SCPICardDarkProps> = ({ scpi, score = null, isSelec
             </p>
             <div className="flex items-baseline gap-2 flex-wrap">
               <p className="text-4xl font-bold">{scpi.yield.toFixed(2)}%</p>
+              <PgaIndicator scpi={scpi} light className="block mt-1" />
             </div>
             {isExpanded && (
               <div className="mt-2 pt-2 border-t border-emerald-400/20">

@@ -1,6 +1,7 @@
 import { Scpi, type ScpiManagementFeeDetails } from '../types/scpi';
 import scpiCompleteJson from './SCPI_complet_avec_SFDR_Profil.json';
 import scpiCompletJson from './scpi_complet.json';
+import pgaCertified2025 from './pga_certified_2025.json';
 import { getVerifiedScpiNews } from '../utils/scpiNewsRecord.mjs';
 import { filterDocumentedNonLiquidityWarnings } from '../utils/scpiLiquidityText.mjs';
 import certifiedScpiCohort from './certified_scpi_cohort.json';
@@ -369,7 +370,24 @@ function mergeScpiEntries(entries: any[]): any[] {
 // Fusionner les entrées multiples avant de les transformer
 const mergedData = mergeScpiEntries(sourceData);
 
+// Official 2025 PGA certification registry, generated from Supabase private proof ledger.
+// Kept as a build-time snapshot so that Netlify never depends on a browser service key.
+const certifiedAnnualBySlug = new Map(pgaCertified2025.map(entry => [entry.slug, entry]));
+
 export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
+  // PGA : données officielles historisées, jamais extrapolées depuis le TD.
+  const annualRecord = certifiedAnnualBySlug.get(toCertifiedScpiSlug(String(scpi['Nom SCPI'] || '')));
+  const certifiedAnnual = annualRecord?.year === 2025 &&
+    Number.isFinite(annualRecord.td) && Number.isFinite(annualRecord.pga) &&
+    /^https:\/\//.test(annualRecord.sourceUrl) &&
+    ['manual_verified_official', 'source_verified_official_crosschecked'].includes(annualRecord.verificationStatus)
+    ? annualRecord : undefined;
+  const pgaEvidence = scpi.maximus_metric_provenance?.pga;
+  const historicPgaKey = Object.keys(scpi).find(key => key.startsWith('Performance globale annuelle 20') && key.endsWith(' (%)'));
+  const historicPgaYear = historicPgaKey?.match(/20\d{2}/)?.[0];
+  const pgaYear = Number(scpi.pga_reference_year ?? historicPgaYear);
+  const pgaValue = cleanNumericValue(pgaEvidence?.value_numeric ?? scpi['PGA (%)'] ??
+    (historicPgaKey ? scpi[historicPgaKey] : undefined));
   const editorialNews = getVerifiedScpiNews(scpi.maximus_editorial_news);
   // Utiliser les champs JSON structurés s'ils existent (nouveau format), sinon parser les chaînes
   let sectorDistribution: Record<string, number> = {};
@@ -409,9 +427,16 @@ export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
     name: scpi['Nom SCPI'],
     sector: sector,
     geography: geography,
-    yield: scpi['Taux de distribution (%)'] || 0,
-    distributionReferencePeriod: typeof scpi['td_reference_period'] === 'string' ? scpi['td_reference_period'] : undefined,
-    distributionReferenceUrl: typeof scpi['td_reference_url'] === 'string' ? scpi['td_reference_url'] : undefined,
+    yield: certifiedAnnual?.td ?? scpi['Taux de distribution (%)'] ?? 0,
+    pga: certifiedAnnual?.pga ?? pgaValue,
+    pgaYear: certifiedAnnual?.year ?? (Number.isInteger(pgaYear) && pgaYear > 2000 ? pgaYear : undefined),
+    pgaSourceUrl: certifiedAnnual?.sourceUrl ?? (typeof pgaEvidence?.source_url === 'string' ? pgaEvidence.source_url :
+      (typeof scpi.pga_reference_url === 'string' ? scpi.pga_reference_url : undefined)),
+    pgaQaStatus: certifiedAnnual ? 'qa_pass' : (typeof pgaEvidence?.qa_status === 'string' ? pgaEvidence.qa_status : undefined),
+    distributionReferencePeriod: certifiedAnnual ? '2025-RA' :
+      (typeof scpi['td_reference_period'] === 'string' ? scpi['td_reference_period'] : undefined),
+    distributionReferenceUrl: certifiedAnnual?.sourceUrl ??
+      (typeof scpi['td_reference_url'] === 'string' ? scpi['td_reference_url'] : undefined),
     capitalization: (scpi['Capitalisation (M€)'] || 0) * 1000000,
     tof: scpi['TOF (%)'] || 0,
     price: scpi['Prix de souscription (€)'] || 0,

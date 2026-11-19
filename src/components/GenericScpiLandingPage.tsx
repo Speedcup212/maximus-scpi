@@ -8,6 +8,8 @@ import EricAvatar from './EricAvatar';
 import ThematicSimulator from './ThematicSimulator';
 import Header from './Header';
 import { ScpiLandingData } from '../data/landingPagesData';
+import { scpiData as certifiedScpis } from '../data/scpiData';
+import PgaIndicator from './PgaIndicator';
 import { submitLead } from '../utils/leadSubmitter';
 
 interface GenericScpiLandingPageProps {
@@ -29,6 +31,7 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
   onNavigateToScpi,
   onContactClick
 }) => {
+  const officialScpiData = certifiedScpis.find(scpi => scpi.name === scpiData.nom);
   const [formStep, setFormStep] = useState(1);
   const [formData, setFormData] = useState({
     nom: '',
@@ -223,6 +226,7 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
                 <div className={`bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 text-center`}>
                   <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{scpiData.rendement}</div>
                   <div className={`text-sm text-${themeColor}-100 mt-1`}>Taux de distribution</div>
+                   {officialScpiData && <PgaIndicator scpi={officialScpiData} light className="block mt-1" />}
                 </div>
                 <div className={`bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 text-center`}>
                   <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{scpiData.frais_souscription}</div>
@@ -528,6 +532,7 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">{scpiData.rendement}</h3>
               <p className="text-gray-600">Taux de distribution annuel</p>
+               {officialScpiData && <PgaIndicator scpi={officialScpiData} className="block mt-1" />}
             </div>
 
             <div className="text-center p-6 bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-lg">

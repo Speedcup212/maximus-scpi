@@ -26,6 +26,11 @@ export interface Scpi {
   sector: 'bureaux' | 'commerces' | 'residentiel' | 'sante' | 'logistique' | 'hotellerie' | 'diversifie';
   geography: 'france' | 'europe' | 'international';
   yield: number;
+  /** PGA ASPIM, en %, validée et strictement datée à la même année que le TD. */
+  pga?: number;
+  pgaYear?: number;
+  pgaSourceUrl?: string;
+  pgaQaStatus?: string;
   capitalization: number;
   tof: number;
   price: number;

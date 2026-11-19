@@ -14,6 +14,7 @@ import Header from './Header';
 import { submitLead } from '../utils/leadSubmitter';
 import { createSlugFromName } from '../utils/scpiSlugMapper';
 import ScpiVisualAnalysis from './ScpiVisualAnalysis';
+import PgaIndicator from './PgaIndicator';
 
 interface ScpiLandingPageProps {
   scpiKey: string;
@@ -84,6 +85,8 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
       </div>
     );
   }
+
+  const officialScpiData = scpiDataArray.find(scpi => scpi.name === scpiData.nom);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -215,6 +218,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
                 <div className="bg-green-50 border border-green-200 rounded-lg p-2 sm:p-4 text-center">
                   <div className="text-2xl sm:text-3xl font-bold text-green-600">{scpiData.rendement}</div>
                   <div className="text-xs sm:text-sm text-gray-600">Taux de distribution</div>
+                   {officialScpiData && <PgaIndicator scpi={officialScpiData} compact className="block mt-1" />}
                 </div>
                 <div className="bg-green-50 border border-green-200 rounded-lg p-2 sm:p-4 text-center">
                   <div className="text-2xl sm:text-3xl font-bold text-green-600">{scpiData.tof}</div>
@@ -776,7 +780,7 @@ const ScpiLandingPage: React.FC<ScpiLandingPageProps> = ({
               <BarChart3 className="w-12 h-12 text-purple-600 mb-4" />
               <h3 className="text-xl font-bold text-gray-900 mb-3">Performance</h3>
               <ul className="space-y-2 text-gray-700">
-                <li><strong>Taux de distribution :</strong> {scpiData.rendement}</li>
+                <li><strong>Taux de distribution :</strong> {scpiData.rendement} {officialScpiData && <PgaIndicator scpi={officialScpiData} className="block" />}</li>
                 <li><strong>Taux d'occupation :</strong> {scpiData.tof}</li>
                 <li><strong>Décote/Surcote :</strong> <span className="text-red-600">{(() => {
                   const match = scpiDataArray.find(s => s.name === scpiData.nom);

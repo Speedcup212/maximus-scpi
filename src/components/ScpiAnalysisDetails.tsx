@@ -1,4 +1,5 @@
 import type { Scpi, ScpiRepartition } from '../types/scpi'
+import PgaIndicator from './PgaIndicator'
 
 type PickLike = { scpi: Scpi; weight: number }
 
@@ -205,6 +206,7 @@ export function ScpiDetailedAnalysis({ scpi }: { scpi: Scpi }) {
             </div>
           ))}
         </div>
+        <PgaIndicator scpi={scpi} className="block mt-2" />
       </div>
 
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-[0.9fr_1.1fr]">

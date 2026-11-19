@@ -394,7 +394,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                       <div className="grid grid-cols-[minmax(180px,1.4fr)_130px_120px_70px_80px_100px_72px_180px] items-center border-b border-slate-700 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-400">
                         <div>SCPI</div>
                         <div>Catégorie</div>
-                        <div>Rendement</div>
+                        <div>TD / PGA</div>
                         <div>TOF</div>
                         <div>Prix</div>
                         <div>Invest. Min.</div>
