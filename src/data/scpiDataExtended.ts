@@ -11,6 +11,11 @@ export interface SCPIExtended {
   id: number;
   name: string;
   yield: number;
+  pga?: number;
+  pgaYear?: number;
+  pgaSourceUrl?: string;
+  pgaQaStatus?: string;
+  distributionReferencePeriod?: string;
   price: number;
   minInvestment: number;
   category: string;
@@ -4068,9 +4073,20 @@ const certifiedScpiSlugSet = new Set<string>(certifiedScpiCohort.slugs);
 // Without a matching certified-cohort slug and a complete public catalog row
 // they stay invisible to the comparator, simulator and client selection.
 // The 61 historical extended descriptions are preserved exactly as-is.
+// The public catalog is the single source for certified annual financial values.
+// Preserve historical descriptions, but never source a PGA from the mock/base card.
+const scpiBySlug = new Map(scpiData.map(scpi => [toCertifiedScpiSlug(scpi.name), scpi]));
 const historicalExtended = baseSCPIData.filter((scpi) =>
   certifiedScpiSlugSet.has(toCertifiedScpiSlug(scpi.name))
-);
+).map(scpi => {
+  const current = scpiBySlug.get(toCertifiedScpiSlug(scpi.name));
+  return {
+    ...scpi,
+    pga: current?.pga, pgaYear: current?.pgaYear,
+    pgaSourceUrl: current?.pgaSourceUrl, pgaQaStatus: current?.pgaQaStatus,
+    distributionReferencePeriod: current?.distributionReferencePeriod
+  };
+});
 const historicalSlugs = new Set(historicalExtended.map((scpi) => toCertifiedScpiSlug(scpi.name)));
 const categoryLabels: Record<string, string> = {
   bureaux: 'Bureaux', commerces: 'Commerces', residentiel: 'Résidentiel',
@@ -4098,6 +4114,9 @@ const newlyReleased = scpiData
     maximusPublicationReservations: scpi.maximusPublicationReservations,
     maximusDisabledFeatures: scpi.maximusDisabledFeatures,
     name: scpi.name, yield: scpi.yield, price: scpi.price,
+    pga: scpi.pga, pgaYear: scpi.pgaYear,
+    pgaSourceUrl: scpi.pgaSourceUrl, pgaQaStatus: scpi.pgaQaStatus,
+    distributionReferencePeriod: scpi.distributionReferencePeriod,
     minInvestment: scpi.minInvest,
     category: categoryLabels[scpi.sector] || 'Diversifié',
     managementCompany: scpi.company,
