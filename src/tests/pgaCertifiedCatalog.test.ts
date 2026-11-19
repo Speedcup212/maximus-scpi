@@ -6,7 +6,7 @@ import { getPgaDisplayInfo } from '../utils/scpiPga';
 describe('certified PGA 2025 across the published 69-SCPI catalog', () => {
   const byName = new Map(scpiData.map(scpi => [scpi.name, scpi]));
   const slug = (name: string) => name.toLowerCase().normalize('NFD')
-    .replace(/[\\u0300-\\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const bySlug = new Map(scpiData.map(scpi => [slug(scpi.name), scpi]));
 
   it('does not publish a PGA without an issuer source and matching 2025 TD', () => {
