@@ -25,7 +25,7 @@ describe('certified PGA 2025 across the published 69-SCPI catalog', () => {
 
   it('shows historic capital losses instead of repeating TD as performance', () => {
     expect(getPgaDisplayInfo(byName.get('Novapierre Résidentiel')!).value).toBeCloseTo(-41.53);
-    expect(getPgaDisplayInfo(byName.get('PAREF Hexa')!).value).toBeCloseTo(-12.10);
+    expect(getPgaDisplayInfo(byName.get('Paref Hexa')!).value).toBeCloseTo(-12.10);
     expect(getPgaDisplayInfo(byName.get('Primovie')!).value).toBeCloseTo(-7.31);
   });
 
