@@ -1,5 +1,15 @@
 [
   {
+    "slug": "activimmo",
+    "year": 2025,
+    "td": 5.49,
+    "pga": 5.49,
+    "sourceUrl": "https://alderan.fr/wp-content/uploads/2026/04/20260410-Rapport-Annuel-ActivImmo-2025.pdf",
+    "sourcePage": null,
+    "verificationStatus": "source_verified_official_crosschecked",
+    "verificationMethod": "primary_issuer_report_or_publisher_20261119"
+  },
+  {
     "slug": "aestiam-agora",
     "year": 2025,
     "td": 4.5,
@@ -66,6 +76,16 @@
     "verificationMethod": "issuer_pdf_text_year_value_and_identity_review_20261119"
   },
   {
+    "slug": "comete",
+    "year": 2025,
+    "td": 9,
+    "pga": 9,
+    "sourceUrl": "https://alderan.fr/scpi-comete/",
+    "sourcePage": null,
+    "verificationStatus": "source_verified_official_crosschecked",
+    "verificationMethod": "primary_issuer_report_or_publisher_20261119"
+  },
+  {
     "slug": "corum-eurion",
     "year": 2025,
     "td": 5.73,
@@ -106,6 +126,16 @@
     "verificationMethod": "official_issuer_published_table_20261119"
   },
   {
+    "slug": "edr-europa",
+    "year": 2025,
+    "td": 8.75,
+    "pga": 8.75,
+    "sourceUrl": "https://edr-europa.com/wp-content/uploads/2026/01/SCPI-Edmond-de-Rothschild-Europa-Bulletin-dinformation-S2-2025.pdf",
+    "sourcePage": null,
+    "verificationStatus": "source_verified_official_crosschecked",
+    "verificationMethod": "primary_issuer_report_or_publisher_20261119"
+  },
+  {
     "slug": "efimmo-1",
     "year": 2025,
     "td": 4.44,
@@ -136,6 +166,16 @@
     "sourceSha256": "9be96586c6121bef1580c30141c8cdb859676348d46b3ffa8a81a4feb9d79d75",
     "verificationStatus": "source_verified_official_crosschecked",
     "verificationMethod": "issuer_pdf_text_year_value_and_identity_review_20261119"
+  },
+  {
+    "slug": "epsicap-nano",
+    "year": 2025,
+    "td": 7.01,
+    "pga": 8.27,
+    "sourceUrl": "https://epsicap.fr/epsicap-nano/nos-performances/",
+    "sourcePage": null,
+    "verificationStatus": "source_verified_official_crosschecked",
+    "verificationMethod": "primary_issuer_report_or_publisher_20261119"
   },
   {
     "slug": "esg-pierre-capital",
@@ -341,6 +381,16 @@
     "sourceSha256": "9899d837309e5e4a8a8c81d7b7e656f5a123f78c2f9fa1f9039e2d23d73aa3ce",
     "verificationStatus": "manual_verified_official",
     "verificationMethod": "visual_issuer_pdf_and_text_review_20261119"
+  },
+  {
+    "slug": "urban-coeur-de-commerce",
+    "year": 2025,
+    "td": 5.3,
+    "pga": 6.3,
+    "sourceUrl": "https://www.urban-coeurcommerce.com/wp-content/uploads/2026/05/UCC_RA-2025.pdf",
+    "sourcePage": 4,
+    "verificationStatus": "source_verified_official_crosschecked",
+    "verificationMethod": "primary_issuer_report_or_publisher_20261119"
   },
   {
     "slug": "wemo-one",
