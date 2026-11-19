@@ -1,4 +1,6 @@
 import React, { useState, useMemo } from 'react';
+import { scpiData } from '../data/scpiData';
+import PgaIndicator from './PgaIndicator';
 import { Search, Plus, Trash2, AlertCircle } from 'lucide-react';
 
 // Types pour le portfolio
@@ -37,6 +39,7 @@ const ScpiPortfolioBuilder: React.FC<ScpiPortfolioBuilderProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
+  const officialByName = useMemo(() => new Map(scpiData.map(scpi => [scpi.name, scpi])), []);
 
   const formatEuro = (value: number) => {
     return new Intl.NumberFormat('fr-FR', {
@@ -155,7 +158,8 @@ const ScpiPortfolioBuilder: React.FC<ScpiPortfolioBuilderProps> = ({
                   {scpi.name}
                 </div>
                 <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                  {scpi.company} • Rendement {scpi.rendementBrut}%
+                  {scpi.company} • TD {scpi.rendementBrut}%
+                   {officialByName.get(scpi.name) && <PgaIndicator scpi={officialByName.get(scpi.name)!} compact className="block mt-0.5" />}
                 </div>
               </button>
             ))}
@@ -178,7 +182,8 @@ const ScpiPortfolioBuilder: React.FC<ScpiPortfolioBuilderProps> = ({
                       {line.scpiName}
                     </div>
                     <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                      Rendement : {line.rendementBrut}%
+                      TD : {line.rendementBrut}%
+                       {officialByName.get(line.scpiName) && <PgaIndicator scpi={officialByName.get(line.scpiName)!} compact className="block mt-0.5" />}
                     </div>
                   </div>
                   <button
