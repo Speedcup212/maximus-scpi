@@ -119,6 +119,45 @@ for (const scpi of catalog) {
   if (!row) continue;
 
   assign(scpi, 'Taux de distribution (%)', row.td);
+  // TD et PGA : toujours utiliser l'année effective des indicateurs annuels,
+  // jamais la période du dernier bulletin trimestriel.
+  const tdYear = Number(row.td_annee);
+  const tdYearValid = Number.isInteger(tdYear) && tdYear >= 2020 && tdYear <= new Date().getFullYear();
+  const tdPeriod = typeof row.td_reference_period === 'string' &&
+    /^20\d{2}-RA$/.test(row.td_reference_period) ? row.td_reference_period
+    : tdYearValid ? `${tdYear}-RA` : null;
+  if (tdPeriod) scpi.td_reference_period = tdPeriod;
+  else delete scpi.td_reference_period;
+  const tdUrl = row.td_reference_url || row.metric_provenance?.td?.source_url;
+  if (typeof tdUrl === 'string' && /^https:\/\//.test(tdUrl)) scpi.td_reference_url = tdUrl;
+  else delete scpi.td_reference_url;
+
+  // La preuve officielle contrôlée se trouve dans metric_provenance.pga,
+  // incluant value_numeric, source_period, source_url et qa_status.
+  // Le calcul d'un prix à l'autre sans documentation annuelle est interdit.
+  const pgaProof = row.metric_provenance?.pga;
+  const pgaSourcePeriod = String(pgaProof?.source_period || '');
+  const pgaProofYear = /^20\d{2}(?:-RA)?$/.test(pgaSourcePeriod)
+    ? Number(pgaSourcePeriod.slice(0, 4)) : null;
+  const pgaValue = Number(pgaProof?.value_numeric);
+  const pgaVerified = pgaProof?.value_numeric !== null &&
+    pgaProof?.value_numeric !== undefined &&
+    Number.isFinite(pgaValue) &&
+    (pgaProof?.qa_status === 'qa_pass' || pgaProof?.qa_status === 'qa_pass_delegated_source_review') &&
+    typeof pgaProof?.source_url === 'string' && /^https:\/\//.test(pgaProof.source_url) &&
+    tdYearValid && pgaProofYear === tdYear &&
+    tdPeriod === `${tdYear}-RA`;
+  if (pgaVerified) {
+    scpi['PGA (%)'] = pgaValue;
+    scpi.pga_reference_year = pgaProofYear;
+    scpi.pga_reference_url = pgaProof.source_url;
+  } else {
+    // N'exposer aucune ancienne PGA en cas de perte de provenance ou de discordance.
+    delete scpi['PGA (%)'];
+    delete scpi.pga_reference_year;
+    delete scpi.pga_reference_url;
+  }
+
   assign(scpi, 'TOF (%)', row.tof);
   assign(scpi, 'TOP (%)', row.top);
   assign(scpi, 'Capitalisation (M€)', row.capitalisation);
