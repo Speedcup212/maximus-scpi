@@ -10,6 +10,7 @@ import Header from './Header';
 import { ScpiLandingData } from '../data/landingPagesData';
 import { scpiData as certifiedScpis } from '../data/scpiData';
 import PgaIndicator from './PgaIndicator';
+import PgaMetricCard from './PgaMetricCard';
 import { submitLead } from '../utils/leadSubmitter';
 
 interface GenericScpiLandingPageProps {
@@ -222,12 +223,13 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
                 {scpiData.description_courte}
               </p>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className={`bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 text-center`}>
                   <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{scpiData.rendement}</div>
                   <div className={`text-sm text-${themeColor}-100 mt-1`}>Taux de distribution</div>
-                   {officialScpiData && <PgaIndicator scpi={officialScpiData} light className="block mt-1" />}
+
                 </div>
+                <PgaMetricCard scpi={officialScpiData ?? {}} variant="hero" />
                 <div className={`bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 text-center`}>
                   <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{scpiData.frais_souscription}</div>
                   <div className={`text-sm text-${themeColor}-100 mt-1`}>Frais d'entrée</div>
