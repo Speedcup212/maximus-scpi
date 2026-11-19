@@ -372,8 +372,8 @@ const mergedData = mergeScpiEntries(sourceData);
 export const scpiData: Scpi[] = mergedData.map((scpi: any, index: number) => {
   // PGA : données officielles historisées, jamais extrapolées depuis le TD.
   const pgaEvidence = scpi.maximus_metric_provenance?.pga;
-  const historicPgaKey = Object.keys(scpi).find(key => /^Performance globale annuelle 20\\d{2} \\(%)$/.test(key));
-  const historicPgaYear = historicPgaKey?.match(/20\\d{2}/)?.[0];
+  const historicPgaKey = Object.keys(scpi).find(key => key.startsWith('Performance globale annuelle 20') && key.endsWith(' (%)'));
+  const historicPgaYear = historicPgaKey?.match(/20\d{2}/)?.[0];
   const pgaYear = Number(scpi.pga_reference_year ?? historicPgaYear);
   const pgaValue = cleanNumericValue(pgaEvidence?.value_numeric ?? scpi['PGA (%)'] ??
     (historicPgaKey ? scpi[historicPgaKey] : undefined));
