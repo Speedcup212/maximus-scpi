@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import PgaIndicator from './PgaIndicator';
 import {
   TrendingUp, Building, MapPin, Calendar, DollarSign,
   BarChart3, PieChart as PieChartIcon, Activity, Award,
@@ -256,6 +257,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                     <div className="text-sm font-bold text-green-700 dark:text-green-300 mb-1">
                       {yieldInfo.primaryLabel}
                     </div>
+                    <PgaIndicator scpi={scpi} compact className="block mt-1" />
                     {yieldInfo.secondaryValue && (
                       <div className="text-xs text-green-600 dark:text-green-400 mt-1">
                         {yieldInfo.secondaryLabel}: {yieldInfo.secondaryValue.toFixed(2)}%
