@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import PgaIndicator from './PgaIndicator';
+import PgaMetricCard from './PgaMetricCard';
 import {
   TrendingUp, Building, MapPin, Calendar, DollarSign,
   BarChart3, PieChart as PieChartIcon, Activity, Award,
@@ -245,7 +245,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
         {activeTab === 'overview' && (
           <div className="space-y-6">
             {/* Métriques principales */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               {(() => {
                 const yieldInfo = getYieldDisplayInfo(scpi);
                 return (
@@ -257,7 +257,7 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                     <div className="text-sm font-bold text-green-700 dark:text-green-300 mb-1">
                       {yieldInfo.primaryLabel}
                     </div>
-                    <PgaIndicator scpi={scpi} compact className="block mt-1" />
+
                     {yieldInfo.secondaryValue && (
                       <div className="text-xs text-green-600 dark:text-green-400 mt-1">
                         {yieldInfo.secondaryLabel}: {yieldInfo.secondaryValue.toFixed(2)}%
@@ -274,6 +274,8 @@ const ScpiDetailPage: React.FC<ScpiDetailPageProps> = ({
                   </div>
                 );
               })()}
+
+              <PgaMetricCard scpi={scpi} variant="surface" />
 
               <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl text-center border border-blue-200 dark:border-blue-800">
                 <Target className="w-6 h-6 text-blue-600 dark:text-blue-400 mx-auto mb-2" />

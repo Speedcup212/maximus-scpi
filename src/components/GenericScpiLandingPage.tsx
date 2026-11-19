@@ -10,6 +10,7 @@ import Header from './Header';
 import { ScpiLandingData } from '../data/landingPagesData';
 import { scpiData as certifiedScpis } from '../data/scpiData';
 import PgaIndicator from './PgaIndicator';
+import PgaMetricCard from './PgaMetricCard';
 import { submitLead } from '../utils/leadSubmitter';
 
 interface GenericScpiLandingPageProps {
@@ -32,6 +33,9 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
   onContactClick
 }) => {
   const officialScpiData = certifiedScpis.find(scpi => scpi.name === scpiData.nom);
+  const displayedAnnualRate = officialScpiData && Number.isFinite(officialScpiData.yield)
+    ? `${officialScpiData.yield.toFixed(2).replace('.', ',')} %`
+    : scpiData.rendement;
   const [formStep, setFormStep] = useState(1);
   const [formData, setFormData] = useState({
     nom: '',
@@ -209,7 +213,7 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
                 SCPI {scpiData.nom}
                 <span className="block text-3xl sm:text-4xl lg:text-5xl text-blue-100 mt-3">
-                  {scpiData.rendement} de rendement
+                  {displayedAnnualRate} de rendement
                 </span>
                 {scpiData.tof === '100%' && (
                   <span className="block text-2xl sm:text-3xl lg:text-4xl text-yellow-400 mt-3">
@@ -222,12 +226,13 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
                 {scpiData.description_courte}
               </p>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className={`bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 text-center`}>
-                  <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{scpiData.rendement}</div>
+                  <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{displayedAnnualRate}</div>
                   <div className={`text-sm text-${themeColor}-100 mt-1`}>Taux de distribution</div>
-                   {officialScpiData && <PgaIndicator scpi={officialScpiData} light className="block mt-1" />}
+
                 </div>
+                <PgaMetricCard scpi={officialScpiData ?? {}} variant="hero" />
                 <div className={`bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 text-center`}>
                   <div className="text-3xl sm:text-4xl font-bold text-yellow-400">{scpiData.frais_souscription}</div>
                   <div className={`text-sm text-${themeColor}-100 mt-1`}>Frais d'entrée</div>
@@ -530,7 +535,7 @@ const GenericScpiLandingPage: React.FC<GenericScpiLandingPageProps> = ({
               <div className={`inline-flex items-center justify-center w-16 h-16 bg-${themeColor}-100 rounded-full mb-4`}>
                 <TrendingUp className={`w-8 h-8 text-${themeColor}-600`} />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">{scpiData.rendement}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">{displayedAnnualRate}</h3>
               <p className="text-gray-600">Taux de distribution annuel</p>
                {officialScpiData && <PgaIndicator scpi={officialScpiData} className="block mt-1" />}
             </div>

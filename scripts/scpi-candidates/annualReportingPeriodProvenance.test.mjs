@@ -33,7 +33,11 @@ test('Per-field provenance is carried into existing SCPI application model from 
    assert.ok(types.includes(name) && live.includes(name),name);
  for(const name of ['td_reference_period','debt_reference_period','td_reference_url','debt_reference_url'])
    assert.ok(db.includes(name) && live.includes(name),name);
- assert.match(live,/toNumber\(row\.td\) !== undefined && row\.td_reference_period/);
+ assert.match(live,/const certifiedPga2025 = getPgaDisplayInfo\(scpi\)\.available/);
+ assert.match(live,/const preserveCertified2025 = certifiedPga2025 && !hasNewAnnualTD/);
+ assert.match(live,/yield: preserveCertified2025 \? scpi\.yield : \(liveTd \?\? scpi\.yield\)/);
+ assert.match(live,/const resolvedTdPeriod = preserveCertified2025 \? scpi\.distributionReferencePeriod/);
+ assert.match(live,/row\.td_reference_period === `\$\{liveYear\}-RA`/);
  assert.match(live,/toNumber\(row\.endettement\) !== undefined && row\.debt_reference_period/);
  assert.match(live,/const INDICATOR_SELECT =/);
  assert.match(catalog,/distributionReferencePeriod:/);
