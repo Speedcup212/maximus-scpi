@@ -1,4 +1,5 @@
 import React from 'react';
+import PgaIndicator from './PgaIndicator';
 import { TrendingUp, Star, Award } from 'lucide-react';
 import { Scpi } from '../types/scpi';
 import { formatCurrency, formatPercentage, getPerformanceColor, resolveDisplayedDiscount } from '../utils/formatters';
@@ -152,6 +153,7 @@ const ScpiTable: React.FC<ScpiTableProps> = ({
                 <span className={`font-bold text-xs sm:text-sm whitespace-nowrap ${getPerformanceColor(scpi.yield)}`}>
                   {scpi.yield.toFixed(2)}%
                 </span>
+                <PgaIndicator scpi={scpi} compact className="block mt-1" />
               </td>
               <td className="px-3 py-3 text-center">
                 <span className={`font-bold text-xs whitespace-nowrap ${scpi.tof >= 95 ? 'text-green-500 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'}`}>
