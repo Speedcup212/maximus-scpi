@@ -4082,6 +4082,8 @@ const historicalExtended = baseSCPIData.filter((scpi) =>
   const current = scpiBySlug.get(toCertifiedScpiSlug(scpi.name));
   return {
     ...scpi,
+    // Certified financial values override the old illustrative card snapshots.
+    yield: current?.yield ?? scpi.yield,
     pga: current?.pga, pgaYear: current?.pgaYear,
     pgaSourceUrl: current?.pgaSourceUrl, pgaQaStatus: current?.pgaQaStatus,
     distributionReferencePeriod: current?.distributionReferencePeriod
