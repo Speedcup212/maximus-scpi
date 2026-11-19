@@ -16,6 +16,10 @@ if (!supabaseUrl || !supabaseKey) {
 
 const catalogPath = path.resolve(process.cwd(), 'src/data/scpi_complet.json');
 const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf-8')) as Record<string, any>[];
+const certifiedAnnualPath = path.resolve(process.cwd(), 'src/data/pga_certified_2025.json');
+type AnnualProof = { slug: string; year: number; td: number; pga: number; sourceUrl: string; sourcePage: number | null; sourceSha256?: string; verificationStatus: string; verificationMethod: string };
+const annualProofs = JSON.parse(fs.readFileSync(certifiedAnnualPath, 'utf-8')) as AnnualProof[];
+const annualProofBySlug = new Map(annualProofs.map(proof => [proof.slug, proof]));
 
 const slugify = (value: string) =>
   String(value || '')
@@ -118,7 +122,14 @@ for (const scpi of catalog) {
   scpi.maximus_history_core_ready = h?.core_historical_ready === true;
   if (!row) continue;
 
-  assign(scpi, 'Taux de distribution (%)', row.td);
+  const annual = annualProofBySlug.get(slug);
+  const annualVerified = annual?.year === row.td_annee &&
+    annual?.year === 2025 && typeof annual?.sourceUrl === 'string' &&
+    /^https:\/\//.test(annual.sourceUrl) &&
+    Number.isFinite(annual.pga) && Number.isFinite(annual.td) &&
+    ['manual_verified_official','source_verified_official_crosschecked'].includes(annual.verificationStatus);
+  // A reviewed issuer annual TD takes priority over a bulletin-extraction TRI error.
+  assign(scpi, 'Taux de distribution (%)', annualVerified ? annual!.td : row.td);
   // TD et PGA : toujours utiliser l'année effective des indicateurs annuels,
   // jamais la période du dernier bulletin trimestriel.
   const tdYear = Number(row.td_annee);
@@ -126,16 +137,25 @@ for (const scpi of catalog) {
   const tdPeriod = typeof row.td_reference_period === 'string' &&
     /^20\d{2}-RA$/.test(row.td_reference_period) ? row.td_reference_period
     : tdYearValid ? `${tdYear}-RA` : null;
-  if (tdPeriod) scpi.td_reference_period = tdPeriod;
+  if (annualVerified) scpi.td_reference_period = '2025-RA';
+  else if (tdPeriod) scpi.td_reference_period = tdPeriod;
   else delete scpi.td_reference_period;
-  const tdUrl = row.td_reference_url || row.metric_provenance?.td?.source_url;
+  const tdUrl = annualVerified ? annual!.sourceUrl : (row.td_reference_url || row.metric_provenance?.td?.source_url);
   if (typeof tdUrl === 'string' && /^https:\/\//.test(tdUrl)) scpi.td_reference_url = tdUrl;
   else delete scpi.td_reference_url;
 
   // La preuve officielle contrôlée se trouve dans metric_provenance.pga,
   // incluant value_numeric, source_period, source_url et qa_status.
   // Le calcul d'un prix à l'autre sans documentation annuelle est interdit.
-  const pgaProof = row.metric_provenance?.pga;
+  const pgaProof = annualVerified ? {
+    value_numeric: annual!.pga,
+    source_period: '2025-RA',
+    source_url: annual!.sourceUrl,
+    source_page: annual!.sourcePage,
+    pdf_sha256: annual!.sourceSha256,
+    qa_status: 'qa_pass',
+    verification_method: annual!.verificationMethod
+  } : row.metric_provenance?.pga;
   const pgaSourcePeriod = String(pgaProof?.source_period || '');
   const pgaProofYear = /^20\d{2}(?:-RA)?$/.test(pgaSourcePeriod)
     ? Number(pgaSourcePeriod.slice(0, 4)) : null;
@@ -202,6 +222,9 @@ for (const scpi of catalog) {
     frais_gestion: scpi.maximus_metric_provenance?.frais_gestion,
   };
   assign(scpi, 'maximus_metric_provenance', row.metric_provenance);
+  if (annualVerified) {
+    scpi.maximus_metric_provenance = { ...scpi.maximus_metric_provenance, pga: pgaProof };
+  }
   assign(scpi, 'maximus_valeur_realisation_reference_date', row.metric_provenance?.valeur_realisation?.reference_date);
   assign(scpi, 'maximus_valeur_realisation_source_url', row.metric_provenance?.valeur_realisation?.source_url);
   assign(scpi, 'maximus_valeur_realisation_source_page', row.metric_provenance?.valeur_realisation?.source_page);
