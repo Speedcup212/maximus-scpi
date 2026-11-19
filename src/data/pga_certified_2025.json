@@ -1,5 +1,25 @@
 [
   {
+    "slug": "acces-valeur-pierre",
+    "year": 2025,
+    "td": 3.85,
+    "pga": 3.85,
+    "sourceUrl": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/acces-valeur-pierre",
+    "sourcePage": null,
+    "verificationStatus": "source_verified_official_crosschecked",
+    "verificationMethod": "issuer_public_SCPI_product_2025_20261119"
+  },
+  {
+    "slug": "accimmo-pierre",
+    "year": 2025,
+    "td": 4.77,
+    "pga": 4.77,
+    "sourceUrl": "https://reim.bnpparibas-am.com/fr-fr/produits/scpi/accimmo-pierre",
+    "sourcePage": null,
+    "verificationStatus": "source_verified_official_crosschecked",
+    "verificationMethod": "issuer_public_SCPI_product_2025_20261119"
+  },
+  {
     "slug": "activimmo",
     "year": 2025,
     "td": 5.49,
@@ -30,6 +50,26 @@
     "sourceSha256": "03cd7abe8c1e973c8920a6a28d17f699299241b0e2849b1ba471d8c32a0d7268",
     "verificationStatus": "source_verified_official_crosschecked",
     "verificationMethod": "issuer_pdf_text_year_value_and_identity_review_20261119"
+  },
+  {
+    "slug": "altixia-cadence-12",
+    "year": 2025,
+    "td": 5.15,
+    "pga": 5.15,
+    "sourceUrl": "https://www.altixia.fr/scpi-cadence.php",
+    "sourcePage": null,
+    "verificationStatus": "source_verified_official_crosschecked",
+    "verificationMethod": "issuer_public_SCPI_product_2025_20261119"
+  },
+  {
+    "slug": "atream-hotel",
+    "year": 2025,
+    "td": 5.05,
+    "pga": 5.05,
+    "sourceUrl": "https://atream.com/solutions/fonds-ouverts/scpi-atream-hotels/",
+    "sourcePage": null,
+    "verificationStatus": "source_verified_official_crosschecked",
+    "verificationMethod": "issuer_public_SCPI_product_2025_20261119"
   },
   {
     "slug": "buroboutic-metropoles",
@@ -124,6 +164,16 @@
     "sourcePage": null,
     "verificationStatus": "source_verified_official_crosschecked",
     "verificationMethod": "official_issuer_published_table_20261119"
+  },
+  {
+    "slug": "cristal-life",
+    "year": 2025,
+    "td": 6.54,
+    "pga": 7.51,
+    "sourceUrl": "https://pages.inter-gestion.com/cristal-life",
+    "sourcePage": null,
+    "verificationStatus": "source_verified_official_crosschecked",
+    "verificationMethod": "issuer_public_SCPI_product_2025_20261119"
   },
   {
     "slug": "edr-europa",
