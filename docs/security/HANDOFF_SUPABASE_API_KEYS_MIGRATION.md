@@ -1,39 +1,60 @@
-# Handoff — Bascule Supabase (ChatGPT exécute)
+# Handoff — Bascule Supabase (Cursor exécute, ChatGPT contrôle)
 
 > Objet : exécution des étapes Supabase de la migration clés API (déploiement Edge Functions + migration Vault).
-> Préparé par : DeepSeek (Cursor). Exécuté par : ChatGPT (accès Supabase en écriture).
-> Date : 2026-11-24 (révision 2 — réconcilié avec l'état réel de production).
-> Statut : **PR #457 fusionnée** (`main`), **compteur 69/69 PASS_100 maintenu**.
+> Exécutant : Cursor / DeepSeek (ticket #459). Contrôle indépendant : ChatGPT (commentaires #459).
+> Date : 2026-11-24 (révision 3 — réconcilié avec l'inventaire réel de production via logs + observation ChatGPT).
+> Statut : **PR #457 fusionnée** (`main`), **compteur 69/69 PASS_100 maintenu**, **PR #458 non fusionnée**.
 
 ---
 
-## 0. Précision capitale sur `verify_jwt` (correction de la révision 1)
+## 0. État réel de `verify_jwt` par famille (corrigé vs révision 2)
 
-La révision 1 indiquait que les fonctions backend « gardent `verify_jwt` actif » et
-devaient être déployées **sans** `--no-verify-jwt`. **C'est faux.** La consultation
-directe des Edge Functions de production montre que les fonctions concernées sont
-**déjà** configurées avec `verify_jwt=false`.
+L'inventaire réel (logs `function_edge_logs` + observation ChatGPT) montre que **toutes
+les fonctions ne sont pas à `verify_jwt=false`** comme l'affirmait la révision 2 :
 
-Leur sécurité ne repose **pas** sur la validation JWT de la plateforme, mais sur une
-**authentification interne propre** :
-
-| Famille | Mécanisme interne | Exemples |
+| Famille | `verify_jwt` en prod | Mécanisme d'authentification effectif |
 |---|---|---|
-| Cron / ingestion | en-tête `x-cron-token` / `x-annual-token` comparé au SHA-256 stocké dans `scpi_bulletin_runtime_config` | `scpi-news-watch`, `scpi-bulletin-watch`, `scpi-certified-promote`, `scpi-evidence-certify`, `scpi-source-link-inspect`, `scpi-annual-safe-extract`, `scpi-annual-report-backfill` |
-| GitHub Actions | jeton OIDC `jwtVerify` (issuer `token.actions.githubusercontent.com`, audience + `workflow_ref` + `repository_id` épinglés) | `scpi-release-certification-oidc`, `scpi-corum-document-oidc`, `scpi-bulletin-replay-oidc`, `maximus-agent-audit-oidc`, `maximus-scpi-ocr-oidc`, `maximus-search-agent-oidc` |
-| Webhook Calendly | signature HMAC-SHA256 sur `calendly-webhook-signature` (`CALENDLY_WEBHOOK_SIGNING_KEY`) | `calendly-webhook` |
-| Contrôles serveur (sans appelant) | `request_id` UUID, `form_type`, fraîcheur < 15 min, ≤ 3 envois/24 h, champs bornés | `send-simulation-email` |
-| Garde `apikey` (`_shared/auth.ts`) | `requireApiKey` / `requirePublishableKey` / `requireSecretKey` | `send-lead-notification`, `sender-add-contact`, `scpi-scoring` |
+| Cron / ingestion | **false** | en-tête `x-cron-token` / `x-annual-token` comparé au SHA-256 de `scpi_bulletin_runtime_config` |
+| GitHub OIDC | **false** | `jwtVerify` OIDC (issuer GitHub, audience + `workflow_ref` + `repository_id` épinglés) |
+| Webhook Calendly | **false** | HMAC-SHA256 `calendly-webhook-signature` (`CALENDLY_WEBHOOK_SIGNING_KEY`) |
+| `send-simulation-email` | **false** | contrôles serveur (request_id UUID, <15 min, ≤3/24 h, champs bornés) |
+| **`sender-add-contact`** | **true** (constaté ChatGPT 24/11) | actuellement appelé avec la clé anon **legacy** (JWT) ; la garde `requireApiKey` (`legacyJwt:false`) n'est **pas encore** déployée en prod |
+| `send-lead-notification` | à confirmer via `functions list` | idem : à basculer en coordination avec le frontend |
+| `scpi-scoring` | non déployée | — |
 
-**Règle de déploiement (à ne jamais violer) : les 17 fonctions concernées se déploient
-TOUTES avec `--no-verify-jwt`** (`verify_jwt=false`), pour **préserver** la configuration
-effective de production. Déployer sans ce flag ferait basculer `verify_jwt` à `true` et
-**casserait** les cron, les appels OIDC GitHub et le webhook Calendly (aucun d'eux
-n'envoie de JWT utilisateur Supabase).
+**Conséquence** : pour que le frontend bascule sur la clé publishable `sb_publishable_*`
+(non JWT), les fonctions `sender-add-contact` et `send-lead-notification` doivent être
+déployées avec `--no-verify-jwt` **au moment où** la garde `requireApiKey` + les variables
+`SUPABASE_PUBLISHABLE_KEYS`/`SUPABASE_SECRET_KEYS` sont actives, **en coordination avec le
+swap anon frontend** — sinon `verify_jwt=true` rejette la clé publishable (non JWT).
 
-> `verify_jwt=true` ne reste exigé QUE pour les fonctions à session utilisateur
-> (`client-access-admin`, `client-surveillance`) qui utilisent `withSupabase({ auth: "user" })`.
-> Elles ne sont **pas** concernées par cette migration (non modifiées par la PR #457).
+**Règle de déploiement** : les **14 fonctions backend** (cron/OIDC/Calendly/serveur) se
+déploient avec `--no-verify-jwt` pour **préserver** `verify_jwt=false` (déployer sans le
+flag les ferait repasser à `true` et casserait cron/OIDC/Calendly). Les **2 fonctions lead**
+(`sender-add-contact`, `send-lead-notification`) se déploient avec `--no-verify-jwt`
+**uniquement dans le lot coordonné** de bascule du frontend sur la clé publishable.
+
+> `verify_jwt=true` reste exigé pour `client-access-admin` et `client-surveillance`
+> (`withSupabase({ auth: "user" })`) — hors périmètre de cette migration.
+
+### 0.1 Fonctions déployées SANS source dans le dépôt (inventaire logs 4 jours)
+
+Les logs révèlent 5 fonctions **invoquées en production** dont le code n'existe **ni dans
+`supabase/functions/` ni dans l'historique git** (déployées hors dépôt) :
+
+| Fonction | Dernière version observée | Appelant observé |
+|---|---|---|
+| `scpi-parallel-backfill-worker` | v8 | `pg_net` |
+| `scpi-parallel-discover-worker` | v7 | `pg_net` |
+| `scpi-annual-source-discover` | v9 | (non déterminé) |
+| `scpi-norma-quarterly-ingest` | v7 | (non déterminé) |
+| `maximus-watchdog-oidc` | v7 | GitHub Actions OIDC (`maximus-watchdog.yml`) |
+
+**Conséquence** : ces fonctions ne sont **pas** modifiables/restaurables depuis le dépôt
+actuel. Leur consommation éventuelle de la clé legacy n'est pas vérifiable sans récupérer
+leur source. À **traiter avant révocation** (les identifier via `supabase functions list`
+puis récupérer/archiver leur source), sinon la révocation pourrait les casser sans
+possibilité de rollback depuis le repo.
 
 ---
 
@@ -64,29 +85,34 @@ Confirmer que les fonctions listées au §2.3 sont déjà à `verify_jwt=false`.
 fonction apparaît à `verify_jwt=true`, la **signaler** (ne pas la redéployer sans
 validation) : c'est une divergence avec l'état décrit et elle doit être tranchée.
 
-### 2.1 Fonctions avec garde `apikey` (3 fonctions)
+### 2.1 Fonctions lead avec garde `apikey` (2 fonctions — bascule COORDONNÉE)
 
-Ces 3 fonctions embarquent une garde `require*Key` avec `{ legacyJwt: false }` :
-`verify_jwt` DOIT être désactivé et remplacé par la garde `apikey`.
+Ces 2 fonctions embarquent `requireApiKey` avec `{ legacyJwt: false }`. En production,
+`sender-add-contact` est actuellement `verify_jwt=true` (constaté) : le frontend les
+appelle encore avec la clé anon **legacy** (JWT). Le passage à la clé publishable
+`sb_publishable_*` (non JWT) exige de basculer ces fonctions à `verify_jwt=false` **en
+même temps** que le swap anon frontend — jamais en avance (sinon `verify_jwt=true`
+rejetterait la nouvelle clé) ni en retard.
 
-| Fonction | Garde | Accepte | Dépendance partagée |
-|---|---|---|---|
-| `send-lead-notification` | `requireApiKey` | publishable **OU** secret | `_shared/auth.ts` |
-| `sender-add-contact` | `requireApiKey` | publishable **OU** secret | `_shared/auth.ts` |
-| `scpi-scoring` | `requirePublishableKey` (simulation) / `requireSecretKey` (`save_to_db=true`) | publishable (lecture) / secret (écriture) | `_shared/auth.ts`, `_shared/serviceKey.ts` |
+| Fonction | Garde | Accepte | Dépendance partagée | `verify_jwt` prod |
+|---|---|---|---|---|
+| `send-lead-notification` | `requireApiKey` | publishable **OU** secret | `_shared/auth.ts` | à confirmer via `functions list` |
+| `sender-add-contact` | `requireApiKey` | publishable **OU** secret | `_shared/auth.ts` | **true** (constaté) |
 
-Commandes (CLI Supabase) :
+Commande (lot coordonné avec le swap anon frontend, §6) :
 
 ```bash
 supabase functions deploy send-lead-notification --no-verify-jwt --project-ref ygvsddcpohsnaowofuwc
 supabase functions deploy sender-add-contact    --no-verify-jwt --project-ref ygvsddcpohsnaowofuwc
-supabase functions deploy scpi-scoring          --no-verify-jwt --project-ref ygvsddcpohsnaowofuwc   # voir §2.4 (optionnel)
 ```
 
 > ⚠️ Ne déployer `--no-verify-jwt` QUE si les variables `SUPABASE_PUBLISHABLE_KEYS` /
-> `SUPABASE_SECRET_KEYS` sont bien injectées, sinon les fonctions renvoient **503**
-> (`authentication_not_configured`, fail-closed). Sans clé configurée, elles refusent
-> toute requête : c'est le comportement attendu, jamais une ouverture.
+> `SUPABASE_SECRET_KEYS` sont bien injectées, sinon ces fonctions renvoient **503**
+> (`authentication_not_configured`, fail-closed). Le basculement à `verify_jwt=false`
+> **supprime** la validation JWT plateforme : la garde `apikey` devient la SEULE
+> authentification — à activer uniquement dans le lot coordonné (§6), jamais seul.
+
+> `scpi-scoring` reste **non déployé** (cf. §2.4) : hors lot obligatoire.
 
 ### 2.2 Fonctions à authentification interne (14 fonctions — cron / OIDC / Calendly)
 
@@ -136,9 +162,9 @@ depuis `dfc6b309` (cf. §5).
 | `scpi-bulletin-replay-oidc` | `supabase/functions/scpi-bulletin-replay-oidc/index.ts` | `_shared/serviceKey.ts` | ✅ | false | GitHub OIDC (aud `maximus-scpi-bulletin-replay-…`) |
 | `maximus-agent-audit-oidc` | `supabase/functions/maximus-agent-audit-oidc/index.ts` | résolution inline `serviceKey()` + `storageAuth()` | ✅ | false | GitHub OIDC (aud `maximus-parallel-audit-…`) ; DB directe via `SUPABASE_DB_URL` |
 | `maximus-scpi-ocr-oidc` | `supabase/functions/maximus-scpi-ocr-oidc/index.ts` (+ `historicalIdentity.mjs`) | résolution inline | ✅ | false | GitHub OIDC (aud `maximus-scpi-ocr-…`) ; DB directe via `SUPABASE_DB_URL` |
-| `send-lead-notification` | `supabase/functions/send-lead-notification/index.ts` | `_shared/auth.ts` | ✅ | false | `requireApiKey` (publishable OU secret) |
-| `sender-add-contact` | `supabase/functions/sender-add-contact/index.ts` | `_shared/auth.ts` | ✅ | false | `requireApiKey` (publishable OU secret) |
-| `scpi-scoring` | `supabase/functions/scpi-scoring/index.ts` | `_shared/auth.ts`, `_shared/serviceKey.ts` | ❌ | false | `requirePublishableKey` / `requireSecretKey` |
+| `send-lead-notification` | `supabase/functions/send-lead-notification/index.ts` | `_shared/auth.ts` | ✅ | **à confirmer** (prod) → false (lot coordonné) | `requireApiKey` (publishable OU secret) |
+| `sender-add-contact` | `supabase/functions/sender-add-contact/index.ts` | `_shared/auth.ts` | ✅ | **true** (constaté) → false (lot coordonné) | `requireApiKey` (publishable OU secret) |
+| `scpi-scoring` | `supabase/functions/scpi-scoring/index.ts` | `_shared/auth.ts`, `_shared/serviceKey.ts` | ❌ | — (non déployée) | `requirePublishableKey` / `requireSecretKey` |
 
 ### 2.4 Justification de `scpi-scoring` (absente de la production)
 
@@ -383,14 +409,23 @@ sur la clé legacy).
 
 ## 6. Ordre de bascule global (rappel)
 
+> **Prérequis exécution (Cursor)** : `supabase functions deploy/list` exigent un
+> `SUPABASE_ACCESS_TOKEN` (jeton personnel `sbp_…`) ou un `supabase login`. Sans ce jeton,
+> l'exécutant ne peut ni lister ni déployer les Edge Functions (blocage à lever par le
+> propriétaire).
+
 1. ✅ Code backend fusionné (`675ab161`).
-2. **ChatGPT** : déployer les **14** fonctions à authentification interne (§2.2) puis
-   les fonctions à garde `apikey` (§2.1), **toutes** avec `--no-verify-jwt`.
-3. **ChatGPT** : dry-run SQL puis application **optionnelle** de la migration Vault (§3).
-4. Vérifier 69/69 après chaque lot.
-5. **DeepSeek** : bascule GitHub Actions / Netlify (PR #458 prête, NON fusionnée).
-6. Tests réels leads / Calendly / simulateurs / comparateur / connexions / agents.
-7. Révocation des anciennes clés **en dernier**, après validation complète.
+2. **Cursor** : inventorier les fonctions réelles (`supabase functions list`) et confirmer
+   le `verify_jwt` effectif de chaque fonction (§2.0).
+3. **Cursor** : déployer les **14** fonctions à authentification interne (§2.2) avec
+   `--no-verify-jwt` (préserve `false`).
+4. **Cursor** : au moment du swap anon frontend, déployer `sender-add-contact` +
+   `send-lead-notification` (§2.1) avec `--no-verify-jwt`, en coordination avec le frontend.
+5. **Cursor** : migration Vault **reportée** (patron dormant, cf. §3) — pas de `db push`.
+6. Vérifier 69/69 après chaque lot.
+7. **Cursor** : fusionner la PR #458 puis basculer GitHub Actions / Netlify (après CI verte).
+8. Tests réels leads / Calendly / simulateurs / comparateur / connexions / agents.
+9. Révocation des anciennes clés **en dernier**, après validation complète et retrait des replis (§7.5).
 
 ---
 
