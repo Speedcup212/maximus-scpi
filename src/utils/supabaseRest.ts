@@ -1,3 +1,5 @@
+import { restHeaders } from './supabaseAuthHeaders';
+
 type CacheEntry<T> = {
   expiresAt: number;
   data: T;
@@ -100,11 +102,7 @@ export async function selectSupabaseRest<T>(
 
   const response = await fetch(`${supabaseUrl}/rest/v1/${table}?${params.toString()}`, {
     method: 'GET',
-    headers: {
-      apikey: supabaseAnonKey,
-      Authorization: `Bearer ${supabaseAnonKey}`,
-      Accept: 'application/json',
-    },
+    headers: restHeaders(supabaseAnonKey),
   });
 
   if (!response.ok) {

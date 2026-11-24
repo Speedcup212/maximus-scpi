@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { readServiceKey } from "../_shared/serviceKey.ts";
 
 // Fail-closed publisher for the 66 active SCPI. Crawlers stage documents only.
 // This worker promotes issuer-origin, same-period, SHA-256-anchored and
@@ -121,7 +122,7 @@ function gate(b: Candidate, allowedHosts: string[], certs: any[], current: any):
 Deno.serve(async (req: Request) => {
   if (req.method !== "POST") return Response.json({error:"POST required"},{status:405});
   const url = Deno.env.get("SUPABASE_URL") || "";
-  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
+  const key = readServiceKey((k) => Deno.env.get(k), "scpi_agents");
   if (!url || !key) return Response.json({error:"Missing service configuration"},{status:500});
   const db = createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}});
   const token = req.headers.get("x-cron-token") || "";

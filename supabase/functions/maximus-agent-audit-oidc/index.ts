@@ -13,6 +13,28 @@ if(!connection)throw Error("Database connection unavailable");
 const sql=postgres(connection,{max:1,prepare:false,ssl:"require",connect_timeout:10,idle_timeout:15});
 const roles=new Set(["DATA","SEARCH","ANALYST","QA"]);
 
+// Clé de service pour l'accès Storage privé. Compatible clés legacy et nouvelles :
+// lit d'abord SUPABASE_SECRET_KEYS["scpi_agents"]/["default"] (clé opaque sb_secret_*),
+// puis replie sur SUPABASE_SERVICE_ROLE_KEY (JWT legacy) tant que celle-ci n'est pas
+// révoquée. Aucune révocation avant bascule validée.
+function serviceKey(): string {
+  try {
+    const raw = Deno.env.get("SUPABASE_SECRET_KEYS");
+    if (raw) {
+      const keys = JSON.parse(raw) as Record<string, string>;
+      const v = keys["scpi_agents"] ?? keys["default"] ?? "";
+      if (v) return v;
+    }
+  } catch {}
+  return Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+}
+
+// Une clé opaque sb_secret_* n'est pas un JWT : ne pas l'envoyer en Authorization: Bearer.
+const storageAuth = (key: string) =>
+  key.startsWith("eyJ")
+    ? { apikey: key, Authorization: "Bearer " + key }
+    : { apikey: key };
+
 Deno.serve(async request=>{
   if(request.method!=="POST")return new Response("Method not allowed",{status:405});
   const auth=request.headers.get("authorization")||"";
@@ -237,12 +259,11 @@ Deno.serve(async request=>{
       const expected=Number(file?.archive_bytes);
       if(!file||!Number.isSafeInteger(expected)||expected<1024||expected>20000000)
         return new Response("Exact archived original unavailable",{status:404});
-      const storageKey=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+      const storageKey=serviceKey();
       if(!storageKey)throw Error("PRIVATE_STORAGE_ACCESS_MISSING");
       const archiveUrl="https://ygvsddcpohsnaowofuwc.supabase.co/storage/v1/object/authenticated/scpi-bulletins/"
         +file.pdf_path.split("/").map(encodeURIComponent).join("/");
-      const response=await fetch(archiveUrl,{headers:{
-          apikey:storageKey,Authorization:"Bearer "+storageKey},
+      const response=await fetch(archiveUrl,{headers:storageAuth(storageKey),
           redirect:"error",signal:AbortSignal.timeout(20000)});
       if(!response.ok)return new Response("Archive read failed",{status:424});
       const data=await response.arrayBuffer();
@@ -298,12 +319,11 @@ Deno.serve(async request=>{
       if(!file||!Number.isSafeInteger(size)||size<1024||size>20000000||
          !Number.isInteger(file.page_count)||file.page_count<1||file.page_count>80)
         return new Response("Original archive invalid",{status:404});
-      const secret=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+      const secret=serviceKey();
       if(!secret)throw Error("PRIVATE_STORAGE_ACCESS_MISSING");
       const objectUrl="https://ygvsddcpohsnaowofuwc.supabase.co/storage/v1/object/authenticated/scpi-bulletins/"
         +file.pdf_path.split("/").map(encodeURIComponent).join("/");
-      const response=await fetch(objectUrl,{headers:{
-        apikey:secret,Authorization:"Bearer "+secret},
+      const response=await fetch(objectUrl,{headers:storageAuth(secret),
         redirect:"error",signal:AbortSignal.timeout(20000)});
       if(!response.ok)return new Response("Archive original inaccessible",{status:424});
       const data=await response.arrayBuffer();

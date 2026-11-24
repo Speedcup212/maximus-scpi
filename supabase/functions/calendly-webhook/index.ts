@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { readServiceKey } from "../_shared/serviceKey.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -138,7 +139,7 @@ Deno.serve(async (req) => {
       .trim() || "calendly";
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    const serviceRoleKey = readServiceKey((k) => Deno.env.get(k), "scpi_agents");
     if (!supabaseUrl || !serviceRoleKey) {
       throw new Error("Missing Supabase service configuration");
     }

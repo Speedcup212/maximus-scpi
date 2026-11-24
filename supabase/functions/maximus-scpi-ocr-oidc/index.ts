@@ -57,11 +57,20 @@ Deno.serve(async(req:Request)=>{
          file.pdf_path!==t.slug+'/'+t.period+'/'+file.pdf_sha256+'.pdf'||
          !Number.isSafeInteger(size)||size<1024||size>20000000)
         return fail(422,"archive_metadata_invalid");
-      const secret=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+      // Clé de service compatible legacy/nouvelle, résolue inline (cette section est
+      // exécutée en VM par ocrArchiveBridge.test.mjs : pas d'import externe possible).
+      const secret=(()=>{
+        try{
+          const raw=Deno.env.get("SUPABASE_SECRET_KEYS");
+          if(raw){const keys=JSON.parse(raw);const v=keys["scpi_agents"]??keys["default"]??"";if(v)return v;}
+        }catch{}
+        return Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")??"";
+      })();
       if(!secret)return fail(503,"private_storage_unavailable");
       const url="https://ygvsddcpohsnaowofuwc.supabase.co/storage/v1/object/authenticated/scpi-bulletins/"
         +file.pdf_path.split('/').map(encodeURIComponent).join('/');
-      const response=await fetch(url,{headers:{apikey:secret,Authorization:'Bearer '+secret},
+      // Une clé opaque sb_secret_* n'est pas un JWT : pas d'Authorization: Bearer.
+      const response=await fetch(url,{headers:secret.startsWith("eyJ")?{apikey:secret,Authorization:'Bearer '+secret}:{apikey:secret},
         redirect:'error',signal:AbortSignal.timeout(20000)});
       if(!response.ok)return fail(424,"archive_inaccessible");
       const bytes=await response.arrayBuffer();

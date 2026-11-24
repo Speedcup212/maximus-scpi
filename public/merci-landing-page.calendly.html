@@ -461,9 +461,11 @@
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-    // Initialize Supabase
-    const SUPABASE_URL = 'https://ygvsddcpohsnaowofuwc.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlndnNkZGNwb2hzbmFvd29mdXdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcxMTQxNjYsImV4cCI6MjA4MjY5MDE2Nn0.auNNK4cBsQW3jVCoXYsmDIE20p2UZ1HL6JcUA4aZbZY';
+    // Initialize Supabase — clés injectées au build (voir scripts/inject-env-vars.js).
+    // Ne jamais committer une clé réelle ici : les nouvelles clés sb_publishable_* sont
+    // fournies par VITE_SUPABASE_ANON_KEY au moment du build.
+    const SUPABASE_URL = 'VITE_SUPABASE_URL_PLACEHOLDER';
+    const SUPABASE_ANON_KEY = 'VITE_SUPABASE_ANON_KEY_PLACEHOLDER';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // Capture lead from Calendly redirect - Simple detection
