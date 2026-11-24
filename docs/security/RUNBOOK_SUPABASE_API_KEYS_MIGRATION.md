@@ -166,10 +166,18 @@ Commande : `npx vitest run src/tests/supabaseAuthHeaders.test.ts src/tests/scpiS
 Les gardes ne laissent passer SANS contrôle que si **`legacyJwt === true`** (verify_jwt actif)
 **ET** que les variables de clés sont **absentes**. Dans tous les autres cas, elles refusent
 **(fail-closed)** : config absente en mode `legacyJwt=false` → 503, config vide/invalide →
-503, clé incorrecte → 401. Invariant de déploiement (commenté dans `auth.ts`) :
-**`verify_jwt = false` n'est autorisé QUE si une garde est en place, avec `legacyJwt=false`,
-ET que les clés correspondantes sont effectivement configurées.** Aucune fonction n'est
-basculée en `verify_jwt = false` sans garde de remplacement testée.
+503, clé incorrecte → 401.
+
+**Réconciliation production (§8.5) :** les fonctions backend (cron / OIDC / Calendly) sont
+**déjà en `verify_jwt=false`** et le restent ; leur sécurité repose sur une
+**authentification interne** (jeton cron SHA-256, OIDC GitHub, signature Calendly, contrôles
+serveur), pas sur une garde `apikey`. L'invariant correct est donc :
+
+**`verify_jwt = false` n'est autorisé QUE si** (a) **une garde `apikey` est en place avec
+`legacyJwt=false`** et les clés correspondantes configurées, **ou** (b) **une
+authentification interne effective** (cron/OIDC/Calendly/contrôles serveur) protège la
+fonction. Aucune fonction n'est mise en `verify_jwt = false` **sans** l'un de ces deux
+mécanismes.
 
 ### 4.3 Tests préexistants en échec (sans lien avec cette PR)
 
@@ -327,10 +335,12 @@ Edge Function qui ne sait pas encore la lire :
 - **Edge Functions** : deux options selon la cause de l'échec :
   - Si les clés nouvelles restent configurées, les gardes continuent d'accepter les clés
     `sb_publishable_*`/`sb_secret_*` (aucune action).
-  - Pour revenir au modèle legacy (`verify_jwt` actif), redéployer **sans** `--no-verify-jwt`
-    ET avec `legacyJwt: true` (les gardes redeviennent des no-op seulement si les variables
-    de clés sont absentes). Le repli `SUPABASE_SERVICE_ROLE_KEY` reste fonctionnel tant que
-    la clé legacy n'est pas révoquée.
+  - **Rollback de code** : restaurer la fonction depuis `dfc6b309` (véritable version
+    précédente) puis redéployer **avec** `--no-verify-jwt` — l'état de production est
+    `verify_jwt=false`, pas `verify_jwt` actif : `git checkout dfc6b309 -- supabase/functions/<name>`.
+  - **Rollback de config (recommandé)** : le code de `main` (`675ab161`) replie sur
+    `SUPABASE_SERVICE_ROLE_KEY` tant qu'elle n'est pas révoquée ; ne pas configurer
+    `SUPABASE_SECRET_KEYS` suffit à revenir sur la clé legacy sans redéploiement.
 - **Netlify `lead-fallback`** : `SUPABASE_SERVICE_ROLE_KEY_NEW` est déjà le premier choix ;
   supprimer cette variable revient au repli `SUPABASE_SERVICE_ROLE_KEY` sans redéploiement.
 - **pg_net (rollback SQL)** — restaurer l'ancienne fonction à JWT en dur si le flux
@@ -438,8 +448,10 @@ préserve le patron Vault pour l'avenir. ✅ Le secret Vault `pgnet_webhooks` es
   Le scan de secrets (commit `cc2c42fb` + working tree) ne remonte **aucune** clé réelle
   (`sb_publishable_*`/`sb_secret_*`), **aucun** JWT `eyJ…` dans le code hors migrations
   legacy de projet supprimé.
-- `verify_jwt` n'est jamais désactivé sans garde testée (`requireApiKey`/`requirePublishableKey`/
-  `requireSecretKey`) et sans clés configurées.
+- `verify_jwt=false` n'est conservé que si la fonction a une authentification interne
+  effective : garde testée (`requireApiKey`/`requirePublishableKey`/`requireSecretKey`)
+  avec clés configurées, **ou** jeton cron/OIDC GitHub/signature Calendly/contrôles serveur.
+  Aucune fonction n'est laissée ouverte sans contrôle.
 - Les clés legacy sont **révoquées en dernier**, uniquement après validation complète.
 - Aucune nouvelle SCPI, aucun nouvel orchestrateur, aucune régression des 69/69.
 
@@ -450,8 +462,8 @@ préserve le patron Vault pour l'avenir. ✅ Le secret Vault `pgnet_webhooks` es
 | Service | Action | Variable nouvelle | Garde / auth | Statut |
 |---|---|---|---|---|
 | Frontend Vite (PostgREST) | `restHeaders`/`functionHeaders` sur `apikey` | `VITE_SUPABASE_ANON_KEY_NEW` | clé publishable | ✅ code + test |
-| Frontend Vite (`scpi-scoring` simulation) | `functionHeaders` sur `apikey` | `VITE_SUPABASE_ANON_KEY_NEW` | `requirePublishableKey` | ✅ code + test |
-| `scpi-scoring` persistance (`save_to_db`) | `readServiceKey(scpi_agents)` | `SUPABASE_SECRET_KEYS["scpi_agents"]` | `requireSecretKey` | ✅ code + test |
+| Frontend Vite (`scpi-scoring` simulation) | `functionHeaders` sur `apikey` | `VITE_SUPABASE_ANON_KEY_NEW` | `requirePublishableKey` | ✅ code + test ; **fonction NON déployée, non appelée en prod** |
+| `scpi-scoring` persistance (`save_to_db`) | `readServiceKey(scpi_agents)` | `SUPABASE_SECRET_KEYS["scpi_agents"]` | `requireSecretKey` | ✅ code + test ; **déploiement optionnel (hors chemin critique)** |
 | `send-lead-notification` | `requireApiKey` | publishable OU secret | `requireApiKey` (`legacyJwt=false`) | ✅ code |
 | `sender-add-contact` | `requireApiKey` | publishable OU secret | `requireApiKey` (`legacyJwt=false`) | ✅ code |
 | Netlify `lead-fallback` | envoi `apikey` | `SUPABASE_SERVICE_ROLE_KEY_NEW` → repli legacy | clé secrète | ✅ code |
