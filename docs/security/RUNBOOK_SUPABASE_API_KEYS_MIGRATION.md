@@ -30,16 +30,16 @@ automatiquement dans les Edge Functions via `SUPABASE_SECRET_KEYS` (objet JSON n
 
 | Clé (nom) | Consommateur | Interface d'enregistrement | Variable / emplacement |
 |---|---|---|---|
-| `github_actions` | Workflows CI (3 fichiers) | GitHub → Repo → **Settings → Secrets and variables → Actions** | secret `SUPABASE_SERVICE_ROLE_KEY` (remplace la valeur legacy) |
-| `netlify` | Netlify Functions + plugin de release | Netlify → Site → **Site configuration → Environment variables** | `SUPABASE_SERVICE_ROLE_KEY` (scopes Build **et** Functions) |
-| `scpi_agents` | 13 Edge Functions backend | **Aucune saisie** — déjà dans `SUPABASE_SECRET_KEYS` | lue par le code : `SUPABASE_SECRET_KEYS["scpi_agents"]` |
-| `pgnet_webhooks` | (voir §8 — trigger pg_net absent en prod) | Supabase → **Database → Vault → Secrets → Add a new secret** | nom de secret Vault : `pgnet_webhooks` |
+| `github_actions` | Workflows CI (3 fichiers) | GitHub → Repo → **Settings → Secrets and variables → Actions** | secret `SUPABASE_SERVICE_ROLE_KEY_NEW` ✅ créé (24/11) ; `SUPABASE_SERVICE_ROLE_KEY` (legacy) conservé |
+| `netlify` | Netlify Functions + plugin de release | Netlify → Site → **Site configuration → Environment variables** | `SUPABASE_SERVICE_ROLE_KEY_NEW` ✅ créé (protégée, prod only) ; `SUPABASE_SERVICE_ROLE_KEY` conservé |
+| `scpi_agents` | 15 Edge Functions backend (13 `readServiceKey` + 2 OIDC inline) | **Aucune saisie** — déjà dans `SUPABASE_SECRET_KEYS` | lue par le code : `SUPABASE_SECRET_KEYS["scpi_agents"]` |
+| `pgnet_webhooks` | (voir §8 — trigger pg_net absent en prod) | Supabase → **Database → Vault → Secrets → Add a new secret** | nom de secret Vault : `pgnet_webhooks` ✅ présent |
 
 ### 2.2 La clé publishable
 
 | Consommateur | Interface | Variable |
 |---|---|---|
-| Frontend (Vite) | Netlify → **Site configuration → Environment variables** | `VITE_SUPABASE_ANON_KEY` (valeur = `sb_publishable_…`) |
+| Frontend (Vite) | Netlify → **Site configuration → Environment variables** | `VITE_SUPABASE_ANON_KEY_NEW` ✅ créé (correspondance exacte avec la clé publishable) ; `VITE_SUPABASE_ANON_KEY` (legacy) conservé |
 
 ### 2.3 Workflows GitHub concernés
 
@@ -86,13 +86,14 @@ Helpers partagés dans `supabase/functions/_shared/` :
 `scpi-annual-safe-extract`, `scpi-annual-report-backfill`, `scpi-release-certification-oidc`,
 `scpi-corum-document-oidc`, `scpi-bulletin-replay-oidc`.
 
-> **Deux fonctions OIDC sont volontairement EXCLUES de cette migration** :
-> `maximus-agent-audit-oidc` et `maximus-scpi-ocr-oidc`. Elles sont couvertes par des tests
-> de contrat de sécurité (`controlEvidenceRouting.test.mjs` : `assert.match(edge,/SUPABASE_SERVICE_ROLE_KEY/)`
-> et `ocrArchiveBridge.test.mjs` : exécution du code réel en VM). Leur bascule est **différée**
-> à l'étape de switchover, où leurs tests de contrat seront mis à jour explicitement. Elles
-> continuent de lire `SUPABASE_SERVICE_ROLE_KEY` et basculeront sans risque lorsque le secret
-> sera remplacé (aucune révocation avant validation).
+> **Les deux fonctions OIDC restantes sont finalisées par résolution inline** (pas d'import
+> `readServiceKey`, pour préserver les tests de contrat qui exécutent le code en VM) :
+> `maximus-agent-audit-oidc` (helper top-level `serviceKey()` + `storageAuth()`) et
+> `maximus-scpi-ocr-oidc` (résolution inline dans le bloc `original`, seul bloc exécuté en VM).
+> Elles lisent `SUPABASE_SECRET_KEYS["scpi_agents"]` → `default` → repli `SUPABASE_SERVICE_ROLE_KEY`,
+> et **ne portent plus une clé opaque `sb_secret_*` en `Authorization: Bearer`** (en-tête
+> conditionnel : `apikey` seul pour une clé opaque, `apikey` + `Bearer` pour le JWT legacy).
+> Les contrats `controlEvidenceRouting.test.mjs` et `ocrArchiveBridge.test.mjs` restent PASS.
 
 Garde `requireApiKey` ajoutée aux fonctions appelées par plusieurs consommateurs :
 `send-lead-notification` (frontend + Netlify `lead-fallback`) et `sender-add-contact`
@@ -173,13 +174,13 @@ réel des fonctions OIDC / vérifient leur contenu littéral :
 
 | Job CI | Test | Cause | Correction |
 |---|---|---|---|
-| `contract` | `controlEvidenceRouting.test.mjs:350` | `assert.match(edge,/SUPABASE_SERVICE_ROLE_KEY/)` ne trouvait plus le littéral dans `maximus-agent-audit-oidc` | revert de la fonction (bascule différée) |
-| `pdf-ocr (1,2,3)` | `ocrArchiveBridge.test.mjs` | `ReferenceError: readServiceKey is not defined` (exécution du code OCR en VM) | revert de `maximus-scpi-ocr-oidc` |
+| `contract` | `controlEvidenceRouting.test.mjs:350` | `assert.match(edge,/SUPABASE_SERVICE_ROLE_KEY/)` ne trouvait plus le littéral dans `maximus-agent-audit-oidc` | résolution inline avec repli `SUPABASE_SERVICE_ROLE_KEY` (littéral conservé) |
+| `pdf-ocr (1,2,3)` | `ocrArchiveBridge.test.mjs` | `ReferenceError: readServiceKey is not defined` (exécution du code OCR en VM) | résolution inline dans le bloc exécuté en VM |
 
-**Décision** : `maximus-agent-audit-oidc` et `maximus-scpi-ocr-oidc` sont **exclues** de la
-migration (voir §3.2) pour ne pas affaiblir les contrats de sécurité. Après correction, tous
-les checks sont **PASS** (contract, build, browser, check, replay, fee-evidence, etc.) et le
-statut de fusion est **CLEAN**.
+**Résolution finale** : les deux fonctions OIDC sont **compatibles** (voir §3.2) sans importer
+`readServiceKey` (préservant les contrats) et sans affaiblir l'authentification (en-tête
+`Bearer` supprimé pour les clés opaques). Tous les checks CI sont **PASS** et le statut de
+fusion est **CLEAN**.
 
 ---
 
@@ -196,12 +197,12 @@ statut de fusion est **CLEAN**.
 1. **Supabase Vault** : ✅ secret `pgnet_webhooks` **déjà enregistré** (présence confirmée le
    2026-11-24, description « Notifications SQL et webhooks MaximusSCPI »). Ne sera consommé
    que si le flux pg_net est réactivé (voir §8.5).
-2. **Netlify → Environment variables** :
-   - `SUPABASE_SERVICE_ROLE_KEY` = valeur de la clé `netlify`.
-   - `VITE_SUPABASE_ANON_KEY` = valeur de la clé publishable.
-3. **GitHub → Secrets → Actions** :
-   - `SUPABASE_SERVICE_ROLE_KEY` = valeur de la clé `github_actions`.
-   - `VITE_SUPABASE_ANON_KEY` = valeur de la clé publishable.
+2. **Netlify → Environment variables** : ✅ fait
+   - `SUPABASE_SERVICE_ROLE_KEY_NEW` = clé `netlify` (protégée, contexte Production uniquement).
+   - `VITE_SUPABASE_ANON_KEY_NEW` = clé publishable (correspondance exacte vérifiée).
+   - Anciennes variables `SUPABASE_SERVICE_ROLE_KEY` / `VITE_SUPABASE_ANON_KEY` **conservées**.
+3. **GitHub → Secrets → Actions** : ✅ `SUPABASE_SERVICE_ROLE_KEY_NEW` créé (24/11) ; `SUPABASE_SERVICE_ROLE_KEY` (legacy) conservé.
+   - À l'étape de swap (après run CI vert), pointer les workflows sur `SUPABASE_SERVICE_ROLE_KEY_NEW`.
 
 ### Étape 2 — Déployer le code (backend d'abord, puis frontend)
 
@@ -216,8 +217,10 @@ statut de fusion est **CLEAN**.
    - `send-lead-notification`, `sender-add-contact`, `scpi-scoring`.
 3. Déployer le frontend (Netlify) avec la clé publishable injectée.
 
-> Les 12 autres Edge Functions restent en `verify_jwt` inchangé : elles ne changent que
-> la *source* de la clé de service (`scpi_agents`), pas leur modèle d'authentification.
+> Les fonctions restantes conservent leur modèle d'authentification inchangé : elles ne
+> changent que la *source* de la clé de service (`scpi_agents`). Les deux fonctions OIDC
+> (`maximus-agent-audit-oidc`, `maximus-scpi-ocr-oidc`) gardent leur vérification JWT GitHub
+> OIDC et ne passent pas en `verify_jwt = false`.
 
 ### Étape 3 — Vérifier après bascule
 
@@ -278,7 +281,7 @@ par consommateur, avec des variables temporaires dédiées :
 
 | Ordre | Consommateur | Variable temp. (nouvelle clé) | Variable legacy conservée | Bascule |
 |---|---|---|---|---|
-| 1 | `scpi_agents` (15 Edge Fn) | `SUPABASE_SECRET_KEYS["scpi_agents"]` (auto) | `SUPABASE_SERVICE_ROLE_KEY` | repli automatique `readServiceKey` |
+| 1 | `scpi_agents` (15 Edge Fn : 13 `readServiceKey` + 2 OIDC inline) | `SUPABASE_SECRET_KEYS["scpi_agents"]` (auto) | `SUPABASE_SERVICE_ROLE_KEY` | repli automatique (`readServiceKey` / résolution inline) |
 | 2 | `netlify` | `SUPABASE_SERVICE_ROLE_KEY_NEW` | `SUPABASE_SERVICE_ROLE_KEY` | swap manuel après test de `lead-fallback` |
 | 3 | `github_actions` | `SUPABASE_SERVICE_ROLE_KEY_NEW` | `SUPABASE_SERVICE_ROLE_KEY` | swap manuel après un run CI vert |
 | 4 | Frontend (Vite) | `VITE_SUPABASE_ANON_KEY_NEW` | `VITE_SUPABASE_ANON_KEY` | swap manuel après vérif comparateur |
