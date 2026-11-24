@@ -443,19 +443,82 @@ en temps constant (`timingSafeEqual` sur **tous** les secrets, sans sortie antic
 | Netlify `_invite-utils` | `netlify/functions/_invite-utils.ts` | `SUPABASE_SERVICE_ROLE_KEY_NEW` → repli legacy | ✅ déjà `_NEW` en premier |
 | Netlify `scpi-progressive-publisher` | `netlify/functions/scpi-progressive-publisher.mts` | `_NEW` → repli legacy | ✅ déjà `_NEW` en premier |
 | Netlify `funnel-event` | `netlify/functions/funnel-event.ts` | `_NEW` → repli legacy | ✅ déjà `_NEW` en premier |
-| Plugin de release | `plugins/maximus-scpi-native-release/release.mjs` | `SUPABASE_SERVICE_ROLE_KEY` seul | ⚠️ à basculer sur `_NEW` |
-| GitHub Actions (3 workflows) | `scpi-autonomous-certified-release.yml`, `scpi-autonomous-progressive-release.yml`, `maximus-candidate-postdeploy-activation.yml` | `secrets.SUPABASE_SERVICE_ROLE_KEY_NEW` | ✅ déjà `_NEW` |
+| Plugin de release | `plugins/maximus-scpi-native-release/release.mjs` | `SUPABASE_SERVICE_ROLE_KEY_NEW` → repli legacy ; `normalizeSecretHeaders` accepte `sb_secret_*` **et** `sb_publishable_*` | ✅ code prêt (test 4/4 PASS) |
+| GitHub Actions (3 workflows) | `scpi-autonomous-certified-release.yml`, `scpi-autonomous-progressive-release.yml`, `maximus-candidate-postdeploy-activation.yml` | `SUPABASE_SERVICE_ROLE_KEY_NEW` **et** `VITE_SUPABASE_ANON_KEY_NEW` | ✅ code prêt |
 | Scripts locaux (hors runtime) | `scripts/scpi-candidates/*.mjs`, `scripts/scpi-agents/*.mjs`, `scpi-ingestion/src/supabase.ts`, divers `*.ts` | `SUPABASE_SERVICE_ROLE_KEY` (env locale) | hors périmètre runtime ; migrer les `.env.local` au moment de la révocation |
 | Edge Functions | `supabase/functions/**` | `readServiceKey(scpi_agents)` / inline | ✅ cette PR |
 
-### 7.3 Points d'attention pour la bascule GitHub/Netlify
+### 7.3 État de la bascule GitHub/Netlify (constat du 24/11)
 
-- **Secret GitHub Actions `VITE_SUPABASE_ANON_KEY_NEW` absent** : seul
-  `SUPABASE_SERVICE_ROLE_KEY_NEW` existe côté Actions. Le swap de la clé anon côté
-  Actions est donc **bloqué** jusqu'à création de ce secret.
+- **Secret GitHub Actions `VITE_SUPABASE_ANON_KEY_NEW` ✅ présent** (créé 2026-11-24) —
+  confirmé via `gh secret list` (`VITE_SUPABASE_ANON_KEY_NEW`, `SUPABASE_SERVICE_ROLE_KEY_NEW`,
+  `VITE_SUPABASE_ANON_KEY` legacy conservé). Le swap anon côté Actions est **débloqué** et
+  **codé** dans les 3 workflows (`SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY_NEW }}`).
+- **CI PR #458 ✅ verte** : `build`, `check`, `browser` (×2), `verify-official-bulletins`
+  tous **pass**. (Le deploy-preview Netlify affiche « canceled » : déploiement d'aperçu
+  annulé, sans lien avec la validité du code.)
 - **Netlify** : `SUPABASE_SERVICE_ROLE_KEY_NEW` est en scope `Builds, Functions, Runtime`
-  (PAS `Post processing`) → vérifier la portée avant le swap du plugin de release.
-- **HMAC interne** : voir §7.1 — migrer le secret de signature **avant** toute révocation.
+  (PAS `Post processing`). Le plugin `release.mjs` lit désormais `_NEW` **avec repli
+  legacy**, donc sans coupure si la variable n'est pas encore visible dans le contexte du
+  plugin — mais **vérifier la portée** avant de considérer le swap du plugin effectif.
+- **HMAC interne** : voir §7.1 (séparé) et §7.4 (test réel) / §7.5 (suppression du repli).
+
+### 7.4 Test réel du nouveau HMAC (après déploiement Netlify)
+
+Une fois `INGEST_HMAC_SECRET` créé **et** les deux fonctions redéployées :
+
+1. **Vérifier la résolution** : le signataire (`scpi-ingest-scheduled`) doit signer avec
+   `INGEST_HMAC_SECRET` (log : aucun message `INGEST_HMAC_SECRET manquant`).
+2. **Attendre le prochain run planifié** (`30 3 * * *`) et vérifier, dans les logs de
+   `scpi-ingest-background`, **l'absence** de `invocation rejected` et la présence du
+   JSON `processed` normal.
+3. **Test manuel de non-régression du repli** (avant révocation) : révoquer temporairement
+   `INGEST_HMAC_SECRET` n'est pas nécessaire — le test unitaire `ingestHmacSeparation.test.ts`
+   couvre déjà la double fenêtre (signature legacy acceptée pendant la transition).
+4. **Contre-test négatif** : un POST direct vers `.netlify/functions/scpi-ingest-background`
+   **sans** en-têtes `x-maximus-*` doit rester ignoré (« invocation rejected »), confirmant
+   que la garde HMAC est bien en place.
+5. **Preuve** : un run cron vert avec la signature dédiée suffit ; ne pas tenter de
+   déclencher une écriture d'ingestion manuelle hors du chemin planifié.
+
+### 7.5 Suppression du repli HMAC legacy (à exécuter AU moment de la révocation)
+
+Étape finale, à appliquer **en même temps ou après** la révocation de
+`SUPABASE_SERVICE_ROLE_KEY` (jamais avant) :
+
+1. Dans `netlify/functions/_ingest-hmac.ts`, réduire `ingestHmacSecrets` au seul
+   `INGEST_HMAC_SECRET` :
+   ```ts
+   export function ingestHmacSecrets(getEnv) {
+     const dedicated = getEnv(INGEST_HMAC_SECRET_VAR);
+     return dedicated ? [dedicated] : [];
+   }
+   ```
+2. Supprimer la référence à `SUPABASE_SERVICE_ROLE_KEY` dans ce fichier (commentaires
+   et code), et la constante d'erreur correspondante dans `scpi-ingest-scheduled.ts`.
+3. Mettre à jour `ingestHmacSeparation.test.ts` : les cas « repli legacy » / « double
+   fenêtre » deviennent des cas « rejet sans secret dédié ».
+4. Redéployer `scpi-ingest-scheduled` + `scpi-ingest-background` ensemble.
+5. Vérifier le run cron suivant (aucune régression).
+
+> Tant que `SUPABASE_SERVICE_ROLE_KEY` n'est **pas** révoquée, laisser le repli en place.
+
+### 7.6 Tests fonctionnels de production (après chaque lot de déploiement)
+
+Matrice minimale à rejouer après chaque étape (Edge Functions, Netlify, GitHub, HMAC) :
+
+| Surface | Vérification | Signal attendu |
+|---|---|---|
+| Lead « PDF » / magnétique | soumettre un lead via `OptimizedScpiLandingPage` / `LeadMagnetEmailForm` | e-mail Resend reçu (`send-lead-notification` 200) + contact Brevo (`sender-add-contact` 200) |
+| Webhook Calendly | événement de test Calendly (ou replay) | `calendly-webhook` accepte la signature HMAC (pas de 401/403) |
+| Simulateurs | ouvrir simulateur direct / crédit / démembrement | rendu + aucune erreur réseau, cohérence des prix |
+| Comparateur | recherche / filtres / multi-sélection | données identiques aux fiches SEO |
+| Connexion / espace client | `client-access-admin` / `client-surveillance` | session utilisateur OK (verify_jwt=true conservé) |
+| Agents / ingestion | run cron `scpi-ingest-*`, `scpi-bulletin-watch`, `scpi-news-watch` | pas de `unauthorized` / `invocation rejected` |
+| Release Netlify | build production `main` | plugin `onSuccessRelease` OK, cohorte 69/69 |
+
+Contrôle **69/69** (`watchdog_observations`) après chaque lot : `strict_pass=69`,
+`strict_fail=0`, `runner_state='IDLE'`.
 
 ---
 

@@ -228,8 +228,8 @@ fusion est **CLEAN**.
    - `SUPABASE_SERVICE_ROLE_KEY_NEW` = clé `netlify` (protégée, contexte Production uniquement).
    - `VITE_SUPABASE_ANON_KEY_NEW` = clé publishable (correspondance exacte vérifiée).
    - Anciennes variables `SUPABASE_SERVICE_ROLE_KEY` / `VITE_SUPABASE_ANON_KEY` **conservées**.
-3. **GitHub → Secrets → Actions** : ✅ `SUPABASE_SERVICE_ROLE_KEY_NEW` créé (24/11) ; `SUPABASE_SERVICE_ROLE_KEY` (legacy) conservé.
-   - À l'étape de swap (après run CI vert), pointer les workflows sur `SUPABASE_SERVICE_ROLE_KEY_NEW`.
+3. **GitHub → Secrets → Actions** : ✅ `SUPABASE_SERVICE_ROLE_KEY_NEW` **et** `VITE_SUPABASE_ANON_KEY_NEW` créés (24/11) ; `SUPABASE_SERVICE_ROLE_KEY` / `VITE_SUPABASE_ANON_KEY` (legacy) conservés.
+   - Le swap des workflows est **codé** (3 workflows pointent sur `SUPABASE_SERVICE_ROLE_KEY_NEW` **et** `VITE_SUPABASE_ANON_KEY_NEW`) et prend effet à la fusion de la PR #458.
 
 ### Étape 2 — Déployer le code (backend d'abord, puis frontend)
 

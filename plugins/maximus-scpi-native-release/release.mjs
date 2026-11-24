@@ -42,7 +42,10 @@ export function validateNativeReport(report,sha) {
 }
 export function normalizeSecretHeaders(key) {
  if(!key||key.length<25)error('NETLIFY_SERVER_SECRET_UNAVAILABLE');
+ // Clés opaques (nouvelles) : apikey seul, jamais Authorization: Bearer.
  if(/^sb_secret_[a-zA-Z0-9_-]+$/.test(key))return {apikey:key};
+ if(/^sb_publishable_[a-zA-Z0-9_-]+$/.test(key))return {apikey:key};
+ // JWT legacy (anon/service_role) : apikey + Bearer.
  if(key.split('.').length===3)return {apikey:key,Authorization:'Bearer '+key};
  error('UNRECOGNIZED_SUPABASE_BACKEND_CREDENTIAL');
 }
@@ -123,7 +126,7 @@ async function publishPreparedCertified(secret,sha,deployId){
 export async function onPostBuildSourceCheck(env) {
  if(!isProductionDeploy(env))return 'SKIPPED_NONPRODUCTION';
  const {cohort,sourceSha}=validateCandidateCatalog();
- const secret=env.SUPABASE_SERVICE_ROLE_KEY;
+ const secret=env.SUPABASE_SERVICE_ROLE_KEY_NEW||env.SUPABASE_SERVICE_ROLE_KEY;
  const prior=await api('scpi_indicators?select=scpi_slug&scpi_slug=eq.sofidynamic',secret);
  if(!Array.isArray(prior))error('INVALID_SOURCE_BACKEND_RESPONSE');
  if(prior.length)return 'ALREADY_PUBLIC';
@@ -148,7 +151,7 @@ export async function onPostBuildSourceCheck(env) {
 export async function onSuccessRelease(env){
  if(!isProductionDeploy(env))return {status:'SKIPPED_NONPRODUCTION'};
  const sha=env.COMMIT_REF,deployId=env.DEPLOY_ID;
- const secret=env.SUPABASE_SERVICE_ROLE_KEY;
+ const secret=env.SUPABASE_SERVICE_ROLE_KEY_NEW||env.SUPABASE_SERVICE_ROLE_KEY;
  if(!secret)error('NETLIFY_SERVER_SECRET_UNAVAILABLE');
  if(env.SUPABASE_URL!==URL)error('NETLIFY_SUPABASE_PROJECT_MISMATCH');
  if(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim()!==sha)error('CHECKOUT_SHA_MISMATCH');
@@ -175,7 +178,7 @@ export async function onSuccessRelease(env){
  if(result?.published!==true||result?.certified!==false||
     result.after!==result.before+1||!result.candidate_slugs?.includes(SLUG))
     error('PROVISIONAL_ATOMIC_RELEASE_FAILED');
- const anon=env.VITE_SUPABASE_ANON_KEY;
+ const anon=env.VITE_SUPABASE_ANON_KEY_NEW||env.VITE_SUPABASE_ANON_KEY;
  if(!anon)error('PUBLIC_ANON_KEY_NOT_SET');
  const publicRows=await json(URL+'/rest/v1/scpi_indicators?select=scpi_slug,qa_status&scpi_slug=eq.sofidynamic',{
    headers:normalizeSecretHeaders(anon)
