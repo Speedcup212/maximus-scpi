@@ -15,6 +15,11 @@ import { readServiceKey } from '../../supabase/functions/_shared/serviceKey';
 const KEY = 'sb_publishable_test_00000000000000000000';
 const env = (map: Record<string, string>) => (key: string) => map[key];
 
+// verify_jwt désactivé → la garde est la SEULE authentification (fail-closed).
+const STRICT = { legacyJwt: false };
+// verify_jwt actif (mode legacy) → la plateforme a déjà validé le JWT.
+const LEGACY = { legacyJwt: true };
+
 describe('supabaseAuthHeaders (frontend) — clés legacy et sb_publishable', () => {
   it('restHeaders porte la clé sur apikey et ne reproduit jamais un Bearer', () => {
     const headers = restHeaders(KEY);
@@ -49,13 +54,13 @@ describe('edge function auth (transition verify_jwt → apikey publishable)', ()
       method: 'POST',
       headers: { apikey: 'n-importe-quoi' },
     });
-    expect(requirePublishableKey(req, env({}))).toBeNull();
+    expect(requirePublishableKey(req, env({}), LEGACY)).toBeNull();
   });
 
   it('mode nouvelles clés : rejette si apikey absent', () => {
     const get = env({ SUPABASE_PUBLISHABLE_KEYS: JSON.stringify({ default: KEY }) });
     const req = new Request('https://example.supabase.co/functions/v1/x', { method: 'POST' });
-    const res = requirePublishableKey(req, get);
+    const res = requirePublishableKey(req, get, STRICT);
     expect(res).not.toBeNull();
     expect(res!.status).toBe(401);
   });
@@ -66,7 +71,7 @@ describe('edge function auth (transition verify_jwt → apikey publishable)', ()
       method: 'POST',
       headers: { apikey: 'sb_publishable_mauvais' },
     });
-    expect(requirePublishableKey(req, get)?.status).toBe(401);
+    expect(requirePublishableKey(req, get, STRICT)?.status).toBe(401);
   });
 
   it('mode nouvelles clés : accepte la clé publishable exacte', () => {
@@ -75,7 +80,7 @@ describe('edge function auth (transition verify_jwt → apikey publishable)', ()
       method: 'POST',
       headers: { apikey: KEY },
     });
-    expect(requirePublishableKey(req, get)).toBeNull();
+    expect(requirePublishableKey(req, get, STRICT)).toBeNull();
   });
 
   it('requirePublishableKey rejette une clé secrète (frontend-only)', () => {
@@ -87,7 +92,65 @@ describe('edge function auth (transition verify_jwt → apikey publishable)', ()
       method: 'POST',
       headers: { apikey: 'sb_secret_x' },
     });
-    expect(requirePublishableKey(req, get)?.status).toBe(401);
+    expect(requirePublishableKey(req, get, STRICT)?.status).toBe(401);
+  });
+});
+
+describe('fail-closed : aucune config permissive quand verify_jwt est désactivé', () => {
+  const PUB = 'sb_publishable_pub';
+  const SECRET = 'sb_secret_pgnet';
+
+  it('requirePublishableKey refuse (503) quand la variable est absente et verify_jwt off', () => {
+    const req = new Request('https://example.supabase.co/functions/v1/x', {
+      method: 'POST', headers: { apikey: PUB },
+    });
+    expect(requirePublishableKey(req, env({}), STRICT)?.status).toBe(503);
+  });
+
+  it('requirePublishableKey refuse (503) quand la config est un objet vide {}', () => {
+    const get = env({ SUPABASE_PUBLISHABLE_KEYS: '{}' });
+    const req = new Request('https://example.supabase.co/functions/v1/x', {
+      method: 'POST', headers: { apikey: PUB },
+    });
+    expect(requirePublishableKey(req, get, STRICT)?.status).toBe(503);
+  });
+
+  it('requirePublishableKey refuse (503) quand le JSON est invalide', () => {
+    const get = env({ SUPABASE_PUBLISHABLE_KEYS: 'not-json' });
+    const req = new Request('https://example.supabase.co/functions/v1/x', {
+      method: 'POST', headers: { apikey: PUB },
+    });
+    expect(requirePublishableKey(req, get, STRICT)?.status).toBe(503);
+  });
+
+  it('requirePublishableKey refuse (503) sur config invalide même en mode legacy', () => {
+    // Une variable présente mais cassée signale une intention de mode clés :
+    // jamais de fallback permissif, même si verify_jwt est actif.
+    const get = env({ SUPABASE_PUBLISHABLE_KEYS: 'not-json' });
+    const req = new Request('https://example.supabase.co/functions/v1/x', {
+      method: 'POST', headers: { apikey: PUB },
+    });
+    expect(requirePublishableKey(req, get, LEGACY)?.status).toBe(503);
+  });
+
+  it('requireApiKey refuse (503) si les deux variables sont absentes et verify_jwt off', () => {
+    const req = new Request('https://example.supabase.co/functions/v1/x', { method: 'POST' });
+    expect(requireApiKey(req, env({}), STRICT)?.status).toBe(503);
+  });
+
+  it('requireSecretKey refuse (503) si la variable est absente et verify_jwt off', () => {
+    const req = new Request('https://example.supabase.co/functions/v1/x', {
+      method: 'POST', headers: { apikey: SECRET },
+    });
+    expect(requireSecretKey(req, env({}), STRICT)?.status).toBe(503);
+  });
+
+  it('requireSecretKey refuse (503) sur config vide même en mode legacy', () => {
+    const get = env({ SUPABASE_SECRET_KEYS: '{}' });
+    const req = new Request('https://example.supabase.co/functions/v1/x', {
+      method: 'POST', headers: { apikey: SECRET },
+    });
+    expect(requireSecretKey(req, get, LEGACY)?.status).toBe(503);
   });
 });
 
@@ -97,7 +160,7 @@ describe('requireApiKey (frontend + backend pg_net/Netlify)', () => {
 
   it('mode legacy : laisse passer (aucune clé configurée)', () => {
     const req = new Request('https://example.supabase.co/functions/v1/x', { method: 'POST' });
-    expect(requireApiKey(req, env({}))).toBeNull();
+    expect(requireApiKey(req, env({}), LEGACY)).toBeNull();
   });
 
   it('accepte une clé publishable', () => {
@@ -105,7 +168,7 @@ describe('requireApiKey (frontend + backend pg_net/Netlify)', () => {
     const req = new Request('https://example.supabase.co/functions/v1/x', {
       method: 'POST', headers: { apikey: PUB },
     });
-    expect(requireApiKey(req, get)).toBeNull();
+    expect(requireApiKey(req, get, STRICT)).toBeNull();
   });
 
   it('accepte une clé secrète (pg_net / Netlify)', () => {
@@ -113,7 +176,7 @@ describe('requireApiKey (frontend + backend pg_net/Netlify)', () => {
     const req = new Request('https://example.supabase.co/functions/v1/x', {
       method: 'POST', headers: { apikey: SECRET },
     });
-    expect(requireApiKey(req, get)).toBeNull();
+    expect(requireApiKey(req, get, STRICT)).toBeNull();
   });
 
   it('rejette une clé inconnue', () => {
@@ -124,7 +187,7 @@ describe('requireApiKey (frontend + backend pg_net/Netlify)', () => {
     const req = new Request('https://example.supabase.co/functions/v1/x', {
       method: 'POST', headers: { apikey: 'sb_unknown' },
     });
-    expect(requireApiKey(req, get)?.status).toBe(401);
+    expect(requireApiKey(req, get, STRICT)?.status).toBe(401);
   });
 
   it('un JWT utilisateur invalide sur Authorization ne contourne pas le contrôle apikey', () => {
@@ -135,7 +198,7 @@ describe('requireApiKey (frontend + backend pg_net/Netlify)', () => {
       method: 'POST',
       headers: { Authorization: 'Bearer <jwt-invalide>' },
     });
-    expect(requireApiKey(req, get)?.status).toBe(401);
+    expect(requireApiKey(req, get, STRICT)?.status).toBe(401);
   });
 
   it('une clé apikey valide reste acceptée même avec un Authorization incohérent (auth par clé)', () => {
@@ -147,7 +210,7 @@ describe('requireApiKey (frontend + backend pg_net/Netlify)', () => {
       method: 'POST',
       headers: { apikey: PUB, Authorization: 'Bearer <jwt-invalide>' },
     });
-    expect(requireApiKey(req, get)).toBeNull();
+    expect(requireApiKey(req, get, STRICT)).toBeNull();
   });
 });
 
@@ -160,7 +223,7 @@ describe('requireSecretKey (endpoint privé : cron / pg_net / OIDC)', () => {
     const req = new Request('https://example.supabase.co/functions/v1/x', {
       method: 'POST', headers: { apikey: SECRET },
     });
-    expect(requireSecretKey(req, get)).toBeNull();
+    expect(requireSecretKey(req, get, STRICT)).toBeNull();
   });
 
   it('rejette une clé publique (publishable) sur un endpoint privé', () => {
@@ -171,22 +234,22 @@ describe('requireSecretKey (endpoint privé : cron / pg_net / OIDC)', () => {
     const req = new Request('https://example.supabase.co/functions/v1/x', {
       method: 'POST', headers: { apikey: PUB },
     });
-    expect(requireSecretKey(req, get)?.status).toBe(401);
+    expect(requireSecretKey(req, get, STRICT)?.status).toBe(401);
   });
 
   it('rejette une clé absente ou invalide', () => {
     const get = env({ SUPABASE_SECRET_KEYS: JSON.stringify({ pgnet_webhooks: SECRET }) });
     const noKey = new Request('https://example.supabase.co/functions/v1/x', { method: 'POST' });
-    expect(requireSecretKey(noKey, get)?.status).toBe(401);
+    expect(requireSecretKey(noKey, get, STRICT)?.status).toBe(401);
     const bad = new Request('https://example.supabase.co/functions/v1/x', {
       method: 'POST', headers: { apikey: 'sb_secret_invalide' },
     });
-    expect(requireSecretKey(bad, get)?.status).toBe(401);
+    expect(requireSecretKey(bad, get, STRICT)?.status).toBe(401);
   });
 
   it('mode legacy (aucune clé secrète) : laisse passer — verify_jwt protège', () => {
     const req = new Request('https://example.supabase.co/functions/v1/x', { method: 'POST' });
-    expect(requireSecretKey(req, env({}))).toBeNull();
+    expect(requireSecretKey(req, env({}), LEGACY)).toBeNull();
   });
 });
 

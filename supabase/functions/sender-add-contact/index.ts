@@ -14,7 +14,7 @@ Deno.serve(async (req) => {
     return new Response("ok", { headers: corsHeaders, status: 200 });
   }
 
-  const denied = requireApiKey(req, (k) => Deno.env.get(k));
+  const denied = requireApiKey(req, (k) => Deno.env.get(k), { legacyJwt: false });
   if (denied) return denied;
 
   try {

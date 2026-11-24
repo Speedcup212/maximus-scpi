@@ -1,6 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { requirePublishableKey } from "../_shared/auth.ts";
+import { requirePublishableKey, requireSecretKey } from "../_shared/auth.ts";
 import { readServiceKey } from "../_shared/serviceKey.ts";
 
 const corsHeaders = {
@@ -287,12 +287,15 @@ Deno.serve(async (req: Request) => {
     return new Response("ok", { status: 200, headers: corsHeaders });
   }
 
-  const denied = requirePublishableKey(req, (k) => Deno.env.get(k));
-  if (denied) return denied;
-
+  // Séparation stricte des autorisations :
+  //  - simulation publique (lecture seule) → clé publishable ;
+  //  - persistance backend (save_to_db=true) → clé secrète UNIQUEMENT.
+  // Une clé publishable (publique, embarquée dans le frontend) ne doit JAMAIS
+  // pouvoir déclencher une écriture privilégiée.
   try {
-    const { scpi_data, save_to_db = false } = await req.json();
+    const body = await req.json();
 
+    const scpi_data = body?.scpi_data;
     if (!scpi_data || !Array.isArray(scpi_data)) {
       return new Response(
         JSON.stringify({ error: "scpi_data array required" }),
@@ -300,9 +303,19 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    const wantsWrite = body?.save_to_db === true;
+
+    if (wantsWrite) {
+      const denied = requireSecretKey(req, (k) => Deno.env.get(k), { legacyJwt: false });
+      if (denied) return denied;
+    } else {
+      const denied = requirePublishableKey(req, (k) => Deno.env.get(k), { legacyJwt: false });
+      if (denied) return denied;
+    }
+
     const scores = scoreScpiBatch(scpi_data, defaultParams);
 
-    if (save_to_db) {
+    if (wantsWrite) {
       const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
       const supabaseKey = readServiceKey((k) => Deno.env.get(k), "scpi_agents");
       const supabase = createClient(supabaseUrl, supabaseKey);

@@ -73,12 +73,15 @@ Helpers partagés dans `supabase/functions/_shared/` :
 
 - `serviceKey.ts` → `readServiceKey(getEnv, name)` : lit `SUPABASE_SECRET_KEYS[name]`,
   puis `default`, puis repli transitoire sur `SUPABASE_SERVICE_ROLE_KEY`.
-- `auth.ts` → trois gardes :
+- `auth.ts` → trois gardes **fail-closed** (signature : `guard(req, getEnv, { legacyJwt })`) :
   - `requirePublishableKey` (frontend-only : n'accepte que `sb_publishable_*`),
-  - `requireApiKey` (frontend + backend pg_net/Netlify : `sb_publishable_*` OU `sb_secret_*`),
   - `requireSecretKey` (endpoint **privé** : n'accepte que `sb_secret_*`, rejette toute clé
-    publique). En mode legacy, ces gardes sont des **no-op** : elles ne s'activent que
-    lorsqu'une clé est présente dans `SUPABASE_PUBLISHABLE_KEYS` / `SUPABASE_SECRET_KEYS`.
+    publique),
+  - `requireApiKey` (frontend + backend pg_net/Netlify : `sb_publishable_*` OU `sb_secret_*`).
+  Règle : la garde ne laisse passer SANS contrôle que si `legacyJwt === true` (verify_jwt
+  actif) ET que les variables de clés sont **absentes**. Une config **absente** avec
+  `legacyJwt === false`, **vide** (`{}`) ou **invalide** → refus **503** (jamais permissif).
+  Clé manquante/incorrecte → **401**. `legacyJwt` doit refléter l'état réel de `verify_jwt`.
 
 13 fonctions migrées vers `readServiceKey(…, "scpi_agents")` :
 `scpi-scoring`, `send-simulation-email`, `calendly-webhook`, `scpi-certified-promote`,
@@ -99,6 +102,15 @@ Garde `requireApiKey` ajoutée aux fonctions appelées par plusieurs consommateu
 `send-lead-notification` (frontend + Netlify `lead-fallback`) et `sender-add-contact`
 (frontend + pg_net).
 
+### 3.2bis — Séparation des autorisations dans `scpi-scoring`
+
+La fonction `scpi-scoring` sépare désormais strictement :
+- **simulation publique** (lecture seule, `save_to_db` absent/false) → `requirePublishableKey` ;
+- **persistance backend** (`save_to_db=true`) → `requireSecretKey` **uniquement**.
+
+Une clé publishable (publique, embarquée dans le frontend) ne peut **jamais** déclencher une
+écriture privilégiée (`scores_scpi.insert`). L'insertion utilise `readServiceKey(scpi_agents)`.
+
 ### 3.3 PostgreSQL — pg_net via Vault
 
 Migration `supabase/migrations/20261124160300_migrate_pgnet_trigger_to_vault.sql` :
@@ -113,7 +125,10 @@ projet supprimé `eldvbqqgelifxkybytip` est éliminée du dépôt.**
 ### 3.4 Netlify — `lead-fallback`
 
 `netlify/functions/lead-fallback.ts` envoie désormais `apikey` (clé `netlify`) vers
-`send-lead-notification`, avec repli sans en-tête pour rester compatible transitoirement.
+`send-lead-notification`. La résolution de clé est **explicite** :
+`SUPABASE_SERVICE_ROLE_KEY_NEW` (nouvelle clé) **puis** repli transitoire sur
+`SUPABASE_SERVICE_ROLE_KEY` (legacy). La nouvelle variable est donc référencée et utilisée
+en priorité dès la bascule Netlify.
 
 ### 3.5 Page HTML Calendly
 
@@ -125,7 +140,7 @@ injectés au build par `scripts/inject-env-vars.js` (mécanisme déjà existant)
 
 ## 4. Tests de compatibilité et de sécurité
 
-### 4.1 Suite dédiée `src/tests/supabaseAuthHeaders.test.ts` — 25 tests PASS
+### 4.1 Suites dédiées — 36 tests PASS (`supabaseAuthHeaders` + `scpiScoringPrivilegeSeparation`)
 
 - Les helpers frontend ne produisent plus de `Authorization: Bearer`.
 - Résolution des clés nommées (`scpi_agents`, `default`, repli legacy).
@@ -136,20 +151,24 @@ injectés au build par `scripts/inject-env-vars.js` (mécanisme déjà existant)
   4. **JWT utilisateur invalide** sur `Authorization` → ne contourne jamais le contrôle
      `apikey` ; un `apikey` valide reste accepté (l'endpoint s'authentifie par clé, pas par
      session utilisateur).
+  5. **Config absente + `legacyJwt=false`** → 503 (jamais permissif).
+  6. **Config vide (`{}`) ou JSON invalide** → 503, même en mode legacy.
 - **Compatibilité simultanée** ancienne/nouvelle clés : `readServiceKey` préfère la
-  nouvelle clé quand les deux sont présentes, mais replie sur `SUPABASE_SERVICE_ROLE_KEY`
-  (legacy) en l'absence de `SUPABASE_SECRET_KEYS`. Les gardes restent des no-op en mode
-  legacy → double compatibilité active pendant la transition.
+  nouvelle clé, replie sur `SUPABASE_SERVICE_ROLE_KEY` (legacy). En mode legacy (`legacyJwt:
+  true`) avec variables absentes, la garde reste un no-op (verify_jwt protège).
+- **`scpiScoringPrivilegeSeparation`** : une clé publishable ne peut pas déclencher
+  `save_to_db=true` ; l'écriture est réservée à `requireSecretKey`.
 
-Commande : `npx vitest run src/tests/supabaseAuthHeaders.test.ts`.
+Commande : `npx vitest run src/tests/supabaseAuthHeaders.test.ts src/tests/scpiScoringPrivilegeSeparation.test.ts`.
 
 ### 4.2 Garde anti « permissif par défaut »
 
-Les gardes ne laissent passer SANS contrôle que dans le mode legacy (variables de clés
-absentes), auquel cas `verify_jwt` reste actif côté plateforme : ce n'est pas une ouverture.
-Dès qu'une clé est configurée, la garde devient **fail-closed** (401). Invariant de
-déploiement (commenté dans `auth.ts`) : **`verify_jwt = false` n'est autorisé QUE si une
-garde est en place ET que les clés correspondantes sont configurées.** Aucune fonction n'est
+Les gardes ne laissent passer SANS contrôle que si **`legacyJwt === true`** (verify_jwt actif)
+**ET** que les variables de clés sont **absentes**. Dans tous les autres cas, elles refusent
+**(fail-closed)** : config absente en mode `legacyJwt=false` → 503, config vide/invalide →
+503, clé incorrecte → 401. Invariant de déploiement (commenté dans `auth.ts`) :
+**`verify_jwt = false` n'est autorisé QUE si une garde est en place, avec `legacyJwt=false`,
+ET que les clés correspondantes sont effectivement configurées.** Aucune fonction n'est
 basculée en `verify_jwt = false` sans garde de remplacement testée.
 
 ### 4.3 Tests préexistants en échec (sans lien avec cette PR)
@@ -165,7 +184,7 @@ base `dfc6b309`). Ils relèvent tous d'une **dérive de markup** : les composant
 | `clientTrajectoryReuse` | `src/tests/clientTrajectoryReuse.test.ts` | `ClientScpiCard.tsx` ne contient plus `<div><p …>TOF publié</p>` : `indexOf` → `-1` | **Aucun** |
 
 Aucun de ces trois tests ne touche `supabase/`, les helpers d'auth, ni les clés API.
-Suite globale constatée : **357 PASS / 3 échecs préexistants** (41 fichiers, 360 tests).
+Suite globale constatée : **368 PASS / 3 échecs préexistants** (42 fichiers, 371 tests).
 
 ### 4.4 CI GitHub — régression détectée puis corrigée
 
@@ -206,16 +225,79 @@ fusion est **CLEAN**.
 
 ### Étape 2 — Déployer le code (backend d'abord, puis frontend)
 
-1. **Appliquer la migration SQL de façon ciblée** (NE PAS utiliser `supabase db push` —
-   voir §8). Via SQL Editor (write-capable) :
-   ```sql
-   -- contenu de supabase/migrations/20261124160300_migrate_pgnet_trigger_to_vault.sql
+#### 2a. Dry-run transactionnel de la migration Vault (SQL Editor write-capable)
+
+```sql
+BEGIN;
+SET LOCAL check_function_bodies = on;  -- force la validation du corps PL/pgSQL
+
+CREATE OR REPLACE FUNCTION public.notify_sender_new_pdf_lead()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $function$
+DECLARE
+  request_id bigint;
+  payload jsonb;
+  api_key text;
+BEGIN
+  SELECT decrypted_secret INTO api_key
+    FROM vault.decrypted_secrets
+   WHERE name = 'pgnet_webhooks'
+   LIMIT 1;
+  IF api_key IS NULL OR api_key = '' THEN
+    RAISE WARNING 'pgnet_webhooks absent du Vault : notification sender ignorée';
+    RETURN NEW;
+  END IF;
+  payload := jsonb_build_object(
+    'email', NEW.email,
+    'firstname', COALESCE(NEW.prenom, ''),
+    'lastname', COALESCE(NEW.nom, ''),
+    'group_id', 'LM_SCPI_SansFrais',
+    'fields', jsonb_build_object(
+      'source', COALESCE(NEW.source, 'Guide Comparatif PDF'),
+      'date_telechargement', NEW.created_at::text
+    )
+  );
+  SELECT net.http_post(
+    url := 'https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/sender-add-contact',
+    headers := jsonb_build_object('Content-Type', 'application/json', 'apikey', api_key),
+    body := payload
+  ) INTO request_id;
+  RAISE NOTICE 'Sender notification sent - request_id: %, email: %, group: LM_SCPI_SansFrais', request_id, NEW.email;
+  RETURN NEW;
+EXCEPTION WHEN OTHERS THEN
+  RAISE WARNING 'Sender call failed: % (email: %)', SQLERRM, NEW.email;
+  RETURN NEW;
+END;
+$function$;
+
+ROLLBACK;  -- annule : ne persiste rien
+```
+
+Si le dry-run passe (aucune erreur de syntaxe ni de référence d'objet), ré-exécuter le même
+bloc **sans** `BEGIN; … ROLLBACK;` pour appliquer réellement. Le `CREATE OR REPLACE FUNCTION`
+est idempotent.
+
+#### 2b. Ordre de bascule — les Edge Functions acceptent les nouvelles clés AVANT les webhooks SQL
+
+L'ordre est imposé pour éviter qu'un appelant SQL (pg_net) envoie une clé `sb_secret_*` à une
+Edge Function qui ne sait pas encore la lire :
+
+1. **Déployer les Edge Functions** (elles lisent déjà `SUPABASE_SECRET_KEYS`/`SUPABASE_PUBLISHABLE_KEYS`) :
+   ```bash
+   supabase functions deploy send-lead-notification --no-verify-jwt --project-ref ygvsddcpohsnaowofuwc
+   supabase functions deploy sender-add-contact    --no-verify-jwt --project-ref ygvsddcpohsnaowofuwc
+   supabase functions deploy scpi-scoring          --no-verify-jwt --project-ref ygvsddcpohsnaowofuwc
    ```
-   La migration est un `CREATE OR REPLACE FUNCTION` idempotent → réexécutable sans risque.
-2. Redéployer les Edge Functions modifiées avec `--no-verify-jwt` (uniquement celles qui
-   utilisent `requireApiKey` / `requirePublishableKey` / `requireSecretKey`) :
-   - `send-lead-notification`, `sender-add-contact`, `scpi-scoring`.
-3. Déployer le frontend (Netlify) avec la clé publishable injectée.
+   > `--no-verify-jwt` impose `legacyJwt=false` : la garde est la SEULE auth (fail-closed).
+2. **Vérifier** que `sender-add-contact` accepte une clé secrète (curl smoke test) et rejette
+   une clé publishable (401/503).
+3. **Appliquer la migration Vault** (2a) — désormais la clé `pgnet_webhooks` envoyée par
+   pg_net sera acceptée par `sender-add-contact`.
+4. **Réactiver le trigger pg_net** uniquement si le flux est réutilisé (actuellement absent).
+5. **Déployer le frontend Netlify** (clé publishable injectée).
 
 > Les fonctions restantes conservent leur modèle d'authentification inchangé : elles ne
 > changent que la *source* de la clé de service (`scpi_agents`). Les deux fonctions OIDC
@@ -242,9 +324,15 @@ fusion est **CLEAN**.
 ## 6. Rollback
 
 - **Frontend** : re-déployer la version précédente (les clés legacy restent actives jusqu'à l'Étape 4).
-- **Edge Functions** : les gardes redeviennent des no-op si `SUPABASE_PUBLISHABLE_KEYS`/
-  `SUPABASE_SECRET_KEYS` sont absentes ; le repli `SUPABASE_SERVICE_ROLE_KEY` reste
-  fonctionnel tant que la clé legacy n'est pas révoquée.
+- **Edge Functions** : deux options selon la cause de l'échec :
+  - Si les clés nouvelles restent configurées, les gardes continuent d'accepter les clés
+    `sb_publishable_*`/`sb_secret_*` (aucune action).
+  - Pour revenir au modèle legacy (`verify_jwt` actif), redéployer **sans** `--no-verify-jwt`
+    ET avec `legacyJwt: true` (les gardes redeviennent des no-op seulement si les variables
+    de clés sont absentes). Le repli `SUPABASE_SERVICE_ROLE_KEY` reste fonctionnel tant que
+    la clé legacy n'est pas révoquée.
+- **Netlify `lead-fallback`** : `SUPABASE_SERVICE_ROLE_KEY_NEW` est déjà le premier choix ;
+  supprimer cette variable revient au repli `SUPABASE_SERVICE_ROLE_KEY` sans redéploiement.
 - **pg_net (rollback SQL)** — restaurer l'ancienne fonction à JWT en dur si le flux
   réactivé exigeait l'ancien mécanisme :
   ```sql
@@ -354,3 +442,24 @@ préserve le patron Vault pour l'avenir. ✅ Le secret Vault `pgnet_webhooks` es
   `requireSecretKey`) et sans clés configurées.
 - Les clés legacy sont **révoquées en dernier**, uniquement après validation complète.
 - Aucune nouvelle SCPI, aucun nouvel orchestrateur, aucune régression des 69/69.
+
+---
+
+## 10. Checklist finale par service (avant fusion)
+
+| Service | Action | Variable nouvelle | Garde / auth | Statut |
+|---|---|---|---|---|
+| Frontend Vite (PostgREST) | `restHeaders`/`functionHeaders` sur `apikey` | `VITE_SUPABASE_ANON_KEY_NEW` | clé publishable | ✅ code + test |
+| Frontend Vite (`scpi-scoring` simulation) | `functionHeaders` sur `apikey` | `VITE_SUPABASE_ANON_KEY_NEW` | `requirePublishableKey` | ✅ code + test |
+| `scpi-scoring` persistance (`save_to_db`) | `readServiceKey(scpi_agents)` | `SUPABASE_SECRET_KEYS["scpi_agents"]` | `requireSecretKey` | ✅ code + test |
+| `send-lead-notification` | `requireApiKey` | publishable OU secret | `requireApiKey` (`legacyJwt=false`) | ✅ code |
+| `sender-add-contact` | `requireApiKey` | publishable OU secret | `requireApiKey` (`legacyJwt=false`) | ✅ code |
+| Netlify `lead-fallback` | envoi `apikey` | `SUPABASE_SERVICE_ROLE_KEY_NEW` → repli legacy | clé secrète | ✅ code |
+| GitHub Actions (3 workflows) | `SUPABASE_SERVICE_ROLE_KEY_NEW` | secret créé (24/11) | clé secrète | ✅ secret présent ; swap après run vert |
+| pg_net → Vault (`notify_sender_new_pdf_lead`) | `vault.decrypted_secrets` `pgnet_webhooks` | secret Vault `pgnet_webhooks` | `apikey` (plus de Bearer) | ✅ migration prête ; dry-run §2a |
+| 15 Edge Fn `scpi_agents` | `readServiceKey(…, "scpi_agents")` | `SUPABASE_SECRET_KEYS["scpi_agents"]` | repli `SUPABASE_SERVICE_ROLE_KEY` | ✅ code |
+| 2 OIDC (audit + ocr) | résolution inline | `SUPABASE_SECRET_KEYS["scpi_agents"]` | JWT GitHub OIDC conservé | ✅ contrats PASS |
+| Calendly HTML | placeholders injectés au build | `VITE_SUPABASE_ANON_KEY_PLACEHOLDER` | clé publishable | ✅ code |
+
+**Non-fusion / non-révocation** : la PR reste **non fusionnée**, aucune clé legacy n'est
+révoquée, aucun `db push` global, 69/69 PASS_100 maintenu.

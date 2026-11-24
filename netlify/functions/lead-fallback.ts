@@ -54,7 +54,12 @@ export const handler: Handler = async (event) => {
   // Elle peut donc encore prévenir l'admin si l'INSERT PostgREST/RLS échoue.
   const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
   // Clé backend Netlify (sb_secret_*), portée sur `apikey` (jamais en Bearer).
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY;
+  // Priorité à la nouvelle variable (bascule staged) ; repli transitoire sur la
+  // variable legacy tant que la clé legacy n'est pas révoquée.
+  const serviceKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY_NEW ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SECRET_KEY;
   if (supabaseUrl) {
     try {
       const notificationResponse = await fetch(
