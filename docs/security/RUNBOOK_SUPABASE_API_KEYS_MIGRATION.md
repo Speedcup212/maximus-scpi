@@ -166,6 +166,21 @@ base `dfc6b309`). Ils relèvent tous d'une **dérive de markup** : les composant
 Aucun de ces trois tests ne touche `supabase/`, les helpers d'auth, ni les clés API.
 Suite globale constatée : **357 PASS / 3 échecs préexistants** (41 fichiers, 360 tests).
 
+### 4.4 CI GitHub — régression détectée puis corrigée
+
+Le premier push de la PR a déclenché deux familles de tests de contrat qui exécutent le code
+réel des fonctions OIDC / vérifient leur contenu littéral :
+
+| Job CI | Test | Cause | Correction |
+|---|---|---|---|
+| `contract` | `controlEvidenceRouting.test.mjs:350` | `assert.match(edge,/SUPABASE_SERVICE_ROLE_KEY/)` ne trouvait plus le littéral dans `maximus-agent-audit-oidc` | revert de la fonction (bascule différée) |
+| `pdf-ocr (1,2,3)` | `ocrArchiveBridge.test.mjs` | `ReferenceError: readServiceKey is not defined` (exécution du code OCR en VM) | revert de `maximus-scpi-ocr-oidc` |
+
+**Décision** : `maximus-agent-audit-oidc` et `maximus-scpi-ocr-oidc` sont **exclues** de la
+migration (voir §3.2) pour ne pas affaiblir les contrats de sécurité. Après correction, tous
+les checks sont **PASS** (contract, build, browser, check, replay, fee-evidence, etc.) et le
+statut de fusion est **CLEAN**.
+
 ---
 
 ## 5. Procédure de bascule (P3 — gated, aucune révocation automatique)
@@ -178,8 +193,9 @@ Suite globale constatée : **357 PASS / 3 échecs préexistants** (41 fichiers, 
 
 ### Étape 1 — Enregistrer les clés dans les interfaces (actions manuelles dashboard)
 
-1. **Supabase Vault** : secret `pgnet_webhooks` = valeur de la clé `pgnet_webhooks`
-   (uniquement si le flux pg_net est réactivé — voir §8).
+1. **Supabase Vault** : ✅ secret `pgnet_webhooks` **déjà enregistré** (présence confirmée le
+   2026-11-24, description « Notifications SQL et webhooks MaximusSCPI »). Ne sera consommé
+   que si le flux pg_net est réactivé (voir §8.5).
 2. **Netlify → Environment variables** :
    - `SUPABASE_SERVICE_ROLE_KEY` = valeur de la clé `netlify`.
    - `VITE_SUPABASE_ANON_KEY` = valeur de la clé publishable.
@@ -320,8 +336,8 @@ Vérification en base (lecture seule) : **aucun trigger** sur `leads_pdf_compara
 **aucune** fonction `notify_*` dans `public`. Le flux de capture actuel appelle directement
 les Edge Functions `sender-add-contact` / `send-lead-notification` depuis le frontend (pas de
 pg_net). La migration pg_net est donc **sans effet runtime** (fonction orpheline), mais
-préserve le patron Vault pour l'avenir. Le secret Vault `pgnet_webhooks` n'est à créer que si
-ce flux est réactivé.
+préserve le patron Vault pour l'avenir. ✅ Le secret Vault `pgnet_webhooks` est **enregistré**
+(confirmé présent le 2026-11-24) ; il ne sera consommé que si ce flux est réactivé.
 
 ---
 
