@@ -46,6 +46,23 @@ function deny(): Response {
 }
 
 /**
+ * INVARIANT DE SÉCURITÉ — jamais permissif « par défaut » :
+ * Chaque garde ci-dessous ne laisse passer la requête SANS contrôle que dans le
+ * mode legacy, c'est-à-dire lorsque les variables `SUPABASE_PUBLISHABLE_KEYS` /
+ * `SUPABASE_SECRET_KEYS` sont ABSENTES. Dans ce cas précis, la plateforme a déjà
+ * authentifié le JWT (le `verify_jwt` reste actif) : ce n'est pas une ouverture.
+ * Dès qu'une clé nouvelle est configurée, la garde devient stricte (fail-closed) :
+ * une clé absente, invalide ou du mauvais type est rejetée en 401.
+ *
+ * Règle de déploiement associée (à ne jamais violer) :
+ *  - `verify_jwt = false` n'est autorisé QUE si l'une de ces gardes est en place
+ *    ET que les clés correspondantes sont effectivement configurées.
+ *  - Une fonction appelée par un utilisateur (JWT de session) ne doit JAMAIS être
+ *    basculée sur `verify_jwt = false` + `requirePublishableKey` sans vérifier que
+ *    l'appelant n'a plus besoin de son JWT de session.
+ */
+
+/**
  * Rejette la requête si la clé `apikey` ne correspond pas à une clé publishable
  * configurée. En mode legacy (aucune clé publishable), laisse passer : `verify_jwt`
  * a déjà authentifié le JWT `anon`.
@@ -77,4 +94,20 @@ export function requireApiKey(
   if (accepted.size === 0) return null;
   const apikey = req.headers.get('apikey') ?? '';
   return accepted.has(apikey) ? null : deny();
+}
+
+/**
+ * Endpoint PRIVÉ (backend uniquement : cron, pg_net, OIDC GitHub, webhook interne).
+ * N'accepte QUE les clés secrètes (`sb_secret_*`). Une clé publishable — par
+ * définition publique — est rejetée, même si elle est valide. En mode legacy
+ * (aucune clé secrète configurée), laisse passer : `verify_jwt` protège.
+ */
+export function requireSecretKey(
+  req: Request,
+  getEnv: EnvGetter,
+): Response | null {
+  const secrets = readSecretKeys(getEnv);
+  if (secrets.length === 0) return null;
+  const apikey = req.headers.get('apikey') ?? '';
+  return secrets.includes(apikey) ? null : deny();
 }

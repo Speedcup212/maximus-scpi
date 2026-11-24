@@ -1,8 +1,8 @@
 # Runbook — Migration des clés API Supabase (legacy JWT → `sb_publishable` / `sb_secret`)
 
-> Branche de travail : `security/api-key-migration-20261124`
+> Branche de travail : `security/api-key-migration-20261124` — PR [#457](https://github.com/Speedcup212/maximus-scpi/pull/457)
 > Projet Supabase : `ygvsddcpohsnaowofuwc` (MaximusSCPI)
-> Statut : **préparation** — aucune clé legacy n'est révoquée tant que la bascule n'est pas validée.
+> Statut : **préparation** — aucune clé legacy n'est révoquée, aucune bascule en production tant que la compatibilité n'est pas validée.
 > Contrainte permanente : maintien des **69/69 PASS_100** et **zéro interruption de service**.
 
 ---
@@ -32,8 +32,8 @@ automatiquement dans les Edge Functions via `SUPABASE_SECRET_KEYS` (objet JSON n
 |---|---|---|---|
 | `github_actions` | Workflows CI (3 fichiers) | GitHub → Repo → **Settings → Secrets and variables → Actions** | secret `SUPABASE_SERVICE_ROLE_KEY` (remplace la valeur legacy) |
 | `netlify` | Netlify Functions + plugin de release | Netlify → Site → **Site configuration → Environment variables** | `SUPABASE_SERVICE_ROLE_KEY` (scopes Build **et** Functions) |
-| `scpi_agents` | 15 Edge Functions backend | **Aucune saisie** — déjà dans `SUPABASE_SECRET_KEYS` | lue par le code : `SUPABASE_SECRET_KEYS["scpi_agents"]` |
-| `pgnet_webhooks` | Trigger PostgreSQL `notify_sender_new_pdf_lead()` via `pg_net` | Supabase → **Database → Vault → Secrets → Add a new secret** | nom de secret Vault : `pgnet_webhooks` |
+| `scpi_agents` | 13 Edge Functions backend | **Aucune saisie** — déjà dans `SUPABASE_SECRET_KEYS` | lue par le code : `SUPABASE_SECRET_KEYS["scpi_agents"]` |
+| `pgnet_webhooks` | (voir §8 — trigger pg_net absent en prod) | Supabase → **Database → Vault → Secrets → Add a new secret** | nom de secret Vault : `pgnet_webhooks` |
 
 ### 2.2 La clé publishable
 
@@ -73,17 +73,26 @@ Helpers partagés dans `supabase/functions/_shared/` :
 
 - `serviceKey.ts` → `readServiceKey(getEnv, name)` : lit `SUPABASE_SECRET_KEYS[name]`,
   puis `default`, puis repli transitoire sur `SUPABASE_SERVICE_ROLE_KEY`.
-- `auth.ts` → `requirePublishableKey` (frontend-only) et `requireApiKey`
-  (frontend + backend pg_net/Netlify). En mode legacy, ces gardes sont des **no-op** :
-  elles ne s'activent que lorsqu'une clé est présente dans `SUPABASE_PUBLISHABLE_KEYS`
-  / `SUPABASE_SECRET_KEYS`.
+- `auth.ts` → trois gardes :
+  - `requirePublishableKey` (frontend-only : n'accepte que `sb_publishable_*`),
+  - `requireApiKey` (frontend + backend pg_net/Netlify : `sb_publishable_*` OU `sb_secret_*`),
+  - `requireSecretKey` (endpoint **privé** : n'accepte que `sb_secret_*`, rejette toute clé
+    publique). En mode legacy, ces gardes sont des **no-op** : elles ne s'activent que
+    lorsqu'une clé est présente dans `SUPABASE_PUBLISHABLE_KEYS` / `SUPABASE_SECRET_KEYS`.
 
-15 fonctions migrées vers `readServiceKey(…, "scpi_agents")` :
+13 fonctions migrées vers `readServiceKey(…, "scpi_agents")` :
 `scpi-scoring`, `send-simulation-email`, `calendly-webhook`, `scpi-certified-promote`,
 `scpi-news-watch`, `scpi-evidence-certify`, `scpi-bulletin-watch`, `scpi-source-link-inspect`,
-`scpi-annual-safe-extract`, `scpi-annual-report-backfill`, `maximus-scpi-ocr-oidc`,
-`maximus-agent-audit-oidc`, `scpi-release-certification-oidc`, `scpi-corum-document-oidc`,
-`scpi-bulletin-replay-oidc`.
+`scpi-annual-safe-extract`, `scpi-annual-report-backfill`, `scpi-release-certification-oidc`,
+`scpi-corum-document-oidc`, `scpi-bulletin-replay-oidc`.
+
+> **Deux fonctions OIDC sont volontairement EXCLUES de cette migration** :
+> `maximus-agent-audit-oidc` et `maximus-scpi-ocr-oidc`. Elles sont couvertes par des tests
+> de contrat de sécurité (`controlEvidenceRouting.test.mjs` : `assert.match(edge,/SUPABASE_SERVICE_ROLE_KEY/)`
+> et `ocrArchiveBridge.test.mjs` : exécution du code réel en VM). Leur bascule est **différée**
+> à l'étape de switchover, où leurs tests de contrat seront mis à jour explicitement. Elles
+> continuent de lire `SUPABASE_SERVICE_ROLE_KEY` et basculeront sans risque lorsque le secret
+> sera remplacé (aucune révocation avant validation).
 
 Garde `requireApiKey` ajoutée aux fonctions appelées par plusieurs consommateurs :
 `send-lead-notification` (frontend + Netlify `lead-fallback`) et `sender-add-contact`
@@ -91,10 +100,14 @@ Garde `requireApiKey` ajoutée aux fonctions appelées par plusieurs consommateu
 
 ### 3.3 PostgreSQL — pg_net via Vault
 
-Migration `supabase/migrations/20261124000000_migrate_pgnet_trigger_to_vault.sql` :
+Migration `supabase/migrations/20261124160300_migrate_pgnet_trigger_to_vault.sql` :
 `notify_sender_new_pdf_lead()` lit `pgnet_webhooks` depuis `vault.decrypted_secrets` et
 envoie `apikey` (plus de `Authorization: Bearer`). **La clé `service_role` en dur du
-projet supprimé `eldvbqqgelifxkybytip` est éliminée.**
+projet supprimé `eldvbqqgelifxkybytip` est éliminée du dépôt.**
+
+> ⚠️ Constat de réconciliation (§8) : ce trigger pg_net **n'est plus actif en production**.
+> La migration est donc idempotente et sans effet sur le runtime actuel ; elle documente et
+> restaure le patron « pg_net → Vault → `apikey` » pour tout futur usage.
 
 ### 3.4 Netlify — `lead-fallback`
 
@@ -109,17 +122,53 @@ injectés au build par `scripts/inject-env-vars.js` (mécanisme déjà existant)
 
 ---
 
-## 4. Tests de compatibilité
+## 4. Tests de compatibilité et de sécurité
 
-- `src/tests/supabaseAuthHeaders.test.ts` — 19 tests : les helpers frontend ne produisent
-  plus de `Authorization: Bearer`, la résolution des clés nommées (`scpi_agents`, `default`,
-  repli legacy), et les gardes `requirePublishableKey` / `requireApiKey`.
-- Commande : `npx vitest run src/tests/supabaseAuthHeaders.test.ts`.
-- Vérification statique : `git grep 'Bearer ${' src` ne doit plus remonter d'en-tête anon.
+### 4.1 Suite dédiée `src/tests/supabaseAuthHeaders.test.ts` — 25 tests PASS
+
+- Les helpers frontend ne produisent plus de `Authorization: Bearer`.
+- Résolution des clés nommées (`scpi_agents`, `default`, repli legacy).
+- **Matrice d'authentification demandée** (fail-closed) :
+  1. **Appel sans clé** → 401 (dès qu'une clé est configurée).
+  2. **Clé invalide** → 401.
+  3. **Clé publique (`sb_publishable`) sur un endpoint privé** → 401 (`requireSecretKey`).
+  4. **JWT utilisateur invalide** sur `Authorization` → ne contourne jamais le contrôle
+     `apikey` ; un `apikey` valide reste accepté (l'endpoint s'authentifie par clé, pas par
+     session utilisateur).
+- **Compatibilité simultanée** ancienne/nouvelle clés : `readServiceKey` préfère la
+  nouvelle clé quand les deux sont présentes, mais replie sur `SUPABASE_SERVICE_ROLE_KEY`
+  (legacy) en l'absence de `SUPABASE_SECRET_KEYS`. Les gardes restent des no-op en mode
+  legacy → double compatibilité active pendant la transition.
+
+Commande : `npx vitest run src/tests/supabaseAuthHeaders.test.ts`.
+
+### 4.2 Garde anti « permissif par défaut »
+
+Les gardes ne laissent passer SANS contrôle que dans le mode legacy (variables de clés
+absentes), auquel cas `verify_jwt` reste actif côté plateforme : ce n'est pas une ouverture.
+Dès qu'une clé est configurée, la garde devient **fail-closed** (401). Invariant de
+déploiement (commenté dans `auth.ts`) : **`verify_jwt = false` n'est autorisé QUE si une
+garde est en place ET que les clés correspondantes sont configurées.** Aucune fonction n'est
+basculée en `verify_jwt = false` sans garde de remplacement testée.
+
+### 4.3 Tests préexistants en échec (sans lien avec cette PR)
+
+Trois échecs Vitest existaient **avant** cette branche (confirmé par `git stash` contre la
+base `dfc6b309`). Ils relèvent tous d'une **dérive de markup** : les composants source ont
+été refactorés mais les tests de correspondance textuelle n'ont pas été mis à jour.
+
+| Test | Fichier | Cause racine | Lien avec la PR |
+|---|---|---|---|
+| `clientPositionForm` | `src/tests/clientPositionForm.test.ts` | `ClientDashboard.tsx` ne contient plus l'extrait `Date d'achat … type="date" required` / `disabled={saving || !canAddPosition}` attendu par le test | **Aucun** (fichiers hors périmètre) |
+| `clientPositionEditDate` | `src/tests/clientPositionEditDate.test.ts` | même cause : markup du formulaire d'édition refactoré (`canSaveEditedPosition`, `type="date" required`) | **Aucun** |
+| `clientTrajectoryReuse` | `src/tests/clientTrajectoryReuse.test.ts` | `ClientScpiCard.tsx` ne contient plus `<div><p …>TOF publié</p>` : `indexOf` → `-1` | **Aucun** |
+
+Aucun de ces trois tests ne touche `supabase/`, les helpers d'auth, ni les clés API.
+Suite globale constatée : **357 PASS / 3 échecs préexistants** (41 fichiers, 360 tests).
 
 ---
 
-## 5. Procédure de bascule (P3 — validée avant exécution, aucune révocation automatique)
+## 5. Procédure de bascule (P3 — gated, aucune révocation automatique)
 
 > Toutes les étapes ci-dessous sont **gated** : à n'exécuter qu'après validation finale de l'utilisateur.
 
@@ -129,7 +178,8 @@ injectés au build par `scripts/inject-env-vars.js` (mécanisme déjà existant)
 
 ### Étape 1 — Enregistrer les clés dans les interfaces (actions manuelles dashboard)
 
-1. **Supabase Vault** : secret `pgnet_webhooks` = valeur de la clé `pgnet_webhooks`.
+1. **Supabase Vault** : secret `pgnet_webhooks` = valeur de la clé `pgnet_webhooks`
+   (uniquement si le flux pg_net est réactivé — voir §8).
 2. **Netlify → Environment variables** :
    - `SUPABASE_SERVICE_ROLE_KEY` = valeur de la clé `netlify`.
    - `VITE_SUPABASE_ANON_KEY` = valeur de la clé publishable.
@@ -139,9 +189,14 @@ injectés au build par `scripts/inject-env-vars.js` (mécanisme déjà existant)
 
 ### Étape 2 — Déployer le code (backend d'abord, puis frontend)
 
-1. `supabase db push` (applique la migration pg_net Vault) — **après** l'Étape 1.1.
+1. **Appliquer la migration SQL de façon ciblée** (NE PAS utiliser `supabase db push` —
+   voir §8). Via SQL Editor (write-capable) :
+   ```sql
+   -- contenu de supabase/migrations/20261124160300_migrate_pgnet_trigger_to_vault.sql
+   ```
+   La migration est un `CREATE OR REPLACE FUNCTION` idempotent → réexécutable sans risque.
 2. Redéployer les Edge Functions modifiées avec `--no-verify-jwt` (uniquement celles qui
-   utilisent `requireApiKey` / `requirePublishableKey`) :
+   utilisent `requireApiKey` / `requirePublishableKey` / `requireSecretKey`) :
    - `send-lead-notification`, `sender-add-contact`, `scpi-scoring`.
 3. Déployer le frontend (Netlify) avec la clé publishable injectée.
 
@@ -168,18 +223,115 @@ injectés au build par `scripts/inject-env-vars.js` (mécanisme déjà existant)
 ## 6. Rollback
 
 - **Frontend** : re-déployer la version précédente (les clés legacy restent actives jusqu'à l'Étape 4).
-- **Edge Functions** : les gardes `requireApiKey`/`requirePublishableKey` redeviennent des
-  no-op si `SUPABASE_PUBLISHABLE_KEYS`/`SUPABASE_SECRET_KEYS` sont absentes ; le repli
-  `SUPABASE_SERVICE_ROLE_KEY` reste fonctionnel tant que la clé legacy n'est pas révoquée.
-- **pg_net** : re-créer la fonction avec `current_setting('app.settings.service_role_key')`
-  (l'ancienne migration) tant que le secret Vault n'est pas supprimé.
+- **Edge Functions** : les gardes redeviennent des no-op si `SUPABASE_PUBLISHABLE_KEYS`/
+  `SUPABASE_SECRET_KEYS` sont absentes ; le repli `SUPABASE_SERVICE_ROLE_KEY` reste
+  fonctionnel tant que la clé legacy n'est pas révoquée.
+- **pg_net (rollback SQL)** — restaurer l'ancienne fonction à JWT en dur si le flux
+  réactivé exigeait l'ancien mécanisme :
+  ```sql
+  CREATE OR REPLACE FUNCTION public.notify_sender_new_pdf_lead()
+  RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = ''
+  AS $function$
+  DECLARE request_id bigint; payload jsonb; api_key text;
+  BEGIN
+    api_key := current_setting('app.settings.service_role_key', true);
+    payload := jsonb_build_object(
+      'email', NEW.email, 'firstname', COALESCE(NEW.prenom, ''),
+      'lastname', COALESCE(NEW.nom, ''), 'group_id', 'LM_SCPI_SansFrais',
+      'fields', jsonb_build_object('source', COALESCE(NEW.source, 'Guide Comparatif PDF'),
+                                   'date_telechargement', NEW.created_at::text)
+    );
+    SELECT net.http_post(
+      url := 'https://ygvsddcpohsnaowofuwc.supabase.co/functions/v1/sender-add-contact',
+      headers := jsonb_build_object('Content-Type', 'application/json',
+                                    'apikey', api_key),
+      body := payload
+    ) INTO request_id;
+    RETURN NEW;
+  END;
+  $function$;
+  ```
 - Aucune donnée n'est transformée : les rollbacks sont des restaurations de code/config.
 
 ---
 
-## 7. Sécurité et non-négociables
+## 7. Bascule service par service (variables temporaires distinctes)
+
+Pour ne jamais remplacer un secret de production avant validation, la bascule est **staged**
+par consommateur, avec des variables temporaires dédiées :
+
+| Ordre | Consommateur | Variable temp. (nouvelle clé) | Variable legacy conservée | Bascule |
+|---|---|---|---|---|
+| 1 | `scpi_agents` (15 Edge Fn) | `SUPABASE_SECRET_KEYS["scpi_agents"]` (auto) | `SUPABASE_SERVICE_ROLE_KEY` | repli automatique `readServiceKey` |
+| 2 | `netlify` | `SUPABASE_SERVICE_ROLE_KEY_NEW` | `SUPABASE_SERVICE_ROLE_KEY` | swap manuel après test de `lead-fallback` |
+| 3 | `github_actions` | `SUPABASE_SERVICE_ROLE_KEY_NEW` | `SUPABASE_SERVICE_ROLE_KEY` | swap manuel après un run CI vert |
+| 4 | Frontend (Vite) | `VITE_SUPABASE_ANON_KEY_NEW` | `VITE_SUPABASE_ANON_KEY` | swap manuel après vérif comparateur |
+| 5 | `pgnet_webhooks` (Vault) | secret Vault `pgnet_webhooks` | `app.settings.service_role_key` | n/a tant que le trigger n'est pas réactivé |
+
+**Règle** : chaque étape introduit la nouvelle clé sous une variable distincte, valide
+(smoke test), puis supprime l'ancienne. On ne révoque la clé legacy globale (`anon` /
+`service_role`) qu'à l'Étape 4, une fois toutes les surfaces validées.
+
+---
+
+## 8. Réconciliation de l'historique des migrations SQL
+
+### 8.1 Constat
+
+- **Production** (`supabase_migrations.schema_migrations`) : 305 versions appliquées, la
+  dernière étant `20261124082433` (`fix_buroboutic_t3_tof_proof_valid_grant`, commit
+  `8cde850b` / PR #455).
+- **Dépôt local** : 159 fichiers à préfixe timestamp 14 chiffres + 151 fichiers à nom
+  descriptif (sans préfixe). Les timestamps locaux (ex. `20260925090000_…`) **ne
+  correspondent pas** aux versions appliquées (ex. `20260925065915 create_scpi_indicator_history`).
+- Le fichier local `20261123_fix_buroboutic_t3_tof_proof_valid_grant.sql` (8 chiffres) ne
+  correspond pas à la version appliquée `20261124082433` : nom appliqué régénéré hors CLI.
+
+**Conclusion : l'historique local et la base sont divergents** (migrations appliquées via
+SQL Editor avec timestamps régénérés, pas via `supabase db push`).
+
+### 8.2 Conséquence opérationnelle
+
+`supabase db push` est **dangereux** ici : il rejouerait ~159 migrations locales considérées
+« manquantes » alors qu'elles sont déjà appliquées sous d'autres versions. **Ne pas l'utiliser.**
+
+### 8.3 Déploiement sûr de la migration
+
+Appliquer la migration **isolément** via SQL Editor (write-capable), jamais par `db push`.
+C'est un `CREATE OR REPLACE FUNCTION` idempotent.
+
+### 8.4 Dry-run (à exécuter en write-capable, AVANT application réelle)
+
+```sql
+BEGIN;
+SET LOCAL check_function_bodies = on;   -- force la validation du corps PL/pgSQL
+<contenu de 20261124160300_migrate_pgnet_trigger_to_vault.sql>
+ROLLBACK;                                 -- annule : ne persiste rien
+```
+
+- Le dry-run vérifie la syntaxe et les références d'objets (`net.http_post` et
+  `vault.decrypted_secrets` **existent** — confirmé en lecture seule), sans persister.
+- Le MCP Supabase de cette session est en **lecture seule** (`read_only=true`) : le dry-run
+  ci-dessus doit être lancé depuis le SQL Editor du dashboard (write-capable).
+
+### 8.5 Trigger pg_net absent en production
+
+Vérification en base (lecture seule) : **aucun trigger** sur `leads_pdf_comparatif` et
+**aucune** fonction `notify_*` dans `public`. Le flux de capture actuel appelle directement
+les Edge Functions `sender-add-contact` / `send-lead-notification` depuis le frontend (pas de
+pg_net). La migration pg_net est donc **sans effet runtime** (fonction orpheline), mais
+préserve le patron Vault pour l'avenir. Le secret Vault `pgnet_webhooks` n'est à créer que si
+ce flux est réactivé.
+
+---
+
+## 9. Sécurité et non-négociables
 
 - Aucune valeur de clé n'est reproduite dans ce runbook, les logs, le chat ou le dépôt.
-- `verify_jwt` n'est jamais désactivé sans le garde `requireApiKey`/`requirePublishableKey` testé.
-- Les clés legacy sont **révoquées en dernier**, uniquement après validation complète de la bascule.
+  Le scan de secrets (commit `cc2c42fb` + working tree) ne remonte **aucune** clé réelle
+  (`sb_publishable_*`/`sb_secret_*`), **aucun** JWT `eyJ…` dans le code hors migrations
+  legacy de projet supprimé.
+- `verify_jwt` n'est jamais désactivé sans garde testée (`requireApiKey`/`requirePublishableKey`/
+  `requireSecretKey`) et sans clés configurées.
+- Les clés legacy sont **révoquées en dernier**, uniquement après validation complète.
 - Aucune nouvelle SCPI, aucun nouvel orchestrateur, aucune régression des 69/69.

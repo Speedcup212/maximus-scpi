@@ -2,7 +2,6 @@
 // tasks/runs/agents tables. No model API keys, finance mutations or release.
 import { createRemoteJWKSet, jwtVerify } from "npm:jose@6.1.0";
 import postgres from "npm:postgres@3.4.7";
-import { readServiceKey } from "../_shared/serviceKey.ts";
 
 const issuer="https://token.actions.githubusercontent.com";
 const jwks=createRemoteJWKSet(new URL(issuer+"/.well-known/jwks"));
@@ -238,7 +237,7 @@ Deno.serve(async request=>{
       const expected=Number(file?.archive_bytes);
       if(!file||!Number.isSafeInteger(expected)||expected<1024||expected>20000000)
         return new Response("Exact archived original unavailable",{status:404});
-      const storageKey=readServiceKey((k)=>Deno.env.get(k),"scpi_agents");
+      const storageKey=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
       if(!storageKey)throw Error("PRIVATE_STORAGE_ACCESS_MISSING");
       const archiveUrl="https://ygvsddcpohsnaowofuwc.supabase.co/storage/v1/object/authenticated/scpi-bulletins/"
         +file.pdf_path.split("/").map(encodeURIComponent).join("/");
@@ -299,7 +298,7 @@ Deno.serve(async request=>{
       if(!file||!Number.isSafeInteger(size)||size<1024||size>20000000||
          !Number.isInteger(file.page_count)||file.page_count<1||file.page_count>80)
         return new Response("Original archive invalid",{status:404});
-      const secret=readServiceKey((k)=>Deno.env.get(k),"scpi_agents");
+      const secret=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
       if(!secret)throw Error("PRIVATE_STORAGE_ACCESS_MISSING");
       const objectUrl="https://ygvsddcpohsnaowofuwc.supabase.co/storage/v1/object/authenticated/scpi-bulletins/"
         +file.pdf_path.split("/").map(encodeURIComponent).join("/");
