@@ -1,5 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { requirePublishableKey } from "../_shared/auth.ts";
+import { readServiceKey } from "../_shared/serviceKey.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -285,6 +287,9 @@ Deno.serve(async (req: Request) => {
     return new Response("ok", { status: 200, headers: corsHeaders });
   }
 
+  const denied = requirePublishableKey(req, (k) => Deno.env.get(k));
+  if (denied) return denied;
+
   try {
     const { scpi_data, save_to_db = false } = await req.json();
 
@@ -299,7 +304,7 @@ Deno.serve(async (req: Request) => {
 
     if (save_to_db) {
       const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-      const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const supabaseKey = readServiceKey((k) => Deno.env.get(k), "scpi_agents");
       const supabase = createClient(supabaseUrl, supabaseKey);
 
       const dbRecords = scores.map(s => ({

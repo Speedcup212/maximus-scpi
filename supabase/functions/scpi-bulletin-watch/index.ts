@@ -1,6 +1,7 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { readServiceKey } from "../_shared/serviceKey.ts";
 import { preserveIndependentIssuerProof } from "./sourceProvenance.mjs";
 
 const UA="Mozilla/5.0 (compatible; MaximusSCPI-BulletinBot/2.1; +https://maximusscpi.com)";
@@ -1066,7 +1067,7 @@ function debugSnippets(t:string){
 
 Deno.serve(async(req:Request)=>{
   if(req.method!=="POST")return Response.json({error:"POST required"},{status:405});
-  const base=Deno.env.get("SUPABASE_URL")||"";let key=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";if(!key){try{key=JSON.parse(Deno.env.get("SUPABASE_SECRET_KEYS")||"{}").default||"";}catch{}}
+  const base=Deno.env.get("SUPABASE_URL")||"";const key=readServiceKey((k)=>Deno.env.get(k),"scpi_agents");
   if(!base||!key)return Response.json({error:"admin credentials unavailable"},{status:500});
   const db=createClient(base,key,{auth:{persistSession:false,autoRefreshToken:false}});
   const token=req.headers.get("x-cron-token")||"",hash=await shaText(token);const {data:cfg}=await db.from("scpi_bulletin_runtime_config").select("value").eq("key","cron_token_sha256").maybeSingle();

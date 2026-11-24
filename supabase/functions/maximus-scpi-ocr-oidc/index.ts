@@ -1,6 +1,7 @@
 import {createRemoteJWKSet,jwtVerify} from "npm:jose@6.1.0";
 import postgres from "npm:postgres@3.4.7";
 import {historicalIssuerIdentityMatches} from "./historicalIdentity.mjs";
+import { readServiceKey } from "../_shared/serviceKey.ts";
 
 const issuer="https://token.actions.githubusercontent.com";
 const jwks=createRemoteJWKSet(new URL(issuer+"/.well-known/jwks"));
@@ -57,7 +58,7 @@ Deno.serve(async(req:Request)=>{
          file.pdf_path!==t.slug+'/'+t.period+'/'+file.pdf_sha256+'.pdf'||
          !Number.isSafeInteger(size)||size<1024||size>20000000)
         return fail(422,"archive_metadata_invalid");
-      const secret=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+      const secret=readServiceKey((k)=>Deno.env.get(k),"scpi_agents");
       if(!secret)return fail(503,"private_storage_unavailable");
       const url="https://ygvsddcpohsnaowofuwc.supabase.co/storage/v1/object/authenticated/scpi-bulletins/"
         +file.pdf_path.split('/').map(encodeURIComponent).join('/');
