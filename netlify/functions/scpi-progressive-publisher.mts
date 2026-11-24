@@ -55,8 +55,9 @@ export default async (_req:Request,context:Context)=>{
    return;
  }
  const supabaseUrl=process.env.SUPABASE_URL;
- const backendKey=process.env.SUPABASE_SERVICE_ROLE_KEY;
- const anon=process.env.VITE_SUPABASE_ANON_KEY;
+ // Nouvelles clés prioritaires, repli transitoire legacy.
+ const backendKey=process.env.SUPABASE_SERVICE_ROLE_KEY_NEW||process.env.SUPABASE_SERVICE_ROLE_KEY;
+ const anon=process.env.VITE_SUPABASE_ANON_KEY_NEW||process.env.VITE_SUPABASE_ANON_KEY;
  if(!supabaseUrl||!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(supabaseUrl)||
     !backendKey||!anon)error('NETLIFY_SERVER_VARIABLES_INCOMPLETE');
  // Netlify project values are server-only inside a function; do not send or
