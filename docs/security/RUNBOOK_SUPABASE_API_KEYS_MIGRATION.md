@@ -384,10 +384,26 @@ par consommateur, avec des variables temporaires dédiées :
 | 3 | `github_actions` | `SUPABASE_SERVICE_ROLE_KEY_NEW` | `SUPABASE_SERVICE_ROLE_KEY` | swap manuel après un run CI vert |
 | 4 | Frontend (Vite) | `VITE_SUPABASE_ANON_KEY_NEW` | `VITE_SUPABASE_ANON_KEY` | swap manuel après vérif comparateur |
 | 5 | `pgnet_webhooks` (Vault) | secret Vault `pgnet_webhooks` | `app.settings.service_role_key` | n/a tant que le trigger n'est pas réactivé |
+| 6 | **HMAC interne** (dispatch ingestion Netlify) | `INGEST_HMAC_SECRET` (dédié) | `SUPABASE_SERVICE_ROLE_KEY` | code prêt (`_ingest-hmac.ts`), **non déployé** — voir §7.1 |
 
 **Règle** : chaque étape introduit la nouvelle clé sous une variable distincte, valide
 (smoke test), puis supprime l'ancienne. On ne révoque la clé legacy globale (`anon` /
 `service_role`) qu'à l'Étape 4, une fois toutes les surfaces validées.
+
+### 7.1 Séparation du secret HMAC interne (préparée, non déployée)
+
+Le cron Netlify `scpi-ingest-scheduled` (`30 3 * * *`) signe son dispatch vers
+`scpi-ingest-background` avec un HMAC-SHA256. Le secret était `SUPABASE_SERVICE_ROLE_KEY`
+utilisé **comme secret de signature** (pas comme credential). Le code de séparation est
+préparé dans `netlify/functions/_ingest-hmac.ts` (helpers `signIngestDispatch`,
+`verifyIngestSignature`, `ingestHmacSecrets`) et testé (`ingestHmacSeparation.test.ts`,
+9 tests). Bascules :
+
+1. Créer `INGEST_HMAC_SECRET` (Netlify, scope `Builds, Functions, Runtime`).
+2. Déployer ensemble `scpi-ingest-scheduled` + `scpi-ingest-background`.
+3. Le signataire préfère `INGEST_HMAC_SECRET` ; le vérificateur accepte les **deux**
+   secrets (double fenêtre) → aucune coupure.
+4. Retirer le repli legacy **après** révocation uniquement.
 
 ---
 

@@ -401,20 +401,39 @@ de la clé legacy. La clé sert **deux usages distincts** qu'il ne faut pas conf
 (i) credential Supabase (PostgREST/Admin) ; (ii) **secret HMAC interne** (signature du
 dispatch d'ingestion Netlify).
 
-### 7.1 HMAC interne (usage NON credential — à traiter séparément)
+### 7.1 HMAC interne (usage NON credential — SÉPARATION PRÉPARÉE)
 
-| Fichier | Rôle | Usage de la clé |
+La séparation est **codée** (fichier partagé `netlify/functions/_ingest-hmac.ts`, helpers
+`signIngestDispatch` / `verifyIngestSignature` / `ingestHmacSecrets`), testée
+(`src/tests/ingestHmacSeparation.test.ts`, 9 tests PASS), mais **non déployée**.
+
+| Fichier | Rôle | Secret de signature |
 |---|---|---|
-| `netlify/functions/scpi-ingest-scheduled.ts` | **signataire** (cron `30 3 * * *`) | `createHmac('sha256', SUPABASE_SERVICE_ROLE_KEY)` sur `${timestamp}:scpi-ingest` → envoie `x-maximus-timestamp` + `x-maximus-signature` |
-| `netlify/functions/scpi-ingest-background.mts` | **vérificateur** | `createHmac('sha256', SUPABASE_SERVICE_ROLE_KEY)` + `timingSafeEqual`, fenêtre de 5 min |
+| `netlify/functions/scpi-ingest-scheduled.ts` | **signataire** (cron `30 3 * * *`) | `INGEST_HMAC_SECRET` (préféré) → repli `SUPABASE_SERVICE_ROLE_KEY` |
+| `netlify/functions/scpi-ingest-background.mts` | **vérificateur** | accepte `INGEST_HMAC_SECRET` **et** `SUPABASE_SERVICE_ROLE_KEY` (double fenêtre transitoire) |
+| `netlify/functions/_ingest-hmac.ts` | helpers HMAC partagés | — |
 
-La **même valeur** est lue des deux côtés. Conséquence opérationnelle :
+Signature : `HMAC-SHA256(secret, "${timestamp}:scpi-ingest")`, envoyée en
+`x-maximus-timestamp` + `x-maximus-signature`, fenêtre anti-rejeu de 5 min, comparaison
+en temps constant (`timingSafeEqual` sur **tous** les secrets, sans sortie anticipée).
 
-- La clé legacy sert ici de **secret de signature**, pas de credential Supabase.
-- Une bascule doit être **atomique sur les deux fonctions** (ou utiliser un secret
-  dédié `INGEST_HMAC_SECRET`), sinon le cron signe avec l'ancienne clé pendant que le
-  vérificateur attend la nouvelle → **rejets systématiques** de l'ingestion planifiée.
-- **Ne pas révoquer `SUPABASE_SERVICE_ROLE_KEY` avant d'avoir migré ce HMAC.**
+**Ordre de bascule (sans interruption du cron) :**
+
+1. Créer la variable Netlify `INGEST_HMAC_SECRET` (nouvelle valeur aléatoire **dédiée**,
+   scope `Builds, Functions, Runtime`), à côté de `SUPABASE_SERVICE_ROLE_KEY_NEW`.
+2. Déployer **les deux fonctions ensemble** (elles partent dans le même deploy Netlify) :
+   `scpi-ingest-scheduled` et `scpi-ingest-background`.
+3. Effet : le signataire signe désormais avec `INGEST_HMAC_SECRET` ; le vérificateur
+   accepte la nouvelle **et** l'ancienne signature (aucune coupure pendant la rotation).
+4. Vérifier le prochain run `30 3 * * *` (log `[scpi-ingest-background]` sans
+   « invocation rejected »).
+5. **Après** révocation du legacy uniquement : retirer le repli `SUPABASE_SERVICE_ROLE_KEY`
+   de `ingestHmacSecrets` et supprimer l'acceptation double du vérificateur.
+
+> **Ne pas révoquer `SUPABASE_SERVICE_ROLE_KEY` tant que ce HMAC n'est pas basculé.**
+> La clé legacy sert ici de **secret de signature**, pas de credential Supabase : elle
+> est lue indépendamment de `_invite-utils` (`createAdminClient`), qui, lui, utilise
+> déjà `SUPABASE_SERVICE_ROLE_KEY_NEW` en priorité.
 
 ### 7.2 Consumers « credential » (PostgREST / Admin)
 

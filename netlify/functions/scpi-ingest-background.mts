@@ -1,31 +1,16 @@
-import { createHmac, timingSafeEqual } from 'node:crypto';
 import { createAdminClient } from './_invite-utils';
 import { processNextScpiBulletin } from './utils/scpi-bulletin-ingestion';
+import { verifyIngestSignature, ingestHmacSecrets } from './_ingest-hmac';
 
 const getEnv = (key: string): string | undefined => {
   const netlifyEnv = (globalThis as any).Netlify?.env;
   return netlifyEnv?.get?.(key) || process.env[key];
 };
 
-const expectedSignature = (timestamp: string, secret: string): string =>
-  createHmac('sha256', secret)
-    .update(`${timestamp}:scpi-ingest`)
-    .digest('hex');
-
 const isAuthorized = (req: Request): boolean => {
-  const secret = getEnv('SUPABASE_SERVICE_ROLE_KEY');
   const timestamp = req.headers.get('x-maximus-timestamp') || '';
   const provided = req.headers.get('x-maximus-signature') || '';
-
-  if (!secret || !timestamp || !provided) return false;
-
-  const ageMs = Math.abs(Date.now() - Number(timestamp));
-  if (!Number.isFinite(ageMs) || ageMs > 5 * 60_000) return false;
-
-  const expected = expectedSignature(timestamp, secret);
-  const a = Buffer.from(expected, 'utf8');
-  const b = Buffer.from(provided, 'utf8');
-  return a.length === b.length && timingSafeEqual(a, b);
+  return verifyIngestSignature(timestamp, provided, ingestHmacSecrets(getEnv));
 };
 
 export default async (req: Request) => {
