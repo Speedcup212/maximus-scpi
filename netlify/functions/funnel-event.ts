@@ -124,9 +124,17 @@ export const handler: Handler = async (event) => {
 
   const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
   // Nouvelle clé backend (sb_secret_*) prioritaire, repli transitoire legacy.
+  // Source journalisée (nom de variable, jamais la valeur) pour prouver l'usage
+  // de la nouvelle clé sans exposer sa valeur — self-contained (pas d'import
+  // local, pas de node:crypto) pour rester exécutable en VM par les tests.
   const secret =
     process.env.SUPABASE_SERVICE_ROLE_KEY_NEW ||
     process.env.SUPABASE_SERVICE_ROLE_KEY;
+  console.log(
+    process.env.SUPABASE_SERVICE_ROLE_KEY_NEW
+      ? '[key-source] service <- SUPABASE_SERVICE_ROLE_KEY_NEW'
+      : '[key-source] service <- SUPABASE_SERVICE_ROLE_KEY (repli legacy)',
+  );
   if (!supabaseUrl || !secret || !/^https:\/\/[a-z0-9.-]+$/i.test(supabaseUrl.replace(/\/$/, ''))) {
     return respond(503, 'analytics_unavailable');
   }

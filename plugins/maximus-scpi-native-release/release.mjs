@@ -7,6 +7,24 @@ import {execFileSync} from 'node:child_process';
 import {readFileSync,existsSync,writeFileSync,mkdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {join} from 'node:path';
+// Preuve d'utilisation effective de la nouvelle clé (sans exposer sa valeur) :
+// journalise la source (nom de variable) et une empreinte SHA-256 tronquée (12 hex).
+const keyFingerprint=(value)=>value?createHash('sha256').update(value).digest('hex').slice(0,12):'';
+const resolveSecret=(env)=>{
+ const nv=env.SUPABASE_SERVICE_ROLE_KEY_NEW;
+ if(nv){console.log(`[key-source] release service <- SUPABASE_SERVICE_ROLE_KEY_NEW (fp=${keyFingerprint(nv)})`);return nv;}
+ const lv=env.SUPABASE_SERVICE_ROLE_KEY;
+ if(lv){console.warn(`[key-source] release service <- SUPABASE_SERVICE_ROLE_KEY (repli legacy, fp=${keyFingerprint(lv)})`);return lv;}
+ return undefined;
+};
+const resolveAnon=(env)=>{
+ const nv=env.VITE_SUPABASE_ANON_KEY_NEW;
+ if(nv){console.log(`[key-source] release anon <- VITE_SUPABASE_ANON_KEY_NEW (fp=${keyFingerprint(nv)})`);return nv;}
+ const lv=env.VITE_SUPABASE_ANON_KEY;
+ if(lv){console.warn(`[key-source] release anon <- VITE_SUPABASE_ANON_KEY (repli legacy, fp=${keyFingerprint(lv)})`);return lv;}
+ return undefined;
+};
+
 const SLUG='sofidynamic';
 const ROOT=process.cwd();
 const HEX40=/^[a-f0-9]{40}$/;
@@ -126,7 +144,7 @@ async function publishPreparedCertified(secret,sha,deployId){
 export async function onPostBuildSourceCheck(env) {
  if(!isProductionDeploy(env))return 'SKIPPED_NONPRODUCTION';
  const {cohort,sourceSha}=validateCandidateCatalog();
- const secret=env.SUPABASE_SERVICE_ROLE_KEY_NEW||env.SUPABASE_SERVICE_ROLE_KEY;
+ const secret=resolveSecret(env);
  const prior=await api('scpi_indicators?select=scpi_slug&scpi_slug=eq.sofidynamic',secret);
  if(!Array.isArray(prior))error('INVALID_SOURCE_BACKEND_RESPONSE');
  if(prior.length)return 'ALREADY_PUBLIC';
@@ -151,7 +169,7 @@ export async function onPostBuildSourceCheck(env) {
 export async function onSuccessRelease(env){
  if(!isProductionDeploy(env))return {status:'SKIPPED_NONPRODUCTION'};
  const sha=env.COMMIT_REF,deployId=env.DEPLOY_ID;
- const secret=env.SUPABASE_SERVICE_ROLE_KEY_NEW||env.SUPABASE_SERVICE_ROLE_KEY;
+ const secret=resolveSecret(env);
  if(!secret)error('NETLIFY_SERVER_SECRET_UNAVAILABLE');
  if(env.SUPABASE_URL!==URL)error('NETLIFY_SUPABASE_PROJECT_MISMATCH');
  if(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim()!==sha)error('CHECKOUT_SHA_MISMATCH');
@@ -178,7 +196,7 @@ export async function onSuccessRelease(env){
  if(result?.published!==true||result?.certified!==false||
     result.after!==result.before+1||!result.candidate_slugs?.includes(SLUG))
     error('PROVISIONAL_ATOMIC_RELEASE_FAILED');
- const anon=env.VITE_SUPABASE_ANON_KEY_NEW||env.VITE_SUPABASE_ANON_KEY;
+ const anon=resolveAnon(env);
  if(!anon)error('PUBLIC_ANON_KEY_NOT_SET');
  const publicRows=await json(URL+'/rest/v1/scpi_indicators?select=scpi_slug,qa_status&scpi_slug=eq.sofidynamic',{
    headers:normalizeSecretHeaders(anon)

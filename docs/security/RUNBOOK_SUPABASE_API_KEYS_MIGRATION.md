@@ -403,7 +403,14 @@ préparé dans `netlify/functions/_ingest-hmac.ts` (helpers `signIngestDispatch`
 2. Déployer ensemble `scpi-ingest-scheduled` + `scpi-ingest-background`.
 3. Le signataire préfère `INGEST_HMAC_SECRET` ; le vérificateur accepte les **deux**
    secrets (double fenêtre) → aucune coupure.
-4. Retirer le repli legacy **après** révocation uniquement.
+4. Retirer le repli legacy **avant ou au moment de** la révocation Supabase (jamais
+   après) : la révocation de la clé Supabase **ne neutralise pas** la chaîne encore
+   présente dans l'environnement Netlify, qui reste un secret HMAC accepté tant que le
+   repli n'est pas supprimé.
+
+> **Preuve d'utilisation effective** : les points de résolution de clé journalisent la
+> source (`[key-source]`) et une empreinte SHA-256 tronquée (12 hex), jamais la valeur —
+> voir `HANDOFF…MIGRATION.md` §7.7 pour la procédure de vérification croisée.
 
 ---
 

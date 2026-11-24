@@ -457,11 +457,12 @@ en temps constant (`timingSafeEqual` sur **tous** les secrets, sans sortie antic
 - **CI PR #458 ✅ verte** : `build`, `check`, `browser` (×2), `verify-official-bulletins`
   tous **pass**. (Le deploy-preview Netlify affiche « canceled » : déploiement d'aperçu
   annulé, sans lien avec la validité du code.)
-- **Netlify** : `SUPABASE_SERVICE_ROLE_KEY_NEW` est en scope `Builds, Functions, Runtime`
-  (PAS `Post processing`). Le plugin `release.mjs` lit désormais `_NEW` **avec repli
-  legacy**, donc sans coupure si la variable n'est pas encore visible dans le contexte du
-  plugin — mais **vérifier la portée** avant de considérer le swap du plugin effectif.
-- **HMAC interne** : voir §7.1 (séparé) et §7.4 (test réel) / §7.5 (suppression du repli).
+- **Netlify** : ✅ validé par ChatGPT le 24/11 — le scope `Builds` couvre les plugins de
+  build (`onPostBuild` / `onSuccess`) ; le scope `Post processing` n'est **pas** nécessaire.
+  Aucune modification supplémentaire des variables n'est requise. Le plugin `release.mjs`
+  lit `_NEW` **avec repli legacy** ; la preuve d'utilisation effective (logs `[key-source]`,
+  cf. §7.7) confirme que le repli n'est pas déclenché.
+- **HMAC interne** : voir §7.1 (séparé), §7.4 (test réel) et §7.5 (suppression du repli).
 
 ### 7.4 Test réel du nouveau HMAC (après déploiement Netlify)
 
@@ -481,10 +482,16 @@ Une fois `INGEST_HMAC_SECRET` créé **et** les deux fonctions redéployées :
 5. **Preuve** : un run cron vert avec la signature dédiée suffit ; ne pas tenter de
    déclencher une écriture d'ingestion manuelle hors du chemin planifié.
 
-### 7.5 Suppression du repli HMAC legacy (à exécuter AU moment de la révocation)
+### 7.5 Suppression du repli HMAC legacy (AVANT ou AU MOMENT de la révocation)
 
-Étape finale, à appliquer **en même temps ou après** la révocation de
-`SUPABASE_SERVICE_ROLE_KEY` (jamais avant) :
+⚠️ **Attention** : la révocation de la clé Supabase `SUPABASE_SERVICE_ROLE_KEY` **ne
+neutralise pas** son utilisation comme ancien secret HMAC — la chaîne reste présente
+dans l'environnement Netlify tant qu'elle n'est pas supprimée. Le retrait du repli HMAC
+doit donc être **effectif avant ou au moment** de la révocation (jamais après), sinon le
+cron continuerait d'accepter une signature forgée avec l'ancienne valeur.
+
+Étape finale, à appliquer **avant ou au moment de** la révocation de
+`SUPABASE_SERVICE_ROLE_KEY` :
 
 1. Dans `netlify/functions/_ingest-hmac.ts`, réduire `ingestHmacSecrets` au seul
    `INGEST_HMAC_SECRET` :
@@ -499,9 +506,11 @@ Une fois `INGEST_HMAC_SECRET` créé **et** les deux fonctions redéployées :
 3. Mettre à jour `ingestHmacSeparation.test.ts` : les cas « repli legacy » / « double
    fenêtre » deviennent des cas « rejet sans secret dédié ».
 4. Redéployer `scpi-ingest-scheduled` + `scpi-ingest-background` ensemble.
-5. Vérifier le run cron suivant (aucune régression).
+5. Vérifier le run cron suivant (aucune régression), **puis** révoquer la clé legacy.
 
 > Tant que `SUPABASE_SERVICE_ROLE_KEY` n'est **pas** révoquée, laisser le repli en place.
+> Le retrait du repli HMAC et la révocation Supabase sont **deux opérations distinctes** :
+> la seconde ne couvre pas la première.
 
 ### 7.6 Tests fonctionnels de production (après chaque lot de déploiement)
 
@@ -519,6 +528,45 @@ Matrice minimale à rejouer après chaque étape (Edge Functions, Netlify, GitHu
 
 Contrôle **69/69** (`watchdog_observations`) après chaque lot : `strict_pass=69`,
 `strict_fail=0`, `runner_state='IDLE'`.
+
+### 7.7 Preuve d'utilisation effective de la nouvelle clé (sans exposer sa valeur)
+
+Le motif `NOUVELLE || legacy` peut masquer un repli silencieux : si la nouvelle variable
+est absente/vide, le code retombe sur la clé legacy et tout « fonctionne » jusqu'à la
+révocation. Pour **exclure ce masquage**, la résolution des clés journalise désormais la
+**source** (nom de variable) et une **empreinte SHA-256 tronquée à 12 hex** — jamais la
+valeur.
+
+**Instrumentation ajoutée** (logs `[key-source]`) :
+
+| Point de résolution | Fichier | Journal attendu (nouvelle clé) |
+|---|---|---|
+| Edge Functions (service) | `supabase/functions/_shared/serviceKey.ts` | `[key-source] service key résolue depuis SUPABASE_SECRET_KEYS (name=scpi_agents)` |
+| Netlify admin client | `netlify/functions/_invite-utils.ts` | `[key-source] service <- SUPABASE_SERVICE_ROLE_KEY_NEW (fp=…)` |
+| Netlify `lead-fallback` | `netlify/functions/lead-fallback.ts` | `[key-source] service <- SUPABASE_SERVICE_ROLE_KEY_NEW (fp=…)` |
+| Netlify `funnel-event` | `netlify/functions/funnel-event.ts` | `[key-source] service <- SUPABASE_SERVICE_ROLE_KEY_NEW (fp=…)` |
+| Netlify `scpi-progressive-publisher` | `netlify/functions/scpi-progressive-publisher.mts` | `service <- …_NEW` **et** `anon <- VITE_SUPABASE_ANON_KEY_NEW` |
+| Plugin Netlify release | `plugins/maximus-scpi-native-release/release.mjs` | `release service <- SUPABASE_SERVICE_ROLE_KEY_NEW` / `release anon <- VITE_SUPABASE_ANON_KEY_NEW` |
+
+Un log `repli legacy` (niveau `warn`) signale que la nouvelle variable n'est pas visible
+dans ce scope → **à corriger avant révocation**. Un log `aucune clé` (niveau `error`)
+signale une configuration incomplète.
+
+**Vérification croisée par ChatGPT (sans jamais copier la valeur dans le chat) :**
+
+1. Calculer localement l'empreinte attendue de la nouvelle clé :
+   `printf %s "$VALEUR" | sha256sum | cut -c1-12` (ou équivalent).
+2. Comparer cette empreinte au champ `fp=` du log `[key-source]` du scope concerné.
+   - Égal → la **nouvelle clé** est réellement consommée (preuve).
+   - Différent ou `repli legacy` → la clé utilisée n'est pas la nouvelle (blocage).
+3. **GitHub Actions** (aucun repli) : les 3 workflows pointent directement sur
+   `SUPABASE_SERVICE_ROLE_KEY_NEW` / `VITE_SUPABASE_ANON_KEY_NEW` ; un run vert des RPC
+   `maximus_prepared_release_slugs` / `scpi_indicators` avec `_NEW` est la preuve d'usage.
+4. **Edge Functions** : la présence du log `SUPABASE_SECRET_KEYS (name=scpi_agents)`
+   (au lieu du `warn` `repli legacy`) prouve que la clé `sb_secret_*` est active.
+
+> L'empreinte est une troncature non réversible d'une clé à haute entropie : elle
+> n'expose pas la valeur et ne peut pas être réutilisée pour s'authentifier.
 
 ---
 

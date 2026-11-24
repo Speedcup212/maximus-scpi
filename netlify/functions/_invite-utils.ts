@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { createHash, randomInt, randomUUID, timingSafeEqual } from 'node:crypto';
+import { resolveServiceKey } from './_keySource';
 
 type Env = {
   SUPABASE_URL: string;
@@ -11,8 +12,9 @@ export const getRequiredEnv = (): Env => {
   // On la réutilise côté Functions afin d'éviter deux configurations concurrentes.
   const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
   // Nouvelle clé backend (sb_secret_*) prioritaire, repli transitoire legacy.
-  const SUPABASE_SERVICE_ROLE_KEY =
-    process.env.SUPABASE_SERVICE_ROLE_KEY_NEW || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  // La source effective est loggée (`[key-source]`) pour prouver l'usage de la
+  // nouvelle clé sans exposer sa valeur.
+  const { key: SUPABASE_SERVICE_ROLE_KEY } = resolveServiceKey(process.env);
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error('Missing SUPABASE_URL/VITE_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
