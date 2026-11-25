@@ -118,19 +118,71 @@ test('le bundle prod simulé ne porte pas les gardes financières du dépôt', (
   }
 });
 
-test('appliqué au fichier d avant migration, le patch reproduit exactement le diff clé de #457', () => {
-  // Preuve de fidélité : le patch clé-seul appliqué au fichier de dfc6b309 doit produire,
-  // à l'octet près, le fichier de 675ab161 (la PR #457 n'a modifié que ces deux lignes).
-  const before = execFileSync('git', ['show', 'dfc6b309:supabase/functions/scpi-certified-promote/index.ts'], {
-    cwd: join(FUNCTIONS_DIR, '..', '..'),
-    encoding: 'utf8',
-  });
-  const after = execFileSync('git', ['show', '675ab161:supabase/functions/scpi-certified-promote/index.ts'], {
-    cwd: join(FUNCTIONS_DIR, '..', '..'),
-    encoding: 'utf8',
-  });
+const REPO = join(FUNCTIONS_DIR, '..', '..');
+
+function hasCommit(sha) {
+  try {
+    execFileSync('git', ['cat-file', '-e', `${sha}^{commit}`], { cwd: REPO, stdio: 'ignore' });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Rend un commit disponible ; retourne false si l'historique reste inaccessible. */
+function ensureCommit(sha) {
+  if (hasCommit(sha)) return true;
+  try {
+    execFileSync('git', ['fetch', '--depth=1', 'origin', sha], {
+      cwd: REPO,
+      stdio: 'ignore',
+      timeout: 60_000,
+    });
+  } catch {
+    return false;
+  }
+  return hasCommit(sha);
+}
+
+function showFile(sha, path) {
+  return execFileSync('git', ['show', `${sha}:${path}`], { cwd: REPO, encoding: 'utf8' });
+}
+
+test('le patch est l inverse exact du diff clé appliqué au fichier réel du dépôt', () => {
+  // Preuve disponible dans tout clone, sans historique git : en retirant du fichier actuel
+  // (post-#457) l'import et en restaurant la résolution legacy, on retrouve le fichier
+  // d'avant migration ; réappliquer le patch doit rendre les octets d'origine.
+  const current = readFileSync(join(FUNCTIONS_DIR, 'scpi-certified-promote', 'index.ts'), 'utf8');
+  const preMigration = current
+    .split('\n')
+    .filter((l) => l !== SERVICE_KEY_IMPORT)
+    .map((l) => l.replace(
+      /readServiceKey\(\(k\) => Deno\.env\.get\(k\), "scpi_agents"\)/,
+      'Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || ""',
+    ))
+    .join('\n');
+  assert.notEqual(preMigration, current, 'la reconstruction d avant migration a échoué');
+  assert.doesNotMatch(preMigration, /readServiceKey/);
+
+  const { patched, changes } = applyKeyOnlyPatch(preMigration);
+  assert.equal(patched, current, 'le patch ne restitue pas les octets du fichier du dépôt');
+  assert.equal(changes.filter((c) => c.kind === 'KEY_RESOLUTION_REPLACED').length, 1);
+  assert.equal(changes.filter((c) => c.kind === 'SERVICE_KEY_IMPORT_ADDED').length, 1);
+});
+
+test('appliqué au fichier d avant migration, le patch reproduit exactement le diff clé de #457', (t) => {
+  // Deuxième couche de preuve, quand l'historique git est joignable : le fichier reconstruit
+  // ci-dessus doit être identique, à l'octet près, à celui de dfc6b309 (dernier main avant #457).
+  const path = 'supabase/functions/scpi-certified-promote/index.ts';
+  if (!ensureCommit('dfc6b309') || !ensureCommit('675ab161')) {
+    t.diagnostic('historique git incomplet : prouvé par aller-retour sur le fichier du dépôt');
+    return;
+  }
+  const before = showFile('dfc6b309', path);
+  const after = showFile('675ab161', path);
   const { patched } = applyKeyOnlyPatch(before);
   assert.equal(patched, after);
+  assert.equal(after, readFileSync(join(FUNCTIONS_DIR, 'scpi-certified-promote', 'index.ts'), 'utf8'));
 });
 
 test('le nom de clé cible est paramétrable sans altérer le reste', () => {
