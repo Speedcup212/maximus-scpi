@@ -415,48 +415,78 @@ supabase functions deploy <fn> --no-verify-jwt --project-ref ygvsddcpohsnaowofuw
 du bundle exact vs source épinglée ; log `[key-source]` **de la fonction** ; compteur strict
 69/69 après chaque lot.
 
-#### 2.7.4 Rollback exact **et restaurable** — condition `ready` calculée, pas déclarative
+#### 2.7.4 Rollback exact, **restaurable** et **vérifié indépendamment**
 
-Le contrôle indépendant a invalidé deux choses successivement : le rollback
-« `git checkout dfc6b309` » seul, puis l'idée qu'une **empreinte** suffirait. Une empreinte
-est une **identité**, pas une **sauvegarde** : elle identifie un bundle sans permettre de le
-restaurer, et aucune restauration n'est prouvée. Le manifeste exige donc, **pour chaque
-fonction**, une évidence qui réunit trois preuves distinctes :
+Le contrôle indépendant a invalidé trois choses successivement : le rollback
+« `git checkout dfc6b309` » seul, puis l'idée qu'une **empreinte** suffirait, puis le fait
+qu'une **déclaration cohérente** suffirait. Une empreinte est une **identité**, pas une
+**sauvegarde** : elle identifie un bundle sans permettre de le restaurer.
+
+Le contrôle du 25/11 (#issuecomment-7162575955) a relevé trois défauts précis, tous corrigés :
+
+| Défaut constaté | Correction appliquée |
+|---|---|
+| `validateProdEvidence` vérifiait la présence et la cohérence déclarative des SHA ; des SHA **fictifs** rendaient `ready=true`. | `ready` exige désormais une **attestation de vérification indépendante**, lue **hors du dépôt** (`MAXIMUS_ROLLBACK_EVIDENCE_ROOT`), empreinte recalculée et **chaque affirmation recoupée** avec l'évidence. |
+| Le lot 7 comparait la restauration au bundle **déployé** — donc une sauvegarde post-migration était présentée comme un rollback pré-migration. | `rollbackTarget` est **distinct** de `observed`, exige `phase: PRE_MIGRATION` et une identité de bundle **différente**. |
+| `owner` / `performedBy` / `performedAt` n'étaient validés qu'en présence ; l'opérateur pouvait être son propre vérificateur. | L'attestation exige `independentOfOperator: true` et une `verifierIdentity` **distincte** de `performedBy`. La garde et le journal sont **liés** à la fonction, la version et le bundle. |
+
+Chaque fonction porte désormais une évidence à cinq blocs :
 
 ```jsonc
 // scripts/security/prod-bundles/<fonction>.json  (un fichier par fonction)
 {
+  "schemaVersion": "security-prod-evidence-v2",
   "function": "scpi-evidence-certify",
-  "version": 9,                 // version constatée en production
-  "verifyJwt": false,           // état verify_jwt constaté
-  "entrypointSha256": "…64 hex…",
-  "dependencies": [ { "path": "…", "sha256": "…64 hex…", "bytes": 0 } ],
-  "bundleSha256": "…64 hex…",
-
-  // 2. GARDE : l'artefact restaurable existe réellement, hors dépôt.
-  "custody": {
+  "observed": {                     // 1. ce qui est déployé MAINTENANT
+    "version": 9, "verifyJwt": false,
+    "entrypointSha256": "…64 hex…",
+    "dependencies": [ { "path": "…", "sha256": "…64 hex…", "bytes": 0 } ],
+    "bundleSha256": "…64 hex…"
+  },
+  "rollbackTarget": {               // 2. le bundle d'AVANT migration (≠ observed)
+    "phase": "PRE_MIGRATION",
+    "version": 8, "verifyJwt": false,
+    "entrypointSha256": "…64 hex…",
+    "dependencies": [ { "path": "…", "sha256": "…64 hex…", "bytes": 0 } ],
+    "bundleSha256": "…64 hex… ≠ observed.bundleSha256"
+  },
+  "custody": {                      // 3. garde LIÉE à la cible
     "artifactRef": "…pointeur hors dépôt…",
     "artifactSha256": "…64 hex…",
     "owner": "<responsable de la garde>",
-    "holdsRestorableArtifact": true
+    "holdsRestorableArtifact": true,
+    "bindsToBundleSha256": "= rollbackTarget.bundleSha256",
+    "bindsToFunction": "= function",
+    "bindsToVersion": "= rollbackTarget.version"
   },
-
-  // 3. RESTAURATION TESTÉE hors production, reproduisant l'identité constatée.
-  "restoreDrill": {
+  "restoreDrill": {                 // 4. restauration exercée, hors production, journalisée
     "performedAt": "2026-11-25T00:00:00Z",
     "performedBy": "<opérateur ou job>",
     "destination": "staging-non-prod",  // staging-non-prod | local-replay | disposable-project
     "result": "PASS",
-    "restoredEntrypointSha256": "…doit égaler entrypointSha256…",
-    "restoredBundleSha256": "…doit égaler bundleSha256…"
+    "journalRef": "…pointeur du journal, hors dépôt…",
+    "journalSha256": "…64 hex…",
+    "restoredEntrypointSha256": "= rollbackTarget.entrypointSha256",
+    "restoredBundleSha256": "= rollbackTarget.bundleSha256"
+  },
+  "attestation": {                  // 5. vérification indépendante (lue hors dépôt)
+    "schemaVersion": "rollback-attestation-v1",
+    "verifier": "<contrôle indépendant>",
+    "verifierIdentity": "<≠ restoreDrill.performedBy>",
+    "attestationSha256": "<sha256 canonique des affirmations>"
   }
 }
 ```
 
+L'attestation **ne vit pas dans ce dépôt**. Elle est cherchée sous
+`$MAXIMUS_ROLLBACK_EVIDENCE_ROOT/attestations/<fonction>.json`. Racine absente →
+`EVIDENCE_ROOT_UNSET` ; racine **dans le dépôt** → `EVIDENCE_ROOT_INSIDE_REPO` (un fichier
+versionné dans la même PR que l'évidence qu'il valide ne prouve aucune indépendance).
+
 Règles appliquées par le manifeste :
 
 1. `rollback.ready` n'est **jamais** vrai sans fichier d'évidence de production.
-2. La `version` et le `verifyJwt` de l'évidence doivent **correspondre** à ce que le registre
+2. `observed.version` et `observed.verifyJwt` doivent **correspondre** à ce que le registre
    a constaté en prod — une évidence pour une autre version est rejetée.
 3. Les dépendances de prod dont l'empreinte manque (`matcher.mjs` pour
    `scpi-evidence-certify`, `sourceProvenance.mjs` pour `scpi-bulletin-watch`) maintiennent
@@ -464,17 +494,29 @@ Règles appliquées par le manifeste :
 4. **Une empreinte seule ne suffit jamais.** Sans bloc `custody` :
    `blockingReason = MISSING_custody` ; avec `holdsRestorableArtifact: false` :
    `CUSTODY_NOT_RESTORABLE`.
-5. **Une restauration doit être exercée, et hors production.** `destination: "production"`
-   est refusé (`RESTORE_DRILL_ON_PRODUCTION`) ; `result` autre que `PASS` bloque
-   (`RESTORE_DRILL_NOT_PASSED`) ; une empreinte restaurée différente de l'empreinte
-   constatée est refusée (`RESTORE_DRILL_ENTRYPOINT_MISMATCH`,
-   `RESTORE_DRILL_BUNDLE_MISMATCH`).
-6. Défense en profondeur : même si une évidence passait la validation de forme,
-   `validateManifest` refuse un rollback `ready` sans garde (`ROLLBACK_READY_WITHOUT_CUSTODY`)
-   ou sans restauration réussie (`ROLLBACK_READY_WITHOUT_RESTORE_DRILL`).
-7. Une fonction encore `PENDING_*` ne peut pas avoir un rollback `ready` (test bloquant).
-8. `revocationAllowed` exige : **0** fonction hors périmètre bloquante, **16/16**
-   `DEPLOYED`, et **16/16** rollback `ready`. Aujourd'hui : `false`.
+5. **La cible restaurée doit être le bundle d'avant migration.** `observed.bundleSha256`
+   égal à `rollbackTarget.bundleSha256` → `ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE` ;
+   `phase` ≠ `PRE_MIGRATION` → `ROLLBACK_TARGET_NOT_PRE_MIGRATION`.
+6. **La garde et le journal doivent être liés.** `CUSTODY_BINDS_OTHER_FUNCTION`,
+   `CUSTODY_BINDS_OTHER_VERSION`, `CUSTODY_BINDS_OTHER_BUNDLE`,
+   `RESTORE_JOURNAL_INSIDE_REPO`.
+7. **Une restauration doit être exercée, hors production, et journalisée.**
+   `destination: "production"` est refusé (`RESTORE_DRILL_ON_PRODUCTION`) ; `result` autre
+   que `PASS` bloque (`RESTORE_DRILL_NOT_PASSED`) ; une empreinte restaurée différente de la
+   cible est refusée (`RESTORE_DRILL_ENTRYPOINT_MISMATCH`, `RESTORE_DRILL_BUNDLE_MISMATCH`).
+8. **Sans vérification indépendante, rien n'est prêt** : `ATTESTATION_MISSING`,
+   `EVIDENCE_ROOT_UNSET`, `EVIDENCE_ROOT_INSIDE_REPO`, `ATTESTATION_NOT_INDEPENDENT`,
+   `ATTESTATION_VERIFIER_IS_OPERATOR`, `ATTESTATION_SHA256_MISMATCH`,
+   `ATTESTATION_CLAIM_MISMATCH_*`.
+9. Défense en profondeur : `validateManifest` refuse un rollback `ready` sans garde
+   (`ROLLBACK_READY_WITHOUT_CUSTODY`), sans restauration réussie
+   (`ROLLBACK_READY_WITHOUT_RESTORE_DRILL`), sans vérification indépendante
+   (`ROLLBACK_READY_WITHOUT_INDEPENDENT_VERIFICATION`), dont la cible est le bundle déployé
+   (`ROLLBACK_READY_TARGET_IS_DEPLOYED_BUNDLE`), ou sans garde liée
+   (`ROLLBACK_READY_WITHOUT_CUSTODY_BINDING`).
+10. Une fonction encore `PENDING_*` ne peut pas avoir un rollback `ready` (test bloquant).
+11. `revocationAllowed` exige : **0** fonction hors périmètre bloquante, **16/16**
+    `DEPLOYED`, et **16/16** rollback `ready`. Aujourd'hui : `false`.
 
 Un fichier d'évidence est refusé s'il contient une valeur assimilable à une clé
 (`sb_secret_*`, `sb_publishable_*`, JWT `eyJ…`) — test dédié. Le dépôt étant **public**,
@@ -482,8 +524,8 @@ aucun bundle brut ni contenu de source n'y est publié : uniquement empreintes e
 de garde.
 
 **État actuel : `rollbackReady = 0/16`, `revocationAllowed = false`.** C'est le résultat
-attendu : le rollback exact dépend d'une lecture de production que seul le connecteur
-fournit, et cette lecture n'a pas encore été consignée pour les 16 fonctions.
+attendu : aucune garde, aucune restauration et aucune attestation n'ont encore été produites
+hors dépôt. L'outillage refuse explicitement de conclure sans elles — c'est le but.
 
 ### 2.8 `scpi-certified-promote` — patch clé uniquement (drift métier à ne PAS embarquer)
 

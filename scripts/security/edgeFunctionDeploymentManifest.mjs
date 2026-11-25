@@ -29,14 +29,27 @@
 import { createHash } from 'node:crypto';
 import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, resolve, sep } from 'node:path';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 export const REPO_ROOT = resolve(HERE, '..', '..');
 export const FUNCTIONS_DIR = join(REPO_ROOT, 'supabase', 'functions');
 export const LEDGER_PATH = join(HERE, 'edgeFunctionDeploymentManifest.json');
 
-export const MANIFEST_VERSION = 'security-edge-manifest-v1';
+export const MANIFEST_VERSION = 'security-edge-manifest-v2';
+export const EVIDENCE_SCHEMA_VERSION = 'security-prod-evidence-v2';
+export const ATTESTATION_SCHEMA_VERSION = 'rollback-attestation-v1';
+
+/**
+ * Racine des attestations de vérification indépendante.
+ *
+ * Ces attestations ne peuvent pas vivre dans le dépôt : ce dépôt est **public** et,
+ * surtout, un fichier versionné dans la même PR que l'évidence n'est pas une
+ * vérification indépendante. La racine est donc fournie hors dépôt (session
+ * interactive / contrôle indépendant) et le module refuse explicitement une racine
+ * située dans `REPO_ROOT`.
+ */
+export const EVIDENCE_ROOT_ENV = 'MAXIMUS_ROLLBACK_EVIDENCE_ROOT';
 export const INITIAL_PERIMETER_SIZE = 16;
 export const PROD_EVIDENCE_DIR = join(HERE, 'prod-bundles');
 
@@ -360,34 +373,59 @@ const OUT_OF_PERIMETER = [
 ];
 
 /**
- * Évidence de production d'une fonction.
+ * Évidence de production d'une fonction — schéma v2.
  *
- * Une empreinte est une **identité**, pas une **sauvegarde**. Constater le SHA-256 d'un
- * bundle déployé ne permet pas de le restaurer : le contenu n'est pas conservé. Le rollback
- * n'est donc déclaré `ready` que si l'évidence porte, en plus des empreintes :
+ * Trois défauts du schéma v1 sont corrigés ici, sur constat du contrôle indépendant :
  *
- *  - une preuve de **garde** (`custody`) : un artefact restaurable réellement conservé,
- *    identifié par un pointeur hors dépôt et son empreinte ;
- *  - une preuve de **restauration testée** (`restoreDrill`) : une restauration effectuée
- *    hors production qui a reproduit l'entrypoint ET le bundle d'origine.
+ *  1. **Une déclaration cohérente n'est pas une vérification.** En v1, `ready` pouvait
+ *     devenir vrai avec des SHA-256 inventés : `validateProdEvidence` ne vérifiait que la
+ *     présence des champs et leur cohérence interne. Désormais `ready` exige une
+ *     **attestation de vérification indépendante** lue **hors du dépôt**, dont l'empreinte
+ *     est recalculée et dont chaque affirmation est recoupée avec l'évidence.
+ *  2. **Le bundle restauré n'était pas le bundle de rollback.** En v1, la restauration était
+ *     comparée au bundle **déployé** — donc, pour une fonction déjà migrée, on « restaurait »
+ *     le bundle post-migration, ce qui ne défait rien. Désormais `rollbackTarget` est
+ *     distinct de `observed`, exige `phase: PRE_MIGRATION` et une identité différente pour
+ *     une fonction déjà migrée.
+ *  3. **Le réalisateur du test pouvait être son propre vérificateur.** L'attestation exige
+ *     une identité de vérificateur distincte de l'opérateur (`performedBy`).
  *
  * Aucun de ces champs ne doit contenir de valeur de clé, de jeton ou de contenu de source.
  */
 export const PROD_BUNDLE_EVIDENCE_SCHEMA = Object.freeze({
+  schemaVersion: EVIDENCE_SCHEMA_VERSION,
   requiredFields: [
-    'function', 'version', 'verifyJwt', 'entrypointSha256', 'dependencies', 'bundleSha256',
-    'custody', 'restoreDrill',
+    'schemaVersion', 'function', 'observed', 'rollbackTarget', 'custody', 'restoreDrill',
+    'attestation',
+  ],
+  observedFields: ['version', 'verifyJwt', 'entrypointSha256', 'dependencies', 'bundleSha256'],
+  rollbackTargetFields: [
+    'phase', 'version', 'verifyJwt', 'entrypointSha256', 'dependencies', 'bundleSha256',
   ],
   dependencyFields: ['path', 'sha256', 'bytes'],
-  custodyFields: ['artifactRef', 'artifactSha256', 'owner', 'holdsRestorableArtifact'],
+  custodyFields: [
+    'artifactRef', 'artifactSha256', 'owner', 'holdsRestorableArtifact',
+    'bindsToBundleSha256', 'bindsToFunction', 'bindsToVersion',
+  ],
   restoreDrillFields: [
-    'performedAt', 'performedBy', 'result', 'destination',
+    'performedAt', 'performedBy', 'result', 'destination', 'journalRef', 'journalSha256',
     'restoredEntrypointSha256', 'restoredBundleSha256',
   ],
+  attestationFields: ['schemaVersion', 'attestationSha256', 'verifier', 'verifierIdentity'],
   /** Une restauration ne se prouve jamais sur la production elle-même. */
   restoreDestinations: ['staging-non-prod', 'local-replay', 'disposable-project'],
   restoreResults: ['PASS', 'FAIL'],
+  /** Une fonction déjà migrée ne peut être « restaurée » que vers son bundle d'avant. */
+  rollbackPhases: ['PRE_MIGRATION'],
 });
+
+/** Ce que l'attestation externe doit affirmer, et que l'évidence doit recouper. */
+export const ATTESTATION_REQUIRED_CLAIMS = Object.freeze([
+  'function', 'observedBundleSha256', 'rollbackTargetBundleSha256',
+  'custodyArtifactSha256', 'custodyArtifactRef', 'restoreJournalSha256',
+  'restoredBundleSha256', 'restoreDestination', 'restoreResult',
+  'verifier', 'verifierIdentity', 'operator', 'independentOfOperator', 'verifiedAt',
+]);
 
 const HEX64 = /^[0-9a-f]{64}$/;
 
@@ -454,73 +492,232 @@ export function readProdEvidence(name) {
   }
 }
 
+/** Empreinte SHA-256 canonique d'un objet JSON (clés triées) : elle lie le contenu. */
+export function canonicalJsonSha256(value) {
+  const canon = (v) => {
+    if (Array.isArray(v)) return v.map(canon);
+    if (v && typeof v === 'object') {
+      return Object.fromEntries(
+        Object.keys(v).sort().map((k) => [k, canon(v[k])]),
+      );
+    }
+    return v;
+  };
+  return createHash('sha256').update(JSON.stringify(canon(value))).digest('hex');
+}
+
+function inRepo(p) {
+  const abs = resolve(p);
+  return abs === REPO_ROOT || abs.startsWith(REPO_ROOT + sep);
+}
+
+/**
+ * Charge une attestation de vérification indépendante.
+ *
+ * Elle est cherchée **hors du dépôt** (`MAXIMUS_ROLLBACK_EVIDENCE_ROOT`) : une attestation
+ * commitée dans la même PR que l'évidence qu'elle valide ne prouve aucune indépendance.
+ * Le module ne la fabrique jamais : absente, la vérification échoue et `ready` reste faux.
+ *
+ * @param {string} name Nom de la fonction.
+ * @param {{root?: string|null}} [options]
+ * @returns {{attestation: object|null, source: string, reason: string|null}}
+ */
+export function readAttestation(name, options = {}) {
+  const root = options.root !== undefined ? options.root : (process.env[EVIDENCE_ROOT_ENV] ?? null);
+  if (!root) {
+    return { attestation: null, source: 'NONE', reason: 'EVIDENCE_ROOT_UNSET' };
+  }
+  if (inRepo(root)) {
+    return { attestation: null, source: root, reason: 'EVIDENCE_ROOT_INSIDE_REPO' };
+  }
+  const p = join(root, 'attestations', `${name}.json`);
+  if (!existsSync(p)) {
+    return { attestation: null, source: p, reason: 'ATTESTATION_MISSING' };
+  }
+  try {
+    return { attestation: JSON.parse(readFileSync(p, 'utf8')), source: p, reason: null };
+  } catch {
+    return { attestation: null, source: p, reason: 'ATTESTATION_UNREADABLE' };
+  }
+}
+
+/**
+ * Confronte l'évidence déclarée à une attestation externe.
+ *
+ * Chaque affirmation de l'attestation doit se retrouver, à l'identique, dans l'évidence :
+ * c'est le recoupement qui interdit de rendre `ready` une évidence inventée. L'attestation
+ * porte aussi l'indépendance du vérificateur, impossible à satisfaire en auto-déclaration.
+ *
+ * @param {object} evidence Évidence de production.
+ * @param {object|null} attestation Attestation externe (ou null).
+ * @returns {string[]} Codes d'erreur (vide = recoupement réussi).
+ */
+export function crossCheckAttestation(evidence, attestation) {
+  if (!attestation || typeof attestation !== 'object') return ['ATTESTATION_MISSING'];
+  const errors = [];
+  const { attestationFields, requiredFields } = PROD_BUNDLE_EVIDENCE_SCHEMA;
+
+  for (const f of attestationFields) {
+    if (!(f in attestation)) errors.push(`MISSING_attestation_${f}`);
+  }
+  for (const f of ATTESTATION_REQUIRED_CLAIMS) {
+    if (!(f in attestation)) errors.push(`MISSING_attestation_claim_${f}`);
+  }
+  if (attestation.schemaVersion !== ATTESTATION_SCHEMA_VERSION) {
+    errors.push('BAD_attestation_schemaVersion');
+  }
+  if (errors.length > 0) return errors;
+
+  // Le déclarant ne peut pas être son propre vérificateur.
+  if (attestation.independentOfOperator !== true) errors.push('ATTESTATION_NOT_INDEPENDENT');
+  if (attestation.verifierIdentity === evidence.restoreDrill.performedBy) {
+    errors.push('ATTESTATION_VERIFIER_IS_OPERATOR');
+  }
+
+  // L'empreinte de l'attestation doit correspondre à son contenu réel.
+  const { attestationSha256, ...claims } = attestation;
+  if (canonicalJsonSha256(claims) !== attestationSha256) {
+    errors.push('ATTESTATION_SHA256_MISMATCH');
+  }
+
+  // Recoupement champ par champ : l'attestation doit confirmer l'évidence, pas la doubler.
+  const expect = {
+    function: evidence.function,
+    observedBundleSha256: evidence.observed?.bundleSha256,
+    rollbackTargetBundleSha256: evidence.rollbackTarget?.bundleSha256,
+    custodyArtifactSha256: evidence.custody?.artifactSha256,
+    custodyArtifactRef: evidence.custody?.artifactRef,
+    restoreJournalSha256: evidence.restoreDrill?.journalSha256,
+    restoredBundleSha256: evidence.restoreDrill?.restoredBundleSha256,
+    restoreDestination: evidence.restoreDrill?.destination,
+    restoreResult: evidence.restoreDrill?.result,
+    operator: evidence.restoreDrill?.performedBy,
+    verifier: evidence.attestation?.verifier,
+  };
+  for (const [claim, want] of Object.entries(expect)) {
+    if (attestation[claim] !== want) errors.push(`ATTESTATION_CLAIM_MISMATCH_${claim}`);
+  }
+  if (typeof attestation.verifiedAt !== 'string' || Number.isNaN(Date.parse(attestation.verifiedAt))) {
+    errors.push('BAD_attestation_verifiedAt');
+  }
+  if (requiredFields.length === 0) errors.push('SCHEMA_EMPTY');
+  return errors;
+}
+
 /**
  * Vérifie la forme de l'évidence de production (aucune valeur de clé n'y figure) et,
- * surtout, que l'évidence prouve une **restauration possible** et non seulement l'identité
- * du bundle. Des empreintes seules ne constituent jamais une sauvegarde restaurable.
+ * surtout, que l'évidence prouve une **restauration possible d'un bundle de rollback
+ * distinct** — et non seulement l'identité du bundle actuellement déployé.
+ *
+ * Le contrôle de forme ne suffit jamais à ouvrir un rollback : la vérification
+ * indépendante est faite séparément par `crossCheckAttestation`.
  */
 export function validateProdEvidence(evidence) {
   const errors = [];
+  const { observedFields, rollbackTargetFields, custodyFields, restoreDrillFields } =
+    PROD_BUNDLE_EVIDENCE_SCHEMA;
   if (!evidence || typeof evidence !== 'object') return ['NOT_AN_OBJECT'];
   for (const field of PROD_BUNDLE_EVIDENCE_SCHEMA.requiredFields) {
     if (!(field in evidence)) errors.push(`MISSING_${field}`);
   }
-  if ('bundleSha256' in evidence && !HEX64.test(evidence.bundleSha256)) {
-    errors.push('BAD_bundleSha256');
-  }
-  if ('entrypointSha256' in evidence && !HEX64.test(evidence.entrypointSha256)) {
-    errors.push('BAD_entrypointSha256');
-  }
-  if (Array.isArray(evidence.dependencies)) {
-    for (const d of evidence.dependencies) {
-      for (const f of PROD_BUNDLE_EVIDENCE_SCHEMA.dependencyFields) {
-        if (!(f in d)) errors.push(`MISSING_dependency_${f}`);
-      }
-    }
-  } else if ('dependencies' in evidence) {
-    errors.push('BAD_dependencies');
+  if ('schemaVersion' in evidence && evidence.schemaVersion !== PROD_BUNDLE_EVIDENCE_SCHEMA.schemaVersion) {
+    errors.push('BAD_schemaVersion');
   }
 
-  // Garde de l'artefact : sans artefact conservé, aucune restauration n'est possible.
+  const hexField = (obj, key, code) => {
+    if (!(key in obj)) return;
+    if (!HEX64.test(obj[key])) errors.push(code);
+  };
+
+  if ('observed' in evidence) {
+    const o = evidence.observed;
+    if (!o || typeof o !== 'object') {
+      errors.push('BAD_observed');
+    } else {
+      for (const f of observedFields) if (!(f in o)) errors.push(`MISSING_observed_${f}`);
+      hexField(o, 'entrypointSha256', 'BAD_observed_entrypointSha256');
+      hexField(o, 'bundleSha256', 'BAD_observed_bundleSha256');
+      checkDependencies(o.dependencies, errors, 'observed');
+    }
+  }
+
+  if ('rollbackTarget' in evidence) {
+    const t = evidence.rollbackTarget;
+    if (!t || typeof t !== 'object') {
+      errors.push('BAD_rollbackTarget');
+    } else {
+      for (const f of rollbackTargetFields) if (!(f in t)) errors.push(`MISSING_rollbackTarget_${f}`);
+      hexField(t, 'entrypointSha256', 'BAD_rollbackTarget_entrypointSha256');
+      hexField(t, 'bundleSha256', 'BAD_rollbackTarget_bundleSha256');
+      checkDependencies(t.dependencies, errors, 'rollbackTarget');
+      if ('phase' in t && !PROD_BUNDLE_EVIDENCE_SCHEMA.rollbackPhases.includes(t.phase)) {
+        errors.push('ROLLBACK_TARGET_NOT_PRE_MIGRATION');
+      }
+    }
+  }
+
+  // La cible de rollback doit être un bundle réellement distinct de ce qui est déployé.
+  if (evidence.observed && evidence.rollbackTarget
+    && evidence.observed.bundleSha256 === evidence.rollbackTarget.bundleSha256) {
+    errors.push('ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE');
+  }
+
+  // Garde de l'artefact : sans artefact conservé et lié, aucune restauration n'est possible.
   if ('custody' in evidence) {
     const c = evidence.custody;
     if (!c || typeof c !== 'object') {
       errors.push('BAD_custody');
     } else {
-      for (const f of PROD_BUNDLE_EVIDENCE_SCHEMA.custodyFields) {
-        if (!(f in c)) errors.push(`MISSING_custody_${f}`);
-      }
-      if ('artifactSha256' in c && !HEX64.test(c.artifactSha256)) {
-        errors.push('BAD_custody_artifactSha256');
-      }
+      for (const f of custodyFields) if (!(f in c)) errors.push(`MISSING_custody_${f}`);
+      hexField(c, 'artifactSha256', 'BAD_custody_artifactSha256');
       if ('holdsRestorableArtifact' in c && c.holdsRestorableArtifact !== true) {
         errors.push('CUSTODY_NOT_RESTORABLE');
       }
       if ('artifactRef' in c && (typeof c.artifactRef !== 'string' || c.artifactRef.trim() === '')) {
         errors.push('BAD_custody_artifactRef');
       }
+      // La garde doit désigner CETTE fonction dans CETTE version, pas un artefact générique.
+      if ('bindsToFunction' in c && c.bindsToFunction !== evidence.function) {
+        errors.push('CUSTODY_BINDS_OTHER_FUNCTION');
+      }
+      if ('bindsToVersion' in c && evidence.rollbackTarget
+        && c.bindsToVersion !== evidence.rollbackTarget.version) {
+        errors.push('CUSTODY_BINDS_OTHER_VERSION');
+      }
+      if ('bindsToBundleSha256' in c && evidence.rollbackTarget
+        && c.bindsToBundleSha256 !== evidence.rollbackTarget.bundleSha256) {
+        errors.push('CUSTODY_BINDS_OTHER_BUNDLE');
+      }
     }
   }
 
-  // Restauration réellement effectuée, hors production, et reproduisant les empreintes.
+  // Restauration réellement effectuée, hors production, reproduisant le bundle de rollback.
   if ('restoreDrill' in evidence) {
     const r = evidence.restoreDrill;
     if (!r || typeof r !== 'object') {
       errors.push('BAD_restoreDrill');
     } else {
-      for (const f of PROD_BUNDLE_EVIDENCE_SCHEMA.restoreDrillFields) {
-        if (!(f in r)) errors.push(`MISSING_restoreDrill_${f}`);
-      }
+      for (const f of restoreDrillFields) if (!(f in r)) errors.push(`MISSING_restoreDrill_${f}`);
       if (!PROD_BUNDLE_EVIDENCE_SCHEMA.restoreDestinations.includes(r.destination)) {
         errors.push('RESTORE_DRILL_ON_PRODUCTION');
       }
       if (!PROD_BUNDLE_EVIDENCE_SCHEMA.restoreResults.includes(r.result)) {
         errors.push('BAD_restoreDrill_result');
       }
-      if ('restoredEntrypointSha256' in r && r.restoredEntrypointSha256 !== evidence.entrypointSha256) {
+      if ('journalRef' in r && (typeof r.journalRef !== 'string' || r.journalRef.trim() === '')) {
+        errors.push('BAD_restoreDrill_journalRef');
+      }
+      if ('journalRef' in r && typeof r.journalRef === 'string' && inRepo(r.journalRef)) {
+        errors.push('RESTORE_JOURNAL_INSIDE_REPO');
+      }
+      hexField(r, 'journalSha256', 'BAD_restoreDrill_journalSha256');
+      const target = evidence.rollbackTarget;
+      if (target && 'restoredEntrypointSha256' in r
+        && r.restoredEntrypointSha256 !== target.entrypointSha256) {
         errors.push('RESTORE_DRILL_ENTRYPOINT_MISMATCH');
       }
-      if ('restoredBundleSha256' in r && r.restoredBundleSha256 !== evidence.bundleSha256) {
+      if (target && 'restoredBundleSha256' in r
+        && r.restoredBundleSha256 !== target.bundleSha256) {
         errors.push('RESTORE_DRILL_BUNDLE_MISMATCH');
       }
     }
@@ -528,11 +725,25 @@ export function validateProdEvidence(evidence) {
   return errors;
 }
 
+function checkDependencies(deps, errors, scope) {
+  if (Array.isArray(deps)) {
+    for (const d of deps) {
+      for (const f of PROD_BUNDLE_EVIDENCE_SCHEMA.dependencyFields) {
+        if (!(f in d)) errors.push(`MISSING_${scope}_dependency_${f}`);
+      }
+      if ('sha256' in d && !HEX64.test(d.sha256)) errors.push(`BAD_${scope}_dependency_sha256`);
+    }
+  } else if (deps !== undefined) {
+    errors.push(`BAD_${scope}_dependencies`);
+  }
+}
+
 /**
  * Construit le manifeste complet à partir des sources du dépôt.
  * @param {(name: string) => object|undefined} [prodEvidence] Lecteur d'évidence de prod par nom.
+ * @param {(name: string) => {attestation: object|null, source: string, reason: string|null}} [attestationReader]
  */
-export function buildManifest(prodEvidence = readProdEvidence) {
+export function buildManifest(prodEvidence = readProdEvidence, attestationReader = readAttestation) {
   const functions = PERIMETER.map((fn) => {
     const repo = resolveRepoFingerprint(fn);
     const entrySource = sha256File(`${fn.name}/index.ts`)
@@ -549,19 +760,26 @@ export function buildManifest(prodEvidence = readProdEvidence) {
 
     const evidence = prodEvidence(fn.name) ?? null;
     const evidenceErrors = evidence ? validateProdEvidence(evidence) : ['EVIDENCE_MISSING'];
+    const attestation = evidence ? attestationReader(fn.name) : { attestation: null, source: 'NONE', reason: 'EVIDENCE_MISSING' };
+    const attestationErrors = evidence
+      ? (attestation.attestation
+        ? crossCheckAttestation(evidence, attestation.attestation)
+        : [attestation.reason ?? 'ATTESTATION_MISSING'])
+      : ['EVIDENCE_MISSING'];
     const overrides = fn.prodDependencyOverrides ?? {};
     const overridesComplete = Object.values(overrides).every(
       (o) => typeof o.sha256 === 'string' && o.sha256.length === 64,
     );
     // Un rollback n'est restaurable que si l'évidence démontre la garde d'un artefact ET
-    // une restauration testée. Des empreintes seules ne restaurent rien.
+    // une restauration testée, toutes deux confirmées par une vérification indépendante.
     const custodyRestorable = evidence?.custody?.holdsRestorableArtifact === true;
     const drillPassed = evidence?.restoreDrill?.result === 'PASS';
     const rollbackReady = Boolean(
       evidence
         && evidenceErrors.length === 0
-        && evidence.version === fn.prodVersion
-        && evidence.verifyJwt === fn.prodVerifyJwt
+        && attestationErrors.length === 0
+        && evidence.observed.version === fn.prodVersion
+        && evidence.observed.verifyJwt === fn.prodVerifyJwt
         && overridesComplete
         && custodyRestorable
         && drillPassed,
@@ -591,36 +809,54 @@ export function buildManifest(prodEvidence = readProdEvidence) {
       rollback: {
         strategy: 'RESTORE_CUSTODIED_PROD_BUNDLE',
         prodEvidencePresent: Boolean(evidence),
-        prodVersionSeen: evidence?.version ?? null,
-        prodVerifyJwtSeen: evidence?.verifyJwt ?? null,
-        prodEntrypointSha256: evidence?.entrypointSha256 ?? null,
-        prodBundleSha256: evidence?.bundleSha256 ?? null,
+        prodVersionSeen: evidence?.observed?.version ?? null,
+        prodVerifyJwtSeen: evidence?.observed?.verifyJwt ?? null,
+        prodEntrypointSha256: evidence?.observed?.entrypointSha256 ?? null,
+        prodBundleSha256: evidence?.observed?.bundleSha256 ?? null,
         evidenceErrors,
-        // Identité constatée ≠ sauvegarde. Ces deux preuves sont exigées séparément.
+        attestationErrors,
+        attestationSource: attestation.source,
+        // Identité constatée ≠ sauvegarde. Ces preuves sont exigées séparément, et la
+        // cible restaurée doit être le bundle d'AVANT migration, pas celui déployé.
         custodyProof: {
           artifactRef: evidence?.custody?.artifactRef ?? null,
           artifactSha256: evidence?.custody?.artifactSha256 ?? null,
           holdsRestorableArtifact: evidence?.custody?.holdsRestorableArtifact === true,
+          bindsToBundleSha256: evidence?.custody?.bindsToBundleSha256 ?? null,
+        },
+        rollbackTarget: {
+          phase: evidence?.rollbackTarget?.phase ?? null,
+          version: evidence?.rollbackTarget?.version ?? null,
+          bundleSha256: evidence?.rollbackTarget?.bundleSha256 ?? null,
+          equalsObserved: Boolean(
+            evidence?.observed?.bundleSha256
+            && evidence.observed.bundleSha256 === evidence.rollbackTarget?.bundleSha256,
+          ),
         },
         restoreDrill: {
           performedAt: evidence?.restoreDrill?.performedAt ?? null,
           performedBy: evidence?.restoreDrill?.performedBy ?? null,
           destination: evidence?.restoreDrill?.destination ?? null,
           result: evidence?.restoreDrill?.result ?? null,
+          journalSha256: evidence?.restoreDrill?.journalSha256 ?? null,
         },
+        independentlyVerified: attestationErrors.length === 0,
+        verifier: attestation.attestation?.verifier ?? null,
         fingerprintsOnly: !evidence?.custody && !evidence?.restoreDrill,
         ready: rollbackReady,
         blockingReason: rollbackReady
           ? null
           : evidenceErrors.length > 0
             ? evidenceErrors[0]
-            : !overridesComplete
-              ? 'PROD_DEPENDENCY_FINGERPRINT_MISSING'
-              : !custodyRestorable
-                ? 'CUSTODY_NOT_RESTORABLE'
-                : !drillPassed
-                  ? 'RESTORE_DRILL_NOT_PASSED'
-                  : 'PROD_BUNDLE_EVIDENCE_INCONSISTENT',
+            : attestationErrors.length > 0
+              ? attestationErrors[0]
+              : !overridesComplete
+                ? 'PROD_DEPENDENCY_FINGERPRINT_MISSING'
+                : !custodyRestorable
+                  ? 'CUSTODY_NOT_RESTORABLE'
+                  : !drillPassed
+                    ? 'RESTORE_DRILL_NOT_PASSED'
+                    : 'PROD_BUNDLE_EVIDENCE_INCONSISTENT',
       },
       notes: fn.notes ?? null,
     };
@@ -681,13 +917,24 @@ export function validateManifest(manifest) {
       v('ROLLBACK_READY_BEFORE_DEPLOY', f.name);
     }
     // Défense en profondeur : même si l'évidence passait la validation de forme, un
-    // rollback ne peut pas être `ready` sans garde d'artefact ET restauration testée.
+    // rollback ne peut pas être `ready` sans garde d'artefact, restauration testée,
+    // bundle de rollback distinct, ni vérification indépendante.
     if (f.rollback.ready) {
       if (!f.rollback.custodyProof?.holdsRestorableArtifact) {
         v('ROLLBACK_READY_WITHOUT_CUSTODY', f.name);
       }
       if (f.rollback.restoreDrill?.result !== 'PASS') {
         v('ROLLBACK_READY_WITHOUT_RESTORE_DRILL', f.name);
+      }
+      if (!f.rollback.independentlyVerified) {
+        v('ROLLBACK_READY_WITHOUT_INDEPENDENT_VERIFICATION', f.name);
+      }
+      if (f.rollback.rollbackTarget?.equalsObserved) {
+        v('ROLLBACK_READY_TARGET_IS_DEPLOYED_BUNDLE', f.name);
+      }
+      if (!f.rollback.rollbackTarget?.bundleSha256
+        || f.rollback.custodyProof?.bindsToBundleSha256 !== f.rollback.rollbackTarget.bundleSha256) {
+        v('ROLLBACK_READY_WITHOUT_CUSTODY_BINDING', f.name);
       }
     }
     if (f.deployGuard === 'NEVER_DEPLOY_REPO_ENTRYPOINT_VERBATIM'

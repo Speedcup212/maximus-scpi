@@ -63,6 +63,24 @@ test('le handoff affirme qu une empreinte n est pas une sauvegarde restaurable',
   assert.match(doc, /restaurable/);
 });
 
+test('le handoff exige une vérification indépendante hors dépôt et une cible pré-migration', () => {
+  const doc = handoff().replace(/\s+/g, ' ');
+  // Défaut 1 : une déclaration cohérente ne suffisait pas ; l'attestation est hors dépôt.
+  assert.match(doc, /MAXIMUS_ROLLBACK_EVIDENCE_ROOT/);
+  assert.match(doc, /EVIDENCE_ROOT_INSIDE_REPO/);
+  assert.match(doc, /ATTESTATION_VERIFIER_IS_OPERATOR/);
+  assert.match(doc, /ATTESTATION_CLAIM_MISMATCH/);
+  // Défaut 2 : restaurer le bundle déployé ne défait rien.
+  assert.match(doc, /rollbackTarget/);
+  assert.match(doc, /PRE_MIGRATION/);
+  assert.match(doc, /ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE/);
+  assert.match(doc, /ROLLBACK_READY_TARGET_IS_DEPLOYED_BUNDLE/);
+  // Défaut 3 : la garde et le journal doivent être liés.
+  assert.match(doc, /CUSTODY_BINDS_OTHER_BUNDLE/);
+  assert.match(doc, /RESTORE_JOURNAL_INSIDE_REPO/);
+  assert.match(doc, /ROLLBACK_READY_WITHOUT_INDEPENDENT_VERIFICATION/);
+});
+
 test('le handoff interdit de publier des bundles bruts dans un dépôt public', () => {
   const doc = handoff();
   assert.match(doc, /dépôt étant \*\*public\*\*/);
