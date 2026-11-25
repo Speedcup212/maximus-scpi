@@ -1,0 +1,293 @@
+{
+  "version": "security-edge-manifest-v1",
+  "counts": {
+    "initialPerimeter": 16,
+    "deployed": 6,
+    "pendingDeploy": 7,
+    "pendingKeyOnlyPatch": 1,
+    "pendingCoordinatedLot": 2,
+    "outOfPerimeter": 9,
+    "revocationBlockers": 5,
+    "rollbackReady": 0
+  },
+  "functions": [
+    {
+      "name": "calendly-webhook",
+      "deployState": "PENDING_DEPLOY",
+      "prodVersion": null,
+      "entrypointSha256": "e79ab3d2811d557486a5fb50e1cc980674c1347b89fb2d2c9c36357de4afba81",
+      "dependencies": [
+        {
+          "path": "_shared/serviceKey.ts",
+          "sha256": "8341fbb25577486a43e64115f7fdde239a71dd3b10595086af0732854d0b6a46"
+        }
+      ],
+      "bundleSha256": "e672e1de9fe9d797bafcf522bfb14b7f44a6ebfbff41b0e88ea7fa28f05ca8f2",
+      "rollbackReady": false
+    },
+    {
+      "name": "send-simulation-email",
+      "deployState": "PENDING_DEPLOY",
+      "prodVersion": null,
+      "entrypointSha256": "511a4bc55fc62bbe973d02fe49016726ead1ea45fe83a1877737f575d7f72c96",
+      "dependencies": [
+        {
+          "path": "_shared/serviceKey.ts",
+          "sha256": "8341fbb25577486a43e64115f7fdde239a71dd3b10595086af0732854d0b6a46"
+        },
+        {
+          "path": "send-simulation-email/logic.ts",
+          "sha256": "6aa4aa5dcd4a3b49ee80485acecd115d50ea18d1027f4023ab6e18ac7d23800f"
+        }
+      ],
+      "bundleSha256": "b42db644dc9e704aed859a2cd902bd1db7e7923ef1e4f8896593549db7565f4d",
+      "rollbackReady": false
+    },
+    {
+      "name": "scpi-release-certification-oidc",
+      "deployState": "PENDING_DEPLOY",
+      "prodVersion": null,
+      "entrypointSha256": "25e9327f6580d75eb37074edac3d375227e57d7c55fdf808751730b53459eac7",
+      "dependencies": [
+        {
+          "path": "_shared/serviceKey.ts",
+          "sha256": "8341fbb25577486a43e64115f7fdde239a71dd3b10595086af0732854d0b6a46"
+        }
+      ],
+      "bundleSha256": "f970f935adcb6860eed4c813064b4390c2a08a23c052946afcbd4fb9de40fdfd",
+      "rollbackReady": false
+    },
+    {
+      "name": "scpi-corum-document-oidc",
+      "deployState": "PENDING_DEPLOY",
+      "prodVersion": null,
+      "entrypointSha256": "f53318ebfab8f5cf756d660de6d15b8ec3df6e08b9b1e418e0a4897061c45612",
+      "dependencies": [
+        {
+          "path": "_shared/serviceKey.ts",
+          "sha256": "8341fbb25577486a43e64115f7fdde239a71dd3b10595086af0732854d0b6a46"
+        }
+      ],
+      "bundleSha256": "7b3a7153cb443c0a4d7edbcea9d33fb507fc733a06b5967eda359f6361ed9416",
+      "rollbackReady": false
+    },
+    {
+      "name": "scpi-bulletin-replay-oidc",
+      "deployState": "PENDING_DEPLOY",
+      "prodVersion": null,
+      "entrypointSha256": "ff7949a008230a410b5a3f284c633c7b22540e3ad49ba78b6edcab7bc1743948",
+      "dependencies": [
+        {
+          "path": "_shared/serviceKey.ts",
+          "sha256": "8341fbb25577486a43e64115f7fdde239a71dd3b10595086af0732854d0b6a46"
+        }
+      ],
+      "bundleSha256": "644e987b39ee2c04f3cbbf7922598d573b31ae5e7da0d365c8a726e444d87e19",
+      "rollbackReady": false
+    },
+    {
+      "name": "maximus-agent-audit-oidc",
+      "deployState": "PENDING_DEPLOY",
+      "prodVersion": null,
+      "entrypointSha256": "58432988729bf89c89fa28a9484fef4f6c884635c0a9a00d2f62d1eccee5e97b",
+      "dependencies": [],
+      "bundleSha256": "04550ab051e136a675ce82ade181897533fa19b9429ff89dad0ca74f79f550b3",
+      "rollbackReady": false
+    },
+    {
+      "name": "maximus-scpi-ocr-oidc",
+      "deployState": "PENDING_DEPLOY",
+      "prodVersion": null,
+      "entrypointSha256": "e3f51bc39a522ccac581b5ed290a977cb2ddba98bdac34293989e3dce36f6f18",
+      "dependencies": [
+        {
+          "path": "maximus-scpi-ocr-oidc/historicalIdentity.mjs",
+          "sha256": "8c91f7963973e3a41171ae4b7b5ea8950c4ae8f441c6be5e0f9f86ee2befdd22"
+        }
+      ],
+      "bundleSha256": "c8d8e892d95258c65fa58eca7706da6dabe4e1f6145ba64394549f341436a40f",
+      "rollbackReady": false
+    },
+    {
+      "name": "scpi-certified-promote",
+      "deployState": "PENDING_KEY_ONLY_PATCH",
+      "prodVersion": 12,
+      "entrypointSha256": "c671f23b70a60b5b5a774bf423d8567c74aa6042b6c1c5dcb68536bf9ee199e7",
+      "dependencies": [
+        {
+          "path": "_shared/serviceKey.ts",
+          "sha256": "8341fbb25577486a43e64115f7fdde239a71dd3b10595086af0732854d0b6a46"
+        }
+      ],
+      "bundleSha256": "4ac62be369e11ea520e2be7d74cb9cab106cf080fefbb82b0a704d142c133c25",
+      "rollbackReady": false
+    },
+    {
+      "name": "scpi-news-watch",
+      "deployState": "DEPLOYED",
+      "prodVersion": 18,
+      "entrypointSha256": "e2420cbca852657dc4f87e02d445c34fff6d7557f0cd6db3f5bd62282ea0cdad",
+      "dependencies": [
+        {
+          "path": "_shared/serviceKey.ts",
+          "sha256": "8341fbb25577486a43e64115f7fdde239a71dd3b10595086af0732854d0b6a46"
+        }
+      ],
+      "bundleSha256": "76bf015ee1ffa2b9167bf8a93c776d747771b7727df41e04dd4bed279128c21f",
+      "rollbackReady": false
+    },
+    {
+      "name": "scpi-evidence-certify",
+      "deployState": "DEPLOYED",
+      "prodVersion": 9,
+      "entrypointSha256": "d27bcf6088faaefbd5b4c2302b39acc7bc4524234dad6f01a393ba696b4839c0",
+      "dependencies": [
+        {
+          "path": "_shared/serviceKey.ts",
+          "sha256": "8341fbb25577486a43e64115f7fdde239a71dd3b10595086af0732854d0b6a46"
+        },
+        {
+          "path": "scpi-evidence-certify/matcher.mjs",
+          "sha256": "f1fb81c36c41f5328d6546c11940330708553af26cc532124679185a979af071"
+        }
+      ],
+      "bundleSha256": "6aea9bce3886115a929aeb68012612fcba7ca0fbe9a7057d9a9889299527a5d0",
+      "rollbackReady": false
+    },
+    {
+      "name": "scpi-bulletin-watch",
+      "deployState": "DEPLOYED",
+      "prodVersion": 108,
+      "entrypointSha256": "5f313684011f42023ce6a52ab82520d364d46f1c3e9ff05a85ed4122b5066d7b",
+      "dependencies": [
+        {
+          "path": "_shared/serviceKey.ts",
+          "sha256": "8341fbb25577486a43e64115f7fdde239a71dd3b10595086af0732854d0b6a46"
+        },
+        {
+          "path": "scpi-bulletin-watch/sourceProvenance.mjs",
+          "sha256": "bada267345bfb7fa23bb46e21907a6b97093adba85fb9631f380515c64d9dc4c"
+        }
+      ],
+      "bundleSha256": "c6b457f02b51ef961ee8b5c34bc32b9578ab7400462a975a777f632abaeec4d4",
+      "rollbackReady": false
+    },
+    {
+      "name": "scpi-source-link-inspect",
+      "deployState": "DEPLOYED",
+      "prodVersion": 12,
+      "entrypointSha256": "68e338139cbd7e0f2fdaf3bfa79f37a48afd87e97366d59aef1a2ab5dfa11355",
+      "dependencies": [
+        {
+          "path": "_shared/serviceKey.ts",
+          "sha256": "8341fbb25577486a43e64115f7fdde239a71dd3b10595086af0732854d0b6a46"
+        }
+      ],
+      "bundleSha256": "10c652d78a36b9cb7f415aa8d276b891ec62c5ce5f41e4aa3a31ec35e357d6ef",
+      "rollbackReady": false
+    },
+    {
+      "name": "scpi-annual-safe-extract",
+      "deployState": "DEPLOYED",
+      "prodVersion": 12,
+      "entrypointSha256": "8aefaf57597e11dc97c0edff096268e58204f119e04712b0153314229517265d",
+      "dependencies": [
+        {
+          "path": "_shared/serviceKey.ts",
+          "sha256": "8341fbb25577486a43e64115f7fdde239a71dd3b10595086af0732854d0b6a46"
+        }
+      ],
+      "bundleSha256": "512d9c37ca4f95123e7812603f7882ade75acdc8e5dfd7d4c35d6906498178b3",
+      "rollbackReady": false
+    },
+    {
+      "name": "scpi-annual-report-backfill",
+      "deployState": "DEPLOYED",
+      "prodVersion": 11,
+      "entrypointSha256": "2c618e438e00359f457a752417d84c6e7daf87bd7ccbb28d883ed0b7b2279c30",
+      "dependencies": [
+        {
+          "path": "_shared/serviceKey.ts",
+          "sha256": "8341fbb25577486a43e64115f7fdde239a71dd3b10595086af0732854d0b6a46"
+        }
+      ],
+      "bundleSha256": "f86728a43539ca1cc1fae771f3e5d1159f7d295888208bd33669eac54d624175",
+      "rollbackReady": false
+    },
+    {
+      "name": "send-lead-notification",
+      "deployState": "PENDING_COORDINATED_LOT",
+      "prodVersion": 17,
+      "entrypointSha256": "d53ebfee33a6f6778511db50fc30a87e92c32ebba5d12bcbc3d57d59fd893f2e",
+      "dependencies": [
+        {
+          "path": "_shared/auth.ts",
+          "sha256": "e9a1ce951eda855287f030ff025f141408ebf30b026998c4ac70ca6e2284a2c2"
+        }
+      ],
+      "bundleSha256": "4167bc68b414cb559b7cd727996537c4d7bb0a80643574f412ca34f8351d5eb2",
+      "rollbackReady": false
+    },
+    {
+      "name": "sender-add-contact",
+      "deployState": "PENDING_COORDINATED_LOT",
+      "prodVersion": 7,
+      "entrypointSha256": "260ccd51a5fe9077b1e210457837938ab5ef2079a40ad16b4491b0b8a2e00b85",
+      "dependencies": [
+        {
+          "path": "_shared/auth.ts",
+          "sha256": "e9a1ce951eda855287f030ff025f141408ebf30b026998c4ac70ca6e2284a2c2"
+        }
+      ],
+      "bundleSha256": "adcd9fcb87eaf47c18c353c1dd43bbdb7bb31122d88e125bdea2258458b819f6",
+      "rollbackReady": false
+    }
+  ],
+  "outOfPerimeter": [
+    {
+      "name": "scpi-parallel-backfill-worker",
+      "reason": "SOURCE_ABSENT_FROM_REPO",
+      "blocksRevocation": true
+    },
+    {
+      "name": "scpi-parallel-discover-worker",
+      "reason": "SOURCE_ABSENT_FROM_REPO",
+      "blocksRevocation": true
+    },
+    {
+      "name": "scpi-annual-source-discover",
+      "reason": "SOURCE_ABSENT_FROM_REPO",
+      "blocksRevocation": true
+    },
+    {
+      "name": "scpi-norma-quarterly-ingest",
+      "reason": "SOURCE_ABSENT_FROM_REPO",
+      "blocksRevocation": true
+    },
+    {
+      "name": "maximus-watchdog-oidc",
+      "reason": "SOURCE_ABSENT_FROM_REPO",
+      "blocksRevocation": true
+    },
+    {
+      "name": "scpi-scoring",
+      "reason": "NOT_DEPLOYED_NOT_CALLED",
+      "blocksRevocation": false
+    },
+    {
+      "name": "maximus-search-agent-oidc",
+      "reason": "UNCHANGED_BY_MIGRATION",
+      "blocksRevocation": false
+    },
+    {
+      "name": "client-access-admin",
+      "reason": "VERIFY_JWT_USER_SESSION",
+      "blocksRevocation": false
+    },
+    {
+      "name": "client-surveillance",
+      "reason": "VERIFY_JWT_USER_SESSION",
+      "blocksRevocation": false
+    }
+  ]
+}
