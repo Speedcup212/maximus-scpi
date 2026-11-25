@@ -31,6 +31,10 @@ import {
   EVIDENCE_SCHEMA_VERSION,
   ATTESTATION_SCHEMA_VERSION,
   TRUST_ANCHOR_SCHEMA_VERSION,
+  PRODUCTION_PROJECT_REF,
+  MAX_READBACK_AGE_MS,
+  readbackConfigSha256,
+  validateReadback,
 } from './edgeFunctionDeploymentManifest.mjs';
 
 const noEvidence = () => undefined;
@@ -127,8 +131,41 @@ test('le rollback n est jamais déclaré prêt sans évidence du bundle de produ
 });
 
 /**
- * Évidence v3 : identité constatée + bundle de ROLLBACK distinct (pré-migration) + garde
- * liée à ce bundle + restauration testée hors prod, avec journal + stage explicite.
+ * Readback fournisseur cohérent avec une fonction donnée : la pièce qui atteste ce que la
+ * production contient réellement, dans le bon projet, à un instant daté.
+ *
+ * Les tests négatifs le dégradent champ par champ pour prouver que chaque propriété est
+ * exigée séparément (projet, fraîcheur, liaison de configuration, accord avec `observed`).
+ */
+const readbackFor = (name, version, verifyJwt = false, overrides = {}) => {
+  const base = {
+    source: 'supabase-management-api:GET /v1/projects/{ref}/functions/{slug}',
+    fetchedAt: '2026-11-25T00:30:00Z',
+    projectRef: PRODUCTION_PROJECT_REF,
+    slug: name,
+    version,
+    verifyJwt,
+    entrypointPath: `supabase/functions/${name}/index.ts`,
+    entrypointSha256: 'a'.repeat(64),
+    dependencies: [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }],
+    bundleSha256: 'c'.repeat(64),
+  };
+  const merged = { ...base, ...overrides };
+  merged.configSha256 = readbackConfigSha256({
+    projectRef: merged.projectRef,
+    slug: merged.slug,
+    version: merged.version,
+    verifyJwt: merged.verifyJwt,
+    entrypointPath: merged.entrypointPath,
+  });
+  if (overrides.configSha256) merged.configSha256 = overrides.configSha256;
+  return merged;
+};
+
+/**
+ * Évidence v3 : identité constatée PAR READBACK FOURNISSEUR + bundle de ROLLBACK distinct
+ * (pré-migration) + garde liée à ce bundle + restauration testée hors prod, avec journal,
+ * stage explicite, et signature couvrant projet/version/configuration.
  */
 const hardenedEvidence = (name, observedVersion, targetVersion = observedVersion - 1, stage = 'POST_DEPLOY') => ({
   schemaVersion: EVIDENCE_SCHEMA_VERSION,
@@ -140,6 +177,7 @@ const hardenedEvidence = (name, observedVersion, targetVersion = observedVersion
     entrypointSha256: 'a'.repeat(64),
     dependencies: [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }],
     bundleSha256: 'c'.repeat(64),
+    readback: readbackFor(name, observedVersion),
   },
   rollbackTarget: {
     phase: 'PRE_MIGRATION',
@@ -229,6 +267,15 @@ const attestationFor = (evidence, opts = {}) => {
     restoredBundleSha256: evidence.restoreDrill.restoredBundleSha256,
     restoreDestination: evidence.restoreDrill.destination,
     restoreResult: evidence.restoreDrill.result,
+    // Identité complète du bundle : le SHA de code seul ne prouve pas la configuration.
+    // Un readback absent laisse ces affirmations vides : le recoupement échouera alors en
+    // `MISSING_attestation_claim_*` ou en `ATTESTATION_CLAIM_MISMATCH_*`, jamais en succès.
+    projectRef: evidence.observed?.readback?.projectRef ?? null,
+    observedVersion: evidence.observed?.version ?? null,
+    observedVerifyJwt: evidence.observed?.verifyJwt ?? null,
+    observedConfigSha256: evidence.observed?.readback?.configSha256 ?? null,
+    readbackSource: evidence.observed?.readback?.source ?? null,
+    readbackFetchedAt: evidence.observed?.readback?.fetchedAt ?? null,
     verifier: evidence.attestation.verifier,
     verifierIdentity: evidence.attestation.verifierIdentity,
     operator: evidence.restoreDrill.performedBy,
@@ -546,6 +593,10 @@ test('l évidence de production rejette une forme incomplète ou malformée', ()
   assert.deepEqual(validateProdEvidence(badHashes), [
     'BAD_observed_entrypointSha256',
     'BAD_observed_bundleSha256',
+    // Le readback doit décrire le MÊME objet que `observed` : une déclaration qui diverge
+    // de la lecture fournisseur est refusée, pas silencieusement préférée.
+    'READBACK_DISAGREES_WITH_OBSERVED_entrypointSha256',
+    'READBACK_DISAGREES_WITH_OBSERVED_bundleSha256',
   ]);
 
   const missingBytes = hardenedEvidence('x', 1, 0);
@@ -806,39 +857,31 @@ test('un lien symbolique ne contourne pas la frontière du dépôt', () => {
  * avant intervention, puis exiger leur distinction après migration ».
  */
 test('la préparation pré-déploiement accepte observed = target, la validation post-déploiement l exclut', () => {
-  // Fonction pas encore migrée : le bundle à sauvegarder EST le bundle qui tourne.
+  // Fonction LIVE mais pas encore migrée (patch clé seule en attente) : le bundle à
+  // sauvegarder EST le bundle qui tourne, et un readback fournisseur peut l'attester.
+  // C'est le cas réel de `scpi-certified-promote` (v12 en production, patch non appliqué).
+  const LIVE_PRE = 'scpi-certified-promote';
   const preDeploy = (name) => {
-    const e = hardenedEvidence(name, null === null ? 1 : 1, 1, 'PRE_DEPLOY');
-    e.function = name; // fonction PENDING_DEPLOY : pas de version prod constatée
-    e.observed = {
-      version: null,
-      verifyJwt: false,
-      entrypointSha256: 'a'.repeat(64),
-      dependencies: [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }],
-      bundleSha256: 'c'.repeat(64),
-    };
-    e.rollbackTarget = {
-      phase: 'PRE_MIGRATION',
-      version: null,
-      verifyJwt: false,
-      entrypointSha256: 'a'.repeat(64),
-      dependencies: [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }],
-      bundleSha256: 'c'.repeat(64),
-    };
+    const e = hardenedEvidence(LIVE_PRE, 12, 12, 'PRE_DEPLOY');
+    e.function = name;
+    e.observed.readback = readbackFor(name, 12);
+    e.rollbackTarget = JSON.parse(JSON.stringify(e.observed));
+    e.rollbackTarget.phase = 'PRE_MIGRATION';
     e.custody.artifactRef = `vault://pre-deploy/${name}.tgz`;
     e.custody.bindsToBundleSha256 = 'c'.repeat(64);
-    e.custody.bindsToVersion = null;
+    e.custody.bindsToVersion = 12;
+    e.custody.bindsToFunction = name;
     e.restoreDrill.restoredEntrypointSha256 = 'a'.repeat(64);
     e.restoreDrill.restoredBundleSha256 = 'c'.repeat(64);
     return e;
   };
   const m = buildAnchored(preDeploy, attestationReaderFor(preDeploy));
-  const calendly = m.functions.find((f) => f.name === 'calendly-webhook');
-  assert.equal(calendly.deployState, 'PENDING_DEPLOY');
-  assert.equal(calendly.rollback.stageMatchesDeployState, true);
-  assert.equal(calendly.rollback.preDeployReady, true, calendly.rollback.blockingReason ?? '');
-  assert.equal(calendly.rollback.ready, true, 'la préparation du rollback doit être possible');
-  assert.equal(calendly.rollback.rollbackTarget.equalsObserved, true);
+  const promote = m.functions.find((f) => f.name === LIVE_PRE);
+  assert.equal(promote.deployState, 'PENDING_KEY_ONLY_PATCH');
+  assert.equal(promote.rollback.stageMatchesDeployState, true);
+  assert.equal(promote.rollback.preDeployReady, true, promote.rollback.blockingReason ?? '');
+  assert.equal(promote.rollback.ready, true, 'la préparation du rollback doit être possible');
+  assert.equal(promote.rollback.rollbackTarget.equalsObserved, true);
 
   // Le même type d'évidence sur une fonction DÉJÀ migrée prétendrait que rien n'a changé :
   // la forme est valide, mais le stage contredit l'état réel de la fonction.
@@ -874,16 +917,15 @@ test('un stage incohérent avec l état de la fonction est une violation bloquan
 test('une préparation pré-déploiement dont la cible diffère de l état courant est refusée', () => {
   // Avant intervention, sauvegarder « autre chose » que ce qui tourne ne permettrait pas de
   // revenir à l'état courant : la préparation serait une fausse sécurité.
-  const preDeployOnPendingFn = (name) => {
-    const e = hardenedEvidence(name, null, 0, 'PRE_DEPLOY');
+  const LIVE_PRE = 'scpi-certified-promote';
+  const preDeployOnLiveFn = (name) => {
+    const e = hardenedEvidence(LIVE_PRE, 12, 12, 'PRE_DEPLOY');
     e.function = name;
-    e.observed = {
-      version: null,
-      verifyJwt: false,
-      entrypointSha256: 'a'.repeat(64),
-      dependencies: [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }],
-      bundleSha256: 'c'.repeat(64),
-    };
+    e.observed.readback = readbackFor(name, 12);
+    e.rollbackTarget = JSON.parse(JSON.stringify(e.observed));
+    e.rollbackTarget.phase = 'PRE_MIGRATION';
+    e.custody.bindsToVersion = 12;
+    e.custody.bindsToFunction = name;
     // Cible délibérément différente de ce qui est déployé.
     e.rollbackTarget.bundleSha256 = '9'.repeat(64);
     e.rollbackTarget.entrypointSha256 = '8'.repeat(64);
@@ -892,10 +934,10 @@ test('une préparation pré-déploiement dont la cible diffère de l état coura
     e.restoreDrill.restoredEntrypointSha256 = '8'.repeat(64);
     return e;
   };
-  const m = buildAnchored(preDeployOnPendingFn, attestationReaderFor(preDeployOnPendingFn));
-  const calendly = m.functions.find((f) => f.name === 'calendly-webhook');
-  assert.equal(calendly.rollback.preDeployReady, false);
-  assert.equal(calendly.rollback.blockingReason, 'ROLLBACK_TARGET_DIFFERS_BEFORE_DEPLOY');
+  const m = buildAnchored(preDeployOnLiveFn, attestationReaderFor(preDeployOnLiveFn));
+  const promote = m.functions.find((f) => f.name === LIVE_PRE);
+  assert.equal(promote.rollback.preDeployReady, false);
+  assert.equal(promote.rollback.blockingReason, 'ROLLBACK_TARGET_DIFFERS_BEFORE_DEPLOY');
 });
 
 test('la défense en profondeur refuse un readiness pré-déploiement sur une fonction migrée', () => {
@@ -917,6 +959,219 @@ test('le README de prod-bundles documente le stage et la séparation pré/post-d
   assert.match(readme, /rollbackVerifierTrustAnchor/);
   assert.match(readme, /ANCHOR_KEY_NOT_PROVISIONED/);
   assert.match(readme, /ATTESTATION_SIGNATURE_INVALID/);
+});
+
+/**
+ * Défaut du lot 9 relevé par le contrôle du 25/11 : « le gate commonProof compare notamment
+ * version et verifyJwt au registre statique : avant intervention, recouper également
+ * l'identité complète du bundle et la configuration avec le readback fournisseur frais ; la
+ * signature doit couvrir ou lier ces éléments et le projet cible. Une égalité de SHA de code
+ * seule ne prouve pas l'égalité de configuration. »
+ */
+test('comparer observed au registre du dépôt ne prouve rien sans readback fournisseur', () => {
+  // Défaut exact : une évidence dont `observed` recopie le registre, sans aucune lecture
+  // provider. Les valeurs « tombent juste » parce qu'elles viennent du même endroit.
+  const noReadback = (name) => {
+    const e = hardenedEvidence(name, 9);
+    delete e.observed.readback;
+    return e;
+  };
+  const f = evidenceCertify(buildAnchored(noReadback, attestationReaderFor(noReadback)));
+  assert.equal(f.rollback.ready, false, 'une croyance comparée à elle-même n est pas une preuve');
+  assert.ok(
+    f.rollback.evidenceErrors.includes('MISSING_observed_readback'),
+    f.rollback.evidenceErrors.join(','),
+  );
+  assert.equal(f.rollback.readback.present, false);
+});
+
+test('un readback d un autre projet ne prouve rien sur la migration en cours', () => {
+  const wrongProject = (name) => {
+    const e = hardenedEvidence(name, 9);
+    e.observed.readback = readbackFor(name, 9, false, { projectRef: 'autreprojet0000000000' });
+    return e;
+  };
+  const f = evidenceCertify(buildAnchored(wrongProject, attestationReaderFor(wrongProject)));
+  assert.equal(f.rollback.ready, false);
+  assert.ok(
+    f.rollback.evidenceErrors.includes('READBACK_WRONG_PROJECT'),
+    f.rollback.evidenceErrors.join(','),
+  );
+});
+
+test('une égalité de SHA de code ne vaut pas égalité de configuration', () => {
+  // Le bundle lu porte le même code, mais la configuration (verify_jwt) a changé : seule
+  // une empreinte de configuration liée le montre, et la signature doit la couvrir.
+  const sameCodeOtherConfig = (name) => {
+    const e = hardenedEvidence(name, 9);
+    e.observed.readback = readbackFor(name, 9, true);
+    e.observed.readback.entrypointSha256 = e.observed.entrypointSha256;
+    e.observed.readback.bundleSha256 = e.observed.bundleSha256;
+    return e;
+  };
+  const f = evidenceCertify(buildAnchored(sameCodeOtherConfig, attestationReaderFor(sameCodeOtherConfig)));
+  assert.equal(f.rollback.ready, false, 'verify_jwt différent = configuration différente');
+  assert.ok(
+    f.rollback.evidenceErrors.includes('READBACK_DISAGREES_WITH_OBSERVED_verifyJwt'),
+    f.rollback.evidenceErrors.join(','),
+  );
+
+  // Et si l'on aligne `observed` sur la lecture, le registre devient la référence : la
+  // lecture contredit alors ce que le registre constate en production.
+  const contradictsRegistry = (name) => {
+    const e = hardenedEvidence(name, 9);
+    e.observed.verifyJwt = true;
+    e.observed.readback = readbackFor(name, 9, true);
+    return e;
+  };
+  const g = evidenceCertify(buildAnchored(contradictsRegistry, attestationReaderFor(contradictsRegistry)));
+  assert.equal(g.rollback.ready, false);
+  assert.equal(g.rollback.readback.matchesRegistry, false);
+  assert.equal(g.rollback.blockingReason, 'READBACK_DISAGREES_WITH_REGISTRY');
+});
+
+test('une empreinte de configuration recalculée qui ne couvre pas les champs est refusée', () => {
+  const frozenConfig = (name) => {
+    const e = hardenedEvidence(name, 9);
+    e.observed.readback = readbackFor(name, 9);
+    // Empreinte d'une AUTRE configuration (verify_jwt inversé) : elle ne lie pas les champs.
+    e.observed.readback.configSha256 = readbackConfigSha256({
+      projectRef: PRODUCTION_PROJECT_REF,
+      slug: name,
+      version: 9,
+      verifyJwt: true,
+      entrypointPath: `supabase/functions/${name}/index.ts`,
+    });
+    return e;
+  };
+  const f = evidenceCertify(buildAnchored(frozenConfig, attestationReaderFor(frozenConfig)));
+  assert.equal(f.rollback.ready, false);
+  assert.ok(
+    f.rollback.evidenceErrors.includes('READBACK_CONFIG_SHA256_MISMATCH'),
+    f.rollback.evidenceErrors.join(','),
+  );
+  assert.equal(f.rollback.readback.configBound, false);
+});
+
+test('un readback postérieur à la vérification indépendante, ou périmé, ne compte pas', () => {
+  // Une lecture impossible à avoir vue par le contrôle ne peut pas être ce qu'il a vérifié.
+  const afterVerification = (name) => {
+    const e = hardenedEvidence(name, 9);
+    e.observed.readback = readbackFor(name, 9, false, { fetchedAt: '2026-11-25T02:00:00Z' });
+    return e;
+  };
+  const f = evidenceCertify(buildAnchored(afterVerification, attestationReaderFor(afterVerification)));
+  assert.equal(f.rollback.ready, false);
+  assert.equal(f.rollback.readback.fresh, false);
+  assert.equal(f.rollback.blockingReason, 'READBACK_STALE_OR_AFTER_VERIFICATION');
+
+  // Lecture antérieure à la fenêtre admise (24 h) : ce n'est plus l'état constaté.
+  const stale = (name) => {
+    const e = hardenedEvidence(name, 9);
+    const fetched = new Date(Date.parse('2026-11-25T01:00:00Z') - MAX_READBACK_AGE_MS - 1000);
+    e.observed.readback = readbackFor(name, 9, false, { fetchedAt: fetched.toISOString() });
+    return e;
+  };
+  const g = evidenceCertify(buildAnchored(stale, attestationReaderFor(stale)));
+  assert.equal(g.rollback.ready, false);
+  assert.equal(g.rollback.readback.fresh, false);
+});
+
+test('la signature doit couvrir le projet cible et la configuration observée', () => {
+  // Attestation signée mais qui n'affirme pas le projet : elle ne lie pas la cible.
+  const missingProjectClaim = (name) => {
+    const e = hardenedEvidence(name, 9);
+    const a = attestationFor(e);
+    delete a.projectRef;
+    const claims = Object.fromEntries(
+      Object.entries(a).filter(([k]) => k !== 'signature' && k !== 'attestationSha256'),
+    );
+    return {
+      attestation: {
+        ...claims,
+        attestationSha256: canonicalJsonSha256(claims),
+        signature: signClaims(claims),
+      },
+      source: 'x',
+      reason: null,
+    };
+  };
+  const f = evidenceCertify(buildAnchored((name) => hardenedEvidence(name, 9), missingProjectClaim));
+  assert.equal(f.rollback.ready, false);
+  assert.ok(
+    f.rollback.attestationErrors.includes('MISSING_attestation_claim_projectRef'),
+    f.rollback.attestationErrors.join(','),
+  );
+
+  // Attestation qui affirme un AUTRE projet que celui du readback.
+  const otherProjectClaim = (name) => {
+    const e = hardenedEvidence(name, 9);
+    return { attestation: attestationFor(e, { claims: { projectRef: 'autreprojet0000000000' } }), source: 'x', reason: null };
+  };
+  const g = evidenceCertify(buildAnchored((name) => hardenedEvidence(name, 9), otherProjectClaim));
+  assert.equal(g.rollback.ready, false);
+  assert.ok(
+    g.rollback.attestationErrors.includes('ATTESTATION_CLAIM_MISMATCH_projectRef'),
+    g.rollback.attestationErrors.join(','),
+  );
+
+  // Attestation qui affirme une autre empreinte de configuration.
+  const otherConfigClaim = (name) => {
+    const e = hardenedEvidence(name, 9);
+    return { attestation: attestationFor(e, { claims: { observedConfigSha256: 'f'.repeat(64) } }), source: 'x', reason: null };
+  };
+  const h = evidenceCertify(buildAnchored((name) => hardenedEvidence(name, 9), otherConfigClaim));
+  assert.equal(h.rollback.ready, false);
+  assert.ok(
+    h.rollback.attestationErrors.includes('ATTESTATION_CLAIM_MISMATCH_observedConfigSha256'),
+    h.rollback.attestationErrors.join(','),
+  );
+});
+
+test('la défense en profondeur refuse un rollback prêt sans readback lié', () => {
+  const ev = (name) => hardenedEvidence(name, 9);
+  const m = buildAnchored(ev, attestationReaderFor(ev));
+  assert.deepEqual(validateManifest(m), []);
+  const f = evidenceCertify(m);
+  assert.equal(f.rollback.ready, true);
+
+  for (const [field, code] of [
+    ['present', 'ROLLBACK_READY_WITHOUT_PROVIDER_READBACK'],
+    ['matchesRegistry', 'ROLLBACK_READY_WITH_READBACK_REGISTRY_MISMATCH'],
+    ['fresh', 'ROLLBACK_READY_WITH_STALE_READBACK'],
+    ['configBound', 'ROLLBACK_READY_WITHOUT_CONFIG_BINDING'],
+  ]) {
+    const original = f.rollback.readback[field];
+    f.rollback.readback[field] = false;
+    const codes = validateManifest(m).map((x) => x.code);
+    assert.ok(codes.includes(code), `${field}=false devrait produire ${code} : ${codes.join(',')}`);
+    f.rollback.readback[field] = original;
+    assert.deepEqual(validateManifest(m), [], `restauration de ${field}`);
+  }
+});
+
+test('validateReadback refuse un readback incomplet, non-provider ou incohérent', () => {
+  const base = readbackFor('scpi-evidence-certify', 9);
+  assert.deepEqual(validateReadback({ readback: base }, 'scpi-evidence-certify'), []);
+  assert.deepEqual(validateReadback({}, 'scpi-evidence-certify'), ['MISSING_observed_readback']);
+
+  const manual = { ...base, source: 'saisie manuelle' };
+  assert.ok(
+    validateReadback({ readback: manual }, 'scpi-evidence-certify').includes('READBACK_SOURCE_NOT_PROVIDER'),
+  );
+
+  const otherSlug = readbackFor('scpi-news-watch', 9);
+  assert.ok(
+    validateReadback({ readback: otherSlug }, 'scpi-evidence-certify').includes('READBACK_OTHER_FUNCTION'),
+  );
+});
+
+test('le README de prod-bundles documente le readback fournisseur et la configuration', () => {
+  const readme = readFileSync(join(PROD_EVIDENCE_DIR, 'README.md'), 'utf8');
+  assert.match(readme, /readback/i);
+  assert.match(readme, /configSha256/);
+  assert.match(readme, /READBACK_WRONG_PROJECT/);
+  assert.match(readme, /collectReadback\.mjs/);
 });
 
 test('le calcul d empreintes est stable et indépendant de l ordre du registre', () => {

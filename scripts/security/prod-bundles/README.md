@@ -55,11 +55,11 @@ Un fichier `scripts/security/prod-bundles/<nom-de-fonction>.json` :
 
 ```jsonc
 {
-  "schemaVersion": "security-prod-evidence-v2",
+  "schemaVersion": "security-prod-evidence-v3",
   "stage": "POST_DEPLOY",              // PRE_DEPLOY (pas encore migrée) | POST_DEPLOY (migrée)
   "function": "scpi-evidence-certify",
 
-  // 1. IDENTITÉ constatée en production (ce qui tourne maintenant).
+  // 1. IDENTITÉ constatée en production (ce qui tourne maintenant)…
   "observed": {
     "version": 9,
     "verifyJwt": false,
@@ -68,7 +68,22 @@ Un fichier `scripts/security/prod-bundles/<nom-de-fonction>.json` :
       { "path": "scpi-evidence-certify/matcher.mjs", "sha256": "<…>", "bytes": 13355 },
       { "path": "_shared/serviceKey.ts", "sha256": "<…>", "bytes": 1481 }
     ],
-    "bundleSha256": "<empreinte agrégée du bundle déployé>"
+    "bundleSha256": "<empreinte agrégée du bundle déployé>",
+
+    // …et la LECTURE FOURNISSEUR qui l'atteste, datée, dans le bon projet.
+    "readback": {
+      "source": "supabase-management-api:GET /v1/projects/{ref}/functions/{slug}",
+      "fetchedAt": "2026-11-25T00:30:00Z",
+      "projectRef": "ygvsddcpohsnaowofuwc",
+      "slug": "scpi-evidence-certify",
+      "version": 9,
+      "verifyJwt": false,
+      "entrypointPath": "supabase/functions/scpi-evidence-certify/index.ts",
+      "entrypointSha256": "<= observed.entrypointSha256>",
+      "dependencies": [ { "path": "…", "sha256": "<…>", "bytes": 0 } ],
+      "bundleSha256": "<= observed.bundleSha256>",
+      "configSha256": "<empreinte de CONFIGURATION : projet, slug, version, verify_jwt, entrypointPath>"
+    }
   },
 
   // 2. CIBLE DE ROLLBACK : le bundle d'AVANT migration, distinct du bundle déployé.
@@ -147,7 +162,7 @@ Contenu attendu de l'attestation (toutes les affirmations sont recoupées avec l
 
 ```jsonc
 {
-  "schemaVersion": "rollback-attestation-v2",
+  "schemaVersion": "rollback-attestation-v3",
   "function": "…",
   "stage": "…",                       // = evidence.stage
   "observedBundleSha256": "…",        // = observed.bundleSha256
@@ -158,6 +173,13 @@ Contenu attendu de l'attestation (toutes les affirmations sont recoupées avec l
   "restoredBundleSha256": "…",        // = restoreDrill.restoredBundleSha256
   "restoreDestination": "…",          // = restoreDrill.destination
   "restoreResult": "PASS",            // = restoreDrill.result
+  // Identité COMPLÈTE : un SHA de code ne prouve pas la configuration.
+  "projectRef": "ygvsddcpohsnaowofuwc", // = observed.readback.projectRef
+  "observedVersion": 9,               // = observed.version
+  "observedVerifyJwt": false,         // = observed.verifyJwt
+  "observedConfigSha256": "…",        // = observed.readback.configSha256
+  "readbackSource": "…",              // = observed.readback.source
+  "readbackFetchedAt": "…",           // = observed.readback.fetchedAt
   "verifier": "…",                    // = attestation.verifier
   "verifierIdentity": "…",            // ≠ restoreDrill.performedBy, ET dans l'ancre
   "operator": "…",                    // = restoreDrill.performedBy
@@ -173,7 +195,46 @@ Contenu attendu de l'attestation (toutes les affirmations sont recoupées avec l
 ```
 
 Le message signé est exactement l'empreinte canonique `attestationSha256` : signer et
-vérifier portent donc sur le même octet.
+vérifier portent donc sur le même octet. **La signature couvre le projet cible, la version,
+`verify_jwt` et l'empreinte de configuration**, pas seulement le SHA du code : le contrôle
+du 25/11 a établi qu'« une égalité de SHA de code seule ne prouve pas l'égalité de
+configuration ».
+
+## Readback fournisseur : la seule pièce qui dise ce que la prod contient
+
+`observed` ne doit **jamais** être recopié du registre du dépôt : ce serait comparer une
+croyance à elle-même. Le bloc `observed.readback` est produit par une **lecture réelle** :
+
+```bash
+# Lecture seule, aucune écriture, aucun secret sur la ligne de commande.
+SUPABASE_ACCESS_TOKEN=… node scripts/security/collectReadback.mjs \
+  --function scpi-evidence-certify
+# Aligne `observed` sur la lecture, sans toucher au reste de l'évidence :
+SUPABASE_ACCESS_TOKEN=… node scripts/security/collectReadback.mjs \
+  --function scpi-evidence-certify --merge scripts/security/prod-bundles/scpi-evidence-certify.json
+node scripts/security/collectReadback.mjs --list   # périmètre, sans appel réseau
+```
+
+Le jeton n'est lu que dans `SUPABASE_ACCESS_TOKEN`, jamais en argument (il apparaîtrait
+dans `ps` et l'historique). Le script n'écrit aucun fichier par défaut et n'invente aucune
+valeur : sans jeton ou sans réponse exploitable, il échoue en nommant le motif.
+
+Codes bloquants du readback :
+
+| Code | Signification |
+|------|---------------|
+| `MISSING_observed_readback` | `observed` n'est attesté par aucune lecture |
+| `READBACK_WRONG_PROJECT` | la lecture porte sur un autre projet que `ygvsddcpohsnaowofuwc` |
+| `READBACK_OTHER_FUNCTION` | la lecture décrit une autre fonction |
+| `READBACK_SOURCE_NOT_PROVIDER` | la source n'est pas une lecture fournisseur |
+| `READBACK_DISAGREES_WITH_OBSERVED_*` | `observed` contredit la lecture |
+| `READBACK_DISAGREES_WITH_REGISTRY` | la lecture contredit l'état constaté au registre |
+| `READBACK_CONFIG_SHA256_MISMATCH` | `configSha256` ne lie pas les champs déclarés |
+| `READBACK_STALE_OR_AFTER_VERIFICATION` | lecture périmée (> 24 h) ou postérieure à `verifiedAt` |
+
+La **fraîcheur** est mesurée contre l'`attestation.verifiedAt` signé, jamais contre
+l'horloge du CI : une évidence commitée reste ainsi reproductible, et `--check` signale un
+vrai défaut au lieu de vieillir.
 
 ## Règles (toutes bloquantes)
 
@@ -183,6 +244,10 @@ vérifier portent donc sur le même octet.
   doit jamais y être publié, seulement des empreintes et des pointeurs.
 - **Des empreintes seules ne suffisent jamais.** Sans bloc `custody`, le rollback échoue en
   `MISSING_custody` ; avec `holdsRestorableArtifact: false`, en `CUSTODY_NOT_RESTORABLE`.
+- **`observed` doit venir d'un readback fournisseur.** Sans bloc `readback`, l'évidence
+  échoue en `MISSING_observed_readback` ; une lecture d'un autre projet échoue en
+  `READBACK_WRONG_PROJECT`. Comparer `observed` au registre statique du dépôt ne prouve
+  rien : c'est une croyance confrontée à elle-même.
 - **La cible restaurée doit être le bundle d'avant migration — sauf préparation.**
   Pour une fonction **déjà migrée** (`stage: POST_DEPLOY`), `observed.bundleSha256` égal à
   `rollbackTarget.bundleSha256` est refusé (`ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE`) ; une
@@ -229,3 +294,42 @@ node scripts/security/edgeFunctionDeploymentManifest.mjs --check
 L'état attendu aujourd'hui est `rollbackReady = 0/16` : aucune garde, aucune restauration et
 aucune attestation n'ont encore été produites hors dépôt. C'est le résultat correct, pas un
 défaut d'outillage.
+
+---
+
+## Correction du lot 9 : « le registre n'est pas la production »
+
+Le contrôle indépendant du 25/11 (#issuecomment-7172607601) a validé le principe du lot 9
+mais relevé un défaut de fond, et demandé d'arrêter les itérations de schéma sans preuve
+opérationnelle :
+
+> « Le gate commonProof compare notamment version et verifyJwt au registre statique : avant
+> intervention, recouper également l'identité complète du bundle et la configuration avec le
+> readback fournisseur frais ; la signature doit couvrir ou lier ces éléments et le projet
+> cible. Une égalité de SHA de code seule ne prouve pas l'égalité de configuration. »
+
+Trois corrections (schéma v3) :
+
+7. **Le readback fournisseur remplace la comparaison au registre.** `observed.readback`
+   porte `projectRef`, `slug`, `version`, `verifyJwt`, les empreintes de code **et**
+   `configSha256`. Une évidence sans lecture fournisseur reste fermée
+   (`MISSING_observed_readback`), et une lecture d'un autre projet est refusée
+   (`READBACK_WRONG_PROJECT`).
+8. **La configuration est liée séparément du code.** `configSha256` couvre projet, slug,
+   version, `verify_jwt` et chemin d'entrypoint : deux bundles au code identique mais à la
+   configuration différente produisent des empreintes différentes. Une empreinte recalculée
+   qui ne correspond pas aux champs déclarés échoue en `READBACK_CONFIG_SHA256_MISMATCH`.
+9. **La signature couvre l'identité complète.** `rollback-attestation-v3` exige
+   `projectRef`, `observedVersion`, `observedVerifyJwt`, `observedConfigSha256`,
+   `readbackSource` et `readbackFetchedAt`. Une attestation signée qui n'affirme pas le
+   projet échoue en `MISSING_attestation_claim_projectRef` ; une attestation qui affirme un
+   autre projet échoue en `ATTESTATION_CLAIM_MISMATCH_projectRef`.
+
+**Collecte réelle, pas de valeur inventée.** `scripts/security/collectReadback.mjs` lit la
+fonction déployée (API de management, lecture seule) et produit le bloc `readback`. Il ne
+déploie rien, n'écrit rien par défaut et échoue explicitement plutôt que de renseigner un
+champ qu'il n'a pas lu.
+
+**Aucune clé n'est provisionnée** : `rollbackVerifierTrustAnchor.json` porte toujours
+`keyId: null` / `publicKeyPem: null`. Le gate reste donc fermé mécaniquement, et le
+provisionnement de l'ancre est un acte du contrôle indépendant, sur une référence protégée.

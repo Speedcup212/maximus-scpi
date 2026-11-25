@@ -446,14 +446,22 @@ Chaque fonction porte désormais une évidence à cinq blocs :
 ```jsonc
 // scripts/security/prod-bundles/<fonction>.json  (un fichier par fonction)
 {
-  "schemaVersion": "security-prod-evidence-v2",
+  "schemaVersion": "security-prod-evidence-v3",
   "stage": "POST_DEPLOY",           // PRE_DEPLOY (pas encore migrée) | POST_DEPLOY (migrée)
   "function": "scpi-evidence-certify",
   "observed": {                     // 1. ce qui est déployé MAINTENANT
     "version": 9, "verifyJwt": false,
     "entrypointSha256": "…64 hex…",
     "dependencies": [ { "path": "…", "sha256": "…64 hex…", "bytes": 0 } ],
-    "bundleSha256": "…64 hex…"
+    "bundleSha256": "…64 hex…",
+    "readback": {                   // lecture FOURNISSEUR datée (voir §2.7.6)
+      "source": "supabase-management-api:GET /v1/projects/{ref}/functions/{slug}",
+      "fetchedAt": "…ISO…", "projectRef": "ygvsddcpohsnaowofuwc",
+      "slug": "scpi-evidence-certify", "version": 9, "verifyJwt": false,
+      "entrypointSha256": "= observed.entrypointSha256",
+      "bundleSha256": "= observed.bundleSha256",
+      "configSha256": "…empreinte de CONFIGURATION (projet, slug, version, verify_jwt, entrypointPath)…"
+    }
   },
   "rollbackTarget": {               // 2. le bundle d'AVANT migration (≠ observed)
     "phase": "PRE_MIGRATION",
@@ -482,7 +490,7 @@ Chaque fonction porte désormais une évidence à cinq blocs :
     "restoredBundleSha256": "= rollbackTarget.bundleSha256"
   },
   "attestation": {                  // 5. vérification indépendante SIGNÉE (lue hors dépôt)
-    "schemaVersion": "rollback-attestation-v2",
+    "schemaVersion": "rollback-attestation-v3",
     "verifier": "<contrôle indépendant>",
     "verifierIdentity": "<≠ restoreDrill.performedBy, ET dans l'ancre>",
     "attestationSha256": "<sha256 canonique des affirmations>",
@@ -578,6 +586,67 @@ sur la liste triée `chemin + empreinte`). C'est la canonique qui doit figurer d
 Pour les fonctions **déjà migrées** (les 6 `DEPLOYED`), la cible reste le véritable bundle
 **antérieur à leur migration** : leur `stage` est `POST_DEPLOY` et `observed ≠ rollbackTarget`
 y est exigé.
+
+#### 2.7.6 Readback fournisseur : le registre du dépôt n'est pas la production
+
+Contrôle indépendant du 25/11 (#issuecomment-7172607601), après validation du principe du
+lot 9 :
+
+> « Le gate commonProof compare notamment version et verifyJwt au registre statique : avant
+> intervention, recouper également l'identité complète du bundle et la configuration avec le
+> readback fournisseur frais ; la signature doit couvrir ou lier ces éléments et le projet
+> cible. Une égalité de SHA de code seule ne prouve pas l'égalité de configuration. »
+
+**Le défaut.** `commonProof` comparait `observed.version` / `observed.verifyJwt` à
+`fn.prodVersion` / `fn.prodVerifyJwt`, c'est-à-dire au **registre statique du dépôt**. Une
+évidence recopiant ce registre « tombait juste » par construction : le gate confrontait une
+croyance à elle-même, sans jamais lire la production.
+
+**La correction (schéma `security-prod-evidence-v3`).** Le bloc `observed.readback` est
+désormais exigé. Il porte le projet cible, le slug, la version, `verify_jwt`, les empreintes
+de code **et** une empreinte de configuration `configSha256` qui couvre
+`(projectRef, slug, version, verifyJwt, entrypointPath)`. Trois propriétés sont vérifiées
+séparément :
+
+| Propriété | Exigence | Code si absent/faux |
+|---|---|---|
+| Provenance | lecture fournisseur, pas une ressaisie | `MISSING_observed_readback`, `READBACK_SOURCE_NOT_PROVIDER` |
+| Projet cible | `ygvsddcpohsnaowofuwc`, la fonction elle-même | `READBACK_WRONG_PROJECT`, `READBACK_OTHER_FUNCTION` |
+| Accord | readback = `observed` = registre | `READBACK_DISAGREES_WITH_OBSERVED_*`, `READBACK_DISAGREES_WITH_REGISTRY` |
+| Configuration | `configSha256` recalcule les champs déclarés | `READBACK_CONFIG_SHA256_MISMATCH` |
+| Fraîcheur | ≤ 24 h avant `attestation.verifiedAt` signé | `READBACK_STALE_OR_AFTER_VERIFICATION` |
+
+La fraîcheur est mesurée contre le `verifiedAt` **signé**, jamais contre l'horloge du CI :
+une évidence commitée reste reproductible et `--check` continue de signaler un vrai défaut
+au lieu de vieillir.
+
+**La signature couvre l'identité complète.** `rollback-attestation-v3` exige en plus
+`projectRef`, `observedVersion`, `observedVerifyJwt`, `observedConfigSha256`,
+`readbackSource` et `readbackFetchedAt`. Une attestation signée qui n'affirme pas le projet
+échoue en `MISSING_attestation_claim_projectRef` ; une attestation qui affirme un autre
+projet échoue en `ATTESTATION_CLAIM_MISMATCH_projectRef`.
+
+**Collecte réelle, aucune valeur inventée.** `scripts/security/collectReadback.mjs` lit la
+fonction déployée en lecture seule et produit le bloc `readback` :
+
+```bash
+node scripts/security/collectReadback.mjs --list            # périmètre, aucun réseau
+SUPABASE_ACCESS_TOKEN=… node scripts/security/collectReadback.mjs \
+  --function scpi-certified-promote                          # readback seul
+SUPABASE_ACCESS_TOKEN=… node scripts/security/collectReadback.mjs \
+  --function scpi-certified-promote --merge <évidence.json>  # observed réaligné
+```
+
+Le jeton n'est lu que dans l'environnement (jamais en argument, où il apparaîtrait dans
+`ps`), n'est jamais émis dans la sortie, et le script échoue explicitement
+(`SUPABASE_ACCESS_TOKEN_MISSING`, `READBACK_PAYLOAD_WITHOUT_*`, `READBACK_HTTP_<statut>`)
+plutôt que de renseigner un champ qu'il n'a pas lu.
+
+**État du gate : inchangé et correct.** `preDeployReady = 0/16`, `postDeployReady = 0/16`,
+`rollbackReady = 0/16`, `revocationAllowed = false`, `violations = []`. Aucune clé publique
+n'est provisionnée dans l'ancre : le gate reste fermé mécaniquement. Le provisionnement de
+l'ancre et la signature relèvent du contrôle indépendant, sur une référence protégée — ce
+n'est pas un acte de l'opérateur.
 
 ### 2.8 `scpi-certified-promote` — patch clé uniquement (drift métier à ne PAS embarquer)
 

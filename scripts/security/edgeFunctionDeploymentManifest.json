@@ -1,5 +1,5 @@
 {
-  "version": "security-edge-manifest-v3",
+  "version": "security-edge-manifest-v4",
   "counts": {
     "initialPerimeter": 16,
     "deployed": 6,

@@ -36,10 +36,32 @@ export const REPO_ROOT = resolve(HERE, '..', '..');
 export const FUNCTIONS_DIR = join(REPO_ROOT, 'supabase', 'functions');
 export const LEDGER_PATH = join(HERE, 'edgeFunctionDeploymentManifest.json');
 
-export const MANIFEST_VERSION = 'security-edge-manifest-v3';
-export const EVIDENCE_SCHEMA_VERSION = 'security-prod-evidence-v2';
-export const ATTESTATION_SCHEMA_VERSION = 'rollback-attestation-v2';
+export const MANIFEST_VERSION = 'security-edge-manifest-v4';
+export const EVIDENCE_SCHEMA_VERSION = 'security-prod-evidence-v3';
+export const ATTESTATION_SCHEMA_VERSION = 'rollback-attestation-v3';
 export const TRUST_ANCHOR_SCHEMA_VERSION = 'rollback-verifier-anchor-v1';
+
+/**
+ * Projet Supabase de production. Une évidence qui décrit un autre projet ne prouve rien
+ * sur celui qu'on migre : le readback porte donc son `projectRef`, comparé à cette valeur.
+ */
+export const PRODUCTION_PROJECT_REF = 'ygvsddcpohsnaowofuwc';
+
+/**
+ * Ancienneté maximale d'un readback fournisseur par rapport à l'instant où le contrôle
+ * indépendant l'a vérifié.
+ *
+ * La fraîcheur est mesurée contre `attestation.verifiedAt`, **jamais contre l'horloge du
+ * CI** : une évidence commitée doit rester reproductible, sinon `--check` deviendrait faux
+ * avec le temps au lieu de signaler un vrai défaut.
+ */
+export const MAX_READBACK_AGE_MS = 24 * 60 * 60 * 1000;
+
+/** Sources de readback admises : une lecture fournisseur, jamais une ressaisie manuelle. */
+export const READBACK_SOURCES = Object.freeze([
+  'supabase-management-api:GET /v1/projects/{ref}/functions/{slug}',
+  'supabase-cli:functions download --project-ref {ref}',
+]);
 
 /**
  * Ancre de confiance des attestations — **chemin figé dans le dépôt**, jamais pris dans
@@ -423,7 +445,21 @@ export const PROD_BUNDLE_EVIDENCE_SCHEMA = Object.freeze({
    * refuse un stage incohérent avec l'état réel de la fonction.
    */
   stages: ['PRE_DEPLOY', 'POST_DEPLOY'],
-  observedFields: ['version', 'verifyJwt', 'entrypointSha256', 'dependencies', 'bundleSha256'],
+  observedFields: ['version', 'verifyJwt', 'entrypointSha256', 'dependencies', 'bundleSha256', 'readback'],
+  /**
+   * Readback fournisseur : la seule source qui dise ce que la prod contient *maintenant*.
+   *
+   * Un `observed` recopié depuis le registre du dépôt ne prouve rien : il compare une
+   * croyance à elle-même. Le readback est donc une lecture provider datée, portant le
+   * **projet cible** et une empreinte de **configuration** en plus du code — le contrôle
+   * du 25/11 a établi qu'une égalité de SHA de code ne prouve pas l'égalité de configuration.
+   */
+  readbackFields: [
+    'source', 'fetchedAt', 'projectRef', 'slug', 'version', 'verifyJwt',
+    'entrypointPath', 'entrypointSha256', 'dependencies', 'bundleSha256', 'configSha256',
+  ],
+  /** Ce que la configuration couvre, et qui n'est pas du code. */
+  readbackConfigFields: ['projectRef', 'slug', 'version', 'verifyJwt', 'entrypointPath'],
   rollbackTargetFields: [
     'phase', 'version', 'verifyJwt', 'entrypointSha256', 'dependencies', 'bundleSha256',
   ],
@@ -449,11 +485,19 @@ export const PROD_BUNDLE_EVIDENCE_SCHEMA = Object.freeze({
   rollbackPhases: ['PRE_MIGRATION'],
 });
 
-/** Ce que l'attestation externe doit affirmer, et que l'évidence doit recouper. */
+/**
+ * Ce que l'attestation externe doit affirmer, et que l'évidence doit recouper.
+ *
+ * Le contrôle du 25/11 a établi qu'« une égalité de SHA de code seule ne prouve pas
+ * l'égalité de configuration » : la signature couvre donc aussi le **projet cible**, la
+ * **configuration** observée et l'**identité du readback** qui l'a produite.
+ */
 export const ATTESTATION_REQUIRED_CLAIMS = Object.freeze([
   'schemaVersion', 'function', 'stage', 'observedBundleSha256', 'rollbackTargetBundleSha256',
   'custodyArtifactSha256', 'custodyArtifactRef', 'restoreJournalSha256',
   'restoredBundleSha256', 'restoreDestination', 'restoreResult',
+  'projectRef', 'observedVersion', 'observedVerifyJwt', 'observedConfigSha256',
+  'readbackSource', 'readbackFetchedAt',
   'verifier', 'verifierIdentity', 'operator', 'independentOfOperator', 'verifiedAt',
 ]);
 
@@ -472,6 +516,24 @@ function bundleFingerprint(entries) {
     .map((e) => `${e.path}\n${e.sha256 ?? 'MISSING'}\n`)
     .join('');
   return createHash('sha256').update(lines).digest('hex');
+}
+
+/**
+ * Empreinte de **configuration** d'un bundle déployé, distincte de son empreinte de code.
+ *
+ * Le contrôle du 25/11 : « une égalité de SHA de code seule ne prouve pas l'égalité de
+ * configuration ». Deux bundles au code identique peuvent tourner avec un `verify_jwt`
+ * différent, dans un autre projet, sous une autre version : ce sont ces champs — et eux
+ * seuls — que `configSha256` lie, pour que la signature les couvre explicitement.
+ *
+ * @param {{projectRef: string, slug: string, version: number|string, verifyJwt: boolean, entrypointPath?: string}} config
+ * @returns {string} SHA-256 hexadécimal canonique.
+ */
+export function readbackConfigSha256(config) {
+  const picked = Object.fromEntries(
+    PROD_BUNDLE_EVIDENCE_SCHEMA.readbackConfigFields.map((f) => [f, config?.[f] ?? null]),
+  );
+  return canonicalJsonSha256(picked);
 }
 
 /** Résolution des empreintes de dépôt pour une fonction du périmètre. */
@@ -754,6 +816,9 @@ export function crossCheckAttestation(evidence, attestation, anchor = readTrustA
   }
 
   // Recoupement champ par champ : l'attestation doit confirmer l'évidence, pas la doubler.
+  // Les affirmations portent aussi l'identité COMPLÈTE du bundle : projet cible, version,
+  // verify_jwt, empreinte de configuration et readback qui les a constatés. Une signature
+  // qui ne couvrirait que le SHA de code laisserait changer la configuration sans la voir.
   const expect = {
     function: evidence.function,
     stage: evidence.stage,
@@ -765,6 +830,12 @@ export function crossCheckAttestation(evidence, attestation, anchor = readTrustA
     restoredBundleSha256: evidence.restoreDrill?.restoredBundleSha256,
     restoreDestination: evidence.restoreDrill?.destination,
     restoreResult: evidence.restoreDrill?.result,
+    projectRef: evidence.observed?.readback?.projectRef,
+    observedVersion: evidence.observed?.version,
+    observedVerifyJwt: evidence.observed?.verifyJwt,
+    observedConfigSha256: evidence.observed?.readback?.configSha256,
+    readbackSource: evidence.observed?.readback?.source,
+    readbackFetchedAt: evidence.observed?.readback?.fetchedAt,
     operator: evidence.restoreDrill?.performedBy,
     verifier: evidence.attestation?.verifier,
   };
@@ -776,6 +847,76 @@ export function crossCheckAttestation(evidence, attestation, anchor = readTrustA
     errors.push('BAD_attestation_verifiedAt');
   }
   if (requiredFields.length === 0) errors.push('SCHEMA_EMPTY');
+  return errors;
+}
+
+/**
+ * Valide le bloc `readback` : la lecture fournisseur qui atteste ce que la production
+ * contient réellement, dans le bon projet, à l'instant daté.
+ *
+ * Trois défauts sont refusés ici, tous relevés par le contrôle indépendant du 25/11 :
+ *
+ *  1. **Comparer le registre à lui-même.** Sans readback, `observed.version` /
+ *     `observed.verifyJwt` recopiaient le registre statique du dépôt : le gate ne comparait
+ *     qu'une croyance à elle-même (`commonProof` recoupait `fn.prodVersion`).
+ *  2. **Oublier le projet cible.** Une évidence décrivant un autre projet que celui qu'on
+ *     migre ne prouve rien sur la migration réelle (`READBACK_WRONG_PROJECT`).
+ *  3. **Prendre l'égalité du code pour l'égalité de configuration.** `configSha256` lie
+ *     version, `verify_jwt`, slug, projet et chemin d'entrypoint ; une empreinte
+ *     recalculée qui ne correspond pas au contenu déclaré est refusée.
+ *
+ * @param {object} observed Bloc `observed` de l'évidence.
+ * @param {string} evidenceFunction Nom de fonction déclaré par l'évidence.
+ * @returns {string[]} Codes d'erreur (vide = readback exploitable).
+ */
+export function validateReadback(observed, evidenceFunction) {
+  const errors = [];
+  const rb = observed?.readback;
+  if (!rb || typeof rb !== 'object') return ['MISSING_observed_readback'];
+
+  for (const f of PROD_BUNDLE_EVIDENCE_SCHEMA.readbackFields) {
+    if (!(f in rb)) errors.push(`MISSING_readback_${f}`);
+  }
+  if (errors.length > 0) return errors;
+
+  if (!READBACK_SOURCES.some((s) => typeof rb.source === 'string' && rb.source.startsWith(s.split('{')[0].trim()))) {
+    errors.push('READBACK_SOURCE_NOT_PROVIDER');
+  }
+  if (typeof rb.fetchedAt !== 'string' || Number.isNaN(Date.parse(rb.fetchedAt))) {
+    errors.push('BAD_readback_fetchedAt');
+  }
+  if (rb.projectRef !== PRODUCTION_PROJECT_REF) errors.push('READBACK_WRONG_PROJECT');
+  if (rb.slug !== evidenceFunction) errors.push('READBACK_OTHER_FUNCTION');
+  if (!Number.isInteger(rb.version) || rb.version <= 0) errors.push('BAD_readback_version');
+  if (typeof rb.verifyJwt !== 'boolean') errors.push('BAD_readback_verifyJwt');
+  for (const [key, code] of [
+    ['entrypointSha256', 'BAD_readback_entrypointSha256'],
+    ['bundleSha256', 'BAD_readback_bundleSha256'],
+    ['configSha256', 'BAD_readback_configSha256'],
+  ]) {
+    if (!HEX64.test(rb[key])) errors.push(code);
+  }
+  checkDependencies(rb.dependencies, errors, 'readback');
+
+  // Le readback n'est pas un commentaire : il doit décrire le MÊME objet que `observed`.
+  // Sans cette égalité, on pourrait lire la prod d'un côté et déclarer autre chose de l'autre.
+  for (const field of ['version', 'verifyJwt', 'entrypointSha256', 'bundleSha256']) {
+    if (field in observed && rb[field] !== observed[field]) {
+      errors.push(`READBACK_DISAGREES_WITH_OBSERVED_${field}`);
+    }
+  }
+
+  // L'empreinte de configuration doit correspondre aux champs qu'elle prétend couvrir.
+  if (HEX64.test(rb.configSha256 ?? '')) {
+    const recomputed = readbackConfigSha256({
+      projectRef: rb.projectRef,
+      slug: rb.slug,
+      version: rb.version,
+      verifyJwt: rb.verifyJwt,
+      entrypointPath: rb.entrypointPath ?? null,
+    });
+    if (recomputed !== rb.configSha256) errors.push('READBACK_CONFIG_SHA256_MISMATCH');
+  }
   return errors;
 }
 
@@ -814,6 +955,8 @@ export function validateProdEvidence(evidence) {
       hexField(o, 'entrypointSha256', 'BAD_observed_entrypointSha256');
       hexField(o, 'bundleSha256', 'BAD_observed_bundleSha256');
       checkDependencies(o.dependencies, errors, 'observed');
+      // L'identité observée ne vaut que si un readback fournisseur la confirme.
+      errors.push(...validateReadback(o, evidence.function));
     }
   }
 
@@ -981,13 +1124,56 @@ export function buildManifest(
       && evidence.observed.bundleSha256 !== evidence.rollbackTarget?.bundleSha256,
     );
 
+    // Le readback est la seule pièce qui dise ce que la prod contient *maintenant*. Il doit
+    // se recouper avec le registre (une lecture qui contredit le registre n'est pas
+    // exploitable), être postérieur au constat qu'il soutient et assez récent pour que le
+    // contrôle indépendant l'ait vu, et lier la configuration que la signature couvre.
+    //
+    // La fraîcheur se mesure contre le `verifiedAt` de l'**attestation signée**, jamais
+    // contre `evidence.attestation` (un stub déclaratif) ni contre l'horloge du CI : une
+    // évidence commitée doit rester reproductible, sinon `--check` deviendrait faux avec le
+    // temps au lieu de signaler un défaut réel.
+    const readback = evidence?.observed?.readback ?? null;
+    // Le readback doit confirmer le registre. Pour une fonction pas encore déployée, le
+    // registre ne connaît aucune version (`prodVersion: null`) et aucun readback ne peut
+    // exister : la readiness reste donc hors d'atteinte, ce qui est l'état correct — on ne
+    // prépare pas la restauration d'un bundle qui n'a jamais tourné.
+    const readbackMatchesRegistry = Boolean(readback
+      && readback.version === fn.prodVersion
+      && readback.verifyJwt === fn.prodVerifyJwt
+      && readback.slug === fn.name
+      && readback.projectRef === PRODUCTION_PROJECT_REF);
+    const verifiedAtMs = Date.parse(attestation.attestation?.verifiedAt ?? '');
+    const readbackMs = Date.parse(readback?.fetchedAt ?? '');
+    const readbackFresh = Boolean(
+      Number.isFinite(readbackMs)
+      && Number.isFinite(verifiedAtMs)
+      && readbackMs <= verifiedAtMs
+      && verifiedAtMs - readbackMs <= MAX_READBACK_AGE_MS,
+    );
+    const readbackConfigBound = Boolean(
+      readback && HEX64.test(readback.configSha256 ?? '')
+      && readback.configSha256 === readbackConfigSha256({
+        projectRef: readback.projectRef,
+        slug: readback.slug,
+        version: readback.version,
+        verifyJwt: readback.verifyJwt,
+        entrypointPath: readback.entrypointPath ?? null,
+      }),
+    );
+
     const commonProof = evidence
       && evidenceErrors.length === 0
       && attestationErrors.length === 0
       && signatureVerified
       && stageMatchesDeployState
+      // L'identité vient du **readback fournisseur**, pas du registre du dépôt : comparer
+      // `observed` au registre statique reviendrait à confronter une croyance à elle-même.
       && evidence.observed.version === fn.prodVersion
       && evidence.observed.verifyJwt === fn.prodVerifyJwt
+      && readbackMatchesRegistry
+      && readbackFresh
+      && readbackConfigBound
       && overridesComplete
       && custodyRestorable
       && drillPassed;
@@ -1030,6 +1216,19 @@ export function buildManifest(
         prodVerifyJwtSeen: evidence?.observed?.verifyJwt ?? null,
         prodEntrypointSha256: evidence?.observed?.entrypointSha256 ?? null,
         prodBundleSha256: evidence?.observed?.bundleSha256 ?? null,
+        readback: {
+          present: Boolean(evidence?.observed?.readback),
+          source: evidence?.observed?.readback?.source ?? null,
+          fetchedAt: evidence?.observed?.readback?.fetchedAt ?? null,
+          projectRef: evidence?.observed?.readback?.projectRef ?? null,
+          version: evidence?.observed?.readback?.version ?? null,
+          verifyJwt: evidence?.observed?.readback?.verifyJwt ?? null,
+          bundleSha256: evidence?.observed?.readback?.bundleSha256 ?? null,
+          configSha256: evidence?.observed?.readback?.configSha256 ?? null,
+          matchesRegistry: readbackMatchesRegistry,
+          fresh: readbackFresh,
+          configBound: readbackConfigBound,
+        },
         evidenceErrors,
         attestationErrors,
         attestationSource: attestation.source,
@@ -1075,15 +1274,23 @@ export function buildManifest(
                 ? 'ATTESTATION_SIGNATURE_NOT_VERIFIED'
                 : !stageMatchesDeployState
                   ? 'EVIDENCE_STAGE_MISMATCH'
-                  : !overridesComplete
-                    ? 'PROD_DEPENDENCY_FINGERPRINT_MISSING'
-                    : !custodyRestorable
-                      ? 'CUSTODY_NOT_RESTORABLE'
-                      : !drillPassed
-                        ? 'RESTORE_DRILL_NOT_PASSED'
-                        : fn.deployState === 'DEPLOYED' && !targetsDistinct
-                          ? 'ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE'
-                          : 'PROD_BUNDLE_EVIDENCE_INCONSISTENT',
+                  : !readback
+                    ? 'MISSING_observed_readback'
+                    : !readbackMatchesRegistry
+                      ? 'READBACK_DISAGREES_WITH_REGISTRY'
+                      : !readbackConfigBound
+                        ? 'READBACK_CONFIG_NOT_BOUND'
+                        : !readbackFresh
+                          ? 'READBACK_STALE_OR_AFTER_VERIFICATION'
+                          : !overridesComplete
+                            ? 'PROD_DEPENDENCY_FINGERPRINT_MISSING'
+                            : !custodyRestorable
+                              ? 'CUSTODY_NOT_RESTORABLE'
+                              : !drillPassed
+                                ? 'RESTORE_DRILL_NOT_PASSED'
+                                : fn.deployState === 'DEPLOYED' && !targetsDistinct
+                                  ? 'ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE'
+                                  : 'PROD_BUNDLE_EVIDENCE_INCONSISTENT',
       },
       notes: fn.notes ?? null,
     };
@@ -1172,6 +1379,20 @@ export function validateManifest(manifest) {
       }
       if (!f.rollback.stageMatchesDeployState) {
         v('ROLLBACK_READY_WITH_STAGE_MISMATCH', f.name);
+      }
+      // Une identité comparée au registre du dépôt ne prouve rien sur la production :
+      // sans readback fournisseur frais et lié à la configuration, rien n'est prêt.
+      if (!f.rollback.readback?.present) {
+        v('ROLLBACK_READY_WITHOUT_PROVIDER_READBACK', f.name);
+      }
+      if (!f.rollback.readback?.matchesRegistry) {
+        v('ROLLBACK_READY_WITH_READBACK_REGISTRY_MISMATCH', f.name);
+      }
+      if (!f.rollback.readback?.fresh) {
+        v('ROLLBACK_READY_WITH_STALE_READBACK', f.name);
+      }
+      if (!f.rollback.readback?.configBound) {
+        v('ROLLBACK_READY_WITHOUT_CONFIG_BINDING', f.name);
       }
       // Une fonction déjà migrée ne peut pas désigner son propre bundle comme cible.
       if (f.deployState === 'DEPLOYED' && f.rollback.rollbackTarget?.equalsObserved) {
