@@ -94,13 +94,14 @@ succès des appels.
 | `scpi-bulletin-watch` | ✅ déployée (25/11) | v107→v108 | `sourceProvenance.mjs` prod conservé |
 | `scpi-annual-safe-extract` | ✅ déployée (25/11) | v11→v12 | — |
 | `scpi-annual-report-backfill` | ✅ déployée (25/11) | v10→v11 | — |
-| 7 fonctions backend restantes (§2.3) | ⏳ en attente ChatGPT | — | `--no-verify-jwt` (voir manifeste §2.7) |
-| `scpi-certified-promote` | ⚠️ **patch clé uniquement requis** | v12 (prod) | drift métier « garde prix » (§2.8) |
+| 7 fonctions backend restantes (§2.7.3) | ⏳ en attente | — | `--no-verify-jwt` |
+| `scpi-certified-promote` | ⚠️ **patch clé uniquement requis** | v12 (prod) | outillé et vérifié (§2.8) |
 | `sender-add-contact` / `send-lead-notification` | ⏳ lot coordonné (§2.1) | — | avec swap anon frontend |
-| 4 fonctions orphelines consommant la clé legacy (§0.1) | ❌ à migrer avant révocation | — | réintégration fidèle au dépôt (§0.3) |
+| 5 fonctions sans source dans le dépôt | ❌ à réintégrer avant révocation | — | hors périmètre (§2.7.2) |
 
-**Avancement : 6/16 du périmètre initial déployées** (5 ayant passé les tests positifs
-disponibles), plus 4 consommateurs legacy hors périmètre (§0.1).
+**Avancement réconcilié (vérifié par test, §2.7.1) : 6 déployées + 7 restantes + 1 patch
+clé-seule + 2 lot coordonné = 16/16 du périmètre initial**, plus **5** consommateurs/proches
+hors périmètre qui bloquent la révocation (§2.7.2).
 
 ---
 
@@ -335,76 +336,171 @@ de clé + import) et `_shared/serviceKey.ts` instrumenté diffèrent du v8.
    déployées). Comparer d'abord, décider ensuite.
 3. Toute évolution du matcher relève d'un chantier distinct, hors migration des clés.
 
-### 2.7 Manifeste des 7 fonctions backend restantes (à déployer par ChatGPT)
+### 2.7 Manifeste machine-vérifiable : périmètre réconcilié, rollback exact, preuve par fonction
 
-Toutes sont déjà **migrées** dans le dépôt (`main` @ `675ab161` / branche `74e87e93`) :
-5 via `readServiceKey`, 2 OIDC en résolution **inline** équivalente (`SUPABASE_SECRET_KEYS`
-d'abord, repli legacy). Toutes `verify_jwt=false` en prod, à **conserver** via
-`--no-verify-jwt`. Le module `_shared/serviceKey.ts` instrumenté (`[key-source]`) doit être
-inclus dans chaque bundle (option A, épinglée au SHA `74e87e93`).
+Le manifeste n'est plus un tableau en prose : il est **calculé depuis les sources du dépôt**
+par `scripts/security/edgeFunctionDeploymentManifest.mjs`, validé par 21 tests
+(`scripts/security/edgeFunctionDeploymentManifest.test.mjs`) et **bloquant en CI**.
 
-| Fonction | Source clé | Auth interne | Test positif attendu | Test négatif attendu |
-|---|---|---|---|---|
-| `calendly-webhook` | `readServiceKey` | HMAC Calendly (`calendly-webhook-signature`) | HMAC valide → 200 | HMAC invalide/absent → 401 |
-| `send-simulation-email` | `readServiceKey` | contrôles serveur (request_id UUID, <15 min, ≤3/24 h) | request_id valide → 200 | request_id invalide → 400/429 |
-| `scpi-release-certification-oidc` | `readServiceKey` | OIDC GitHub (aud `maximus-scpi-release-certification-…`) | token OIDC valide → 200 | sans/pseudo token → 401/403 |
-| `scpi-corum-document-oidc` | `readServiceKey` | OIDC GitHub (aud `maximus-corum-documents-…`) | token OIDC valide → 200 | sans/pseudo token → 401/403 |
-| `scpi-bulletin-replay-oidc` | `readServiceKey` | OIDC GitHub (aud `maximus-scpi-bulletin-replay-…`) | token OIDC valide → 200 | sans/pseudo token → 401/403 |
-| `maximus-agent-audit-oidc` | inline `serviceKey()` (`SUPABASE_SECRET_KEYS`→legacy) | OIDC GitHub (aud `maximus-parallel-audit-…`) ; DB `SUPABASE_DB_URL` | token OIDC valide → 200 | sans/pseudo token → 401/403 |
-| `maximus-scpi-ocr-oidc` | inline (`SUPABASE_SECRET_KEYS`→legacy) | OIDC GitHub (aud `maximus-scpi-ocr-…`) ; DB `SUPABASE_DB_URL` | token OIDC valide → 200 | sans/pseudo token → 401/403 |
+```bash
+node --test scripts/security/edgeFunctionDeploymentManifest.test.mjs
+node scripts/security/edgeFunctionDeploymentManifest.mjs --check   # échoue si dérive
+```
 
-Commande générique :
+#### 2.7.1 Décompte réconcilié (16 = 6 + 7 + 1 + 2)
+
+Le contrôle indépendant du 25/11 signalait un décompte incohérent (« 6/16 + 7 + 1 = 14 »).
+La réconciliation est désormais **explicite et testée** :
+
+| État | Nombre | Fonctions |
+|---|---|---|
+| `DEPLOYED` | **6** | `scpi-source-link-inspect` v12, `scpi-evidence-certify` v9, `scpi-news-watch` v18, `scpi-bulletin-watch` v108, `scpi-annual-safe-extract` v12, `scpi-annual-report-backfill` v11 |
+| `PENDING_DEPLOY` | **7** | `calendly-webhook`, `send-simulation-email`, `scpi-release-certification-oidc`, `scpi-corum-document-oidc`, `scpi-bulletin-replay-oidc`, `maximus-agent-audit-oidc`, `maximus-scpi-ocr-oidc` |
+| `PENDING_KEY_ONLY_PATCH` | **1** | `scpi-certified-promote` (§2.8) |
+| `PENDING_COORDINATED_LOT` | **2** | `send-lead-notification`, `sender-add-contact` (§2.1) |
+| **Total périmètre initial** | **16** | — |
+
+**Les deux fonctions qui manquaient au décompte** sont précisément les deux du **lot lead
+coordonné** (`send-lead-notification`, `sender-add-contact`) : elles n'étaient comptées ni
+dans « déployées », ni dans « 7 restantes », ni dans le patch. Elles ne peuvent pas être
+déployées seules (elles exigent le swap anon simultané), d'où un état distinct plutôt qu'une
+ligne dans « restantes ».
+
+#### 2.7.2 Périmètre vs hors périmètre (ne plus mélanger)
+
+Les 4 consommateurs legacy « hors dépôt » et 5 autres fonctions ne font **pas** partie des 16
+et sont classés séparément dans le manifeste :
+
+| Fonction | Raison | Bloque la révocation |
+|---|---|---|
+| `scpi-parallel-backfill-worker` | `SOURCE_ABSENT_FROM_REPO` | ✅ oui |
+| `scpi-parallel-discover-worker` | `SOURCE_ABSENT_FROM_REPO` | ✅ oui |
+| `scpi-annual-source-discover` | `SOURCE_ABSENT_FROM_REPO` | ✅ oui |
+| `scpi-norma-quarterly-ingest` | `SOURCE_ABSENT_FROM_REPO` | ✅ oui |
+| `maximus-watchdog-oidc` | `SOURCE_ABSENT_FROM_REPO` (dépendances `SUPABASE_DB_URL` à confirmer) | ✅ oui |
+| `scpi-scoring` | `NOT_DEPLOYED_NOT_CALLED` | ❌ non |
+| `maximus-search-agent-oidc` | `UNCHANGED_BY_MIGRATION` | ❌ non |
+| `client-access-admin` | `VERIFY_JWT_USER_SESSION` | ❌ non |
+| `client-surveillance` | `VERIFY_JWT_USER_SESSION` | ❌ non |
+
+Un test échoue si une fonction figure à la fois dans le périmètre et hors périmètre, ou si
+une fonction sans source dans le dépôt ne bloque pas la révocation.
+
+#### 2.7.3 Preuve par fonction (les logs agrégés ne suffisent pas)
+
+Chaque fonction porte dans le manifeste son **mécanisme d'authentification interne**, son
+**test positif attendu**, son **test négatif attendu**, et le **filtre de log** qui prouve
+**sa** résolution de clé :
+
+| Fonction | Résolution attendue (log) | Test positif | Test négatif |
+|---|---|---|---|
+| `calendly-webhook` | `[key-source] … SUPABASE_SECRET_KEYS (name=scpi_agents)` | HMAC valide → 200 | HMAC absent/invalide → 401 |
+| `send-simulation-email` | idem | request_id valide → 200 | request_id invalide → 400/429 |
+| `scpi-release-certification-oidc` | idem | token OIDC valide → 200 | sans/pseudo token → 401/403 |
+| `scpi-corum-document-oidc` | idem | token OIDC valide → 200 | sans/pseudo token → 401/403 |
+| `scpi-bulletin-replay-oidc` | idem | token OIDC valide → 200 | sans/pseudo token → 401/403 |
+| `maximus-agent-audit-oidc` | résolution inline (`SUPABASE_SECRET_KEYS`→legacy) | token OIDC valide → 200 | sans/pseudo token → 401/403 |
+| `maximus-scpi-ocr-oidc` | résolution inline | token OIDC valide → 200 | sans/pseudo token → 401/403 |
+
+**Règle de preuve** : un déploiement n'est déclaré « clé prouvée » que si le log de **cette**
+fonction (filtré par son nom dans `function_edge_logs`) montre la résolution
+`SUPABASE_SECRET_KEYS` **et zéro** `repli legacy` **dans la même fenêtre**, plus un test
+positif et un test négatif de cette fonction. Un agrégat multi-fonctions ne vaut pas preuve.
 
 ```bash
 supabase functions deploy <fn> --no-verify-jwt --project-ref ygvsddcpohsnaowofuwc
 ```
 
 **Contrôles par déploiement** : version incrémentée ; `verify_jwt=false` conservé ; readback
-du bundle exact vs source épinglée ; log `[key-source]` = résolution `SUPABASE_SECRET_KEYS`,
-**0 repli legacy** ; compteur strict 69/69 après chaque lot.
+du bundle exact vs source épinglée ; log `[key-source]` **de la fonction** ; compteur strict
+69/69 après chaque lot.
 
-**Rollback** : `git checkout dfc6b309 -- supabase/functions/<fn>` puis redéployer
-`--no-verify-jwt` (préserve `false`). Pour les 2 OIDC inline, la source `dfc6b309` est
-identique à la prod observée (seule la résolution de clé change) — rollback sûr.
+#### 2.7.4 Rollback exact — condition `ready` calculée, pas déclarative
+
+Le contrôle indépendant a invalidé le rollback « `git checkout dfc6b309` » seul. Le
+manifeste exige désormais, **pour chaque fonction**, une évidence du **bundle réellement
+déployé** :
+
+```jsonc
+// scripts/security/prod-bundles/<fonction>.json  (un fichier par fonction)
+{
+  "function": "scpi-evidence-certify",
+  "version": 9,                 // version constatée en production
+  "verifyJwt": false,           // état verify_jwt constaté
+  "entrypointSha256": "…64 hex…",
+  "dependencies": [ { "path": "…", "sha256": "…64 hex…", "bytes": 0 } ],
+  "bundleSha256": "…64 hex…"
+}
+```
+
+Règles appliquées par le manifeste :
+
+1. `rollback.ready` n'est **jamais** vrai sans fichier d'évidence de production.
+2. La `version` et le `verifyJwt` de l'évidence doivent **correspondre** à ce que le registre
+   a constaté en prod — une évidence pour une autre version est rejetée.
+3. Les dépendances de prod dont l'empreinte manque (`matcher.mjs` pour
+   `scpi-evidence-certify`, `sourceProvenance.mjs` pour `scpi-bulletin-watch`) maintiennent
+   `ready = false` avec `PROD_DEPENDENCY_FINGERPRINT_MISSING`.
+4. Une fonction encore `PENDING_*` ne peut pas avoir un rollback `ready` (test bloquant).
+5. `revocationAllowed` exige : **0** fonction hors périmètre bloquante, **16/16**
+   `DEPLOYED`, et **16/16** rollback `ready`. Aujourd'hui : `false`.
+
+Un fichier d'évidence est refusé s'il contient une valeur assimilable à une clé
+(`sb_secret_*`, `sb_publishable_*`, JWT `eyJ…`) — test dédié.
+
+**État actuel : `rollbackReady = 0/16`, `revocationAllowed = false`.** C'est le résultat
+attendu : le rollback exact dépend d'une lecture de production que seul le connecteur
+fournit, et cette lecture n'a pas encore été consignée pour les 16 fonctions.
 
 ### 2.8 `scpi-certified-promote` — patch clé uniquement (drift métier à ne PAS embarquer)
 
-**Drift constaté (ChatGPT 25/11)** : le code du dépôt (`main` @ `675ab161`, via `2f99beb1`)
-contient une **modification métier de contrôle des prix** absente du bundle prod v12 : la
-garde `WITHDRAWAL_MISLABELLED_AS_SUBSCRIPTION` (comparaison `prix_souscription` vs
+**Drift constaté (ChatGPT 25/11)** : le code du dépôt (`main` @ `675ab161`) contient une
+**modification métier de contrôle des prix** absente du bundle prod v12 : la garde
+`WITHDRAWAL_MISLABELLED_AS_SUBSCRIPTION` (comparaison `prix_souscription` vs
 `prix_retrait` vs anciens) et les contrôles `CAPITALISATION_PARTS_MISMATCH`,
 `MATERIAL_TOF_QA_REQUIRED`, `TOF_OUT_OF_RANGE`, `DEBT_OUT_OF_RANGE`, `FORBIDDEN_ASPIM_TOF`.
 Le bundle prod v12 ne les porte pas.
 
-**Patch à appliquer (par ChatGPT, sur le bundle prod v12 lu via `get_edge_function`)** —
-**exclusivement** la résolution de clé, sans toucher au code métier live :
+**Précision d'attribution (vérifiée 25/11)** : ces gardes sont **déjà présentes dans
+`dfc6b309`** (dernier `main` avant #457) — `git show dfc6b309:…/scpi-certified-promote/index.ts`
+contient les 6 marqueurs. Le drift est donc **dépôt ↔ production**, et **non** introduit par
+la PR #457. La PR #457 n'a modifié ce fichier qu'à hauteur de **2 lignes** (import +
+résolution de clé), ce que la CI vérifie désormais à l'octet près.
 
-1. Ajouter l'import après la ligne `createClient` :
-   ```ts
-   import { readServiceKey } from "../_shared/serviceKey.ts";
-   ```
-2. Remplacer :
-   ```ts
-   const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
-   ```
-   par :
-   ```ts
-   const key = readServiceKey((k) => Deno.env.get(k), "scpi_agents");
-   ```
-3. Inclure `_shared/serviceKey.ts` instrumenté dans le bundle.
+**Patch outillé et vérifié** — `scripts/security/applyKeyOnlyPatch.mjs` applique ce patch
+sur le **bundle prod réellement déployé** (jamais sur le fichier du dépôt) et **refuse**
+toute autre modification :
 
-**Le diff de la PR #457 sur ce fichier est exactement ces 2 lignes** (voir
-`git show 675ab161 -- supabase/functions/scpi-certified-promote/index.ts`) — c'est la preuve
-que le patch clé ne touche aucun contrôle métier. Ne **pas** déployer le `index.ts` complet
-du dépôt (il embarquerait le drift métier).
+```bash
+# 1. Sauvegarder le bundle prod v12 lu via get_edge_function (hors dépôt).
+# 2. Prévisualiser le patch (n'écrit rien).
+node scripts/security/applyKeyOnlyPatch.mjs --source <prod-v12.ts> --diff
+# 3. Produire le bundle patché + son rapport de changements.
+node scripts/security/applyKeyOnlyPatch.mjs --source <prod-v12.ts> --out <patched.ts> \
+  --report <report.json>
+```
 
-**Rollback** : restaurer le bundle prod v12 (récupéré avant patch) — `index.ts` de
-`dfc6b309` correspond au v12 pour la partie métier (vérifier readback), `matcher`/dépendances
-de prod conservés.
+Garanties codées (tests `scripts/security/applyKeyOnlyPatch.test.mjs`, 14 PASS) :
 
-**À réconcilier séparément (hors migration)** : documenter le drift `2f99beb1` et décider,
-hors chemin critique, si la « garde prix » doit être déployée (chantier distinct, avec tests
-métier dédiés).
+| Garde-fou | Comportement |
+|---|---|
+| Source vide | `EMPTY_SOURCE` (refus) |
+| Déjà patché (contient `readServiceKey`) | `ALREADY_PATCHED` (refus) |
+| Aucune résolution legacy reconnue | `LEGACY_RESOLUTION_NOT_FOUND` (refus) |
+| Plusieurs résolutions legacy | `AMBIGUOUS_LEGACY_RESOLUTION` (refus, aucun choix arbitraire) |
+| Toute autre ligne modifiée | `UNAUTHORIZED_EDIT` (refus) |
+| Ligne insérée/supprimée hors import | `UNEXPECTED_LINE_DELTA` (refus) |
+| Fidélité au diff #457 | appliqué à `dfc6b309`, le patch reproduit **à l'octet près** `675ab161` |
+
+Les tests vérifient aussi qu'**aucune** des 6 gardes financières n'est introduite par le
+patch, et qu'aucune valeur de clé n'y apparaît.
+
+**Rollback** : restaurer le bundle prod v12 (sauvegardé avant patch). La source de vérité
+est le bundle déployé, pas un commit — voir §2.7 pour la condition `ready`.
+
+**À réconcilier séparément (hors migration)** : décider, hors chemin critique, si les 6
+gardes financières du dépôt doivent être déployées (chantier distinct, avec tests métier
+dédiés). Rien n'est déployé ici à ce titre.
 
 ### 3.0 État réel de production : aucun trigger pg_net actif
 

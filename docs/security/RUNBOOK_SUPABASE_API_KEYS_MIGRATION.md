@@ -53,6 +53,13 @@ Ils consomment `secrets.SUPABASE_SERVICE_ROLE_KEY` et `secrets.VITE_SUPABASE_ANO
 
 ## 3. Modifications de code déjà effectuées (branche `security/api-key-migration-20261124`)
 
+> **Manifeste machine-vérifiable** : le périmètre, les états par fonction, la condition de
+> rollback exact et la preuve de résolution de clé par fonction sont désormais calculés et
+> testés en CI par `scripts/security/edgeFunctionDeploymentManifest.mjs`
+> (+ `edgeFunctionDeploymentManifest.test.mjs`, `handoffManifestConsistency.test.mjs`).
+> Voir le handoff §2.7. `node scripts/security/edgeFunctionDeploymentManifest.mjs --check`
+> échoue dès que le registre commité dérive des sources.
+
 ### 3.1 Frontend — suppression des `Authorization: Bearer <anon>`
 
 Nouveau helper : `src/utils/supabaseAuthHeaders.ts` (`restHeaders`, `functionHeaders`)
