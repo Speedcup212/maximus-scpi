@@ -427,6 +427,44 @@ sur la clé legacy).
 8. Tests réels leads / Calendly / simulateurs / comparateur / connexions / agents.
 9. Révocation des anciennes clés **en dernier**, après validation complète et retrait des replis (§7.5).
 
+### 6.1 Manifeste du swap anon frontend (préparé, non exécuté)
+
+Le frontend lit **exclusivement** `import.meta.env.VITE_SUPABASE_ANON_KEY` (jamais
+`VITE_SUPABASE_ANON_KEY_NEW`). Le swap vers la clé publishable est donc un **repoint de
+variable de build Netlify**, pas un changement de code : faire pointer
+`VITE_SUPABASE_ANON_KEY` sur la valeur de la clé publishable (rollback = repoint vers la
+valeur legacy). `VITE_SUPABASE_ANON_KEY_NEW` sert de copie de bascule et n'est **pas**
+câblée dans le code frontend.
+
+Consommateurs frontend (runtime navigateur) :
+
+| Fichier | Usage | Compatible clé publishable (`apikey`) |
+|---|---|---|
+| `src/lib/supabase.ts` | client Supabase principal (PostgREST + Auth) | ✅ (PostgREST accepte `sb_publishable_*`) |
+| `src/utils/supabaseRest.ts` | helper REST | ✅ |
+| `src/utils/leadTracker.ts` | `fetch` → `send-lead-notification` | ⚠️ requiert `verify_jwt=false` + `SUPABASE_PUBLISHABLE_KEYS` |
+| `src/components/OptimizedScpiLandingPage.tsx` | `fetch` → `sender-add-contact` | ⚠️ requiert `verify_jwt=false` |
+| `src/components/OptimizedThematicLandingPage.tsx` | `fetch` → `sender-add-contact` | ⚠️ requiert `verify_jwt=false` |
+| `src/utils/scpiScoringService.ts` | `fetch` → `scpi-scoring` | n/a (fonction non déployée, non appelée) |
+| `public/merci-landing-page.calendly.html` | placeholder `VITE_SUPABASE_ANON_KEY_PLACEHOLDER` injecté par `scripts/inject-env-vars.js` | ✅ (replace string simple, non JWT) |
+
+**Point critique d'ordre** : `sender-add-contact` et `send-lead-notification` sont
+actuellement `verify_jwt=true` en production. Une clé publishable (non JWT) envoyée en
+`apikey` y est **rejetée** par la plateforme tant que `verify_jwt=true`. Le swap anon
+frontend ne peut donc se faire qu'**après** (ou atomiquement avec) le basculement de ces
+deux fonctions en `verify_jwt=false` + injection de `SUPABASE_PUBLISHABLE_KEYS`.
+
+**Ordre du lot coordonné (swap anon)** :
+1. ChatGPT déploie `sender-add-contact` + `send-lead-notification` en `--no-verify-jwt`
+   avec `SUPABASE_PUBLISHABLE_KEYS`/`SUPABASE_SECRET_KEYS` injectées (§2.1).
+2. Netlify : repoint `VITE_SUPABASE_ANON_KEY` = clé publishable (le `_NEW` déjà créé).
+3. Redéploiement frontend ; vérifier leads (Resend+Brevo), comparateur, simulateurs, Calendly.
+4. Contrôle 69/69.
+
+> `client-access-admin` / `client-surveillance` (`verify_jwt=true`, session utilisateur)
+> ne sont pas impactées par le swap anon : elles s'authentifient via le JWT utilisateur,
+> la clé anon n'y joue qu'en `apikey`.
+
 ---
 
 ## 7. Consommateurs résiduels de la clé legacy `SUPABASE_SERVICE_ROLE_KEY`
