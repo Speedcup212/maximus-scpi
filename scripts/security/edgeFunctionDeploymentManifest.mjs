@@ -359,11 +359,37 @@ const OUT_OF_PERIMETER = [
   },
 ];
 
-/** Empreintes de référence du bundle de production, à compléter par la source de vérité. */
+/**
+ * Évidence de production d'une fonction.
+ *
+ * Une empreinte est une **identité**, pas une **sauvegarde**. Constater le SHA-256 d'un
+ * bundle déployé ne permet pas de le restaurer : le contenu n'est pas conservé. Le rollback
+ * n'est donc déclaré `ready` que si l'évidence porte, en plus des empreintes :
+ *
+ *  - une preuve de **garde** (`custody`) : un artefact restaurable réellement conservé,
+ *    identifié par un pointeur hors dépôt et son empreinte ;
+ *  - une preuve de **restauration testée** (`restoreDrill`) : une restauration effectuée
+ *    hors production qui a reproduit l'entrypoint ET le bundle d'origine.
+ *
+ * Aucun de ces champs ne doit contenir de valeur de clé, de jeton ou de contenu de source.
+ */
 export const PROD_BUNDLE_EVIDENCE_SCHEMA = Object.freeze({
-  requiredFields: ['function', 'version', 'verifyJwt', 'entrypointSha256', 'dependencies', 'bundleSha256'],
+  requiredFields: [
+    'function', 'version', 'verifyJwt', 'entrypointSha256', 'dependencies', 'bundleSha256',
+    'custody', 'restoreDrill',
+  ],
   dependencyFields: ['path', 'sha256', 'bytes'],
+  custodyFields: ['artifactRef', 'artifactSha256', 'owner', 'holdsRestorableArtifact'],
+  restoreDrillFields: [
+    'performedAt', 'performedBy', 'result', 'destination',
+    'restoredEntrypointSha256', 'restoredBundleSha256',
+  ],
+  /** Une restauration ne se prouve jamais sur la production elle-même. */
+  restoreDestinations: ['staging-non-prod', 'local-replay', 'disposable-project'],
+  restoreResults: ['PASS', 'FAIL'],
 });
+
+const HEX64 = /^[0-9a-f]{64}$/;
 
 function sha256File(relPath) {
   const abs = join(FUNCTIONS_DIR, relPath);
@@ -428,17 +454,21 @@ export function readProdEvidence(name) {
   }
 }
 
-/** Vérifie la forme de l'évidence de production (aucune valeur de clé n'y figure). */
+/**
+ * Vérifie la forme de l'évidence de production (aucune valeur de clé n'y figure) et,
+ * surtout, que l'évidence prouve une **restauration possible** et non seulement l'identité
+ * du bundle. Des empreintes seules ne constituent jamais une sauvegarde restaurable.
+ */
 export function validateProdEvidence(evidence) {
   const errors = [];
   if (!evidence || typeof evidence !== 'object') return ['NOT_AN_OBJECT'];
   for (const field of PROD_BUNDLE_EVIDENCE_SCHEMA.requiredFields) {
     if (!(field in evidence)) errors.push(`MISSING_${field}`);
   }
-  if (typeof evidence.bundleSha256 === 'string' && !/^[0-9a-f]{64}$/.test(evidence.bundleSha256)) {
+  if ('bundleSha256' in evidence && !HEX64.test(evidence.bundleSha256)) {
     errors.push('BAD_bundleSha256');
   }
-  if (typeof evidence.entrypointSha256 === 'string' && !/^[0-9a-f]{64}$/.test(evidence.entrypointSha256)) {
+  if ('entrypointSha256' in evidence && !HEX64.test(evidence.entrypointSha256)) {
     errors.push('BAD_entrypointSha256');
   }
   if (Array.isArray(evidence.dependencies)) {
@@ -449,6 +479,51 @@ export function validateProdEvidence(evidence) {
     }
   } else if ('dependencies' in evidence) {
     errors.push('BAD_dependencies');
+  }
+
+  // Garde de l'artefact : sans artefact conservé, aucune restauration n'est possible.
+  if ('custody' in evidence) {
+    const c = evidence.custody;
+    if (!c || typeof c !== 'object') {
+      errors.push('BAD_custody');
+    } else {
+      for (const f of PROD_BUNDLE_EVIDENCE_SCHEMA.custodyFields) {
+        if (!(f in c)) errors.push(`MISSING_custody_${f}`);
+      }
+      if ('artifactSha256' in c && !HEX64.test(c.artifactSha256)) {
+        errors.push('BAD_custody_artifactSha256');
+      }
+      if ('holdsRestorableArtifact' in c && c.holdsRestorableArtifact !== true) {
+        errors.push('CUSTODY_NOT_RESTORABLE');
+      }
+      if ('artifactRef' in c && (typeof c.artifactRef !== 'string' || c.artifactRef.trim() === '')) {
+        errors.push('BAD_custody_artifactRef');
+      }
+    }
+  }
+
+  // Restauration réellement effectuée, hors production, et reproduisant les empreintes.
+  if ('restoreDrill' in evidence) {
+    const r = evidence.restoreDrill;
+    if (!r || typeof r !== 'object') {
+      errors.push('BAD_restoreDrill');
+    } else {
+      for (const f of PROD_BUNDLE_EVIDENCE_SCHEMA.restoreDrillFields) {
+        if (!(f in r)) errors.push(`MISSING_restoreDrill_${f}`);
+      }
+      if (!PROD_BUNDLE_EVIDENCE_SCHEMA.restoreDestinations.includes(r.destination)) {
+        errors.push('RESTORE_DRILL_ON_PRODUCTION');
+      }
+      if (!PROD_BUNDLE_EVIDENCE_SCHEMA.restoreResults.includes(r.result)) {
+        errors.push('BAD_restoreDrill_result');
+      }
+      if ('restoredEntrypointSha256' in r && r.restoredEntrypointSha256 !== evidence.entrypointSha256) {
+        errors.push('RESTORE_DRILL_ENTRYPOINT_MISMATCH');
+      }
+      if ('restoredBundleSha256' in r && r.restoredBundleSha256 !== evidence.bundleSha256) {
+        errors.push('RESTORE_DRILL_BUNDLE_MISMATCH');
+      }
+    }
   }
   return errors;
 }
@@ -478,12 +553,18 @@ export function buildManifest(prodEvidence = readProdEvidence) {
     const overridesComplete = Object.values(overrides).every(
       (o) => typeof o.sha256 === 'string' && o.sha256.length === 64,
     );
+    // Un rollback n'est restaurable que si l'évidence démontre la garde d'un artefact ET
+    // une restauration testée. Des empreintes seules ne restaurent rien.
+    const custodyRestorable = evidence?.custody?.holdsRestorableArtifact === true;
+    const drillPassed = evidence?.restoreDrill?.result === 'PASS';
     const rollbackReady = Boolean(
       evidence
         && evidenceErrors.length === 0
         && evidence.version === fn.prodVersion
         && evidence.verifyJwt === fn.prodVerifyJwt
-        && overridesComplete,
+        && overridesComplete
+        && custodyRestorable
+        && drillPassed,
     );
 
     return {
@@ -508,13 +589,26 @@ export function buildManifest(prodEvidence = readProdEvidence) {
       })),
       undeclaredImports,
       rollback: {
-        strategy: 'RESTORE_PROD_BUNDLE',
+        strategy: 'RESTORE_CUSTODIED_PROD_BUNDLE',
         prodEvidencePresent: Boolean(evidence),
         prodVersionSeen: evidence?.version ?? null,
         prodVerifyJwtSeen: evidence?.verifyJwt ?? null,
         prodEntrypointSha256: evidence?.entrypointSha256 ?? null,
         prodBundleSha256: evidence?.bundleSha256 ?? null,
         evidenceErrors,
+        // Identité constatée ≠ sauvegarde. Ces deux preuves sont exigées séparément.
+        custodyProof: {
+          artifactRef: evidence?.custody?.artifactRef ?? null,
+          artifactSha256: evidence?.custody?.artifactSha256 ?? null,
+          holdsRestorableArtifact: evidence?.custody?.holdsRestorableArtifact === true,
+        },
+        restoreDrill: {
+          performedAt: evidence?.restoreDrill?.performedAt ?? null,
+          performedBy: evidence?.restoreDrill?.performedBy ?? null,
+          destination: evidence?.restoreDrill?.destination ?? null,
+          result: evidence?.restoreDrill?.result ?? null,
+        },
+        fingerprintsOnly: !evidence?.custody && !evidence?.restoreDrill,
         ready: rollbackReady,
         blockingReason: rollbackReady
           ? null
@@ -522,7 +616,11 @@ export function buildManifest(prodEvidence = readProdEvidence) {
             ? evidenceErrors[0]
             : !overridesComplete
               ? 'PROD_DEPENDENCY_FINGERPRINT_MISSING'
-              : 'PROD_BUNDLE_EVIDENCE_INCONSISTENT',
+              : !custodyRestorable
+                ? 'CUSTODY_NOT_RESTORABLE'
+                : !drillPassed
+                  ? 'RESTORE_DRILL_NOT_PASSED'
+                  : 'PROD_BUNDLE_EVIDENCE_INCONSISTENT',
       },
       notes: fn.notes ?? null,
     };
@@ -581,6 +679,16 @@ export function validateManifest(manifest) {
     }
     if (f.deployState !== 'DEPLOYED' && f.rollback.ready) {
       v('ROLLBACK_READY_BEFORE_DEPLOY', f.name);
+    }
+    // Défense en profondeur : même si l'évidence passait la validation de forme, un
+    // rollback ne peut pas être `ready` sans garde d'artefact ET restauration testée.
+    if (f.rollback.ready) {
+      if (!f.rollback.custodyProof?.holdsRestorableArtifact) {
+        v('ROLLBACK_READY_WITHOUT_CUSTODY', f.name);
+      }
+      if (f.rollback.restoreDrill?.result !== 'PASS') {
+        v('ROLLBACK_READY_WITHOUT_RESTORE_DRILL', f.name);
+      }
     }
     if (f.deployGuard === 'NEVER_DEPLOY_REPO_ENTRYPOINT_VERBATIM'
       && !f.repoDrift.length && !f.entrypointDrift) {

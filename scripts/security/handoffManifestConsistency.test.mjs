@@ -52,6 +52,23 @@ test('le handoff documente la condition d évidence du bundle de production', ()
   assert.match(doc, /entrypointSha256/);
 });
 
+test('le handoff affirme qu une empreinte n est pas une sauvegarde restaurable', () => {
+  const doc = handoff().replace(/\s+/g, ' ');
+  assert.match(doc, /empreinte est une \*\*identité\*\*, pas une \*\*sauvegarde\*\*/);
+  assert.match(doc, /holdsRestorableArtifact/);
+  assert.match(doc, /restoreDrill/);
+  assert.match(doc, /RESTORE_DRILL_ON_PRODUCTION/);
+  assert.match(doc, /ROLLBACK_READY_WITHOUT_CUSTODY/);
+  assert.match(doc, /ROLLBACK_READY_WITHOUT_RESTORE_DRILL/);
+  assert.match(doc, /restaurable/);
+});
+
+test('le handoff interdit de publier des bundles bruts dans un dépôt public', () => {
+  const doc = handoff();
+  assert.match(doc, /dépôt étant \*\*public\*\*/);
+  assert.match(doc, /aucun bundle brut/i);
+});
+
 test('le handoff outille le patch scpi-certified-promote et le déclare vérifié', () => {
   const doc = handoff();
   assert.match(doc, /applyKeyOnlyPatch\.mjs/);

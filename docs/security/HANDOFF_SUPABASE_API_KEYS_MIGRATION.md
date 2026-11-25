@@ -415,11 +415,13 @@ supabase functions deploy <fn> --no-verify-jwt --project-ref ygvsddcpohsnaowofuw
 du bundle exact vs source épinglée ; log `[key-source]` **de la fonction** ; compteur strict
 69/69 après chaque lot.
 
-#### 2.7.4 Rollback exact — condition `ready` calculée, pas déclarative
+#### 2.7.4 Rollback exact **et restaurable** — condition `ready` calculée, pas déclarative
 
-Le contrôle indépendant a invalidé le rollback « `git checkout dfc6b309` » seul. Le
-manifeste exige désormais, **pour chaque fonction**, une évidence du **bundle réellement
-déployé** :
+Le contrôle indépendant a invalidé deux choses successivement : le rollback
+« `git checkout dfc6b309` » seul, puis l'idée qu'une **empreinte** suffirait. Une empreinte
+est une **identité**, pas une **sauvegarde** : elle identifie un bundle sans permettre de le
+restaurer, et aucune restauration n'est prouvée. Le manifeste exige donc, **pour chaque
+fonction**, une évidence qui réunit trois preuves distinctes :
 
 ```jsonc
 // scripts/security/prod-bundles/<fonction>.json  (un fichier par fonction)
@@ -429,7 +431,25 @@ déployé** :
   "verifyJwt": false,           // état verify_jwt constaté
   "entrypointSha256": "…64 hex…",
   "dependencies": [ { "path": "…", "sha256": "…64 hex…", "bytes": 0 } ],
-  "bundleSha256": "…64 hex…"
+  "bundleSha256": "…64 hex…",
+
+  // 2. GARDE : l'artefact restaurable existe réellement, hors dépôt.
+  "custody": {
+    "artifactRef": "…pointeur hors dépôt…",
+    "artifactSha256": "…64 hex…",
+    "owner": "<responsable de la garde>",
+    "holdsRestorableArtifact": true
+  },
+
+  // 3. RESTAURATION TESTÉE hors production, reproduisant l'identité constatée.
+  "restoreDrill": {
+    "performedAt": "2026-11-25T00:00:00Z",
+    "performedBy": "<opérateur ou job>",
+    "destination": "staging-non-prod",  // staging-non-prod | local-replay | disposable-project
+    "result": "PASS",
+    "restoredEntrypointSha256": "…doit égaler entrypointSha256…",
+    "restoredBundleSha256": "…doit égaler bundleSha256…"
+  }
 }
 ```
 
@@ -441,12 +461,25 @@ Règles appliquées par le manifeste :
 3. Les dépendances de prod dont l'empreinte manque (`matcher.mjs` pour
    `scpi-evidence-certify`, `sourceProvenance.mjs` pour `scpi-bulletin-watch`) maintiennent
    `ready = false` avec `PROD_DEPENDENCY_FINGERPRINT_MISSING`.
-4. Une fonction encore `PENDING_*` ne peut pas avoir un rollback `ready` (test bloquant).
-5. `revocationAllowed` exige : **0** fonction hors périmètre bloquante, **16/16**
+4. **Une empreinte seule ne suffit jamais.** Sans bloc `custody` :
+   `blockingReason = MISSING_custody` ; avec `holdsRestorableArtifact: false` :
+   `CUSTODY_NOT_RESTORABLE`.
+5. **Une restauration doit être exercée, et hors production.** `destination: "production"`
+   est refusé (`RESTORE_DRILL_ON_PRODUCTION`) ; `result` autre que `PASS` bloque
+   (`RESTORE_DRILL_NOT_PASSED`) ; une empreinte restaurée différente de l'empreinte
+   constatée est refusée (`RESTORE_DRILL_ENTRYPOINT_MISMATCH`,
+   `RESTORE_DRILL_BUNDLE_MISMATCH`).
+6. Défense en profondeur : même si une évidence passait la validation de forme,
+   `validateManifest` refuse un rollback `ready` sans garde (`ROLLBACK_READY_WITHOUT_CUSTODY`)
+   ou sans restauration réussie (`ROLLBACK_READY_WITHOUT_RESTORE_DRILL`).
+7. Une fonction encore `PENDING_*` ne peut pas avoir un rollback `ready` (test bloquant).
+8. `revocationAllowed` exige : **0** fonction hors périmètre bloquante, **16/16**
    `DEPLOYED`, et **16/16** rollback `ready`. Aujourd'hui : `false`.
 
 Un fichier d'évidence est refusé s'il contient une valeur assimilable à une clé
-(`sb_secret_*`, `sb_publishable_*`, JWT `eyJ…`) — test dédié.
+(`sb_secret_*`, `sb_publishable_*`, JWT `eyJ…`) — test dédié. Le dépôt étant **public**,
+aucun bundle brut ni contenu de source n'y est publié : uniquement empreintes et pointeurs
+de garde.
 
 **État actuel : `rollbackReady = 0/16`, `revocationAllowed = false`.** C'est le résultat
 attendu : le rollback exact dépend d'une lecture de production que seul le connecteur
