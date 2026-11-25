@@ -300,8 +300,10 @@ Edge Function qui ne sait pas encore la lire :
    supabase functions deploy scpi-scoring          --no-verify-jwt --project-ref ygvsddcpohsnaowofuwc
    ```
    > `--no-verify-jwt` impose `legacyJwt=false` : la garde est la SEULE auth (fail-closed).
-2. **Vérifier** que `sender-add-contact` accepte une clé secrète (curl smoke test) et rejette
-   une clé publishable (401/503).
+2. **Vérifier** (curl smoke test) que `sender-add-contact` **accepte** une clé publishable
+   **et** une clé secrète (`requireApiKey` = publishable OU secret), et **rejette** une clé
+   inconnue (401) / l'absence de clé configurée (503 fail-closed). Ne pas désactiver la garde
+   sans vérifier la protection applicative et les refus effectifs.
 3. **Appliquer la migration Vault** (2a) — désormais la clé `pgnet_webhooks` envoyée par
    pg_net sera acceptée par `sender-add-contact`.
 4. **Réactiver le trigger pg_net** uniquement si le flux est réutilisé (actuellement absent).

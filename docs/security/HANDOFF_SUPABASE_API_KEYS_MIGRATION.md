@@ -18,8 +18,8 @@ les fonctions ne sont pas à `verify_jwt=false`** comme l'affirmait la révision
 | GitHub OIDC | **false** | `jwtVerify` OIDC (issuer GitHub, audience + `workflow_ref` + `repository_id` épinglés) |
 | Webhook Calendly | **false** | HMAC-SHA256 `calendly-webhook-signature` (`CALENDLY_WEBHOOK_SIGNING_KEY`) |
 | `send-simulation-email` | **false** | contrôles serveur (request_id UUID, <15 min, ≤3/24 h, champs bornés) |
-| **`sender-add-contact`** | **true** (constaté ChatGPT 24/11) | actuellement appelé avec la clé anon **legacy** (JWT) ; la garde `requireApiKey` (`legacyJwt:false`) n'est **pas encore** déployée en prod |
-| `send-lead-notification` | à confirmer via `functions list` | idem : à basculer en coordination avec le frontend |
+| **`sender-add-contact`** | **true** (v7, constaté ChatGPT 24-25/11) | prod lit encore directement la clé legacy ; la garde `requireApiKey` (`legacyJwt:false`) n'est **pas encore** déployée en prod |
+| `send-lead-notification` | **false** (v17, constaté ChatGPT 25/11) | prod lit encore directement la clé legacy ; garde `requireApiKey` non déployée |
 | `scpi-scoring` | non déployée | — |
 
 **Conséquence** : pour que le frontend bascule sur la clé publishable `sb_publishable_*`
@@ -44,10 +44,10 @@ Les logs révèlent 5 fonctions **invoquées en production** dont le code n'exis
 
 | Fonction | Dernière version observée | Appelant observé |
 |---|---|---|
-| `scpi-parallel-backfill-worker` | v8 | `pg_net` |
-| `scpi-parallel-discover-worker` | v7 | `pg_net` |
+| `scpi-parallel-backfill-worker` | v8 (logs) / v11 (source) | `pg_net` |
+| `scpi-parallel-discover-worker` | v7 (logs) / v11 (source) | `pg_net` |
 | `scpi-annual-source-discover` | v9 | (non déterminé) |
-| `scpi-norma-quarterly-ingest` | v7 | (non déterminé) |
+| `scpi-norma-quarterly-ingest` | v7 (logs) / v11 (source) | (non déterminé) |
 | `maximus-watchdog-oidc` | v7 | GitHub Actions OIDC (`maximus-watchdog.yml`) |
 
 **Conséquence** : ces fonctions ne sont **pas** modifiables/restaurables depuis le dépôt
@@ -55,6 +55,75 @@ actuel. Leur consommation éventuelle de la clé legacy n'est pas vérifiable sa
 leur source. À **traiter avant révocation** (les identifier via `supabase functions list`
 puis récupérer/archiver leur source), sinon la révocation pourrait les casser sans
 possibilité de rollback depuis le repo.
+
+**Lecture de la source réellement déployée (contrôle ChatGPT 25/11, `get_edge_function`)** :
+
+| Fonction | Consommation de clé (source déployée) | Verdict migration |
+|---|---|---|
+| `scpi-parallel-backfill-worker` (v11) | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
+| `scpi-parallel-discover-worker` (v11) | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
+| `scpi-annual-source-discover` (v9) | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
+| `scpi-norma-quarterly-ingest` (v11) | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
+| `maximus-watchdog-oidc` (v7) | `SUPABASE_DB_URL` (aucune référence directe aux deux familles de clés dans les fichiers récupérés) | ⚠️ vérifier dépendances indirectes |
+
+> **BLOQUANT révocation** : les **4** fonctions `scpi-parallel-backfill-worker`,
+> `scpi-parallel-discover-worker`, `scpi-annual-source-discover`,
+> `scpi-norma-quarterly-ingest` lisent **directement** `SUPABASE_SERVICE_ROLE_KEY` (legacy)
+> et ne passent pas par `readServiceKey`/`SUPABASE_SECRET_KEYS`. Tant qu'elles ne sont pas
+> migrées et testées, **la révocation de la clé legacy est interdite** (elle les casserait
+> sans rollback possible depuis le repo). Leurs sources sont **récupérables** via le
+> connecteur ChatGPT. Réintégration fidèle au dépôt à préparer, avec rollback basé sur les
+> **bundles effectivement déployés** (pas uniquement un ancien commit).
+
+---
+
+### 0.2 État d'avancement du déploiement (journal 25/11)
+
+Exécution Supabase **réservée à ChatGPT** (dérogation de responsabilité ; Cursor conserve
+GitHub/Netlify + tests + manifeste). **Option A retenue (Q2, ChatGPT 25/11)** : épingler le
+code et les dépendances au SHA de la branche validée (`74e87e93`), **sans fusion préalable**
+de #458. Le module partagé `_shared/serviceKey.ts` instrumenté (`[key-source]`) **doit être
+inclus dans chaque bundle déployé** ; un log de résolution ne prouve pas à lui seul le
+succès des appels.
+
+| Fonction | Statut | Version | Notes |
+|---|---|---|---|
+| `scpi-source-link-inspect` | ✅ déployée (24/11) | v12 | `verify_jwt=false` conservé |
+| `scpi-evidence-certify` | ✅ déployée (25/11) | v8→v9 | `verify_jwt=false` conservé ; **drift `matcher.mjs` conservé (voir §2.6)** |
+| 11 fonctions backend restantes (§2.3) | ⏳ en attente ChatGPT | — | `--no-verify-jwt` |
+| `sender-add-contact` / `send-lead-notification` | ⏳ lot coordonné (§2.1) | — | avec swap anon frontend |
+| 4 fonctions orphelines consommant la clé legacy (§0.1) | ❌ à migrer avant révocation | — | réintégration fidèle au dépôt (§0.3) |
+
+---
+
+### 0.3 Plan de réintégration des 5 fonctions orphelines (hors dépôt)
+
+Ces fonctions n'existent **ni** dans `supabase/functions/` **ni** dans l'historique git. Leur
+réintégration est un **prérequis bloquant à la révocation** de la clé legacy (§0.1). Elle se
+fait **fidèlement au dépôt** et **jamais** à l'aveugle : la source réellement déployée sert
+de base de vérité, pas un commit ancien.
+
+**Ordre (exécution Supabase = ChatGPT ; préparation/relecture = Cursor)** :
+
+1. **Récupérer** chaque source via `get_edge_function` (déjà partiellement fait pour
+   l'analyse des clés) et la **committer** dans `supabase/functions/<name>/` (avec ses
+   dépendances locales — `_shared`, fichiers `.mjs` — fidèles au bundle déployé).
+2. **Migrer** la résolution de clé : remplacer toute lecture directe
+   `Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")` par `readServiceKey((k) => Deno.env.get(k), name)`
+   depuis `_shared/serviceKey.ts` (instrumentée `[key-source]`, repli legacy transitoire).
+   Pour `maximus-watchdog-oidc` : auditer les **dépendances indirectes** de `SUPABASE_DB_URL`
+   (aucune famille de clés en lecture directe constatée, à confirmer avant toute action).
+3. **Tester** en positif/négatif : appel authentifié → 200 ; clé manquante/incorrecte →
+   401/503 fail-closed ; aucun repli legacy observé dans les logs (`[key-source]`).
+4. **Redéployer** `--no-verify-jwt` (ou en conservant le `verify_jwt` constaté) et vérifier
+   l'incrément de version.
+5. **Rollback** : basé sur le **bundle effectivement déployé** (récupéré à l'étape 1),
+   pas sur un commit ancien — restaurer le bundle de prod en cas de régression.
+
+> **Règle** : tant que les 4 consommateurs (`scpi-parallel-backfill-worker`,
+> `scpi-parallel-discover-worker`, `scpi-annual-source-discover`,
+> `scpi-norma-quarterly-ingest`) n'ont pas basculé sur `readServiceKey`/`SUPABASE_SECRET_KEYS`
+> **et** été testés en production, **ne pas révoquer** `SUPABASE_SERVICE_ROLE_KEY`.
 
 ---
 
@@ -87,17 +156,21 @@ validation) : c'est une divergence avec l'état décrit et elle doit être tranc
 
 ### 2.1 Fonctions lead avec garde `apikey` (2 fonctions — bascule COORDONNÉE)
 
-Ces 2 fonctions embarquent `requireApiKey` avec `{ legacyJwt: false }`. En production,
-`sender-add-contact` est actuellement `verify_jwt=true` (constaté) : le frontend les
-appelle encore avec la clé anon **legacy** (JWT). Le passage à la clé publishable
-`sb_publishable_*` (non JWT) exige de basculer ces fonctions à `verify_jwt=false` **en
-même temps** que le swap anon frontend — jamais en avance (sinon `verify_jwt=true`
-rejetterait la nouvelle clé) ni en retard.
+Ces 2 fonctions embarquent (dans le repo, post-#457) `requireApiKey` avec `{ legacyJwt: false }`
+et **ne lisent plus** `SUPABASE_SERVICE_ROLE_KEY` (elles n'utilisent que `RESEND_API_KEY` /
+`BREVO_API_KEY`). En production, leurs versions déployées lisent **encore** directement la
+clé legacy. État prod constaté (ChatGPT 25/11) : `sender-add-contact` v7 = `verify_jwt=true`,
+`send-lead-notification` v17 = `verify_jwt=false`. Le passage à la clé publishable
+`sb_publishable_*` (non JWT) exige de **redéployer** ces fonctions avec la garde + les clés
+nouvelles, `sender-add-contact` passant à `verify_jwt=false` **en même temps** que le swap
+anon frontend — jamais en avance (sinon `verify_jwt=true` rejetterait la nouvelle clé) ni
+en retard. Ne pas désactiver une garde sans vérifier la protection applicative et les refus
+d'accès effectifs.
 
 | Fonction | Garde | Accepte | Dépendance partagée | `verify_jwt` prod |
 |---|---|---|---|---|
-| `send-lead-notification` | `requireApiKey` | publishable **OU** secret | `_shared/auth.ts` | à confirmer via `functions list` |
-| `sender-add-contact` | `requireApiKey` | publishable **OU** secret | `_shared/auth.ts` | **true** (constaté) |
+| `send-lead-notification` | `requireApiKey` | publishable **OU** secret | `_shared/auth.ts` | **false** (v17, constaté 25/11) |
+| `sender-add-contact` | `requireApiKey` | publishable **OU** secret | `_shared/auth.ts` | **true** (v7, constaté) |
 
 Commande (lot coordonné avec le swap anon frontend, §6) :
 
@@ -162,8 +235,8 @@ depuis `dfc6b309` (cf. §5).
 | `scpi-bulletin-replay-oidc` | `supabase/functions/scpi-bulletin-replay-oidc/index.ts` | `_shared/serviceKey.ts` | ✅ | false | GitHub OIDC (aud `maximus-scpi-bulletin-replay-…`) |
 | `maximus-agent-audit-oidc` | `supabase/functions/maximus-agent-audit-oidc/index.ts` | résolution inline `serviceKey()` + `storageAuth()` | ✅ | false | GitHub OIDC (aud `maximus-parallel-audit-…`) ; DB directe via `SUPABASE_DB_URL` |
 | `maximus-scpi-ocr-oidc` | `supabase/functions/maximus-scpi-ocr-oidc/index.ts` (+ `historicalIdentity.mjs`) | résolution inline | ✅ | false | GitHub OIDC (aud `maximus-scpi-ocr-…`) ; DB directe via `SUPABASE_DB_URL` |
-| `send-lead-notification` | `supabase/functions/send-lead-notification/index.ts` | `_shared/auth.ts` | ✅ | **à confirmer** (prod) → false (lot coordonné) | `requireApiKey` (publishable OU secret) |
-| `sender-add-contact` | `supabase/functions/sender-add-contact/index.ts` | `_shared/auth.ts` | ✅ | **true** (constaté) → false (lot coordonné) | `requireApiKey` (publishable OU secret) |
+| `send-lead-notification` | `supabase/functions/send-lead-notification/index.ts` | `_shared/auth.ts` | ✅ | **false** (v17, constaté 25/11) | `requireApiKey` (publishable OU secret) |
+| `sender-add-contact` | `supabase/functions/sender-add-contact/index.ts` | `_shared/auth.ts` | ✅ | **true** (v7, constaté) → false (lot coordonné) | `requireApiKey` (publishable OU secret) |
 | `scpi-scoring` | `supabase/functions/scpi-scoring/index.ts` | `_shared/auth.ts`, `_shared/serviceKey.ts` | ❌ | — (non déployée) | `requirePublishableKey` / `requireSecretKey` |
 
 ### 2.4 Justification de `scpi-scoring` (absente de la production)
@@ -198,6 +271,31 @@ la migration des clés.
 2. Puis les fonctions **§2.1** (`--no-verify-jwt`). Les gardes ne s'activent que si les
    variables `SUPABASE_PUBLISHABLE_KEYS` / `SUPABASE_SECRET_KEYS` sont présentes.
 3. `scpi-scoring` en dernier, seulement si l'option « déployer » du §2.4 est retenue.
+
+### 2.6 Drift `matcher.mjs` de `scpi-evidence-certify` (à réconcilier séparément)
+
+Lors du déploiement v9 de `scpi-evidence-certify` (ChatGPT 25/11), un écart a été constaté
+entre le `matcher.mjs` du dépôt et celui effectivement déployé en production :
+
+- **Dépôt** : blob `de01e6c2466701c6e250b00d3fa1312b5d1b9bc5` (13165 octets, LF, 309 lignes),
+  `MATCHER_REVISION = "2026-11-10-explicit-zero-unit-consistent"`. Identique sur `main`
+  (`675ab161`), `dfc6b309` et la branche #458 (`74e87e93`).
+- **Production (v8)** : `matcher.mjs` = **13136 caractères** (selon lecture `get_edge_function`).
+- Écart : **~29 caractères** de moins en prod que dans le dépôt.
+
+**Décision conservatoire (déjà appliquée par ChatGPT)** : le bundle v9 **conserve
+strictement** le `matcher.mjs` v8 de prod (13136 caractères), pour ne pas introduire de
+modification métier pendant la migration des clés. Seuls `index.ts` (lignes de résolution
+de clé + import) et `_shared/serviceKey.ts` instrumenté diffèrent du v8.
+
+**À réconcilier séparément (hors chemin critique des clés)** :
+1. Récupérer le `matcher.mjs` **réellement déployé** (13136 car.) via le connecteur ChatGPT
+   et le **réintégrer au dépôt** (ou déterminer la nature exacte des 29 caractères d'écart).
+2. Ne **jamais écraser** le matcher de prod avec la version dépôt sans avoir tranché
+   l'écart : le contenu de prod peut porter une correction métier absente du dépôt (ou
+   l'inverse — le dépôt peut porter les règles RECOVERY-200 de zéro explicite jamais
+   déployées). Comparer d'abord, décider ensuite.
+3. Toute évolution du matcher relève d'un chantier distinct, hors migration des clés.
 
 ---
 
@@ -442,21 +540,27 @@ Consommateurs frontend (runtime navigateur) :
 |---|---|---|
 | `src/lib/supabase.ts` | client Supabase principal (PostgREST + Auth) | ✅ (PostgREST accepte `sb_publishable_*`) |
 | `src/utils/supabaseRest.ts` | helper REST | ✅ |
-| `src/utils/leadTracker.ts` | `fetch` → `send-lead-notification` | ⚠️ requiert `verify_jwt=false` + `SUPABASE_PUBLISHABLE_KEYS` |
-| `src/components/OptimizedScpiLandingPage.tsx` | `fetch` → `sender-add-contact` | ⚠️ requiert `verify_jwt=false` |
-| `src/components/OptimizedThematicLandingPage.tsx` | `fetch` → `sender-add-contact` | ⚠️ requiert `verify_jwt=false` |
+| `src/utils/leadTracker.ts` | `fetch` → `send-lead-notification` | ⚠️ `verify_jwt=false` déjà en prod (v17) ; nécessite migration de sa résolution de clé + `SUPABASE_PUBLISHABLE_KEYS` |
+| `src/components/OptimizedScpiLandingPage.tsx` | `fetch` → `sender-add-contact` | ⚠️ `verify_jwt=true` en prod (v7) → bascule `--no-verify-jwt` requise |
+| `src/components/OptimizedThematicLandingPage.tsx` | `fetch` → `sender-add-contact` | ⚠️ `verify_jwt=true` en prod (v7) → bascule `--no-verify-jwt` requise |
 | `src/utils/scpiScoringService.ts` | `fetch` → `scpi-scoring` | n/a (fonction non déployée, non appelée) |
 | `public/merci-landing-page.calendly.html` | placeholder `VITE_SUPABASE_ANON_KEY_PLACEHOLDER` injecté par `scripts/inject-env-vars.js` | ✅ (replace string simple, non JWT) |
 
-**Point critique d'ordre** : `sender-add-contact` et `send-lead-notification` sont
-actuellement `verify_jwt=true` en production. Une clé publishable (non JWT) envoyée en
-`apikey` y est **rejetée** par la plateforme tant que `verify_jwt=true`. Le swap anon
-frontend ne peut donc se faire qu'**après** (ou atomiquement avec) le basculement de ces
-deux fonctions en `verify_jwt=false` + injection de `SUPABASE_PUBLISHABLE_KEYS`.
+**Point critique d'ordre (corrigé 25/11, contrôle ChatGPT)** :
+- `sender-add-contact` v7 = `verify_jwt=true` en prod → une clé publishable (non JWT)
+  envoyée en `apikey` y est **rejetée** tant que `verify_jwt=true`.
+- `send-lead-notification` v17 = `verify_jwt=false` en prod → accepte déjà la clé en
+  `apikey`, **mais** lit encore directement la clé legacy.
+- **Les deux** fonctions lisent encore directement `SUPABASE_SERVICE_ROLE_KEY` (legacy),
+  pas via `readServiceKey`/`readPublishableKey`. Leur bascule nécessite donc (i) la
+  migration de leur résolution de clé et (ii) l'injection de `SUPABASE_PUBLISHABLE_KEYS`
+  / `SUPABASE_SECRET_KEYS`. Ne pas désactiver une garde sans vérifier la protection
+  applicative et les refus d'accès effectifs.
 
 **Ordre du lot coordonné (swap anon)** :
-1. ChatGPT déploie `sender-add-contact` + `send-lead-notification` en `--no-verify-jwt`
-   avec `SUPABASE_PUBLISHABLE_KEYS`/`SUPABASE_SECRET_KEYS` injectées (§2.1).
+1. ChatGPT déploie `sender-add-contact` (en `--no-verify-jwt`) **et** `send-lead-notification`
+   (conserve `verify_jwt=false`), toutes deux avec résolution de clé migrée et
+   `SUPABASE_PUBLISHABLE_KEYS`/`SUPABASE_SECRET_KEYS` injectées (§2.1).
 2. Netlify : repoint `VITE_SUPABASE_ANON_KEY` = clé publishable (le `_NEW` déjà créé).
 3. Redéploiement frontend ; vérifier leads (Resend+Brevo), comparateur, simulateurs, Calendly.
 4. Contrôle 69/69.
