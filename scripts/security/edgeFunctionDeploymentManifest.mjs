@@ -26,8 +26,8 @@
  *       Recalcule les empreintes et échoue (exit 1) si le registre commité ne correspond
  *       plus aux sources du dépôt.
  */
-import { createHash } from 'node:crypto';
-import { readFileSync, existsSync } from 'node:fs';
+import { createHash, verify as cryptoVerify, createPublicKey } from 'node:crypto';
+import { readFileSync, existsSync, realpathSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve, sep } from 'node:path';
 
@@ -36,9 +36,25 @@ export const REPO_ROOT = resolve(HERE, '..', '..');
 export const FUNCTIONS_DIR = join(REPO_ROOT, 'supabase', 'functions');
 export const LEDGER_PATH = join(HERE, 'edgeFunctionDeploymentManifest.json');
 
-export const MANIFEST_VERSION = 'security-edge-manifest-v2';
+export const MANIFEST_VERSION = 'security-edge-manifest-v3';
 export const EVIDENCE_SCHEMA_VERSION = 'security-prod-evidence-v2';
-export const ATTESTATION_SCHEMA_VERSION = 'rollback-attestation-v1';
+export const ATTESTATION_SCHEMA_VERSION = 'rollback-attestation-v2';
+export const TRUST_ANCHOR_SCHEMA_VERSION = 'rollback-verifier-anchor-v1';
+
+/**
+ * Ancre de confiance des attestations — **chemin figé dans le dépôt**, jamais pris dans
+ * l'environnement.
+ *
+ * Le contrôle du 25/11 a établi que le chemin hors dépôt n'est pas une frontière de
+ * confiance : un opérateur qui écrit l'évidence et l'attestation peut inventer les deux
+ * identités et les deux SHA. Seule une **signature vérifiée contre une clé publique épinglée
+ * ici** distingue une attestation d'un document forgé. Le fichier ne contient que des clés
+ * publiques ; la clé privée ne quitte jamais le poste du vérificateur.
+ *
+ * Aucune variable d'environnement ne peut redésigner cette ancre : `MAXIMUS_ROLLBACK_
+ * EVIDENCE_ROOT` déplace les *documents*, pas la *racine de confiance*.
+ */
+export const TRUST_ANCHOR_PATH = join(HERE, 'rollbackVerifierTrustAnchor.json');
 
 /**
  * Racine des attestations de vérification indépendante.
@@ -395,9 +411,18 @@ const OUT_OF_PERIMETER = [
 export const PROD_BUNDLE_EVIDENCE_SCHEMA = Object.freeze({
   schemaVersion: EVIDENCE_SCHEMA_VERSION,
   requiredFields: [
-    'schemaVersion', 'function', 'observed', 'rollbackTarget', 'custody', 'restoreDrill',
-    'attestation',
+    'schemaVersion', 'stage', 'function', 'observed', 'rollbackTarget', 'custody',
+    'restoreDrill', 'attestation',
   ],
+  /**
+   * Readiness pré-déploiement ≠ validation post-déploiement.
+   *
+   * Pour une fonction **pas encore migrée**, le bundle à sauvegarder *est* celui qui tourne :
+   * exiger `observed ≠ rollbackTarget` interdirait toute préparation avant intervention.
+   * Le `stage` rend explicite ce que l'évidence prétend prouver, et `validateManifest`
+   * refuse un stage incohérent avec l'état réel de la fonction.
+   */
+  stages: ['PRE_DEPLOY', 'POST_DEPLOY'],
   observedFields: ['version', 'verifyJwt', 'entrypointSha256', 'dependencies', 'bundleSha256'],
   rollbackTargetFields: [
     'phase', 'version', 'verifyJwt', 'entrypointSha256', 'dependencies', 'bundleSha256',
@@ -411,7 +436,12 @@ export const PROD_BUNDLE_EVIDENCE_SCHEMA = Object.freeze({
     'performedAt', 'performedBy', 'result', 'destination', 'journalRef', 'journalSha256',
     'restoredEntrypointSha256', 'restoredBundleSha256',
   ],
-  attestationFields: ['schemaVersion', 'attestationSha256', 'verifier', 'verifierIdentity'],
+  attestationFields: [
+    'schemaVersion', 'attestationSha256', 'verifier', 'verifierIdentity', 'signature',
+  ],
+  /** Champ de signature : clé publique épinglée + valeur. La clé privée est hors dépôt. */
+  attestationSignatureFields: ['keyId', 'algorithm', 'value'],
+  attestationSignatureAlgorithms: ['ed25519'],
   /** Une restauration ne se prouve jamais sur la production elle-même. */
   restoreDestinations: ['staging-non-prod', 'local-replay', 'disposable-project'],
   restoreResults: ['PASS', 'FAIL'],
@@ -421,7 +451,7 @@ export const PROD_BUNDLE_EVIDENCE_SCHEMA = Object.freeze({
 
 /** Ce que l'attestation externe doit affirmer, et que l'évidence doit recouper. */
 export const ATTESTATION_REQUIRED_CLAIMS = Object.freeze([
-  'function', 'observedBundleSha256', 'rollbackTargetBundleSha256',
+  'schemaVersion', 'function', 'stage', 'observedBundleSha256', 'rollbackTargetBundleSha256',
   'custodyArtifactSha256', 'custodyArtifactRef', 'restoreJournalSha256',
   'restoredBundleSha256', 'restoreDestination', 'restoreResult',
   'verifier', 'verifierIdentity', 'operator', 'independentOfOperator', 'verifiedAt',
@@ -506,17 +536,141 @@ export function canonicalJsonSha256(value) {
   return createHash('sha256').update(JSON.stringify(canon(value))).digest('hex');
 }
 
-function inRepo(p) {
+/**
+ * Résolution réelle (liens symboliques suivis) d'un chemin qui peut ne pas exister encore.
+ *
+ * `path.resolve` ne fait que normaliser : `../` et un lien symbolique restent invisibles.
+ * On remonte donc au premier ancêtre existant, on le résout avec `realpath`, puis on
+ * recompose. Un dossier absent ne peut pas être un lien vers le dépôt, mais un ancêtre
+ * existant peut l'être — c'est précisément ce cas que v1 laissait passer.
+ */
+function realpathBestEffort(p, depth = 0) {
   const abs = resolve(p);
-  return abs === REPO_ROOT || abs.startsWith(REPO_ROOT + sep);
+  try {
+    return realpathSync(abs);
+  } catch {
+    if (depth > 40) return abs;
+    const parent = dirname(abs);
+    if (parent === abs) return abs;
+    return join(realpathBestEffort(parent, depth + 1), abs.slice(parent.length + 1));
+  }
+}
+
+function resolveRepoRoot() {
+  return realpathBestEffort(REPO_ROOT);
+}
+
+/** Un chemin réellement situé dans le dépôt, liens symboliques résolus. */
+export function resolvesInsideRepo(p) {
+  if (typeof p !== 'string' || p.trim() === '') return false;
+  const real = realpathBestEffort(p);
+  const root = resolveRepoRoot();
+  return real === root || real.startsWith(root + sep);
+}
+
+/**
+ * Lit un document JSON hors dépôt en vérifiant que sa lecture ne traverse pas le dépôt.
+ * @returns {{value: object|null, reason: string|null}}
+ */
+function readJsonOutsideRepo(p) {
+  if (resolvesInsideRepo(p)) return { value: null, reason: 'EVIDENCE_DOCUMENT_INSIDE_REPO' };
+  let raw;
+  try {
+    raw = readFileSync(p, 'utf8');
+  } catch {
+    return { value: null, reason: 'DOCUMENT_UNREADABLE' };
+  }
+  try {
+    return { value: JSON.parse(raw), reason: null };
+  } catch {
+    return { value: null, reason: 'DOCUMENT_UNREADABLE' };
+  }
+}
+
+/**
+ * Charge l'ancre de confiance **épinglée dans le dépôt**.
+ *
+ * Aucune variable d'environnement ne peut la redésigner : c'est la racine de confiance, pas
+ * un document. Elle ne contient que des clés publiques et des noms d'identités autorisés.
+ */
+export function readTrustAnchor(path = TRUST_ANCHOR_PATH) {
+  if (!existsSync(path)) return { anchor: null, reason: 'TRUST_ANCHOR_MISSING' };
+  try {
+    const anchor = JSON.parse(readFileSync(path, 'utf8'));
+    if (anchor?.schemaVersion !== TRUST_ANCHOR_SCHEMA_VERSION) {
+      return { anchor: null, reason: 'TRUST_ANCHOR_BAD_SCHEMA' };
+    }
+    if (!Array.isArray(anchor.verifiers) || anchor.verifiers.length === 0) {
+      return { anchor: null, reason: 'TRUST_ANCHOR_NO_VERIFIER' };
+    }
+    return { anchor, reason: null };
+  } catch {
+    return { anchor: null, reason: 'TRUST_ANCHOR_UNREADABLE' };
+  }
+}
+
+/** Identité de vérification autorisée par l'ancre (clé publique épinglée). */
+export function trustedVerifier(anchor, verifierIdentity) {
+  if (!anchor || !verifierIdentity) return null;
+  return anchor.verifiers.find((v) => v.identity === verifierIdentity) ?? null;
+}
+
+/**
+ * Vérifie la signature d'une attestation contre la clé publique épinglée.
+ *
+ * Le message signé est l'empreinte canonique des affirmations, exactement celle que
+ * `crossCheckAttestation` recalcule : signer et vérifier portent donc sur le même octet.
+ * Une clé privée qui fuit ne suffit pas à forger : l'identité doit aussi figurer dans
+ * l'ancre, et les revocations y sont datées.
+ *
+ * @param {object} attestation Attestation revendiquée.
+ * @param {object|null} anchor Ancre de confiance lue.
+ * @returns {string[]} Codes d'erreur (vide = signature valide).
+ */
+export function verifyAttestationSignature(attestation, anchor) {
+  if (!anchor) return ['TRUST_ANCHOR_MISSING'];
+  const sig = attestation?.signature;
+  if (!sig || typeof sig !== 'object') return ['ATTESTATION_UNSIGNED'];
+  const { attestationSignatureFields, attestationSignatureAlgorithms } = PROD_BUNDLE_EVIDENCE_SCHEMA;
+  const missing = attestationSignatureFields.filter((f) => typeof sig[f] !== 'string' || sig[f] === '');
+  if (missing.length > 0) return missing.map((f) => `MISSING_attestation_signature_${f}`);
+  if (!attestationSignatureAlgorithms.includes(sig.algorithm)) {
+    return ['UNSUPPORTED_attestation_signature_algorithm'];
+  }
+  const verifier = trustedVerifier(anchor, attestation.verifierIdentity);
+  if (!verifier) return ['ATTESTATION_VERIFIER_NOT_TRUSTED'];
+  if (verifier.revokedKeyIds?.includes(sig.keyId) || anchor.revokedKeyIds?.includes(sig.keyId)) {
+    return ['ATTESTATION_KEY_REVOKED'];
+  }
+  // Identité autorisée mais clé publique non encore publiée : rien n'est vérifiable, donc
+  // rien n'est prêt. C'est l'état normal avant que le contrôle indépendant provisionne sa clé.
+  if (typeof verifier.publicKeyPem !== 'string' || verifier.publicKeyPem.trim() === ''
+    || typeof verifier.keyId !== 'string' || verifier.keyId.trim() === '') {
+    return ['ANCHOR_KEY_NOT_PROVISIONED'];
+  }
+  if (verifier.keyId !== sig.keyId) return ['ATTESTATION_KEY_NOT_ANCHORED'];
+
+  const payload = canonicalJsonSha256(
+    Object.fromEntries(
+      Object.entries(attestation).filter(([k]) => k !== 'signature' && k !== 'attestationSha256'),
+    ),
+  );
+  try {
+    const key = createPublicKey({ key: verifier.publicKeyPem, format: 'pem' });
+    const ok = cryptoVerify(null, Buffer.from(payload, 'utf8'), key, Buffer.from(sig.value, 'base64'));
+    return ok ? [] : ['ATTESTATION_SIGNATURE_INVALID'];
+  } catch {
+    return ['ATTESTATION_SIGNATURE_UNVERIFIABLE'];
+  }
 }
 
 /**
  * Charge une attestation de vérification indépendante.
  *
- * Elle est cherchée **hors du dépôt** (`MAXIMUS_ROLLBACK_EVIDENCE_ROOT`) : une attestation
- * commitée dans la même PR que l'évidence qu'elle valide ne prouve aucune indépendance.
- * Le module ne la fabrique jamais : absente, la vérification échoue et `ready` reste faux.
+ * Elle est cherchée **hors du dépôt** (`MAXIMUS_ROLLBACK_EVIDENCE_ROOT`), et chaque chemin
+ * intermédiaire est résolu réellement : un dossier absent créé sous un lien symbolique vers
+ * le dépôt était accepté en v2 (`resolve` seul). Le module ne la fabrique jamais : absente
+ * ou forgée, la vérification échoue et `ready` reste faux.
  *
  * @param {string} name Nom de la fonction.
  * @param {{root?: string|null}} [options]
@@ -527,35 +681,45 @@ export function readAttestation(name, options = {}) {
   if (!root) {
     return { attestation: null, source: 'NONE', reason: 'EVIDENCE_ROOT_UNSET' };
   }
-  if (inRepo(root)) {
+  if (resolvesInsideRepo(root)) {
     return { attestation: null, source: root, reason: 'EVIDENCE_ROOT_INSIDE_REPO' };
   }
-  const p = join(root, 'attestations', `${name}.json`);
+  const dir = join(root, 'attestations');
+  if (resolvesInsideRepo(dir)) {
+    return { attestation: null, source: dir, reason: 'ATTESTATION_DIR_INSIDE_REPO' };
+  }
+  const p = join(dir, `${name}.json`);
+  if (resolvesInsideRepo(p)) {
+    return { attestation: null, source: p, reason: 'ATTESTATION_INSIDE_REPO' };
+  }
   if (!existsSync(p)) {
     return { attestation: null, source: p, reason: 'ATTESTATION_MISSING' };
   }
-  try {
-    return { attestation: JSON.parse(readFileSync(p, 'utf8')), source: p, reason: null };
-  } catch {
-    return { attestation: null, source: p, reason: 'ATTESTATION_UNREADABLE' };
+  if (!statSync(p).isFile()) {
+    return { attestation: null, source: p, reason: 'ATTESTATION_NOT_A_FILE' };
   }
+  const { value, reason } = readJsonOutsideRepo(p);
+  if (!value) return { attestation: null, source: p, reason: reason ?? 'ATTESTATION_UNREADABLE' };
+  return { attestation: value, source: p, reason: null };
 }
 
 /**
- * Confronte l'évidence déclarée à une attestation externe.
+ * Confronte l'évidence déclarée à une attestation externe **signée**.
  *
- * Chaque affirmation de l'attestation doit se retrouver, à l'identique, dans l'évidence :
- * c'est le recoupement qui interdit de rendre `ready` une évidence inventée. L'attestation
- * porte aussi l'indépendance du vérificateur, impossible à satisfaire en auto-déclaration.
+ * Une attestation auto-déclarée est un document, pas une vérification : le v2 recalculait
+ * une empreinte non signée, donc un opérateur écrivant les deux fichiers pouvait inventer
+ * les deux identités et les deux SHA. Le v3 exige en plus une **signature vérifiée contre la
+ * clé publique épinglée** de l'ancre de confiance, et un `stage` identique de part et d'autre.
  *
  * @param {object} evidence Évidence de production.
  * @param {object|null} attestation Attestation externe (ou null).
- * @returns {string[]} Codes d'erreur (vide = recoupement réussi).
+ * @param {object|null} [anchor] Ancre de confiance épinglée (lue si omise).
+ * @returns {string[]} Codes d'erreur (vide = recoupement et signature validés).
  */
-export function crossCheckAttestation(evidence, attestation) {
+export function crossCheckAttestation(evidence, attestation, anchor = readTrustAnchor().anchor) {
   if (!attestation || typeof attestation !== 'object') return ['ATTESTATION_MISSING'];
   const errors = [];
-  const { attestationFields, requiredFields } = PROD_BUNDLE_EVIDENCE_SCHEMA;
+  const { attestationFields, requiredFields, stages } = PROD_BUNDLE_EVIDENCE_SCHEMA;
 
   for (const f of attestationFields) {
     if (!(f in attestation)) errors.push(`MISSING_attestation_${f}`);
@@ -574,15 +738,25 @@ export function crossCheckAttestation(evidence, attestation) {
     errors.push('ATTESTATION_VERIFIER_IS_OPERATOR');
   }
 
-  // L'empreinte de l'attestation doit correspondre à son contenu réel.
-  const { attestationSha256, ...claims } = attestation;
-  if (canonicalJsonSha256(claims) !== attestationSha256) {
-    errors.push('ATTESTATION_SHA256_MISMATCH');
+  // La signature porte sur les affirmations : sans elle, tout le reste est déclaratif.
+  errors.push(...verifyAttestationSignature(attestation, anchor));
+
+  // L'empreinte déclarée doit correspondre au contenu réel des affirmations (sans signature).
+  if (typeof attestation.attestationSha256 !== 'string' || !HEX64.test(attestation.attestationSha256)) {
+    errors.push('BAD_attestation_attestationSha256');
+  } else {
+    const claims = Object.fromEntries(
+      Object.entries(attestation).filter(([k]) => k !== 'signature' && k !== 'attestationSha256'),
+    );
+    if (canonicalJsonSha256(claims) !== attestation.attestationSha256) {
+      errors.push('ATTESTATION_SHA256_MISMATCH');
+    }
   }
 
   // Recoupement champ par champ : l'attestation doit confirmer l'évidence, pas la doubler.
   const expect = {
     function: evidence.function,
+    stage: evidence.stage,
     observedBundleSha256: evidence.observed?.bundleSha256,
     rollbackTargetBundleSha256: evidence.rollbackTarget?.bundleSha256,
     custodyArtifactSha256: evidence.custody?.artifactSha256,
@@ -597,6 +771,7 @@ export function crossCheckAttestation(evidence, attestation) {
   for (const [claim, want] of Object.entries(expect)) {
     if (attestation[claim] !== want) errors.push(`ATTESTATION_CLAIM_MISMATCH_${claim}`);
   }
+  if (!stages.includes(attestation.stage)) errors.push('BAD_attestation_stage');
   if (typeof attestation.verifiedAt !== 'string' || Number.isNaN(Date.parse(attestation.verifiedAt))) {
     errors.push('BAD_attestation_verifiedAt');
   }
@@ -614,7 +789,7 @@ export function crossCheckAttestation(evidence, attestation) {
  */
 export function validateProdEvidence(evidence) {
   const errors = [];
-  const { observedFields, rollbackTargetFields, custodyFields, restoreDrillFields } =
+  const { observedFields, rollbackTargetFields, custodyFields, restoreDrillFields, stages } =
     PROD_BUNDLE_EVIDENCE_SCHEMA;
   if (!evidence || typeof evidence !== 'object') return ['NOT_AN_OBJECT'];
   for (const field of PROD_BUNDLE_EVIDENCE_SCHEMA.requiredFields) {
@@ -623,6 +798,7 @@ export function validateProdEvidence(evidence) {
   if ('schemaVersion' in evidence && evidence.schemaVersion !== PROD_BUNDLE_EVIDENCE_SCHEMA.schemaVersion) {
     errors.push('BAD_schemaVersion');
   }
+  if ('stage' in evidence && !stages.includes(evidence.stage)) errors.push('BAD_stage');
 
   const hexField = (obj, key, code) => {
     if (!(key in obj)) return;
@@ -657,9 +833,21 @@ export function validateProdEvidence(evidence) {
   }
 
   // La cible de rollback doit être un bundle réellement distinct de ce qui est déployé.
-  if (evidence.observed && evidence.rollbackTarget
-    && evidence.observed.bundleSha256 === evidence.rollbackTarget.bundleSha256) {
-    errors.push('ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE');
+  //
+  // Distinction séparée par stage : AVANT intervention, la sauvegarde à restaurer *est* le
+  // bundle observé (rollback = revenir à l'état courant), et l'exiger distinct interdirait
+  // toute préparation. APRÈS migration, une cible identique au bundle déployé ne défait rien
+  // et reste refusée. Le sens inverse — un PRE_DEPLOY prétendant avoir déjà migré — est
+  // refusé par `validateManifest`, qui connaît l'état réel de chaque fonction.
+  if (evidence.observed && evidence.rollbackTarget) {
+    const same = evidence.observed.bundleSha256 === evidence.rollbackTarget.bundleSha256;
+    if (same && evidence.stage === 'POST_DEPLOY') {
+      errors.push('ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE');
+    }
+    if (!same && evidence.stage === 'PRE_DEPLOY' && evidence.rollbackTarget.phase === 'PRE_MIGRATION'
+      && evidence.observed.bundleSha256 && evidence.rollbackTarget.bundleSha256) {
+      errors.push('ROLLBACK_TARGET_DIFFERS_BEFORE_DEPLOY');
+    }
   }
 
   // Garde de l'artefact : sans artefact conservé et lié, aucune restauration n'est possible.
@@ -707,7 +895,7 @@ export function validateProdEvidence(evidence) {
       if ('journalRef' in r && (typeof r.journalRef !== 'string' || r.journalRef.trim() === '')) {
         errors.push('BAD_restoreDrill_journalRef');
       }
-      if ('journalRef' in r && typeof r.journalRef === 'string' && inRepo(r.journalRef)) {
+      if ('journalRef' in r && typeof r.journalRef === 'string' && resolvesInsideRepo(r.journalRef)) {
         errors.push('RESTORE_JOURNAL_INSIDE_REPO');
       }
       hexField(r, 'journalSha256', 'BAD_restoreDrill_journalSha256');
@@ -742,8 +930,13 @@ function checkDependencies(deps, errors, scope) {
  * Construit le manifeste complet à partir des sources du dépôt.
  * @param {(name: string) => object|undefined} [prodEvidence] Lecteur d'évidence de prod par nom.
  * @param {(name: string) => {attestation: object|null, source: string, reason: string|null}} [attestationReader]
+ * @param {object|null} [trustAnchor] Ancre de confiance épinglée (lue depuis le dépôt si omise).
  */
-export function buildManifest(prodEvidence = readProdEvidence, attestationReader = readAttestation) {
+export function buildManifest(
+  prodEvidence = readProdEvidence,
+  attestationReader = readAttestation,
+  trustAnchor = readTrustAnchor().anchor,
+) {
   const functions = PERIMETER.map((fn) => {
     const repo = resolveRepoFingerprint(fn);
     const entrySource = sha256File(`${fn.name}/index.ts`)
@@ -763,7 +956,7 @@ export function buildManifest(prodEvidence = readProdEvidence, attestationReader
     const attestation = evidence ? attestationReader(fn.name) : { attestation: null, source: 'NONE', reason: 'EVIDENCE_MISSING' };
     const attestationErrors = evidence
       ? (attestation.attestation
-        ? crossCheckAttestation(evidence, attestation.attestation)
+        ? crossCheckAttestation(evidence, attestation.attestation, trustAnchor)
         : [attestation.reason ?? 'ATTESTATION_MISSING'])
       : ['EVIDENCE_MISSING'];
     const overrides = fn.prodDependencyOverrides ?? {};
@@ -771,19 +964,40 @@ export function buildManifest(prodEvidence = readProdEvidence, attestationReader
       (o) => typeof o.sha256 === 'string' && o.sha256.length === 64,
     );
     // Un rollback n'est restaurable que si l'évidence démontre la garde d'un artefact ET
-    // une restauration testée, toutes deux confirmées par une vérification indépendante.
+    // une restauration testée, toutes deux confirmées par une attestation **signée**.
     const custodyRestorable = evidence?.custody?.holdsRestorableArtifact === true;
     const drillPassed = evidence?.restoreDrill?.result === 'PASS';
-    const rollbackReady = Boolean(
-      evidence
-        && evidenceErrors.length === 0
-        && attestationErrors.length === 0
-        && evidence.observed.version === fn.prodVersion
-        && evidence.observed.verifyJwt === fn.prodVerifyJwt
-        && overridesComplete
-        && custodyRestorable
-        && drillPassed,
+    const signatureVerified = Boolean(
+      evidence && attestation.attestation
+      && verifyAttestationSignature(attestation.attestation, trustAnchor).length === 0,
     );
+
+    // État réel de la fonction, confronté au `stage` que l'évidence revendique : une
+    // évidence PRE_DEPLOY sur une fonction déjà migrée prétendrait que rien n'a changé.
+    const expectedStage = fn.deployState === 'DEPLOYED' ? 'POST_DEPLOY' : 'PRE_DEPLOY';
+    const stageMatchesDeployState = evidence ? evidence.stage === expectedStage : false;
+    const targetsDistinct = Boolean(
+      evidence?.observed?.bundleSha256
+      && evidence.observed.bundleSha256 !== evidence.rollbackTarget?.bundleSha256,
+    );
+
+    const commonProof = evidence
+      && evidenceErrors.length === 0
+      && attestationErrors.length === 0
+      && signatureVerified
+      && stageMatchesDeployState
+      && evidence.observed.version === fn.prodVersion
+      && evidence.observed.verifyJwt === fn.prodVerifyJwt
+      && overridesComplete
+      && custodyRestorable
+      && drillPassed;
+
+    // Readiness AVANT intervention : le bundle sauvegardé est celui qui tourne, la
+    // restauration prouve seulement qu'on saurait revenir à l'état courant.
+    const preDeployReady = Boolean(commonProof && evidence.stage === 'PRE_DEPLOY' && !targetsDistinct);
+    // Validation APRÈS migration : la cible restaurée doit être distincte de ce qui tourne.
+    const postDeployReady = Boolean(commonProof && evidence.stage === 'POST_DEPLOY' && targetsDistinct);
+    const rollbackReady = fn.deployState === 'DEPLOYED' ? postDeployReady : preDeployReady;
 
     return {
       name: fn.name,
@@ -809,6 +1023,9 @@ export function buildManifest(prodEvidence = readProdEvidence, attestationReader
       rollback: {
         strategy: 'RESTORE_CUSTODIED_PROD_BUNDLE',
         prodEvidencePresent: Boolean(evidence),
+        stageDeclared: evidence?.stage ?? null,
+        stageExpected: expectedStage,
+        stageMatchesDeployState,
         prodVersionSeen: evidence?.observed?.version ?? null,
         prodVerifyJwtSeen: evidence?.observed?.verifyJwt ?? null,
         prodEntrypointSha256: evidence?.observed?.entrypointSha256 ?? null,
@@ -816,8 +1033,8 @@ export function buildManifest(prodEvidence = readProdEvidence, attestationReader
         evidenceErrors,
         attestationErrors,
         attestationSource: attestation.source,
-        // Identité constatée ≠ sauvegarde. Ces preuves sont exigées séparément, et la
-        // cible restaurée doit être le bundle d'AVANT migration, pas celui déployé.
+        // Identité constatée ≠ sauvegarde. Ces preuves sont exigées séparément, et pour une
+        // fonction déjà migrée la cible restaurée doit être le bundle d'AVANT migration.
         custodyProof: {
           artifactRef: evidence?.custody?.artifactRef ?? null,
           artifactSha256: evidence?.custody?.artifactSha256 ?? null,
@@ -841,8 +1058,12 @@ export function buildManifest(prodEvidence = readProdEvidence, attestationReader
           journalSha256: evidence?.restoreDrill?.journalSha256 ?? null,
         },
         independentlyVerified: attestationErrors.length === 0,
+        signatureVerified,
         verifier: attestation.attestation?.verifier ?? null,
+        verifierKeyId: attestation.attestation?.signature?.keyId ?? null,
         fingerprintsOnly: !evidence?.custody && !evidence?.restoreDrill,
+        preDeployReady,
+        postDeployReady,
         ready: rollbackReady,
         blockingReason: rollbackReady
           ? null
@@ -850,13 +1071,19 @@ export function buildManifest(prodEvidence = readProdEvidence, attestationReader
             ? evidenceErrors[0]
             : attestationErrors.length > 0
               ? attestationErrors[0]
-              : !overridesComplete
-                ? 'PROD_DEPENDENCY_FINGERPRINT_MISSING'
-                : !custodyRestorable
-                  ? 'CUSTODY_NOT_RESTORABLE'
-                  : !drillPassed
-                    ? 'RESTORE_DRILL_NOT_PASSED'
-                    : 'PROD_BUNDLE_EVIDENCE_INCONSISTENT',
+              : !signatureVerified
+                ? 'ATTESTATION_SIGNATURE_NOT_VERIFIED'
+                : !stageMatchesDeployState
+                  ? 'EVIDENCE_STAGE_MISMATCH'
+                  : !overridesComplete
+                    ? 'PROD_DEPENDENCY_FINGERPRINT_MISSING'
+                    : !custodyRestorable
+                      ? 'CUSTODY_NOT_RESTORABLE'
+                      : !drillPassed
+                        ? 'RESTORE_DRILL_NOT_PASSED'
+                        : fn.deployState === 'DEPLOYED' && !targetsDistinct
+                          ? 'ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE'
+                          : 'PROD_BUNDLE_EVIDENCE_INCONSISTENT',
       },
       notes: fn.notes ?? null,
     };
@@ -870,12 +1097,21 @@ export function buildManifest(prodEvidence = readProdEvidence, attestationReader
     pendingCoordinatedLot: functions.filter((f) => f.deployState === 'PENDING_COORDINATED_LOT').length,
     outOfPerimeter: OUT_OF_PERIMETER.length,
     revocationBlockers: OUT_OF_PERIMETER.filter((f) => f.blocksRevocation).length,
+    // Deux readiness distinctes : préparer le rollback d'une fonction non encore migrée
+    // n'autorise rien, et valider une fonction migrée est le seul état qui compte ensuite.
+    preDeployReady: functions.filter((f) => f.rollback.preDeployReady).length,
+    postDeployReady: functions.filter((f) => f.rollback.postDeployReady).length,
     rollbackReady: functions.filter((f) => f.rollback.ready).length,
   };
 
   return {
     version: MANIFEST_VERSION,
     generatedFrom: 'supabase/functions (empreintes calculées sur les sources du dépôt)',
+    trustAnchor: {
+      path: 'scripts/security/rollbackVerifierTrustAnchor.json',
+      present: Boolean(trustAnchor),
+      verifierIdentities: (trustAnchor?.verifiers ?? []).map((v) => v.identity),
+    },
     counts,
     functions,
     outOfPerimeter: OUT_OF_PERIMETER,
@@ -918,7 +1154,7 @@ export function validateManifest(manifest) {
     }
     // Défense en profondeur : même si l'évidence passait la validation de forme, un
     // rollback ne peut pas être `ready` sans garde d'artefact, restauration testée,
-    // bundle de rollback distinct, ni vérification indépendante.
+    // cible pré-migration distincte, vérification **signée** et stage cohérent.
     if (f.rollback.ready) {
       if (!f.rollback.custodyProof?.holdsRestorableArtifact) {
         v('ROLLBACK_READY_WITHOUT_CUSTODY', f.name);
@@ -929,13 +1165,30 @@ export function validateManifest(manifest) {
       if (!f.rollback.independentlyVerified) {
         v('ROLLBACK_READY_WITHOUT_INDEPENDENT_VERIFICATION', f.name);
       }
-      if (f.rollback.rollbackTarget?.equalsObserved) {
+      // Une empreinte recalculée n'est pas une signature : sans ancre de confiance,
+      // l'opérateur qui écrit les deux documents reste son propre vérificateur.
+      if (!f.rollback.signatureVerified) {
+        v('ROLLBACK_READY_WITHOUT_SIGNATURE', f.name);
+      }
+      if (!f.rollback.stageMatchesDeployState) {
+        v('ROLLBACK_READY_WITH_STAGE_MISMATCH', f.name);
+      }
+      // Une fonction déjà migrée ne peut pas désigner son propre bundle comme cible.
+      if (f.deployState === 'DEPLOYED' && f.rollback.rollbackTarget?.equalsObserved) {
         v('ROLLBACK_READY_TARGET_IS_DEPLOYED_BUNDLE', f.name);
       }
       if (!f.rollback.rollbackTarget?.bundleSha256
         || f.rollback.custodyProof?.bindsToBundleSha256 !== f.rollback.rollbackTarget.bundleSha256) {
         v('ROLLBACK_READY_WITHOUT_CUSTODY_BINDING', f.name);
       }
+    }
+    // Readiness pré-déploiement réservée aux fonctions pas encore migrées ; validation
+    // post-déploiement réservée aux fonctions déjà migrées.
+    if (f.rollback.preDeployReady && f.deployState === 'DEPLOYED') {
+      v('PRE_DEPLOY_READY_ON_DEPLOYED_FUNCTION', f.name);
+    }
+    if (f.rollback.postDeployReady && f.deployState !== 'DEPLOYED') {
+      v('POST_DEPLOY_READY_ON_UNDEPLOYED_FUNCTION', f.name);
     }
     if (f.deployGuard === 'NEVER_DEPLOY_REPO_ENTRYPOINT_VERBATIM'
       && !f.repoDrift.length && !f.entrypointDrift) {
@@ -1008,6 +1261,12 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       process.exit(1);
     }
     console.log('Manifeste conforme : périmètre et empreintes cohérents.');
+    console.log(`Ancre de confiance : ${manifest.trustAnchor.present ? 'présente' : 'absente'} — `
+      + `vérificateurs déclarés : ${manifest.trustAnchor.verifierIdentities.join(', ') || 'aucun'}.`);
+    console.log(`Rollback : pré-déploiement ${manifest.counts.preDeployReady}/${manifest.counts.initialPerimeter}, `
+      + `post-déploiement ${manifest.counts.postDeployReady}/${manifest.counts.initialPerimeter}, `
+      + `ready ${manifest.counts.rollbackReady}/${manifest.counts.initialPerimeter} `
+      + `(revocationAllowed=${manifest.revocationAllowed}).`);
     process.exit(0);
   }
 

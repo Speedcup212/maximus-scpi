@@ -81,6 +81,40 @@ test('le handoff exige une vérification indépendante hors dépôt et une cible
   assert.match(doc, /ROLLBACK_READY_WITHOUT_INDEPENDENT_VERIFICATION/);
 });
 
+test('le handoff exige une attestation SIGNÉE contre une ancre épinglée, pas un simple hash', () => {
+  const doc = handoff().replace(/\s+/g, ' ');
+  // Constat du 25/11 : deux documents cohérents mais forgés passaient le gate v2.
+  assert.match(doc, /rollbackVerifierTrustAnchor\.json/);
+  assert.match(doc, /ed25519/);
+  assert.match(doc, /ATTESTATION_UNSIGNED/);
+  assert.match(doc, /ATTESTATION_VERIFIER_NOT_TRUSTED/);
+  assert.match(doc, /ANCHOR_KEY_NOT_PROVISIONED/);
+  assert.match(doc, /ATTESTATION_KEY_REVOKED/);
+  assert.match(doc, /ATTESTATION_SIGNATURE_INVALID/);
+  assert.match(doc, /ROLLBACK_READY_WITHOUT_SIGNATURE/);
+  // La frontière du dépôt est résolue réellement, pas par `resolve` seul.
+  assert.match(doc, /realpath/);
+  assert.match(doc, /ATTESTATION_DIR_INSIDE_REPO/);
+  assert.match(doc, /ATTESTATION_INSIDE_REPO/);
+});
+
+test('le handoff sépare readiness pré-déploiement et validation post-déploiement', () => {
+  const doc = handoff().replace(/\s+/g, ' ');
+  assert.match(doc, /PRE_DEPLOY/);
+  assert.match(doc, /POST_DEPLOY/);
+  assert.match(doc, /ROLLBACK_TARGET_DIFFERS_BEFORE_DEPLOY/);
+  assert.match(doc, /EVIDENCE_STAGE_MISMATCH/);
+  assert.match(doc, /PRE_DEPLOY_READY_ON_DEPLOYED_FUNCTION/);
+});
+
+test('le handoff enregistre la cible arbitrée du patch scpi-certified-promote', () => {
+  const doc = handoff().replace(/\s+/g, ' ');
+  // Arbitrage du 25/11 : bundle v12 réellement en production, pas un commit antérieur.
+  assert.match(doc, /db3599421ad844e81a031bfbc149345ecd3e791736e7bb1bca4cba00c5fe8e44/);
+  assert.match(doc, /empreinte \*\*fournisseur\*\*/i);
+  assert.match(doc, /canonique/i);
+});
+
 test('le handoff interdit de publier des bundles bruts dans un dépôt public', () => {
   const doc = handoff();
   assert.match(doc, /dépôt étant \*\*public\*\*/);

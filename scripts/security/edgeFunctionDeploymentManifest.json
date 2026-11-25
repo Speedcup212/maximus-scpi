@@ -1,5 +1,5 @@
 {
-  "version": "security-edge-manifest-v2",
+  "version": "security-edge-manifest-v3",
   "counts": {
     "initialPerimeter": 16,
     "deployed": 6,
@@ -8,6 +8,8 @@
     "pendingCoordinatedLot": 2,
     "outOfPerimeter": 9,
     "revocationBlockers": 5,
+    "preDeployReady": 0,
+    "postDeployReady": 0,
     "rollbackReady": 0
   },
   "functions": [

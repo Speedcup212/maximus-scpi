@@ -430,12 +430,24 @@ Le contrôle du 25/11 (#issuecomment-7162575955) a relevé trois défauts préci
 | Le lot 7 comparait la restauration au bundle **déployé** — donc une sauvegarde post-migration était présentée comme un rollback pré-migration. | `rollbackTarget` est **distinct** de `observed`, exige `phase: PRE_MIGRATION` et une identité de bundle **différente**. |
 | `owner` / `performedBy` / `performedAt` n'étaient validés qu'en présence ; l'opérateur pouvait être son propre vérificateur. | L'attestation exige `independentOfOperator: true` et une `verifierIdentity` **distincte** de `performedBy`. La garde et le journal sont **liés** à la fonction, la version et le bundle. |
 
+Le contrôle du 25/11 (#issuecomment-7169681620) a ensuite invalidé l'attestation **non
+signée** : « un opérateur pouvant écrire les deux fichiers peut toujours inventer les deux
+identités et les SHA. Le chemin hors dépôt n'est pas une frontière de confiance ;
+`inRepo` utilise `resolve` sans `realpath`. » Les trois corrections correspondantes (v3) :
+
+| Défaut constaté | Correction appliquée |
+|---|---|
+| `readAttestation` + `crossCheckAttestation` recalculent un hash **non signé** : deux documents cohérents mais forgés passent. | L'attestation porte une signature `ed25519` des affirmations, vérifiée contre la clé publique **épinglée** dans `scripts/security/rollbackVerifierTrustAnchor.json`. Aucune variable d'environnement ne peut redésigner cette ancre. Codes : `ATTESTATION_UNSIGNED`, `ATTESTATION_VERIFIER_NOT_TRUSTED`, `ANCHOR_KEY_NOT_PROVISIONED`, `ATTESTATION_KEY_NOT_ANCHORED`, `ATTESTATION_KEY_REVOKED`, `ATTESTATION_SIGNATURE_INVALID`. Un test dédié construit **deux documents cohérents mais forgés**. |
+| `inRepo` utilisait `resolve` sans `realpath` : un lien symbolique, ou un dossier inexistant sous un ancêtre lié au dépôt, passait pour « hors dépôt ». | Toute résolution passe par `realpath` (ancêtre existant le plus proche, puis recomposition) : `EVIDENCE_ROOT_INSIDE_REPO`, `ATTESTATION_DIR_INSIDE_REPO`, `ATTESTATION_INSIDE_REPO`. Test de contournement par lien symbolique dédié. |
+| Exiger `observed ≠ rollbackTarget` interdisait toute préparation de rollback sur une fonction **pas encore migrée**. | Le champ `stage` (`PRE_DEPLOY` \| `POST_DEPLOY`) sépare la readiness pré-déploiement de la validation post-déploiement. `PRE_DEPLOY` exige `observed = rollbackTarget` ; `POST_DEPLOY` exige la distinction. La cohérence du `stage` avec l'état réel est vérifiée (`EVIDENCE_STAGE_MISMATCH`, `PRE_DEPLOY_READY_ON_DEPLOYED_FUNCTION`, `POST_DEPLOY_READY_ON_UNDEPLOYED_FUNCTION`). |
+
 Chaque fonction porte désormais une évidence à cinq blocs :
 
 ```jsonc
 // scripts/security/prod-bundles/<fonction>.json  (un fichier par fonction)
 {
   "schemaVersion": "security-prod-evidence-v2",
+  "stage": "POST_DEPLOY",           // PRE_DEPLOY (pas encore migrée) | POST_DEPLOY (migrée)
   "function": "scpi-evidence-certify",
   "observed": {                     // 1. ce qui est déployé MAINTENANT
     "version": 9, "verifyJwt": false,
@@ -469,11 +481,12 @@ Chaque fonction porte désormais une évidence à cinq blocs :
     "restoredEntrypointSha256": "= rollbackTarget.entrypointSha256",
     "restoredBundleSha256": "= rollbackTarget.bundleSha256"
   },
-  "attestation": {                  // 5. vérification indépendante (lue hors dépôt)
-    "schemaVersion": "rollback-attestation-v1",
+  "attestation": {                  // 5. vérification indépendante SIGNÉE (lue hors dépôt)
+    "schemaVersion": "rollback-attestation-v2",
     "verifier": "<contrôle indépendant>",
-    "verifierIdentity": "<≠ restoreDrill.performedBy>",
-    "attestationSha256": "<sha256 canonique des affirmations>"
+    "verifierIdentity": "<≠ restoreDrill.performedBy, ET dans l'ancre>",
+    "attestationSha256": "<sha256 canonique des affirmations>",
+    "signature": { "keyId": "<clé épinglée>", "algorithm": "ed25519", "value": "<base64>" }
   }
 }
 ```
@@ -481,7 +494,16 @@ Chaque fonction porte désormais une évidence à cinq blocs :
 L'attestation **ne vit pas dans ce dépôt**. Elle est cherchée sous
 `$MAXIMUS_ROLLBACK_EVIDENCE_ROOT/attestations/<fonction>.json`. Racine absente →
 `EVIDENCE_ROOT_UNSET` ; racine **dans le dépôt** → `EVIDENCE_ROOT_INSIDE_REPO` (un fichier
-versionné dans la même PR que l'évidence qu'il valide ne prouve aucune indépendance).
+versionné dans la même PR que l'évidence qu'il valide ne prouve aucune indépendance), y
+compris via un lien symbolique ou un dossier encore inexistant sous un ancêtre lié au dépôt
+(`ATTESTATION_DIR_INSIDE_REPO`, `ATTESTATION_INSIDE_REPO`).
+
+**L'ancre de confiance est le seul juge de l'identité du vérificateur.** Elle vit dans
+`scripts/security/rollbackVerifierTrustAnchor.json`, ne contient que des clés **publiques**,
+et ne peut pas être redésignée par une variable d'environnement : `MAXIMUS_ROLLBACK_
+EVIDENCE_ROOT` déplace les *documents*, jamais la *racine de confiance*. Tant qu'aucune clé
+publique n'y est provisionnée, aucune attestation ne peut être validée
+(`ANCHOR_KEY_NOT_PROVISIONED`) — le gate est fermé mécaniquement, pas par convention.
 
 Règles appliquées par le manifeste :
 
@@ -494,9 +516,12 @@ Règles appliquées par le manifeste :
 4. **Une empreinte seule ne suffit jamais.** Sans bloc `custody` :
    `blockingReason = MISSING_custody` ; avec `holdsRestorableArtifact: false` :
    `CUSTODY_NOT_RESTORABLE`.
-5. **La cible restaurée doit être le bundle d'avant migration.** `observed.bundleSha256`
-   égal à `rollbackTarget.bundleSha256` → `ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE` ;
-   `phase` ≠ `PRE_MIGRATION` → `ROLLBACK_TARGET_NOT_PRE_MIGRATION`.
+5. **La cible restaurée dépend du stage.** Pour une fonction **déjà migrée**
+   (`POST_DEPLOY`), `observed.bundleSha256` égal à `rollbackTarget.bundleSha256` →
+   `ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE` ; `phase` ≠ `PRE_MIGRATION` →
+   `ROLLBACK_TARGET_NOT_PRE_MIGRATION`. Pour une fonction **pas encore migrée**
+   (`PRE_DEPLOY`), l'égalité est exigée et une cible différente est refusée
+   (`ROLLBACK_TARGET_DIFFERS_BEFORE_DEPLOY`).
 6. **La garde et le journal doivent être liés.** `CUSTODY_BINDS_OTHER_FUNCTION`,
    `CUSTODY_BINDS_OTHER_VERSION`, `CUSTODY_BINDS_OTHER_BUNDLE`,
    `RESTORE_JOURNAL_INSIDE_REPO`.
@@ -504,16 +529,23 @@ Règles appliquées par le manifeste :
    `destination: "production"` est refusé (`RESTORE_DRILL_ON_PRODUCTION`) ; `result` autre
    que `PASS` bloque (`RESTORE_DRILL_NOT_PASSED`) ; une empreinte restaurée différente de la
    cible est refusée (`RESTORE_DRILL_ENTRYPOINT_MISMATCH`, `RESTORE_DRILL_BUNDLE_MISMATCH`).
-8. **Sans vérification indépendante, rien n'est prêt** : `ATTESTATION_MISSING`,
-   `EVIDENCE_ROOT_UNSET`, `EVIDENCE_ROOT_INSIDE_REPO`, `ATTESTATION_NOT_INDEPENDENT`,
-   `ATTESTATION_VERIFIER_IS_OPERATOR`, `ATTESTATION_SHA256_MISMATCH`,
+8. **Sans vérification indépendante SIGNÉE, rien n'est prêt** : `ATTESTATION_MISSING`,
+   `EVIDENCE_ROOT_UNSET`, `EVIDENCE_ROOT_INSIDE_REPO`, `ATTESTATION_DIR_INSIDE_REPO`,
+   `ATTESTATION_INSIDE_REPO`, `ATTESTATION_NOT_INDEPENDENT`,
+   `ATTESTATION_VERIFIER_IS_OPERATOR`, `ATTESTATION_VERIFIER_NOT_TRUSTED`,
+   `ATTESTATION_UNSIGNED`, `ANCHOR_KEY_NOT_PROVISIONED`, `ATTESTATION_KEY_NOT_ANCHORED`,
+   `ATTESTATION_KEY_REVOKED`, `ATTESTATION_SIGNATURE_INVALID`, `ATTESTATION_SHA256_MISMATCH`,
    `ATTESTATION_CLAIM_MISMATCH_*`.
 9. Défense en profondeur : `validateManifest` refuse un rollback `ready` sans garde
    (`ROLLBACK_READY_WITHOUT_CUSTODY`), sans restauration réussie
    (`ROLLBACK_READY_WITHOUT_RESTORE_DRILL`), sans vérification indépendante
-   (`ROLLBACK_READY_WITHOUT_INDEPENDENT_VERIFICATION`), dont la cible est le bundle déployé
-   (`ROLLBACK_READY_TARGET_IS_DEPLOYED_BUNDLE`), ou sans garde liée
-   (`ROLLBACK_READY_WITHOUT_CUSTODY_BINDING`).
+   (`ROLLBACK_READY_WITHOUT_INDEPENDENT_VERIFICATION`), **sans signature vérifiée**
+   (`ROLLBACK_READY_WITHOUT_SIGNATURE`), avec un stage incohérent
+   (`ROLLBACK_READY_WITH_STAGE_MISMATCH`), dont la cible est le bundle déployé d'une fonction
+   migrée (`ROLLBACK_READY_TARGET_IS_DEPLOYED_BUNDLE`), ou sans garde liée
+   (`ROLLBACK_READY_WITHOUT_CUSTODY_BINDING`). Un readiness pré-déploiement sur une fonction
+   migrée est refusé (`PRE_DEPLOY_READY_ON_DEPLOYED_FUNCTION`), et inversement
+   (`POST_DEPLOY_READY_ON_UNDEPLOYED_FUNCTION`).
 10. Une fonction encore `PENDING_*` ne peut pas avoir un rollback `ready` (test bloquant).
 11. `revocationAllowed` exige : **0** fonction hors périmètre bloquante, **16/16**
     `DEPLOYED`, et **16/16** rollback `ready`. Aujourd'hui : `false`.
@@ -524,8 +556,28 @@ aucun bundle brut ni contenu de source n'y est publié : uniquement empreintes e
 de garde.
 
 **État actuel : `rollbackReady = 0/16`, `revocationAllowed = false`.** C'est le résultat
-attendu : aucune garde, aucune restauration et aucune attestation n'ont encore été produites
-hors dépôt. L'outillage refuse explicitement de conclure sans elles — c'est le but.
+attendu : aucune garde, aucune restauration et aucune attestation signée n'ont encore été
+produites hors dépôt, et l'ancre de confiance n'a pas encore sa clé publique. L'outillage
+refuse explicitement de conclure sans elles — c'est le but.
+
+#### 2.7.5 Cible de rollback arbitrée : le bundle prod v12 de `scpi-certified-promote`
+
+Arbitrage du 25/11 (#issuecomment-7169681620) : la cible du rollback du patch clé de
+`scpi-certified-promote` est **le bundle v12 effectivement en production immédiatement avant
+intervention**, empreinte de bundle `db3599421ad844e81a031bfbc149345ecd3e791736e7bb1bca4cba00c5fe8e44`
+(`verify_jwt=false`, version 12), **et non** un commit antérieur à #457 choisi arbitrairement.
+La sauvegarde doit inclure les dépendances et la configuration, vérifiées, et une
+restauration hors production doit être exercée avant le patch — sans publier les sources
+brutes (dépôt public).
+
+Deux empreintes ne se confondent pas : l'empreinte **fournisseur** (`ezbr_sha256`, celle du
+stockage Supabase) n'est pas l'empreinte **canonique** du manifeste (`bundleSha256`, calculée
+sur la liste triée `chemin + empreinte`). C'est la canonique qui doit figurer dans
+`observed` / `rollbackTarget` / `custody.bindsToBundleSha256`.
+
+Pour les fonctions **déjà migrées** (les 6 `DEPLOYED`), la cible reste le véritable bundle
+**antérieur à leur migration** : leur `stage` est `POST_DEPLOY` et `observed ≠ rollbackTarget`
+y est exigé.
 
 ### 2.8 `scpi-certified-promote` — patch clé uniquement (drift métier à ne PAS embarquer)
 

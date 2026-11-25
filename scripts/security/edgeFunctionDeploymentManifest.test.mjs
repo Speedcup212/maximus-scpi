@@ -1,8 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync, existsSync, mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
+import {
+  readFileSync, readdirSync, existsSync, mkdtempSync, mkdirSync, writeFileSync,
+  symlinkSync, rmSync,
+} from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
+import {
+  generateKeyPairSync, createPrivateKey, sign,
+} from 'node:crypto';
 import {
   buildManifest,
   validateManifest,
@@ -12,14 +18,19 @@ import {
   validateProdEvidence,
   crossCheckAttestation,
   readAttestation,
+  readTrustAnchor,
+  verifyAttestationSignature,
   canonicalJsonSha256,
+  resolvesInsideRepo,
   INITIAL_PERIMETER_SIZE,
   LEDGER_PATH,
   PROD_EVIDENCE_DIR,
   FUNCTIONS_DIR,
   REPO_ROOT,
+  TRUST_ANCHOR_PATH,
   EVIDENCE_SCHEMA_VERSION,
   ATTESTATION_SCHEMA_VERSION,
+  TRUST_ANCHOR_SCHEMA_VERSION,
 } from './edgeFunctionDeploymentManifest.mjs';
 
 const noEvidence = () => undefined;
@@ -116,11 +127,12 @@ test('le rollback n est jamais déclaré prêt sans évidence du bundle de produ
 });
 
 /**
- * Évidence v2 : identité constatée + bundle de ROLLBACK distinct (pré-migration) + garde
- * liée à ce bundle + restauration testée hors prod, avec journal.
+ * Évidence v3 : identité constatée + bundle de ROLLBACK distinct (pré-migration) + garde
+ * liée à ce bundle + restauration testée hors prod, avec journal + stage explicite.
  */
-const hardenedEvidence = (name, observedVersion, targetVersion = observedVersion - 1) => ({
+const hardenedEvidence = (name, observedVersion, targetVersion = observedVersion - 1, stage = 'POST_DEPLOY') => ({
   schemaVersion: EVIDENCE_SCHEMA_VERSION,
+  stage,
   function: name,
   observed: {
     version: observedVersion,
@@ -159,19 +171,56 @@ const hardenedEvidence = (name, observedVersion, targetVersion = observedVersion
   attestation: {
     schemaVersion: ATTESTATION_SCHEMA_VERSION,
     verifier: 'independent-control',
-    verifierIdentity: 'chatgpt-independent-reviewer',
+    verifierIdentity: 'chatgpt-independent-controller',
     attestationSha256: 'PENDING',
   },
 });
 
 /**
- * Attestation externe cohérente : elle confirme l'évidence champ par champ, et se déclare
- * indépendante de l'opérateur. C'est ce que la racine hors dépôt contiendrait réellement.
+ * Paire de clés Ed25519 **de test**, générée à la volée et jamais commitée.
+ *
+ * Le test ne prouve donc pas qu'une clé réelle existe : il prouve que le gate **exige** une
+ * signature vérifiable contre l'ancre, et qu'un document forgé — même parfaitement cohérent
+ * avec l'évidence — ne peut pas la produire sans la clé privée.
  */
-const attestationFor = (evidence) => {
+const TEST_KEY_ID = 'test-key-2026-11';
+const testKeys = generateKeyPairSync('ed25519');
+const TEST_PUBLIC_PEM = testKeys.publicKey.export({ type: 'spki', format: 'pem' });
+const TEST_PRIVATE_PEM = testKeys.privateKey.export({ type: 'pkcs8', format: 'pem' });
+
+const testAnchor = (overrides = {}) => ({
+  schemaVersion: TRUST_ANCHOR_SCHEMA_VERSION,
+  verifiers: [
+    {
+      identity: 'chatgpt-independent-controller',
+      algorithm: 'ed25519',
+      keyId: TEST_KEY_ID,
+      publicKeyPem: TEST_PUBLIC_PEM,
+      revokedKeyIds: [],
+      ...overrides,
+    },
+  ],
+});
+
+/** Signe les affirmations d'une attestation (ce que ferait le contrôle indépendant). */
+const signClaims = (claims, privatePem = TEST_PRIVATE_PEM) => {
+  const payload = canonicalJsonSha256(claims);
+  return {
+    keyId: TEST_KEY_ID,
+    algorithm: 'ed25519',
+    value: sign(null, Buffer.from(payload, 'utf8'), createPrivateKey(privatePem)).toString('base64'),
+  };
+};
+
+/**
+ * Attestation externe **signée** : elle confirme l'évidence champ par champ et porte une
+ * signature vérifiable contre l'ancre épinglée.
+ */
+const attestationFor = (evidence, opts = {}) => {
   const claims = {
     schemaVersion: ATTESTATION_SCHEMA_VERSION,
     function: evidence.function,
+    stage: evidence.stage,
     observedBundleSha256: evidence.observed.bundleSha256,
     rollbackTargetBundleSha256: evidence.rollbackTarget.bundleSha256,
     custodyArtifactSha256: evidence.custody.artifactSha256,
@@ -185,25 +234,40 @@ const attestationFor = (evidence) => {
     operator: evidence.restoreDrill.performedBy,
     independentOfOperator: true,
     verifiedAt: '2026-11-25T01:00:00Z',
+    ...opts.claims,
   };
-  return { ...claims, attestationSha256: canonicalJsonSha256(claims) };
+  return {
+    ...claims,
+    attestationSha256: canonicalJsonSha256(claims),
+    signature: signClaims(claims, opts.privatePem ?? TEST_PRIVATE_PEM),
+  };
 };
 
-/** Lecteur d'attestation qui répond avec une attestation liée à l'évidence fournie. */
-const attestationReaderFor = (evidenceFn) => (name) => {
+/** Lecteur d'attestation qui répond avec une attestation signée liée à l'évidence fournie. */
+const attestationReaderFor = (evidenceFn, opts = {}) => (name) => {
   const ev = evidenceFn(name);
   return {
-    attestation: ev ? attestationFor(ev) : null,
+    attestation: ev ? attestationFor(ev, typeof opts === 'function' ? opts(ev) : opts) : null,
     source: `/non-repo/attestations/${name}.json`,
     reason: ev ? null : 'ATTESTATION_MISSING',
   };
 };
 
+/**
+ * Manifeste construit contre l'ancre de test.
+ *
+ * Le dépôt, lui, épingle une ancre **sans clé publique** : le gate reste donc fermé en CI
+ * tant que le contrôle indépendant n'a pas publié la sienne. Ces tests-ci vérifient le
+ * mécanisme, pas la réalité de la vérification.
+ */
+const buildAnchored = (evidenceFn, readerFn, anchor = testAnchor()) =>
+  buildManifest(evidenceFn, readerFn, anchor);
+
 const evidenceCertify = (m) => m.functions.find((f) => f.name === 'scpi-evidence-certify');
 
 test('une évidence v2 vérifiée indépendamment rend le rollback calculable', () => {
   const ev = (name) => hardenedEvidence(name, 9);
-  const m = buildManifest(ev, attestationReaderFor(ev));
+  const m = buildAnchored(ev, attestationReaderFor(ev));
   const f = evidenceCertify(m);
   assert.equal(f.rollback.ready, true);
   assert.equal(f.rollback.blockingReason, null);
@@ -222,7 +286,7 @@ test('les SHA fictifs du lot 7 ne suffisent plus : sans attestation externe, rie
   // Le défaut exact relevé par le contrôle indépendant : une évidence cohérente mais
   // entièrement déclarative (SHA inventés) ouvrait `ready = true`.
   const ev = (name) => hardenedEvidence(name, 9);
-  const m = buildManifest(ev, noAttestation);
+  const m = buildAnchored(ev, noAttestation);
   const f = evidenceCertify(m);
   assert.equal(f.rollback.ready, false, 'une déclaration cohérente ne prouve aucune restauration');
   assert.equal(f.rollback.blockingReason, 'EVIDENCE_ROOT_UNSET');
@@ -239,7 +303,7 @@ test('une attestation qui n est pas rattachée à l évidence est refusée', () 
       Object.fromEntries(Object.entries(a).filter(([k]) => k !== 'attestationSha256')),
     ) }, source: 'x', reason: null };
   };
-  const f = evidenceCertify(buildManifest(ev, tampered));
+  const f = evidenceCertify(buildAnchored(ev, tampered));
   assert.equal(f.rollback.ready, false);
   assert.ok(
     f.rollback.attestationErrors.includes('ATTESTATION_CLAIM_MISMATCH_rollbackTargetBundleSha256'),
@@ -254,7 +318,7 @@ test('une attestation dont l empreinte ne couvre pas son contenu est refusée', 
     a.verifier = 'autre-verificateur';
     return { attestation: a, source: 'x', reason: null };
   };
-  const f = evidenceCertify(buildManifest(ev, broken));
+  const f = evidenceCertify(buildAnchored(ev, broken));
   assert.equal(f.rollback.ready, false);
   assert.ok(f.rollback.attestationErrors.includes('ATTESTATION_SHA256_MISMATCH'));
 });
@@ -268,7 +332,7 @@ test('un opérateur ne peut pas être son propre vérificateur', () => {
     source: 'x',
     reason: null,
   });
-  const f = evidenceCertify(buildManifest(() => selfEv, selfVerified));
+  const f = evidenceCertify(buildAnchored(() => selfEv, selfVerified));
   assert.equal(f.rollback.ready, false);
   assert.ok(
     f.rollback.attestationErrors.includes('ATTESTATION_VERIFIER_IS_OPERATOR'),
@@ -287,7 +351,7 @@ test('un opérateur ne peut pas être son propre vérificateur', () => {
       reason: null,
     };
   };
-  const g = evidenceCertify(buildManifest(ev, notIndependent));
+  const g = evidenceCertify(buildAnchored(ev, notIndependent));
   assert.equal(g.rollback.ready, false);
   assert.ok(g.rollback.attestationErrors.includes('ATTESTATION_NOT_INDEPENDENT'));
 });
@@ -304,6 +368,7 @@ test('des empreintes seules ne sont JAMAIS une sauvegarde restaurable', () => {
   // Exactement l'évidence que produisait le lot 6 : identité complète, aucune garde.
   const fingerprintsOnly = (name) => ({
     schemaVersion: EVIDENCE_SCHEMA_VERSION,
+    stage: 'POST_DEPLOY',
     function: name,
     observed: {
       version: 9,
@@ -313,7 +378,7 @@ test('des empreintes seules ne sont JAMAIS une sauvegarde restaurable', () => {
       bundleSha256: 'c'.repeat(64),
     },
   });
-  const m = buildManifest(fingerprintsOnly, noAttestation);
+  const m = buildAnchored(fingerprintsOnly, noAttestation);
   const f = evidenceCertify(m);
   assert.equal(f.rollback.ready, false, 'des empreintes ne restaurent rien');
   assert.equal(f.rollback.fingerprintsOnly, true);
@@ -335,7 +400,7 @@ test('restaurer le bundle déjà déployé ne défait rien : la cible doit être
     e.restoreDrill.restoredBundleSha256 = e.observed.bundleSha256;
     return e;
   };
-  const f = evidenceCertify(buildManifest(postMigration, attestationReaderFor(postMigration)));
+  const f = evidenceCertify(buildAnchored(postMigration, attestationReaderFor(postMigration)));
   assert.equal(f.rollback.ready, false);
   assert.equal(f.rollback.blockingReason, 'ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE');
   assert.equal(f.rollback.rollbackTarget.equalsObserved, true);
@@ -347,7 +412,7 @@ test('une cible de rollback non pré-migration est rejetée', () => {
     e.rollbackTarget.phase = 'POST_MIGRATION';
     return e;
   };
-  const f = evidenceCertify(buildManifest(notPreMigration, attestationReaderFor(notPreMigration)));
+  const f = evidenceCertify(buildAnchored(notPreMigration, attestationReaderFor(notPreMigration)));
   assert.equal(f.rollback.ready, false);
   assert.equal(f.rollback.blockingReason, 'ROLLBACK_TARGET_NOT_PRE_MIGRATION');
 });
@@ -358,7 +423,7 @@ test('une garde non liée à la fonction, la version ou le bundle est rejetée',
     e.custody.bindsToFunction = 'autre-fonction';
     return e;
   };
-  const f1 = evidenceCertify(buildManifest(wrongFn, attestationReaderFor(wrongFn)));
+  const f1 = evidenceCertify(buildAnchored(wrongFn, attestationReaderFor(wrongFn)));
   assert.equal(f1.rollback.ready, false);
   assert.equal(f1.rollback.blockingReason, 'CUSTODY_BINDS_OTHER_FUNCTION');
 
@@ -367,7 +432,7 @@ test('une garde non liée à la fonction, la version ou le bundle est rejetée',
     e.custody.bindsToBundleSha256 = 'f'.repeat(64);
     return e;
   };
-  const f2 = evidenceCertify(buildManifest(wrongBundle, attestationReaderFor(wrongBundle)));
+  const f2 = evidenceCertify(buildAnchored(wrongBundle, attestationReaderFor(wrongBundle)));
   assert.equal(f2.rollback.ready, false);
   assert.equal(f2.rollback.blockingReason, 'CUSTODY_BINDS_OTHER_BUNDLE');
 
@@ -376,7 +441,7 @@ test('une garde non liée à la fonction, la version ou le bundle est rejetée',
     e.custody.bindsToVersion = 4;
     return e;
   };
-  const f3 = evidenceCertify(buildManifest(wrongVersion, attestationReaderFor(wrongVersion)));
+  const f3 = evidenceCertify(buildAnchored(wrongVersion, attestationReaderFor(wrongVersion)));
   assert.equal(f3.rollback.ready, false);
   assert.equal(f3.rollback.blockingReason, 'CUSTODY_BINDS_OTHER_VERSION');
 });
@@ -397,7 +462,7 @@ test('une restauration non testée, faite en production ou sans journal ne rend 
   ];
   for (const [mutate, expected] of cases) {
     const ev = withDrill(mutate);
-    const f = evidenceCertify(buildManifest(ev, attestationReaderFor(ev)));
+    const f = evidenceCertify(buildAnchored(ev, attestationReaderFor(ev)));
     assert.equal(f.rollback.ready, false, expected);
     assert.equal(f.rollback.blockingReason, expected);
   }
@@ -409,14 +474,14 @@ test('une garde déclarée non restaurable bloque le rollback', () => {
     e.custody.holdsRestorableArtifact = false;
     return e;
   };
-  const f = evidenceCertify(buildManifest(notRestorable, attestationReaderFor(notRestorable)));
+  const f = evidenceCertify(buildAnchored(notRestorable, attestationReaderFor(notRestorable)));
   assert.equal(f.rollback.ready, false);
   assert.equal(f.rollback.blockingReason, 'CUSTODY_NOT_RESTORABLE');
 });
 
 test('un rollback prêt sans preuve exigée est une violation bloquante', () => {
   const ev = (name) => hardenedEvidence(name, 9);
-  const m = buildManifest(ev, attestationReaderFor(ev));
+  const m = buildAnchored(ev, attestationReaderFor(ev));
   assert.deepEqual(validateManifest(m), []);
   const target = evidenceCertify(m);
 
@@ -432,6 +497,12 @@ test('un rollback prêt sans preuve exigée est une violation bloquante', () => 
       () => { target.rollback.rollbackTarget.equalsObserved = false; }],
     ['ROLLBACK_READY_WITHOUT_CUSTODY_BINDING', () => { target.rollback.custodyProof.bindsToBundleSha256 = null; },
       () => { target.rollback.custodyProof.bindsToBundleSha256 = target.rollback.rollbackTarget.bundleSha256; }],
+    // Une empreinte recalculée n'est pas une signature : le v2 laissait passer un document
+    // cohérent sans ancre de confiance.
+    ['ROLLBACK_READY_WITHOUT_SIGNATURE', () => { target.rollback.signatureVerified = false; },
+      () => { target.rollback.signatureVerified = true; }],
+    ['ROLLBACK_READY_WITH_STAGE_MISMATCH', () => { target.rollback.stageMatchesDeployState = false; },
+      () => { target.rollback.stageMatchesDeployState = true; }],
   ];
   for (const [code, breakIt, restore] of checks) {
     breakIt();
@@ -445,7 +516,7 @@ test('un rollback prêt sans preuve exigée est une violation bloquante', () => 
 test('une empreinte de dépendance de prod manquante bloque le rollback', () => {
   // Garde, restauration et vérification présentes : seul blocage restant, `sourceProvenance.mjs`.
   const ev = (name) => hardenedEvidence(name, 108);
-  const m = buildManifest(ev, attestationReaderFor(ev));
+  const m = buildAnchored(ev, attestationReaderFor(ev));
   const bulletin = m.functions.find((f) => f.name === 'scpi-bulletin-watch');
   assert.equal(bulletin.rollback.ready, false);
   assert.equal(bulletin.rollback.blockingReason, 'PROD_DEPENDENCY_FINGERPRINT_MISSING');
@@ -453,13 +524,14 @@ test('une empreinte de dépendance de prod manquante bloque le rollback', () => 
 
 test('une évidence incohérente avec la version constatée n ouvre pas le rollback', () => {
   const wrongVersion = (name) => hardenedEvidence(name, 999);
-  const m = buildManifest(wrongVersion, attestationReaderFor(wrongVersion));
+  const m = buildAnchored(wrongVersion, attestationReaderFor(wrongVersion));
   assert.equal(m.functions.every((f) => f.rollback.ready === false), true);
 });
 
 test('l évidence de production rejette une forme incomplète ou malformée', () => {
   assert.deepEqual(validateProdEvidence({}), [
     'MISSING_schemaVersion',
+    'MISSING_stage',
     'MISSING_function',
     'MISSING_observed',
     'MISSING_rollbackTarget',
@@ -572,6 +644,279 @@ test('le registre commité correspond aux sources actuelles', () => {
   assert.equal(existsSync(LEDGER_PATH), true, 'registre JSON absent');
   const committed = JSON.parse(readFileSync(LEDGER_PATH, 'utf8'));
   assert.deepEqual(committed, ledgerSnapshot(manifest()));
+});
+
+/**
+ * Défaut central du lot 8, relevé le 25/11 : « un opérateur pouvant écrire les deux
+ * fichiers peut toujours inventer les deux identités et les SHA ». Le test suivant construit
+ * exactement ce scénario — évidence cohérente ET attestation cohérente, toutes deux forgées —
+ * et vérifie que le gate refuse.
+ */
+test('deux documents cohérents mais forgés ne suffisent pas : la signature manque', () => {
+  const ev = (name) => hardenedEvidence(name, 9);
+  const forgedReader = (name) => {
+    const e = ev(name);
+    const a = attestationFor(e);
+    // L'attaquant recalcule l'empreinte canonique : elle reste cohérente avec son contenu,
+    // mais il ne peut pas produire la signature attendue par l'ancre.
+    const { signature, attestationSha256, ...claims } = a;
+    const forged = { ...claims, attestationSha256: canonicalJsonSha256(claims) };
+    return { attestation: forged, source: '/non-repo/attestations/x.json', reason: null };
+  };
+  const f = evidenceCertify(buildAnchored(ev, forgedReader));
+  assert.equal(f.rollback.ready, false, 'un document non signé ne prouve aucune vérification');
+  assert.ok(
+    f.rollback.attestationErrors.some((c) => /signature/i.test(c)),
+    f.rollback.attestationErrors.join(','),
+  );
+});
+
+test('une signature présente mais forgée ne passe pas la vérification de l ancre', () => {
+  // Même document, signature présente et bien formée, mais valeur arbitraire.
+  const ev = (name) => hardenedEvidence(name, 9);
+  const reader = (name) => {
+    const e = ev(name);
+    const a = attestationFor(e);
+    return {
+      attestation: { ...a, signature: { ...a.signature, value: Buffer.alloc(64, 7).toString('base64') } },
+      source: '/non-repo/attestations/x.json',
+      reason: null,
+    };
+  };
+  const f = evidenceCertify(buildAnchored(ev, reader));
+  assert.equal(f.rollback.ready, false);
+  assert.ok(
+    f.rollback.attestationErrors.includes('ATTESTATION_SIGNATURE_INVALID'),
+    f.rollback.attestationErrors.join(','),
+  );
+});
+
+test('une signature faite avec une autre clé que celle de l ancre est refusée', () => {
+  // Deux documents parfaitement cohérents, empreinte recalculée, signature réellement
+  // produite — mais par une clé privée que l'ancre n'autorise pas.
+  const rogue = generateKeyPairSync('ed25519');
+  const roguePem = rogue.privateKey.export({ type: 'pkcs8', format: 'pem' });
+  const ev = (name) => hardenedEvidence(name, 9);
+  const reader = attestationReaderFor(ev, { privatePem: roguePem });
+  const f = evidenceCertify(buildAnchored(ev, reader));
+  assert.equal(f.rollback.ready, false);
+  assert.ok(
+    f.rollback.attestationErrors.includes('ATTESTATION_SIGNATURE_INVALID'),
+    f.rollback.attestationErrors.join(','),
+  );
+});
+
+test('une identité de vérificateur absente de l ancre n est pas une vérification', () => {
+  const ev = (name) => hardenedEvidence(name, 9);
+  const unknownIdentity = (name) => {
+    const e = ev(name);
+    e.attestation.verifierIdentity = 'verificateur-auto-proclame';
+    return { attestation: attestationFor(e), source: 'x', reason: null };
+  };
+  const f = evidenceCertify(buildAnchored(ev, unknownIdentity));
+  assert.equal(f.rollback.ready, false);
+  assert.ok(f.rollback.attestationErrors.includes('ATTESTATION_VERIFIER_NOT_TRUSTED'));
+});
+
+test('une clé révoquée dans l ancre ne vérifie plus rien', () => {
+  const ev = (name) => hardenedEvidence(name, 9);
+  const m = buildAnchored(ev, attestationReaderFor(ev), testAnchor({ revokedKeyIds: [TEST_KEY_ID] }));
+  const f = evidenceCertify(m);
+  assert.equal(f.rollback.ready, false);
+  assert.ok(f.rollback.attestationErrors.includes('ATTESTATION_KEY_REVOKED'));
+});
+
+test('l ancre de confiance épinglée dans le dépôt est présente et ne contient aucune clé privée', () => {
+  const raw = readFileSync(TRUST_ANCHOR_PATH, 'utf8');
+  assert.doesNotMatch(raw, /PRIVATE KEY/, 'une clé privée ne doit jamais être commitée');
+  assert.doesNotMatch(raw, /sb_secret_|eyJ[A-Za-z0-9_-]{10,}\./);
+  const { anchor, reason } = readTrustAnchor();
+  assert.equal(reason, null, reason ?? undefined);
+  assert.equal(anchor.schemaVersion, TRUST_ANCHOR_SCHEMA_VERSION);
+  assert.ok(anchor.verifiers.length >= 1);
+});
+
+test('sans clé publique provisionnée, l ancre ne valide aucune attestation', () => {
+  // État réel du dépôt tant que le contrôle indépendant n'a pas publié sa clé publique.
+  const { anchor } = readTrustAnchor();
+  const unprovisioned = {
+    schemaVersion: TRUST_ANCHOR_SCHEMA_VERSION,
+    verifiers: anchor.verifiers.map((v) => ({ ...v, keyId: null, publicKeyPem: null })),
+  };
+  const ev = (name) => hardenedEvidence(name, 9);
+  const m = buildAnchored(ev, attestationReaderFor(ev), unprovisioned);
+  const f = evidenceCertify(m);
+  assert.equal(f.rollback.ready, false);
+  assert.ok(
+    f.rollback.attestationErrors.includes('ANCHOR_KEY_NOT_PROVISIONED'),
+    f.rollback.attestationErrors.join(','),
+  );
+});
+
+test('le manifeste réel reste fermé : aucune évidence signée n existe encore', () => {
+  const m = buildManifest();
+  assert.equal(m.counts.rollbackReady, 0);
+  assert.equal(m.counts.preDeployReady, 0);
+  assert.equal(m.counts.postDeployReady, 0);
+  assert.equal(m.revocationAllowed, false);
+  assert.deepEqual(validateManifest(m), []);
+  assert.equal(m.trustAnchor.present, true);
+});
+
+/**
+ * Le v2 testait l'appartenance au dépôt avec `resolve` seul : un lien symbolique, ou un
+ * dossier encore inexistant sous un ancêtre lié au dépôt, passait pour « hors dépôt ».
+ */
+test('un lien symbolique ne contourne pas la frontière du dépôt', () => {
+  const sandbox = mkdtempSync(join(tmpdir(), 'maximus-attest-'));
+  try {
+    const link = join(sandbox, 'evidence-root');
+    symlinkSync(join(REPO_ROOT, 'scripts'), link, 'dir');
+    // Racine elle-même dans le dépôt via lien symbolique.
+    const viaRootLink = readAttestation('scpi-evidence-certify', { root: link });
+    assert.equal(viaRootLink.attestation, null);
+    assert.equal(viaRootLink.reason, 'EVIDENCE_ROOT_INSIDE_REPO');
+    assert.equal(resolvesInsideRepo(link), true);
+
+    // Dossier `attestations/` inexistant sous un ancêtre lié au dépôt.
+    const fresh = join(sandbox, 'not-yet-created');
+    mkdirSync(fresh, { recursive: true });
+    symlinkSync(join(REPO_ROOT, 'docs'), join(fresh, 'attestations'), 'dir');
+    const viaSubdir = readAttestation('scpi-evidence-certify', { root: fresh });
+    assert.equal(viaSubdir.attestation, null);
+    assert.equal(viaSubdir.reason, 'ATTESTATION_DIR_INSIDE_REPO');
+
+    // Contrôle positif : une racine réellement hors dépôt est lue.
+    const outside = join(sandbox, 'real');
+    mkdirSync(join(outside, 'attestations'), { recursive: true });
+    writeFileSync(
+      join(outside, 'attestations', 'scpi-evidence-certify.json'),
+      JSON.stringify({ function: 'scpi-evidence-certify' }),
+    );
+    const ok = readAttestation('scpi-evidence-certify', { root: outside });
+    assert.equal(ok.reason, null);
+    assert.equal(ok.attestation.function, 'scpi-evidence-certify');
+  } finally {
+    rmSync(sandbox, { recursive: true, force: true });
+  }
+});
+
+/**
+ * Arbitrage du 25/11 : « autoriser la préparation du rollback lorsque observed = target
+ * avant intervention, puis exiger leur distinction après migration ».
+ */
+test('la préparation pré-déploiement accepte observed = target, la validation post-déploiement l exclut', () => {
+  // Fonction pas encore migrée : le bundle à sauvegarder EST le bundle qui tourne.
+  const preDeploy = (name) => {
+    const e = hardenedEvidence(name, null === null ? 1 : 1, 1, 'PRE_DEPLOY');
+    e.function = name; // fonction PENDING_DEPLOY : pas de version prod constatée
+    e.observed = {
+      version: null,
+      verifyJwt: false,
+      entrypointSha256: 'a'.repeat(64),
+      dependencies: [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }],
+      bundleSha256: 'c'.repeat(64),
+    };
+    e.rollbackTarget = {
+      phase: 'PRE_MIGRATION',
+      version: null,
+      verifyJwt: false,
+      entrypointSha256: 'a'.repeat(64),
+      dependencies: [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }],
+      bundleSha256: 'c'.repeat(64),
+    };
+    e.custody.artifactRef = `vault://pre-deploy/${name}.tgz`;
+    e.custody.bindsToBundleSha256 = 'c'.repeat(64);
+    e.custody.bindsToVersion = null;
+    e.restoreDrill.restoredEntrypointSha256 = 'a'.repeat(64);
+    e.restoreDrill.restoredBundleSha256 = 'c'.repeat(64);
+    return e;
+  };
+  const m = buildAnchored(preDeploy, attestationReaderFor(preDeploy));
+  const calendly = m.functions.find((f) => f.name === 'calendly-webhook');
+  assert.equal(calendly.deployState, 'PENDING_DEPLOY');
+  assert.equal(calendly.rollback.stageMatchesDeployState, true);
+  assert.equal(calendly.rollback.preDeployReady, true, calendly.rollback.blockingReason ?? '');
+  assert.equal(calendly.rollback.ready, true, 'la préparation du rollback doit être possible');
+  assert.equal(calendly.rollback.rollbackTarget.equalsObserved, true);
+
+  // Le même type d'évidence sur une fonction DÉJÀ migrée prétendrait que rien n'a changé :
+  // la forme est valide, mais le stage contredit l'état réel de la fonction.
+  const postDeploySameTarget = (name) => {
+    const e = hardenedEvidence(name, 9);
+    e.stage = 'PRE_DEPLOY';
+    e.rollbackTarget = JSON.parse(JSON.stringify(e.observed));
+    e.rollbackTarget.phase = 'PRE_MIGRATION';
+    e.custody.bindsToBundleSha256 = e.observed.bundleSha256;
+    e.custody.bindsToVersion = e.observed.version;
+    e.restoreDrill.restoredEntrypointSha256 = e.observed.entrypointSha256;
+    e.restoreDrill.restoredBundleSha256 = e.observed.bundleSha256;
+    return e;
+  };
+  const f = evidenceCertify(buildAnchored(postDeploySameTarget, attestationReaderFor(postDeploySameTarget)));
+  assert.equal(f.rollback.stageMatchesDeployState, false);
+  assert.equal(f.rollback.ready, false);
+  assert.equal(f.rollback.blockingReason, 'EVIDENCE_STAGE_MISMATCH');
+});
+
+test('un stage incohérent avec l état de la fonction est une violation bloquante', () => {
+  const preDeploy = (name) => {
+    const e = hardenedEvidence(name, 9);
+    e.stage = 'PRE_DEPLOY';
+    e.observed.version = 9;
+    return e;
+  };
+  const m = buildAnchored(preDeploy, attestationReaderFor(preDeploy));
+  assert.equal(evidenceCertify(m).rollback.preDeployReady, false);
+  assert.equal(evidenceCertify(m).rollback.stageMatchesDeployState, false);
+});
+
+test('une préparation pré-déploiement dont la cible diffère de l état courant est refusée', () => {
+  // Avant intervention, sauvegarder « autre chose » que ce qui tourne ne permettrait pas de
+  // revenir à l'état courant : la préparation serait une fausse sécurité.
+  const preDeployOnPendingFn = (name) => {
+    const e = hardenedEvidence(name, null, 0, 'PRE_DEPLOY');
+    e.function = name;
+    e.observed = {
+      version: null,
+      verifyJwt: false,
+      entrypointSha256: 'a'.repeat(64),
+      dependencies: [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }],
+      bundleSha256: 'c'.repeat(64),
+    };
+    // Cible délibérément différente de ce qui est déployé.
+    e.rollbackTarget.bundleSha256 = '9'.repeat(64);
+    e.rollbackTarget.entrypointSha256 = '8'.repeat(64);
+    e.custody.bindsToBundleSha256 = '9'.repeat(64);
+    e.restoreDrill.restoredBundleSha256 = '9'.repeat(64);
+    e.restoreDrill.restoredEntrypointSha256 = '8'.repeat(64);
+    return e;
+  };
+  const m = buildAnchored(preDeployOnPendingFn, attestationReaderFor(preDeployOnPendingFn));
+  const calendly = m.functions.find((f) => f.name === 'calendly-webhook');
+  assert.equal(calendly.rollback.preDeployReady, false);
+  assert.equal(calendly.rollback.blockingReason, 'ROLLBACK_TARGET_DIFFERS_BEFORE_DEPLOY');
+});
+
+test('la défense en profondeur refuse un readiness pré-déploiement sur une fonction migrée', () => {
+  const ev = (name) => hardenedEvidence(name, 9);
+  const m = buildAnchored(ev, attestationReaderFor(ev));
+  assert.deepEqual(validateManifest(m), []);
+  const f = evidenceCertify(m);
+  f.rollback.preDeployReady = true;
+  const codes = validateManifest(m).map((x) => x.code);
+  assert.ok(codes.includes('PRE_DEPLOY_READY_ON_DEPLOYED_FUNCTION'), codes.join(','));
+  f.rollback.preDeployReady = false;
+  assert.deepEqual(validateManifest(m), []);
+});
+
+test('le README de prod-bundles documente le stage et la séparation pré/post-déploiement', () => {
+  const readme = readFileSync(join(PROD_EVIDENCE_DIR, 'README.md'), 'utf8');
+  assert.match(readme, /PRE_DEPLOY/);
+  assert.match(readme, /POST_DEPLOY/);
+  assert.match(readme, /rollbackVerifierTrustAnchor/);
+  assert.match(readme, /ANCHOR_KEY_NOT_PROVISIONED/);
+  assert.match(readme, /ATTESTATION_SIGNATURE_INVALID/);
 });
 
 test('le calcul d empreintes est stable et indépendant de l ordre du registre', () => {
