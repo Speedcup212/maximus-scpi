@@ -12,7 +12,11 @@ import {
   RESTORE_PLAN_VERSION,
   REPACK_REFUSALS,
   EQUIVALENCE_FAILURES,
+  authorizeRestoreTarget,
+  AUTHORIZED_RESTORE_PROJECT_REFS,
+  RESTORE_TARGET_REFUSALS,
 } from './restoreProtocol.mjs';
+import { PRODUCTION_PROJECT_REF } from './edgeFunctionDeploymentManifest.mjs';
 import {
   parseMultipartFunctionBody,
   readbackFromProviderReads,
@@ -323,4 +327,107 @@ test('les codes de refus et d\'échec sont nommés et exportés', () => {
   assert.ok(REPACK_REFUSALS.includes('REPACK_WITHOUT_VERIFY_JWT'));
   assert.ok(EQUIVALENCE_FAILURES.includes('EQUIVALENCE_CONFIG_CHANGED'));
   assert.ok(EQUIVALENCE_FAILURES.includes('EQUIVALENCE_BYTES_CHANGED'));
+  // Chaque refus de cible est citable tel quel dans un journal d'exploitation.
+  assert.deepEqual(
+    [...RESTORE_TARGET_REFUSALS],
+    [
+      'RESTORE_TARGET_MISSING',
+      'RESTORE_TARGET_IS_PRODUCTION_PROJECT',
+      'RESTORE_TARGET_IS_SOURCE_PROJECT',
+      'RESTORE_TARGET_NOT_AUTHORIZED',
+    ],
+  );
+});
+
+// --- Autorisation de la cible d'exercice (défaut du lot 14) ---------------------------
+
+test('aucune destination hors production n est autorisée par défaut dans le dépôt', () => {
+  // L'inventaire du 26/11 établit qu'aucun projet MaximusSCPI hors production n'existe. La
+  // liste est donc vide, et cette vacuité est le comportement correct — pas un oubli.
+  assert.deepEqual([...AUTHORIZED_RESTORE_PROJECT_REFS], []);
+});
+
+test('un identifiant fourni en argument n est jamais une autorisation', () => {
+  const verdict = authorizeRestoreTarget({
+    projectRef: 'un-projet-invente',
+    sourceProjectRef: 'source-ref',
+    productionProjectRef: 'prod-ref',
+  });
+  assert.equal(verdict.ok, false);
+  assert.deepEqual(verdict.reasons, ['RESTORE_TARGET_NOT_AUTHORIZED']);
+});
+
+test('la production et le projet d origine sont refusés nommément, avant la liste', () => {
+  const production = authorizeRestoreTarget({
+    projectRef: 'prod-ref',
+    sourceProjectRef: 'prod-ref',
+    productionProjectRef: 'prod-ref',
+    authorizedProjectRefs: ['prod-ref'],
+  });
+  assert.equal(production.ok, false);
+  // Un projet figurant dans la liste ne devient pas acceptable pour autant : les deux refus
+  // absolus s'appliquent d'abord. C'est ce qui interdit de « débloquer » en s'ajoutant.
+  assert.ok(production.reasons.includes('RESTORE_TARGET_IS_PRODUCTION_PROJECT'));
+  assert.ok(production.reasons.includes('RESTORE_TARGET_IS_SOURCE_PROJECT'));
+});
+
+test('une cible absente n est pas remplacée par un défaut implicite', () => {
+  assert.deepEqual(
+    authorizeRestoreTarget({ productionProjectRef: 'prod-ref' }),
+    { ok: false, reasons: ['RESTORE_TARGET_MISSING'] },
+  );
+  assert.deepEqual(
+    authorizeRestoreTarget({ projectRef: '   ', productionProjectRef: 'prod-ref' }),
+    { ok: false, reasons: ['RESTORE_TARGET_MISSING'] },
+  );
+});
+
+test('une cible explicitement autorisée passe, et la production reste le défaut du contrôle', () => {
+  const ok = authorizeRestoreTarget({
+    projectRef: 'disposable-project-ref-0001',
+    sourceProjectRef: 'source-ref',
+    productionProjectRef: 'prod-ref',
+    authorizedProjectRefs: ['disposable-project-ref-0001'],
+  });
+  assert.deepEqual(ok, { ok: true, reasons: [] });
+
+  // Sans `productionProjectRef`, le contrôle retombe sur la production du dépôt : il ne se
+  // désarme pas quand l'appelant omet le champ (`fail-closed`).
+  const failClosed = authorizeRestoreTarget({
+    projectRef: PRODUCTION_PROJECT_REF,
+    authorizedProjectRefs: [PRODUCTION_PROJECT_REF],
+  });
+  assert.ok(failClosed.reasons.includes('RESTORE_TARGET_IS_PRODUCTION_PROJECT'));
+});
+
+test('un plan RESTORE_DRILL vers un projet non autorisé est bloqué, pas seulement journalisé', () => {
+  const bundle = 'c'.repeat(64);
+  const plan = buildRestorePlan({
+    readback: { slug: SLUG, projectRef: 'p', bundleSha256: bundle },
+    deployRequest: {},
+    equivalence: { verdict: 'PASS' },
+    custody: { holdsRestorableArtifact: true },
+    target: { phase: 'PRE_MIGRATION', bundleSha256: bundle, projectRef: 'un-projet-invente' },
+    purpose: 'RESTORE_DRILL',
+    productionProjectRef: PRODUCTION_PROJECT_REF,
+  });
+  assert.equal(plan.state, 'BLOCKED');
+  assert.ok(plan.blockers.includes('RESTORE_TARGET_NOT_AUTHORIZED'));
+  assert.equal(plan.targetAuthorization.ok, false);
+  assert.equal(plan.targetProjectRef, 'un-projet-invente');
+});
+
+test('un plan RESTORE_DRILL sans destination nommée est bloqué', () => {
+  const bundle = 'c'.repeat(64);
+  const plan = buildRestorePlan({
+    readback: { slug: SLUG, projectRef: 'p', bundleSha256: bundle },
+    deployRequest: {},
+    equivalence: { verdict: 'PASS' },
+    custody: { holdsRestorableArtifact: true },
+    target: { phase: 'PRE_MIGRATION', bundleSha256: bundle },
+    purpose: 'RESTORE_DRILL',
+    productionProjectRef: PRODUCTION_PROJECT_REF,
+  });
+  assert.equal(plan.state, 'BLOCKED');
+  assert.ok(plan.blockers.includes('RESTORE_TARGET_MISSING'));
 });

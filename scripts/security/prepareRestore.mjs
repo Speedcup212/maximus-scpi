@@ -54,8 +54,15 @@ import {
   proveRepackEquivalence,
   buildRestorePlan,
   digestDeployRequest,
+  stampDeployRequest,
+  authorizeRestoreTarget,
+  AUTHORIZED_RESTORE_PROJECT_REFS,
 } from './restoreProtocol.mjs';
-import { REPO_ROOT, buildManifest } from './edgeFunctionDeploymentManifest.mjs';
+import {
+  REPO_ROOT,
+  buildManifest,
+  PRODUCTION_PROJECT_REF,
+} from './edgeFunctionDeploymentManifest.mjs';
 
 const sha256 = (buf) => createHash('sha256').update(buf).digest('hex');
 
@@ -123,7 +130,12 @@ export function prepareFromCaptured(captured) {
   if (readback.configSha256 !== seal.configSha256) throw new Error('SEAL_CONFIG_SHA256_MISMATCH');
 
   const repack = buildDeployRequest({
-    metadata: { ...parsed.metadata, projectRef: seal.projectRef },
+    // Le projet d'origine est la **source** de la capture, jamais la destination du
+    // déploiement. Recopier `seal.projectRef` ici produisait un fichier de requête qui nommait
+    // la production : un opérateur l'envoyant tel quel aurait déployé dans le projet qu'on
+    // cherche précisément à ne pas toucher. La destination reste donc **non décidée** jusqu'à
+    // l'émission, où elle est contrôlée puis estampillée.
+    metadata: { ...parsed.metadata, projectRef: null },
     files: parsed.files,
   });
   if (!repack.ok) {
@@ -177,15 +189,77 @@ export function prepareFromCaptured(captured) {
 /**
  * Compare une relecture du projet restauré au sceau de capture.
  *
+ * ## Deux questions distinctes, dans cet ordre
+ *
+ *  1. **La cible est-elle légitime ?** Contrôlée avant toute comparaison de contenu. Relire la
+ *     production donne `PASS` sur *tous* les champs de contenu — même slug, mêmes octets, même
+ *     `verify_jwt`, mêmes dépendances — puisque c'est le bundle dont le sceau a été pris. Sans
+ *     ce contrôle, un simple readback de la production se présentait comme une restauration
+ *     vérifiée alors qu'aucun déploiement n'avait eu lieu. Le contrôle porte sur le projet
+ *     **réellement lu** (`readback.projectRef`), jamais sur celui annoncé en argument.
+ *  2. **Le contenu relu est-il identique ?** Comparaison des champs couverts par la
+ *     configuration, à l'exclusion de `configSha256` brut (il lie le `projectRef`, donc il
+ *     diffère légitimement entre deux projets) et de la **version fournisseur** (un
+ *     redéploiement en crée une nouvelle sans changer les octets) : la version est **tracée**
+ *     séparément, pas comparée.
+ *
+ * Un `PASS` ici ne prouve **que** l'égalité de contenu relue. Il ne prouve ni le déploiement,
+ * ni le démarrage, ni la configuration exercée : ces preuves viennent des tests
+ * d'authentification exécutés dans le projet d'exercice (§11.4), que ce module ne produit pas.
+ *
  * @param {object} seal Sceau de capture.
  * @param {object} readback Readback du projet restauré.
- * @returns {{verdict: 'PASS'|'FAIL', reasons: string[], compared: object}}
+ * @param {{expectedProjectRef?: string|null, productionProjectRef: string,
+ *   authorizedProjectRefs?: string[]}} [target] Cible attendue et politique d'autorisation.
+ * @returns {{verdict: 'PASS'|'FAIL', reasons: string[], compared: object,
+ *   contentComparison: string, targetAuthorization: object}}
  */
-export function verifyRestoredAgainstSeal(seal, readback) {
-  const reasons = [];
+export function verifyRestoredAgainstSeal(seal, readback, target = {}) {
   if (!readback || typeof readback !== 'object') {
-    return { verdict: 'FAIL', reasons: ['RESTORED_READBACK_MISSING'], compared: {} };
+    return {
+      verdict: 'FAIL',
+      reasons: ['RESTORED_READBACK_MISSING'],
+      compared: {},
+      contentComparison: 'NOT_ATTEMPTED',
+      targetAuthorization: { ok: false, reasons: ['RESTORE_TARGET_MISSING'] },
+    };
   }
+
+  const observedProjectRef = readback.projectRef ?? null;
+  const expectedProjectRef = target.expectedProjectRef ?? observedProjectRef;
+
+  // Étape 1 — la cible, jugée sur le projet effectivement lu : une relecture de la production
+  // reste une relecture de la production, quel que soit l'argument fourni.
+  const authorization = authorizeRestoreTarget({
+    projectRef: observedProjectRef,
+    sourceProjectRef: seal.projectRef,
+    productionProjectRef: target.productionProjectRef,
+    authorizedProjectRefs: target.authorizedProjectRefs ?? AUTHORIZED_RESTORE_PROJECT_REFS,
+  });
+
+  const reasons = [...authorization.reasons];
+
+  // Le projet lu doit être celui qu'on prétend avoir relu : sans cette égalité, un readback
+  // autorisé d'un autre projet servirait à valider l'exercice d'une cible différente.
+  if (observedProjectRef !== expectedProjectRef) reasons.push('RESTORED_PROJECT_REF_MISMATCH');
+
+  if (reasons.length > 0) {
+    // Arrêt net : comparer le contenu de la production à sa propre capture ne produirait
+    // qu'un `PASS` trompeur, exactement le faux positif relevé le 26/11.
+    return {
+      verdict: 'FAIL',
+      reasons: [...new Set(reasons)],
+      compared: {
+        restoreProjectRef: observedProjectRef,
+        expectedProjectRef,
+        sealProjectRef: seal.projectRef,
+      },
+      contentComparison: 'NOT_ATTEMPTED',
+      targetAuthorization: authorization,
+    };
+  }
+
+  // Étape 2 — le contenu, désormais comparable.
   if (readback.slug !== seal.function) reasons.push('RESTORED_OTHER_FUNCTION');
   if (readback.bundleSha256 !== seal.bundleSha256) reasons.push('RESTORED_BUNDLE_SHA256_MISMATCH');
   if (readback.verifyJwt !== seal.verifyJwt) reasons.push('RESTORED_VERIFY_JWT_MISMATCH');
@@ -209,12 +283,26 @@ export function verifyRestoredAgainstSeal(seal, readback) {
     verdict: reasons.length === 0 ? 'PASS' : 'FAIL',
     reasons,
     compared: {
-      restoreProjectRef: readback.projectRef,
+      restoreProjectRef: observedProjectRef,
+      expectedProjectRef,
       sealProjectRef: seal.projectRef,
       version: readback.version,
       bundleSha256: readback.bundleSha256,
       verifyJwt: readback.verifyJwt,
     },
+    contentComparison: 'ATTEMPTED',
+    // Tracée, jamais comparée : un redéploiement légitime change la version fournisseur
+    // sans changer les octets. La comparer à l'identique ferait échouer tout exercice
+    // valide ; l'ignorer la rendrait invisible. On la consigne donc à part.
+    versionTrace: {
+      sealVersion: seal.version ?? null,
+      restoredVersion: readback.version ?? null,
+      differs: (seal.version ?? null) !== (readback.version ?? null),
+    },
+    targetAuthorization: authorization,
+    // Le `PASS` de comparaison n'est pas une preuve d'exercice : le déploiement et les tests
+    // d'authentification restent à faire, et c'est l'attestation qui les couvre.
+    exercisedProof: false,
   };
 }
 
@@ -226,6 +314,8 @@ function usage() {
   console.error('  MAXIMUS_ROLLBACK_EVIDENCE_ROOT=<dir> SUPABASE_ACCESS_TOKEN=… '
     + 'node scripts/security/prepareRestore.mjs --function <nom> '
     + '--restored-project-ref <ref> --verify-restored');
+  console.error('La cible doit figurer dans AUTHORIZED_RESTORE_PROJECT_REFS '
+    + '(restoreProtocol.mjs) : un identifiant fourni en argument n\'est pas une autorisation.');
 }
 
 /** Lit une option `--nom valeur` sans jamais accepter de jeton. */
@@ -264,12 +354,35 @@ async function main(argv) {
   if (argv.includes('--verify-restored')) {
     const restoredRef = option(argv, '--restored-project-ref');
     if (!restoredRef) { usage(); return 2; }
+
+    // Le garde-fou de la branche préparation ne protégeait pas cette branche : `--target-project-ref`
+    // y était contrôlé, `--restored-project-ref` ne l'était pas. Une relecture de la production
+    // passait donc comme vérification de restauration, sans aucun déploiement. La cible est
+    // contrôlée ici, **avant** toute lecture fournisseur : refuser après avoir lu ne servirait
+    // qu'à produire un journal d'un exercice qui n'a pas eu lieu.
+    const earlyTargetCheck = authorizeRestoreTarget({
+      projectRef: restoredRef,
+      sourceProjectRef: null,
+      productionProjectRef: PRODUCTION_PROJECT_REF,
+      authorizedProjectRefs: AUTHORIZED_RESTORE_PROJECT_REFS,
+    });
+    if (!earlyTargetCheck.ok) {
+      console.error(`Cible refusée : ${earlyTargetCheck.reasons.join(', ')}`);
+      return 1;
+    }
+
     const { seal } = loadCapturedArtifact(evidenceRoot, slug);
     const caps = await captureProviderArtifact(slug, {
       token: process.env.SUPABASE_ACCESS_TOKEN ?? '',
       projectRef: restoredRef,
     });
-    const verdict = verifyRestoredAgainstSeal(seal, caps.readback);
+    // Seconde barrière, sur le projet **réellement lu** : un fournisseur peut répondre pour un
+    // autre projet que celui demandé, et c'est cette valeur-là qui doit être autorisée.
+    const verdict = verifyRestoredAgainstSeal(seal, caps.readback, {
+      expectedProjectRef: restoredRef,
+      productionProjectRef: PRODUCTION_PROJECT_REF,
+      authorizedProjectRefs: AUTHORIZED_RESTORE_PROJECT_REFS,
+    });
     const out = {
       schemaVersion: 'rollback-restore-verification-v1',
       function: slug,
@@ -293,26 +406,63 @@ async function main(argv) {
       console.error('Requête non émise : reconditionnement bloqué.');
       return 1;
     }
+
+    // La requête doit nommer la destination **autorisée** de l'exercice. Sans ce contrôle,
+    // le fichier émis décrivait un projet non décidé (historiquement la production) et un
+    // opérateur pouvait l'envoyer tel quel. La cible est vérifiée ici, avant écriture.
+    const emitTargetRef = option(argv, '--target-project-ref');
+    const emitTargetCheck = authorizeRestoreTarget({
+      projectRef: emitTargetRef,
+      sourceProjectRef: captured.seal.projectRef,
+      productionProjectRef: PRODUCTION_PROJECT_REF,
+      authorizedProjectRefs: AUTHORIZED_RESTORE_PROJECT_REFS,
+    });
+    if (!emitTargetCheck.ok) {
+      process.stdout.write(`${JSON.stringify({
+        schemaVersion: RESTORE_PREPARATION_VERSION,
+        function: slug,
+        state: 'TARGET_REFUSED',
+        targetProjectRef: emitTargetRef,
+        reasons: emitTargetCheck.reasons,
+      }, null, 2)}\n`);
+      console.error(`Requête non émise : ${emitTargetCheck.reasons.join(', ')}`);
+      return 1;
+    }
+
+    const request = stampDeployRequest(prepared.deployRequest, emitTargetRef);
+    const emittedDigest = digestDeployRequest(request);
+
     // La requête contient du source : elle n'est écrite que hors dépôt.
     const dir = resolve(evidenceRoot, 'deploy-requests');
-    const p = writeJson(dir, `${slug}.deploy-request.json`, prepared.deployRequest);
+    const p = writeJson(dir, `${slug}.deploy-request.json`, request);
     process.stdout.write(`${JSON.stringify({
       schemaVersion: RESTORE_PREPARATION_VERSION,
       function: slug,
       state: 'EMITTED',
       deployRequestPath: p,
-      deployRequestDigest: preparation.deployRequestDigest,
-      endpoint: prepared.deployRequest.urlTemplate,
+      // Digest de la requête **estampillée**, destination comprise. Il diffère donc
+      // normalement de `preparation.deployRequestDigest` (calculé avant que la destination
+      // soit décidée) : l'égalité qui compte est celle du plan préparé **pour cette cible**.
+      deployRequestDigest: emittedDigest,
+      targetProjectRef: emitTargetRef,
+      endpoint: request.urlTemplate,
       note: 'Requête destinée au seul environnement hors production autorisé.',
     }, null, 2)}\n`);
     return 0;
   }
 
   const targetRef = option(argv, '--target-project-ref');
-  if (targetRef && targetRef === captured.seal.projectRef) {
-    // Rejouer dans le projet d'origine n'est pas une restauration : c'est une écriture en
-    // production, précisément ce qui est interdit.
-    console.error('TARGET_IS_PRODUCTION_PROJECT : la cible doit être hors production.');
+  // Même règle que la branche `--verify-restored` : la cible doit être nommée, distincte du
+  // projet d'origine et explicitement autorisée. Un simple `!==` sur la production laissait
+  // passer n'importe quel identifiant — donc un exercice dans un projet jamais approuvé.
+  const targetCheck = authorizeRestoreTarget({
+    projectRef: targetRef,
+    sourceProjectRef: captured.seal.projectRef,
+    productionProjectRef: PRODUCTION_PROJECT_REF,
+    authorizedProjectRefs: AUTHORIZED_RESTORE_PROJECT_REFS,
+  });
+  if (!targetCheck.ok) {
+    console.error(`Cible refusée : ${targetCheck.reasons.join(', ')}`);
     return 1;
   }
 
@@ -325,17 +475,32 @@ async function main(argv) {
     deployRequest: prepared.deployRequest,
     equivalence: preparation.equivalence,
     custody: { holdsRestorableArtifact: true },
-    target: { phase: 'PRE_MIGRATION', bundleSha256: captured.seal.bundleSha256 },
+    target: {
+      phase: 'PRE_MIGRATION',
+      bundleSha256: captured.seal.bundleSha256,
+      projectRef: targetRef,
+    },
     purpose: 'RESTORE_DRILL',
+    productionProjectRef: PRODUCTION_PROJECT_REF,
+    authorizedRestoreProjectRefs: AUTHORIZED_RESTORE_PROJECT_REFS,
   });
 
   const out = {
     ...preparation,
-    plan: { purpose: plan.purpose, state: plan.state, blockers: plan.blockers },
+    plan: {
+      purpose: plan.purpose,
+      state: plan.state,
+      blockers: plan.blockers,
+      targetAuthorized: plan.targetAuthorization.ok,
+      targetAuthorizationReasons: plan.targetAuthorization.reasons,
+    },
   };
   writeJson(resolve(evidenceRoot, 'preparations'), `${slug}.json`, out);
   process.stdout.write(`${JSON.stringify(out, null, 2)}\n`);
-  return preparation.state === 'PREPARED' ? 0 : 1;
+  // Le reconditionnement prouvé reste `PREPARED` (c'est un fait sur les octets), mais la
+  // commande ne réussit que si le **plan** est préparé : sans destination autorisée, l'étape
+  // ne mène à aucun exercice, et un code 0 ferait croire le contraire à un enchaînement `&&`.
+  return preparation.state === 'PREPARED' && plan.state === 'PREPARED' ? 0 : 1;
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url))) {

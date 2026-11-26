@@ -244,3 +244,47 @@ test('la préparation de restauration est déclarée bloquée, jamais exécutée
   assert.match(section, /NON EXÉCUTÉ/);
   assert.match(section, /rollbackReady\*\* reste \*\*0\/16|rollbackReady\` reste \*\*0\/16/);
 });
+
+// --- Défaut du lot 14 : un faux PASS sur production ------------------------------------
+
+test('le handoff exige une destination autorisée, pas seulement différente', () => {
+  const doc = handoff();
+  // Le contrôle portait sur le contenu, jamais sur le projet : relire la production donnait
+  // PASS. La doc doit nommer la liste d'autorisation et chaque code de refus.
+  assert.match(doc, /AUTHORIZED_RESTORE_PROJECT_REFS/);
+  assert.match(doc, /RESTORE_TARGET_IS_PRODUCTION_PROJECT/);
+  assert.match(doc, /RESTORE_TARGET_IS_SOURCE_PROJECT/);
+  assert.match(doc, /RESTORE_TARGET_NOT_AUTHORIZED/);
+  assert.match(doc, /RESTORED_PROJECT_REF_MISMATCH/);
+  // Et l'état réel : la liste est vide, donc aucun exercice n'est possible aujourd'hui.
+  assert.match(doc, /liste \*\*vide\*\*|liste est \*\*vide\*\*/);
+});
+
+test('le handoff refuse d élargir l autorisation pour débloquer un exercice', () => {
+  const doc = handoff().replace(/\s+/g, ' ');
+  assert.match(doc, /peupler\s*`?AUTHORIZED_RESTORE_PROJECT_REFS`?\s*sans décision/i);
+});
+
+test('le handoff distingue le PASS de comparaison d une preuve d exercice', () => {
+  const doc = handoff();
+  assert.match(doc, /exercisedProof/);
+  assert.match(doc, /n'est pas une preuve d'exercice/i);
+  // La version fournisseur est tracée, jamais comparée à l'identique.
+  assert.match(doc, /versionTrace/);
+});
+
+test('le handoff décrit la requête de déploiement estampillée, jamais recopiée de la capture', () => {
+  const doc = handoff();
+  assert.match(doc, /estampill/i);
+  assert.match(doc, /TARGET_REFUSED/);
+  // Le fichier émis ne doit nommer la production dans aucun champ.
+  assert.match(doc, /ne doit \*\*jamais\*\* contenir le projet de production|jamais.*projet de production/i);
+});
+
+test('le handoff établit le coût du projet jetable sans en créer aucun', () => {
+  const doc = handoff();
+  assert.match(doc, /11\.5\.2/);
+  assert.match(doc, /plan \*\*gratuit\*\*|plan gratuit/i);
+  // Aucune création : la doc doit dire explicitement que rien n'a été créé.
+  assert.match(doc, /aucune création/i);
+});

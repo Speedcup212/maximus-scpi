@@ -16,6 +16,8 @@ import {
 import {
   buildRestorePlan,
   RESTORE_PLAN_PURPOSES,
+  digestDeployRequest,
+  stampDeployRequest,
 } from './restoreProtocol.mjs';
 import {
   redactedMetadata,
@@ -25,6 +27,7 @@ import {
   parseMultipartFunctionBody,
   readbackFromProviderReads,
 } from './collectReadback.mjs';
+import { PRODUCTION_PROJECT_REF } from './edgeFunctionDeploymentManifest.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(HERE, '..', '..');
@@ -138,31 +141,50 @@ test('un sceau incohérent avec les octets est refusé au lieu d être moyenné'
 
 // --- Étape 4 : relecture du projet restauré -------------------------------------------
 
+// Projet d'exercice utilisé par les tests : jamais la production, et explicitement autorisé
+// dans l'appel — la liste réelle du dépôt reste vide (aucun projet non-prod approuvé à ce jour).
+const DRILL_REF = 'disposable-project-ref-0001';
+const TEST_AUTHORIZED = [DRILL_REF];
+
 function readbackFor(overrides = {}) {
   const meta = redactedMetadata(overrides.metadata ?? {});
   const body = redactedBody({ metadata: meta, files: overrides.files });
   const parsed = parseMultipartFunctionBody(body.buffer, body.contentType);
   return readbackFromProviderReads(
     { metadata: meta, body: parsed, requestedSlug: meta.slug },
-    { projectRef: overrides.projectRef ?? 'disposable-project-ref-0001', fetchedAt: '2026-11-26T09:30:00Z' },
+    { projectRef: overrides.projectRef ?? DRILL_REF, fetchedAt: '2026-11-26T09:30:00Z' },
   );
 }
+
+/** Cible de test : projet d'exercice autorisé, production déclarée explicitement. */
+const drillTarget = (overrides = {}) => ({
+  expectedProjectRef: DRILL_REF,
+  productionProjectRef: PRODUCTION_PROJECT_REF,
+  authorizedProjectRefs: TEST_AUTHORIZED,
+  ...overrides,
+});
 
 test('une restauration identique passe : bundle, dépendances, entrypoint et verify_jwt', () => {
   const root = freshRoot();
   seedCapture(root);
   const { seal } = loadCapturedArtifact(root, SLUG);
-  const verdict = verifyRestoredAgainstSeal(seal, readbackFor());
+  const verdict = verifyRestoredAgainstSeal(seal, readbackFor(), drillTarget());
   assert.equal(verdict.verdict, 'PASS');
   assert.deepEqual(verdict.reasons, []);
-  assert.equal(verdict.compared.restoreProjectRef, 'disposable-project-ref-0001');
+  assert.equal(verdict.compared.restoreProjectRef, DRILL_REF);
+  // Un PASS de comparaison n'est pas une preuve d'exercice.
+  assert.equal(verdict.exercisedProof, false);
 });
 
 test('une restauration dont verify_jwt a changé échoue', () => {
   const root = freshRoot();
   seedCapture(root);
   const { seal } = loadCapturedArtifact(root, SLUG);
-  const verdict = verifyRestoredAgainstSeal(seal, readbackFor({ metadata: { verify_jwt: true } }));
+  const verdict = verifyRestoredAgainstSeal(
+    seal,
+    readbackFor({ metadata: { verify_jwt: true } }),
+    drillTarget(),
+  );
   assert.equal(verdict.verdict, 'FAIL');
   assert.ok(verdict.reasons.includes('RESTORED_VERIFY_JWT_MISMATCH'));
 });
@@ -176,7 +198,7 @@ test('une restauration dont une dépendance diffère échoue', () => {
     { name: redactedMetadata().entrypoint_path.replace('index.ts', 'matcher.mjs'), content: '// contenu différent\n' },
     { name: redactedMetadata().entrypoint_path.replace('index.ts', '_shared/serviceKey.ts'), content: '// REDACTED — dépendance partagée non publiée\nexport const resolveKey = () => null;\n' },
   ];
-  const verdict = verifyRestoredAgainstSeal(seal, readbackFor({ files }));
+  const verdict = verifyRestoredAgainstSeal(seal, readbackFor({ files }), drillTarget());
   assert.equal(verdict.verdict, 'FAIL');
   assert.ok(verdict.reasons.includes('RESTORED_DEPENDENCIES_MISMATCH'));
 });
@@ -185,7 +207,11 @@ test('une restauration sur une autre fonction échoue', () => {
   const root = freshRoot();
   seedCapture(root);
   const { seal } = loadCapturedArtifact(root, SLUG);
-  const verdict = verifyRestoredAgainstSeal(seal, { ...readbackFor(), slug: 'autre-fonction' });
+  const verdict = verifyRestoredAgainstSeal(
+    seal,
+    { ...readbackFor(), slug: 'autre-fonction' },
+    drillTarget(),
+  );
   assert.equal(verdict.verdict, 'FAIL');
   assert.ok(verdict.reasons.includes('RESTORED_OTHER_FUNCTION'));
 });
@@ -194,9 +220,74 @@ test('une relecture absente ne produit jamais PASS', () => {
   const root = freshRoot();
   seedCapture(root);
   const { seal } = loadCapturedArtifact(root, SLUG);
-  const verdict = verifyRestoredAgainstSeal(seal, null);
+  const verdict = verifyRestoredAgainstSeal(seal, null, drillTarget());
   assert.equal(verdict.verdict, 'FAIL');
   assert.deepEqual(verdict.reasons, ['RESTORED_READBACK_MISSING']);
+  assert.equal(verdict.contentComparison, 'NOT_ATTEMPTED');
+});
+
+// --- Défaut du lot 14 : relire la production ne prouve aucune restauration -------------
+
+test('un faux PASS sur production est rejeté : sans déploiement, aucun PASS n est possible', () => {
+  const root = freshRoot();
+  seedCapture(root);
+  const { seal } = loadCapturedArtifact(root, SLUG);
+  // La relecture est celle de la production : c'est le bundle dont le sceau a été pris, donc
+  // TOUS les champs de contenu sont identiques par construction.
+  const productionReadback = readbackFor({ projectRef: PRODUCTION_PROJECT_REF });
+  assert.equal(productionReadback.bundleSha256, seal.bundleSha256, 'le contenu est bien identique');
+
+  const verdict = verifyRestoredAgainstSeal(seal, productionReadback, drillTarget({
+    expectedProjectRef: PRODUCTION_PROJECT_REF,
+  }));
+  assert.equal(verdict.verdict, 'FAIL');
+  assert.ok(verdict.reasons.includes('RESTORE_TARGET_IS_PRODUCTION_PROJECT'));
+  // Le contenu n'a même pas été comparé : un PASS de contenu serait ici trompeur.
+  assert.equal(verdict.contentComparison, 'NOT_ATTEMPTED');
+});
+
+test('une cible non autorisée est refusée même si son contenu est identique au sceau', () => {
+  const root = freshRoot();
+  seedCapture(root);
+  const { seal } = loadCapturedArtifact(root, SLUG);
+  const readback = readbackFor({ projectRef: 'projet-jamais-approuve' });
+  const verdict = verifyRestoredAgainstSeal(seal, readback, drillTarget({
+    expectedProjectRef: 'projet-jamais-approuve',
+  }));
+  assert.equal(verdict.verdict, 'FAIL');
+  assert.ok(verdict.reasons.includes('RESTORE_TARGET_NOT_AUTHORIZED'));
+});
+
+test('le projet réellement lu doit être celui annoncé, sinon le verdict échoue', () => {
+  const root = freshRoot();
+  seedCapture(root);
+  const { seal } = loadCapturedArtifact(root, SLUG);
+  // Le fournisseur a répondu pour un autre projet que celui demandé : chaque projet pris
+  // isolément serait autorisé, mais la relecture ne porte pas sur la cible de l'exercice.
+  const readback = readbackFor({ projectRef: 'disposable-project-ref-0002' });
+  const verdict = verifyRestoredAgainstSeal(seal, readback, drillTarget({
+    expectedProjectRef: DRILL_REF,
+    authorizedProjectRefs: [DRILL_REF, 'disposable-project-ref-0002'],
+  }));
+  assert.equal(verdict.verdict, 'FAIL');
+  assert.ok(verdict.reasons.includes('RESTORED_PROJECT_REF_MISMATCH'));
+});
+
+test('une version fournisseur différente est tracée, jamais comparée à l identique', () => {
+  const root = freshRoot();
+  seedCapture(root);
+  const { seal } = loadCapturedArtifact(root, SLUG);
+  // Un redéploiement crée une version fournisseur neuve sans changer les octets : l'exiger
+  // égale ferait échouer tout exercice valide, l'ignorer la rendrait invisible.
+  const verdict = verifyRestoredAgainstSeal(
+    seal,
+    readbackFor({ metadata: { version: 13 } }),
+    drillTarget(),
+  );
+  assert.equal(verdict.verdict, 'PASS');
+  assert.equal(verdict.versionTrace.sealVersion, 12);
+  assert.equal(verdict.versionTrace.restoredVersion, 13);
+  assert.equal(verdict.versionTrace.differs, true);
 });
 
 // --- Plan : l exercice de restauration n est plus refusé par la règle de rollback -------
@@ -208,12 +299,17 @@ test('le plan RESTORE_DRILL accepte le bundle observé, le plan ROLLBACK_EVIDENC
     deployRequest: {},
     equivalence: { verdict: 'PASS' },
     custody: { holdsRestorableArtifact: true },
-    target: { phase: 'PRE_MIGRATION', bundleSha256: bundle },
+    target: { phase: 'PRE_MIGRATION', bundleSha256: bundle, projectRef: DRILL_REF },
+    productionProjectRef: PRODUCTION_PROJECT_REF,
+    authorizedRestoreProjectRefs: TEST_AUTHORIZED,
   };
   const drill = buildRestorePlan({ ...common, purpose: 'RESTORE_DRILL' });
   assert.equal(drill.state, 'PREPARED');
   assert.deepEqual(drill.blockers, []);
+  assert.equal(drill.targetAuthorization.ok, true);
 
+  // Le plan de rollback ne déploie vers aucun projet : l'absence de destination autorisée
+  // ne le bloque pas, et il reste bloqué pour sa propre raison.
   const rollback = buildRestorePlan({ ...common, purpose: 'ROLLBACK_EVIDENCE' });
   assert.equal(rollback.state, 'BLOCKED');
   assert.ok(rollback.blockers.includes('ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE'));
@@ -297,23 +393,99 @@ test('le plan ne cite plus les drapeaux fantômes qui rendaient l étape 2 inex�
 
 // --- CLI de bout en bout ---------------------------------------------------------------
 
-test('CLI : la préparation écrit un rapport hors dépôt et sort en 0', () => {
+test('CLI : aucune destination n est autorisée, la préparation refuse donc de réussir', () => {
   const root = freshRoot();
   seedCapture(root);
-  const out = execFileSync(process.execPath, [
-    join(HERE, 'prepareRestore.mjs'),
-    '--function', SLUG,
-    '--target-project-ref', 'disposable-project-ref-0001',
-  ], {
-    env: { ...process.env, MAXIMUS_ROLLBACK_EVIDENCE_ROOT: root },
-    encoding: 'utf8',
+  // `AUTHORIZED_RESTORE_PROJECT_REFS` est vide dans le dépôt : aucun projet hors production
+  // n'a été approuvé. Le CLI doit donc sortir en 1 et nommer la raison, plutôt que de
+  // produire un rapport « préparé » vers un projet que personne n'a autorisé.
+  assert.throws(
+    () => execFileSync(process.execPath, [
+      join(HERE, 'prepareRestore.mjs'),
+      '--function', SLUG,
+      '--target-project-ref', 'disposable-project-ref-0001',
+    ], {
+      env: { ...process.env, MAXIMUS_ROLLBACK_EVIDENCE_ROOT: root },
+      encoding: 'utf8',
+      stdio: 'pipe',
+    }),
+    (err) => /RESTORE_TARGET_NOT_AUTHORIZED/.test(String(err.stderr)),
+  );
+});
+
+test('CLI : le reconditionnement reste prouvé même quand la destination manque', () => {
+  const root = freshRoot();
+  seedCapture(root);
+  // Le blocage CLI porte sur la **destination**, pas sur les octets : le reconditionnement
+  // reste un fait vérifiable, et c'est ce qui permettra de l'exercer dès qu'un projet sera
+  // autorisé. Le CLI, lui, refuse avant d'écrire quoi que ce soit.
+  const { preparation } = prepareFromCaptured(loadCapturedArtifact(root, SLUG));
+  assert.equal(preparation.state, 'PREPARED');
+  assert.equal(preparation.equivalence.verdict, 'PASS');
+
+  const plan = buildRestorePlan({
+    readback: {
+      slug: SLUG,
+      projectRef: preparation.sourceProjectRef,
+      bundleSha256: preparation.bundleSha256,
+    },
+    deployRequest: {},
+    equivalence: preparation.equivalence,
+    custody: { holdsRestorableArtifact: true },
+    target: {
+      phase: 'PRE_MIGRATION',
+      bundleSha256: preparation.bundleSha256,
+      projectRef: 'disposable-project-ref-0001',
+    },
+    purpose: 'RESTORE_DRILL',
+    productionProjectRef: PRODUCTION_PROJECT_REF,
   });
-  const report = JSON.parse(out);
-  assert.equal(report.state, 'PREPARED');
-  assert.equal(report.plan.purpose, 'RESTORE_DRILL');
-  assert.equal(report.plan.state, 'PREPARED');
-  assert.ok(existsSync(join(root, 'preparations', `${SLUG}.json`)));
-  assert.doesNotMatch(out, /REDACTED — source/);
+  assert.equal(plan.state, 'BLOCKED');
+  assert.ok(plan.blockers.includes('RESTORE_TARGET_NOT_AUTHORIZED'));
+  assert.equal(plan.targetAuthorization.ok, false);
+});
+
+test('CLI : une préparation refusée n écrit aucun rapport', () => {
+  const root = freshRoot();
+  seedCapture(root);
+  assert.throws(
+    () => execFileSync(process.execPath, [
+      join(HERE, 'prepareRestore.mjs'), '--function', SLUG,
+      '--target-project-ref', 'disposable-project-ref-0001',
+    ], {
+      env: { ...process.env, MAXIMUS_ROLLBACK_EVIDENCE_ROOT: root },
+      encoding: 'utf8',
+      stdio: 'pipe',
+    }),
+    (err) => /Cible refusée/.test(String(err.stderr)),
+  );
+  // Le refus intervient avant l'écriture : aucun rapport réutilisable ne subsiste.
+  assert.equal(existsSync(join(root, 'preparations', `${SLUG}.json`)), false);
+});
+
+test('CLI : --verify-restored refuse la production avant toute lecture fournisseur', () => {
+  const root = freshRoot();
+  // Aucun artefact n'est semé et aucun jeton n'est fourni : si le CLI atteignait la lecture,
+  // il échouerait sur `CAPTURE_SEAL_MISSING`, pas sur la cible. Le refus de cible doit donc
+  // intervenir en premier — une relecture de la production ne doit jamais être tentée.
+  assert.throws(
+    () => execFileSync(process.execPath, [
+      join(HERE, 'prepareRestore.mjs'),
+      '--function', SLUG,
+      '--restored-project-ref', PRODUCTION_PROJECT_REF,
+      '--verify-restored',
+    ], {
+      env: { ...process.env, MAXIMUS_ROLLBACK_EVIDENCE_ROOT: root, SUPABASE_ACCESS_TOKEN: '' },
+      encoding: 'utf8',
+      stdio: 'pipe',
+    }),
+    (err) => {
+      const stderr = String(err.stderr);
+      assert.match(stderr, /RESTORE_TARGET_IS_PRODUCTION_PROJECT/);
+      assert.doesNotMatch(stderr, /CAPTURE_SEAL_MISSING/, 'la lecture a été tentée');
+      return true;
+    },
+  );
 });
 
 test('CLI : une racine de conservation dans le dépôt est refusée', () => {
@@ -336,31 +508,100 @@ test('CLI : la cible ne peut pas être le projet d origine', () => {
   assert.throws(
     () => execFileSync(process.execPath, [
       join(HERE, 'prepareRestore.mjs'), '--function', SLUG,
-      '--target-project-ref', 'ygvsddcpohsnaowofuwc',
+      '--target-project-ref', PRODUCTION_PROJECT_REF,
     ], {
       env: { ...process.env, MAXIMUS_ROLLBACK_EVIDENCE_ROOT: root },
       encoding: 'utf8',
       stdio: 'pipe',
     }),
-    (err) => /TARGET_IS_PRODUCTION_PROJECT/.test(String(err.stderr)),
+    (err) => {
+      const stderr = String(err.stderr);
+      assert.match(stderr, /RESTORE_TARGET_IS_PRODUCTION_PROJECT/);
+      // Le projet d'origine de la capture est aussi refusé nommément, pas seulement la
+      // constante de production : la règle porte sur les deux.
+      assert.match(stderr, /RESTORE_TARGET_IS_SOURCE_PROJECT/);
+      return true;
+    },
   );
 });
 
-test('CLI : la requête de déploiement n est émise que hors dépôt et seulement si préparée', () => {
+test('CLI : la requête n est pas émise vers la production ni vers un projet non autorisé', () => {
   const root = freshRoot();
   seedCapture(root);
-  const out = execFileSync(process.execPath, [
-    join(HERE, 'prepareRestore.mjs'), '--function', SLUG, '--emit-deploy-request',
-  ], {
-    env: { ...process.env, MAXIMUS_ROLLBACK_EVIDENCE_ROOT: root },
-    encoding: 'utf8',
+  // Sans destination autorisée, l'émission doit échouer : c'est le fichier que l'opérateur
+  // envoie réellement, donc celui qui ne doit jamais nommer un projet non approuvé.
+  for (const ref of [PRODUCTION_PROJECT_REF, 'un-projet-invente']) {
+    assert.throws(
+      () => execFileSync(process.execPath, [
+        join(HERE, 'prepareRestore.mjs'), '--function', SLUG,
+        '--emit-deploy-request', '--target-project-ref', ref,
+      ], {
+        env: { ...process.env, MAXIMUS_ROLLBACK_EVIDENCE_ROOT: root },
+        encoding: 'utf8',
+        stdio: 'pipe',
+      }),
+      (err) => /Requête non émise/.test(String(err.stderr)),
+    );
+  }
+  // Rien n'a été écrit : une requête refusée ne laisse pas de fichier réutilisable.
+  assert.equal(existsSync(join(root, 'deploy-requests', `${SLUG}.deploy-request.json`)), false);
+});
+
+test('CLI : une requête émise ne nomme jamais la production et publie son digest', () => {
+  const root = freshRoot();
+  seedCapture(root);
+  const { preparation, deployRequest } = prepareFromCaptured(loadCapturedArtifact(root, SLUG));
+
+  // Le reconditionnement ne décide d'aucune destination : c'est ce qui empêche le fichier de
+  // requête de nommer la production par recopie du projet de capture.
+  assert.equal(deployRequest.projectRef, null);
+
+  // L'estampillage est une fonction pure : le test l'exerce directement, sans variable
+  // d'environnement capable d'élargir l'autorisation en exécution réelle.
+  const stamped = stampDeployRequest(deployRequest, DRILL_REF);
+  assert.equal(stamped.projectRef, DRILL_REF);
+  assert.match(stamped.urlTemplate, new RegExp(DRILL_REF));
+  assert.doesNotMatch(
+    JSON.stringify({ ...stamped, files: undefined }),
+    new RegExp(PRODUCTION_PROJECT_REF),
+  );
+  // Le digest lie la destination : changer le projet change l'empreinte.
+  assert.notEqual(digestDeployRequest(stamped), digestDeployRequest(deployRequest));
+  assert.equal(digestDeployRequest(stamped), digestDeployRequest(stampDeployRequest(deployRequest, DRILL_REF)));
+  // Le rapport de préparation ne publie aucun contenu de source.
+  assert.doesNotMatch(JSON.stringify(preparation), /REDACTED — source/);
+});
+
+test('le digest du plan préparé égale celui de la requête émise pour la même cible', () => {
+  const root = freshRoot();
+  seedCapture(root);
+  const { preparation, deployRequest } = prepareFromCaptured(loadCapturedArtifact(root, SLUG));
+
+  const plan = buildRestorePlan({
+    readback: {
+      slug: SLUG,
+      projectRef: preparation.sourceProjectRef,
+      bundleSha256: preparation.bundleSha256,
+    },
+    deployRequest,
+    equivalence: preparation.equivalence,
+    custody: { holdsRestorableArtifact: true },
+    target: {
+      phase: 'PRE_MIGRATION',
+      bundleSha256: preparation.bundleSha256,
+      projectRef: DRILL_REF,
+    },
+    purpose: 'RESTORE_DRILL',
+    productionProjectRef: PRODUCTION_PROJECT_REF,
+    authorizedRestoreProjectRefs: TEST_AUTHORIZED,
   });
-  const res = JSON.parse(out);
-  assert.equal(res.state, 'EMITTED');
-  assert.match(res.deployRequestPath, new RegExp(`^${root.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`));
-  assert.ok(existsSync(res.deployRequestPath));
-  // Le rapport ne contient que des empreintes : le source est dans le fichier de requête.
-  assert.doesNotMatch(out, /REDACTED — source/);
+  assert.equal(plan.state, 'PREPARED');
+  // C'est l'égalité que l'opérateur vérifie entre l'étape B (plan) et l'étape C (émission).
+  // Elle ne tient que parce que le plan estampille lui aussi sa cible avant de hacher.
+  assert.equal(
+    plan.deployRequestDigest,
+    digestDeployRequest(stampDeployRequest(deployRequest, DRILL_REF)),
+  );
 });
 
 test('CLI : une fonction hors périmètre est refusée', () => {

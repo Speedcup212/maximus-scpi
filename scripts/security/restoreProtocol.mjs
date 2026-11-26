@@ -38,6 +38,7 @@
 
 import { createHash } from 'node:crypto';
 import { normalizeBundlePaths } from './collectReadback.mjs';
+import { PRODUCTION_PROJECT_REF } from './edgeFunctionDeploymentManifest.mjs';
 
 const sha256 = (buf) => createHash('sha256').update(buf).digest('hex');
 
@@ -115,6 +116,77 @@ export const RESTORE_PRECONDITIONS = Object.freeze([
  *    et qu'on rejoue) ; exiger autre chose fermerait l'exercice au lieu de le contrôler.
  */
 export const RESTORE_PLAN_PURPOSES = Object.freeze(['ROLLBACK_EVIDENCE', 'RESTORE_DRILL']);
+
+/**
+ * Projets **hors production** explicitement autorisés comme cible d'un exercice de restauration.
+ *
+ * La liste est **vide**, et c'est l'état correct : l'inventaire du 26/11 établit qu'aucun
+ * projet MaximusSCPI hors production n'existe, et le mandat interdit d'en créer un sans accord
+ * du propriétaire. Un identifiant fourni en argument ne vaut donc **pas** autorisation : sans
+ * cette liste, `--restored-project-ref <n'importe quoi>` suffirait à déclarer un exercice
+ * « vérifié » dans un projet qui n'a jamais été approuvé.
+ *
+ * Peuplement = décision explicite du propriétaire, dans un commit relu (même régime que
+ * l'ancre de confiance : un document ou une variable d'environnement ne crée pas une
+ * autorisation). **Ne jamais élargir cette liste pour débloquer un test.**
+ */
+export const AUTHORIZED_RESTORE_PROJECT_REFS = Object.freeze([]);
+
+/** Raisons pour lesquelles une cible de restauration est refusée, nommées pour être citables. */
+export const RESTORE_TARGET_REFUSALS = Object.freeze([
+  'RESTORE_TARGET_MISSING',
+  'RESTORE_TARGET_IS_PRODUCTION_PROJECT',
+  'RESTORE_TARGET_IS_SOURCE_PROJECT',
+  'RESTORE_TARGET_NOT_AUTHORIZED',
+]);
+
+/**
+ * Autorise — ou refuse — un projet comme cible d'exercice de restauration.
+ *
+ * ## Le défaut que cette garde ferme
+ *
+ * Relire la **production** et comparer au sceau de sa propre capture donne `PASS` sur tous les
+ * champs de contenu : même slug, mêmes octets, même `verify_jwt`, mêmes dépendances. Un
+ * « exercice de restauration » qui ne quitte jamais la production passait donc comme une preuve
+ * de restauration, alors qu'aucun déploiement n'avait eu lieu. Le seul champ qui distingue deux
+ * lectures est le **projet** : il doit donc être contrôlé explicitement, et pas seulement
+ * journalisé.
+ *
+ * Trois refus, dans cet ordre de lecture :
+ *
+ *  1. le projet cible doit être nommé (`RESTORE_TARGET_MISSING`) ;
+ *  2. il ne peut pas être le projet de production ni le projet d'origine de la capture
+ *     (`RESTORE_TARGET_IS_PRODUCTION_PROJECT`, `RESTORE_TARGET_IS_SOURCE_PROJECT`) ;
+ *  3. il doit figurer dans `AUTHORIZED_RESTORE_PROJECT_REFS` (`RESTORE_TARGET_NOT_AUTHORIZED`).
+ *
+ * @param {{projectRef: string, sourceProjectRef?: string, productionProjectRef: string,
+ *   authorizedProjectRefs?: string[]}} input
+ * @returns {{ok: boolean, reasons: string[]}}
+ */
+export function authorizeRestoreTarget(input) {
+  const {
+    projectRef,
+    sourceProjectRef = null,
+    productionProjectRef = PRODUCTION_PROJECT_REF,
+    authorizedProjectRefs = AUTHORIZED_RESTORE_PROJECT_REFS,
+  } = input ?? {};
+  const reasons = [];
+
+  if (typeof projectRef !== 'string' || projectRef.trim() === '') {
+    return { ok: false, reasons: ['RESTORE_TARGET_MISSING'] };
+  }
+  const target = projectRef.trim();
+  // Défaut = la production réelle du dépôt : un appelant qui omet ce champ ne désarme pas le
+  // contrôle, il retombe sur la valeur qui ferme le gate (`fail-closed`).
+  if (target === productionProjectRef) reasons.push('RESTORE_TARGET_IS_PRODUCTION_PROJECT');
+  if (sourceProjectRef && target === sourceProjectRef) reasons.push('RESTORE_TARGET_IS_SOURCE_PROJECT');
+  // La liste est une constante du dépôt : on ne l'élargit ni par argument, ni par variable
+  // d'environnement. Un appelant qui veut un contrôle positif doit la passer explicitement,
+  // ce qui rend le test possible sans jamais ouvrir le chemin d'exécution réel.
+  if (!authorizedProjectRefs.includes(target)) reasons.push('RESTORE_TARGET_NOT_AUTHORIZED');
+
+  return { ok: reasons.length === 0, reasons: [...new Set(reasons)] };
+}
 
 /**
  * Répertoire d'un chemin fournisseur (les URI de déploiement sont toujours absolues).
@@ -382,11 +454,18 @@ export function bundleFingerprintFromRequest(files, slug) {
  * *préparé* (le reconditionnement prouvé) de ce qui doit être *exécuté* puis *vérifié* par
  * le contrôle indépendant. Une restauration non exercée reste `PREPARED`, jamais `READY`.
  *
+ * Le plan **refuse aussi une destination non autorisée**. Une cible nommée en argument n'est
+ * pas une autorisation : sans cette garde, un plan se déclarait `PREPARED` pour n'importe quel
+ * identifiant de projet, et le seul champ qui distingue un exercice d'une relecture de la
+ * production n'était jamais contrôlé.
+ *
  * Chaque étape nomme une commande **réellement exécutable** (`command`), pas une intention :
  * un plan qui indique un outil inexistant, ou un drapeau qu'un outil ignore silencieusement,
  * envoie l'opérateur vers un échec non diagnostiqué.
  *
- * @param {{readback: object, deployRequest: object, equivalence: object, custody: object, target: object, purpose?: string}} input
+ * @param {{readback: object, deployRequest: object, equivalence: object, custody: object,
+ *   target: {phase?: string, bundleSha256?: string, projectRef?: string}, purpose?: string,
+ *   productionProjectRef?: string, authorizedRestoreProjectRefs?: string[]}} input
  * @returns {object}
  */
 export function buildRestorePlan(input) {
@@ -401,6 +480,26 @@ export function buildRestorePlan(input) {
   }
   if (!custody || custody.holdsRestorableArtifact !== true) blockers.push('MISSING_custody');
   if (!target || target.phase !== 'PRE_MIGRATION') blockers.push('ROLLBACK_TARGET_NOT_PRE_MIGRATION');
+
+  // Destination de l'exercice : contrôlée ici aussi, et non seulement dans le CLI. Un plan est
+  // la pièce que lit l'opérateur ; un plan « préparé » vers un projet non autorisé serait une
+  // invitation à déployer au mauvais endroit.
+  //
+  // Seul `RESTORE_DRILL` déploie vers un projet : un plan de rollback porte une cible de
+  // *bundle*, pas une destination d'exercice, et n'a donc rien à autoriser.
+  const targetAuthorization = purpose === 'RESTORE_DRILL'
+    ? authorizeRestoreTarget({
+      projectRef: target?.projectRef,
+      sourceProjectRef: readback?.projectRef ?? null,
+      productionProjectRef: input?.productionProjectRef ?? PRODUCTION_PROJECT_REF,
+      authorizedProjectRefs: input?.authorizedRestoreProjectRefs ?? AUTHORIZED_RESTORE_PROJECT_REFS,
+    })
+    : { ok: true, reasons: [], applicable: false };
+  for (const reason of targetAuthorization.reasons) {
+    // `RESTORE_TARGET_MISSING` n'est pas une faute de saisie mais une décision manquante :
+    // il est nommé tel quel pour que le blocage soit lisible sans lire le code.
+    if (!blockers.includes(reason)) blockers.push(reason);
+  }
 
   const targetIsObserved = Boolean(
     target && readback && typeof target.bundleSha256 === 'string'
@@ -423,6 +522,10 @@ export function buildRestorePlan(input) {
     purpose,
     function: readback?.slug ?? null,
     projectRef: readback?.projectRef ?? null,
+    targetProjectRef: target?.projectRef ?? null,
+    // La cible de l'exercice est jugée ici : un plan « préparé » vers un projet non autorisé
+    // serait une invitation à déployer au mauvais endroit.
+    targetAuthorization,
     // Séparation nette : ce module ne peut produire que du PRÉPARÉ.
     state: blockers.length === 0 ? 'PREPARED' : 'BLOCKED',
     blockers,
@@ -483,8 +586,35 @@ export function buildRestorePlan(input) {
         + 'fournisseur (URI temporaires), métadonnées de lecture, et verify_jwt absent du corps.',
     },
     deployRequestDigest: deployRequest
-      ? digestDeployRequest(deployRequest)
+      // Empreinte de la requête **telle qu'elle sera écrite**, destination comprise : le
+      // digest estampillé de l'étape C doit égaler celui-ci, sinon la destination a changé
+      // entre la préparation et l'émission.
+      ? digestDeployRequest(
+        purpose === 'RESTORE_DRILL' && target?.projectRef
+          ? stampDeployRequest(deployRequest, target.projectRef)
+          : deployRequest,
+      )
       : null,
+  };
+}
+
+/**
+ * Estampille une requête de déploiement avec la destination **autorisée** de l'exercice.
+ *
+ * Fonction pure : elle ne décide pas de l'autorisation (c'est `authorizeRestoreTarget`, qui
+ * s'applique avant), elle inscrit la décision dans la requête. La destination est donc un
+ * champ **décidé**, jamais recopié du projet de capture — recopier le projet de capture
+ * faisait nommer la production au fichier que l'opérateur envoie réellement.
+ *
+ * @param {object} deployRequest Requête produite par `buildDeployRequest`.
+ * @param {string} targetProjectRef Projet cible validé par l'appelant.
+ * @returns {object} Requête estampillée, prête à être écrite hors dépôt.
+ */
+export function stampDeployRequest(deployRequest, targetProjectRef) {
+  return {
+    ...deployRequest,
+    projectRef: targetProjectRef,
+    urlTemplate: String(deployRequest?.urlTemplate ?? '').replace('{ref}', targetProjectRef),
   };
 }
 
@@ -494,6 +624,11 @@ export function buildRestorePlan(input) {
  * Elle permet de prouver que le plan exécuté est exactement le plan préparé : un digest
  * différent signale que la requête a été modifiée entre la préparation et l'exécution.
  *
+ * Le `projectRef` **fait partie** de l'empreinte. Il en était exclu, si bien qu'estampiller
+ * une requête vers un autre projet ne changeait pas le digest : la preuve « le plan exécuté
+ * est le plan préparé » ne liait pas la destination, c'est-à-dire précisément le champ dont
+ * l'absence de contrôle constituait le défaut du lot 14.
+ *
  * @param {object} request Requête produite par `buildDeployRequest`.
  * @returns {string} SHA-256 hexadécimal.
  */
@@ -501,6 +636,7 @@ export function digestDeployRequest(request) {
   const canon = {
     method: request?.method ?? null,
     slug: request?.slug ?? null,
+    projectRef: request?.projectRef ?? null,
     metadata: request?.metadata ?? null,
     files: (request?.files ?? [])
       .map((f) => ({ name: f.name, sha256: f.sha256 ?? null, bytes: f.bytes ?? null }))

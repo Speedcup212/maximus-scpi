@@ -1461,7 +1461,7 @@ plan est contrôlée par test (existence sur disque) et par CI.
 |---|---|---|---|
 | P1 | Jeton *management* Supabase, portée lecture fonctions | `GET /v1/projects/{ref}/functions` répond 200 | à fournir par la session |
 | P2 | Racine de conservation **hors dépôt** | `MAXIMUS_ROLLBACK_EVIDENCE_ROOT` défini, hors `REPO_ROOT` | outillé (`EVIDENCE_ROOT_INSIDE_REPO`) |
-| P3 | Projet **hors production** autorisé | aucun projet MaximusSCPI hors prod n'existe (inventaire du 26/11) | **BLOQUÉ** — décision requise |
+| P3 | Projet **hors production** autorisé | `AUTHORIZED_RESTORE_PROJECT_REFS` (dans `restoreProtocol.mjs`) contient le `projectRef` | **BLOQUÉ** — liste **vide** : aucun projet MaximusSCPI hors prod n'existe (inventaire du 26/11), décision du propriétaire requise |
 | P4 | Clé publique du vérificateur publiée par PR relue | `rollbackVerifierTrustAnchor.json` : `keyId`/`publicKeyPem` non nuls | **BLOQUÉ** — côté contrôle indépendant |
 | P5 | Aucune révocation, aucun swap, aucun `db push` pendant l'exercice | relecture de ce chapitre | règle |
 
@@ -1494,7 +1494,7 @@ Preuves attendues, toutes vérifiables sans publier de source :
 ```bash
 MAXIMUS_ROLLBACK_EVIDENCE_ROOT=$MAXIMUS_ROLLBACK_EVIDENCE_ROOT \
   node scripts/security/prepareRestore.mjs --function scpi-certified-promote \
-  --target-project-ref <projet-jetable>
+  --target-project-ref <projet-jetable-autorisé>
 ```
 
 - relit l'artefact scellé et **vérifie son intégrité** avant de l'interpréter
@@ -1504,25 +1504,37 @@ MAXIMUS_ROLLBACK_EVIDENCE_ROOT=$MAXIMUS_ROLLBACK_EVIDENCE_ROOT \
 - **critère de succès** : `state = PREPARED`, `equivalence.verdict = PASS`,
   `equivalence.reasons = []`, `recomputedBundleSha256 = bundleSha256` du sceau ;
 - sort en **1** si bloqué : `REPACK_*` nomme la raison exacte ;
-- `TARGET_IS_PRODUCTION_PROJECT` si `--target-project-ref` désigne le projet d'origine.
+- la cible est refusée si elle n'est pas **explicitement autorisée** (`RESTORE_TARGET_*`,
+  voir §11.5) — un identifiant fourni en argument n'est pas une autorisation. Le refus
+  intervient **avant** l'écriture du rapport : une préparation refusée ne laisse aucun
+  fichier derrière elle ;
+- l'intégrité de l'artefact et la preuve d'équivalence restent, elles, vérifiables hors CLI
+  (`prepareFromCaptured`) : le blocage porte sur la **destination**, jamais sur les octets.
 
 **Étape C — Émission de la requête de déploiement (aucun appel réseau).**
 
 ```bash
-node scripts/security/prepareRestore.mjs --function scpi-certified-promote --emit-deploy-request
+node scripts/security/prepareRestore.mjs --function scpi-certified-promote \
+  --target-project-ref <projet-jetable-autorisé> --emit-deploy-request
 ```
 
 Écrit `deploy-requests/scpi-certified-promote.deploy-request.json` **hors dépôt** (le fichier
-contient du source) et imprime seulement `deployRequestDigest`, l'endpoint et le chemin.
-Le digest doit égaler celui du rapport de l'étape B : un écart signifie que la requête a été
-modifiée entre préparation et exécution.
+contient du source) et imprime le chemin, la destination et le `deployRequestDigest`.
+
+- la destination est **estampillée** dans la requête (`projectRef` + `urlTemplate`) : elle
+  n'est jamais recopiée du projet de capture. Une émission sans cible autorisée échoue
+  (`state = TARGET_REFUSED`) et n'écrit **aucun** fichier ;
+- le fichier émis ne doit **jamais** contenir le projet de production, dans aucun champ ;
+- le `projectRef` fait partie du digest : estampiller une autre destination change l'empreinte.
+  Le digest attendu est celui du plan préparé **pour cette cible**, pas celui du
+  reconditionnement brut (calculé avant la décision de destination).
 
 **Étape D — Restauration exercée hors production + readback indépendant.**
 
 ```bash
 MAXIMUS_ROLLBACK_EVIDENCE_ROOT=$MAXIMUS_ROLLBACK_EVIDENCE_ROOT SUPABASE_ACCESS_TOKEN=… \
   node scripts/security/prepareRestore.mjs --function scpi-certified-promote \
-  --restored-project-ref <projet-jetable> --verify-restored
+  --restored-project-ref <projet-jetable-autorisé> --verify-restored
 ```
 
 Le déploiement lui-même (`POST /v1/projects/<jetable>/functions/deploy?slug=scpi-certified-promote`)
@@ -1530,10 +1542,23 @@ est effectué par la session interactive avec le fichier de l'étape C. Puis `--
 fait **deux lectures** dans le projet jetable (métadonnées + corps) et compare au sceau :
 `bundleSha256`, `verifyJwt`, `entrypointSha256`, dépendance par dépendance, et le slug.
 
-- **critère de succès** : `verdict = PASS`, `RESTORED_*` absent ;
+- **la cible est contrôlée AVANT toute lecture fournisseur.** Une relecture de la production
+  est refusée (`RESTORE_TARGET_IS_PRODUCTION_PROJECT`) sans qu'aucune requête ne parte : le
+  CLI ne doit jamais tenter de lire la production pour « vérifier » un exercice ;
+- le contrôle porte aussi sur le projet **réellement lu** : si le fournisseur répond pour un
+  autre projet que celui demandé, le verdict est `RESTORED_PROJECT_REF_MISMATCH` ;
+- **critère de succès** : `verdict = PASS`, `RESTORED_*` absent, `contentComparison =
+  ATTEMPTED` ;
 - `configSha256` **n'est pas** comparé à l'identique : il lie le `projectRef`, donc il change
   légitimement entre production et projet jetable. Comparer son empreinte brute ferait échouer
   tout exercice valide ; on compare les champs qu'il couvre.
+- la **version fournisseur** n'est pas comparée non plus : un redéploiement en crée une
+  nouvelle sans changer les octets. Elle est **tracée** dans `versionTrace`
+  (`sealVersion`, `restoredVersion`, `differs`) pour que l'écart reste visible sans faire
+  échouer un exercice légitime.
+- **un `PASS` de comparaison n'est pas une preuve d'exercice** : `exercisedProof` reste
+  `false`. Le déploiement, le démarrage et la configuration de sécurité se prouvent par les
+  tests d'authentification du §11.4, exécutés **dans** le projet d'exercice.
 - le journal est écrit sous `restorations/<slug>.<ref>.json` : c'est lui, et son empreinte,
   qui alimentent `restoreDrill.journalSha256`.
 
@@ -1576,10 +1601,52 @@ ne doit être créé sans accord. Options, avec ce que chacune prouve :
 | Projet de staging existant (si un jour autorisé) | **OUI** | aucun projet MaximusSCPI hors prod à ce jour |
 | Rejeu local (`local-replay`) | **NON** — reconstruit en mémoire, n'exerce aucune plateforme | gratuit, immédiat |
 
+#### 11.5.1 Une destination doit être *autorisée*, pas seulement *différente*
+
+Le contrôle du 26/11 a établi que `--restored-project-ref` n'était soumis à **aucune** garde,
+et que `verifyRestoredAgainstSeal` ne rejetait pas `readback.projectRef === seal.projectRef` :
+relire la production et comparer à la capture de la production donnait `PASS` sur tous les
+champs de contenu, sans qu'aucun déploiement n'ait eu lieu. Le seul champ qui distingue deux
+lectures était journalisé, jamais contrôlé.
+
+L'autorisation est désormais une **constante du dépôt** : `AUTHORIZED_RESTORE_PROJECT_REFS`
+dans `scripts/security/restoreProtocol.mjs`. Elle est **vide**, et c'est l'état correct :
+l'inventaire établit qu'aucun projet hors production n'existe. Un identifiant fourni en
+argument, une variable d'environnement ou un document ne créent **pas** une autorisation.
+
+Codes de refus, citables tels quels dans un journal d'exploitation :
+`RESTORE_TARGET_MISSING`, `RESTORE_TARGET_IS_PRODUCTION_PROJECT`,
+`RESTORE_TARGET_IS_SOURCE_PROJECT`, `RESTORE_TARGET_NOT_AUTHORIZED`,
+`RESTORED_PROJECT_REF_MISMATCH`.
+
+Le contrôle s'applique aux **quatre** endroits qui décident d'une destination : le verdict de
+relecture, la branche CLI `--verify-restored` (avant toute lecture fournisseur), la
+préparation (`--target-project-ref`), et l'**émission** de la requête de déploiement — le
+fichier que l'opérateur envoie réellement ne nomme jamais la production, et une émission sans
+cible autorisée n'écrit rien.
+
+#### 11.5.2 Ce que coûterait un projet jetable dédié
+
+Établi pour l'arbitrage, sans rien créer (aucune création, aucun déploiement dans ce lot) :
+
+| Poste | Constat |
+|---|---|
+| Offre | Supabase plan **gratuit** : 2 projets par organisation, pause après inactivité. Suffisant pour un exercice de quelques minutes. |
+| Coût direct | **0 €** sur le plan gratuit. Un plan payant ne se justifie pas pour un exercice ponctuel. |
+| Comptes / facturation | aucune carte nécessaire sur le plan gratuit ; création d'un projet = action du propriétaire, pas de l'agent. |
+| Données | projet **vide** : les seules données déposées sont les 6 bundles capturés, qui contiennent du source de production. Le projet doit donc être **privé** et **supprimé après l'exercice** (ou mis en pause), avec le journal de restauration conservé hors dépôt. |
+| Prérequis techniques | jeton *management* avec portée écriture fonctions ; CLI `supabase` ou appel `POST …/deploy` ; `verify_jwt` posé explicitement par la requête reconditionnée. |
+| Durée | un exercice par fonction : capture (déjà faite) + déploiement + 2 lectures + tests du §11.4. |
+| Risque résiduel | du source de production réside temporairement hors production : à traiter comme une copie sensible (accès restreint, suppression datée). |
+
+Tant que cette décision n'est pas prise, `AUTHORIZED_RESTORE_PROJECT_REFS` reste vide et
+`rollbackReady` reste à **0/16** : c'est le comportement correct, pas un incident.
+
 **Recommandation inchangée et conforme au gate** : garder `rollbackReady` à `0/16` jusqu'à ce
 qu'une restauration exercée ait lieu. Le rejeu local reste une preuve **partielle** assumée,
-jamais une restauration. Élargir `restoreDestinationsProvingRestore` pour « débloquer » serait
-rouvrir le défaut corrigé au lot 13.
+jamais une restauration. Élargir `restoreDestinationsProvingRestore`, ou peupler
+`AUTHORIZED_RESTORE_PROJECT_REFS` sans décision, pour « débloquer » serait rouvrir le défaut
+corrigé aux lots 13 et 14.
 
 ### 11.6 Tâche ANALYST `ca1cc7be-2e80-43dd-afc6-42f01e069951` : nécessité métier d'abord
 
@@ -1616,6 +1683,10 @@ Rollback : aucune écriture n'ayant eu lieu avant l'étape 3, il n'y a rien à d
 | Défaut « commandes inexistantes dans le plan » | **EXÉCUTÉ** et **VÉRIFIÉ** (tests + CI) |
 | CLI `prepareRestore.mjs` (étapes B, C, D) | **EXÉCUTÉ** et **VÉRIFIÉ** sur la fixture expurgée |
 | Provenance du readback liée au projet lu | **EXÉCUTÉ** et **VÉRIFIÉ** (mutation détectée) |
+| **Faux PASS sur production** (lot 14) | **EXÉCUTÉ** et **VÉRIFIÉ** — 6 mutations, toutes détectées |
+| Autorisation de destination (`AUTHORIZED_RESTORE_PROJECT_REFS`) | **EXÉCUTÉ** et **VÉRIFIÉ** — liste vide, gate fermé |
+| Requête de déploiement estampillée, digest liant la destination | **EXÉCUTÉ** et **VÉRIFIÉ** |
+| Coût / conditions d'un projet jetable dédié (§11.5.2) | **ÉTABLI** — aucune création effectuée |
 | Capture réelle des 6 fonctions `DEPLOYED` | **BLOQUÉ** — aucun jeton Supabase |
 | Restauration exercée (étape D) | **BLOQUÉ** — aucun projet hors production autorisé (P3) |
 | Attestation signée (étape E) | **BLOQUÉ** — clé publique non provisionnée (P4) |
