@@ -71,17 +71,26 @@ Un fichier `scripts/security/prod-bundles/<nom-de-fonction>.json` :
     "bundleSha256": "<empreinte agrégée du bundle déployé>",
 
     // …et la LECTURE FOURNISSEUR qui l'atteste, datée, dans le bon projet.
+    // DEUX lectures distinctes : métadonnées et contenu. L'endpoint de métadonnées ne rend
+    // aucun octet — c'est le défaut relevé le 26/11 (#459).
     "readback": {
       "source": "supabase-management-api:GET /v1/projects/{ref}/functions/{slug}",
+      "bundleSource": "supabase-management-api:GET /v1/projects/{ref}/functions/{slug}/body",
       "fetchedAt": "2026-11-25T00:30:00Z",
       "projectRef": "ygvsddcpohsnaowofuwc",
       "slug": "scpi-evidence-certify",
+      "status": "ACTIVE",                    // non ACTIVE = pas un déploiement vivant
       "version": 9,
       "verifyJwt": false,
-      "entrypointPath": "supabase/functions/scpi-evidence-certify/index.ts",
+      // Chemin brut du fournisseur (URI temporaire de déploiement), conservé pour la trace…
+      "providerEntrypointPath": "file:///tmp/user_fn_…/source/index.ts",
+      // …et chemin canonique du registre : les deux ne se confondent jamais.
+      "entrypointPath": "scpi-evidence-certify/index.ts",
       "entrypointSha256": "<= observed.entrypointSha256>",
-      "dependencies": [ { "path": "…", "sha256": "<…>", "bytes": 0 } ],
-      "bundleSha256": "<= observed.bundleSha256>",
+      "dependencies": [ { "path": "_shared/serviceKey.ts", "sha256": "<…>", "bytes": 0 } ],
+      "bundleSha256": "<= observed.bundleSha256>  (RECALCULABLE depuis le contenu déclaré)",
+      // Empreinte de STOCKAGE du fournisseur : distincte de la canonique ci-dessus.
+      "providerEzbrSha256": "<ezbr_sha256 renvoyé par le fournisseur>",
       "configSha256": "<empreinte de CONFIGURATION : projet, slug, version, verify_jwt, entrypointPath>"
     }
   },
@@ -231,6 +240,11 @@ Codes bloquants du readback :
 | `READBACK_DISAGREES_WITH_REGISTRY` | la lecture contredit l'état constaté au registre |
 | `READBACK_CONFIG_SHA256_MISMATCH` | `configSha256` ne lie pas les champs déclarés |
 | `READBACK_STALE_OR_AFTER_VERIFICATION` | lecture périmée (> 24 h) ou postérieure à `verifiedAt` |
+| `READBACK_BUNDLE_SOURCE_NOT_PROVIDER` | la provenance des **octets** n'est pas une lecture fournisseur |
+| `READBACK_STATUS_NOT_ACTIVE` | la fonction n'est pas `ACTIVE` : ce n'est pas un déploiement vivant |
+| `READBACK_ENTRYPOINT_PATH_NOT_REGISTRY_SHAPE` | le chemin canonique n'est pas `<slug>/index.ts` |
+| `READBACK_BUNDLE_SHA256_MISMATCH` | l'empreinte de bundle ne se recalcule pas depuis le contenu déclaré |
+| `BAD_readback_providerEzbrSha256` | empreinte de stockage fournisseur absente ou malformée |
 
 La **fraîcheur** est mesurée contre l'`attestation.verifiedAt` signé, jamais contre
 l'horloge du CI : une évidence commitée reste ainsi reproductible, et `--check` signale un
@@ -333,3 +347,67 @@ champ qu'il n'a pas lu.
 **Aucune clé n'est provisionnée** : `rollbackVerifierTrustAnchor.json` porte toujours
 `keyId: null` / `publicKeyPem: null`. Le gate reste donc fermé mécaniquement, et le
 provisionnement de l'ancre est un acte du contrôle indépendant, sur une référence protégée.
+
+---
+
+## Correction du lot 11 : « le collecteur ne collectait pas ce qu'il annonçait »
+
+Contrôle indépendant du 26/11 (#459) sur `collectReadback.mjs` au SHA `b9b2d983` :
+
+> « Le collecteur attend `payload.files` dans la réponse JSON de GET `/functions/{slug}` ;
+> la disponibilité de ces octets via cet endpoint précis n'est pas démontrée. […] Le
+> collecteur accepte en outre un fallback sur n'importe quel `index.ts` et hache les
+> dépendances sans contenu comme chaîne vide. Ces deux comportements ne sont pas compatibles
+> avec une preuve exhaustive fail-closed. Exiger le contenu réel de chaque fichier, une
+> correspondance unique de l'entrypoint et du slug demandé, et une normalisation explicite
+> des chemins fournisseur vers le registre ; tester sur une réponse réelle expurgée, sans
+> publier les sources privées. »
+
+Le constat est exact et vérifié contre la documentation du fournisseur :
+
+| Endpoint | Ce qu'il rend réellement |
+|---|---|
+| `GET /v1/projects/{ref}/functions/{slug}` | **métadonnées seulement** : `id`, `slug`, `status`, `version`, `verify_jwt`, `entrypoint_path`, `ezbr_sha256`… — **aucun** `files`, **aucun** octet |
+| `GET /v1/projects/{ref}/functions/{slug}/body` | `multipart/form-data` : une partie JSON de métadonnées + **une partie par fichier** |
+
+### Les quatre défauts corrigés
+
+1. **Une seule lecture pour deux objets distincts.** Le collecteur lisait les métadonnées et
+   prétendait en tirer le contenu. Il fait désormais **deux** lectures et **lie les deux à la
+   même version** : un corps rendu pour la v11 ne peut pas attester la v12
+   (`READBACK_BODY_VERSION_MISMATCH`), ni une autre fonction (`READBACK_BODY_SLUG_MISMATCH`).
+2. **Entrypoint deviné.** Le repli « n'importe quel `index.ts` » est supprimé. La
+   correspondance avec `entrypoint_path` doit être **unique** (`READBACK_ENTRYPOINT_NOT_IN_BODY`,
+   `READBACK_ENTRYPOINT_AMBIGUOUS`), et le slug demandé est vérifié (`READBACK_OTHER_FUNCTION`).
+3. **Contenu vide haché comme du vide.** Hacher `''` produisait une empreinte plausible pour
+   un fichier absent. Tout fichier doit porter un contenu réel, en octets UTF-8 exacts ;
+   un fichier vide est refusé (`READBACK_FILE_WITHOUT_CONTENT`, `READBACK_ENTRYPOINT_CONTENT_EMPTY`).
+4. **Chemins fournisseur non normalisés.** Les URI temporaires de déploiement
+   (`file:///tmp/user_fn_…/source/index.ts`) ne contiennent pas le slug : les comparer au
+   registre donnait des identités incomparables. `normalizeBundlePaths` applique une règle
+   **explicite et unique** — racine = répertoire de l'`entrypoint_path`, entrypoint →
+   `<slug>/index.ts`, dépendance locale → `<slug>/<rel>`, dépendance partagée →
+   `_shared/<rel>` — et **refuse** (`PROVIDER_PATH_NOT_NORMALIZABLE`) tout chemin qu'elle ne
+   sait pas placer plutôt que de le deviner.
+
+### Ce que le readback ne publie jamais
+
+Aucun contenu de source : le dépôt est **public**. Le readback ne porte que des **empreintes**
+et des **tailles**. Deux empreintes restent distinctes et ne se confondent pas :
+
+- `providerEzbrSha256` — l'empreinte de **stockage** du fournisseur (`ezbr_sha256`) ;
+- `bundleSha256` — l'empreinte **canonique** du manifeste, **recalculée** depuis l'entrypoint
+  et les dépendances déclarés. `validateReadback` la recalcule et refuse un écart
+  (`READBACK_BUNDLE_SHA256_MISMATCH`) : une empreinte recopiée n'est qu'une affirmation.
+
+### Éprouvé sur une réponse au format réel, expurgée
+
+`scripts/security/fixtures/providerFunctionBody.mjs` reproduit la **forme exacte** des deux
+réponses (métadonnées JSON, corps multipart avec URI temporaires) pour la fonction
+`scpi-certified-promote` v12. Les contenus de fichiers y sont des **marqueurs inertes**, pas
+du code de production : seule la structure est réelle. Les tests vérifient la mécanique,
+jamais des valeurs de production.
+
+Les quatre défauts sont couverts par des tests qui **échouent** quand la garde correspondante
+est retirée (mutation vérifiée) : lecture de contenu non effectuée, entrypoint non unique,
+contenu vide accepté, chemins non normalisés.

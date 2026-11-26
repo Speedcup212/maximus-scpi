@@ -642,6 +642,43 @@ Le jeton n'est lu que dans l'environnement (jamais en argument, où il apparaît
 (`SUPABASE_ACCESS_TOKEN_MISSING`, `READBACK_PAYLOAD_WITHOUT_*`, `READBACK_HTTP_<statut>`)
 plutôt que de renseigner un champ qu'il n'a pas lu.
 
+#### 2.7.7 Le collecteur doit lire les octets, pas seulement les métadonnées
+
+Contrôle indépendant du 26/11 (#459) sur `collectReadback.mjs` au SHA `b9b2d983` : le
+collecteur attendait `payload.files` sur `GET /v1/projects/{ref}/functions/{slug}`. **Cet
+endpoint ne rend aucun octet** — seulement des métadonnées (`slug`, `status`, `version`,
+`verify_jwt`, `entrypoint_path`, `ezbr_sha256`). Les octets viennent de
+`GET /v1/projects/{ref}/functions/{slug}/body`, en `multipart/form-data`.
+
+Quatre défauts corrigés (détail complet dans `scripts/security/prod-bundles/README.md`) :
+
+1. **Deux lectures, liées à la même version.** Métadonnées et contenu sont lus séparément ;
+   un corps rendu pour une autre version (`READBACK_BODY_VERSION_MISMATCH`) ou une autre
+   fonction (`READBACK_BODY_SLUG_MISMATCH`) est refusé. `bundleSource` déclare la provenance
+   des octets (`READBACK_BUNDLE_SOURCE_NOT_PROVIDER`).
+2. **Entrypoint à correspondance unique.** Plus de repli sur « n'importe quel `index.ts` » :
+   `READBACK_ENTRYPOINT_NOT_IN_BODY`, `READBACK_ENTRYPOINT_AMBIGUOUS`, et le slug demandé est
+   vérifié (`READBACK_OTHER_FUNCTION`).
+3. **Aucun fichier haché comme du vide.** Un contenu vide est refusé
+   (`READBACK_FILE_WITHOUT_CONTENT`, `READBACK_ENTRYPOINT_CONTENT_EMPTY`) au lieu de produire
+   l'empreinte du vide, qui était plausible et fausse.
+4. **Normalisation explicite des chemins fournisseur.** Les URI temporaires
+   (`file:///tmp/user_fn_…/source/index.ts`) sont ramenées à la convention du registre
+   (`<slug>/index.ts`, `<slug>/<local>`, `_shared/<partagé>`) ; tout chemin non plaçable
+   échoue en `PROVIDER_PATH_NOT_NORMALIZABLE` au lieu d'être deviné. Le chemin fournisseur
+   brut reste conservé (`providerEntrypointPath`) et n'est **jamais** confondu avec le
+   chemin canonique.
+
+Deux empreintes restent distinctes : `providerEzbrSha256` (stockage fournisseur) et
+`bundleSha256` (canonique, **recalculée** par `validateReadback` ; un écart échoue en
+`READBACK_BUNDLE_SHA256_MISMATCH`). Un readback n'est plus une collection de valeurs
+déclarées : son empreinte de bundle doit se recalculer depuis son propre contenu.
+
+Le collecteur est éprouvé sur une **réponse au format réel, expurgée**
+(`scripts/security/fixtures/providerFunctionBody.mjs`) : structure exacte des deux réponses,
+contenus remplacés par des marqueurs inertes — aucun source de production n'est publié, le
+dépôt étant public.
+
 **État du gate : inchangé et correct.** `preDeployReady = 0/16`, `postDeployReady = 0/16`,
 `rollbackReady = 0/16`, `revocationAllowed = false`, `violations = []`. Aucune clé publique
 n'est provisionnée dans l'ancre : le gate reste fermé mécaniquement. Le provisionnement de

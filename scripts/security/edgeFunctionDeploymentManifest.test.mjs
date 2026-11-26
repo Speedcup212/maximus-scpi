@@ -35,6 +35,7 @@ import {
   MAX_READBACK_AGE_MS,
   readbackConfigSha256,
   validateReadback,
+  bundleFingerprint,
 } from './edgeFunctionDeploymentManifest.mjs';
 
 const noEvidence = () => undefined;
@@ -138,17 +139,27 @@ test('le rollback n est jamais déclaré prêt sans évidence du bundle de produ
  * exigée séparément (projet, fraîcheur, liaison de configuration, accord avec `observed`).
  */
 const readbackFor = (name, version, verifyJwt = false, overrides = {}) => {
+  const entrypointPath = `${name}/index.ts`;
+  const dependencies = [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }];
   const base = {
     source: 'supabase-management-api:GET /v1/projects/{ref}/functions/{slug}',
+    bundleSource: 'supabase-management-api:GET /v1/projects/{ref}/functions/{slug}/body',
     fetchedAt: '2026-11-25T00:30:00Z',
     projectRef: PRODUCTION_PROJECT_REF,
     slug: name,
+    status: 'ACTIVE',
     version,
     verifyJwt,
-    entrypointPath: `supabase/functions/${name}/index.ts`,
+    providerEntrypointPath: `file:///tmp/user_fn_redacted_${version}/source/index.ts`,
+    entrypointPath,
     entrypointSha256: 'a'.repeat(64),
-    dependencies: [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }],
-    bundleSha256: 'c'.repeat(64),
+    providerEzbrSha256: 'f'.repeat(64),
+    dependencies,
+    // Empreinte canonique du bundle, recalculée depuis l'entrypoint et les dépendances.
+    bundleSha256: bundleFingerprint([
+      { path: entrypointPath, sha256: 'a'.repeat(64) },
+      ...dependencies,
+    ]),
   };
   const merged = { ...base, ...overrides };
   merged.configSha256 = readbackConfigSha256({
@@ -167,52 +178,57 @@ const readbackFor = (name, version, verifyJwt = false, overrides = {}) => {
  * (pré-migration) + garde liée à ce bundle + restauration testée hors prod, avec journal,
  * stage explicite, et signature couvrant projet/version/configuration.
  */
-const hardenedEvidence = (name, observedVersion, targetVersion = observedVersion - 1, stage = 'POST_DEPLOY') => ({
-  schemaVersion: EVIDENCE_SCHEMA_VERSION,
-  stage,
-  function: name,
-  observed: {
-    version: observedVersion,
-    verifyJwt: false,
-    entrypointSha256: 'a'.repeat(64),
-    dependencies: [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }],
-    bundleSha256: 'c'.repeat(64),
-    readback: readbackFor(name, observedVersion),
-  },
-  rollbackTarget: {
-    phase: 'PRE_MIGRATION',
-    version: targetVersion,
-    verifyJwt: false,
-    entrypointSha256: '1'.repeat(64),
-    dependencies: [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }],
-    bundleSha256: '2'.repeat(64),
-  },
-  custody: {
-    artifactRef: `vault://prod-bundles/${name}-v${targetVersion}.tgz`,
-    artifactSha256: 'd'.repeat(64),
-    owner: 'proprietaire',
-    holdsRestorableArtifact: true,
-    bindsToBundleSha256: '2'.repeat(64),
-    bindsToFunction: name,
-    bindsToVersion: targetVersion,
-  },
-  restoreDrill: {
-    performedAt: '2026-11-25T00:00:00Z',
-    performedBy: 'ci-restore-drill',
-    destination: 'local-replay',
-    result: 'PASS',
-    journalRef: '/var/lib/maximus/restore-drills/scpi-evidence-certify.log',
-    journalSha256: 'e'.repeat(64),
-    restoredEntrypointSha256: '1'.repeat(64),
-    restoredBundleSha256: '2'.repeat(64),
-  },
-  attestation: {
-    schemaVersion: ATTESTATION_SCHEMA_VERSION,
-    verifier: 'independent-control',
-    verifierIdentity: 'chatgpt-independent-controller',
-    attestationSha256: 'PENDING',
-  },
-});
+const hardenedEvidence = (name, observedVersion, targetVersion = observedVersion - 1, stage = 'POST_DEPLOY') => {
+  // `observed` est dérivé du readback : une évidence dont les deux blocs divergent est
+  // refusée par `READBACK_DISAGREES_WITH_OBSERVED_*`, ce qui est le comportement voulu.
+  const readback = readbackFor(name, observedVersion);
+  return {
+    schemaVersion: EVIDENCE_SCHEMA_VERSION,
+    stage,
+    function: name,
+    observed: {
+      version: readback.version,
+      verifyJwt: readback.verifyJwt,
+      entrypointSha256: readback.entrypointSha256,
+      dependencies: readback.dependencies,
+      bundleSha256: readback.bundleSha256,
+      readback,
+    },
+    rollbackTarget: {
+      phase: 'PRE_MIGRATION',
+      version: targetVersion,
+      verifyJwt: false,
+      entrypointSha256: '1'.repeat(64),
+      dependencies: [{ path: '_shared/serviceKey.ts', sha256: 'b'.repeat(64), bytes: 10 }],
+      bundleSha256: '2'.repeat(64),
+    },
+    custody: {
+      artifactRef: `vault://prod-bundles/${name}-v${targetVersion}.tgz`,
+      artifactSha256: 'd'.repeat(64),
+      owner: 'proprietaire',
+      holdsRestorableArtifact: true,
+      bindsToBundleSha256: '2'.repeat(64),
+      bindsToFunction: name,
+      bindsToVersion: targetVersion,
+    },
+    restoreDrill: {
+      performedAt: '2026-11-25T00:00:00Z',
+      performedBy: 'ci-restore-drill',
+      destination: 'local-replay',
+      result: 'PASS',
+      journalRef: '/var/lib/maximus/restore-drills/scpi-evidence-certify.log',
+      journalSha256: 'e'.repeat(64),
+      restoredEntrypointSha256: '1'.repeat(64),
+      restoredBundleSha256: '2'.repeat(64),
+    },
+    attestation: {
+      schemaVersion: ATTESTATION_SCHEMA_VERSION,
+      verifier: 'independent-control',
+      verifierIdentity: 'chatgpt-independent-controller',
+      attestationSha256: 'PENDING',
+    },
+  };
+};
 
 /**
  * Paire de clés Ed25519 **de test**, générée à la volée et jamais commitée.
@@ -865,14 +881,18 @@ test('la préparation pré-déploiement accepte observed = target, la validation
     const e = hardenedEvidence(LIVE_PRE, 12, 12, 'PRE_DEPLOY');
     e.function = name;
     e.observed.readback = readbackFor(name, 12);
+    e.observed.entrypointSha256 = e.observed.readback.entrypointSha256;
+    e.observed.bundleSha256 = e.observed.readback.bundleSha256;
+    e.observed.dependencies = e.observed.readback.dependencies;
     e.rollbackTarget = JSON.parse(JSON.stringify(e.observed));
     e.rollbackTarget.phase = 'PRE_MIGRATION';
     e.custody.artifactRef = `vault://pre-deploy/${name}.tgz`;
-    e.custody.bindsToBundleSha256 = 'c'.repeat(64);
+    // Avant intervention, l'artefact conservé EST le bundle qui tourne.
+    e.custody.bindsToBundleSha256 = e.observed.bundleSha256;
     e.custody.bindsToVersion = 12;
     e.custody.bindsToFunction = name;
-    e.restoreDrill.restoredEntrypointSha256 = 'a'.repeat(64);
-    e.restoreDrill.restoredBundleSha256 = 'c'.repeat(64);
+    e.restoreDrill.restoredEntrypointSha256 = e.observed.entrypointSha256;
+    e.restoreDrill.restoredBundleSha256 = e.observed.bundleSha256;
     return e;
   };
   const m = buildAnchored(preDeploy, attestationReaderFor(preDeploy));
@@ -1164,6 +1184,77 @@ test('validateReadback refuse un readback incomplet, non-provider ou incohérent
   assert.ok(
     validateReadback({ readback: otherSlug }, 'scpi-evidence-certify').includes('READBACK_OTHER_FUNCTION'),
   );
+});
+
+/**
+ * Gardes ajoutées au lot 11 après le contrôle du 26/11 (#459).
+ *
+ * Chacune répond à un défaut nommé : l'endpoint de métadonnées ne rend pas les octets, donc
+ * le readback doit dire **d'où vient le contenu**, ne pas accepter une fonction non ACTIVE,
+ * conserver le chemin fournisseur distinct du chemin registre, et surtout porter une
+ * empreinte de bundle **recalculable** depuis le contenu déclaré.
+ */
+test('validateReadback exige une lecture de contenu distincte et une empreinte recalculable', () => {
+  const SLUG = 'scpi-evidence-certify';
+  const base = readbackFor(SLUG, 9);
+
+  // Une lecture qui ne nomme que les métadonnées ne dit pas d'où viennent les octets.
+  const noBundleSource = { ...base };
+  delete noBundleSource.bundleSource;
+  assert.ok(
+    validateReadback({ readback: noBundleSource }, SLUG).includes('MISSING_readback_bundleSource'),
+  );
+
+  const manualContent = { ...base, bundleSource: 'saisie manuelle' };
+  assert.ok(
+    validateReadback({ readback: manualContent }, SLUG).includes('READBACK_BUNDLE_SOURCE_NOT_PROVIDER'),
+  );
+
+  // Une fonction qui n'est pas ACTIVE n'est pas un déploiement vivant.
+  const notActive = { ...base, status: 'THROTTLED' };
+  assert.ok(
+    validateReadback({ readback: notActive }, SLUG).includes('READBACK_STATUS_NOT_ACTIVE'),
+  );
+
+  // Le chemin fournisseur (URI temporaire) doit être conservé, pas fondu dans le registre.
+  const noProviderPath = { ...base };
+  delete noProviderPath.providerEntrypointPath;
+  assert.ok(
+    validateReadback({ readback: noProviderPath }, SLUG).includes('MISSING_readback_providerEntrypointPath'),
+  );
+
+  // Le chemin canonique doit être celui du registre pour CE slug.
+  const wrongPath = { ...base, entrypointPath: 'supabase/functions/autre/index.ts' };
+  wrongPath.configSha256 = readbackConfigSha256({
+    projectRef: wrongPath.projectRef,
+    slug: wrongPath.slug,
+    version: wrongPath.version,
+    verifyJwt: wrongPath.verifyJwt,
+    entrypointPath: wrongPath.entrypointPath,
+  });
+  assert.ok(
+    validateReadback({ readback: wrongPath }, SLUG).includes('READBACK_ENTRYPOINT_PATH_NOT_REGISTRY_SHAPE'),
+  );
+
+  // L'empreinte fournisseur (stockage) est un champ obligatoire, distinct de la canonique.
+  const noEzbr = { ...base };
+  delete noEzbr.providerEzbrSha256;
+  assert.ok(
+    validateReadback({ readback: noEzbr }, SLUG).includes('MISSING_readback_providerEzbrSha256'),
+  );
+  const badEzbr = { ...base, providerEzbrSha256: 'pas-une-empreinte' };
+  assert.ok(
+    validateReadback({ readback: badEzbr }, SLUG).includes('BAD_readback_providerEzbrSha256'),
+  );
+
+  // Une empreinte de bundle qui ne se recalcule pas depuis le contenu est une déclaration.
+  const forgedBundle = { ...base, bundleSha256: '9'.repeat(64) };
+  assert.ok(
+    validateReadback({ readback: forgedBundle }, SLUG).includes('READBACK_BUNDLE_SHA256_MISMATCH'),
+  );
+
+  // Et le readback sain ne produit toujours aucune erreur.
+  assert.deepEqual(validateReadback({ readback: base }, SLUG), []);
 });
 
 test('le README de prod-bundles documente le readback fournisseur et la configuration', () => {

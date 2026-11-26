@@ -64,6 +64,21 @@ export const READBACK_SOURCES = Object.freeze([
 ]);
 
 /**
+ * Source du **contenu** du bundle, distincte de celle des métadonnées.
+ *
+ * Le contrôle du 26/11 (#459) a établi que `GET /functions/{slug}` ne rend **que des
+ * métadonnées** : ni `files`, ni octets. Un readback qui ne nomme pas la lecture des octets
+ * ne dit donc pas d'où vient le contenu qu'il prétend avoir identifié.
+ */
+export const READBACK_BUNDLE_SOURCES = Object.freeze([
+  'supabase-management-api:GET /v1/projects/{ref}/functions/{slug}/body',
+  'supabase-cli:functions download --project-ref {ref}',
+]);
+
+/** État fournisseur d'un déploiement vivant. */
+export const READBACK_ACTIVE_STATUS = 'ACTIVE';
+
+/**
  * Ancre de confiance des attestations — **chemin figé dans le dépôt**, jamais pris dans
  * l'environnement.
  *
@@ -455,8 +470,9 @@ export const PROD_BUNDLE_EVIDENCE_SCHEMA = Object.freeze({
    * du 25/11 a établi qu'une égalité de SHA de code ne prouve pas l'égalité de configuration.
    */
   readbackFields: [
-    'source', 'fetchedAt', 'projectRef', 'slug', 'version', 'verifyJwt',
-    'entrypointPath', 'entrypointSha256', 'dependencies', 'bundleSha256', 'configSha256',
+    'source', 'bundleSource', 'fetchedAt', 'projectRef', 'slug', 'status', 'version', 'verifyJwt',
+    'providerEntrypointPath', 'entrypointPath', 'entrypointSha256', 'providerEzbrSha256',
+    'dependencies', 'bundleSha256', 'configSha256',
   ],
   /** Ce que la configuration couvre, et qui n'est pas du code. */
   readbackConfigFields: ['projectRef', 'slug', 'version', 'verifyJwt', 'entrypointPath'],
@@ -509,7 +525,14 @@ function sha256File(relPath) {
   return createHash('sha256').update(readFileSync(abs)).digest('hex');
 }
 
-function bundleFingerprint(entries) {
+/**
+ * Empreinte canonique d'un bundle : liste triée `chemin + empreinte`.
+ *
+ * Exportée parce que le collecteur et les tests doivent **recalculer** cette empreinte pour
+ * prouver qu'elle correspond au contenu déclaré ; une empreinte recopiée n'est qu'une
+ * affirmation.
+ */
+export function bundleFingerprint(entries) {
   const lines = entries
     .slice()
     .sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0))
@@ -882,6 +905,23 @@ export function validateReadback(observed, evidenceFunction) {
   if (!READBACK_SOURCES.some((s) => typeof rb.source === 'string' && rb.source.startsWith(s.split('{')[0].trim()))) {
     errors.push('READBACK_SOURCE_NOT_PROVIDER');
   }
+  // Le contenu vient d'une lecture séparée : sans elle, le readback ne dit pas d'où
+  // proviennent les octets dont il publie l'empreinte.
+  if (!READBACK_BUNDLE_SOURCES.some(
+    (s) => typeof rb.bundleSource === 'string' && rb.bundleSource.startsWith(s.split('{')[0].trim()),
+  )) {
+    errors.push('READBACK_BUNDLE_SOURCE_NOT_PROVIDER');
+  }
+  if (rb.status !== READBACK_ACTIVE_STATUS) errors.push('READBACK_STATUS_NOT_ACTIVE');
+  if (typeof rb.providerEntrypointPath !== 'string' || rb.providerEntrypointPath === '') {
+    errors.push('READBACK_WITHOUT_PROVIDER_ENTRYPOINT');
+  }
+  // Le chemin canonique doit être celui du registre pour ce slug : un chemin d'une autre
+  // fonction rendrait l'identité incomparable au dépôt.
+  if (rb.entrypointPath !== `${evidenceFunction}/index.ts`) {
+    errors.push('READBACK_ENTRYPOINT_PATH_NOT_REGISTRY_SHAPE');
+  }
+  if (!HEX64.test(rb.providerEzbrSha256 ?? '')) errors.push('BAD_readback_providerEzbrSha256');
   if (typeof rb.fetchedAt !== 'string' || Number.isNaN(Date.parse(rb.fetchedAt))) {
     errors.push('BAD_readback_fetchedAt');
   }
@@ -897,6 +937,20 @@ export function validateReadback(observed, evidenceFunction) {
     if (!HEX64.test(rb[key])) errors.push(code);
   }
   checkDependencies(rb.dependencies, errors, 'readback');
+
+  // L'empreinte de bundle doit être **recalculable** depuis l'entrypoint et les dépendances
+  // déclarés. Sans ce recalcul, `bundleSha256` resterait une valeur déclarée : une empreinte
+  // recopiée ne prouve pas le contenu qu'elle prétend résumer.
+  if (HEX64.test(rb.entrypointSha256 ?? '')
+    && HEX64.test(rb.bundleSha256 ?? '')
+    && Array.isArray(rb.dependencies)
+    && rb.dependencies.every((d) => typeof d?.path === 'string' && HEX64.test(d?.sha256 ?? ''))) {
+    const recomputedBundle = bundleFingerprint([
+      { path: `${evidenceFunction}/index.ts`, sha256: rb.entrypointSha256 },
+      ...rb.dependencies.map((d) => ({ path: d.path, sha256: d.sha256 })),
+    ]);
+    if (recomputedBundle !== rb.bundleSha256) errors.push('READBACK_BUNDLE_SHA256_MISMATCH');
+  }
 
   // Le readback n'est pas un commentaire : il doit décrire le MÊME objet que `observed`.
   // Sans cette égalité, on pourrait lire la prod d'un côté et déclarer autre chose de l'autre.
