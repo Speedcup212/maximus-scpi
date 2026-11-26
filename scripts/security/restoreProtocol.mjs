@@ -104,6 +104,19 @@ export const RESTORE_PRECONDITIONS = Object.freeze([
 ]);
 
 /**
+ * Objet du plan de restauration — deux questions distinctes, deux jeux de conditions.
+ *
+ *  - `ROLLBACK_EVIDENCE` : reconstituer l'état **antérieur** de la fonction migrée. La cible
+ *    doit alors être le bundle d'avant migration, et restaurer le bundle déjà déployé ne
+ *    défait rien (`ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE`).
+ *  - `RESTORE_DRILL` : prouver qu'on sait **restaurer les octets capturés** dans un
+ *    environnement hors production autorisé. C'est l'exercice prescrit par l'arbitrage du
+ *    26/11. La cible légitime **est** le bundle observé (c'est précisément lui qu'on capture
+ *    et qu'on rejoue) ; exiger autre chose fermerait l'exercice au lieu de le contrôler.
+ */
+export const RESTORE_PLAN_PURPOSES = Object.freeze(['ROLLBACK_EVIDENCE', 'RESTORE_DRILL']);
+
+/**
  * Répertoire d'un chemin fournisseur (les URI de déploiement sont toujours absolues).
  * @param {string} p
  * @returns {string}
@@ -369,25 +382,45 @@ export function bundleFingerprintFromRequest(files, slug) {
  * *préparé* (le reconditionnement prouvé) de ce qui doit être *exécuté* puis *vérifié* par
  * le contrôle indépendant. Une restauration non exercée reste `PREPARED`, jamais `READY`.
  *
- * @param {{readback: object, deployRequest: object, equivalence: object, custody: object, target: object}} input
+ * Chaque étape nomme une commande **réellement exécutable** (`command`), pas une intention :
+ * un plan qui indique un outil inexistant, ou un drapeau qu'un outil ignore silencieusement,
+ * envoie l'opérateur vers un échec non diagnostiqué.
+ *
+ * @param {{readback: object, deployRequest: object, equivalence: object, custody: object, target: object, purpose?: string}} input
  * @returns {object}
  */
 export function buildRestorePlan(input) {
   const { readback, deployRequest, equivalence, custody, target } = input ?? {};
+  const purpose = input?.purpose ?? 'ROLLBACK_EVIDENCE';
   const blockers = [];
+
+  if (!RESTORE_PLAN_PURPOSES.includes(purpose)) blockers.push('RESTORE_PLAN_UNKNOWN_PURPOSE');
 
   if (!equivalence || equivalence.verdict !== 'PASS') {
     blockers.push('EQUIVALENCE_NOT_PROVEN');
   }
   if (!custody || custody.holdsRestorableArtifact !== true) blockers.push('MISSING_custody');
   if (!target || target.phase !== 'PRE_MIGRATION') blockers.push('ROLLBACK_TARGET_NOT_PRE_MIGRATION');
-  // Restaurer la version qui tourne déjà ne défait rien : c'est le défaut corrigé au lot 8.
-  if (target && readback && target.bundleSha256 === readback.bundleSha256) {
-    blockers.push('ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE');
+
+  const targetIsObserved = Boolean(
+    target && readback && typeof target.bundleSha256 === 'string'
+      && target.bundleSha256 === readback.bundleSha256,
+  );
+  if (purpose === 'ROLLBACK_EVIDENCE') {
+    // Restaurer la version qui tourne déjà ne défait rien : c'est le défaut corrigé au lot 8.
+    if (targetIsObserved) blockers.push('ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE');
+  }
+  if (purpose === 'RESTORE_DRILL') {
+    // Un exercice porte sur une cible connue : rejouer autre chose ne prouverait pas que
+    // l'artefact capturé est restaurable.
+    if (target && readback && !targetIsObserved) {
+      blockers.push('RESTORE_DRILL_TARGET_NOT_OBSERVED_BUNDLE');
+    }
   }
 
   return {
     schemaVersion: RESTORE_PLAN_VERSION,
+    purpose,
     function: readback?.slug ?? null,
     projectRef: readback?.projectRef ?? null,
     // Séparation nette : ce module ne peut produire que du PRÉPARÉ.
@@ -397,29 +430,48 @@ export function buildRestorePlan(input) {
       {
         step: 1,
         kind: 'read-only',
-        action: 'Collecter les octets, les métadonnées et la configuration liées à la version',
-        tool: 'scripts/security/collectReadback.mjs --function <nom> --custody <dir-hors-dépôt>',
-        expectedProof: 'artifactSha256 + custody.json scellé hors dépôt',
+        action: 'Capturer les octets, les métadonnées et la configuration de la version déployée',
+        tool: 'scripts/security/collectReadback.mjs --capture',
+        command: `MAXIMUS_ROLLBACK_EVIDENCE_ROOT=<racine-hors-dépôt> SUPABASE_ACCESS_TOKEN=<jeton> `
+          + `node scripts/security/collectReadback.mjs --capture ${readback?.slug ?? '<slug>'}`,
+        expectedProof: 'sceau <slug>.seal.json : artifactSha256, bundleSha256, configSha256, version',
       },
       {
         step: 2,
         kind: 'offline',
         action: 'Reconditionner en requête de déploiement conforme et prouver l\'équivalence',
-        tool: 'scripts/security/restoreProtocol.mjs --custody <dir> --target <évidence-cible>',
-        expectedProof: 'verdict PASS avec ensemble de chemins, octets et configuration',
+        tool: 'scripts/security/prepareRestore.mjs',
+        command: 'MAXIMUS_ROLLBACK_EVIDENCE_ROOT=<même racine> SUPABASE_ACCESS_TOKEN=<jeton> '
+          + `node scripts/security/prepareRestore.mjs --function ${readback?.slug ?? '<slug>'} `
+          + `--target-project-ref ${readback?.projectRef ?? '<ref>'}`,
+        expectedProof: 'verdict PASS : ensemble de chemins, octets par fichier, configuration',
       },
       {
         step: 3,
         kind: 'write-non-prod',
         action: 'Déployer le bundle reconditionné dans un environnement hors production autorisé',
-        tool: 'POST /v1/projects/{ref}/functions/deploy?slug=<slug> (projet jetable ou staging)',
-        expectedProof: 'readback indépendant post-restauration : version, verify_jwt, bundleSha256',
+        tool: 'POST /v1/projects/{ref}/functions/deploy?slug=<slug>',
+        command: `node scripts/security/prepareRestore.mjs --function ${readback?.slug ?? '<slug>'} `
+          + '--target-project-ref <projet-jetable> --emit-deploy-request',
+        expectedProof: 'requête de déploiement conforme, digest identique au plan préparé',
       },
       {
         step: 4,
         kind: 'proof',
+        action: 'Relire l\'environnement restauré et comparer au sceau de capture',
+        tool: 'scripts/security/prepareRestore.mjs --verify-restored',
+        command: 'MAXIMUS_ROLLBACK_EVIDENCE_ROOT=<même racine> SUPABASE_ACCESS_TOKEN=<jeton> '
+          + `node scripts/security/prepareRestore.mjs --function ${readback?.slug ?? '<slug>'} `
+          + '--restored-project-ref <projet-jetable> --verify-restored',
+        expectedProof: 'RESTORED_MATCHES_SEAL avec bundleSha256 et configSha256 identiques au sceau',
+      },
+      {
+        step: 5,
+        kind: 'independent-proof',
         action: 'Faire attester la restauration par le contrôle indépendant (signature ed25519)',
         tool: 'attestation hors dépôt, clé publique épinglée dans rollbackVerifierTrustAnchor.json',
+        command: 'aucune commande de dépôt : la signature est produite hors dépôt avec la clé privée '
+          + 'du vérificateur, puis sa clé publique est publiée par PR relue.',
         expectedProof: 'signature valide + 11 affirmations recoupées',
       },
     ],

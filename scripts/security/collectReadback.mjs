@@ -66,13 +66,19 @@ const MANAGEMENT_BASE = 'https://api.supabase.com';
 /** Variable qui désigne la racine de conservation des artefacts, hors du dépôt. */
 export const MAXIMUS_EVIDENCE_ROOT_ENV = 'MAXIMUS_ROLLBACK_EVIDENCE_ROOT';
 
-/** Endpoint de **métadonnées** : slug, version, `verify_jwt`, `entrypoint_path`, `ezbr_sha256`. */
-const METADATA_SOURCE = READBACK_SOURCES[0].replace('{ref}', PRODUCTION_PROJECT_REF);
+/**
+ * Endpoint de **métadonnées** : slug, version, `verify_jwt`, `entrypoint_path`, `ezbr_sha256`.
+ *
+ * Le gabarit est rempli avec le projet **réellement lu**. Une provenance figée sur le projet
+ * de production étiquetterait une lecture faite dans un projet jetable comme une lecture de
+ * production : le readback désignerait alors un autre objet que celui qu'il décrit.
+ */
+const metadataSourceFor = (projectRef) => READBACK_SOURCES[0].replace('{ref}', projectRef);
 /**
  * Endpoint de **contenu** : multipart/form-data. C'est le seul mécanisme fournisseur qui
  * rende les octets ; l'endpoint de métadonnées n'en rend aucun.
  */
-const BUNDLE_SOURCE = READBACK_BUNDLE_SOURCES[0].replace('{ref}', PRODUCTION_PROJECT_REF);
+const bundleSourceFor = (projectRef) => READBACK_BUNDLE_SOURCES[0].replace('{ref}', projectRef);
 
 /** État fournisseur exigé : une fonction non `ACTIVE` n'est pas un déploiement vivant. */
 const ACTIVE_STATUS = READBACK_ACTIVE_STATUS;
@@ -322,8 +328,8 @@ export function readbackFromProviderReads(reads, options = {}) {
   const entrypointSha256 = sha256(Buffer.from(entrypointFile.content, 'utf8'));
   const projectRef = options.projectRef ?? PRODUCTION_PROJECT_REF;
   const readback = {
-    source: METADATA_SOURCE,
-    bundleSource: BUNDLE_SOURCE,
+    source: metadataSourceFor(projectRef),
+    bundleSource: bundleSourceFor(projectRef),
     fetchedAt: options.fetchedAt ?? new Date().toISOString(),
     projectRef,
     slug,

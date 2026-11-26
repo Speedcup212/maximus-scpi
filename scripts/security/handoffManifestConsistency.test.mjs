@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { buildManifest } from './edgeFunctionDeploymentManifest.mjs';
 import { REPO_ROOT, INITIAL_PERIMETER_SIZE } from './edgeFunctionDeploymentManifest.mjs';
@@ -176,4 +176,71 @@ test('le handoff ne contient aucune valeur de clé', () => {
 
 test('le runbook renvoie au manifeste machine-vérifiable', () => {
   assert.match(runbook(), /edgeFunctionDeploymentManifest/);
+});
+
+// --- Défaut du lot 14 : un handoff qui cite des commandes inexistantes -----------------
+
+test('chaque script de sécurité cité par le handoff existe réellement sur disque', () => {
+  const doc = handoff();
+  const cited = new Set([...doc.matchAll(/scripts\/security\/[\w.-]+\.mjs/g)].map((m) => m[0]));
+  assert.ok(cited.size >= 3, 'le handoff doit citer les outils de la chaîne de restauration');
+  for (const rel of cited) {
+    assert.ok(existsSync(join(REPO_ROOT, rel)), `script cité par le handoff mais absent : ${rel}`);
+  }
+});
+
+test('le handoff n utilise plus les drapeaux fantômes du plan de restauration', () => {
+  const doc = handoff();
+  // L'assertion porte sur les blocs de commandes réellement exécutables. Le chapitre 11.1
+  // cite les commandes fautives pour documenter le défaut : ce n'est pas une instruction.
+  const commandBlocks = [...doc.matchAll(/```bash\n([\s\S]*?)```/g)].map((m) => m[1]).join('\n');
+  assert.ok(commandBlocks.length > 0, 'aucun bloc de commande dans le handoff');
+  // `--custody` n'a jamais été reconnu par collectReadback : il sauvegardait « en silence ».
+  assert.doesNotMatch(commandBlocks, /collectReadback\.mjs[^\n]*--custody/);
+  // restoreProtocol.mjs est une bibliothèque : l'appeler en CLI se terminait en exit 0 muet.
+  assert.doesNotMatch(commandBlocks, /node\s+scripts\/security\/restoreProtocol\.mjs\s+--/);
+  // La commande de capture correcte est citée, et l'étape de reconditionnement a un point
+  // d'entrée réel.
+  assert.match(commandBlocks, /collectReadback\.mjs --capture/);
+  assert.match(commandBlocks, /prepareRestore\.mjs/);
+});
+
+test('le handoff documente les deux objets du plan de restauration', () => {
+  const doc = handoff();
+  assert.match(doc, /RESTORE_DRILL/);
+  assert.match(doc, /ROLLBACK_EVIDENCE/);
+  assert.match(doc, /ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE/);
+  // Un exercice de restauration ne peut pas être confondu avec une preuve de rollback.
+  assert.match(doc, /restauration exercée/i);
+});
+
+test('le handoff exige les tests d authentification après restauration', () => {
+  const doc = handoff();
+  assert.match(doc, /verify_jwt=false/);
+  assert.match(doc, /401/);
+  // Le troisième obstacle du §2.7.8 doit rester explicitement testé.
+  assert.match(doc, /configSha256/);
+});
+
+test('le handoff subordonne la requalification ANALYST à une nécessité métier', () => {
+  const doc = handoff();
+  assert.match(doc, /ca1cc7be-2e80-43dd-afc6-42f01e069951/);
+  assert.match(doc, /nécessité métier/i);
+  assert.match(doc, /execution_mode='scoped_code_correction'/);
+});
+
+test('aucun fichier du handoff ne contient de secret ni de source de production', () => {
+  for (const doc of [handoff(), runbook()]) {
+    assert.doesNotMatch(doc, /SUPABASE_ACCESS_TOKEN=[A-Za-z0-9]/);
+    assert.doesNotMatch(doc, /-----BEGIN [A-Z ]*PRIVATE KEY-----/);
+  }
+});
+
+test('la préparation de restauration est déclarée bloquée, jamais exécutée', () => {
+  const doc = handoff();
+  // Le chapitre 11 doit distinguer explicitement préparé et bloqué.
+  const section = doc.slice(doc.indexOf('## 11. Handoff unique exécutable'));
+  assert.ok(section.length > 1000, 'chapitre 11 absent');
+  assert.match(section, /NON EXÉCUTÉ/);
+  assert.match(section, /rollbackReady\*\* reste \*\*0\/16|rollbackReady\` reste \*\*0\/16/);
 });

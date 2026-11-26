@@ -1414,3 +1414,212 @@ fermeture d'incident.**
 5. **Critère de sortie** : `pending_tasks` explique chacune de ses lignes par une classe
    `CLAIMABLE`, ou par une décision documentée. Un compteur qui ne peut pas descendre n'est
    pas un indicateur de charge, c'est un défaut.
+
+---
+
+## 11. Handoff unique exécutable — session interactive du 26/11
+
+**Objet.** L'arbitrage du 26/11 (09:53Z) demande **un** handoff exécutable couvrant cinq
+opérations : capture scellée, projet jetable dédié, restauration avec readback et tests
+d'authentification, ancre indépendante avec conservation de la clé privée, et disposition de
+la tâche ANALYST. Ce chapitre remplace les instructions éparses des chapitres 2.7 et 2.8,
+qui restent la référence de conception.
+
+**Statut global** : `PRÉPARÉ` côté dépôt, `NON EXÉCUTÉ` côté fournisseur. Aucune de ces
+opérations n'est réalisable depuis une automation Cursor (aucun jeton Supabase, aucun accès
+projet). **Aucune n'a été exécutée ici.**
+
+### 11.1 Le défaut qui rendait ce handoff inexécutable (corrigé dans ce lot)
+
+Le plan de restauration émis par `restoreProtocol.mjs` décrivait ses étapes avec des
+commandes qui **n'existent pas** :
+
+| Étape du plan (avant) | Ce qui se passait réellement |
+|---|---|
+| `collectReadback.mjs --function <nom> --custody <dir>` | `--custody` n'est pas un drapeau reconnu ; le CLI l'ignore et part en collecte de readback. L'opérateur croit avoir sauvegardé, il n'a rien scellé. |
+| `restoreProtocol.mjs --custody <dir> --target <file>` | **Aucun** point d'entrée CLI : le module est une bibliothèque. La commande ne produit rien et sort en 0 — le pire cas : un succès apparent sans effet. |
+
+Trois conséquences concrètes, toutes vérifiées :
+
+1. `--custody` ignoré silencieusement ⇒ **fausse preuve de sauvegarde**. Le drapeau correct
+   est `--capture`, documenté au §2.7.8.
+2. `restoreProtocol.mjs` exécuté en ligne de commande s'arrête en **exit 0 sans rien faire**.
+3. Le plan refusait l'exercice lui-même : avec la cible légitime d'un exercice (le bundle
+   observé), `buildRestorePlan` renvoyait `BLOCKED` / `ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE`.
+   Cette règle protège l'**évidence de rollback** (restaurer la version qui tourne ne défait
+   rien) ; elle n'a pas de sens pour un **exercice de restauration**, dont la cible *est*
+   précisément l'artefact capturé.
+
+**Corrigé** : le plan porte un champ `purpose` (`ROLLBACK_EVIDENCE` par défaut, ou
+`RESTORE_DRILL`), chaque étape porte une `command` réellement exécutable, et l'étape 2 a
+désormais un CLI : `scripts/security/prepareRestore.mjs`. La liste des scripts cités par le
+plan est contrôlée par test (existence sur disque) et par CI.
+
+### 11.2 Préconditions (à vérifier avant toute action)
+
+| # | Précondition | Comment la vérifier | État |
+|---|---|---|---|
+| P1 | Jeton *management* Supabase, portée lecture fonctions | `GET /v1/projects/{ref}/functions` répond 200 | à fournir par la session |
+| P2 | Racine de conservation **hors dépôt** | `MAXIMUS_ROLLBACK_EVIDENCE_ROOT` défini, hors `REPO_ROOT` | outillé (`EVIDENCE_ROOT_INSIDE_REPO`) |
+| P3 | Projet **hors production** autorisé | aucun projet MaximusSCPI hors prod n'existe (inventaire du 26/11) | **BLOQUÉ** — décision requise |
+| P4 | Clé publique du vérificateur publiée par PR relue | `rollbackVerifierTrustAnchor.json` : `keyId`/`publicKeyPem` non nuls | **BLOQUÉ** — côté contrôle indépendant |
+| P5 | Aucune révocation, aucun swap, aucun `db push` pendant l'exercice | relecture de ce chapitre | règle |
+
+### 11.3 Procédure exacte, étape par étape
+
+Les cinq étapes ci-dessous s'exécutent **dans l'ordre**. Une étape `BLOQUÉE` arrête la suite :
+le gate reste fermé, ce qui est le comportement attendu, pas un incident.
+
+**Étape A — Capture scellée (lecture seule, sans écriture en production).**
+
+```bash
+export MAXIMUS_ROLLBACK_EVIDENCE_ROOT=/chemin/absolu/hors/depot
+export SUPABASE_ACCESS_TOKEN=…            # jamais en argument (visible dans ps)
+node scripts/security/collectReadback.mjs --capture scpi-certified-promote
+```
+
+Preuves attendues, toutes vérifiables sans publier de source :
+
+- `artifacts/scpi-certified-promote.multipart.bin` — octets bruts, mode 0600, hors dépôt ;
+- `artifacts/scpi-certified-promote.seal.json` — `artifactSha256`, `artifactBytes`, `version`,
+  `verifyJwt`, `bundleSha256`, `configSha256`, `providerEzbrSha256` ;
+- **critère de succès** : `version = 12`, `verifyJwt = false`,
+  `providerEzbrSha256 = db3599421ad844e81a031bfbc149345ecd3e791736e7bb1bca4cba00c5fe8e44`,
+  `bundleSha256 ≠ providerEzbrSha256` (empreinte fournisseur ≠ empreinte canonique) ;
+- **échec explicite** : `CAPTURE_BODY_VERSION_MISMATCH` si les deux lectures ne décrivent pas
+  la même version ⇒ **arrêter**. `EVIDENCE_ROOT_INSIDE_REPO` ⇒ choisir une autre racine.
+
+**Étape B — Reconditionnement et preuve d'équivalence (hors ligne, étape 2 du plan).**
+
+```bash
+MAXIMUS_ROLLBACK_EVIDENCE_ROOT=$MAXIMUS_ROLLBACK_EVIDENCE_ROOT \
+  node scripts/security/prepareRestore.mjs --function scpi-certified-promote \
+  --target-project-ref <projet-jetable>
+```
+
+- relit l'artefact scellé et **vérifie son intégrité** avant de l'interpréter
+  (`CAPTURE_BYTES_TAMPERED` sinon) ;
+- reconditionne en requête `POST …/functions/deploy` et prouve **trois** égalités (chemins,
+  octets par fichier, configuration) ;
+- **critère de succès** : `state = PREPARED`, `equivalence.verdict = PASS`,
+  `equivalence.reasons = []`, `recomputedBundleSha256 = bundleSha256` du sceau ;
+- sort en **1** si bloqué : `REPACK_*` nomme la raison exacte ;
+- `TARGET_IS_PRODUCTION_PROJECT` si `--target-project-ref` désigne le projet d'origine.
+
+**Étape C — Émission de la requête de déploiement (aucun appel réseau).**
+
+```bash
+node scripts/security/prepareRestore.mjs --function scpi-certified-promote --emit-deploy-request
+```
+
+Écrit `deploy-requests/scpi-certified-promote.deploy-request.json` **hors dépôt** (le fichier
+contient du source) et imprime seulement `deployRequestDigest`, l'endpoint et le chemin.
+Le digest doit égaler celui du rapport de l'étape B : un écart signifie que la requête a été
+modifiée entre préparation et exécution.
+
+**Étape D — Restauration exercée hors production + readback indépendant.**
+
+```bash
+MAXIMUS_ROLLBACK_EVIDENCE_ROOT=$MAXIMUS_ROLLBACK_EVIDENCE_ROOT SUPABASE_ACCESS_TOKEN=… \
+  node scripts/security/prepareRestore.mjs --function scpi-certified-promote \
+  --restored-project-ref <projet-jetable> --verify-restored
+```
+
+Le déploiement lui-même (`POST /v1/projects/<jetable>/functions/deploy?slug=scpi-certified-promote`)
+est effectué par la session interactive avec le fichier de l'étape C. Puis `--verify-restored`
+fait **deux lectures** dans le projet jetable (métadonnées + corps) et compare au sceau :
+`bundleSha256`, `verifyJwt`, `entrypointSha256`, dépendance par dépendance, et le slug.
+
+- **critère de succès** : `verdict = PASS`, `RESTORED_*` absent ;
+- `configSha256` **n'est pas** comparé à l'identique : il lie le `projectRef`, donc il change
+  légitimement entre production et projet jetable. Comparer son empreinte brute ferait échouer
+  tout exercice valide ; on compare les champs qu'il couvre.
+- le journal est écrit sous `restorations/<slug>.<ref>.json` : c'est lui, et son empreinte,
+  qui alimentent `restoreDrill.journalSha256`.
+
+**Étape E — Attestation indépendante (hors dépôt).**
+
+Aucune commande de dépôt : le contrôle indépendant signe (`ed25519`) les 11 affirmations avec
+sa clé privée, qui ne quitte pas son poste. Sa clé **publique** est publiée dans
+`rollbackVerifierTrustAnchor.json` par une PR relue. Tant que `keyId`/`publicKeyPem` valent
+`null`, le gate reste fermé en `ANCHOR_KEY_NOT_PROVISIONED` : c'est l'état correct.
+
+**Conservation de la clé privée (arbitrage du 26/11)** : la clé privée du vérificateur n'est
+**jamais** dans ce dépôt, jamais dans une variable d'environnement de CI, jamais transmise à
+Cursor. Elle reste sur le poste du contrôle indépendant. Une rotation éventuelle se déclare en
+ajoutant une identité, jamais en remplaçant silencieusement une clé épinglée (`revokedKeyIds`).
+
+### 11.4 Tests d'authentification après restauration (à exécuter dans le projet jetable)
+
+La restauration ne prouve pas seulement des octets : elle doit prouver la **configuration de
+sécurité**. Pour chaque fonction restaurée :
+
+| Test | Commande | Attendu |
+|---|---|---|
+| `verify_jwt=false` préservé | `curl -i -X POST https://<ref-jetable>.supabase.co/functions/v1/<slug>` **sans** `Authorization` | pas de `401` dû au JWT (l'authentification interne de la fonction décide) |
+| `verify_jwt=true` préservé | même appel **sans** jeton | `401` |
+| Jeton invalide rejeté | `-H 'Authorization: Bearer invalide'` | `401` |
+| Fonction réellement démarrée | premier appel | pas de `503` / `BOOT_ERROR` |
+
+Un `verify_jwt` restauré à `true` sur une fonction publique se voit ici immédiatement : c'est
+le troisième obstacle du §2.7.8, et le seul test qui le détecte.
+
+### 11.5 Projet jetable : conditions et coût à établir avant création
+
+L'arbitrage indique qu'**aucun projet MaximusSCPI hors production n'existe**, que les projets
+du cabinet CGP sont hors périmètre et ne doivent pas être réutilisés, et qu'aucun projet payant
+ne doit être créé sans accord. Options, avec ce que chacune prouve :
+
+| Option | Prouve une restauration exercée ? | Coût / condition |
+|---|---|---|
+| Projet Supabase jetable dédié | **OUI** — traverse le déploiement, la résolution des dépendances et la pose de `verify_jwt` | création d'un projet (plan gratuit possible, à confirmer) ; **décision du propriétaire** |
+| Projet de staging existant (si un jour autorisé) | **OUI** | aucun projet MaximusSCPI hors prod à ce jour |
+| Rejeu local (`local-replay`) | **NON** — reconstruit en mémoire, n'exerce aucune plateforme | gratuit, immédiat |
+
+**Recommandation inchangée et conforme au gate** : garder `rollbackReady` à `0/16` jusqu'à ce
+qu'une restauration exercée ait lieu. Le rejeu local reste une preuve **partielle** assumée,
+jamais une restauration. Élargir `restoreDestinationsProvingRestore` pour « débloquer » serait
+rouvrir le défaut corrigé au lot 13.
+
+### 11.6 Tâche ANALYST `ca1cc7be-2e80-43dd-afc6-42f01e069951` : nécessité métier d'abord
+
+L'arbitrage est explicite : **établir la nécessité métier et le fichier exact avant toute
+requalification**. Aucune requalification n'est donc proposée ici ; la disposition reste
+`EXECUTE_MISSING_SCOPE` et `mutatesState = false`.
+
+Ce qu'il faut établir, dans cet ordre :
+
+1. **Lire le payload de la tâche** (lecture seule) pour connaître l'issue visée et l'intention :
+
+   ```sql
+   select id, role, kind, status, issue_ids, payload, created_at
+     from maximus_agents.tasks
+    where id = 'ca1cc7be-2e80-43dd-afc6-42f01e069951';
+   ```
+
+2. **Décider si le travail est encore nécessaire.** Si l'issue correspondante est déjà traitée
+   ou obsolète, la clôture documentée est la bonne réponse — pas une requalification.
+3. **Si et seulement si** le travail est nécessaire : identifier **un** fichier exact à modifier,
+   puis écrire `execution_mode='scoped_code_correction'` avec exactement cette issue et ce
+   fichier. C'est la seule forme que `claim_scoped_corrective_task` sait réclamer.
+4. **Ne jamais** convertir une QA financière en correction de code (§10.4, verrouillé par test).
+
+**Handoff** : l'étape 1 est une lecture que Cursor ne peut pas faire (aucun jeton) ; les
+étapes 2 à 4 appartiennent à la session interactive. Critère de succès : la tâche sort de
+`EXECUTE_MISSING_SCOPE` **avec** une justification métier écrite, ou est clôturée avec motif.
+Rollback : aucune écriture n'ayant eu lieu avant l'étape 3, il n'y a rien à défaire.
+
+### 11.7 Ce que ce lot a réellement exécuté, et ce qui reste bloqué
+
+| Élément | Statut |
+|---|---|
+| Défaut « commandes inexistantes dans le plan » | **EXÉCUTÉ** et **VÉRIFIÉ** (tests + CI) |
+| CLI `prepareRestore.mjs` (étapes B, C, D) | **EXÉCUTÉ** et **VÉRIFIÉ** sur la fixture expurgée |
+| Provenance du readback liée au projet lu | **EXÉCUTÉ** et **VÉRIFIÉ** (mutation détectée) |
+| Capture réelle des 6 fonctions `DEPLOYED` | **BLOQUÉ** — aucun jeton Supabase |
+| Restauration exercée (étape D) | **BLOQUÉ** — aucun projet hors production autorisé (P3) |
+| Attestation signée (étape E) | **BLOQUÉ** — clé publique non provisionnée (P4) |
+| 7 `PENDING_DEPLOY` + patch `scpi-certified-promote` | **BLOQUÉ** — session interactive |
+| Requalification ANALYST | **BLOQUÉ** — nécessité métier à établir (§11.6) |
+
+`rollbackReady` reste **0/16** et `revocationAllowed = false` : inchangé, et correct.

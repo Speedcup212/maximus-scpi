@@ -338,11 +338,16 @@ export function disposeTasks(tasks = []) {
         kind,
         disposition: scoped ? 'CLAIMABLE' : 'EXECUTE_MISSING_SCOPE',
         action: scoped
-          ? 'Laisser le worker la réclamer.'
-          : `Ajouter scope.execution_mode='scoped_code_correction' et exactement 1 fichier `
+          ? 'Laisser worker la réclamer.'
+          : `Établir la NÉCESSITÉ MÉTIER avant toute requalification (issue encore utile ?), `
+            + `puis, seulement si oui, identifier UN fichier exact et ajouter `
+            + `execution_mode='scoped_code_correction' avec 1 issue `
             + `(constaté : ${issueCount ?? '?'} issue(s), mode=${mode ?? 'NULL'}).`,
         owner: scoped ? 'worker' : 'interactive-session',
         mutatesState: false,
+        // L'arbitrage du 26/11 interdit de requalifier avant d'avoir établi la nécessité :
+        // une tâche orpheline utile se requalifie, une tâche devenue inutile se clôt.
+        prerequisite: scoped ? null : 'BUSINESS_NEED_ESTABLISHED',
         rationale: '`claim_scoped_corrective_task` exige 1 issue ET le mode scoped : sans les '
           + 'deux, la tâche est inéligible par construction, pas par charge.',
       };

@@ -98,6 +98,27 @@ test('un readback complet produit une identité exploitable et recalculable', ()
   assert.notEqual(rb.providerEzbrSha256, rb.bundleSha256);
 });
 
+test('la provenance nomme le projet réellement lu, jamais la production par défaut', () => {
+  // Défaut : un readback d'un projet jetable étiqueté « production » désigne un autre objet
+  // que celui qu'il décrit. Un sceau ou un journal de restauration bâti dessus est faux.
+  const disposable = 'disposable-project-ref-0001';
+  const meta = redactedMetadata();
+  const body = redactedBody({ metadata: meta });
+  const parsed = parseMultipartFunctionBody(body.buffer, body.contentType);
+  const rb = readbackFromProviderReads(
+    { metadata: meta, body: parsed, requestedSlug: meta.slug },
+    { projectRef: disposable, fetchedAt: '2026-11-26T10:00:00Z' },
+  );
+  assert.equal(rb.projectRef, disposable);
+  assert.ok(rb.source.includes(disposable), `source non liée au projet lu : ${rb.source}`);
+  assert.ok(rb.bundleSource.includes(disposable), `bundleSource non liée : ${rb.bundleSource}`);
+  assert.ok(!rb.source.includes(PRODUCTION_PROJECT_REF));
+  assert.ok(!rb.bundleSource.includes(PRODUCTION_PROJECT_REF));
+  // La provenance reste celle d'un endpoint fournisseur reconnu (le gate la valide ainsi).
+  assert.match(rb.source, /^supabase-management-api:/);
+  assert.match(rb.bundleSource, /^supabase-management-api:/);
+});
+
 test('un readback cohérent passe la validation de forme du manifeste', () => {
   const rb = readbackFromRedacted();
   const observed = {

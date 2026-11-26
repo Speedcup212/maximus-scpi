@@ -240,7 +240,12 @@ test('le plan distingue explicitement PREPARED de READY', () => {
   // Ce module ne peut structurellement pas produire READY : la restauration reste à exercer.
   assert.notEqual(plan.state, 'READY');
   assert.deepEqual(plan.blockers, []);
-  assert.equal(plan.operations.length, 4);
+  // Chaque étape exécutable est distincte : capture, reconditionnement, déploiement non-prod,
+  // relecture de l'environnement restauré, puis attestation indépendante.
+  assert.deepEqual(plan.operations.map((o) => o.kind), [
+    'read-only', 'offline', 'write-non-prod', 'proof', 'independent-proof',
+  ]);
+  assert.deepEqual(plan.operations.map((o) => o.step), [1, 2, 3, 4, 5]);
   assert.equal(plan.providerConstraints.multipartGetNotReplayable, true);
 });
 

@@ -166,3 +166,24 @@ test('aucun workflow n appelle claim_task : les audits du cycle n ont pas de con
     assert.equal(/maximus_agents\.claim_task\s*\(/.test(text), false);
   }
 });
+
+test('une tâche execute hors scope exige d établir la nécessité métier avant requalification', () => {
+  const d = disposeTasks([
+    { id: 'ca1cc7be-2e80-43dd-afc6-42f01e069951', role: 'ANALYST', kind: 'execute', status: 'pending', issue_count: 1, mode: null },
+  ]);
+  const t = d.tasks[0];
+  assert.equal(t.disposition, 'EXECUTE_MISSING_SCOPE');
+  // Arbitrage du 26/11 : la nécessité métier précède la requalification, pas l'inverse.
+  assert.equal(t.prerequisite, 'BUSINESS_NEED_ESTABLISHED');
+  assert.match(t.action, /NÉCESSITÉ MÉTIER/);
+  assert.match(t.action, /UN fichier exact/);
+  // Et la disposition reste non mutante : rien n'est écrit en base depuis Cursor.
+  assert.equal(t.mutatesState, false);
+
+  // Une tâche réellement scopée n'a pas de prérequis : elle est prête à être réclamée.
+  const ok = disposeTasks([
+    { id: 'ok', role: 'DATA', kind: 'execute', status: 'pending', issue_count: 1, mode: 'scoped_code_correction' },
+  ]).tasks[0];
+  assert.equal(ok.disposition, 'CLAIMABLE');
+  assert.equal(ok.prerequisite, null);
+});
