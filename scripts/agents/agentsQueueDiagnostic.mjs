@@ -148,13 +148,18 @@ export const TASK_CLASSES = Object.freeze([
  * Détecte si le helper `record_execution` est présent dans la chaîne de migrations.
  *
  * Le pont OIDC appelle `maximus_agents.record_execution(...)` à chaque écriture de
- * résultat. Si la fonction n'existe dans aucune migration appliquée, alors **tout claim
- * réussi finit en HTTP 422** : le worker ne peut pas enregistrer son issue, la tâche reste
- * `running` jusqu'à expiration du bail, puis est bloquée. C'est un défaut de cohérence
- * structurel, indépendant de la qualité du travail produit.
+ * résultat. Depuis le dépôt seul, on observe une **asymétrie** : la seule définition se
+ * trouve dans `agents/autonomous/execution.sql`, qui n'est pas une migration.
+ *
+ * Cette asymétrie avait conduit à l'hypothèse « la fonction n'existe pas en base, donc tout
+ * claim réussi finirait en HTTP 422 ». Le contrôle indépendant du 26/11 l'a **réfutée** :
+ * `pg_proc ⋈ pg_namespace` renvoie exactement 1 fonction en production. L'outil ne doit donc
+ * plus présenter l'asymétrie de dépôt comme une panne. Elle reste un **risque de
+ * reproductibilité** — un environnement recréé depuis les migrations seules n'aurait pas la
+ * fonction — ce qui est une conclusion plus faible, mais exacte et vérifiable ici.
  *
  * @param {string} repoRoot
- * @returns {{defined: boolean, definedIn: string[], referencedIn: string[]}}
+ * @returns {{defined: boolean, definedIn: string[], referencedIn: string[], note: string}}
  */
 export function auditRecordExecutionProvisioning(repoRoot) {
   const definedIn = [];
@@ -193,6 +198,13 @@ export function auditRecordExecutionProvisioning(repoRoot) {
     definedIn: migrationsDefine,
     definedOnlyOutsideMigrations: definedIn,
     referencedIn,
+    // Ce que l'audit peut affirmer depuis le dépôt, et ce que la production a réfuté.
+    note: migrationsDefine.length > 0
+      ? 'record_execution est défini dans la chaîne de migrations.'
+      : 'record_execution n\'est défini que hors de la chaîne de migrations. La production a '
+        + 'été contrôlée le 26/11 (pg_proc ⋈ pg_namespace) : 1 fonction existe, donc l\'absence '
+        + 'est RÉFUTÉE. Reste un risque de reproductibilité pour un environnement recréé depuis '
+        + 'les migrations seules — à ne pas confondre avec un 422 observé.',
   };
 }
 
@@ -231,11 +243,137 @@ export function buildQueueDiagnostic(repoRoot, options = {}) {
       'Les lots multi-issues (role_batch_execute) et toutes les tâches QA/verify n\'ont '
         + 'aucun consommateur : elles restent pending indéfiniment.',
       provisioning.defined === false
-        ? 'record_execution n\'est défini dans aucune migration appliquée : le pont OIDC '
-          + 'échouerait en 422 après un claim réussi.'
+        ? 'record_execution n\'est défini que hors chaîne de migrations. Sa présence en '
+          + 'production a été vérifiée le 26/11 (1 fonction dans pg_proc) : l\'hypothèse d\'un '
+          + '422 par absence est réfutée. L\'asymétrie reste un risque de reproductibilité, pas '
+          + 'une explication des incidents observés.'
         : 'record_execution est défini dans la chaîne de migrations.',
       'Un run vert sans tâche (NO-OP) ne prouve aucun cycle métier : il faut lire le motif.',
     ],
+  };
+}
+
+/**
+ * Disposition **par tâche**, à partir de l'inventaire fourni par le contrôle indépendant.
+ *
+ * L'arbitrage du 26/11 donne la répartition réelle des 11 tâches en attente — 7 audits
+ * (2 DATA, 5 QA), 3 verify QA, 1 execute ANALYST — et demande une disposition par ID, sans
+ * mutation ni fermeture artificielle. Une tâche n'est donc plus jugée par sa classe seule :
+ * elle est jugée sur son scope réel.
+ *
+ * Aucune de ces dispositions n'écrit en base. Elles disent **ce qu'il faudrait faire**, à qui
+ * appartient la décision, et pourquoi : c'est ce qui évite de convertir une tâche QA financière
+ * en simple correction de code.
+ *
+ * @param {Array<object>} tasks Lignes d'inventaire (id, role, kind, status, …).
+ * @returns {{tasks: Array<object>, summary: object}}
+ */
+export function disposeTasks(tasks = []) {
+  const disposed = tasks.map((t) => {
+    const id = t?.id ?? null;
+    const role = t?.role ?? null;
+    const kind = t?.kind ?? null;
+    const status = t?.status ?? null;
+    const issueCount = Number.isInteger(t?.issue_count) ? t.issue_count : null;
+    const mode = t?.mode ?? null;
+    const hasDeps = t?.has_deps === true;
+
+    // Une tâche déjà `blocked` est un fait historique : sa cause doit être établie avant
+    // toute nouvelle tentative, et elle ne doit pas être confondue avec un incident actif.
+    if (status === 'blocked') {
+      return {
+        id,
+        role,
+        kind,
+        disposition: 'HISTORICAL_BLOCKED_KEEP',
+        action: 'Établir la cause (bail expiré, 422, dépendance) avant toute relance.',
+        owner: 'interactive-session',
+        mutatesState: false,
+        rationale: 'Une tâche bloquée n\'est pas un incident actif : la fermer maintenant '
+          + 'effacerait la preuve de la cause.',
+      };
+    }
+
+    // Les tâches que le claim ne peut structurellement pas servir restent en attente
+    // indéfiniment : les relancer ne produirait rien.
+    if (kind === 'verify') {
+      return {
+        id,
+        role,
+        kind,
+        disposition: 'ORPHANED_QA_VERIFY',
+        action: 'Ne pas relancer : aucun workflow ne réclame kind=verify. Réécrire la '
+          + 'vérification attendue en issue scoped_code_correction à 1 fichier si elle est '
+          + 'encore nécessaire, sinon documenter la clôture avec motif.',
+        owner: 'interactive-session',
+        mutatesState: false,
+        rationale: 'Une QA financière n\'est PAS une correction de code : la requalifier '
+          + 'serait un affaiblissement du contrôle.',
+      };
+    }
+
+    if (kind === 'audit') {
+      return {
+        id,
+        role,
+        kind,
+        disposition: 'ORPHANED_DAILY_AUDIT',
+        action: hasDeps
+          ? 'Dépendances non satisfaites : la tâche ne peut pas être réclamée avant elles.'
+          : 'Ne pas relancer : `claim_task` n\'a plus d\'appelant workflow.',
+        owner: 'interactive-session',
+        mutatesState: false,
+        rationale: 'Un audit récurrent sans consommateur gonfle `pending_tasks` sans produire '
+          + 'de travail.',
+      };
+    }
+
+    // Le seul cas admissible : une issue exactement scopée. Le contrôle a constaté qu'aucune
+    // tâche ne porte ce scope — dont l'unique execute, dont `execution_mode` est NULL.
+    if (kind === 'execute') {
+      const scoped = issueCount === 1 && mode === 'scoped_code_correction';
+      return {
+        id,
+        role,
+        kind,
+        disposition: scoped ? 'CLAIMABLE' : 'EXECUTE_MISSING_SCOPE',
+        action: scoped
+          ? 'Laisser le worker la réclamer.'
+          : `Ajouter scope.execution_mode='scoped_code_correction' et exactement 1 fichier `
+            + `(constaté : ${issueCount ?? '?'} issue(s), mode=${mode ?? 'NULL'}).`,
+        owner: scoped ? 'worker' : 'interactive-session',
+        mutatesState: false,
+        rationale: '`claim_scoped_corrective_task` exige 1 issue ET le mode scoped : sans les '
+          + 'deux, la tâche est inéligible par construction, pas par charge.',
+      };
+    }
+
+    return {
+      id,
+      role,
+      kind,
+      disposition: 'UNKNOWN_KIND',
+      action: 'Classer avant décision : le kind n\'est pas reconnu par le diagnostic.',
+      owner: 'interactive-session',
+      mutatesState: false,
+      rationale: 'Aucune conclusion ne doit être tirée d\'une ligne non classée.',
+    };
+  });
+
+  const byDisposition = {};
+  for (const d of disposed) byDisposition[d.disposition] = (byDisposition[d.disposition] ?? 0) + 1;
+
+  return {
+    tasks: disposed,
+    summary: {
+      total: disposed.length,
+      byDisposition,
+      // Compté séparément : une tâche bloquée n'est pas un incident actif.
+      historicalBlocked: disposed.filter((d) => d.disposition === 'HISTORICAL_BLOCKED_KEEP').length,
+      claimable: disposed.filter((d) => d.disposition === 'CLAIMABLE').length,
+      // Aucune disposition n'écrit en base : c'est une garantie, pas une intention.
+      mutatesState: disposed.some((d) => d.mutatesState === true),
+    },
   };
 }
 
@@ -245,8 +383,7 @@ export function buildQueueDiagnostic(repoRoot, options = {}) {
  *
  * @returns {string} SQL en lecture seule.
  */
-export function buildInventoryQuery() {
-  return [
+export function buildInventoryQuery() {  return [
     '-- Lecture seule. Aucune écriture, aucune fermeture d\'incident.',
     'select t.id, t.role, t.kind, t.status, t.attempts, t.lease_until,',
     '       t.cycle_date, t.dedupe_key,',

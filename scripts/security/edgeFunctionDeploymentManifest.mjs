@@ -496,6 +496,19 @@ export const PROD_BUNDLE_EVIDENCE_SCHEMA = Object.freeze({
   attestationSignatureAlgorithms: ['ed25519'],
   /** Une restauration ne se prouve jamais sur la production elle-même. */
   restoreDestinations: ['staging-non-prod', 'local-replay', 'disposable-project'],
+  /**
+   * Toutes les destinations ci-dessus ne prouvent pas la même chose.
+   *
+   * Un `local-replay` reconstruit le bundle **en mémoire** à partir des octets conservés : il
+   * prouve que les octets sont lisibles et reconditionnables, mais il ne traverse **aucune**
+   * plateforme de déploiement. Il n'exerce donc ni la résolution des dépendances par le
+   * fournisseur, ni la pose de `verify_jwt`, ni le démarrage de la fonction. C'est utile, et
+   * c'est conservé comme preuve partielle — mais ce n'est pas une restauration exercée.
+   *
+   * Seules les destinations où le bundle est **réellement déployé** sur un projet hors
+   * production autorisé prouvent qu'on saurait revenir en arrière.
+   */
+  restoreDestinationsProvingRestore: ['staging-non-prod', 'disposable-project'],
   restoreResults: ['PASS', 'FAIL'],
   /** Une fonction déjà migrée ne peut être « restaurée » que vers son bundle d'avant. */
   rollbackPhases: ['PRE_MIGRATION'],
@@ -1164,6 +1177,13 @@ export function buildManifest(
     // une restauration testée, toutes deux confirmées par une attestation **signée**.
     const custodyRestorable = evidence?.custody?.holdsRestorableArtifact === true;
     const drillPassed = evidence?.restoreDrill?.result === 'PASS';
+    // Un rejeu local reconstruit le bundle sans traverser la plateforme de déploiement : il
+    // prouve la lisibilité des octets, pas qu'une restauration soit possible. Le compter
+    // comme équivalent rendrait `rollbackReady` atteignable sans aucun environnement
+    // fournisseur — exactement ce que l'arbitrage du 26/11 exclut.
+    const drillDestination = evidence?.restoreDrill?.destination ?? null;
+    const drillProvesRestore = PROD_BUNDLE_EVIDENCE_SCHEMA
+      .restoreDestinationsProvingRestore.includes(drillDestination);
     const signatureVerified = Boolean(
       evidence && attestation.attestation
       && verifyAttestationSignature(attestation.attestation, trustAnchor).length === 0,
@@ -1230,7 +1250,9 @@ export function buildManifest(
       && readbackConfigBound
       && overridesComplete
       && custodyRestorable
-      && drillPassed;
+      && drillPassed
+      // La destination doit réellement exercer un déploiement hors production.
+      && drillProvesRestore;
 
     // Readiness AVANT intervention : le bundle sauvegardé est celui qui tourne, la
     // restauration prouve seulement qu'on saurait revenir à l'état courant.
@@ -1308,6 +1330,9 @@ export function buildManifest(
           performedBy: evidence?.restoreDrill?.performedBy ?? null,
           destination: evidence?.restoreDrill?.destination ?? null,
           result: evidence?.restoreDrill?.result ?? null,
+          // Un PASS local-replay est une preuve partielle : le bundle a été reconstruit,
+          // pas déployé. Ce champ dit lequel des deux, pour qu'aucun lecteur ne confonde.
+          provesRestore: drillProvesRestore,
           journalSha256: evidence?.restoreDrill?.journalSha256 ?? null,
         },
         independentlyVerified: attestationErrors.length === 0,
@@ -1342,7 +1367,10 @@ export function buildManifest(
                               ? 'CUSTODY_NOT_RESTORABLE'
                               : !drillPassed
                                 ? 'RESTORE_DRILL_NOT_PASSED'
-                                : fn.deployState === 'DEPLOYED' && !targetsDistinct
+                                // Un PASS obtenu par rejeu local n'exerce aucun déploiement.
+                                : !drillProvesRestore
+                                  ? 'RESTORE_DRILL_NOT_ON_DEPLOYED_ENVIRONMENT'
+                                  : fn.deployState === 'DEPLOYED' && !targetsDistinct
                                   ? 'ROLLBACK_TARGET_EQUALS_OBSERVED_BUNDLE'
                                   : 'PROD_BUNDLE_EVIDENCE_INCONSISTENT',
       },
@@ -1422,6 +1450,11 @@ export function validateManifest(manifest) {
       }
       if (f.rollback.restoreDrill?.result !== 'PASS') {
         v('ROLLBACK_READY_WITHOUT_RESTORE_DRILL', f.name);
+      }
+      // Un PASS de rejeu local ne prouve pas qu'on saurait redéployer : le gate ne doit pas
+      // s'ouvrir sans une restauration exercée sur un environnement de déploiement.
+      if (f.rollback.restoreDrill?.provesRestore !== true) {
+        v('ROLLBACK_READY_WITHOUT_EXERCISED_RESTORE', f.name);
       }
       if (!f.rollback.independentlyVerified) {
         v('ROLLBACK_READY_WITHOUT_INDEPENDENT_VERIFICATION', f.name);

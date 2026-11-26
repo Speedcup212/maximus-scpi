@@ -214,7 +214,7 @@ const hardenedEvidence = (name, observedVersion, targetVersion = observedVersion
     restoreDrill: {
       performedAt: '2026-11-25T00:00:00Z',
       performedBy: 'ci-restore-drill',
-      destination: 'local-replay',
+      destination: 'staging-non-prod',
       result: 'PASS',
       journalRef: '/var/lib/maximus/restore-drills/scpi-evidence-certify.log',
       journalSha256: 'e'.repeat(64),
@@ -425,6 +425,46 @@ test('une racine d évidence située dans le dépôt n est pas une vérification
   assert.equal(inside.reason, 'EVIDENCE_ROOT_INSIDE_REPO');
   const unset = readAttestation('scpi-evidence-certify', { root: null });
   assert.equal(unset.reason, 'EVIDENCE_ROOT_UNSET');
+});
+
+test('un PASS par rejeu local ne prouve aucune restauration : le gate reste fermé', () => {
+  // Arbitrage du 26/11 : « la restauration réelle reste non prouvée ». Un `local-replay`
+  // reconstruit le bundle en mémoire à partir des octets conservés — il ne traverse aucune
+  // plateforme de déploiement, donc il n'exerce ni la pose de `verify_jwt`, ni la résolution
+  // des dépendances, ni le démarrage. Le compter comme équivalent ouvrait `rollbackReady`
+  // sans aucun environnement fournisseur : c'était le défaut.
+  const localReplay = (name) => {
+    const e = hardenedEvidence(name, 9);
+    return { ...e, restoreDrill: { ...e.restoreDrill, destination: 'local-replay' } };
+  };
+  const m = buildAnchored(localReplay, attestationReaderFor(localReplay));
+  const f = evidenceCertify(m);
+  assert.equal(f.rollback.restoreDrill.result, 'PASS', 'le rejeu lui-même a réussi');
+  assert.equal(
+    f.rollback.restoreDrill.provesRestore,
+    false,
+    'un rejeu local ne prouve pas une restauration déployée',
+  );
+  assert.equal(f.rollback.ready, false);
+  assert.equal(f.rollback.blockingReason, 'RESTORE_DRILL_NOT_ON_DEPLOYED_ENVIRONMENT');
+  assert.equal(m.counts.rollbackReady, 0);
+  // Le PASS partiel reste visible : on ne prétend pas que la restauration a échoué.
+  assert.equal(f.rollback.restoreDrill.result, 'PASS');
+});
+
+test('une restauration exercée sur un environnement déployé hors prod ouvre le gate', () => {
+  // Contrôle positif : la règle ne ferme pas le gate par principe. Les deux destinations qui
+  // traversent réellement une plateforme de déploiement doivent être acceptées.
+  for (const destination of ['staging-non-prod', 'disposable-project']) {
+    const ev = (name) => {
+      const e = hardenedEvidence(name, 9);
+      return { ...e, restoreDrill: { ...e.restoreDrill, destination } };
+    };
+    const m = buildAnchored(ev, attestationReaderFor(ev));
+    const f = evidenceCertify(m);
+    assert.equal(f.rollback.restoreDrill.provesRestore, true, destination);
+    assert.equal(f.rollback.ready, true, `${destination} : ${f.rollback.blockingReason ?? ''}`);
+  }
 });
 
 test('des empreintes seules ne sont JAMAIS une sauvegarde restaurable', () => {
@@ -958,6 +998,21 @@ test('une préparation pré-déploiement dont la cible diffère de l état coura
   const promote = m.functions.find((f) => f.name === LIVE_PRE);
   assert.equal(promote.rollback.preDeployReady, false);
   assert.equal(promote.rollback.blockingReason, 'ROLLBACK_TARGET_DIFFERS_BEFORE_DEPLOY');
+});
+
+test('la défense en profondeur refuse un rollback prêt sans restauration exercée', () => {
+  // Un `local-replay` peut produire un `result: PASS` sans déployer quoi que ce soit. Si une
+  // évidence forgée (ou un manifeste édité à la main) déclarait `ready = true` avec ce seul
+  // rejeu, la validation de forme doit le refuser même si `commonProof` a été contourné.
+  const ev = (name) => hardenedEvidence(name, 9);
+  const m = buildAnchored(ev, attestationReaderFor(ev));
+  assert.deepEqual(validateManifest(m), []);
+  const f = evidenceCertify(m);
+  f.rollback.restoreDrill = { ...f.rollback.restoreDrill, destination: 'local-replay', provesRestore: false };
+  const codes = validateManifest(m).map((x) => x.code);
+  assert.ok(codes.includes('ROLLBACK_READY_WITHOUT_EXERCISED_RESTORE'), codes.join(','));
+  f.rollback.restoreDrill = { ...f.rollback.restoreDrill, destination: 'staging-non-prod', provesRestore: true };
+  assert.deepEqual(validateManifest(m), []);
 });
 
 test('la défense en profondeur refuse un readiness pré-déploiement sur une fonction migrée', () => {

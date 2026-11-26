@@ -745,7 +745,9 @@ multipart **bruts**, les métadonnées et la configuration de la même version s
 6. **Seulement ensuite** `custody` + `restoreDrill` peuvent être renseignés, et
    `rollbackReady` peut passer de 0/16.
 
-**Critères de succès** : `restoreDrill.result = PASS`, `destination ≠ production`,
+**Critères de succès** : `restoreDrill.result = PASS`, `destination` ∈ {`staging-non-prod`,
+`disposable-project`} — un `local-replay` **ne suffit pas** (il ne traverse aucune plateforme
+de déploiement, donc le gate le refuse en `RESTORE_DRILL_NOT_ON_DEPLOYED_ENVIRONMENT`),
 `restoredBundleSha256 = rollbackTarget.bundleSha256`, et un readback **indépendant** post-
 restauration qui reproduit le même `configSha256`. **Rollback** : le bundle prod v12 reste en
 place pendant tout l'exercice ; aucune révocation, aucun swap.
@@ -754,6 +756,11 @@ place pendant tout l'exercice ; aucune révocation, aucun swap.
 2 et 4–5 sont donc **impossibles depuis Cursor** et restent `NON EXÉCUTÉ`. Ce qui est
 `EXÉCUTÉ` et `VÉRIFIÉ` ici est le reconditionnement et sa preuve d'équivalence, sur la forme
 réelle des réponses fournisseur (fixture expurgée).
+
+> **Vocabulaire à tenir (arbitrage du 26/11)** : « protocole testé » ≠ « restauration
+> exercée ». Tant que l'étape 4 n'a pas eu lieu dans un environnement hors production autorisé,
+> la restauration reste **non prouvée**. Aucun compte rendu ne doit intituler ce travail
+> « restauration prouvée ».
 
 
 ### 2.8 `scpi-certified-promote` — patch clé uniquement (drift métier à ne PAS embarquer)
@@ -1275,6 +1282,14 @@ succès de **transport**, pas des **exécutions**. Un run vert sans tâche ne pr
 la santé du système, et c'est exactement ce qui a rendu le contrôle de 06:53 Paris
 « incomplet, aucun verdict ».
 
+**Nuance de lecture (contrôle du 26/11), vérifiée dans les logs** : la liste des jobs montre
+l'étape `Claim one existing exact-scope task with GitHub OIDC` en **`success`**. Cela ne
+contredit pas le NO-OP : cette étape réussit parce qu'elle a **correctement obtenu la réponse**
+« aucune tâche éligible », puis les étapes payantes (`Setup Node`, appel modèle, PR) sont
+`skipped`. Le succès porte sur **l'appel au pont**, pas sur un claim ; la sortie `reason` vaut
+`no_eligible_scoped_task_or_daily_budget`. C'est pourquoi le marqueur `BUSINESS_OUTCOME` doit
+être lu **avec** `NO_OP_REASON` : à lui seul, il ne prouve pas un cycle métier.
+
 ### 9.2 Cause du no-op DeepSeek (établie, pas supposée)
 
 `maximus-search-agent-oidc` appelle `claim_scoped_corrective_task(role)`, qui n'accepte
@@ -1344,17 +1359,22 @@ transitoire, c'est la **signature** d'un orphelinage. Les 11 tâches en attente 
 probablement de ces quatre classes. Une tâche qu'aucun consommateur ne peut réclamer n'est
 pas « en attente » : elle est morte.
 
-### 10.2 Défaut de cohérence : `record_execution` hors chaîne de migrations
+### 10.2 `record_execution` hors chaîne de migrations : asymétrie de dépôt, hypothèse RÉFUTÉE
 
 Le pont OIDC appelle `maximus_agents.record_execution(...)` à chaque écriture de résultat
-(`maximus-search-agent-oidc/index.ts`). Cette fonction est définie dans
-`agents/autonomous/execution.sql`, **qui n'est pas une migration** : aucune migration de
-`supabase/migrations/` ne la crée. Si elle n'a jamais été appliquée manuellement, tout claim
-réussi échoue ensuite en **HTTP 422**, la tâche reste `running` jusqu'à expiration du bail,
-puis est **bloquée** par `reconcile_expired_tasks` (`LEASE_EXPIRED_RECONCILED`). C'est un
-candidat sérieux à l'origine des **4 incidents bloqués**.
+(`maximus-search-agent-oidc/index.ts`, 4 arguments liés au corps de la requête). La seule
+définition dans le dépôt se trouve dans `agents/autonomous/execution.sql` — signature
+`(p_task uuid, p_token uuid, p_status text, p_result jsonb)` — **qui n'est pas une migration** :
+aucun fichier de `supabase/migrations/` ne la crée.
 
-**Action requise (session interactive, P0)** — lecture seule d'abord :
+**Hypothèse initiale (lot 12)** : la fonction n'existe pas en base, donc tout claim réussi
+échouerait en **HTTP 422**, la tâche resterait `running` jusqu'à expiration du bail, puis serait
+bloquée par `reconcile_expired_tasks` (`LEASE_EXPIRED_RECONCILED`) — candidat pour les
+**4 incidents bloqués**.
+
+**Verdict du contrôle indépendant (26/11), qui clôt le débat** : la requête ci-dessous renvoie
+**exactement 1 fonction** en production. L'hypothèse d'absence est donc **réfutée**, et
+`agents/autonomous/execution.sql` **ne doit pas** être appliqué sur ce motif.
 
 ```sql
 select n.nspname, p.proname from pg_proc p
@@ -1362,10 +1382,16 @@ select n.nspname, p.proname from pg_proc p
  where n.nspname = 'maximus_agents' and p.proname = 'record_execution';
 ```
 
-- **0 ligne** → confirme le défaut. Correctif : appliquer `agents/autonomous/execution.sql`
-  (idempotent, `CREATE OR REPLACE`) via le circuit de migration revu, **pas** un `db push`
-  global. Critère de succès : le prochain claim écrit un `runs.status` terminal.
-- **1 ligne** → l'hypothèse est écartée ; chercher les 422 dans les logs de la fonction.
+**Ce qui reste vrai, et que le dépôt peut affirmer** : l'asymétrie de dépôt est un **risque de
+reproductibilité**. Un environnement recréé depuis `supabase/migrations/` seul n'aurait pas
+cette fonction. C'est une conclusion plus faible qu'une panne, mais exacte. La consigner ainsi
+évite de rouvrir une hypothèse close.
+
+**Vérification restante (session interactive)**, maintenant que l'existence est acquise : la
+**signature** effective et les **traces 422** dans les logs de la fonction. Une fonction
+existante à la mauvaise signature produirait le même symptôme qu'une fonction absente.
+
+   1370|
 
 ### 10.3 Requête d'inventaire exacte (à exécuter par ChatGPT)
 

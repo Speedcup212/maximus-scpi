@@ -120,7 +120,8 @@ Un fichier `scripts/security/prod-bundles/<nom-de-fonction>.json` :
   "restoreDrill": {
     "performedAt": "2026-11-25T00:00:00Z",
     "performedBy": "<opérateur ou job>",
-    "destination": "staging-non-prod",   // staging-non-prod | local-replay | disposable-project
+    "destination": "staging-non-prod",   // staging-non-prod | disposable-project = EXERCÉE
+                                         // local-replay = preuve PARTIELLE, jamais suffisante
     "result": "PASS",                    // PASS | FAIL
     "journalRef": "<pointeur du journal de restauration, HORS dépôt>",
     "journalSha256": "<sha256 hex du journal>",
@@ -142,6 +143,22 @@ Un fichier `scripts/security/prod-bundles/<nom-de-fonction>.json` :
   }
 }
 ```
+
+## Une destination n'est pas une preuve : `local-replay` reste partiel
+
+Le schéma accepte trois destinations, mais elles ne prouvent pas la même chose. Le gate est
+explicite (`restoreDestinationsProvingRestore`) :
+
+| Destination | Le bundle est-il déployé ? | Ce que le PASS prouve | Suffit pour `rollbackReady` ? |
+|---|---|---|---|
+| `staging-non-prod` | oui, sur un projet hors prod autorisé | les octets, la config **et** le déploiement | **oui** |
+| `disposable-project` | oui, sur un projet jetable autorisé | idem, sur un environnement sacrifiable | **oui** |
+| `local-replay` | **non** — reconstruction en mémoire | octets lisibles et reconditionnables | **non** |
+
+Un `local-replay` qui réussit produit `result: "PASS"` mais `provesRestore: false` et bloque en
+`RESTORE_DRILL_NOT_ON_DEPLOYED_ENVIRONMENT`. C'est volontaire : un rejeu local n'exerce ni la
+résolution des dépendances par le fournisseur, ni la pose de `verify_jwt`, ni le démarrage de
+la fonction. Il est conservé comme **preuve partielle** — utile, jamais suffisante.
 
 ## Ancre de confiance : `scripts/security/rollbackVerifierTrustAnchor.json`
 
