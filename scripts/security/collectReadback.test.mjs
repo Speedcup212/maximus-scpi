@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import {
   readbackFromProviderReads,
   parseMultipartFunctionBody,
@@ -8,6 +9,8 @@ import {
   mergeReadbackIntoEvidence,
   fetchReadback,
   readbackFromManagementApi,
+  captureProviderArtifact,
+  assertEvidenceRootOutsideRepo,
 } from './collectReadback.mjs';
 import {
   PRODUCTION_PROJECT_REF,
@@ -436,4 +439,87 @@ test('la fixture elle-même reste expurgée : aucun source de production n y est
   const text = body.toString('utf8');
   assert.match(REDACTED_BODY_CONTENT_TYPE, /boundary=/);
   assert.doesNotMatch(text, /SUPABASE_ACCESS_TOKEN|sb_secret_|sb_publishable_|eyJhbGciOi/);
+});
+
+// --- Capture de l'artefact fournisseur original (custody) ----------------------------
+
+const createHashSha256 = (buf) => createHash('sha256').update(buf).digest('hex');
+
+const captureFetch = (metadataOverrides = {}, bodyOverride = {}) => async (url) => {
+  if (String(url).endsWith('/body')) {
+    const body = redactedBody({
+      metadata: redactedMetadata(metadataOverrides),
+      ...bodyOverride,
+    });
+    return {
+      ok: true,
+      status: 200,
+      headers: { get: () => body.contentType },
+      arrayBuffer: async () => body.buffer,
+    };
+  }
+  return { ok: true, status: 200, json: async () => redactedMetadata(metadataOverrides) };
+};
+
+test('la capture conserve les octets multipart ORIGINAUX, jamais une reconstruction', async () => {
+  const caps = await captureProviderArtifact(SLUG, {
+    token: 'jeton-de-test',
+    fetchImpl: captureFetch(),
+  });
+  // Les octets conservés doivent être exactement le corps rendu par le fournisseur.
+  assert.deepEqual(caps.artifact.bytes, buildRedactedMultipartBody());
+  assert.equal(caps.sealed.artifactBytes, caps.artifact.bytes.length);
+  assert.equal(caps.sealed.artifactSha256, createHashSha256(caps.artifact.bytes));
+});
+
+test('la capture lie configuration et version à l artifice scellé', async () => {
+  const caps = await captureProviderArtifact(SLUG, {
+    token: 'jeton-de-test',
+    fetchImpl: captureFetch(),
+  });
+  assert.equal(caps.sealed.schemaVersion, 'rollback-custody-artifact-v1');
+  assert.equal(caps.sealed.version, 12);
+  assert.equal(caps.sealed.verifyJwt, false);
+  assert.equal(caps.sealed.status, 'ACTIVE');
+  assert.equal(caps.sealed.bundleSha256, caps.readback.bundleSha256);
+  assert.equal(caps.sealed.configSha256, caps.readback.configSha256);
+  assert.equal(caps.sealed.providerEzbrSha256, redactedMetadata().ezbr_sha256);
+});
+
+test('la capture refuse deux lectures qui ne décrivent pas la même version', async () => {
+  // Métadonnées de l'endpoint à version 12, corps rendu pour la version 11.
+  const fetchImpl = async (url) => {
+    if (String(url).endsWith('/body')) {
+      const body = redactedBody({ metadata: redactedMetadata({ version: 11 }) });
+      return {
+        ok: true,
+        status: 200,
+        headers: { get: () => body.contentType },
+        arrayBuffer: async () => body.buffer,
+      };
+    }
+    return { ok: true, status: 200, json: async () => redactedMetadata() };
+  };
+  await assert.rejects(
+    () => captureProviderArtifact(SLUG, { token: 'jeton-de-test', fetchImpl }),
+    /CAPTURE_BODY_VERSION_MISMATCH/,
+  );
+});
+
+test('la capture échoue explicitement sans jeton plutôt que de renseigner un champ non lu', async () => {
+  await assert.rejects(
+    () => captureProviderArtifact(SLUG, { token: '' }),
+    /SUPABASE_ACCESS_TOKEN_MISSING/,
+  );
+});
+
+test('une racine de conservation dans le dépôt est refusée : le dépôt est public', async () => {
+  const repo = '/agent/repos/maximus-scpi';
+  assert.equal(assertEvidenceRootOutsideRepo('/var/custody', repo).ok, true);
+  assert.equal(assertEvidenceRootOutsideRepo(repo, repo).reason, 'EVIDENCE_ROOT_INSIDE_REPO');
+  assert.equal(
+    assertEvidenceRootOutsideRepo(`${repo}/scripts/security/prod-bundles`, repo).reason,
+    'EVIDENCE_ROOT_INSIDE_REPO',
+  );
+  assert.equal(assertEvidenceRootOutsideRepo('', repo).reason, 'EVIDENCE_ROOT_UNSET');
 });

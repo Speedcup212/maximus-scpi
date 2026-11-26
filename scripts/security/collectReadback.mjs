@@ -49,8 +49,8 @@
  * Codes de sortie : 0 succès, 1 échec de collecte, 2 usage invalide.
  */
 import { createHash } from 'node:crypto';
-import { readFileSync, existsSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { resolve, sep } from 'node:path';
 import {
   PRODUCTION_PROJECT_REF,
   READBACK_SOURCES,
@@ -62,6 +62,9 @@ import {
 } from './edgeFunctionDeploymentManifest.mjs';
 
 const MANAGEMENT_BASE = 'https://api.supabase.com';
+
+/** Variable qui désigne la racine de conservation des artefacts, hors du dépôt. */
+export const MAXIMUS_EVIDENCE_ROOT_ENV = 'MAXIMUS_ROLLBACK_EVIDENCE_ROOT';
 
 /** Endpoint de **métadonnées** : slug, version, `verify_jwt`, `entrypoint_path`, `ezbr_sha256`. */
 const METADATA_SOURCE = READBACK_SOURCES[0].replace('{ref}', PRODUCTION_PROJECT_REF);
@@ -398,6 +401,122 @@ export async function fetchReadback(slug, options) {
 }
 
 /**
+ * Capture l'**artefact fournisseur original** d'une fonction : les octets multipart bruts,
+ * les métadonnées de la même version, et les empreintes qui les lient.
+ *
+ * ## Pourquoi garder les octets bruts plutôt qu'un JSON normalisé
+ *
+ * Le contrôle du 26/11 (#459) a demandé de conserver l'artefact fournisseur **original**
+ * (octets multipart du body, métadonnées et configuration liées à la version), et de ne pas
+ * présenter une représentation reconstruite comme une sauvegarde. Un readback JSON ne
+ * conserve que des empreintes : il **identifie** un bundle sans permettre de le restaurer.
+ * L'artefact, lui, doit contenir les octets exacts.
+ *
+ * ## Pourquoi l'artefact ne peut pas vivre dans le dépôt
+ *
+ * Il contient le source de production ; le dépôt est **public**. La capture est donc écrite
+ * sous `MAXIMUS_ROLLBACK_EVIDENCE_ROOT`, **hors du dépôt**, et le fichier scellé n'est
+ * jamais committé. Le module refuse une destination située dans `REPO_ROOT`, ce qui évite
+ * qu'une « sauvegarde » finisse publiée par mégarde.
+ *
+ * ## Ce que la capture ne fait pas
+ *
+ * Elle n'écrit rien en production, ne déploie rien, ne révoque rien. Elle n'invente aucune
+ * valeur : sans seconde lecture, ou si les deux lectures ne décrivent pas la même version,
+ * elle échoue en nommant le motif (`CAPTURE_BODY_VERSION_MISMATCH`).
+ *
+ * @param {string} slug Nom de la fonction à capturer.
+ * @param {{token: string, projectRef?: string, fetchImpl?: typeof fetch}} options
+ * @returns {Promise<{readback: object, artifact: {bytes: Buffer, contentType: string},
+ *   metadata: object, sealed: object}>}
+ */
+export async function captureProviderArtifact(slug, options) {
+  const { token, projectRef = PRODUCTION_PROJECT_REF, fetchImpl = fetch } = options;
+  if (typeof token !== 'string' || token.trim() === '') {
+    throw new Error('SUPABASE_ACCESS_TOKEN_MISSING');
+  }
+  const base = `${MANAGEMENT_BASE}/v1/projects/${projectRef}/functions/${encodeURIComponent(slug)}`;
+  const headers = { Authorization: `Bearer ${token}` };
+  const fetchedAt = new Date().toISOString();
+
+  const metaRes = await fetchImpl(base, { method: 'GET', headers: { ...headers, Accept: 'application/json' } });
+  if (!metaRes.ok) throw new Error(`CAPTURE_METADATA_HTTP_${metaRes.status}`);
+  const metadata = await metaRes.json();
+
+  const bodyRes = await fetchImpl(`${base}/body`, {
+    method: 'GET',
+    headers: { ...headers, Accept: 'multipart/form-data' },
+  });
+  if (!bodyRes.ok) throw new Error(`CAPTURE_BODY_HTTP_${bodyRes.status}`);
+  const contentType = bodyRes.headers?.get?.('content-type') ?? '';
+  if (!String(contentType).toLowerCase().startsWith('multipart/form-data')) {
+    throw new Error('CAPTURE_BODY_NOT_MULTIPART');
+  }
+  const rawBytes = Buffer.from(await bodyRes.arrayBuffer());
+  const body = parseMultipartFunctionBody(rawBytes, contentType);
+
+  // Les deux lectures doivent décrire la même version : sinon l'artefact et la configuration
+  // scellés ne désignent pas le même objet, et la « sauvegarde » serait incohérente.
+  const bodyMeta = body.metadata;
+  if (!bodyMeta || typeof bodyMeta !== 'object') throw new Error('CAPTURE_BODY_WITHOUT_METADATA');
+  if (bodyMeta.slug !== (metadata.slug ?? metadata.name)) throw new Error('CAPTURE_BODY_SLUG_MISMATCH');
+  if (bodyMeta.version !== metadata.version) throw new Error('CAPTURE_BODY_VERSION_MISMATCH');
+
+  const readback = readbackFromProviderReads(
+    { metadata, body, requestedSlug: slug },
+    { projectRef, fetchedAt },
+  );
+
+  const artifactSha256 = sha256(rawBytes);
+  const sealed = {
+    schemaVersion: 'rollback-custody-artifact-v1',
+    function: slug,
+    projectRef,
+    capturedAt: fetchedAt,
+    // Configuration liée à la version : c'est elle qui distingue deux déploiements au code
+    // identique, et c'est elle qu'un reconditionnement doit transporter explicitement.
+    version: metadata.version,
+    verifyJwt: metadata.verify_jwt,
+    status: metadata.status,
+    providerEntrypointPath: metadata.entrypoint_path,
+    providerEzbrSha256: metadata.ezbr_sha256 ?? null,
+    contentType,
+    artifactBytes: rawBytes.length,
+    artifactSha256,
+    // Empreintes de contenu, recalculables depuis l'artefact.
+    entrypointSha256: readback.entrypointSha256,
+    bundleSha256: readback.bundleSha256,
+    configSha256: readback.configSha256,
+    dependencies: readback.dependencies,
+  };
+
+  return { readback, artifact: { bytes: rawBytes, contentType }, metadata, sealed };
+}
+
+/**
+ * Vérifie qu'une racine de conservation est utilisable : hors dépôt, donc jamais publiée.
+ *
+ * Une sauvegarde écrite dans un dépôt public n'est pas une sauvegarde : elle publie le
+ * source de production. C'est exactement ce que le mandat interdit.
+ *
+ * @param {string} evidenceRoot Racine désignée par `MAXIMUS_ROLLBACK_EVIDENCE_ROOT`.
+ * @param {string} repoRoot Racine du dépôt.
+ * @returns {{ok: boolean, reason?: string}}
+ */
+export function assertEvidenceRootOutsideRepo(evidenceRoot, repoRoot) {
+  if (typeof evidenceRoot !== 'string' || evidenceRoot.trim() === '') {
+    return { ok: false, reason: 'EVIDENCE_ROOT_UNSET' };
+  }
+  const root = resolve(evidenceRoot);
+  const repo = resolve(repoRoot);
+  if (root === repo || root.startsWith(`${repo}${sep}`)) {
+    return { ok: false, reason: 'EVIDENCE_ROOT_INSIDE_REPO' };
+  }
+  return { ok: true };
+}
+
+
+/**
  * Réaligne `observed` sur le readback sans toucher au reste de l'évidence.
  *
  * `observed` doit décrire exactement ce que le fournisseur vient de rendre : le laisser
@@ -427,10 +546,68 @@ function usage() {
   console.error('Usage :');
   console.error('  SUPABASE_ACCESS_TOKEN=… node scripts/security/collectReadback.mjs '
     + '--function <nom> [--merge <évidence.json>]');
+  console.error('  SUPABASE_ACCESS_TOKEN=… MAXIMUS_ROLLBACK_EVIDENCE_ROOT=<dir-hors-dépôt> '
+    + 'node scripts/security/collectReadback.mjs --capture <nom>');
   console.error('  node scripts/security/collectReadback.mjs --list');
 }
 
+/**
+ * CLI de capture : écrit l'artefact original **hors du dépôt** et imprime son sceau.
+ *
+ * Le sceau (empreintes, version, configuration) est ce qui peut être publié ; les octets du
+ * source de production restent dans le répertoire de conservation et ne sont jamais committés.
+ *
+ * @param {string} slug
+ * @returns {Promise<number>} Code de sortie.
+ */
+async function captureMain(slug) {
+  const { REPO_ROOT } = await import('./edgeFunctionDeploymentManifest.mjs');
+  const evidenceRoot = process.env[MAXIMUS_EVIDENCE_ROOT_ENV] ?? '';
+  const rootCheck = assertEvidenceRootOutsideRepo(evidenceRoot, REPO_ROOT);
+  if (!rootCheck.ok) {
+    console.error(`Conservation refusée : ${rootCheck.reason}`);
+    return 1;
+  }
+  try {
+    const caps = await captureProviderArtifact(slug, {
+      token: process.env.SUPABASE_ACCESS_TOKEN ?? '',
+    });
+    const dir = resolve(evidenceRoot, 'artifacts');
+    mkdirSync(dir, { recursive: true });
+    const artifactPath = resolve(dir, `${slug}.multipart.bin`);
+    const sealPath = resolve(dir, `${slug}.seal.json`);
+    writeFileSync(artifactPath, caps.artifact.bytes, { mode: 0o600 });
+    writeFileSync(
+      sealPath,
+      `${JSON.stringify({ ...caps.sealed, artifactPath: `${slug}.multipart.bin` }, null, 2)}\n`,
+      { mode: 0o600 },
+    );
+    // Seul le sceau sort sur stdout : les octets restent hors dépôt.
+    process.stdout.write(`${JSON.stringify(caps.sealed, null, 2)}\n`);
+    console.error(`Artefact conservé : ${artifactPath} (${caps.sealed.artifactBytes} octets)`);
+    return 0;
+  } catch (err) {
+    console.error(`Capture impossible : ${err.message}`);
+    return 1;
+  }
+}
+
 async function main(argv) {
+  const captureIndex = argv.indexOf('--capture');
+  if (captureIndex !== -1) {
+    const captureSlug = argv[captureIndex + 1];
+    if (!captureSlug) {
+      usage();
+      return 2;
+    }
+    const knownNames = buildManifest(() => undefined).functions.map((f) => f.name);
+    if (!knownNames.includes(captureSlug)) {
+      console.error(`Fonction hors périmètre : ${captureSlug}`);
+      return 2;
+    }
+    return captureMain(captureSlug);
+  }
+
   if (argv.includes('--list')) {
     for (const f of buildManifest(() => undefined).functions) {
       console.log(`${f.name}\t${f.deployState}\t${f.prodVersion ?? '-'}\tverify_jwt=${f.prodVerifyJwt}`);

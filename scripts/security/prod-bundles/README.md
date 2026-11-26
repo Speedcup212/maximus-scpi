@@ -411,3 +411,51 @@ jamais des valeurs de production.
 Les quatre défauts sont couverts par des tests qui **échouent** quand la garde correspondante
 est retirée (mutation vérifiée) : lecture de contenu non effectuée, entrypoint non unique,
 contenu vide accepté, chemins non normalisés.
+### 5. Le corps `GET …/body` n'est pas une requête de déploiement
+
+Le contrôle du 26/11 a demandé de vérifier le mécanisme de restauration **réellement
+supporté**, sans supposer que le multipart est « directement rejouable ». Il ne l'est pas :
+
+| Obstacle | Fait | Ce qu'un rejeu brut produirait |
+|---|---|---|
+| Noms de fichiers | URI temporaires (`file:///tmp/user_fn_…/source/index.ts`) | Chemins de bundle invalides |
+| Métadonnées | Partie de **lecture** (`id`, `version`, `ezbr_sha256`, entrypoint absolu) | `metadata.name`/`entrypoint_path` absents ou non relatifs |
+| Configuration | `verify_jwt` absent du contenu | Retour à la valeur par défaut `true` — changement de sécurité silencieux |
+
+L'écriture se fait **uniquement** par `POST /v1/projects/{ref}/functions/deploy?slug={slug}`
+(`multipart/form-data` : une partie `metadata`, une partie `file` par fichier). Il n'existe
+aucun endpoint de rollback par version : restaurer = **redéployer un bundle reconditionné**.
+
+`scripts/security/restoreProtocol.mjs` reconditionne **et prouve** :
+
+- `buildDeployRequest(bundle)` → requête conforme, ou refus nommé
+  (`REPACK_IMPORT_MAP_UNSUPPORTED`, `REPACK_WITHOUT_VERIFY_JWT`, `REPACK_EMPTY_FILE`,
+  `REPACK_PROVIDER_URI_NOT_DEPLOY_PATH`, `REPACK_ENTRYPOINT_NOT_UNIQUE`…).
+- `proveRepackEquivalence({readback, deployRequest})` → exige **trois** égalités
+  indépendantes : ensemble de chemins, **octets** (SHA-256 + taille par fichier),
+  **configuration** (`verify_jwt`, entrypoint). Un code identique avec une configuration
+  différente est un échec (`EQUIVALENCE_CONFIG_CHANGED`).
+- `buildRestorePlan(...)` → ne produit que `PREPARED` ou `BLOCKED`, **jamais** `READY`.
+- `deployPathToRegistryPath` → la règle inverse exacte du reconditionnement : `index.ts` et
+  une dépendance locale (`matcher.mjs`) appartiennent à `<slug>/…`, seul `_shared/…` reste à
+  la racine. Une règle incomplète produisait un faux `EQUIVALENCE_PATH_SET_MISMATCH`.
+
+### 6. Conservation de l'artefact original — hors dépôt, jamais publié
+
+Une empreinte identifie, elle ne restaure pas. `collectReadback.mjs --capture <nom>` écrit
+les **octets multipart bruts**, les métadonnées et la configuration de la même version sous
+`MAXIMUS_ROLLBACK_EVIDENCE_ROOT` :
+
+```bash
+MAXIMUS_ROLLBACK_EVIDENCE_ROOT=/chemin/hors/dépôt SUPABASE_ACCESS_TOKEN=… \
+  node scripts/security/collectReadback.mjs --capture scpi-certified-promote
+```
+
+- Refus si la racine est unset (`EVIDENCE_ROOT_UNSET`) ou **dans le dépôt**
+  (`EVIDENCE_ROOT_INSIDE_REPO`) : le dépôt est public, une sauvegarde qui y serait écrite
+  publierait le source de production.
+- Refus si les deux lectures ne décrivent pas la même version
+  (`CAPTURE_BODY_VERSION_MISMATCH`) : sceller une configuration et des octets qui ne
+  désignent pas le même objet ne serait pas une sauvegarde.
+- Seul le **sceau** (`<slug>.seal.json` : empreintes, version, `verify_jwt`, `configSha256`)
+  est publiable ; les octets restent hors dépôt.

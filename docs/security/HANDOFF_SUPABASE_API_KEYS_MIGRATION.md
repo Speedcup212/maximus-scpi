@@ -685,6 +685,77 @@ n'est provisionnée dans l'ancre : le gate reste fermé mécaniquement. Le provi
 l'ancre et la signature relèvent du contrôle indépendant, sur une référence protégée — ce
 n'est pas un acte de l'opérateur.
 
+#### 2.7.8 Le corps `GET …/body` n'est PAS rejouable : mécanisme de restauration réel
+
+Le mandat du 26/11 demande de vérifier le mécanisme de restauration **réellement supporté**
+par le fournisseur, et de ne pas supposer que la réponse multipart est directement rejouable
+sur un endpoint de déploiement. Elle ne l'est pas, pour trois raisons distinctes :
+
+| # | Fait constaté | Conséquence si on rejoue « tel quel » |
+|---|---|---|
+| 1 | Le corps nomme chaque fichier par son **URI temporaire de déploiement** (`file:///tmp/user_fn_…/source/index.ts`) | L'endpoint de déploiement attend des chemins **relatifs** à la racine du bundle ; un `file` nommé `file:///…` n'est pas un chemin de bundle. |
+| 2 | La partie `metadata` du corps est une **métadonnée de lecture** (`id`, `version`, `status`, `ezbr_sha256`, `entrypoint_path` absolu) | L'endpoint exige `metadata.name` et `metadata.entrypoint_path` **relatif** ; le reste est ignoré ou rejeté. |
+| 3 | `verify_jwt` **n'est pas déductible du contenu** | Un reconditionnement qui l'omet retombe sur la valeur par défaut du fournisseur (`true`). Le périmètre mélange `true` et `false` : la restauration changerait silencieusement la sécurité de la fonction. |
+
+Le seul endpoint qui **écrit** est `POST /v1/projects/{ref}/functions/deploy?slug={slug}`
+(`multipart/form-data`, parties `metadata` + `file` répétées). Il n'existe **aucun** endpoint
+de « rollback par version » : restaurer signifie **redéployer un bundle**, donc reconditionner.
+
+**Le reconditionnement est prouvé, pas supposé.** `scripts/security/restoreProtocol.mjs` :
+
+```bash
+node --test scripts/security/restoreProtocol.test.mjs   # 24 tests, reconditionnement + preuve
+```
+
+- `buildDeployRequest(bundle)` produit la requête conforme (`index.ts` relatif, `verify_jwt`
+  transporté, dépendances locales à la racine du bundle, `_shared/…` conservé) et **refuse**
+  les cas non rejouables (`REPACK_IMPORT_MAP_UNSUPPORTED`, `REPACK_WITHOUT_VERIFY_JWT`,
+  `REPACK_EMPTY_FILE`, `REPACK_PROVIDER_URI_NOT_DEPLOY_PATH`…).
+- `proveRepackEquivalence({readback, deployRequest})` exige **trois** égalités : ensemble de
+  chemins, **octets** (SHA-256 + taille par fichier) et **configuration**. Une réécriture
+  « équivalente en intention » échoue en `EQUIVALENCE_BYTES_CHANGED` ou
+  `EQUIVALENCE_CONFIG_CHANGED`.
+- `buildRestorePlan(...)` ne peut produire que `PREPARED` ou `BLOCKED` — jamais `READY` : une
+  restauration non exercée n'est pas une restauration prouvée.
+- `digestDeployRequest(request)` lie le plan exécuté au plan préparé sans publier de source.
+
+**Conservation de l'artefact original** (`collectReadback.mjs --capture <nom>`) : les octets
+multipart **bruts**, les métadonnées et la configuration de la même version sont écrits sous
+`MAXIMUS_ROLLBACK_EVIDENCE_ROOT`, **hors du dépôt** (le dépôt est public). Le CLI refuse
+`EVIDENCE_ROOT_UNSET` et `EVIDENCE_ROOT_INSIDE_REPO`, et n'écrit qu'un sceau
+(`<slug>.seal.json`) publiable — jamais les octets.
+
+**Protocole exact pour `scpi-certified-promote` v12** (session interactive uniquement) :
+
+1. **Préconditions** : jeton *management* à portée lecture (`functions:read`) pour les étapes
+   1–2 ; un projet **hors production** déjà existant et autorisé pour l'étape 4. Aucune
+   création de projet payant, aucune nouvelle clé.
+2. **Capture** (lecture seule) :
+   `MAXIMUS_ROLLBACK_EVIDENCE_ROOT=/chemin/hors/dépôt SUPABASE_ACCESS_TOKEN=… node scripts/security/collectReadback.mjs --capture scpi-certified-promote`
+   → attendu : `artifactSha256`, `bundleSha256`, `configSha256`, `version=12`,
+   `verifyJwt=false`. Si `CAPTURE_BODY_VERSION_MISMATCH`, **arrêter** : les deux lectures ne
+   décrivent pas le même objet.
+3. **Reconditionnement + preuve** (hors ligne, aucun appel réseau) : construire la requête de
+   déploiement, exiger `verdict = PASS`. Un `FAIL` interdit la suite.
+4. **Restauration exercée hors production** : déployer la requête dans le projet non-prod
+   autorisé, puis **relire** (`--function`) et comparer version, `verify_jwt`, `bundleSha256`
+   et `configSha256` au sceau. Écrire un journal identifiable et son empreinte.
+5. **Attestation** : le contrôle indépendant signe (`ed25519`) les 11 affirmations ; la clé
+   publique doit être épinglée dans `rollbackVerifierTrustAnchor.json` par une PR relue.
+6. **Seulement ensuite** `custody` + `restoreDrill` peuvent être renseignés, et
+   `rollbackReady` peut passer de 0/16.
+
+**Critères de succès** : `restoreDrill.result = PASS`, `destination ≠ production`,
+`restoredBundleSha256 = rollbackTarget.bundleSha256`, et un readback **indépendant** post-
+restauration qui reproduit le même `configSha256`. **Rollback** : le bundle prod v12 reste en
+place pendant tout l'exercice ; aucune révocation, aucun swap.
+
+**Blocage explicite** : Cursor n'a ni jeton Supabase ni accès au projet non-prod ; les étapes
+2 et 4–5 sont donc **impossibles depuis Cursor** et restent `NON EXÉCUTÉ`. Ce qui est
+`EXÉCUTÉ` et `VÉRIFIÉ` ici est le reconditionnement et sa preuve d'équivalence, sur la forme
+réelle des réponses fournisseur (fixture expurgée).
+
+
 ### 2.8 `scpi-certified-promote` — patch clé uniquement (drift métier à ne PAS embarquer)
 
 **Drift constaté (ChatGPT 25/11)** : le code du dépôt (`main` @ `675ab161`) contient une
@@ -1187,3 +1258,133 @@ signale une configuration incomplète.
 - Maintien strict de **69/69 PASS_100** (`strict_pass=69`, `strict_fail=0`, `runner_state='IDLE'`).
 - Toute fonction en `verify_jwt=false` doit avoir une authentification interne effective
   (cron/OIDC/Calendly/garde `apikey`) — jamais une fonction ouverte sans contrôle.
+
+---
+
+## 9. Fiabilité des cycles autonomes (mandat 26/11, P1)
+
+### 9.1 Les deux runs cités : ce qu'ils prouvent réellement
+
+| Run | Workflow | Conclusion GitHub | Contenu métier réel |
+|---|---|---|---|
+| [45737876009](https://github.com/Speedcup212/maximus-scpi/actions/runs/45737876009) | DeepSeek corrective | `success` | **NO-OP** : `claimed=no`, motif `no_eligible_scoped_task_or_daily_budget`. Étapes `Setup Node`, appel modèle, PR → **toutes skipped**. Appels modèle : **0**. |
+| [45738186343](https://github.com/Speedcup212/maximus-scpi/actions/runs/45738186343) | Independent watchdog | `success` | **Observation seule** : `IDLE`, `candidate20: NOT_DUE (2026-11-26)`, `document-replay: HEALTHY`, `safe-remediation: NOT_DUE`. Aucune réparation, aucun redémarrage. |
+
+**Conclusion factuelle** : « workflow vert » ≠ « cycle productif ». Les deux runs sont des
+succès de **transport**, pas des **exécutions**. Un run vert sans tâche ne prouve rien sur
+la santé du système, et c'est exactement ce qui a rendu le contrôle de 06:53 Paris
+« incomplet, aucun verdict ».
+
+### 9.2 Cause du no-op DeepSeek (établie, pas supposée)
+
+`maximus-search-agent-oidc` appelle `claim_scoped_corrective_task(role)`, qui n'accepte
+qu'un cas très étroit (migration `20261016_deepseek_scoped_corrective_worker.sql`) :
+
+- `kind = 'execute'`, `cardinality(issue_ids) = 1` ;
+- l'issue doit porter `scope->>'execution_mode' = 'scoped_code_correction'` ;
+- `scope->'files'` doit être un tableau de **exactement 1** fichier.
+
+Or `prepare_execution` produit majoritairement des tâches qui ne satisfont pas ce filtre.
+Tant qu'aucune issue n'est écrite avec ce scope exact, **le worker ne peut rien réclamer** :
+le no-op est structurel, pas accidentel.
+
+### 9.3 Défaut corrigé : un no-op était invisible
+
+**Avant** : le run se terminait en `success` avec un `core.notice` noyé dans le log ; aucun
+écart entre « job vert » et « rien exécuté ».
+
+**Corrigé** (`.github/workflows/maximus-deepseek-search.yml`) : la sortie `reason` est
+exposée, un `NO-OP` est nommé dans les notices, le `GITHUB_STEP_SUMMARY` porte la cause, et
+une étape terminale écrit `BUSINESS_OUTCOME=EXECUTED|NO_OP` + `NO_OP_REASON=…`.
+Verrouillé par `scripts/agents/deepseekWorkflowContract.test.mjs` (4 tests).
+
+### 9.4 Déclenchement Cursor par commentaire : ce qui existe vraiment
+
+- **Existe** : `.github/workflows/claude.yml` — `on: issue_comment [created]`, condition
+  `contains(body, '@claude')`, action `anthropics/claude-code-action@v1`. C'est le **seul**
+  workflow déclenché par un commentaire de ticket dans le dépôt.
+- **N'existe pas** : aucun déclencheur par commentaire vers l'automation Cursor, et aucun
+  workflow ne consomme les commentaires de #459 pour lancer un contrôle.
+
+**Ce qui relève du planificateur ChatGPT (hors de portée de Cursor)** : la cadence horaire,
+l'horaire 06:53 / 08:37 Paris, et le fait qu'un passage se déclare « complet » ou non. Cursor
+ne peut ni le lire ni le corriger.
+**Ce qui relève de ce dépôt (et est corrigé ici)** : ne pas présenter un run vert comme une
+preuve de cycle ; rendre le no-op explicite.
+
+**Correctif minimal recommandé côté ChatGPT** : considérer un passage comme *complet*
+seulement s'il lit `BUSINESS_OUTCOME` et, en cas de `NO_OP`, qu'il rapporte le
+`NO_OP_REASON` — sinon « contrôle incomplet, aucun verdict » est le **bon** verdict.
+
+---
+
+## 10. File d'exécution historique `maximus_agents` (mandat 26/11, P1)
+
+Le contrôle SQL de ce matin constatait : watchdog `IDLE`, 11 tâches en attente, 4 incidents
+bloqués, aucune exécution dans `runs` sur 24 h, agents sans heartbeat récent — **mais**
+69 PASS_100 / 0 FAIL. Cursor n'ayant **aucun jeton Supabase**, l'inventaire par UUID est
+impossible ici. Ce qui *est* établi, de façon reproductible, est le diagnostic structurel :
+
+```bash
+node --test scripts/agents/agentsQueueDiagnostic.test.mjs   # 8 tests
+```
+
+### 10.1 Quatre classes de tâches sur cinq sont orphelines
+
+| Classe | Produite par | `kind` | Réclamable aujourd'hui | Pourquoi |
+|---|---|---|---|---|
+| `scoped_corrective_execute` | `prepare_execution` (branche scoped) | execute | **OUI** | seul consommateur : `maximus-deepseek-search.yml` |
+| `role_batch_execute` | `prepare_execution` (boucle rôles) | execute | **NON** | agrège **plusieurs** issues ; le claim scoped exige `cardinality=1` + scope scoped |
+| `qa_verify` | `prepare_execution` / `prepare_cycle` | verify | **NON** | aucun workflow n'appelle un claim pour `kind=verify` |
+| `daily_role_audit` | `prepare_cycle` | audit | **NON** | `claim_task` existe mais **n'a plus aucun appelant workflow** |
+| `daily_qa_audit` | `prepare_cycle` | audit | **NON** | idem |
+
+**Conséquence** : `pending_tasks > 0` avec `runner_state = IDLE` n'est pas une anomalie
+transitoire, c'est la **signature** d'un orphelinage. Les 11 tâches en attente sont très
+probablement de ces quatre classes. Une tâche qu'aucun consommateur ne peut réclamer n'est
+pas « en attente » : elle est morte.
+
+### 10.2 Défaut de cohérence : `record_execution` hors chaîne de migrations
+
+Le pont OIDC appelle `maximus_agents.record_execution(...)` à chaque écriture de résultat
+(`maximus-search-agent-oidc/index.ts`). Cette fonction est définie dans
+`agents/autonomous/execution.sql`, **qui n'est pas une migration** : aucune migration de
+`supabase/migrations/` ne la crée. Si elle n'a jamais été appliquée manuellement, tout claim
+réussi échoue ensuite en **HTTP 422**, la tâche reste `running` jusqu'à expiration du bail,
+puis est **bloquée** par `reconcile_expired_tasks` (`LEASE_EXPIRED_RECONCILED`). C'est un
+candidat sérieux à l'origine des **4 incidents bloqués**.
+
+**Action requise (session interactive, P0)** — lecture seule d'abord :
+
+```sql
+select n.nspname, p.proname from pg_proc p
+  join pg_namespace n on n.oid = p.pronamespace
+ where n.nspname = 'maximus_agents' and p.proname = 'record_execution';
+```
+
+- **0 ligne** → confirme le défaut. Correctif : appliquer `agents/autonomous/execution.sql`
+  (idempotent, `CREATE OR REPLACE`) via le circuit de migration revu, **pas** un `db push`
+  global. Critère de succès : le prochain claim écrit un `runs.status` terminal.
+- **1 ligne** → l'hypothèse est écartée ; chercher les 422 dans les logs de la fonction.
+
+### 10.3 Requête d'inventaire exacte (à exécuter par ChatGPT)
+
+`buildInventoryQuery()` (dans `agentsQueueDiagnostic.mjs`) fournit le SQL **en lecture seule**
+qui répond aux quatre questions du mandat : inventaire des tâches par `status`/`kind`/
+`cycle_date`/`cardinality(issue_ids)`/`depends_on`, incidents actifs avec leur preuve,
+heartbeats par rôle, et exécutions sur 24 h. **Aucun `update`, aucun `delete`, aucune
+fermeture d'incident.**
+
+### 10.4 Traitement minimal proposé (aucune modification SQL appliquée ici)
+
+1. **Ne pas relancer** les workers historiques : ils n'ont pas de consommateur.
+2. **Ne pas fermer** les 4 incidents à la main : `reconcile_expired_tasks` doit les avoir
+   produits pour une raison ; la cause (10.2) doit être établie d'abord.
+3. **Décider par classe**, sur la base de l'inventaire : une tâche `role_batch_execute`
+   obsolète se clôt avec un motif écrit ; une tâche réellement nécessaire se réécrit en
+   issue `scoped_code_correction` à **1 fichier** — la seule forme exécutable aujourd'hui.
+4. **Ne pas supprimer `claim_task`** dans cette PR : le retrait d'une fonction SQL est une
+   opération de production, hors périmètre Cursor.
+5. **Critère de sortie** : `pending_tasks` explique chacune de ses lignes par une classe
+   `CLAIMABLE`, ou par une décision documentée. Un compteur qui ne peut pas descendre n'est
+   pas un indicateur de charge, c'est un défaut.
