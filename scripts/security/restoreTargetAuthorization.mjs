@@ -225,6 +225,55 @@ function hourlyMicro(hours) {
 }
 
 /**
+ * Périmètre que le propriétaire a **explicitement** borné le 26/11.
+ *
+ * L'arbitrage « CHEMIN B AUTORISÉ » ne dit pas seulement *quel* projet : il fixe aussi une
+ * durée et un coût (« cible 2 h, ~0,03 USD ») et impose d'**arrêter** au-delà. Un coût établi
+ * sans plafond ne borne donc rien : une autorisation de 1000 heures (13,44 $, soit 500 fois
+ * l'enveloppe, et au-delà du pire cas mensuel) était acceptée par le gate alors que le
+ * propriétaire n'a jamais autorisé cela.
+ *
+ * Ces bornes sont **dérivées** des tarifs déjà sourcés, jamais saisies à la main : recopier
+ * « 0,02688 » en dur créerait une seconde source de vérité qui dériverait du tarif officiel.
+ *
+ * L'enveloppe ne fait que **refuser**. Elle n'autorise rien, ne remplace pas la décision
+ * nominative, et ne peut pas être élargie par un argument ni par une variable d'environnement.
+ */
+export const OWNER_AUTHORIZED_RESTORE_DRILL_ENVELOPE = Object.freeze({
+  authorizedAt: '2026-11-26',
+  maxHours: 2,
+  // Plafond de coût marginal pour `maxHours` sur le chemin Pro, heure entamée facturée.
+  maxMarginalCostUsd: hourlyMicro(2),
+  worstCaseMonthlyUsd: pricingById.get('MICRO_COMPUTE_MONTHLY').amountUsd,
+  quote: 'Instance Micro ~0,01344 USD/h, cible 2 h (~0,03 USD), aucun changement '
+    + 'd abonnement, aucun add-on payant, pas de conservation du projet.',
+});
+
+/**
+ * Contrôle qu'une autorisation tient dans le périmètre borné par le propriétaire.
+ *
+ * Le contrôle porte sur la **durée**, pas sur le montant : pour un chemin et une durée
+ * donnés, le montant est déjà recalculé par `validateCostBasis`. Vérifier en plus
+ * `marginalCostUsd` serait une branche que sa mutation ne ferait jamais échouer — donc une
+ * garde qui ne prouverait rien.
+ *
+ * @param {object|null|undefined} costBasis
+ * @returns {{ok: boolean, reasons: string[]}}
+ */
+export function validateAuthorizedEnvelope(costBasis) {
+  if (!costBasis || typeof costBasis !== 'object') return { ok: true, reasons: [] };
+  const hours = Number(costBasis.hours);
+  // Une durée absente ou non finie n'est pas « dans l'enveloppe » : c'est une autorisation
+  // dont la borne est indéterminée. `validateCostBasis` la refuse déjà, mais l'enveloppe ne
+  // doit pas dépendre de cet autre contrôle pour rester fermée.
+  if (!Number.isFinite(hours) || hours <= 0) return { ok: true, reasons: [] };
+  if (hours > OWNER_AUTHORIZED_RESTORE_DRILL_ENVELOPE.maxHours) {
+    return { ok: false, reasons: ['AUTHORIZATION_EXCEEDS_AUTHORIZED_ENVELOPE'] };
+  }
+  return { ok: true, reasons: [] };
+}
+
+/**
  * Construit un devis de coût pour un chemin et une durée d'exercice.
  * @param {{pathId: string, hours: number}} input
  * @returns {{ok: boolean, reasons: string[], quote?: object}}
@@ -312,6 +361,7 @@ export const TARGET_AUTHORIZATION_REFUSALS = Object.freeze([
   'AUTHORIZATION_SCOPE_NOT_RESTORE_DRILL',
   'AUTHORIZATION_GRANTS_REVOCATION',
   'AUTHORIZATION_COST_BASIS_UNVERIFIED',
+  'AUTHORIZATION_EXCEEDS_AUTHORIZED_ENVELOPE',
   'AUTHORIZATION_EXPIRED',
   'AUTHORIZATION_RECORD_INSIDE_REPO',
   'AUTHORIZED_LIST_WITHOUT_RECORD',
@@ -348,6 +398,12 @@ export function validateOwnerAuthorization(record, context) {
 
   const basis = validateCostBasis(record.costBasis);
   if (!basis.ok) reasons.push('AUTHORIZATION_COST_BASIS_UNVERIFIED');
+
+  // Un coût établi ne borne pas la dépense : l'enveloppe du propriétaire le fait. Sans ce
+  // contrôle, une autorisation de 1000 heures passait pour « établie » alors qu'elle sortait
+  // de la décision rendue le 26/11.
+  const envelope = validateAuthorizedEnvelope(record.costBasis);
+  for (const reason of envelope.reasons) reasons.push(reason);
 
   const today = typeof context?.today === 'string' ? context.today : null;
   if (today) {

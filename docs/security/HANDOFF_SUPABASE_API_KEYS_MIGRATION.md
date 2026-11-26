@@ -1680,6 +1680,7 @@ peupler `AUTHORIZED_RESTORE_PROJECT_REFS` par un commit. Le module
 | La portée est fermée à `RESTORE_DRILL` | `AUTHORIZATION_SCOPE_NOT_RESTORE_DRILL` |
 | Une autorisation de restauration ne vaut **jamais** révocation | `AUTHORIZATION_GRANTS_REVOCATION` |
 | Le coût doit être sourcé, daté et recalculé — pas déclaré | `AUTHORIZATION_COST_BASIS_UNVERIFIED` |
+| La durée reste dans l'enveloppe que le propriétaire a bornée (2 h) | `AUTHORIZATION_EXCEEDS_AUTHORIZED_ENVELOPE` |
 | L'autorisation expire | `AUTHORIZATION_EXPIRED` |
 | Le fichier d'autorisation vit **hors** du dépôt public | `AUTHORIZATION_RECORD_INSIDE_REPO` |
 | Une autorisation orpheline ne dort pas dans le dossier de conservation | `STALE_AUTHORIZATION_RECORD` |
@@ -1701,6 +1702,25 @@ d'environnement : ni argument, ni `env` ne peut ouvrir une cible.
 
 Tant que cette décision n'est pas prise, `AUTHORIZED_RESTORE_PROJECT_REFS` reste vide et
 `rollbackReady` reste à **0/16** : c'est le comportement correct, pas un incident.
+
+#### 11.5.4 Un coût établi n'est pas une dépense bornée (lot 17)
+
+L'arbitrage « CHEMIN B AUTORISÉ » du 26/11 ne dit pas seulement *quel* projet : il fixe une
+durée et un montant (« cible 2 h, ~0,03 USD ») et impose d'**arrêter** au-delà. Le module,
+lui, ne vérifiait que l'**exactitude** du coût, jamais son **ampleur** : une autorisation de
+1000 heures (13,44 $, soit 500 fois l'enveloppe et au-delà du pire cas mensuel de 10 $)
+sortait `AUTHORIZED`, avec un coût « établi » et sourcé.
+
+C'était exactement le même défaut que le lot 16 avait corrigé sur l'arrondi — un chiffre
+juste qui ne dit rien de la borne — déplacé d'un cran. `OWNER_AUTHORIZED_RESTORE_DRILL_ENVELOPE`
+porte désormais `maxHours: 2`, et `AUTHORIZATION_EXCEEDS_AUTHORIZED_ENVELOPE` refuse tout
+exercice au-delà. La borne est **dérivée** du tarif sourcé (`hourlyMicro(2)` = 0,02688 $),
+jamais recopiée à la main : une seconde valeur écrite en dur dériverait du tarif officiel.
+
+L'enveloppe ne fait que **refuser** : elle n'autorise rien et ne remplace pas la décision
+nominative. Le chemin Free (0 €) reste borné en durée — un exercice n'est pas illimité parce
+qu'il est gratuit.
+
 
 **Recommandation inchangée et conforme au gate** : garder `rollbackReady` à `0/16` jusqu'à ce
 qu'une restauration exercée ait lieu. Le rejeu local reste une preuve **partielle** assumée,

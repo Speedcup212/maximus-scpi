@@ -17,6 +17,8 @@ import {
   COST_SOURCE_ALLOWLIST,
   PRICING_RETRIEVED_AT,
   TARGET_AUTHORIZATION_REFUSALS,
+  OWNER_AUTHORIZED_RESTORE_DRILL_ENVELOPE,
+  validateAuthorizedEnvelope,
 } from './restoreTargetAuthorization.mjs';
 import { AUTHORIZED_RESTORE_PROJECT_REFS } from './restoreProtocol.mjs';
 
@@ -171,6 +173,43 @@ test('une autorisation rangée dans le dépôt public ne compte pas', () => {
   assert.ok(v.reasons.includes('AUTHORIZATION_RECORD_INSIDE_REPO'));
 });
 
+// --- Une enveloppe de coût n est pas un plafond ----------------------------------------
+
+test('un coût établi ne borne pas la dépense : l enveloppe autorisée la borne', () => {
+  // L'arbitrage du 26/11 borne l'exercice à 2 h (~0,03 $) et impose d'arrêter au-delà.
+  // Sans ce contrôle, une autorisation de 1000 heures sortait `AUTHORIZED` : coût « établi »,
+  // mais 500 fois l'enveloppe et au-delà du pire cas mensuel.
+  const envelope = OWNER_AUTHORIZED_RESTORE_DRILL_ENVELOPE;
+  assert.equal(envelope.maxHours, 2);
+  assert.equal(envelope.maxMarginalCostUsd, 0.02688);
+
+  const atCeiling = validRecord();
+  assert.equal(validateOwnerAuthorization(atCeiling, { projectRef: REF, today: TODAY }).ok, true);
+
+  const beyond = validRecord();
+  beyond.costBasis = { ...beyond.costBasis, hours: 1000, marginalCostUsd: 13.44 };
+  const v = validateOwnerAuthorization(beyond, { projectRef: REF, today: TODAY });
+  assert.equal(v.ok, false);
+  assert.ok(v.reasons.includes('AUTHORIZATION_EXCEEDS_AUTHORIZED_ENVELOPE'));
+
+  // La liste ne s ouvre pas non plus : le refus traverse le verdict unique.
+  assert.equal(resolveRestoreTargetAuthorization({
+    authorizedProjectRefs: [REF],
+    record: beyond,
+    today: TODAY,
+  }).state, 'REFUSED');
+});
+
+test('le plafond de durée est dérivé du tarif sourcé, jamais saisi à la main', () => {
+  const rate = SOURCED_PRICING.find((p) => p.id === 'MICRO_COMPUTE_HOURLY').amountUsd;
+  const envelope = OWNER_AUTHORIZED_RESTORE_DRILL_ENVELOPE;
+  assert.equal(envelope.maxMarginalCostUsd, Number((envelope.maxHours * rate).toFixed(5)));
+  // Le chemin Free coûte zéro mais reste borné en durée : un exercice n est pas illimité
+  // parce qu il est gratuit.
+  assert.equal(validateAuthorizedEnvelope({ hours: envelope.maxHours }).ok, true);
+  assert.equal(validateAuthorizedEnvelope({ hours: envelope.maxHours + 1 }).ok, false);
+});
+
 // --- Le défaut central : une liste peuplée sans décision -------------------------------
 
 test('l état réel du dépôt est fermé, et ce n est pas une anomalie', () => {
@@ -258,6 +297,10 @@ test('chaque code de refus est atteignable par au moins un cas construit', () =>
     { projectRef: REF, today: TODAY },
   ));
   collect(validateOwnerAuthorization(validRecord({ expiresAt: '2000-01-01' }), { projectRef: REF, today: TODAY }));
+  collect(validateOwnerAuthorization(
+    validRecord({ costBasis: { ...validRecord().costBasis, hours: 1000, marginalCostUsd: 13.44 } }),
+    { projectRef: REF, today: TODAY },
+  ));
   collect(validateOwnerAuthorization(validRecord(), { projectRef: REF, today: TODAY, insideRepo: true }));
   collect(resolveRestoreTargetAuthorization({ authorizedProjectRefs: [REF], record: null }));
   collect(resolveRestoreTargetAuthorization({ authorizedProjectRefs: [], record: validRecord(), today: TODAY }));
