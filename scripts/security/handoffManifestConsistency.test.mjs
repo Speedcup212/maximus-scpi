@@ -284,7 +284,33 @@ test('le handoff décrit la requête de déploiement estampillée, jamais recopi
 test('le handoff établit le coût du projet jetable sans en créer aucun', () => {
   const doc = handoff();
   assert.match(doc, /11\.5\.2/);
-  assert.match(doc, /plan \*\*gratuit\*\*|plan gratuit/i);
+  // Le lot 15 affirmait « 0 € sur le plan gratuit ». L'arbitrage du 26/11 a établi que
+  // l'organisation est Pro : l'affirmation est corrigée, pas maintenue.
+  assert.match(doc, /0,01344 \$\/h|0\.01344/);
+  assert.match(doc, /Pro\*\* et compte déjà quatre projets actifs|organisation est \*\*Pro\*\*/);
   // Aucune création : la doc doit dire explicitement que rien n'a été créé.
   assert.match(doc, /aucune création/i);
+});
+
+test('le handoff ne présente plus le plan gratuit comme acquis pour cette organisation', () => {
+  const doc = handoff().replace(/\s+/g, ' ');
+  // La phrase fautive du lot 15 doit avoir disparu : elle fondait une décision sur une
+  // hypothèse que l'inventaire fournisseur a réfutée.
+  assert.doesNotMatch(doc, /0 € \*\*sur le plan gratuit/i);
+  assert.doesNotMatch(doc, /plan gratuit possible, à confirmer/i);
+});
+
+test('le handoff outille l autorisation nominative et cite ses codes de refus', () => {
+  const doc = handoff();
+  assert.match(doc, /restoreTargetAuthorization\.mjs/);
+  for (const code of [
+    'AUTHORIZED_LIST_WITHOUT_RECORD',
+    'AUTHORIZATION_NOT_OWNER',
+    'AUTHORIZATION_GRANTS_REVOCATION',
+    'AUTHORIZATION_RECORD_INSIDE_REPO',
+    'STALE_AUTHORIZATION_RECORD',
+    'CLOSED_EXPECTED',
+  ]) {
+    assert.ok(doc.includes(code), `${code} absent du handoff`);
+  }
 });

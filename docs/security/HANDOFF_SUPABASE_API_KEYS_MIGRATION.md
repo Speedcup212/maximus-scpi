@@ -1461,7 +1461,7 @@ plan est contrôlée par test (existence sur disque) et par CI.
 |---|---|---|---|
 | P1 | Jeton *management* Supabase, portée lecture fonctions | `GET /v1/projects/{ref}/functions` répond 200 | à fournir par la session |
 | P2 | Racine de conservation **hors dépôt** | `MAXIMUS_ROLLBACK_EVIDENCE_ROOT` défini, hors `REPO_ROOT` | outillé (`EVIDENCE_ROOT_INSIDE_REPO`) |
-| P3 | Projet **hors production** autorisé | `AUTHORIZED_RESTORE_PROJECT_REFS` (dans `restoreProtocol.mjs`) contient le `projectRef` | **BLOQUÉ** — liste **vide** : aucun projet MaximusSCPI hors prod n'existe (inventaire du 26/11), décision du propriétaire requise |
+| P3 | Projet **hors production** autorisé | `AUTHORIZED_RESTORE_PROJECT_REFS` (dans `restoreProtocol.mjs`) contient le `projectRef` **et** une autorisation nominative du propriétaire (§11.5.3) | **BLOQUÉ** — liste **vide** : aucun projet MaximusSCPI hors prod n'existe (inventaire du 26/11). Coût désormais **établi** (§11.5.2) ; reste la **décision du propriétaire** sur le chemin de coût |
 | P4 | Clé publique du vérificateur publiée par PR relue | `rollbackVerifierTrustAnchor.json` : `keyId`/`publicKeyPem` non nuls | **BLOQUÉ** — côté contrôle indépendant |
 | P5 | Aucune révocation, aucun swap, aucun `db push` pendant l'exercice | relecture de ce chapitre | règle |
 
@@ -1589,7 +1589,7 @@ sécurité**. Pour chaque fonction restaurée :
 Un `verify_jwt` restauré à `true` sur une fonction publique se voit ici immédiatement : c'est
 le troisième obstacle du §2.7.8, et le seul test qui le détecte.
 
-### 11.5 Projet jetable : conditions et coût à établir avant création
+### 11.5 Projet jetable : conditions et coût établis avant création
 
 L'arbitrage indique qu'**aucun projet MaximusSCPI hors production n'existe**, que les projets
 du cabinet CGP sont hors périmètre et ne doivent pas être réutilisés, et qu'aucun projet payant
@@ -1597,7 +1597,8 @@ ne doit être créé sans accord. Options, avec ce que chacune prouve :
 
 | Option | Prouve une restauration exercée ? | Coût / condition |
 |---|---|---|
-| Projet Supabase jetable dédié | **OUI** — traverse le déploiement, la résolution des dépendances et la pose de `verify_jwt` | création d'un projet (plan gratuit possible, à confirmer) ; **décision du propriétaire** |
+| Organisation Free **séparée**, projet vide | **OUI** — traverse le déploiement, la résolution des dépendances et la pose de `verify_jwt` | **0 €** ; dépend d'un quota Free que l'agent ne peut pas inventer (voir §11.5.2) |
+| Projet jetable vide dans l'organisation **Pro** existante | **OUI** | **facturé à l'heure** : 0,01344 $/h (Micro), ~10 $/mois si le projet n'est pas supprimé ; **décision du propriétaire** |
 | Projet de staging existant (si un jour autorisé) | **OUI** | aucun projet MaximusSCPI hors prod à ce jour |
 | Rejeu local (`local-replay`) | **NON** — reconstruit en mémoire, n'exerce aucune plateforme | gratuit, immédiat |
 
@@ -1625,19 +1626,78 @@ préparation (`--target-project-ref`), et l'**émission** de la requête de dép
 fichier que l'opérateur envoie réellement ne nomme jamais la production, et une émission sans
 cible autorisée n'écrit rien.
 
-#### 11.5.2 Ce que coûterait un projet jetable dédié
+#### 11.5.2 Ce que coûte réellement un projet jetable (corrigé le 26/11)
 
-Établi pour l'arbitrage, sans rien créer (aucune création, aucun déploiement dans ce lot) :
+Le lot 15 avait écrit ici que l'exercice serait « 0 € sur le plan gratuit ». **Ce constat est
+réfuté par l'arbitrage du 26/11** (#issuecomment-7191000567) : l'organisation Supabase actuelle
+est **Pro** et compte déjà quatre projets actifs. La règle tarifaire officielle est explicite —
+« *The subscription plan is set on the organization level and it is not possible to mix paid
+and non-paid projects inside a single organization.* » Un projet créé dans cette organisation
+est donc **facturé**, quel que soit son usage. Les chiffres ci-dessous sont relevés le
+26/11 sur les pages officielles et sont portés par un module de dépôt
+(`scripts/security/restoreTargetAuthorization.mjs`), pas par une prose.
 
-| Poste | Constat |
+**Deux chemins seulement prouvent un exercice**, et ils ne coûtent pas la même chose :
+
+| Chemin | Coût marginal | Pire cas (projet oublié) | Ce qui reste à vérifier |
+|---|---|---|---|
+| Organisation **Free séparée**, aucune donnée client | **0 €** | 0 € | quota de **2 projets actifs** par organisation, décompté sur **tous** les membres Owner/Admin — **non inventoriable par l'agent** ; existence d'une organisation Free séparée |
+| Projet vide dans l'organisation **Pro** | **0,01344 $/h** (Micro, heure entamée facturée en entier) | **~10 $/mois** si non supprimé | consommation réelle du crédit de calcul sur le cycle en cours |
+
+Les tarifs qui fondent le second chemin, cités avec leur phrase source :
+
+| Tarif | Valeur | Phrase officielle |
+|---|---|---|
+| Abonnement Pro (déjà payé) | 25 $/mois | « *Pro $ 25 /month* » |
+| Calcul Micro | 0,01344 $/h, ~10 $/mois | « *Micro $ 0.01344 ~ $ 10* » |
+| Crédit de calcul inclus | 10 $/mois | « *Paid plans include $ 10 in Compute Credits, which cover one project running on Nano or Micro Compute size* » |
+| Facturation du calcul | horaire | « *Compute instances are billed hourly* » |
+| Projet en pause | non facturé | « *No, we do not charge for paused projects. Compute hours are only counted for active instances.* » |
+| Projets Free | 2 actifs maximum | « *Limit of 2 active projects.* » |
+| Quota Free | tous Owner/Admin | « *within an organization, we count the free project limits from all members that are either Owner or Admin* » |
+
+**Pourquoi le crédit de 10 $ ne rend pas le projet gratuit** : il couvre **un seul** Micro, et
+les quatre projets existants le consomment déjà. Un projet supplémentaire est facturé en
+entier. Le coût d'un exercice de deux heures est donc de l'ordre de **0,03 $** — négligeable,
+mais **réel**, et c'est cette différence qui exige une décision explicite plutôt qu'un
+raisonnement « c'est gratuit ». À l'inverse, le risque n'est pas l'exercice : c'est le **projet
+laissé actif**, qui coûte ~10 $/mois. D'où la condition de suppression immédiate.
+
+Aucune création, aucun déploiement, aucun appel fournisseur n'a eu lieu pour établir ces
+chiffres.
+
+#### 11.5.3 Une autorisation est nominative, bornée et non transférable
+
+Écrire « un document ne crée pas une autorisation » ne suffisait pas : rien n'empêchait de
+peupler `AUTHORIZED_RESTORE_PROJECT_REFS` par un commit. Le module
+`scripts/security/restoreTargetAuthorization.mjs` rend le défaut **détectable par test** :
+
+| Règle | Code de refus |
 |---|---|
-| Offre | Supabase plan **gratuit** : 2 projets par organisation, pause après inactivité. Suffisant pour un exercice de quelques minutes. |
-| Coût direct | **0 €** sur le plan gratuit. Un plan payant ne se justifie pas pour un exercice ponctuel. |
-| Comptes / facturation | aucune carte nécessaire sur le plan gratuit ; création d'un projet = action du propriétaire, pas de l'agent. |
-| Données | projet **vide** : les seules données déposées sont les 6 bundles capturés, qui contiennent du source de production. Le projet doit donc être **privé** et **supprimé après l'exercice** (ou mis en pause), avec le journal de restauration conservé hors dépôt. |
-| Prérequis techniques | jeton *management* avec portée écriture fonctions ; CLI `supabase` ou appel `POST …/deploy` ; `verify_jwt` posé explicitement par la requête reconditionnée. |
-| Durée | un exercice par fonction : capture (déjà faite) + déploiement + 2 lectures + tests du §11.4. |
-| Risque résiduel | du source de production réside temporairement hors production : à traiter comme une copie sensible (accès restreint, suppression datée). |
+| Une liste peuplée **sans** autorisation valide est refusée, même avec la meilleure intention | `AUTHORIZED_LIST_WITHOUT_RECORD` |
+| Seul le propriétaire autorise | `AUTHORIZATION_NOT_OWNER` |
+| L'autorisation nomme **un** projet ; elle n'ouvre pas les autres | `AUTHORIZATION_TARGET_MISMATCH` |
+| La portée est fermée à `RESTORE_DRILL` | `AUTHORIZATION_SCOPE_NOT_RESTORE_DRILL` |
+| Une autorisation de restauration ne vaut **jamais** révocation | `AUTHORIZATION_GRANTS_REVOCATION` |
+| Le coût doit être sourcé, daté et recalculé — pas déclaré | `AUTHORIZATION_COST_BASIS_UNVERIFIED` |
+| L'autorisation expire | `AUTHORIZATION_EXPIRED` |
+| Le fichier d'autorisation vit **hors** du dépôt public | `AUTHORIZATION_RECORD_INSIDE_REPO` |
+| Une autorisation orpheline ne dort pas dans le dossier de conservation | `STALE_AUTHORIZATION_RECORD` |
+
+Deux états sont donc distingués, et c'est le point : `CLOSED_EXPECTED` (liste vide — l'état
+correct du 26/11, **pas** une anomalie) et `REFUSED` (liste peuplée sans décision). Une
+autorisation fournie mais rejetée est signalée comme telle : elle ne retombe jamais
+silencieusement sur « aucune autorisation ».
+
+Lire l'état réel, sans jeton et sans rien écrire :
+
+```bash
+node scripts/security/restoreTargetAuthorization.mjs --check
+```
+
+Sortie attendue aujourd'hui : `authorizedProjectRefs: 0`, `state: CLOSED_EXPECTED`,
+`rollbackReady: "0/16"`, `revocationAllowed: false`. Le module ne lit **aucune** variable
+d'environnement : ni argument, ni `env` ne peut ouvrir une cible.
 
 Tant que cette décision n'est pas prise, `AUTHORIZED_RESTORE_PROJECT_REFS` reste vide et
 `rollbackReady` reste à **0/16** : c'est le comportement correct, pas un incident.
@@ -1686,9 +1746,10 @@ Rollback : aucune écriture n'ayant eu lieu avant l'étape 3, il n'y a rien à d
 | **Faux PASS sur production** (lot 14) | **EXÉCUTÉ** et **VÉRIFIÉ** — 6 mutations, toutes détectées |
 | Autorisation de destination (`AUTHORIZED_RESTORE_PROJECT_REFS`) | **EXÉCUTÉ** et **VÉRIFIÉ** — liste vide, gate fermé |
 | Requête de déploiement estampillée, digest liant la destination | **EXÉCUTÉ** et **VÉRIFIÉ** |
-| Coût / conditions d'un projet jetable dédié (§11.5.2) | **ÉTABLI** — aucune création effectuée |
+| Coût / conditions d'un projet jetable dédié (§11.5.2) | **ÉTABLI et CORRIGÉ** — 0 € (organisation Free séparée) ou 0,01344 $/h (Projet Pro), tarifs sourcés et datés ; aucune création effectuée |
+| Autorisation nominative et bornée du propriétaire (§11.5.3) | **OUTILLÉ** et **VÉRIFIÉ** — 9 codes de refus, 11 mutations détectées ; la liste reste **vide** |
 | Capture réelle des 6 fonctions `DEPLOYED` | **BLOQUÉ** — aucun jeton Supabase |
-| Restauration exercée (étape D) | **BLOQUÉ** — aucun projet hors production autorisé (P3) |
+| Restauration exercée (étape D) | **BLOQUÉ** — aucun projet hors production autorisé (P3) : coût établi, **décision du propriétaire** requise |
 | Attestation signée (étape E) | **BLOQUÉ** — clé publique non provisionnée (P4) |
 | 7 `PENDING_DEPLOY` + patch `scpi-certified-promote` | **BLOQUÉ** — session interactive |
 | Requalification ANALYST | **BLOQUÉ** — nécessité métier à établir (§11.6) |

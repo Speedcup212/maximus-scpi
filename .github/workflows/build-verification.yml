@@ -61,7 +61,9 @@ jobs:
           node --test scripts/security/handoffManifestConsistency.test.mjs
           node --test scripts/security/restoreProtocol.test.mjs
           node --test scripts/security/prepareRestore.test.mjs
+          node --test scripts/security/restoreTargetAuthorization.test.mjs
           node scripts/security/edgeFunctionDeploymentManifest.mjs --check
+          node scripts/security/restoreTargetAuthorization.mjs --check
 
       - name: Historical agents queue inventory and diagnosis
         run: node --test scripts/agents/agentsQueueDiagnostic.test.mjs
