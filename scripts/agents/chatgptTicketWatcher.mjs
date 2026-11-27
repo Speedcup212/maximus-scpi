@@ -3,7 +3,7 @@
  * ChatGPT / #459 ticket watcher — polls every 60s.
  * Dedupe by comment id. Single-flight lock. No secrets in logs.
  */
-import { mkdirSync, writeFileSync, readFileSync, existsSync, renameSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readFileSync, existsSync, renameSync, unlinkSync } from 'node:fs';
 import { join } from 'node:path';
 
 const INTERVAL_MS = Number(process.env.WATCH_INTERVAL_MS || 60_000);
@@ -40,20 +40,29 @@ function acquireLock() {
   if (existsSync(lockPath)) {
     try {
       const lock = JSON.parse(readFileSync(lockPath, 'utf8'));
-      if (Date.now() - Date.parse(lock.at) < INTERVAL_MS * 2 && lock.pid !== process.pid) {
-        return false;
-      }
-    } catch {}
+      const heldByOther =
+        Number.isInteger(lock.pid) &&
+        lock.pid > 0 &&
+        lock.pid !== process.pid &&
+        !lock.released &&
+        Date.now() - Date.parse(lock.at) < INTERVAL_MS * 2;
+      if (heldByOther) return false;
+    } catch {
+      // lock illisible → on reprend
+    }
   }
-  writeFileSync(lockPath, JSON.stringify({ pid: process.pid, at: new Date().toISOString() }));
+  writeFileSync(lockPath, JSON.stringify({ pid: process.pid, at: new Date().toISOString(), released: false }));
   return true;
 }
 
 function releaseLock() {
   try {
+    if (!existsSync(lockPath)) return;
     const lock = JSON.parse(readFileSync(lockPath, 'utf8'));
-    if (lock.pid === process.pid) writeFileSync(lockPath, JSON.stringify({ pid: null, at: new Date().toISOString(), released: true }));
-  } catch {}
+    if (lock.pid === process.pid) unlinkSync(lockPath);
+  } catch {
+    try { unlinkSync(lockPath); } catch {}
+  }
 }
 
 async function ghJson(path) {
@@ -72,7 +81,7 @@ function isChatGptSignal(body = '', viaApp = false) {
 async function cycle() {
   if (!acquireLock()) {
     log('SKIP cycle — lock held');
-    return;
+    return false;
   }
   try {
     const state = loadState();
@@ -96,8 +105,10 @@ async function cycle() {
     state.lastCycleAt = new Date().toISOString();
     state.lastNew = fresh;
     saveState(state);
+    log(`ACK cycle=${state.cycles} intervalMs=${INTERVAL_MS} new=${fresh.length} seen=${Object.keys(state.seenCommentIds).length} targets=${targets.join(',')}`);
     log(`CYCLE ${state.cycles} ok — new=${fresh.length} seen=${Object.keys(state.seenCommentIds).length}`);
     for (const f of fresh) log(`NEW#${f.issue} comment=${f.id} viaApp=${f.viaApp} :: ${f.title}`);
+    return true;
   } finally {
     releaseLock();
   }
@@ -107,16 +118,30 @@ const prove = process.argv.includes('--prove-cycles');
 const proveCount = Number(process.env.PROVE_CYCLES || 3);
 
 log(`START interval=${INTERVAL_MS}ms prove=${prove} state=${STATE_DIR}`);
-await cycle();
 if (prove) {
-  for (let i = 1; i < proveCount; i++) {
-    await new Promise((r) => setTimeout(r, INTERVAL_MS));
-    await cycle();
+  let ok = 0;
+  const stamps = [];
+  while (ok < proveCount) {
+    const before = Date.now();
+    const success = await cycle();
+    if (success) {
+      ok += 1;
+      stamps.push(new Date().toISOString());
+      log(`PROVE_PROGRESS ${ok}/${proveCount} at=${stamps[stamps.length - 1]}`);
+      if (ok < proveCount) await new Promise((r) => setTimeout(r, INTERVAL_MS));
+    } else {
+      await new Promise((r) => setTimeout(r, 1_000));
+    }
+    if (Date.now() - before > INTERVAL_MS * 5) {
+      log('PROVE_FAIL timeout waiting for successful cycles');
+      process.exit(1);
+    }
   }
-  log(`PROVE_DONE cycles=${proveCount}`);
+  log(`PROVE_DONE cycles=${proveCount} stamps=${stamps.join(',')}`);
   process.exit(0);
 }
 
+await cycle();
 setInterval(() => {
   cycle().catch((e) => log(`ERROR ${e.message}`));
 }, INTERVAL_MS);
