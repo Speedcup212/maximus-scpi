@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { TrendingUp, ArrowRight, Trash2, X, PieChart, Star, Award, DollarSign, BarChart3, Sliders, Info, ChevronDown } from 'lucide-react';
 import { SCPIExtended } from '../../data/scpiDataExtended';
 import { getScpiDiscountPremium, getScpiDiscountPremiumClass } from '../../utils/scpiDiscountPremium';
@@ -19,6 +20,9 @@ interface SelectionSidebarProps {
   onClear: () => void;
   onVisualize: () => void;
   zScoreVariant?: 'full' | 'compact';
+  /** Ouverture pilotée par le parent (ex. barre mobile « Voir ma sélection »). */
+  resultOpen?: boolean;
+  onResultOpenChange?: (open: boolean) => void;
 }
 
 const GRADIENT_IDS = {
@@ -64,9 +68,13 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   onRemove,
   onClear,
   onVisualize,
-  zScoreVariant = 'full'
+  zScoreVariant = 'full',
+  resultOpen,
+  onResultOpenChange
 }) => {
-  const [isResultOpen, setIsResultOpen] = useState(false);
+  const [internalResultOpen, setInternalResultOpen] = useState(false);
+  const isResultOpen = resultOpen ?? internalResultOpen;
+  const setIsResultOpen = onResultOpenChange ?? setInternalResultOpen;
   const [expandedScpiIds, setExpandedScpiIds] = useState<Set<number>>(new Set());
 
   const toggleExpandScpi = (id: number) => {
@@ -901,8 +909,9 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
         </p>
       </div>
 
-      {/* Pop-up de résultat de la sélection */}
-      {isResultOpen && (
+      {/* Pop-up de résultat de la sélection — rendu dans <body> pour rester visible
+          sous lg, où la colonne latérale est masquée (hidden lg:block). */}
+      {isResultOpen && typeof document !== 'undefined' && createPortal(
         <div className="fixed inset-0 z-50 bg-slate-950/80 flex items-start justify-center pt-12 sm:pt-20 px-2 sm:px-4">
           <div className="relative w-full max-w-4xl bg-slate-900 rounded-xl sm:rounded-2xl border border-slate-700 shadow-2xl max-h-[95vh] sm:max-h-[90vh] flex flex-col">
             <div className="flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4 border-b border-slate-700 flex-shrink-0">
@@ -2356,7 +2365,8 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
               </a>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
     </div>
