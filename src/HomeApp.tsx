@@ -280,14 +280,26 @@ const HomeApp: React.FC = () => {
                 <a
                   href="/comparateur-scpi/"
                   aria-label={`Voir les ${certifiedScpiCohort.count} SCPI analysées dans le comparateur`}
-                  className="mt-6 inline-flex w-full max-w-xl items-center gap-4 rounded-xl border border-emerald-400/25 bg-slate-900/50 px-4 py-3.5 text-left transition-colors hover:border-emerald-400/60 hover:bg-slate-900/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 sm:w-auto"
+                  className="mt-6 inline-flex w-full max-w-xl flex-col gap-3 rounded-xl border border-emerald-400/25 bg-slate-900/50 px-4 py-3.5 text-left transition-colors hover:border-emerald-400/60 hover:bg-slate-900/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 sm:w-auto"
                 >
-                  <span className="shrink-0 text-4xl font-extrabold tabular-nums leading-none text-emerald-400 sm:text-5xl">
-                    {certifiedScpiCohort.count}
+                  <span className="flex items-center gap-4">
+                    <span className="shrink-0 text-4xl font-extrabold tabular-nums leading-none text-emerald-400 sm:text-5xl">
+                      {certifiedScpiCohort.count}
+                    </span>
+                    <span className="flex flex-col">
+                      <span className="text-sm font-semibold text-slate-100 sm:text-base">SCPI analysées</span>
+                      <span className="text-xs leading-relaxed text-slate-300 sm:text-sm">Rendements • Frais • Risques • Radar</span>
+                    </span>
                   </span>
-                  <span className="flex flex-col">
-                    <span className="text-sm font-semibold text-slate-100 sm:text-base">SCPI analysées</span>
-                    <span className="text-xs leading-relaxed text-slate-300 sm:text-sm">Rendements • Frais • Risques • Radar</span>
+                  <span className="flex items-center gap-2.5 border-t border-emerald-400/20 pt-3">
+                    <svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" />
+                      <path d="m9 12 2 2 4-4" />
+                    </svg>
+                    <span className="flex min-w-0 flex-col">
+                      <span className="text-sm font-semibold leading-snug text-emerald-400">Données contrôlées par nos agents IA</span>
+                      <span className="text-xs leading-relaxed text-slate-300">Sources officielles • Vérification • Traçabilité</span>
+                    </span>
                   </span>
                 </a>
 
