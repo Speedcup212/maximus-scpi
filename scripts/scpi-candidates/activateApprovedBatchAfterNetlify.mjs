@@ -8,6 +8,11 @@ const ids=['corum-eurion','corum-origin','corum-usa','corum-xl'];
 const j=p=>JSON.parse(fs.readFileSync(new URL(p,ROOT),'utf8'));
 const fail=x=>{throw Error('[FAIL CLOSED POSTDEPLOY] '+x)};
 const required=(key)=>{const s=process.env[key];if(!s)fail('Missing private '+key);return s};
+// JWT legacy (3 segments) → apikey + Bearer ; clé opaque (1 segment, ex. sb_secret_*) → apikey seul.
+const supabaseHeaders=(key,extra={})=>
+ key.split('.').length===3
+  ? {apikey:key,Authorization:'Bearer '+key,...extra}
+  : {apikey:key,...extra};
 const slug=n=>String(n).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const latest=j('src/data/certified_scpi_cohort.json');
 const catalog=j('src/data/scpi_complet.json');
@@ -52,7 +57,7 @@ for(const id of ids){
 const url=required('SUPABASE_URL').replace(/\/$/,'');
 const key=required('SUPABASE_SERVICE_ROLE_KEY');
 const result=await fetch(url+'/rest/v1/rpc/maximus_activate_candidate_after_deploy',{
- method:'POST',headers:{apikey:key,Authorization:'Bearer '+key,'Content-Type':'application/json'},
+ method:'POST',headers:supabaseHeaders(key,{'Content-Type':'application/json'}),
  body:JSON.stringify({p_slugs:ids,p_release_sha:sha,p_netlify_deploy_id:deployment})
 });
 if(!result.ok)fail('Independent final QA / DB activation denied: '+result.status+' '+(await result.text()).slice(0,500));
@@ -62,7 +67,7 @@ if(!Array.isArray(activated)||activated.length!==4||
  fail('Atomic database transition returned incorrect batch coverage');
 const anon=required('SUPABASE_ANON_KEY');
 const verified=await fetch(url+'/rest/v1/scpi_indicators?select=scpi_slug,prix_reconstitution&scpi_slug=in.('+ids.join(',')+')',{
- headers:{apikey:anon,Authorization:'Bearer '+anon}
+ headers:supabaseHeaders(anon)
 });
 if(!verified.ok)fail('Postactivation anon API cannot fetch published indicators');
 const visible=await verified.json();

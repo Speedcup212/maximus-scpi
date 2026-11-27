@@ -1,7 +1,5 @@
-import { readFileSync } from 'node:fs';
-import vm from 'node:vm';
-import ts from 'typescript';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { handler as funnelHandler } from '../../netlify/functions/funnel-event';
 import {
   CONSENT_TEXT_VERSION,
   buildLeadPayload,
@@ -191,24 +189,26 @@ describe('submitLead écrit le consentement uniquement quand il est recueilli', 
 });
 
 describe('endpoint /api/funnel-event accepte les événements RECOVERY-201', () => {
-  const source = readFileSync(new URL('../../netlify/functions/funnel-event.ts', import.meta.url), 'utf8');
-  const executable = ts.transpileModule(source, {
-    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS },
-  }).outputText;
   type Handler = (event: { httpMethod: string; headers: Record<string, string>; body: string }) =>
     Promise<{ statusCode: number; body: string }>;
-  let handler: Handler;
+  const handler = funnelHandler as unknown as Handler;
   const write = vi.fn<typeof fetch>();
 
   beforeEach(() => {
     write.mockReset();
     write.mockResolvedValue(new Response(null, { status: 201 }));
-    const exports = {} as { handler: Handler };
-    vm.runInNewContext(executable, {
-      exports, Buffer, console, fetch: write,
-      process: { env: { SUPABASE_URL: 'https://example.supabase.co', SUPABASE_SERVICE_ROLE_KEY: 'test-only' } },
-    });
-    handler = exports.handler;
+    vi.stubGlobal('fetch', write);
+    vi.stubEnv('SUPABASE_URL', 'https://example.supabase.co');
+    vi.stubEnv('SUPABASE_SERVICE_ROLE_KEY_NEW', '');
+    vi.stubEnv('SUPABASE_SERVICE_ROLE_KEY', 'test-only');
+    vi.spyOn(console, 'log').mockImplementation(() => {});
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
   });
 
   const call = (eventName: string, metadata: Record<string, unknown>) => handler({

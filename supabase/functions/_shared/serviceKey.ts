@@ -19,10 +19,16 @@ export function readServiceKey(getEnv: EnvGetter, name = 'default'): string {
     if (raw) {
       const keys = JSON.parse(raw) as Record<string, string>;
       const key = keys[name] ?? keys['default'] ?? keys[Object.keys(keys)[0]] ?? '';
-      if (key) return key;
+      if (key) {
+        // Preuve d'utilisation effective de la nouvelle clé (sans exposer sa valeur) :
+        // la source (nom de variable) est journalisée, jamais la clé.
+        console.log(`[key-source] service key résolue depuis SUPABASE_SECRET_KEYS (name=${name})`);
+        return key;
+      }
     }
   } catch {
     /* variable absente ou JSON invalide : repli legacy */
   }
+  console.warn('[key-source] repli legacy : SUPABASE_SERVICE_ROLE_KEY');
   return getEnv('SUPABASE_SERVICE_ROLE_KEY') ?? '';
 }

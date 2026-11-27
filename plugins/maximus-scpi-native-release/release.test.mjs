@@ -28,3 +28,10 @@ test('new Supabase secret APIs use apikey header, never Authorization Bearer sb_
  assert.throws(()=>normalizeSecretHeaders('sb_secret_invalid!'),/NETLIFY_NATIVE_SCPI_RELEASE/);
  assert.equal(normalizeSecretHeaders(['e'.repeat(40),'y'.repeat(40),'a'.repeat(24)].join('.')).Authorization.startsWith('Bearer '),true);
 });
+test('new Supabase publishable key (sb_publishable) uses apikey header, never Bearer',()=>{
+ const key='sb_publishable_'+'x'.repeat(27);
+ const headers=normalizeSecretHeaders(key);
+ assert.equal(headers.apikey,key);
+ assert.equal('Authorization' in headers,false);
+ assert.throws(()=>normalizeSecretHeaders('sb_publishable_invalid!'),/NETLIFY_NATIVE_SCPI_RELEASE/);
+});
