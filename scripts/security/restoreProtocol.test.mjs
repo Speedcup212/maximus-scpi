@@ -32,7 +32,7 @@ const SLUG = 'scpi-certified-promote';
 /** Bundle réel au format fournisseur, tel que le collecteur l'obtient. */
 function fixture() {
   const meta = redactedMetadata();
-  const body = redactedBody({ metadata: meta });
+  const body = redactedBody();
   const parsed = parseMultipartFunctionBody(body.buffer, body.contentType);
   const readback = readbackFromProviderReads(
     { metadata: meta, body: parsed, requestedSlug: meta.slug },
@@ -54,15 +54,16 @@ function prepared() {
 
 test('le corps GET n\'est PAS rejouable : les noms fournisseur ne sont pas des chemins de déploiement', () => {
   const { parsed } = fixture();
-  // Les noms rendus par le fournisseur sont des URI temporaires absolues.
+  // Les noms rendus par le fournisseur sont relatifs au bundle (`source/…`) et ne sont pas
+  // des chemins de déploiement : `POST …/deploy` attend `<slug>/…`, sans ce préfixe.
   for (const f of parsed.files) {
-    assert.match(f.name, /^file:\/\/\/tmp\//);
+    assert.match(f.name, /^source\//);
   }
   const repack = buildDeployRequest({ metadata: redactedMetadata(), files: parsed.files });
   assert.equal(repack.ok, true);
-  // …et aucun ne doit survivre dans la requête de déploiement.
+  // …et aucun ne doit survivre tel quel dans la requête de déploiement.
   for (const f of repack.request.files) {
-    assert.doesNotMatch(f.name, /^file:\/\//);
+    assert.doesNotMatch(f.name, /^source\//);
     assert.doesNotMatch(f.name, /^\//);
   }
 });

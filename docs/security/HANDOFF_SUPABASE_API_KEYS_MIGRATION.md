@@ -37,7 +37,29 @@ flag les ferait repasser à `true` et casserait cron/OIDC/Calendly). Les **2 fon
 > `verify_jwt=true` reste exigé pour `client-access-admin` et `client-surveillance`
 > (`withSupabase({ auth: "user" })`) — hors périmètre de cette migration.
 
-### 0.1 Fonctions déployées SANS source dans le dépôt (inventaire logs 4 jours)
+### 0.1 Fonctions déployées SANS source dans le dépôt — **RÉSOLU côté lecture (27/11)**
+
+**Mise à jour du 27/11 — sources récupérées en lecture seule.** Les cinq sources ont été
+obtenues depuis l'API Management officielle (`GET /v1/projects/{ref}/functions/{slug}/body`,
+`Accept: multipart/form-data`), qui rend le **source original** (et non le bundle transpilé).
+Versions **réelles** constatées, qui corrigent le tableau précédent :
+
+| Fonction | Version réelle en production | Consommation de clé (source déployée) | Verdict migration |
+|---|---|---|---|
+| `scpi-parallel-backfill-worker` | **v8** (le registre disait 11) | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
+| `scpi-parallel-discover-worker` | **v11** | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
+| `scpi-annual-source-discover` | **v9** | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
+| `scpi-norma-quarterly-ingest` | **v11** | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
+| `maximus-watchdog-oidc` | **v7** | `SUPABASE_DB_URL` uniquement (aucune famille de clés API) | ⚠️ dépendance indirecte non liée à la clé legacy |
+
+Le fait bloquant est donc **mesuré sur la source réelle**, plus sur une inférence de logs :
+les **4** workers `scpi-parallel-*`, `scpi-annual-source-discover` et
+`scpi-norma-quarterly-ingest` lisent `SUPABASE_SERVICE_ROLE_KEY` en direct et ne passent pas
+par `readServiceKey`. La révocation reste **interdite** jusqu'à leur migration et leurs tests.
+
+---
+
+### 0.1 bis Fonctions déployées SANS source dans le dépôt (inventaire logs 4 jours, historique)
 
 Les logs révèlent 5 fonctions **invoquées en production** dont le code n'existe **ni dans
 `supabase/functions/` ni dans l'historique git** (déployées hors dépôt) :
@@ -1789,10 +1811,77 @@ Rollback : aucune écriture n'ayant eu lieu avant l'étape 3, il n'y a rien à d
 | Requête de déploiement estampillée, digest liant la destination | **EXÉCUTÉ** et **VÉRIFIÉ** |
 | Coût / conditions d'un projet jetable dédié (§11.5.2) | **ÉTABLI et CORRIGÉ** — 0 € (organisation Free séparée) ou 0,01344 $/h (Projet Pro), tarifs sourcés et datés ; aucune création effectuée |
 | Autorisation nominative et bornée du propriétaire (§11.5.3) | **OUTILLÉ** et **VÉRIFIÉ** — 9 codes de refus, 11 mutations détectées ; la liste reste **vide** |
-| Capture réelle des 6 fonctions `DEPLOYED` | **BLOQUÉ** — aucun jeton Supabase |
+| Capture réelle des 6 fonctions `DEPLOYED` | **EXÉCUTÉ** le 27/11 avec un jeton lecture seule (§11.8) — défaut bloquant corrigé |
 | Restauration exercée (étape D) | **BLOQUÉ** — aucun projet hors production autorisé (P3) : coût établi, **décision du propriétaire** requise |
 | Attestation signée (étape E) | **BLOQUÉ** — clé publique non provisionnée (P4) |
 | 7 `PENDING_DEPLOY` + patch `scpi-certified-promote` | **BLOQUÉ** — session interactive |
 | Requalification ANALYST | **BLOQUÉ** — nécessité métier à établir (§11.6) |
 
 `rollbackReady` reste **0/16** et `revocationAllowed = false` : inchangé, et correct.
+
+### 11.8 Défaut bloquant du 27/11 : la capture était impossible sur TOUTE fonction réelle
+
+La première exécution de l'étape A avec un jeton lecture seule a échoué immédiatement :
+
+```
+Capture impossible : CAPTURE_BODY_SLUG_MISMATCH
+```
+
+**Cause mesurée.** La partie `metadata` du corps multipart ne contient **ni `slug` ni
+`version`**. Elle ne publie que :
+
+```json
+{ "deployment_id": "<projectRef>_<uuid>_<version>", "original_size": 13379793,
+  "compressed_size": 2536776, "module_count": 3,
+  "deno2_entrypoint_path": "source/scpi-evidence-certify/index.ts" }
+```
+
+`readbackFromProviderReads` et `captureProviderArtifact` exigeaient `bodyMeta.slug` et
+`bodyMeta.version`. Ces deux gardes ne pouvaient **jamais** être satisfaites : l'étape A était
+structurellement infaisable, quel que soit le jeton. Le défaut était masqué parce que la
+fixture de test **inventait** ces deux champs dans la partie `metadata` — les tests étaient
+verts sur une forme que le fournisseur ne produit pas.
+
+**Correction (fail-closed, rien d'assoupli).** L'identité est lue là où elle est réellement
+publiée, et trois liaisons fortes remplacent les deux champs inexistants :
+
+| Liaison | Comparaison | Code de refus |
+|---|---|---|
+| Projet | `deployment_id` → `projectRef` vs projet demandé | `*_BODY_PROJECT_MISMATCH` |
+| Version | `deployment_id` → version vs `metadata.version` | `*_BODY_VERSION_MISMATCH` |
+| Entrypoint | chemin **relativisé au bundle** des deux lectures | `*_BODY_ENTRYPOINT_MISMATCH` |
+| Intégrité | `module_count` vs nombre de fichiers reçus | `CAPTURE_BODY_MODULE_COUNT_MISMATCH` |
+
+L'entrypoint est comparé après normalisation (`file:///tmp/user_fn_…/source/…` et
+`source/…` désignent le même fichier) : comparer les chaînes brutes aurait fait échouer toute
+capture réelle sur un simple préfixe. `identityFromBodyMetadata` et `entrypointRelativePath`
+sont des fonctions pures, donc testables ; une partie `metadata` sans identité lisible est
+refusée (`*_BODY_IDENTITY_UNREADABLE`) au lieu d'être devinée.
+
+`prepareFromCaptured` avait le même défaut de forme : il reconditionnait à partir de
+`parsed.metadata` (sans `slug`, `version`, `entrypoint_path`), ce qui rendait l'étape B
+`BLOCKED` en `REPACK_WITHOUT_SLUG` puis `REPACK_WITHOUT_ENTRYPOINT_PATH`. L'identité du
+registre vient désormais du readback **reconstruit depuis les octets scellés** — donc toujours
+contrôlée contre l'artefact — et `deno2_entrypoint_path` sert de repli pour l'entrypoint.
+
+**Preuves d'exécution réelle (27/11, projet `ygvsddcpohsnaowofuwc`, lecture seule).**
+
+| Fonction | Version | `verify_jwt` | Sceau (octets + SHA-256) |
+|---|---|---|---|
+| `scpi-news-watch` | 18 | false | vérifié |
+| `scpi-evidence-certify` | 9 | false | vérifié |
+| `scpi-bulletin-watch` | 108 | false | vérifié |
+| `scpi-source-link-inspect` | 12 | false | vérifié |
+| `scpi-annual-safe-extract` | 12 | false | vérifié |
+| `scpi-annual-report-backfill` | 11 | false | vérifié |
+
+Les six sources déployées sont **identiques au dépôt, octet pour octet** (par exemple
+`scpi-news-watch/index.ts` = `e2420cbca852…`), et la dépendance `matcher.mjs` de
+`scpi-evidence-certify` reproduit exactement l'empreinte épinglée du §2.7 (13355 octets,
+`88c46bc3…`). L'évidence est conservée **hors dépôt** en mode `0700` ; le dépôt public ne
+reçoit que des empreintes.
+
+**Ce que cela ne prouve pas.** Une capture n'est pas une restauration : `rollbackReady`
+reste **0/16**, `exercisedProof` reste **false**, l'ancre §11.3 E reste `null`, et l'étape D
+reste bloquée par P3 (aucun projet hors production autorisé).
+
