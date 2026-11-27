@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { readServiceKey } from "../_shared/serviceKey.ts";
 import { MATCHER_REVISION, METRIC_PATTERNS as MATCHER_PATTERNS, compactSnippet, evidenceForNumeric } from "./matcher.mjs";
 
 // Ne pas changer sans migrer public.refresh_scpi_metric_certifications, qui n'accepte que cette version.
@@ -213,10 +214,7 @@ Deno.serve(async (req: Request) => {
   if (req.method !== "POST") return Response.json({ error: "POST required" }, { status: 405 });
 
   const base = Deno.env.get("SUPABASE_URL") || "";
-  let serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
-  if (!serviceKey) {
-    try { serviceKey = JSON.parse(Deno.env.get("SUPABASE_SECRET_KEYS") || "{}").default || ""; } catch { /* noop */ }
-  }
+  const serviceKey = readServiceKey((k) => Deno.env.get(k), "scpi_agents");
   if (!base || !serviceKey) return Response.json({ error: "admin credentials unavailable" }, { status: 500 });
 
   const db = createClient(base, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });

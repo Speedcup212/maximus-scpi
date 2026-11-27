@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { functionHeaders } from '../utils/supabaseAuthHeaders';
 import PgaIndicator from './PgaIndicator';
 import PgaMetricCard from './PgaMetricCard';
 import {
@@ -165,10 +166,7 @@ const OptimizedScpiLandingPage: React.FC<OptimizedScpiLandingPageProps> = ({
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/sender-add-contact`,
           {
             method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-              'Content-Type': 'application/json',
-            },
+            headers: functionHeaders(import.meta.env.VITE_SUPABASE_ANON_KEY),
             body: JSON.stringify({
               email: formData.email,
               group_id: senderGroupId,

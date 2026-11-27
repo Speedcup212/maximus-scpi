@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { readServiceKey } from "../_shared/serviceKey.ts";
 type Cand={metric:string,value:number,unit:string,page:number,evidence:string,confidence:number};
 const UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/136 Safari/537.36";
 const ALL_METRICS=['valeur_reconstitution_par_part','valeur_realisation_par_part','endettement_pct','cout_moyen_dette_pct','dette_taux_fixe_couverte_pct','resultat_courant_par_part','distribution_ordinaire_par_part','distribution_totale_par_part','ran_par_part'];
@@ -21,7 +22,7 @@ function extract(ps:string[],year:number){const out:Cand[]=[];ps.forEach((raw,ix
  scanAfter(t,p,year,'distribution_totale_par_part','EUR/part',0,1000,[/dividende\s+global/i,/distribution\s+(?:totale|globale)/i],/(\d{1,4}(?:[.,]\d{1,2})?)\s*(?:€|euros?)/i,.99,out);
  scanAfter(t,p,year,'ran_par_part','EUR/part',0,1000,[/report\s+[àa]\s+nouveau\s+(?:apr[eè]s\s+affectation\s+)?(?:par\s+part)?/i,/RAN\s+(?:apr[eè]s\s+affectation\s+)?(?:par\s+part)?/i],/(\d{1,4}(?:[.,]\d{1,2})?)\s*(?:€|euros?)/i,.99,out);
  });return out;}
-Deno.serve(async(req:Request)=>{if(req.method!=="POST")return Response.json({error:"POST required"},{status:405});const base=Deno.env.get("SUPABASE_URL")||"",key=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";const db=createClient(base,key,{auth:{persistSession:false,autoRefreshToken:false}});const token=req.headers.get("x-annual-token")||"";const {data:cfg}=await db.from("scpi_bulletin_runtime_config").select("value").eq("key","annual_cron_token_sha256").maybeSingle();if(!token||!cfg||cfg.value!==await shaText(token))return Response.json({error:"unauthorized"},{status:401});let body:any={};try{body=await req.json();}catch{}const slug=String(body.slug||""),year=Number(body.year||2025);
+Deno.serve(async(req:Request)=>{if(req.method!=="POST")return Response.json({error:"POST required"},{status:405});const base=Deno.env.get("SUPABASE_URL")||"",key=readServiceKey((k)=>Deno.env.get(k),"scpi_agents");const db=createClient(base,key,{auth:{persistSession:false,autoRefreshToken:false}});const token=req.headers.get("x-annual-token")||"";const {data:cfg}=await db.from("scpi_bulletin_runtime_config").select("value").eq("key","annual_cron_token_sha256").maybeSingle();if(!token||!cfg||cfg.value!==await shaText(token))return Response.json({error:"unauthorized"},{status:401});let body:any={};try{body=await req.json();}catch{}const slug=String(body.slug||""),year=Number(body.year||2025);
 if(!slug || !Number.isInteger(year) || year<1900 || year>=new Date().getFullYear())
   return Response.json({error:"invalid_slug_or_closed_year",slug,year},{status:400});
 const {data:protectedAnnual,error:protectedError}=await db.from("scpi_annual_fundamentals")
