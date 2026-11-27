@@ -18,3 +18,18 @@ test('DATA and SEARCH are scheduled but cannot deploy or merge automatically',()
  assert.doesNotMatch(yaml,/gh pr merge|netlify deploy|git push origin main/);
  assert.match(yaml,/claim_scoped|op:'claim'/);
 });
+
+test('un no-op est visible : motif explicite, aucun faux succès métier',()=>{
+ // Le run 45737876009 était vert alors que les étapes d'exécution étaient toutes
+ // « skipped » : le transport avait réussi, le cycle métier n'avait rien fait.
+ assert.match(yaml,/core\.setOutput\('reason'/, 'le motif du no-op doit être exposé');
+ assert.match(yaml,/NO-OP/, 'le no-op doit être nommé dans les notices');
+ assert.match(yaml,/BUSINESS_OUTCOME=NO_OP/, 'une issue métier explicite doit être produite');
+ assert.match(yaml,/BUSINESS_OUTCOME=EXECUTED/, 'le cas exécuté doit être distingué');
+ // La conclusion métier ne doit pas dépendre du seul fait que le job est vert.
+ assert.match(yaml,/steps\.claim\.outputs\.claimed/);
+});
+test('les étapes payantes restent conditionnées au claim',()=>{
+ assert.match(yaml,/if: steps\.claim\.outputs\.claimed == 'yes'\n\s+uses: actions\/setup-node@v4/);
+ assert.match(yaml,/if: steps\.claim\.outputs\.claimed == 'yes'\n\s+shell: bash\n\s+run: \|\n\s+set -euo pipefail\n\s+node --test/);
+});
