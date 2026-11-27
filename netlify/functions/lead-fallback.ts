@@ -1,4 +1,5 @@
 import type { Handler } from '@netlify/functions';
+import { resolveServiceKey } from './_keySource';
 
 interface FallbackPayload {
   request_id: string;
@@ -56,10 +57,7 @@ export const handler: Handler = async (event) => {
   // Clé backend Netlify (sb_secret_*), portée sur `apikey` (jamais en Bearer).
   // Priorité à la nouvelle variable (bascule staged) ; repli transitoire sur la
   // variable legacy tant que la clé legacy n'est pas révoquée.
-  const serviceKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY_NEW ||
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.SUPABASE_SECRET_KEY;
+  const { key: serviceKey } = resolveServiceKey(process.env, ['SUPABASE_SECRET_KEY']);
   if (supabaseUrl) {
     try {
       const notificationResponse = await fetch(

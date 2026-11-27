@@ -11,6 +11,11 @@ const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const fail = msg => { throw new Error('FAIL_CLOSED_AUTONOMOUS_RELEASE: ' + msg); };
 const env = name => process.env[name] || fail('MISSING_' + name);
+// JWT legacy (3 segments) → apikey + Bearer ; clé opaque (1 segment, ex. sb_secret_*) → apikey seul.
+const supabaseHeaders = (key, extra = {}) =>
+  key.split('.').length === 3
+    ? { apikey: key, Authorization: 'Bearer ' + key, ...extra }
+    : { apikey: key, ...extra };
 const slug = name => String(name).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 export function validateCandidateSet(slugs, cohort, catalog) {
@@ -57,7 +62,7 @@ export async function run() {
   if (sha !== localSha) fail('CHECKOUT_SHA_MISMATCH');
   const supabaseUrl = env('SUPABASE_URL').replace(/\/$/, '');
   const serviceKey = env('SUPABASE_SERVICE_ROLE_KEY');
-  const headers = {apikey:serviceKey, Authorization:'Bearer ' + serviceKey, 'Content-Type':'application/json'};
+  const headers = supabaseHeaders(serviceKey, {'Content-Type':'application/json'});
   const prepared = await jsonRequest(supabaseUrl + '/rest/v1/rpc/maximus_prepared_release_slugs', {
     method:'POST', headers, body:JSON.stringify({p_sha:sha})
   });
@@ -100,7 +105,7 @@ export async function run() {
       ids.some(id => !result.candidate_slugs?.includes(id))) fail('ATOMIC_RELEASE_READBACK_INVALID');
   const anon = env('SUPABASE_ANON_KEY');
   const publicResponse = await jsonRequest(supabaseUrl + '/rest/v1/scpi_indicators?select=scpi_slug&scpi_slug=in.(' + ids.join(',') + ')', {
-    headers:{apikey:anon,Authorization:'Bearer '+anon}
+    headers:supabaseHeaders(anon)
   });
   if (!Array.isArray(publicResponse) || ids.some(id => !publicResponse.some(x => x.scpi_slug === id))) {
     fail('POST_PUBLICATION_ANON_READBACK_FAILED');

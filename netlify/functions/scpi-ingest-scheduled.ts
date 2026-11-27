@@ -1,15 +1,10 @@
-import { createHmac } from 'node:crypto';
 import { createAdminClient } from './_invite-utils';
+import { signIngestDispatch, ingestHmacSecrets, INGEST_HMAC_SECRET_VAR } from './_ingest-hmac';
 
 const getEnv = (key: string): string | undefined => {
   const netlifyEnv = (globalThis as any).Netlify?.env;
   return netlifyEnv?.get?.(key) || process.env[key];
 };
-
-const signDispatch = (timestamp: string, secret: string): string =>
-  createHmac('sha256', secret)
-    .update(`${timestamp}:scpi-ingest`)
-    .digest('hex');
 
 export default async (req: Request) => {
   let scheduledPayload: { next_run?: string } = {};
@@ -25,14 +20,14 @@ export default async (req: Request) => {
     return;
   }
 
-  const secret = getEnv('SUPABASE_SERVICE_ROLE_KEY');
+  const secret = ingestHmacSecrets(getEnv)[0] ?? '';
   if (!secret) {
-    console.error('[scpi-ingest-scheduled] SUPABASE_SERVICE_ROLE_KEY manquant');
+    console.error(`[scpi-ingest-scheduled] ${INGEST_HMAC_SECRET_VAR} manquant (et repli legacy absent)`);
     return;
   }
 
   const timestamp = String(Date.now());
-  const signature = signDispatch(timestamp, secret);
+  const signature = signIngestDispatch(timestamp, secret);
   const origin = new URL(req.url).origin;
   const target = `${origin}/.netlify/functions/scpi-ingest-background`;
 

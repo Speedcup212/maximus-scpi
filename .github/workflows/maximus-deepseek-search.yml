@@ -138,7 +138,19 @@ jobs:
             const result=await call({op:'claim',role:process.env.CORRECTIVE_ROLE});
             if(!result.task){
               core.setOutput('claimed','no');
-              core.notice('Worker ready / no eligible DATA or SEARCH exact-scope task. Zero model calls. '+String(result.reason||''));
+              // Un no-op est un résultat métier, pas un succès d'exécution : on le rend
+              // visible au lieu de laisser le run passer pour un cycle productif.
+              core.setOutput('reason',String(result.reason||'unknown'));
+              core.notice('NO-OP — aucun cycle exécuté. Motif fournisseur : '
+                +String(result.reason||'unknown')+'. Aucun appel modèle, aucun PR, aucune écriture.');
+              if(process.env.GITHUB_STEP_SUMMARY){
+                fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+                  '### DeepSeek corrective — NO-OP\n\n'
+                  +'- Rôle demandé : `'+process.env.CORRECTIVE_ROLE+'`\n'
+                  +'- Motif retourné par le pont OIDC : `'+String(result.reason||'unknown')+'`\n'
+                  +'- Appels modèle : **0** — Aucun PR créé — Aucune écriture en production\n'
+                  +'- Conclusion réelle : le run est un **succès de transport**, pas un **cycle d\'exécution**.\n');
+              }
             }else{
               const t=result.task;
               if(t.role!==process.env.CORRECTIVE_ROLE||t.kind!=='execute'||!t.lease_token||
@@ -228,3 +240,22 @@ jobs:
             });
             if(!r.ok)throw Error('Cannot record actual outcome: '+r.status);
             core.notice(passed?'Candidate PR recorded; QA remains necessary':'Candidate blocked, no fabricated PASS');
+      - name: State business outcome explicitly
+        if: always() && github.event_name != 'pull_request'
+        shell: bash
+        env:
+          CLAIMED: ${{ steps.claim.outputs.claimed }}
+          REASON: ${{ steps.claim.outputs.reason }}
+        run: |
+          set -euo pipefail
+          if [ "${CLAIMED}" = "yes" ]; then
+            echo "BUSINESS_OUTCOME=EXECUTED" | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            # Un run vert sans tâche n'est pas un cycle : le déclarer évite de compter
+            # des « succès » qui ne prouvent aucune exécution métier.
+            {
+              echo "BUSINESS_OUTCOME=NO_OP"
+              echo "NO_OP_REASON=${REASON:-unknown}"
+            } | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "::notice title=No-op::Aucune tâche admissible (${REASON:-unknown}). Transport OK, cycle métier nul."
+          fi
