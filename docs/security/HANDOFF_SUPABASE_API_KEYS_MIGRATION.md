@@ -57,6 +57,13 @@ les **4** workers `scpi-parallel-*`, `scpi-annual-source-discover` et
 `scpi-norma-quarterly-ingest` lisent `SUPABASE_SERVICE_ROLE_KEY` en direct et ne passent pas
 par `readServiceKey`. La révocation reste **interdite** jusqu'à leur migration et leurs tests.
 
+**Correction du registre (27/11).** La version de `scpi-parallel-backfill-worker` était restée
+à `11` dans `edgeFunctionDeploymentManifest.mjs` alors que la production sert **v8**. La valeur
+est corrigée, mais la cause réelle était plus profonde : `ledgerSnapshot()` **n'enregistrait pas
+du tout** la version des fonctions hors périmètre, donc `--check` ne pouvait jamais signaler
+cette dérive et une valeur fausse restait « conforme » indéfiniment. La version fournisseur de
+chaque orpheline est désormais dans le registre commité et comparée par `--check`.
+
 ---
 
 ### 0.1 bis Fonctions déployées SANS source dans le dépôt (inventaire logs 4 jours, historique)
@@ -82,7 +89,7 @@ possibilité de rollback depuis le repo.
 
 | Fonction | Consommation de clé (source déployée) | Verdict migration |
 |---|---|---|
-| `scpi-parallel-backfill-worker` (v11) | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
+| `scpi-parallel-backfill-worker` (**v8** en production) | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
 | `scpi-parallel-discover-worker` (v11) | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
 | `scpi-annual-source-discover` (v9) | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
 | `scpi-norma-quarterly-ingest` (v11) | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |

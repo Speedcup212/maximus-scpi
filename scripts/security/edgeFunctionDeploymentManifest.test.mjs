@@ -754,6 +754,41 @@ test('le registre commité correspond aux sources actuelles', () => {
 });
 
 /**
+ * Défaut relevé le 27/11 par lecture de la production réelle (`GET /v1/projects/{ref}/
+ * functions/{slug}`) : la seule version d'orpheline fausse au registre était
+ * `scpi-parallel-backfill-worker` — v11 annoncée, **v8** servie.
+ *
+ * La cause n'était pas la valeur : `ledgerSnapshot` n'incluait pas du tout la version des
+ * fonctions hors périmètre. `--check` ne pouvait donc jamais détecter cette dérive, et une
+ * valeur fausse restait « conforme » indéfiniment. Les deux tests suivant verrouillent la
+ * valeur et la garde.
+ */
+test('la version réelle de chaque orpheline est enregistrée dans le registre commité', () => {
+  const committed = JSON.parse(readFileSync(LEDGER_PATH, 'utf8'));
+  const orphans = committed.outOfPerimeter.filter((x) => x.reason === 'SOURCE_ABSENT_FROM_REPO');
+  assert.equal(orphans.length, 5);
+  for (const o of orphans) {
+    assert.equal(
+      Number.isInteger(o.prodVersion),
+      true,
+      `${o.name} : version fournisseur absente du registre, la dérive serait indétectable`,
+    );
+  }
+  const backfill = orphans.find((o) => o.name === 'scpi-parallel-backfill-worker');
+  assert.equal(backfill.prodVersion, 8, 'la production sert v8, pas v11');
+});
+
+test('une version d orpheline qui dérive fait échouer la comparaison du registre', () => {
+  const m = manifest();
+  const snapshot = ledgerSnapshot(m);
+  const target = snapshot.outOfPerimeter.find((x) => x.name === 'scpi-parallel-backfill-worker');
+  assert.ok(target, 'orpheline absente du snapshot');
+  // La version fait partie du snapshot : la modifier doit changer la comparaison.
+  target.prodVersion = 11;
+  assert.notDeepEqual(snapshot, ledgerSnapshot(m));
+});
+
+/**
  * Défaut central du lot 8, relevé le 25/11 : « un opérateur pouvant écrire les deux
  * fichiers peut toujours inventer les deux identités et les SHA ». Le test suivant construit
  * exactement ce scénario — évidence cohérente ET attestation cohérente, toutes deux forgées —

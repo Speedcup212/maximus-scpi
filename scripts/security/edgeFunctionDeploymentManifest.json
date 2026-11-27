@@ -249,46 +249,55 @@
     {
       "name": "scpi-parallel-backfill-worker",
       "reason": "SOURCE_ABSENT_FROM_REPO",
+      "prodVersion": 8,
       "blocksRevocation": true
     },
     {
       "name": "scpi-parallel-discover-worker",
       "reason": "SOURCE_ABSENT_FROM_REPO",
+      "prodVersion": 11,
       "blocksRevocation": true
     },
     {
       "name": "scpi-annual-source-discover",
       "reason": "SOURCE_ABSENT_FROM_REPO",
+      "prodVersion": 9,
       "blocksRevocation": true
     },
     {
       "name": "scpi-norma-quarterly-ingest",
       "reason": "SOURCE_ABSENT_FROM_REPO",
+      "prodVersion": 11,
       "blocksRevocation": true
     },
     {
       "name": "maximus-watchdog-oidc",
       "reason": "SOURCE_ABSENT_FROM_REPO",
+      "prodVersion": 7,
       "blocksRevocation": true
     },
     {
       "name": "scpi-scoring",
       "reason": "NOT_DEPLOYED_NOT_CALLED",
+      "prodVersion": null,
       "blocksRevocation": false
     },
     {
       "name": "maximus-search-agent-oidc",
       "reason": "UNCHANGED_BY_MIGRATION",
+      "prodVersion": null,
       "blocksRevocation": false
     },
     {
       "name": "client-access-admin",
       "reason": "VERIFY_JWT_USER_SESSION",
+      "prodVersion": null,
       "blocksRevocation": false
     },
     {
       "name": "client-surveillance",
       "reason": "VERIFY_JWT_USER_SESSION",
+      "prodVersion": null,
       "blocksRevocation": false
     }
   ]

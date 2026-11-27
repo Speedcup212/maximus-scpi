@@ -363,7 +363,7 @@ const OUT_OF_PERIMETER = [
   {
     name: 'scpi-parallel-backfill-worker',
     reason: 'SOURCE_ABSENT_FROM_REPO',
-    prodVersion: 11,
+    prodVersion: 8,
     keyConsumer: 'SUPABASE_SERVICE_ROLE_KEY (lecture directe)',
     blocksRevocation: true,
   },
@@ -1596,6 +1596,9 @@ export function ledgerSnapshot(manifest) {
     outOfPerimeter: manifest.outOfPerimeter.map((x) => ({
       name: x.name,
       reason: x.reason,
+      // La version d'une orpheline était absente du registre commité : `--check` ne pouvait
+      // donc jamais détecter qu'elle avait divergé de la production (v11 annoncé, v8 réel).
+      prodVersion: x.prodVersion,
       blocksRevocation: x.blocksRevocation,
     })),
   };
