@@ -10,3 +10,6 @@ __pycache__/
 
 # TypeScript incremental build info
 *.tsbuildinfo
+
+# Local agent runtime state
+.local/
