@@ -5,8 +5,10 @@ import { SCPIExtended } from '../../data/scpiDataExtended';
 import { getScpiDiscountPremium, getScpiDiscountPremiumClass } from '../../utils/scpiDiscountPremium';
 import { normalizeGeoLabel } from '../../utils/geoNormalization';
 import LoadingSpinner from '../LoadingSpinner';
-import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Text as RechartsText } from 'recharts';
 import ZScoreBar from '../ZScoreBar';
+import { resolveRadarTickLayout } from '../../utils/radarTickLayout';
+import type { BaseTickContentProps } from 'recharts';
 import { getInvestorProfile } from '../../utils/investorProfile';
 import { getZScoreAttention } from '../../utils/zScoreAttention';
 import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
@@ -73,6 +75,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   onResultOpenChange
 }) => {
   const [internalResultOpen, setInternalResultOpen] = useState(false);
+  const [radarSize, setRadarSize] = useState({ width: 0, height: 0 });
   const isResultOpen = resultOpen ?? internalResultOpen;
   const setIsResultOpen = onResultOpenChange ?? setInternalResultOpen;
   const [expandedScpiIds, setExpandedScpiIds] = useState<Set<number>>(new Set());
@@ -990,12 +993,61 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
 
                   <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.35fr)_minmax(220px,0.65fr)] gap-5 items-center">
                     <div className="h-72 sm:h-80 w-full">
-                      <ResponsiveContainer width="100%" height="100%">
+                      <ResponsiveContainer
+                        width="100%"
+                        height="100%"
+                        onResize={(width, height) => setRadarSize({ width, height })}
+                      >
                         <RadarChart data={radarData} outerRadius="82%">
                           <PolarGrid stroke="#64748b" strokeOpacity={0.7} />
                           <PolarAngleAxis
                             dataKey="label"
-                            tick={{ fill: '#e2e8f0', fontSize: 11, fontWeight: 600 }}
+                            tick={(props: BaseTickContentProps) => {
+                              const { x, y, textAnchor, payload, width, height, verticalAnchor } = props;
+                              const label = String(payload.value);
+                              const layout = resolveRadarTickLayout({
+                                x: typeof x === 'number' ? x : Number(x),
+                                y: typeof y === 'number' ? y : Number(y),
+                                textAnchor,
+                                label,
+                                containerWidth: radarSize.width,
+                                containerHeight: radarSize.height,
+                              });
+                              // Libellé qui tient dans le cadre : rendu Recharts d'origine, au pixel près.
+                              if (!layout.moved) {
+                                return (
+                                  <RechartsText
+                                    x={layout.x}
+                                    y={layout.y}
+                                    cx={x}
+                                    cy={y}
+                                    width={width}
+                                    height={height}
+                                    orientation="outer"
+                                    verticalAnchor={verticalAnchor}
+                                    textAnchor={textAnchor ?? undefined}
+                                    fill="#e2e8f0"
+                                    fontSize={11}
+                                    fontWeight={600}
+                                  >
+                                    {label}
+                                  </RechartsText>
+                                );
+                              }
+                              return (
+                                <text
+                                  x={layout.x}
+                                  y={layout.y}
+                                  textAnchor="middle"
+                                  dominantBaseline="middle"
+                                  fill="#e2e8f0"
+                                  fontSize={11}
+                                  fontWeight={600}
+                                >
+                                  {label}
+                                </text>
+                              );
+                            }}
                           />
                           <PolarRadiusAxis
                             angle={90}
