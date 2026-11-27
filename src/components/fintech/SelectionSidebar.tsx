@@ -67,6 +67,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   zScoreVariant = 'full'
 }) => {
   const [isResultOpen, setIsResultOpen] = useState(false);
+  const [radarSize, setRadarSize] = useState({ width: 0, height: 0 });
   const [expandedScpiIds, setExpandedScpiIds] = useState<Set<number>>(new Set());
 
   const toggleExpandScpi = (id: number) => {
@@ -981,12 +982,42 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
 
                   <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.35fr)_minmax(220px,0.65fr)] gap-5 items-center">
                     <div className="h-72 sm:h-80 w-full">
-                      <ResponsiveContainer width="100%" height="100%">
+                      <ResponsiveContainer
+                        width="100%"
+                        height="100%"
+                        onResize={(width, height) => setRadarSize({ width, height })}
+                      >
                         <RadarChart data={radarData} outerRadius="82%">
                           <PolarGrid stroke="#64748b" strokeOpacity={0.7} />
                           <PolarAngleAxis
                             dataKey="label"
-                            tick={{ fill: '#e2e8f0', fontSize: 11, fontWeight: 600 }}
+                            tick={({ x, y, textAnchor, payload }) => {
+                              const label = String(payload.value);
+                              // Reserve a conservative text width without shrinking the radar.
+                              const labelWidth = label.length * 7;
+                              const padding = 4;
+                              const left = textAnchor === 'end' ? x - labelWidth : textAnchor === 'middle' ? x - labelWidth / 2 : x;
+                              const right = left + labelWidth;
+                              const overflows = radarSize.width > 0 && (left < padding || right > radarSize.width - padding);
+                              const labelX = overflows
+                                ? Math.max(labelWidth / 2 + padding, Math.min(x, radarSize.width - labelWidth / 2 - padding))
+                                : x;
+                              // On narrow charts, move side labels away from the polygon.
+                              const labelY = overflows ? y + (y < radarSize.height / 2 ? -20 : 20) : y;
+                              return (
+                                <text
+                                  x={labelX}
+                                  y={labelY}
+                                  textAnchor={overflows ? 'middle' : textAnchor}
+                                  dominantBaseline="central"
+                                  fill="#e2e8f0"
+                                  fontSize={11}
+                                  fontWeight={600}
+                                >
+                                  {label}
+                                </text>
+                              );
+                            }}
                           />
                           <PolarRadiusAxis
                             angle={90}
