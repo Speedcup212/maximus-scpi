@@ -1,5 +1,7 @@
 name: Isolated Netlify restore (one-shot)
 
+# Publishes one already-built Netlify deploy as production, without rebuilding.
+# Every guard here fails closed: an ambiguous input publishes nothing.
 on:
   workflow_dispatch:
     inputs:
@@ -32,21 +34,53 @@ jobs:
           test -n "$DEPLOY_ID"
           test -n "$EXPECTED_COMMIT"
 
-          META=$(curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
-            "https://api.netlify.com/api/v1/deploys/${DEPLOY_ID}")
-          echo "$META" > /tmp/meta.json
+          # Snapshot what production currently serves, so the state printed after
+          # the restore is comparable to a known prior state and not just echoed.
+          curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            "https://api.netlify.com/api/v1/sites/${SITE_ID}" -o /tmp/site_before.json
           python3 - <<'PY'
-          import json,os
+          import json,os,re
+          site_id=os.environ['SITE_ID']
+          d=json.load(open('/tmp/site_before.json'))
+          print('site_id=', d.get('id'))
+          print('site_name=', d.get('name'))
+          print('published_deploy_before=', d.get('deploy_id'))
+          print('published_commit_before=', (d.get('published_deploy') or {}).get('commit_ref'))
+          if d.get('id')!=site_id:
+              raise SystemExit('SITE_ID_MISMATCH:'+repr(d.get('id')))
+          if not re.match(r'^[a-f0-9]{24}$', os.environ['DEPLOY_ID']):
+              raise SystemExit('DEPLOY_ID_MALFORMED:'+repr(os.environ['DEPLOY_ID']))
+          if not re.match(r'^[a-f0-9]{40}$', os.environ['EXPECTED_COMMIT']):
+              raise SystemExit('EXPECTED_COMMIT_MALFORMED:'+repr(os.environ['EXPECTED_COMMIT']))
+          if d.get('deploy_id')==os.environ['DEPLOY_ID']:
+              raise SystemExit('ALREADY_PUBLISHED:'+os.environ['DEPLOY_ID'])
+          PY
+
+          curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            "https://api.netlify.com/api/v1/deploys/${DEPLOY_ID}" -o /tmp/meta.json
+          python3 - <<'PY'
+          import json,os,re
+          HEX40=re.compile(r'^[a-f0-9]{40}$')
           d=json.load(open('/tmp/meta.json'))
           exp=os.environ['EXPECTED_COMMIT']
+          site=os.environ['SITE_ID']
           commit=d.get('commit_ref') or ''
           print('deploy_state=', d.get('state'))
           print('deploy_context=', d.get('context'))
+          print('deploy_branch=', d.get('branch'))
+          print('deploy_site_id=', d.get('site_id'))
           print('commit_ref=', commit)
           print('expected=', exp)
+          # A deploy that belongs to another site must never be promoted here.
+          if d.get('site_id')!=site:
+              raise SystemExit('DEPLOY_SITE_MISMATCH:'+repr(d.get('site_id')))
           if d.get('state') not in ('ready','current'):
               raise SystemExit('DEPLOY_NOT_READY:'+str(d.get('state')))
-          if commit and commit != exp:
+          # Absent commit_ref is a refusal, never a pass: an empty value makes
+          # "new artifact" and "unknown artifact" indistinguishable.
+          if not HEX40.match(commit):
+              raise SystemExit('DEPLOY_COMMIT_ABSENT_OR_MALFORMED:'+repr(commit))
+          if commit != exp:
               raise SystemExit('COMMIT_MISMATCH:'+commit)
           PY
 
@@ -56,10 +90,29 @@ jobs:
             -o /tmp/restore.json
 
           python3 - <<'PY'
-          import json
+          import json,os
           d=json.load(open('/tmp/restore.json'))
           print('published_deploy_id=', d.get('id'))
           print('published_state=', d.get('state'))
           print('published_commit=', d.get('commit_ref'))
           print('published_url=', d.get('ssl_url') or d.get('url'))
+          if d.get('id')!=os.environ['DEPLOY_ID']:
+              raise SystemExit('RESTORE_RETURNED_OTHER_DEPLOY:'+repr(d.get('id')))
+          if d.get('commit_ref')!=os.environ['EXPECTED_COMMIT']:
+              raise SystemExit('RESTORE_RETURNED_OTHER_COMMIT:'+repr(d.get('commit_ref')))
+          PY
+
+          # Verify the live site, not the API response alone.
+          curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            "https://api.netlify.com/api/v1/sites/${SITE_ID}" -o /tmp/site_after.json
+          python3 - <<'PY'
+          import json,os
+          d=json.load(open('/tmp/site_after.json'))
+          published=d.get('deploy_id')
+          prior=json.load(open('/tmp/site_before.json')).get('deploy_id')
+          print('published_deploy_after=', published)
+          print('published_commit_after=', (d.get('published_deploy') or {}).get('commit_ref'))
+          print('previous_published_deploy=', prior)
+          if published!=os.environ['DEPLOY_ID']:
+              raise SystemExit('PRODUCTION_NOT_ON_REQUIRED_DEPLOY:'+repr(published))
           PY
