@@ -43,6 +43,12 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
   const [selectedScpis, setSelectedScpis] = useState<SCPIExtended[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSimulationOpen, setIsSimulationOpen] = useState(false);
+  const [isSelectionResultOpen, setIsSelectionResultOpen] = useState(false);
+
+  // Sélection vidée : la pop-up de résultat ne doit pas se rouvrir seule au prochain ajout.
+  useEffect(() => {
+    if (selectedScpis.length === 0) setIsSelectionResultOpen(false);
+  }, [selectedScpis.length]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortBy, setSortBy] = useState<'yield' | 'price'>('yield');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
@@ -498,6 +504,8 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
                 onClear={() => setSelectedScpis([])}
                 onVisualize={() => setIsSimulationOpen(true)}
                 zScoreVariant={zScoreVariant}
+                resultOpen={isSelectionResultOpen}
+                onResultOpenChange={setIsSelectionResultOpen}
               />
             </Suspense>
           ) : (
@@ -519,7 +527,7 @@ const FintechComparatorContent: React.FC<FintechComparatorContentProps> = ({
       {/* Mobile Selection Bar */}
       <MobileSelectionBar
         count={selectedScpis.length}
-        onOpen={() => setIsSimulationOpen(true)}
+        onOpen={() => setIsSelectionResultOpen(true)}
       />
 
       {/* Simulation Modal — chargé uniquement à l'ouverture */}
