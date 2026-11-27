@@ -53,23 +53,13 @@ export const handler: Handler = async (event) => {
   // Premier secours : l'Edge Function de notification n'écrit pas en base.
   // Elle peut donc encore prévenir l'admin si l'INSERT PostgREST/RLS échoue.
   const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-  // Clé backend Netlify (sb_secret_*), portée sur `apikey` (jamais en Bearer).
-  // Priorité à la nouvelle variable (bascule staged) ; repli transitoire sur la
-  // variable legacy tant que la clé legacy n'est pas révoquée.
-  const serviceKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY_NEW ||
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.SUPABASE_SECRET_KEY;
   if (supabaseUrl) {
     try {
       const notificationResponse = await fetch(
         `${supabaseUrl.replace(/\/$/, '')}/functions/v1/send-lead-notification`,
         {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(serviceKey ? { apikey: serviceKey } : {}),
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data.payload),
         },
       );

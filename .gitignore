@@ -7,6 +7,3 @@ dist/
 # Local Netlify folder
 .netlify
 __pycache__/
-
-# TypeScript incremental build info
-*.tsbuildinfo

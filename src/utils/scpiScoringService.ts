@@ -1,5 +1,4 @@
 import { supabase } from '../supabaseClient';
-import { functionHeaders } from './supabaseAuthHeaders';
 import { Scpi } from '../types/scpi';
 import { transformScpiArrayToScoringInput } from './scpiDataTransformer';
 import { scoreScpiBatch, ScpiScores, defaultParams, ScpiInput } from './scpiScoring';
@@ -324,7 +323,10 @@ export async function calculateScpiScoresViaEdgeFunction(
       `${supabaseUrl}/functions/v1/scpi-scoring`,
       {
         method: 'POST',
-        headers: functionHeaders(supabaseKey),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseKey}`,
+        },
         body: JSON.stringify({
           scpi_data: scoringInput,
           save_to_db: saveToDb

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { functionHeaders } from '../utils/supabaseAuthHeaders';
 import {
   TrendingUp, Shield, CheckCircle, Phone, Mail, User, Euro,
   ArrowRight, Award, Star, Building2, Globe, BarChart3, Leaf,
@@ -117,7 +116,10 @@ const OptimizedThematicLandingPage: React.FC<OptimizedThematicLandingPageProps> 
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/sender-add-contact`,
           {
             method: 'POST',
-            headers: functionHeaders(import.meta.env.VITE_SUPABASE_ANON_KEY),
+            headers: {
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+              'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
               email: formData.email,
               group_id: senderGroupId,

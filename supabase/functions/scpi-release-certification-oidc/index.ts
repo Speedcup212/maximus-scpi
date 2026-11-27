@@ -2,7 +2,6 @@
 // Service role remains on Supabase. No anonymous API key or CI service secret.
 import {createRemoteJWKSet, jwtVerify} from 'npm:jose@6.1.0';
 import {createClient} from 'npm:@supabase/supabase-js@2.58.0';
-import { readServiceKey } from '../_shared/serviceKey.ts';
 
 const repository='Speedcup212/maximus-scpi';
 const expectedRef='refs/heads/main';
@@ -37,7 +36,7 @@ Deno.serve(async(req:Request)=>{
   if(body?.op!=='attest_release' || body?.sha!==claim.sha)return deny(403,'release SHA mismatch');
 
   const base=Deno.env.get('SUPABASE_URL');
-  const key=readServiceKey((k)=>Deno.env.get(k),"scpi_agents");
+  const key=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
   if(!base||!key)return deny(500,'release database configuration unavailable');
   const db=createClient(base,key,{auth:{persistSession:false,autoRefreshToken:false}});
 

@@ -12,7 +12,6 @@
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { readServiceKey } from "../_shared/serviceKey.ts";
 import {
   MAX_SENDS_PER_24H,
   buildContactAttributes,
@@ -74,7 +73,7 @@ Deno.serve(async (req) => {
   }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
-  const serviceRoleKey = readServiceKey((k) => Deno.env.get(k), "scpi_agents");
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!supabaseUrl || !serviceRoleKey) {
     console.error("send-simulation-email: missing Supabase service configuration");
     return json(500, { ok: false, error: "server_not_configured" }, origin);

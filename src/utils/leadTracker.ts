@@ -1,5 +1,3 @@
-import { functionHeaders } from './supabaseAuthHeaders';
-
 /**
  * Centralized lead tracking: request_id generation, admin notification, fallback.
  * Used by ALL form submit handlers to ensure traceability.
@@ -35,7 +33,10 @@ export async function notifyAdmin(payload: NotifyAdminPayload): Promise<boolean>
   try {
     const res = await fetch(`${supabaseUrl}/functions/v1/send-lead-notification`, {
       method: 'POST',
-      headers: functionHeaders(anonKey),
+      headers: {
+        'Authorization': `Bearer ${anonKey}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         nom: payload.nom || 'Non renseigné',
         email: payload.email,

@@ -278,8 +278,7 @@ BEGIN
   RETURN NEW;
 END;
 $function$;
-REVOKE ALL ON FUNCTION scpi_internal.buroboutic_t3_tof_proof_valid(uuid,text,text,text,numeric,integer) FROM PUBLIC,anon,authenticated;
-GRANT EXECUTE ON FUNCTION scpi_internal.buroboutic_t3_tof_proof_valid(uuid,text,text,text,numeric,integer) TO service_role;
+REVOKE ALL ON FUNCTION scpi_internal.buroboutic_t3_tof_proof_valid(uuid,text,text,text,numeric,integer) FROM PUBLIC;
 -- Exact read-only verification: copied separately to protect deployments.
 SELECT scpi_internal.independent_tof_geometric_proof_valid(
  '7d248e32-826c-4222-a462-08f46a6257b4'::uuid,'buroboutic-metropoles','2026-T2',

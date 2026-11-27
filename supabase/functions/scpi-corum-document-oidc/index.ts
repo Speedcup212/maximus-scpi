@@ -1,6 +1,5 @@
 import {createRemoteJWKSet,jwtVerify} from 'npm:jose@6.1.0';
 import {createClient} from 'npm:@supabase/supabase-js@2.58.0';
-import { readServiceKey } from '../_shared/serviceKey.ts';
 const issuer='https://token.actions.githubusercontent.com';
 const jwks=createRemoteJWKSet(new URL(issuer+'/.well-known/jwks'));
 const repo='Speedcup212/maximus-scpi';
@@ -16,7 +15,7 @@ Deno.serve(async(req:Request)=>{
  if(jwt.repository!==repo||String(jwt.repository_id)!=='1125202916'||!refs.includes(String(jwt.ref))||
     jwt.workflow_ref!==repo+'/.github/workflows/maximus-corum-document-pipeline.yml@'+jwt.ref||
     !['push','schedule','workflow_dispatch'].includes(String(jwt.event_name)))return fail(403,'forbidden');
- const base=Deno.env.get('SUPABASE_URL'),key=readServiceKey((k)=>Deno.env.get(k),"scpi_agents");
+ const base=Deno.env.get('SUPABASE_URL'),key=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
  if(!base||!key)return fail(500,'runtime configuration unavailable');
  const db=createClient(base,key,{auth:{persistSession:false,autoRefreshToken:false}});
  try{

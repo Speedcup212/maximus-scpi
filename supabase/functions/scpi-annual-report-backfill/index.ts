@@ -1,6 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { readServiceKey } from "../_shared/serviceKey.ts";
 
 const UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/136 Safari/537.36 MaximusSCPI-AnnualBot/2.0";
 const PARSER_VERSION="2026-09-30-v2-page-evidence";
@@ -44,7 +43,7 @@ function parse(pages:string[],price:number|null){const out:any={},ev:any={};
 
 Deno.serve(async(req:Request)=>{
  if(req.method!=="POST")return Response.json({error:"POST required"},{status:405});
- const base=Deno.env.get("SUPABASE_URL")||"",key=readServiceKey((k)=>Deno.env.get(k),"scpi_agents");if(!base||!key)return Response.json({error:"admin unavailable"},{status:500});
+ const base=Deno.env.get("SUPABASE_URL")||"",key=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";if(!base||!key)return Response.json({error:"admin unavailable"},{status:500});
  const db=createClient(base,key,{auth:{persistSession:false,autoRefreshToken:false}});
  const token=req.headers.get("x-annual-token")||"",hash=await shaText(token);const {data:cfg}=await db.from("scpi_bulletin_runtime_config").select("value").eq("key","annual_cron_token_sha256").maybeSingle();if(!token||!cfg||cfg.value!==hash)return Response.json({error:"unauthorized"},{status:401});
  let body:any={};try{body=await req.json();}catch{}const slug=String(body.slug||""),year=Number(body.year||2025);if(!slug)return Response.json({error:"slug required"},{status:400});

@@ -3,7 +3,6 @@ import vm from 'node:vm';
 import ts from 'typescript';
 import { describe, expect, it } from 'vitest';
 import { preserveIndependentIssuerProof } from '../../supabase/functions/scpi-bulletin-watch/sourceProvenance.mjs';
-import { readServiceKey } from '../../supabase/functions/_shared/serviceKey';
 
 // Run the real Edge handler without remote dependencies, storage or credentials.
 const source = readFileSync('supabase/functions/scpi-bulletin-watch/index.ts', 'utf8')
@@ -34,7 +33,7 @@ async function runFixture(incoming = '2026-T2', rejected: string[] = [], allowed
   };
   const context = vm.createContext({ Request, Response, TextEncoder, TextDecoder, URL, console,
     fixture: { incoming, rejected, pdfText }, writes, events, db, createClient: () => db,
-    preserveIndependentIssuerProof, readServiceKey,
+    preserveIndependentIssuerProof,
     Deno: { env: { get: () => 'test-only' }, serve: (fn: any) => { handler = fn; } } });
   vm.runInContext(executable, context);
   vm.runInContext(`
