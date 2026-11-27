@@ -5,6 +5,7 @@ import { getScpiDiscountPremium, getScpiDiscountPremiumClass } from '../../utils
 import { normalizeGeoLabel } from '../../utils/geoNormalization';
 import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+import type { BaseTickContentProps } from 'recharts';
 import ZScoreBar from '../ZScoreBar';
 import { getInvestorProfile } from '../../utils/investorProfile';
 import { getZScoreAttention } from '../../utils/zScoreAttention';
@@ -12,6 +13,7 @@ import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
 import { computePortfolioDiversificationScore } from '../../utils/portfolioDiversificationScore';
 import { CALENDLY_URL } from '../../config/calendly';
 import EricAvatar from '../EricAvatar';
+import { resolveRadarTickLayout } from '../../utils/radarTickLayout';
 
 interface SelectionSidebarProps {
   selectedScpis: SCPIExtended[];
@@ -991,24 +993,22 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
                           <PolarGrid stroke="#64748b" strokeOpacity={0.7} />
                           <PolarAngleAxis
                             dataKey="label"
-                            tick={({ x, y, textAnchor, payload }) => {
+                            tick={(props: BaseTickContentProps) => {
+                              const { x, y, textAnchor, payload } = props;
                               const label = String(payload.value);
-                              // Reserve a conservative text width without shrinking the radar.
-                              const labelWidth = label.length * 7;
-                              const padding = 4;
-                              const left = textAnchor === 'end' ? x - labelWidth : textAnchor === 'middle' ? x - labelWidth / 2 : x;
-                              const right = left + labelWidth;
-                              const overflows = radarSize.width > 0 && (left < padding || right > radarSize.width - padding);
-                              const labelX = overflows
-                                ? Math.max(labelWidth / 2 + padding, Math.min(x, radarSize.width - labelWidth / 2 - padding))
-                                : x;
-                              // On narrow charts, move side labels away from the polygon.
-                              const labelY = overflows ? y + (y < radarSize.height / 2 ? -20 : 20) : y;
+                              const layout = resolveRadarTickLayout({
+                                x: typeof x === 'number' ? x : Number(x),
+                                y: typeof y === 'number' ? y : Number(y),
+                                textAnchor,
+                                label,
+                                containerWidth: radarSize.width,
+                                containerHeight: radarSize.height,
+                              });
                               return (
                                 <text
-                                  x={labelX}
-                                  y={labelY}
-                                  textAnchor={overflows ? 'middle' : textAnchor}
+                                  x={layout.x}
+                                  y={layout.y}
+                                  textAnchor={layout.textAnchor}
                                   dominantBaseline="central"
                                   fill="#e2e8f0"
                                   fontSize={11}
