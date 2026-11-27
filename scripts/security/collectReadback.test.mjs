@@ -11,6 +11,7 @@ import {
   readbackFromManagementApi,
   captureProviderArtifact,
   assertEvidenceRootOutsideRepo,
+  identityFromBodyMetadata,
 } from './collectReadback.mjs';
 import {
   PRODUCTION_PROJECT_REF,
@@ -21,6 +22,7 @@ import {
 import {
   redactedMetadata,
   redactedBody,
+  redactedBodyMetadata,
   buildRedactedMultipartBody,
   REDACTED_BODY_CONTENT_TYPE,
   REDACTED_FILES_FOR_TEST,
@@ -31,9 +33,7 @@ const SLUG = 'scpi-certified-promote';
 /** Readback produit depuis la réponse fournisseur expurgée, au format réel. */
 const readbackFromRedacted = (metaOverrides = {}, bodyOptions = {}) => {
   const meta = redactedMetadata(metaOverrides);
-  // Le corps rend ses propres métadonnées : pour tester une configuration différente sans
-  // simuler un désaccord entre les deux lectures, on aligne la partie métadonnées du corps.
-  const body = redactedBody({ metadata: meta, ...bodyOptions });
+  const body = redactedBody(bodyOptions);
   return readbackFromProviderReads({
     metadata: meta,
     body: parseMultipartFunctionBody(body.buffer, body.contentType),
@@ -61,12 +61,18 @@ test('l ancien point d entrée échoue explicitement au lieu de faire semblant d
 test('la réponse multipart réelle est découpée en métadonnées et fichiers', () => {
   const body = redactedBody();
   const parsed = parseMultipartFunctionBody(body.buffer, body.contentType);
-  assert.equal(parsed.metadata.slug, SLUG);
-  assert.equal(parsed.metadata.version, 12);
+  // La partie `metadata` réelle ne publie ni slug ni version : l'identité vient de
+  // `deployment_id` et de l'entrypoint, et c'est elle que la collecte doit lire.
+  assert.equal(parsed.metadata.slug, undefined);
+  assert.equal(parsed.metadata.version, undefined);
+  const identity = identityFromBodyMetadata(parsed.metadata);
+  assert.equal(identity.slug, SLUG);
+  assert.equal(identity.version, 12);
+  assert.equal(identity.projectRef, 'ygvsddcpohsnaowofuwc');
   assert.equal(parsed.files.length, REDACTED_FILES_FOR_TEST.length);
-  // Le corps conserve les URI temporaires du fournisseur : c'est la normalisation qui les
-  // ramènera à la convention du registre, pas un découpage complaisant.
-  assert.ok(parsed.files.every((f) => f.name.startsWith('file:///tmp/')));
+  // Le corps conserve les chemins du fournisseur : c'est la normalisation qui les ramènera
+  // à la convention du registre, pas un découpage complaisant.
+  assert.ok(parsed.files.every((f) => f.name.startsWith('source/')));
 });
 
 // ---------------------------------------------------------------------------
@@ -103,7 +109,11 @@ test('la provenance nomme le projet réellement lu, jamais la production par dé
   // que celui qu'il décrit. Un sceau ou un journal de restauration bâti dessus est faux.
   const disposable = 'disposable-project-ref-0001';
   const meta = redactedMetadata();
-  const body = redactedBody({ metadata: meta });
+  const body = redactedBody({
+    metadata: redactedBodyMetadata({
+      deployment_id: `${disposable}_redacted-deployment-uuid_12`,
+    }),
+  });
   const parsed = parseMultipartFunctionBody(body.buffer, body.contentType);
   const rb = readbackFromProviderReads(
     { metadata: meta, body: parsed, requestedSlug: meta.slug },
@@ -135,7 +145,9 @@ test('un readback cohérent passe la validation de forme du manifeste', () => {
 test('un body servi pour une autre version que les métadonnées est refusé', () => {
   // Lier la version 12 lue en métadonnées à des octets servis pour la version 11 serait
   // exactement le défaut que le collecteur doit rendre impossible.
-  const body = redactedBody({ metadata: redactedMetadata({ version: 11 }) });
+  const body = redactedBody({
+    metadata: redactedBodyMetadata({ deployment_id: 'ygvsddcpohsnaowofuwc_redacted-deployment-uuid_11' }),
+  });
   assert.throws(
     () => readbackFromProviderReads({
       metadata: redactedMetadata(),
@@ -147,7 +159,9 @@ test('un body servi pour une autre version que les métadonnées est refusé', (
 });
 
 test('un body servi pour une autre fonction est refusé', () => {
-  const body = redactedBody({ metadata: redactedMetadata({ slug: 'scpi-news-watch', name: 'scpi-news-watch' }) });
+  const body = redactedBody({
+    metadata: redactedBodyMetadata({ deno2_entrypoint_path: 'source/scpi-news-watch/index.ts' }),
+  });
   assert.throws(
     () => readbackFromProviderReads({
       metadata: redactedMetadata(),
@@ -189,7 +203,7 @@ test('deux candidats entrypoint rendent la correspondance ambiguë et bloquante'
   const files = [
     ...REDACTED_FILES_FOR_TEST,
     {
-      name: 'file:///tmp/user_fn_ygvsddcpohsnaowofuwc_redacted_12/source/index.ts',
+      name: 'source/index.ts',
       content: '// REDACTED — doublon de l entrypoint\n',
     },
   ];
@@ -200,7 +214,7 @@ test('deux candidats entrypoint rendent la correspondance ambiguë et bloquante'
       body: parseMultipartFunctionBody(body.buffer, body.contentType),
       requestedSlug: SLUG,
     }),
-    /READBACK_ENTRYPOINT_AMBIGUOUS|READBACK_DUPLICATE_DEPENDENCY_PATH/,
+    /READBACK_ENTRYPOINT_AMBIGUOUS|READBACK_DUPLICATE_DEPENDENCY_PATH|PROVIDER_PATH_NOT_NORMALIZABLE/,
   );
 });
 
@@ -295,11 +309,10 @@ test('un chemin qui remonte hors du bundle est refusé', () => {
 });
 
 test('deux fichiers qui se normalisent sur le même chemin sont refusés', () => {
-  const root = 'file:///tmp/user_fn_ygvsddcpohsnaowofuwc_redacted_12/source';
   const files = [
     ...REDACTED_FILES_FOR_TEST,
     // Même chemin registre que le matcher déjà présent : identité ambiguë.
-    { name: `${root}/matcher.mjs`, content: '// REDACTED — doublon\n' },
+    { name: 'source/matcher.mjs', content: '// REDACTED — doublon\n' },
   ];
   const body = redactedBody({ files });
   assert.throws(
@@ -346,7 +359,9 @@ test('une réponse sans version, sans verify_jwt ou sans empreinte fournisseur �
 test('la configuration change l empreinte même quand le code est identique', () => {
   const base = readbackFromRedacted();
   const jwtChanged = readbackFromRedacted({ verify_jwt: true });
-  const versionChanged = readbackFromRedacted({ version: 13 });
+  const versionChanged = readbackFromRedacted({ version: 13 }, {
+    metadata: redactedBodyMetadata({ deployment_id: 'ygvsddcpohsnaowofuwc_redacted-deployment-uuid_13' }),
+  });
 
   // Le code est le même : c'est précisément le cas que le contrôle a signalé.
   assert.equal(base.bundleSha256, jwtChanged.bundleSha256);
@@ -466,11 +481,10 @@ test('la fixture elle-même reste expurgée : aucun source de production n y est
 
 const createHashSha256 = (buf) => createHash('sha256').update(buf).digest('hex');
 
-const captureFetch = (metadataOverrides = {}, bodyOverride = {}) => async (url) => {
+const captureFetch = (metadataOverrides = {}, bodyMetadataOverrides = {}) => async (url) => {
   if (String(url).endsWith('/body')) {
     const body = redactedBody({
-      metadata: redactedMetadata(metadataOverrides),
-      ...bodyOverride,
+      metadata: redactedBodyMetadata(bodyMetadataOverrides),
     });
     return {
       ok: true,
@@ -488,7 +502,7 @@ test('la capture conserve les octets multipart ORIGINAUX, jamais une reconstruct
     fetchImpl: captureFetch(),
   });
   // Les octets conservés doivent être exactement le corps rendu par le fournisseur.
-  assert.deepEqual(caps.artifact.bytes, buildRedactedMultipartBody());
+  assert.deepEqual(caps.artifact.bytes, buildRedactedMultipartBody(REDACTED_FILES_FOR_TEST, redactedBodyMetadata()));
   assert.equal(caps.sealed.artifactBytes, caps.artifact.bytes.length);
   assert.equal(caps.sealed.artifactSha256, createHashSha256(caps.artifact.bytes));
 });
@@ -511,7 +525,9 @@ test('la capture refuse deux lectures qui ne décrivent pas la même version', a
   // Métadonnées de l'endpoint à version 12, corps rendu pour la version 11.
   const fetchImpl = async (url) => {
     if (String(url).endsWith('/body')) {
-      const body = redactedBody({ metadata: redactedMetadata({ version: 11 }) });
+      const body = redactedBody({
+        metadata: redactedBodyMetadata({ deployment_id: 'ygvsddcpohsnaowofuwc_redacted-deployment-uuid_11' }),
+      });
       return {
         ok: true,
         status: 200,
@@ -543,4 +559,132 @@ test('une racine de conservation dans le dépôt est refusée : le dépôt est p
     'EVIDENCE_ROOT_INSIDE_REPO',
   );
   assert.equal(assertEvidenceRootOutsideRepo('', repo).reason, 'EVIDENCE_ROOT_UNSET');
+});
+
+// ---------------------------------------------------------------------------
+// Défaut du 27/11 : la forme réelle du corps rendait TOUTE capture impossible.
+//
+// Le fournisseur ne publie ni `slug` ni `version` dans la partie `metadata` du corps :
+// l'identité vient de `deployment_id` et de `deno2_entrypoint_path`. Les exiger produisait
+// `CAPTURE_BODY_SLUG_MISMATCH` sur chaque fonction réelle — une garde insatisfiable.
+// Ces tests verrouillent la lecture de l'identité là où elle est réellement publiée.
+// ---------------------------------------------------------------------------
+
+test('l identité du corps se lit dans deployment_id et deno2_entrypoint_path', () => {
+  const identity = identityFromBodyMetadata(redactedBodyMetadata());
+  assert.notEqual(identity, null);
+  assert.equal(identity.projectRef, PRODUCTION_PROJECT_REF);
+  assert.equal(identity.version, 12);
+  assert.equal(identity.slug, SLUG);
+  assert.equal(identity.entrypointPath, `source/${SLUG}/index.ts`);
+});
+
+test('une partie metadata sans identité lisible est refusée, jamais devinée', () => {
+  // Sans `deployment_id`, ni version ni projet ne sont établis : on refuse.
+  assert.equal(identityFromBodyMetadata({ deno2_entrypoint_path: `source/${SLUG}/index.ts` }), null);
+  // `deployment_id` mal formé : refus plutôt qu'une version inventée.
+  assert.equal(
+    identityFromBodyMetadata({ deployment_id: 'pas-un-deployment-id', deno2_entrypoint_path: `source/${SLUG}/index.ts` }),
+    null,
+  );
+  // Une version non numérique n'est pas une version.
+  assert.equal(
+    identityFromBodyMetadata({ deployment_id: `${PRODUCTION_PROJECT_REF}_uuid_abc`, deno2_entrypoint_path: `source/${SLUG}/index.ts` }),
+    null,
+  );
+  // Sans entrypoint, l'identité du bundle n'est pas établie.
+  assert.equal(identityFromBodyMetadata({ deployment_id: `${PRODUCTION_PROJECT_REF}_uuid_12` }), null);
+  assert.equal(identityFromBodyMetadata(null), null);
+});
+
+test('un corps servi par un AUTRE projet que celui demandé est refusé', () => {
+  // Le sceau serait étiqueté d'un projet et rempli par un autre : inacceptable même si les
+  // octets sont identiques, puisque c'est la provenance qui fait la preuve.
+  const body = redactedBody({
+    metadata: redactedBodyMetadata({ deployment_id: 'autre-projet-ref-0001_uuid_12' }),
+  });
+  assert.throws(
+    () => readbackFromProviderReads({
+      metadata: redactedMetadata(),
+      body: parseMultipartFunctionBody(body.buffer, body.contentType),
+      requestedSlug: SLUG,
+    }, { projectRef: PRODUCTION_PROJECT_REF }),
+    /READBACK_BODY_PROJECT_MISMATCH/,
+  );
+});
+
+test('les deux lectures doivent désigner le MÊME entrypoint, préfixes fournisseur exclus', () => {
+  // Les métadonnées nomment le fichier par une URI temporaire, le corps par un chemin
+  // relatif : comparer les chaînes brutes ferait échouer toute capture réelle.
+  const body = redactedBody({
+    metadata: redactedBodyMetadata({ deno2_entrypoint_path: 'source/scpi-autre/index.ts' }),
+  });
+  assert.throws(
+    () => readbackFromProviderReads({
+      metadata: redactedMetadata(),
+      body: parseMultipartFunctionBody(body.buffer, body.contentType),
+      requestedSlug: SLUG,
+    }),
+    /READBACK_BODY_ENTRYPOINT_MISMATCH|READBACK_BODY_SLUG_MISMATCH/,
+  );
+});
+
+test('un corps tronqué est refusé même quand ses octets sont parfaitement plausibles', () => {
+  // `module_count` annonce 3 modules : en servir 2 donnerait une empreinte valide d'un
+  // bundle incomplet, donc une « sauvegarde » qui ne restaure pas la fonction.
+  const files = REDACTED_FILES_FOR_TEST.slice(0, 2);
+  const body = redactedBody({ files });
+  const responses = {
+    body: {
+      ok: true, status: 200,
+      headers: { get: () => body.contentType },
+      arrayBuffer: async () => body.buffer,
+    },
+    meta: { ok: true, status: 200, json: async () => redactedMetadata() },
+  };
+  return assert.rejects(
+    () => captureProviderArtifact(SLUG, {
+      token: 'jeton-de-test',
+      fetchImpl: async (url) => (String(url).endsWith('/body') ? responses.body : responses.meta),
+    }),
+    /CAPTURE_BODY_MODULE_COUNT_MISMATCH/,
+  );
+});
+
+test('un entrypoint de corps qui contredit les métadonnées est refusé (forme historique à plat)', () => {
+  // Ancienne disposition fournisseur : l'entrypoint est à plat sous `source/`, donc le chemin
+  // ne porte pas le slug. La garde de slug ne peut pas trancher ici : c'est la comparaison
+  // d'entrypoint (relativisée au bundle) qui doit refuser le désaccord.
+  const meta = redactedMetadata({
+    entrypoint_path: 'file:///tmp/user_fn_ygvsddcpohsnaowofuwc_redacted_12/source/index.ts',
+  });
+  const body = redactedBody();
+  assert.throws(
+    () => readbackFromProviderReads({
+      metadata: meta,
+      body: parseMultipartFunctionBody(body.buffer, body.contentType),
+      requestedSlug: SLUG,
+    }),
+    /READBACK_BODY_ENTRYPOINT_MISMATCH/,
+  );
+});
+
+test('la forme historique à plat reste normalisable : entrypoint racine et dépendances', () => {
+  const root = 'file:///tmp/user_fn_ygvsddcpohsnaowofuwc_redacted_12/source';
+  const meta = redactedMetadata({ entrypoint_path: `${root}/index.ts` });
+  const files = [
+    { name: `${root}/index.ts`, content: 'export default serve(redactedHandler);\n' },
+    { name: `${root}/_shared/serviceKey.ts`, content: 'export const resolveKey = () => null;\n' },
+  ];
+  const body = redactedBody({
+    files,
+    metadata: redactedBodyMetadata({ deno2_entrypoint_path: `${root}/index.ts` }),
+  });
+  const rb = readbackFromProviderReads({
+    metadata: meta,
+    body: parseMultipartFunctionBody(body.buffer, body.contentType),
+    requestedSlug: SLUG,
+  });
+  assert.equal(rb.entrypointPath, `${SLUG}/index.ts`);
+  assert.deepEqual(rb.dependencies.map((d) => d.path), ['_shared/serviceKey.ts']);
 });

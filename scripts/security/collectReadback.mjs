@@ -145,29 +145,97 @@ export function normalizeBundlePaths({ entrypointProviderPath, filePaths, slug }
     throw new Error('NORMALIZE_WITHOUT_ENTRYPOINT');
   }
   const rawEntry = stripProviderScheme(entrypointProviderPath);
-  const root = providerDirname(rawEntry);
+
+  // Le fournisseur nomme le bundle de deux façons, et les deux doivent converger :
+  //  - historique : `file:///tmp/user_fn_<projet>_<uuid>_<version>/source/<chemin>` ;
+  //  - actuelle   : `source/<chemin>`, déjà relatif au bundle.
+  // `bundleRelative()` ramène les deux à `<chemin>`, la seule forme comparable.
+  const bundleRoot = (() => {
+    const m = /^(.*\/)?source\//.exec(rawEntry);
+    return m === null ? null : `${m[1] ?? ''}source/`;
+  })();
+  const bundleRelative = (raw) => {
+    const clean = stripProviderScheme(String(raw));
+    if (bundleRoot !== null && clean.startsWith(bundleRoot)) return clean.slice(bundleRoot.length);
+    // Le corps rend déjà le chemin relatif au bundle (`source/…`).
+    if (/^source\//.test(clean)) return clean.slice('source/'.length);
+    return null;
+  };
+
   const mapping = new Map();
+  const entryRel = bundleRelative(entrypointProviderPath);
+  if (entryRel === null) throw new Error(`PROVIDER_PATH_NOT_NORMALIZABLE:${entrypointProviderPath}`);
 
   for (const raw of filePaths) {
-    const p = stripProviderScheme(raw);
-    if (p === rawEntry) {
+    const rel = bundleRelative(raw);
+    if (rel === null) throw new Error(`PROVIDER_PATH_NOT_NORMALIZABLE:${raw}`);
+    assertRelativeShape(rel, raw);
+    if (rel === entryRel) {
       mapping.set(raw, `${slug}/index.ts`);
       continue;
     }
-    if (root !== '' && p.startsWith(`${root}/`)) {
-      const rel = p.slice(root.length + 1);
-      assertRelativeShape(rel, raw);
-      mapping.set(raw, rel.startsWith('_shared/') ? rel : `${slug}/${rel}`);
-      continue;
-    }
-    if (p.startsWith('_shared/') || p.startsWith(`${slug}/`)) {
-      assertRelativeShape(p, raw);
-      mapping.set(raw, p);
-      continue;
-    }
-    throw new Error(`PROVIDER_PATH_NOT_NORMALIZABLE:${raw}`);
+    // Une dépendance partagée vit à la racine du bundle ; les autres appartiennent au slug.
+    // Le corps rend déjà `<slug>/<fichier>` : préfixer à nouveau doublerait le slug.
+    const alreadyScoped = rel.startsWith(`${slug}/`) || rel.startsWith('_shared/');
+    mapping.set(raw, alreadyScoped ? rel : `${slug}/${rel}`);
   }
   return mapping;
+}
+
+/**
+ * Identité déclarée par la partie `metadata` du corps multipart.
+ *
+ * Le fournisseur ne renvoie **ni `slug` ni `version`** dans cette partie : elle ne porte que
+ * `deployment_id` (`<projectRef>_<uuid>_<version>`), `deno2_entrypoint_path`,
+ * `module_count`, `original_size` et `compressed_size`. Exiger `bodyMeta.slug` faisait donc
+ * échouer **toute** capture réelle en `CAPTURE_BODY_SLUG_MISMATCH` — une garde qui ne pouvait
+ * jamais être satisfaite. On lit l'identité là où elle est réellement publiée, sans rien
+ * inventer : si la forme attendue manque, on échoue en nommant le motif.
+ *
+ * Le `slug` n'est pas toujours présent dans le chemin : les déploiements récents utilisent
+ * `source/<slug>/index.ts`, les plus anciens un `source/index.ts` à plat. On l'expose quand
+ * il est lisible, et l'appelant vérifie alors ; dans les deux cas la liaison forte est
+ * l'**entrypoint** et la **version** portés par `deployment_id`.
+ *
+ * @param {object|null} bodyMeta Partie `metadata` du corps.
+ * @returns {{projectRef: string, version: number, entrypointPath: string, slug: string|null}|null}
+ */
+export function identityFromBodyMetadata(bodyMeta) {
+  if (!bodyMeta || typeof bodyMeta !== 'object') return null;
+  const deploymentId = bodyMeta.deployment_id;
+  if (typeof deploymentId !== 'string' || deploymentId === '') return null;
+  const segments = deploymentId.split('_');
+  if (segments.length !== 3) return null;
+  const [projectRef, deploymentUuid, versionText] = segments;
+  if (typeof projectRef !== 'string' || projectRef === '') return null;
+  if (typeof deploymentUuid !== 'string' || deploymentUuid === '') return null;
+  if (!/^\d+$/.test(versionText)) return null;
+  const entrypoint = bodyMeta.deno2_entrypoint_path;
+  if (typeof entrypoint !== 'string' || entrypoint === '') return null;
+  const nested = /(?:^|\/)source\/([^/]+)\/index\.ts$/.exec(entrypoint);
+  return {
+    projectRef,
+    version: Number(versionText),
+    entrypointPath: entrypoint,
+    slug: nested ? nested[1] : null,
+  };
+}
+
+/**
+ * Chemin d'entrypoint **relatif au bundle**, comparable entre les deux lectures.
+ *
+ * Le fournisseur nomme le même fichier de deux façons selon l'endpoint :
+ * `file:///tmp/user_fn_<projet>_<uuid>_<version>/source/<chemin>` côté métadonnées, et
+ * `source/<chemin>` côté corps. Comparer les chaînes brutes ferait échouer toute capture
+ * réelle sur une simple différence de préfixe ; on compare ce que les deux désignent.
+ *
+ * @param {string} raw Chemin fournisseur.
+ * @returns {string} Chemin sous `source/`, ou la chaîne nettoyée si le motif est absent.
+ */
+export function entrypointRelativePath(raw) {
+  const clean = stripProviderScheme(String(raw ?? ''));
+  const m = /(?:^|\/)source\/(.+)$/.exec(clean);
+  return m ? `source/${m[1]}` : clean;
 }
 
 /** Extrait la frontière d'un `content-type: multipart/form-data; boundary=…`. */
@@ -281,13 +349,31 @@ export function readbackFromProviderReads(reads, options = {}) {
     throw new Error('READBACK_PAYLOAD_WITHOUT_EZBR_SHA256');
   }
 
-  // Les deux lectures doivent décrire la même version et la même fonction. Le corps rend ses
-  // propres métadonnées : c'est la seule façon de prouver qu'on ne lie pas la version 12 à
-  // des octets servis pour la version 11.
+  // Les deux lectures doivent décrire la même version et la même fonction. La partie
+  // `metadata` du corps ne publie ni `slug` ni `version` : son identité est portée par
+  // `deployment_id` et `deno2_entrypoint_path`. C'est la seule façon de prouver qu'on ne
+  // lie pas la version 12 à des octets servis pour la version 11.
   const bodyMeta = body.metadata;
   if (!bodyMeta || typeof bodyMeta !== 'object') throw new Error('READBACK_BODY_WITHOUT_METADATA');
-  if (bodyMeta.slug !== slug) throw new Error('READBACK_BODY_SLUG_MISMATCH');
-  if (bodyMeta.version !== metadata.version) throw new Error('READBACK_BODY_VERSION_MISMATCH');
+  const bodyIdentity = identityFromBodyMetadata(bodyMeta);
+  if (bodyIdentity === null) throw new Error('READBACK_BODY_IDENTITY_UNREADABLE');
+  if (bodyIdentity.slug !== null && bodyIdentity.slug !== slug) {
+    throw new Error('READBACK_BODY_SLUG_MISMATCH');
+  }
+  if (bodyIdentity.version !== metadata.version) throw new Error('READBACK_BODY_VERSION_MISMATCH');
+  const projectRef = options.projectRef ?? PRODUCTION_PROJECT_REF;
+  if (bodyIdentity.projectRef !== projectRef) {
+    // Le corps décrit un déploiement d'un autre projet : la sauvegarde serait étiquetée
+    // d'un projet et remplie par un autre.
+    throw new Error('READBACK_BODY_PROJECT_MISMATCH');
+  }
+  // La liaison la plus forte disponible : les deux lectures désignent le même entrypoint.
+  // Les préfixes diffèrent légitimement (`file:///tmp/user_fn_…/source/…` côté métadonnées,
+  // `source/…` côté corps) : on compare le chemin relatif au bundle, jamais la chaîne brute.
+  if (entrypointRelativePath(bodyIdentity.entrypointPath)
+    !== entrypointRelativePath(metadata.entrypoint_path)) {
+    throw new Error('READBACK_BODY_ENTRYPOINT_MISMATCH');
+  }
 
   const files = Array.isArray(body.files) ? body.files : [];
   if (files.length === 0) throw new Error('READBACK_PAYLOAD_WITHOUT_ENTRYPOINT_CONTENT');
@@ -326,7 +412,6 @@ export function readbackFromProviderReads(reads, options = {}) {
     .sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0));
 
   const entrypointSha256 = sha256(Buffer.from(entrypointFile.content, 'utf8'));
-  const projectRef = options.projectRef ?? PRODUCTION_PROJECT_REF;
   const readback = {
     source: metadataSourceFor(projectRef),
     bundleSource: bundleSourceFor(projectRef),
@@ -462,11 +547,27 @@ export async function captureProviderArtifact(slug, options) {
   const body = parseMultipartFunctionBody(rawBytes, contentType);
 
   // Les deux lectures doivent décrire la même version : sinon l'artefact et la configuration
-  // scellés ne désignent pas le même objet, et la « sauvegarde » serait incohérente.
+  // scellés ne désignent pas le même objet, et la « sauvegarde » serait incohérente. La
+  // partie `metadata` du corps ne publie ni `slug` ni `version` (voir
+  // `identityFromBodyMetadata`) : les y chercher faisait échouer toute capture réelle.
   const bodyMeta = body.metadata;
   if (!bodyMeta || typeof bodyMeta !== 'object') throw new Error('CAPTURE_BODY_WITHOUT_METADATA');
-  if (bodyMeta.slug !== (metadata.slug ?? metadata.name)) throw new Error('CAPTURE_BODY_SLUG_MISMATCH');
-  if (bodyMeta.version !== metadata.version) throw new Error('CAPTURE_BODY_VERSION_MISMATCH');
+  const bodyIdentity = identityFromBodyMetadata(bodyMeta);
+  if (bodyIdentity === null) throw new Error('CAPTURE_BODY_IDENTITY_UNREADABLE');
+  if (bodyIdentity.slug !== null && bodyIdentity.slug !== (metadata.slug ?? metadata.name)) {
+    throw new Error('CAPTURE_BODY_SLUG_MISMATCH');
+  }
+  if (bodyIdentity.version !== metadata.version) throw new Error('CAPTURE_BODY_VERSION_MISMATCH');
+  if (bodyIdentity.projectRef !== projectRef) throw new Error('CAPTURE_BODY_PROJECT_MISMATCH');
+  if (entrypointRelativePath(bodyIdentity.entrypointPath)
+    !== entrypointRelativePath(metadata.entrypoint_path)) {
+    throw new Error('CAPTURE_BODY_ENTRYPOINT_MISMATCH');
+  }
+  // Le nombre de modules annoncé doit correspondre aux fichiers réellement reçus : un corps
+  // tronqué produirait sinon une empreinte parfaitement plausible d'un bundle incomplet.
+  if (Number.isInteger(bodyMeta.module_count) && bodyMeta.module_count !== body.files.length) {
+    throw new Error('CAPTURE_BODY_MODULE_COUNT_MISMATCH');
+  }
 
   const readback = readbackFromProviderReads(
     { metadata, body, requestedSlug: slug },

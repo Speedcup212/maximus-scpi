@@ -27,6 +27,24 @@
 const CRLF = '\r\n';
 const BOUNDARY = 'f0e4c8a17b39d25c6a10';
 
+/**
+ * Partie `metadata` du corps, **telle que le fournisseur la rend réellement**.
+ *
+ * Constat du 27/11 sur `GET /v1/projects/{ref}/functions/{slug}/body` : elle ne contient
+ * **ni `slug` ni `version`** — seulement `deployment_id`, `deno2_entrypoint_path`,
+ * `module_count`, `original_size` et `compressed_size`. La fixture précédente inventait un
+ * `slug` et une `version` dans cette partie, ce qui rendait les tests verts sur une forme
+ * que la production ne produit jamais, et la capture réelle impossible.
+ */
+const REDACTED_BODY_METADATA = Object.freeze({
+  deployment_id: 'ygvsddcpohsnaowofuwc_redacted-deployment-uuid_12',
+  original_size: 4211,
+  compressed_size: 1187,
+  module_count: 3,
+  deno2_entrypoint_path: 'source/scpi-certified-promote/index.ts',
+});
+
+/** Métadonnées de `GET /functions/{slug}` — elles, seules, portent `slug` et `version`. */
 const REDACTED_METADATA = Object.freeze({
   id: 'redacted-function-id',
   slug: 'scpi-certified-promote',
@@ -37,7 +55,7 @@ const REDACTED_METADATA = Object.freeze({
   updated_at: 1763300000000,
   verify_jwt: false,
   import_map: false,
-  entrypoint_path: 'file:///tmp/user_fn_ygvsddcpohsnaowofuwc_redacted_12/source/index.ts',
+  entrypoint_path: 'source/scpi-certified-promote/index.ts',
   import_map_path: null,
   ezbr_sha256: 'db3599421ad844e81a031bfbc149345ecd3e791736e7bb1bca4cba00c5fe8e44',
 });
@@ -45,16 +63,16 @@ const REDACTED_METADATA = Object.freeze({
 /** Marqueurs inertes : structure réelle, contenu volontairement non exécutable. */
 const REDACTED_FILES = Object.freeze([
   {
-    name: 'file:///tmp/user_fn_ygvsddcpohsnaowofuwc_redacted_12/source/index.ts',
+    name: 'source/scpi-certified-promote/index.ts',
     content: '// REDACTED — source de production non publiée (dépôt public)\n'
       + 'export default serve(redactedHandler);\n',
   },
   {
-    name: 'file:///tmp/user_fn_ygvsddcpohsnaowofuwc_redacted_12/source/matcher.mjs',
+    name: 'source/scpi-certified-promote/matcher.mjs',
     content: '// REDACTED — matcher de production non publié\nexport const match = () => true;\n',
   },
   {
-    name: 'file:///tmp/user_fn_ygvsddcpohsnaowofuwc_redacted_12/source/_shared/serviceKey.ts',
+    name: 'source/_shared/serviceKey.ts',
     content: '// REDACTED — dépendance partagée non publiée\nexport const resolveKey = () => null;\n',
   },
 ]);
@@ -92,13 +110,24 @@ export function redactedMetadata(overrides = {}) {
   return { ...REDACTED_METADATA, ...overrides };
 }
 
+/**
+ * Ce que le test injecte comme partie `metadata` du corps multipart.
+ *
+ * Distinct de `redactedMetadata()` : les deux lectures ne portent pas les mêmes champs, et
+ * les confondre est précisément ce qui masquait le défaut de capture.
+ */
+export function redactedBodyMetadata(overrides = {}) {
+  return { ...REDACTED_BODY_METADATA, ...overrides };
+}
+
 /** Ce que le test injecte comme `GET /functions/{slug}/body`. */
 export function redactedBody({ files, metadata, contentType } = {}) {
   return {
     contentType: contentType ?? REDACTED_BODY_CONTENT_TYPE,
-    buffer: buildRedactedMultipartBody(files ?? REDACTED_FILES, metadata ?? REDACTED_METADATA),
+    buffer: buildRedactedMultipartBody(files ?? REDACTED_FILES, metadata ?? REDACTED_BODY_METADATA),
   };
 }
 
 export const REDACTED_FILES_FOR_TEST = REDACTED_FILES;
 export const REDACTED_METADATA_FOR_TEST = REDACTED_METADATA;
+export const REDACTED_BODY_METADATA_FOR_TEST = REDACTED_BODY_METADATA;

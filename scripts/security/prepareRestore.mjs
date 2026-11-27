@@ -135,7 +135,24 @@ export function prepareFromCaptured(captured) {
     // la production : un opérateur l'envoyant tel quel aurait déployé dans le projet qu'on
     // cherche précisément à ne pas toucher. La destination reste donc **non décidée** jusqu'à
     // l'émission, où elle est contrôlée puis estampillée.
-    metadata: { ...parsed.metadata, projectRef: null },
+    //
+    // `parsed.metadata` est celui du **corps** : il ne porte ni `slug` ni `version` (voir
+    // `identityFromBodyMetadata`). Le reconditionnement a besoin de l'identité du registre, qui
+    // vient du readback reconstruit — elle est déjà contrôlée contre les octets ci-dessus.
+    metadata: {
+      ...parsed.metadata,
+      slug: readback.slug,
+      name: readback.slug,
+      version: readback.version,
+      verify_jwt: readback.verifyJwt,
+      // Le corps nomme l'entrypoint `deno2_entrypoint_path` : `entrypoint_path` est le nom
+      // utilisé par `GET /functions/{slug}` et par le reconditionnement.
+      entrypoint_path: parsed.metadata?.entrypoint_path ?? parsed.metadata?.deno2_entrypoint_path,
+      // Le corps ne transporte pas d'import map : l'absence de ce champ dans la partie
+      // `metadata` ne doit pas être lue comme « import map inconnue ».
+      import_map_path: parsed.metadata?.import_map_path ?? null,
+      projectRef: null,
+    },
     files: parsed.files,
   });
   if (!repack.ok) {

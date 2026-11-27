@@ -22,6 +22,7 @@ import {
 import {
   redactedMetadata,
   redactedBody,
+  redactedBodyMetadata,
 } from './fixtures/providerFunctionBody.mjs';
 import {
   parseMultipartFunctionBody,
@@ -41,7 +42,7 @@ const sha256 = (buf) => createHash('sha256').update(buf).digest('hex');
  */
 function seedCapture(root) {
   const meta = redactedMetadata();
-  const body = redactedBody({ metadata: meta });
+  const body = redactedBody();
   const dir = join(root, 'artifacts');
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, `${SLUG}.multipart.bin`), body.buffer);
@@ -148,11 +149,19 @@ const TEST_AUTHORIZED = [DRILL_REF];
 
 function readbackFor(overrides = {}) {
   const meta = redactedMetadata(overrides.metadata ?? {});
-  const body = redactedBody({ metadata: meta, files: overrides.files });
+  const projectRef = overrides.projectRef ?? DRILL_REF;
+  const body = redactedBody({
+    // Le corps décrit toujours le projet réellement lu : ici le projet d'exercice.
+    metadata: redactedBodyMetadata({
+      deployment_id: `${projectRef}_redacted-deployment-uuid_12`,
+      ...(overrides.bodyMetadata ?? {}),
+    }),
+    files: overrides.files,
+  });
   const parsed = parseMultipartFunctionBody(body.buffer, body.contentType);
   return readbackFromProviderReads(
     { metadata: meta, body: parsed, requestedSlug: meta.slug },
-    { projectRef: overrides.projectRef ?? DRILL_REF, fetchedAt: '2026-11-26T09:30:00Z' },
+    { projectRef, fetchedAt: '2026-11-26T09:30:00Z' },
   );
 }
 
@@ -281,7 +290,11 @@ test('une version fournisseur différente est tracée, jamais comparée à l ide
   // égale ferait échouer tout exercice valide, l'ignorer la rendrait invisible.
   const verdict = verifyRestoredAgainstSeal(
     seal,
-    readbackFor({ metadata: { version: 13 } }),
+    readbackFor({
+      metadata: { version: 13 },
+      // Les deux lectures doivent décrire la même version : on aligne la partie du corps.
+      bodyMetadata: { deployment_id: `${DRILL_REF}_redacted-deployment-uuid_13` },
+    }),
     drillTarget(),
   );
   assert.equal(verdict.verdict, 'PASS');
