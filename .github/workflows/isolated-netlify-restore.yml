@@ -1,5 +1,7 @@
 name: Isolated Netlify restore (one-shot)
 
+# Publishes one already-built Netlify deploy as production, without rebuilding.
+# Every guard here fails closed: an ambiguous input publishes nothing.
 on:
   workflow_dispatch:
     inputs:
@@ -32,22 +34,158 @@ jobs:
           test -n "$DEPLOY_ID"
           test -n "$EXPECTED_COMMIT"
 
-          META=$(curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
-            "https://api.netlify.com/api/v1/deploys/${DEPLOY_ID}")
-          echo "$META" > /tmp/meta.json
+          # Snapshot what production currently serves, so the state printed after
+          # the restore is comparable to a known prior state and not just echoed.
+          curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            "https://api.netlify.com/api/v1/sites/${SITE_ID}" -o /tmp/site_before.json
           python3 - <<'PY'
-          import json,os
+          import json,os,re
+          site_id=os.environ['SITE_ID']
+          d=json.load(open('/tmp/site_before.json'))
+          print('site_id=', d.get('id'))
+          print('site_name=', d.get('name'))
+          print('published_deploy_before=', d.get('deploy_id'))
+          print('published_commit_before=', (d.get('published_deploy') or {}).get('commit_ref'))
+          if d.get('id')!=site_id:
+              raise SystemExit('SITE_ID_MISMATCH:'+repr(d.get('id')))
+          if not re.match(r'^[a-f0-9]{24}$', os.environ['DEPLOY_ID']):
+              raise SystemExit('DEPLOY_ID_MALFORMED:'+repr(os.environ['DEPLOY_ID']))
+          if not re.match(r'^[a-f0-9]{40}$', os.environ['EXPECTED_COMMIT']):
+              raise SystemExit('EXPECTED_COMMIT_MALFORMED:'+repr(os.environ['EXPECTED_COMMIT']))
+          if d.get('deploy_id')==os.environ['DEPLOY_ID']:
+              raise SystemExit('ALREADY_PUBLISHED:'+os.environ['DEPLOY_ID'])
+          PY
+
+          curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            "https://api.netlify.com/api/v1/deploys/${DEPLOY_ID}" -o /tmp/meta.json
+          python3 - <<'PY'
+          import json,os,re
+          HEX40=re.compile(r'^[a-f0-9]{40}$')
           d=json.load(open('/tmp/meta.json'))
           exp=os.environ['EXPECTED_COMMIT']
+          site=os.environ['SITE_ID']
           commit=d.get('commit_ref') or ''
           print('deploy_state=', d.get('state'))
           print('deploy_context=', d.get('context'))
+          print('deploy_branch=', d.get('branch'))
+          print('deploy_site_id=', d.get('site_id'))
           print('commit_ref=', commit)
           print('expected=', exp)
+          # A deploy that belongs to another site must never be promoted here.
+          if d.get('site_id')!=site:
+              raise SystemExit('DEPLOY_SITE_MISMATCH:'+repr(d.get('site_id')))
           if d.get('state') not in ('ready','current'):
               raise SystemExit('DEPLOY_NOT_READY:'+str(d.get('state')))
-          if commit and commit != exp:
+          # Absent commit_ref is a refusal, never a pass: an empty value makes
+          # "new artifact" and "unknown artifact" indistinguishable.
+          if not HEX40.match(commit):
+              raise SystemExit('DEPLOY_COMMIT_ABSENT_OR_MALFORMED:'+repr(commit))
+          if commit != exp:
               raise SystemExit('COMMIT_MISMATCH:'+commit)
+          # The deploy's own provider metadata must say production/main before it
+          # can be promoted. A preview deploy that happens to carry a manifest is
+          # still a preview; promoting it would publish an artifact no production
+          # build vouches for. Checking the metadata is what makes the manifest
+          # check below meaningful rather than decorative.
+          if d.get('id')!=os.environ['DEPLOY_ID']:
+              raise SystemExit('DEPLOY_META_ID_MISMATCH:'+repr(d.get('id')))
+          if d.get('context')!='production':
+              raise SystemExit('DEPLOY_CONTEXT_NOT_PRODUCTION:'+repr(d.get('context')))
+          if d.get('branch')!='main':
+              raise SystemExit('DEPLOY_BRANCH_NOT_MAIN:'+repr(d.get('branch')))
+          PY
+
+          # A deploy is promotable only if its own artifact carries the release
+          # manifest that a production build writes. Promoting an artifact
+          # without one would publish a site whose /scpi-release-manifest.json is
+          # the SPA fallback HTML, which makes the NEXT production build fail
+          # its own attestation. Refusing here is the only safe answer.
+          curl -fsS -H "Cache-Control: no-cache" \
+            "https://${DEPLOY_ID}--maximusscpi.netlify.app/scpi-release-manifest.json" \
+            -o /tmp/artifact_manifest.json
+          python3 - <<'PY'
+          import json,os
+          path='/tmp/artifact_manifest.json'
+          try:
+              raw=open(path,'rb').read()
+          except FileNotFoundError:
+              raise SystemExit('ARTIFACT_MANIFEST_ABSENT:'+path)
+          try:
+              d=json.loads(raw.decode('utf-8'))
+          except Exception as exc:
+              # The SPA rule answers 200 text/html for a missing file. A body
+              # that is not JSON is that fallback, never a manifest.
+              raise SystemExit('ARTIFACT_MANIFEST_NOT_JSON:'+type(exc).__name__)
+          print('artifact_manifest_sha=', d.get('sha'))
+          print('artifact_manifest_deploy_id=', d.get('deploy_id'))
+          print('artifact_manifest_context=', d.get('context'))
+          if d.get('sha')!=os.environ['EXPECTED_COMMIT']:
+              raise SystemExit('ARTIFACT_MANIFEST_SHA_MISMATCH:'+repr(d.get('sha')))
+          if d.get('deploy_id')!=os.environ['DEPLOY_ID']:
+              raise SystemExit('ARTIFACT_MANIFEST_DEPLOY_MISMATCH:'+repr(d.get('deploy_id')))
+          if d.get('issuer')!='Speedcup212/maximus-scpi':
+              raise SystemExit('ARTIFACT_MANIFEST_ISSUER_MISMATCH:'+repr(d.get('issuer')))
+          if d.get('context')!='production':
+              raise SystemExit('ARTIFACT_MANIFEST_CONTEXT_NOT_PRODUCTION:'+repr(d.get('context')))
+          PY
+
+          # The way back must be known, and known to work, BEFORE production is
+          # touched. A rollback target printed only after the promotion is a
+          # description of a mistake, not a recovery path: by then the run may
+          # already have published an artifact it cannot undo. So the prior
+          # published deploy is identified, its SHA is validated, and its own
+          # manifest is read here - any failure leaves production untouched.
+          python3 - <<'PY'
+          import json,os,re
+          HEX40=re.compile(r'^[a-f0-9]{40}$')
+          HEX24=re.compile(r'^[a-f0-9]{24}$')
+          prior=json.load(open('/tmp/site_before.json'))
+          deploy=(prior.get('published_deploy') or {})
+          rollback_id=prior.get('deploy_id')
+          rollback_commit=deploy.get('commit_ref')
+          print('rollback_candidate_id=', rollback_id)
+          print('rollback_candidate_commit=', rollback_commit)
+          # An empty prior deploy means production serves nothing: there is no
+          # artefact to come back to, so a promotion would be irreversible.
+          if not rollback_id:
+              raise SystemExit('ROLLBACK_TARGET_ABSENT:no published deploy before promotion')
+          if not HEX24.match(str(rollback_id)):
+              raise SystemExit('ROLLBACK_TARGET_ID_MALFORMED:'+repr(rollback_id))
+          if deploy.get('id')!=rollback_id:
+              raise SystemExit('ROLLBACK_TARGET_ID_INCONSISTENT:'+repr(deploy.get('id')))
+          if not HEX40.match(str(rollback_commit or '')):
+              raise SystemExit('ROLLBACK_TARGET_COMMIT_ABSENT_OR_MALFORMED:'+repr(rollback_commit))
+          with open('/tmp/rollback_target.env','w') as fh:
+              fh.write('ROLLBACK_DEPLOY_ID=%s\nROLLBACK_COMMIT=%s\n'%(rollback_id,rollback_commit))
+          PY
+
+          ROLLBACK_DEPLOY_ID=$(sed -n 's/^ROLLBACK_DEPLOY_ID=//p' /tmp/rollback_target.env)
+          ROLLBACK_COMMIT=$(sed -n 's/^ROLLBACK_COMMIT=//p' /tmp/rollback_target.env)
+          test -n "$ROLLBACK_DEPLOY_ID"
+          test -n "$ROLLBACK_COMMIT"
+          export ROLLBACK_DEPLOY_ID ROLLBACK_COMMIT
+          echo "ROLLBACK_TARGET= ${ROLLBACK_DEPLOY_ID} ${ROLLBACK_COMMIT}"
+
+          # The rollback deploy must itself be able to attest: a target that
+          # cannot serve a coherent manifest is not a recovery path.
+          curl -fsS -H "Cache-Control: no-cache" \
+            "https://${ROLLBACK_DEPLOY_ID}--maximusscpi.netlify.app/scpi-release-manifest.json" \
+            -o /tmp/rollback_manifest.json
+          python3 - <<'PY'
+          import json,os
+          try:
+              d=json.loads(open('/tmp/rollback_manifest.json','rb').read().decode('utf-8'))
+          except Exception as exc:
+              raise SystemExit('ROLLBACK_MANIFEST_NOT_JSON:'+type(exc).__name__)
+          print('rollback_manifest_sha=', d.get('sha'))
+          print('rollback_manifest_deploy_id=', d.get('deploy_id'))
+          print('rollback_manifest_context=', d.get('context'))
+          if d.get('sha')!=os.environ['ROLLBACK_COMMIT']:
+              raise SystemExit('ROLLBACK_MANIFEST_SHA_MISMATCH:'+repr(d.get('sha')))
+          if d.get('deploy_id')!=os.environ['ROLLBACK_DEPLOY_ID']:
+              raise SystemExit('ROLLBACK_MANIFEST_DEPLOY_MISMATCH:'+repr(d.get('deploy_id')))
+          if d.get('context')!='production':
+              raise SystemExit('ROLLBACK_MANIFEST_CONTEXT_NOT_PRODUCTION:'+repr(d.get('context')))
           PY
 
           curl -fsS -X POST \
@@ -56,10 +194,58 @@ jobs:
             -o /tmp/restore.json
 
           python3 - <<'PY'
-          import json
+          import json,os
           d=json.load(open('/tmp/restore.json'))
           print('published_deploy_id=', d.get('id'))
           print('published_state=', d.get('state'))
           print('published_commit=', d.get('commit_ref'))
           print('published_url=', d.get('ssl_url') or d.get('url'))
+          if d.get('id')!=os.environ['DEPLOY_ID']:
+              raise SystemExit('RESTORE_RETURNED_OTHER_DEPLOY:'+repr(d.get('id')))
+          if d.get('commit_ref')!=os.environ['EXPECTED_COMMIT']:
+              raise SystemExit('RESTORE_RETURNED_OTHER_COMMIT:'+repr(d.get('commit_ref')))
+          PY
+
+          # Verify the live site, not the API response alone.
+          curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            "https://api.netlify.com/api/v1/sites/${SITE_ID}" -o /tmp/site_after.json
+          python3 - <<'PY'
+          import json,os
+          d=json.load(open('/tmp/site_after.json'))
+          published=d.get('deploy_id')
+          published_commit=(d.get('published_deploy') or {}).get('commit_ref')
+          print('published_deploy_after=', published)
+          print('published_commit_after=', published_commit)
+          print('previous_published_deploy=', os.environ['ROLLBACK_DEPLOY_ID'])
+          print('previous_published_commit=', os.environ['ROLLBACK_COMMIT'])
+          if published!=os.environ['DEPLOY_ID']:
+              # Diagnostic first: whoever reads a failed run needs the way back
+              # in the same block as the failure, not in an earlier section.
+              print('DIAGNOSTIC=PROMOTION_FAILED')
+              print('DIAGNOSTIC_ROLLBACK_TARGET= %s %s'%(
+                  os.environ['ROLLBACK_DEPLOY_ID'],os.environ['ROLLBACK_COMMIT']))
+              raise SystemExit('PRODUCTION_NOT_ON_REQUIRED_DEPLOY:'+repr(published))
+          PY
+
+          # The public host must serve the manifest of the deploy now published.
+          # If it does not, the promotion put live a site that cannot attest
+          # itself, and the next production build would refuse its own release.
+          curl -fsS -H "Cache-Control: no-cache" \
+            "https://maximusscpi.com/scpi-release-manifest.json" \
+            -o /tmp/live_manifest.json
+          python3 - <<'PY'
+          import json,os
+          try:
+              d=json.loads(open('/tmp/live_manifest.json','rb').read().decode('utf-8'))
+          except Exception as exc:
+              raise SystemExit('LIVE_MANIFEST_NOT_JSON:'+type(exc).__name__)
+          print('live_manifest_sha=', d.get('sha'))
+          print('live_manifest_deploy_id=', d.get('deploy_id'))
+          print('live_manifest_context=', d.get('context'))
+          if d.get('sha')!=os.environ['EXPECTED_COMMIT']:
+              raise SystemExit('LIVE_MANIFEST_SHA_MISMATCH:'+repr(d.get('sha')))
+          if d.get('deploy_id')!=os.environ['DEPLOY_ID']:
+              raise SystemExit('LIVE_MANIFEST_DEPLOY_MISMATCH:'+repr(d.get('deploy_id')))
+          if d.get('context')!='production':
+              raise SystemExit('LIVE_MANIFEST_CONTEXT_NOT_PRODUCTION:'+repr(d.get('context')))
           PY
