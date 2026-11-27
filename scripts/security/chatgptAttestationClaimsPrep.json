@@ -1,0 +1,10 @@
+{
+  "tool": "node scripts/security/edgeFunctionDeploymentManifest.mjs --attestation-claims <fonction> <évidence-hors-dépôt>",
+  "requiredClaimCount": 22,
+  "signing": "ed25519 over attestationSha256 / canonicalJsonSha256(claims)",
+  "constraints": [
+    "évidence hors dépôt (MAXIMUS_ROLLBACK_EVIDENCE_ROOT)",
+    "ne pas versionner claims signés ni évidence dans le dépôt public",
+    "Cursor prépare ; ChatGPT signe / atteste"
+  ]
+}

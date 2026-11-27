@@ -53,6 +53,22 @@ jobs:
       - name: Native Netlify release environment contract and source-proof tests
         run: node --test plugins/maximus-scpi-native-release/release.test.mjs
 
+      - name: Security key-migration manifest, exact rollback and key-only patch guards
+        run: |
+          node --test scripts/security/edgeFunctionDeploymentManifest.test.mjs
+          node --test scripts/security/collectReadback.test.mjs
+          node --test scripts/security/applyKeyOnlyPatch.test.mjs
+          node --test scripts/security/handoffManifestConsistency.test.mjs
+          node --test scripts/security/restoreProtocol.test.mjs
+          node --test scripts/security/prepareRestore.test.mjs
+          node --test scripts/security/restoreTargetAuthorization.test.mjs
+          node --test scripts/security/attestationClaimsSingleSource.test.mjs
+          node scripts/security/edgeFunctionDeploymentManifest.mjs --check
+          node scripts/security/restoreTargetAuthorization.mjs --check
+
+      - name: Historical agents queue inventory and diagnosis
+        run: node --test scripts/agents/agentsQueueDiagnostic.test.mjs
+
       - name: Full unit regression suite including issuer host rejection
         run: npm test
 

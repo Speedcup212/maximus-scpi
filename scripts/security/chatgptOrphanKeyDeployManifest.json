@@ -1,0 +1,62 @@
+{
+  "title": "Manifeste de déploiement ChatGPT — 4 workers orphelins (clé)",
+  "projectRef": "ygvsddcpohsnaowofuwc",
+  "derogation": "ChatGPT-only pour deploy Supabase ; Cursor ne déploie pas",
+  "verifyJwt": false,
+  "sharedMustInclude": ["_shared/serviceKey.ts"],
+  "deploy": [
+    {
+      "slug": "scpi-parallel-backfill-worker",
+      "prodVersionBefore": 8,
+      "expectedVersionAfterMin": 9,
+      "rollbackArtifactSha256": "cc5649910b6cfe475e8e97f02c12a9ec30d542ee5909c6565d520b4a27a6627d",
+      "rollbackEzbrSha256": "2d9609af69ff6b012c50cc8c7e7eb0872dee998e5c337371afd1b2cdaa0ca2cc",
+      "negativeTest": "POST sans x-cron-token → HTTP 401",
+      "positiveTest": "POST avec jeton Vault valide → 200 idle ou job traité ; pas d'écriture hors file",
+      "logFilter": "[key-source]"
+    },
+    {
+      "slug": "scpi-parallel-discover-worker",
+      "prodVersionBefore": 11,
+      "expectedVersionAfterMin": 12,
+      "rollbackArtifactSha256": "30e83201faa1e17dbc32106c03a76ff9441e56398a203153e07ea204f063456f",
+      "rollbackEzbrSha256": "ac3332d75b84170dab2ba478bf436e2b5b81939cc64b359a53b410d7f4c835f6",
+      "negativeTest": "POST sans x-cron-token → HTTP 401",
+      "positiveTest": "auth OK + paramètres sûrs → 200 sans mutation destructive",
+      "logFilter": "[key-source]"
+    },
+    {
+      "slug": "scpi-annual-source-discover",
+      "prodVersionBefore": 9,
+      "expectedVersionAfterMin": 10,
+      "rollbackArtifactSha256": "e889bc7e4238f94615d9fe64094f1c3472c51029758ee82b4378c470a12c20c9",
+      "rollbackEzbrSha256": "c6427880c3991d32cedce6db3886500d3e87b42ff53af467d9d2c3fe7c3e99ae",
+      "negativeTest": "POST sans jeton attendu → HTTP 401",
+      "positiveTest": "auth OK → 200 contrôlé",
+      "logFilter": "[key-source]"
+    },
+    {
+      "slug": "scpi-norma-quarterly-ingest",
+      "prodVersionBefore": 11,
+      "expectedVersionAfterMin": 12,
+      "rollbackArtifactSha256": "583cbadc4e021e5a646762b8b541b21485a72add6d21f7f40aeecc90ffb46038",
+      "rollbackEzbrSha256": "2d55aa68f13d27a56df82ade45c15a333038071454825656a51fdc4ca67b9cf3",
+      "negativeTest": "POST sans x-cron-token → HTTP 401",
+      "positiveTest": "auth OK + dry_run si disponible → 200",
+      "logFilter": "[key-source]"
+    }
+  ],
+  "excludeFromThisLot": [
+    {
+      "slug": "maximus-watchdog-oidc",
+      "reason": "USES_DB_URL_NOT_SERVICE_ROLE — aucune migration de clé API ; ne pas redéployer pour ce lot"
+    }
+  ],
+  "commandTemplate": "supabase functions deploy <slug> --no-verify-jwt --project-ref ygvsddcpohsnaowofuwc",
+  "invariants": [
+    "69/69 strict après chaque fonction",
+    "aucune révocation",
+    "aucun db push",
+    "rollback = artefact scellé 7224163948, pas un vieux commit"
+  ]
+}
