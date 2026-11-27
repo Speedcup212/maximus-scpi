@@ -84,6 +84,40 @@ jobs:
               raise SystemExit('COMMIT_MISMATCH:'+commit)
           PY
 
+          # A deploy is promotable only if its own artifact carries the release
+          # manifest that a production build writes. Promoting an artifact
+          # without one would publish a site whose /scpi-release-manifest.json is
+          # the SPA fallback HTML, which makes the NEXT production build fail
+          # its own attestation. Refusing here is the only safe answer.
+          curl -fsS -H "Cache-Control: no-cache" \
+            "https://${DEPLOY_ID}--maximusscpi.netlify.app/scpi-release-manifest.json" \
+            -o /tmp/artifact_manifest.json
+          python3 - <<'PY'
+          import json,os
+          path='/tmp/artifact_manifest.json'
+          try:
+              raw=open(path,'rb').read()
+          except FileNotFoundError:
+              raise SystemExit('ARTIFACT_MANIFEST_ABSENT:'+path)
+          try:
+              d=json.loads(raw.decode('utf-8'))
+          except Exception as exc:
+              # The SPA rule answers 200 text/html for a missing file. A body
+              # that is not JSON is that fallback, never a manifest.
+              raise SystemExit('ARTIFACT_MANIFEST_NOT_JSON:'+type(exc).__name__)
+          print('artifact_manifest_sha=', d.get('sha'))
+          print('artifact_manifest_deploy_id=', d.get('deploy_id'))
+          print('artifact_manifest_context=', d.get('context'))
+          if d.get('sha')!=os.environ['EXPECTED_COMMIT']:
+              raise SystemExit('ARTIFACT_MANIFEST_SHA_MISMATCH:'+repr(d.get('sha')))
+          if d.get('deploy_id')!=os.environ['DEPLOY_ID']:
+              raise SystemExit('ARTIFACT_MANIFEST_DEPLOY_MISMATCH:'+repr(d.get('deploy_id')))
+          if d.get('issuer')!='Speedcup212/maximus-scpi':
+              raise SystemExit('ARTIFACT_MANIFEST_ISSUER_MISMATCH:'+repr(d.get('issuer')))
+          if d.get('context')!='production':
+              raise SystemExit('ARTIFACT_MANIFEST_CONTEXT_NOT_PRODUCTION:'+repr(d.get('context')))
+          PY
+
           curl -fsS -X POST \
             -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
             "https://api.netlify.com/api/v1/sites/${SITE_ID}/deploys/${DEPLOY_ID}/restore" \
@@ -110,9 +144,35 @@ jobs:
           d=json.load(open('/tmp/site_after.json'))
           published=d.get('deploy_id')
           prior=json.load(open('/tmp/site_before.json')).get('deploy_id')
+          prior_commit=(json.load(open('/tmp/site_before.json')).get('published_deploy') or {}).get('commit_ref')
           print('published_deploy_after=', published)
           print('published_commit_after=', (d.get('published_deploy') or {}).get('commit_ref'))
           print('previous_published_deploy=', prior)
+          print('previous_published_commit=', prior_commit)
+          print('ROLLBACK_TARGET=', prior, prior_commit)
           if published!=os.environ['DEPLOY_ID']:
               raise SystemExit('PRODUCTION_NOT_ON_REQUIRED_DEPLOY:'+repr(published))
+          PY
+
+          # The public host must serve the manifest of the deploy now published.
+          # If it does not, the promotion put live a site that cannot attest
+          # itself, and the next production build would refuse its own release.
+          curl -fsS -H "Cache-Control: no-cache" \
+            "https://maximusscpi.com/scpi-release-manifest.json" \
+            -o /tmp/live_manifest.json
+          python3 - <<'PY'
+          import json,os
+          try:
+              d=json.loads(open('/tmp/live_manifest.json','rb').read().decode('utf-8'))
+          except Exception as exc:
+              raise SystemExit('LIVE_MANIFEST_NOT_JSON:'+type(exc).__name__)
+          print('live_manifest_sha=', d.get('sha'))
+          print('live_manifest_deploy_id=', d.get('deploy_id'))
+          print('live_manifest_context=', d.get('context'))
+          if d.get('sha')!=os.environ['EXPECTED_COMMIT']:
+              raise SystemExit('LIVE_MANIFEST_SHA_MISMATCH:'+repr(d.get('sha')))
+          if d.get('deploy_id')!=os.environ['DEPLOY_ID']:
+              raise SystemExit('LIVE_MANIFEST_DEPLOY_MISMATCH:'+repr(d.get('deploy_id')))
+          if d.get('context')!='production':
+              raise SystemExit('LIVE_MANIFEST_CONTEXT_NOT_PRODUCTION:'+repr(d.get('context')))
           PY

@@ -78,9 +78,26 @@ function workflowScript() {
 const FIXTURES = new Map([
   ['/tmp/site_before.json', 'SITE_BEFORE_FILE'],
   ['/tmp/meta.json', 'META_FILE'],
+  ['/tmp/artifact_manifest.json', 'ARTIFACT_MANIFEST_FILE'],
   ['/tmp/restore.json', 'RESTORE_FILE'],
   ['/tmp/site_after.json', 'SITE_AFTER_FILE'],
+  ['/tmp/live_manifest.json', 'LIVE_MANIFEST_FILE'],
 ]);
+
+/**
+ * The artifact manifest the production plugin writes into every production
+ * build. A deploy carrying this is promotable; a preview never carries it.
+ */
+const artifactManifest = (over = {}) => ({
+  sha: GOOD_SHA,
+  deploy_id: DEPLOY,
+  issuer: 'Speedcup212/maximus-scpi',
+  context: 'production',
+  ...over,
+});
+
+/** Exactly what the SPA fallback answers for a manifest that does not exist. */
+const SPA_FALLBACK_HTML = '<!doctype html><html lang="fr"><head><title>MaximusSCPI</title></head></html>';
 
 function localisedScript() {
   const script = workflowScript();
@@ -110,12 +127,12 @@ function localisedScript() {
   return out;
 }
 
-function runGuards({meta, siteBefore, siteAfter, expected = GOOD_SHA, deployId = DEPLOY}) {
+function runGuards({meta, siteBefore, siteAfter, expected = GOOD_SHA, deployId = DEPLOY, manifest = artifactManifest(), liveManifest = artifactManifest()}) {
   const dir = mkdtempSync(join(tmpdir(), 'restore-guards-'));
   try {
     const write = (name, value) => {
       const file = join(dir, name);
-      writeFileSync(file, JSON.stringify(value));
+      writeFileSync(file, typeof value === 'string' ? value : JSON.stringify(value));
       return file;
     };
     const scriptFile = join(dir, 'run.sh');
@@ -129,8 +146,10 @@ function runGuards({meta, siteBefore, siteAfter, expected = GOOD_SHA, deployId =
       EXPECTED_COMMIT: expected,
       META_FILE: write('meta.json', meta),
       SITE_BEFORE_FILE: write('site_before.json', siteBefore),
+      ARTIFACT_MANIFEST_FILE: write('artifact_manifest.json', manifest),
       RESTORE_FILE: write('restore.json', deployMeta()),
       SITE_AFTER_FILE: write('site_after.json', siteAfter),
+      LIVE_MANIFEST_FILE: write('live_manifest.json', liveManifest),
     };
     try {
       const stdout = execFileSync('bash', [scriptFile], {env, encoding: 'utf8'});
@@ -247,5 +266,152 @@ test('fails when production does not land on the required deploy', () => {
     }),
     'PRODUCTION_NOT_ON_REQUIRED_DEPLOY',
   );
+});
+
+/**
+ * The decisive case: preview #468 is a healthy, ready, correctly-committed
+ * artifact that must never be promoted, because a preview build carries no
+ * release manifest. These cases assert the refusal, not a tolerance.
+ */
+test('refuses the real preview artifact, whose manifest is the SPA fallback', () => {
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore: siteMeta(),
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+      manifest: SPA_FALLBACK_HTML,
+    }),
+    'ARTIFACT_MANIFEST_NOT_JSON',
+  );
+});
+
+test('refuses an artifact whose manifest is absent', () => {
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore: siteMeta(),
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+      manifest: '',
+    }),
+    'ARTIFACT_MANIFEST_NOT_JSON',
+  );
+});
+
+test('refuses a manifest that attests another commit', () => {
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore: siteMeta(),
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+      manifest: artifactManifest({sha: OTHER_SHA}),
+    }),
+    'ARTIFACT_MANIFEST_SHA_MISMATCH',
+  );
+});
+
+test('refuses a manifest that attests another deploy', () => {
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore: siteMeta(),
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+      manifest: artifactManifest({deploy_id: '6b093fce31a2c5175aa3378a'}),
+    }),
+    'ARTIFACT_MANIFEST_DEPLOY_MISMATCH',
+  );
+});
+
+test('refuses a manifest from another issuer', () => {
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore: siteMeta(),
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+      manifest: artifactManifest({issuer: 'someone/else'}),
+    }),
+    'ARTIFACT_MANIFEST_ISSUER_MISMATCH',
+  );
+});
+
+test('refuses a manifest whose context is not production', () => {
+  for (const context of ['deploy-preview', 'branch-deploy', 'production ']) {
+    expectRefusal(
+      runGuards({
+        meta: deployMeta(),
+        siteBefore: siteMeta(),
+        siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+        manifest: artifactManifest({context}),
+      }),
+      'ARTIFACT_MANIFEST_CONTEXT_NOT_PRODUCTION',
+    );
+  }
+});
+
+test('refuses a manifest carrying no context at all', () => {
+  const manifest = artifactManifest();
+  delete manifest.context;
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore: siteMeta(),
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+      manifest,
+    }),
+    'ARTIFACT_MANIFEST_CONTEXT_NOT_PRODUCTION',
+  );
+});
+
+/**
+ * Publication is not done when the API says so: it is done when the public host
+ * serves the manifest of the deploy just published. A live site that cannot
+ * attest itself would break the next production build.
+ */
+test('fails when the public host serves a manifest naming another commit', () => {
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore: siteMeta(),
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+      liveManifest: artifactManifest({sha: OTHER_SHA}),
+    }),
+    'LIVE_MANIFEST_SHA_MISMATCH',
+  );
+});
+
+test('fails when the public host serves a manifest naming another deploy', () => {
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore: siteMeta(),
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+      liveManifest: artifactManifest({deploy_id: '6b093fce31a2c5175aa3378a'}),
+    }),
+    'LIVE_MANIFEST_DEPLOY_MISMATCH',
+  );
+});
+
+test('fails when the live manifest is the SPA fallback instead of JSON', () => {
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore: siteMeta(),
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+      liveManifest: SPA_FALLBACK_HTML,
+    }),
+    'LIVE_MANIFEST_NOT_JSON',
+  );
+});
+
+test('prints the exact rollback target before touching production', () => {
+  const result = runGuards({
+    meta: deployMeta(),
+    siteBefore: siteMeta(),
+    siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+  });
+  assert.equal(result.ok, true, result.stdout);
+  // The deploy production served before is the only valid way back.
+  assert.match(result.stdout, /ROLLBACK_TARGET= 6b093fce31a2c5175aa3378a 2f60880e0737d619d357c4b2941f6a463696f08e/);
+  assert.match(result.stdout, /live_manifest_sha= 9317fb0dce9119f9fe91672819a4e73d5123df9a/);
+  assert.match(result.stdout, /live_manifest_context= production/);
 });
 });
