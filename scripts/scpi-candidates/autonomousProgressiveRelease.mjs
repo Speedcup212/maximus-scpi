@@ -14,6 +14,11 @@ const HEX24=/^[a-f0-9]{24}$/;
 const HEX64=/^[a-f0-9]{64}$/;
 const env=name=>process.env[name] || (()=>{throw Error('MISSING_'+name)})();
 const fail=message=>{throw Error('PROGRESSIVE_RELEASE_FAILED_CLOSED:'+message)};
+// JWT legacy (3 segments) → apikey + Bearer ; clé opaque (1 segment, ex. sb_secret_*) → apikey seul.
+const supabaseHeaders=(key,extra={})=>
+ key.split('.').length===3
+  ? {apikey:key,Authorization:'Bearer '+key,...extra}
+  : {apikey:key,...extra};
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const normal=name=>String(name||'').normalize('NFD')
  .replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
@@ -101,7 +106,7 @@ async function run(){
  const source=validateProvisionalCatalog(cohort,catalog,slug);
  const service=env('SUPABASE_SERVICE_ROLE_KEY');
  const baseUrl=env('SUPABASE_URL').replace(/\/$/,'');
- const h={apikey:service,Authorization:'Bearer '+service,'Content-Type':'application/json'};
+ const h=supabaseHeaders(service,{'Content-Type':'application/json'});
  const prior=await request(baseUrl+'/rest/v1/scpi_indicators?select=scpi_slug&scpi_slug=eq.'+slug,{headers:h});
  if(prior.length){console.log('PROGRESSIVE_ALREADY_PUBLISHED_SKIP',slug);return}
  const reportPath=path.join(ROOT,'test-results/scpi-progressive-public/report.json');
@@ -127,7 +132,7 @@ async function run(){
     !result.candidate_slugs?.includes(slug))fail('ATOMIC_RELEASE_READBACK_INVALID');
  const anon=env('SUPABASE_ANON_KEY');
  const rows=await request(baseUrl+'/rest/v1/scpi_indicators?select=scpi_slug,qa_status&scpi_slug=eq.'+slug,{
-  headers:{apikey:anon,Authorization:'Bearer '+anon}});
+  headers:supabaseHeaders(anon)});
  if(rows.length!==1||rows[0].qa_status!=='verified_primary_source_with_reserves')fail('ANON_VISIBLE_PUBLICATION_MISSING');
  console.log('PROGRESSIVE_PUBLICATION_COMPLETE',JSON.stringify({sha,site,result,anonymousReadback:rows}));
 }

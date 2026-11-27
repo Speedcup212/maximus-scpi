@@ -10,6 +10,7 @@
 import {createClient} from '@supabase/supabase-js';
 import {createHash} from 'node:crypto';
 import type {Config,Context} from '@netlify/functions';
+import { resolveServiceKey, resolveAnonKey } from './_keySource';
 
 const UUID24=/^[a-f0-9]{24}$/;
 const SHA40=/^[a-f0-9]{40}$/;
@@ -55,8 +56,9 @@ export default async (_req:Request,context:Context)=>{
    return;
  }
  const supabaseUrl=process.env.SUPABASE_URL;
- const backendKey=process.env.SUPABASE_SERVICE_ROLE_KEY;
- const anon=process.env.VITE_SUPABASE_ANON_KEY;
+ // Nouvelles clés prioritaires, repli transitoire legacy (source loggée via [key-source]).
+ const { key: backendKey } = resolveServiceKey(process.env);
+ const { key: anon } = resolveAnonKey(process.env);
  if(!supabaseUrl||!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(supabaseUrl)||
     !backendKey||!anon)error('NETLIFY_SERVER_VARIABLES_INCOMPLETE');
  // Netlify project values are server-only inside a function; do not send or

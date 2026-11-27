@@ -1,4 +1,5 @@
 import type { Handler } from '@netlify/functions';
+import { resolveServiceKey } from './_keySource';
 
 // Reconnect the EXISTING funnel_events audit table. No new tracking service,
 // anonymous INSERT policy or public Supabase credential is introduced.
@@ -49,6 +50,14 @@ const respond = (statusCode: number, code: string) => ({
   headers: COMMON_HEADERS,
   body: JSON.stringify({ error: code }),
 });
+
+// JWT legacy (3 segments) → apikey + Bearer ; clé opaque (1 segment, ex. sb_secret_*) → apikey seul.
+// Envoyer une clé opaque en `Authorization: Bearer` échoue (« Invalid JWT »).
+const supabaseHeaders = (key: string, extra: Record<string, string> = {}): Record<string, string> =>
+  key.split('.').length === 3
+    ? { apikey: key, Authorization: 'Bearer ' + key, ...extra }
+    : { apikey: key, ...extra };
+
 type EventPayload = {
   event_name?: unknown;
   session_id?: unknown;
@@ -116,7 +125,12 @@ export const handler: Handler = async (event) => {
   }
 
   const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-  const secret = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  // Source ET empreinte journalisées par le module partagé (jamais la valeur) : le
+  // `fp=` est la seule pièce qui permette au contrôle indépendant de vérifier, dans
+  // §7.7 du handoff, que la clé effectivement consommée est bien la nouvelle. Sans
+  // elle, un repli legacy silencieux reste indétectable et la panne n'apparaît qu'à
+  // la révocation. Une seule implémentation du motif pour tous les scopes Netlify.
+  const { key: secret } = resolveServiceKey(process.env);
   if (!supabaseUrl || !secret || !/^https:\/\/[a-z0-9.-]+$/i.test(supabaseUrl.replace(/\/$/, ''))) {
     return respond(503, 'analytics_unavailable');
   }
@@ -125,12 +139,10 @@ export const handler: Handler = async (event) => {
       supabaseUrl.replace(/\/$/, '') + '/rest/v1/funnel_events',
       {
         method: 'POST',
-        headers: {
+        headers: supabaseHeaders(secret, {
           'Content-Type': 'application/json',
-          apikey: secret,
-          Authorization: 'Bearer ' + secret,
           Prefer: 'return=minimal',
-        },
+        }),
         body: JSON.stringify({
           event_name: eventName,
           session_id: sessionId,

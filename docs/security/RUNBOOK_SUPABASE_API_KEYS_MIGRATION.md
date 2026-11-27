@@ -53,6 +53,13 @@ Ils consomment `secrets.SUPABASE_SERVICE_ROLE_KEY` et `secrets.VITE_SUPABASE_ANO
 
 ## 3. Modifications de code déjà effectuées (branche `security/api-key-migration-20261124`)
 
+> **Manifeste machine-vérifiable** : le périmètre, les états par fonction, la condition de
+> rollback exact et la preuve de résolution de clé par fonction sont désormais calculés et
+> testés en CI par `scripts/security/edgeFunctionDeploymentManifest.mjs`
+> (+ `edgeFunctionDeploymentManifest.test.mjs`, `handoffManifestConsistency.test.mjs`).
+> Voir le handoff §2.7. `node scripts/security/edgeFunctionDeploymentManifest.mjs --check`
+> échoue dès que le registre commité dérive des sources.
+
 ### 3.1 Frontend — suppression des `Authorization: Bearer <anon>`
 
 Nouveau helper : `src/utils/supabaseAuthHeaders.ts` (`restHeaders`, `functionHeaders`)
@@ -166,10 +173,18 @@ Commande : `npx vitest run src/tests/supabaseAuthHeaders.test.ts src/tests/scpiS
 Les gardes ne laissent passer SANS contrôle que si **`legacyJwt === true`** (verify_jwt actif)
 **ET** que les variables de clés sont **absentes**. Dans tous les autres cas, elles refusent
 **(fail-closed)** : config absente en mode `legacyJwt=false` → 503, config vide/invalide →
-503, clé incorrecte → 401. Invariant de déploiement (commenté dans `auth.ts`) :
-**`verify_jwt = false` n'est autorisé QUE si une garde est en place, avec `legacyJwt=false`,
-ET que les clés correspondantes sont effectivement configurées.** Aucune fonction n'est
-basculée en `verify_jwt = false` sans garde de remplacement testée.
+503, clé incorrecte → 401.
+
+**Réconciliation production (§8.5) :** les fonctions backend (cron / OIDC / Calendly) sont
+**déjà en `verify_jwt=false`** et le restent ; leur sécurité repose sur une
+**authentification interne** (jeton cron SHA-256, OIDC GitHub, signature Calendly, contrôles
+serveur), pas sur une garde `apikey`. L'invariant correct est donc :
+
+**`verify_jwt = false` n'est autorisé QUE si** (a) **une garde `apikey` est en place avec
+`legacyJwt=false`** et les clés correspondantes configurées, **ou** (b) **une
+authentification interne effective** (cron/OIDC/Calendly/contrôles serveur) protège la
+fonction. Aucune fonction n'est mise en `verify_jwt = false` **sans** l'un de ces deux
+mécanismes.
 
 ### 4.3 Tests préexistants en échec (sans lien avec cette PR)
 
@@ -220,8 +235,8 @@ fusion est **CLEAN**.
    - `SUPABASE_SERVICE_ROLE_KEY_NEW` = clé `netlify` (protégée, contexte Production uniquement).
    - `VITE_SUPABASE_ANON_KEY_NEW` = clé publishable (correspondance exacte vérifiée).
    - Anciennes variables `SUPABASE_SERVICE_ROLE_KEY` / `VITE_SUPABASE_ANON_KEY` **conservées**.
-3. **GitHub → Secrets → Actions** : ✅ `SUPABASE_SERVICE_ROLE_KEY_NEW` créé (24/11) ; `SUPABASE_SERVICE_ROLE_KEY` (legacy) conservé.
-   - À l'étape de swap (après run CI vert), pointer les workflows sur `SUPABASE_SERVICE_ROLE_KEY_NEW`.
+3. **GitHub → Secrets → Actions** : ✅ `SUPABASE_SERVICE_ROLE_KEY_NEW` **et** `VITE_SUPABASE_ANON_KEY_NEW` créés (24/11) ; `SUPABASE_SERVICE_ROLE_KEY` / `VITE_SUPABASE_ANON_KEY` (legacy) conservés.
+   - Le swap des workflows est **codé** (3 workflows pointent sur `SUPABASE_SERVICE_ROLE_KEY_NEW` **et** `VITE_SUPABASE_ANON_KEY_NEW`) et prend effet à la fusion de la PR #458.
 
 ### Étape 2 — Déployer le code (backend d'abord, puis frontend)
 
@@ -292,8 +307,10 @@ Edge Function qui ne sait pas encore la lire :
    supabase functions deploy scpi-scoring          --no-verify-jwt --project-ref ygvsddcpohsnaowofuwc
    ```
    > `--no-verify-jwt` impose `legacyJwt=false` : la garde est la SEULE auth (fail-closed).
-2. **Vérifier** que `sender-add-contact` accepte une clé secrète (curl smoke test) et rejette
-   une clé publishable (401/503).
+2. **Vérifier** (curl smoke test) que `sender-add-contact` **accepte** une clé publishable
+   **et** une clé secrète (`requireApiKey` = publishable OU secret), et **rejette** une clé
+   inconnue (401) / l'absence de clé configurée (503 fail-closed). Ne pas désactiver la garde
+   sans vérifier la protection applicative et les refus effectifs.
 3. **Appliquer la migration Vault** (2a) — désormais la clé `pgnet_webhooks` envoyée par
    pg_net sera acceptée par `sender-add-contact`.
 4. **Réactiver le trigger pg_net** uniquement si le flux est réutilisé (actuellement absent).
@@ -327,10 +344,12 @@ Edge Function qui ne sait pas encore la lire :
 - **Edge Functions** : deux options selon la cause de l'échec :
   - Si les clés nouvelles restent configurées, les gardes continuent d'accepter les clés
     `sb_publishable_*`/`sb_secret_*` (aucune action).
-  - Pour revenir au modèle legacy (`verify_jwt` actif), redéployer **sans** `--no-verify-jwt`
-    ET avec `legacyJwt: true` (les gardes redeviennent des no-op seulement si les variables
-    de clés sont absentes). Le repli `SUPABASE_SERVICE_ROLE_KEY` reste fonctionnel tant que
-    la clé legacy n'est pas révoquée.
+  - **Rollback de code** : restaurer la fonction depuis `dfc6b309` (véritable version
+    précédente) puis redéployer **avec** `--no-verify-jwt` — l'état de production est
+    `verify_jwt=false`, pas `verify_jwt` actif : `git checkout dfc6b309 -- supabase/functions/<name>`.
+  - **Rollback de config (recommandé)** : le code de `main` (`675ab161`) replie sur
+    `SUPABASE_SERVICE_ROLE_KEY` tant qu'elle n'est pas révoquée ; ne pas configurer
+    `SUPABASE_SECRET_KEYS` suffit à revenir sur la clé legacy sans redéploiement.
 - **Netlify `lead-fallback`** : `SUPABASE_SERVICE_ROLE_KEY_NEW` est déjà le premier choix ;
   supprimer cette variable revient au repli `SUPABASE_SERVICE_ROLE_KEY` sans redéploiement.
 - **pg_net (rollback SQL)** — restaurer l'ancienne fonction à JWT en dur si le flux
@@ -374,10 +393,33 @@ par consommateur, avec des variables temporaires dédiées :
 | 3 | `github_actions` | `SUPABASE_SERVICE_ROLE_KEY_NEW` | `SUPABASE_SERVICE_ROLE_KEY` | swap manuel après un run CI vert |
 | 4 | Frontend (Vite) | `VITE_SUPABASE_ANON_KEY_NEW` | `VITE_SUPABASE_ANON_KEY` | swap manuel après vérif comparateur |
 | 5 | `pgnet_webhooks` (Vault) | secret Vault `pgnet_webhooks` | `app.settings.service_role_key` | n/a tant que le trigger n'est pas réactivé |
+| 6 | **HMAC interne** (dispatch ingestion Netlify) | `INGEST_HMAC_SECRET` (dédié) | `SUPABASE_SERVICE_ROLE_KEY` | code prêt (`_ingest-hmac.ts`), **non déployé** — voir §7.1 |
 
 **Règle** : chaque étape introduit la nouvelle clé sous une variable distincte, valide
 (smoke test), puis supprime l'ancienne. On ne révoque la clé legacy globale (`anon` /
 `service_role`) qu'à l'Étape 4, une fois toutes les surfaces validées.
+
+### 7.1 Séparation du secret HMAC interne (préparée, non déployée)
+
+Le cron Netlify `scpi-ingest-scheduled` (`30 3 * * *`) signe son dispatch vers
+`scpi-ingest-background` avec un HMAC-SHA256. Le secret était `SUPABASE_SERVICE_ROLE_KEY`
+utilisé **comme secret de signature** (pas comme credential). Le code de séparation est
+préparé dans `netlify/functions/_ingest-hmac.ts` (helpers `signIngestDispatch`,
+`verifyIngestSignature`, `ingestHmacSecrets`) et testé (`ingestHmacSeparation.test.ts`,
+9 tests). Bascules :
+
+1. Créer `INGEST_HMAC_SECRET` (Netlify, scope `Builds, Functions, Runtime`).
+2. Déployer ensemble `scpi-ingest-scheduled` + `scpi-ingest-background`.
+3. Le signataire préfère `INGEST_HMAC_SECRET` ; le vérificateur accepte les **deux**
+   secrets (double fenêtre) → aucune coupure.
+4. Retirer le repli legacy **avant ou au moment de** la révocation Supabase (jamais
+   après) : la révocation de la clé Supabase **ne neutralise pas** la chaîne encore
+   présente dans l'environnement Netlify, qui reste un secret HMAC accepté tant que le
+   repli n'est pas supprimé.
+
+> **Preuve d'utilisation effective** : les points de résolution de clé journalisent la
+> source (`[key-source]`) et une empreinte SHA-256 tronquée (12 hex), jamais la valeur —
+> voir `HANDOFF…MIGRATION.md` §7.7 pour la procédure de vérification croisée.
 
 ---
 
@@ -438,8 +480,10 @@ préserve le patron Vault pour l'avenir. ✅ Le secret Vault `pgnet_webhooks` es
   Le scan de secrets (commit `cc2c42fb` + working tree) ne remonte **aucune** clé réelle
   (`sb_publishable_*`/`sb_secret_*`), **aucun** JWT `eyJ…` dans le code hors migrations
   legacy de projet supprimé.
-- `verify_jwt` n'est jamais désactivé sans garde testée (`requireApiKey`/`requirePublishableKey`/
-  `requireSecretKey`) et sans clés configurées.
+- `verify_jwt=false` n'est conservé que si la fonction a une authentification interne
+  effective : garde testée (`requireApiKey`/`requirePublishableKey`/`requireSecretKey`)
+  avec clés configurées, **ou** jeton cron/OIDC GitHub/signature Calendly/contrôles serveur.
+  Aucune fonction n'est laissée ouverte sans contrôle.
 - Les clés legacy sont **révoquées en dernier**, uniquement après validation complète.
 - Aucune nouvelle SCPI, aucun nouvel orchestrateur, aucune régression des 69/69.
 
@@ -450,8 +494,8 @@ préserve le patron Vault pour l'avenir. ✅ Le secret Vault `pgnet_webhooks` es
 | Service | Action | Variable nouvelle | Garde / auth | Statut |
 |---|---|---|---|---|
 | Frontend Vite (PostgREST) | `restHeaders`/`functionHeaders` sur `apikey` | `VITE_SUPABASE_ANON_KEY_NEW` | clé publishable | ✅ code + test |
-| Frontend Vite (`scpi-scoring` simulation) | `functionHeaders` sur `apikey` | `VITE_SUPABASE_ANON_KEY_NEW` | `requirePublishableKey` | ✅ code + test |
-| `scpi-scoring` persistance (`save_to_db`) | `readServiceKey(scpi_agents)` | `SUPABASE_SECRET_KEYS["scpi_agents"]` | `requireSecretKey` | ✅ code + test |
+| Frontend Vite (`scpi-scoring` simulation) | `functionHeaders` sur `apikey` | `VITE_SUPABASE_ANON_KEY_NEW` | `requirePublishableKey` | ✅ code + test ; **fonction NON déployée, non appelée en prod** |
+| `scpi-scoring` persistance (`save_to_db`) | `readServiceKey(scpi_agents)` | `SUPABASE_SECRET_KEYS["scpi_agents"]` | `requireSecretKey` | ✅ code + test ; **déploiement optionnel (hors chemin critique)** |
 | `send-lead-notification` | `requireApiKey` | publishable OU secret | `requireApiKey` (`legacyJwt=false`) | ✅ code |
 | `sender-add-contact` | `requireApiKey` | publishable OU secret | `requireApiKey` (`legacyJwt=false`) | ✅ code |
 | Netlify `lead-fallback` | envoi `apikey` | `SUPABASE_SERVICE_ROLE_KEY_NEW` → repli legacy | clé secrète | ✅ code |
@@ -463,3 +507,83 @@ préserve le patron Vault pour l'avenir. ✅ Le secret Vault `pgnet_webhooks` es
 
 **Non-fusion / non-révocation** : la PR reste **non fusionnée**, aucune clé legacy n'est
 révoquée, aucun `db push` global, 69/69 PASS_100 maintenu.
+
+---
+
+## 11. Conservation de l'archive de custody : accès restreint, mesuré et non revendiqué
+
+L'arbitrage du 2026-11-27 19:33Z refuse de considérer le store persistant comme un coffre
+durci. Le fait est mesuré, et il est **reproductible** :
+
+| Contrôle | Résultat sur le store `fuse.agent-store` | Résultat sur ext4 |
+|---|---|---|
+| `chmod 600` puis `stat` | mode inchangé `0o666`, `chmod` sort en succès | mode `0o600` |
+| Lecture par un autre uid | **autorisée** | refusée |
+| `mkdir 0700` | `0o777` | `0o700` |
+| `chmod 700` sur le répertoire | `Operation not permitted` | autorisé |
+
+Conséquence : sur ce store, déposer la phrase secrète à côté de l'archive chiffrée ne
+protège **pas plus** que de ne pas chiffrer. La durabilité y est acquise ; la restriction
+d'accès ne l'est pas.
+
+### Outil de mesure
+
+```bash
+node scripts/security/auditCustodyConservation.mjs \
+  --store-root <dir> --archive <archive.tar.enc> --secret <phrase.txt> \
+  [--off-store-copy <chemin>]... [--json]
+```
+
+Sortie **0** si `RESTRICTED_ACCESS`, **1** sinon, **2** si l'usage est invalide. L'outil ne
+lit jamais le contenu du secret (`stat` seulement), n'écrit aucun fichier hors de la sonde
+temporaire qu'il retire, et ne lit aucune variable d'environnement.
+
+Verdicts possibles, tous nommés :
+
+| Verdict | Signification |
+|---|---|
+| `RESTRICTED_ACCESS` | tous les faits mesurés sont conformes ; **jamais** qualifié de durci |
+| `UNRESTRICTED` | au moins un fait contredit la restriction (codes ci-dessous) |
+| `UNDETERMINED` | aucun fait ne contredit, mais un fait manque — jamais traité comme succès |
+
+Codes de refus : `PATH_OUTSIDE_DECLARED_ROOT`, `MODE_ENFORCEMENT_ABSENT`,
+`SECRET_READABLE_BY_OTHER_USERS`, `SECRET_COLOCATED_WITH_ARCHIVE`, `SINGLE_FACTOR_SECRET`,
+`NO_OFF_STORE_COPY` ; codes d'incertitude : `MODE_ENFORCEMENT_UNDETERMINED`,
+`MOUNT_TYPE_UNDETERMINED`.
+
+### Mesure du 2026-11-27 20:27Z (état réel, non corrigé)
+
+Verdict `UNRESTRICTED`, `hardened=false`, cinq motifs : `MODE_ENFORCEMENT_ABSENT` (chmod
+sans effet, mode observé `0o666`), `SECRET_READABLE_BY_OTHER_USERS` (secret en `0o666`),
+`SECRET_COLOCATED_WITH_ARCHIVE` (secret et archive sur `/cursor/stores`),
+`SINGLE_FACTOR_SECRET` (un seul custodian : le pod), `NO_OFF_STORE_COPY` (aucune copie hors
+store). Ce résultat est le **résultat honnête** : il n'y a rien à « corriger » dans le
+rapport.
+
+### Seul levier disponible dans ce périmètre : deux custodiens
+
+Le store ne peut pas restreindre les droits, mais un secret à deux parts rend la
+compromission du pod **insuffisante** à elle seule :
+
+1. le propriétaire crée une part de 256 bits **hors du pod** et la garde dans son
+   gestionnaire de mots de passe ;
+2. l'archive est rescellée avec `buildCustodiedPassphrase(podPart, ownerPart)` — même AEAD,
+   phrase d'entrée différente ;
+3. la part `pod` seule **échoue** (`CUSTODY_AUTHENTICATION_FAILED`), la part `owner` seule
+   aussi, la paire réussit. Cette propriété est **testée** contre le chiffrement réel
+   (`custodyConservation.test.mjs`), pas seulement décrite ;
+4. une copie de l'archive est déclarée hors du store **avant** toute suppression du secret
+   local.
+
+`conservationPlan()` énumère ces étapes avec leur détenteur et leur preuve. **Aucune étape
+du propriétaire n'est exécutée par l'agent** : la part hors pod et la copie hors store
+supposent un humain hors du pod.
+
+### Ce qui reste faux, et doit rester écrit ainsi
+
+- Aucune restauration exercée : `restoreExercised=false`, `rollbackReady` 0/16,
+  `AUTHORIZED_RESTORE_PROJECT_REFS` vide, ancre `keyId`/`publicKeyPem` `null`.
+- Le store n'est **pas** un coffre durci, et aucun verdict de cet outil ne l'affirmera.
+- La migration vers deux custodiens est **préparée**, pas faite : elle change la phrase
+  secrète de l'archive réelle et appartient au propriétaire.
+
