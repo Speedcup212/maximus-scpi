@@ -17,7 +17,16 @@ import { createHash } from 'node:crypto';
 
 type Env = Record<string, string | undefined>;
 
-const fingerprint = (value: string): string =>
+/**
+ * Empreinte SHA-256 tronquée à 12 hexadécimaux (§7.7 du handoff) — jamais la valeur.
+ *
+ * Elle doit être **recalculable** par `printf %s "$VALEUR" | sha256sum | cut -c1-12`.
+ * On emploie donc le SHA-256 du runtime Node (`node:crypto`) plutôt qu'une
+ * implémentation maison : une empreinte qui ne se recalcule pas comme la procédure
+ * documentée ferait conclure à tort « la clé utilisée n'est pas la nouvelle » sur
+ * une configuration pourtant saine.
+ */
+export const keyFingerprint = (value: string): string =>
   value ? createHash('sha256').update(value).digest('hex').slice(0, 12) : '';
 
 function resolveKey(
@@ -28,13 +37,13 @@ function resolveKey(
 ): { key: string; source: string } {
   const primaryValue = env[primary];
   if (primaryValue) {
-    console.log(`[key-source] ${label} <- ${primary} (fp=${fingerprint(primaryValue)})`);
+    console.log(`[key-source] ${label} <- ${primary} (fp=${keyFingerprint(primaryValue)})`);
     return { key: primaryValue, source: primary };
   }
   for (const name of legacy) {
     const value = env[name];
     if (value) {
-      console.warn(`[key-source] ${label} <- ${name} (repli legacy, fp=${fingerprint(value)})`);
+      console.warn(`[key-source] ${label} <- ${name} (repli legacy, fp=${keyFingerprint(value)})`);
       return { key: value, source: name };
     }
   }

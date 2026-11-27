@@ -1,4 +1,5 @@
 import type { Handler } from '@netlify/functions';
+import { resolveServiceKey } from './_keySource';
 
 // Reconnect the EXISTING funnel_events audit table. No new tracking service,
 // anonymous INSERT policy or public Supabase credential is introduced.
@@ -56,6 +57,7 @@ const supabaseHeaders = (key: string, extra: Record<string, string> = {}): Recor
   key.split('.').length === 3
     ? { apikey: key, Authorization: 'Bearer ' + key, ...extra }
     : { apikey: key, ...extra };
+
 type EventPayload = {
   event_name?: unknown;
   session_id?: unknown;
@@ -123,18 +125,12 @@ export const handler: Handler = async (event) => {
   }
 
   const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-  // Nouvelle clé backend (sb_secret_*) prioritaire, repli transitoire legacy.
-  // Source journalisée (nom de variable, jamais la valeur) pour prouver l'usage
-  // de la nouvelle clé sans exposer sa valeur — self-contained (pas d'import
-  // local, pas de node:crypto) pour rester exécutable en VM par les tests.
-  const secret =
-    process.env.SUPABASE_SERVICE_ROLE_KEY_NEW ||
-    process.env.SUPABASE_SERVICE_ROLE_KEY;
-  console.log(
-    process.env.SUPABASE_SERVICE_ROLE_KEY_NEW
-      ? '[key-source] service <- SUPABASE_SERVICE_ROLE_KEY_NEW'
-      : '[key-source] service <- SUPABASE_SERVICE_ROLE_KEY (repli legacy)',
-  );
+  // Source ET empreinte journalisées par le module partagé (jamais la valeur) : le
+  // `fp=` est la seule pièce qui permette au contrôle indépendant de vérifier, dans
+  // §7.7 du handoff, que la clé effectivement consommée est bien la nouvelle. Sans
+  // elle, un repli legacy silencieux reste indétectable et la panne n'apparaît qu'à
+  // la révocation. Une seule implémentation du motif pour tous les scopes Netlify.
+  const { key: secret } = resolveServiceKey(process.env);
   if (!supabaseUrl || !secret || !/^https:\/\/[a-z0-9.-]+$/i.test(supabaseUrl.replace(/\/$/, ''))) {
     return respond(503, 'analytics_unavailable');
   }
