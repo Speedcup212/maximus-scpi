@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "rollback-verifier-anchor-v1",
+  "purpose": "Ancre de confiance des attestations de rollback. Ne contient que des clés PUBLIQUES. La clé privée ne quitte jamais le poste du vérificateur indépendant.",
+  "whyPinnedHere": "Le contrôle du 25/11 a établi qu'un chemin hors dépôt n'est pas une frontière de confiance : un opérateur qui écrit l'évidence ET l'attestation peut inventer les deux identités et les deux empreintes. Seule une signature vérifiée contre une clé publique épinglée DANS ce fichier — donc modifiable seulement par un changement de dépôt relu — distingue une attestation d'un document forgé. Aucune variable d'environnement ne peut redésigner cette ancre.",
+  "provisioningRule": "Chaque vérificateur est inutilisable tant que publicKeyPem et keyId valent null. Le gate reste alors fermé (ANCHOR_KEY_NOT_PROVISIONED) : c'est l'état correct tant que le contrôle indépendant n'a pas publié sa clé publique dans une PR relue.",
+  "verifiers": [
+    {
+      "identity": "chatgpt-independent-controller",
+      "label": "Contrôle indépendant ChatGPT — vérification de restauration hors production",
+      "algorithm": "ed25519",
+      "keyId": null,
+      "publicKeyPem": null,
+      "provisioningStatus": "PENDING_INDEPENDENT_KEY_PROVISIONING",
+      "revokedKeyIds": []
+    }
+  ]
+}
