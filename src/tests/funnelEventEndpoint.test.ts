@@ -1,15 +1,10 @@
-import { readFileSync } from 'node:fs';
-import vm from 'node:vm';
-import ts from 'typescript';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { handler as funnelHandler } from '../../netlify/functions/funnel-event';
 
 // Execute the real function with isolated, fake server credentials and fetch.
 // No live Supabase client, database write or Netlify runtime is involved.
-const source = readFileSync(new URL('../../netlify/functions/funnel-event.ts', import.meta.url), 'utf8');
-const executable = ts.transpileModule(source, {
-  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS },
-}).outputText;
-
+// Le module est importé réellement : la résolution de modules et `node:crypto` du
+// runtime font partie de ce qui est testé, et non simulés par un contexte `vm`.
 type EndpointResponse = { statusCode: number; body: string };
 type EndpointInput = { httpMethod: string; headers: Record<string, string>; body: string };
 type EndpointHandler = (event: EndpointInput) => Promise<EndpointResponse>;
@@ -22,15 +17,19 @@ describe('first-party funnel endpoint UTM allowlist', () => {
   beforeEach(() => {
     write.mockReset();
     write.mockResolvedValue(new Response(null, { status: 201 }));
-    const exports = {} as { handler: EndpointHandler };
-    vm.runInNewContext(executable, {
-      exports, Buffer, console, fetch: write,
-      process: { env: {
-        SUPABASE_URL: 'https://example.supabase.co',
-        SUPABASE_SERVICE_ROLE_KEY: 'test-only-not-a-real-key',
-      } },
-    });
-    handler = exports.handler;
+    vi.stubGlobal('fetch', write);
+    vi.stubEnv('SUPABASE_URL', 'https://example.supabase.co');
+    vi.stubEnv('SUPABASE_SERVICE_ROLE_KEY_NEW', '');
+    vi.stubEnv('SUPABASE_SERVICE_ROLE_KEY', 'test-only-not-a-real-key');
+    vi.spyOn(console, 'log').mockImplementation(() => {});
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    handler = funnelHandler as unknown as EndpointHandler;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
   });
 
   function input(metadata: Record<string, unknown>): EndpointInput {
