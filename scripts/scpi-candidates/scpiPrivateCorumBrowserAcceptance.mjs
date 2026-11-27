@@ -37,6 +37,18 @@ const visit=async(route,contains,timeout=13000)=>{
  if(/^\/corum-(eurion|origin|usa|xl)\/$/.test(route))
    await page.waitForFunction(()=>document.body?.innerText?.includes('Obtenir mon analyse personnalisée'),
      {timeout:18000});
+ // `document.body` existe dès le HTML statique : ce n'était donc pas une preuve de montage.
+ // Et `contains` est satisfait par le pré-rendu SEO lui-même (la coquille de cette route
+ // contient le mot « démembrement »), si bien que les assertions qui suivent pouvaient
+ // s'exécuter avant l'hydratation React. Mesuré en local sur /simulateur-demembrement-scpi/ :
+ // 0 <input> juste après `domcontentloaded`, 6 <input> 3 s plus tard — le gate échouait alors
+ // que le produit fonctionnait. C'était un faux négatif, jamais un faux positif.
+ // Signal retenu : la coquille pré-rendue placée dans `#root` (`.initial-shell` sur l'accueil,
+ // `.seo-shell` sur les routes SEO), que React démonte en s'hydratant. Il ne dépend d'aucun
+ // libellé produit, donc il ne peut pas être satisfait par le HTML statique lui-même.
+ await page.waitForFunction(
+   ()=>!document.querySelector('#root .initial-shell, #root .seo-shell'),
+   {timeout:25000});
  // Cookie choice is a REAL visible modal in Chromium; dismiss it with the
  // "Refuser tout" button rather than misdiagnosing the comparator as broken.
  await page.waitForFunction(()=>Boolean(document.querySelector('body')),
