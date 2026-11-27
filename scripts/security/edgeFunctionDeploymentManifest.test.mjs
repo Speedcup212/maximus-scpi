@@ -68,15 +68,19 @@ test('le décompte publié dans le ticket est reproductible et explicite', () =>
   );
 });
 
-test('les cinq fonctions orphelines sont hors périmètre et bloquent la révocation', () => {
+test('les quatre workers réintégrés restent hors périmètre et bloquent la révocation jusqu au déploiement', () => {
   const m = manifest();
-  const orphans = m.outOfPerimeter.filter((x) => x.reason === 'SOURCE_ABSENT_FROM_REPO');
-  assert.equal(orphans.length, 5);
-  for (const o of orphans) {
+  const pending = m.outOfPerimeter.filter((x) => x.reason === 'SOURCE_REINTEGRATED_PENDING_DEPLOY');
+  assert.equal(pending.length, 4);
+  for (const o of pending) {
     assert.equal(o.blocksRevocation, true, `${o.name} doit bloquer la révocation`);
     assert.equal(m.functions.some((f) => f.name === o.name), false);
+    assert.match(o.rollbackArtifactSha256, /^[0-9a-f]{64}$/, `${o.name} : sceau rollback absent`);
   }
-  assert.equal(m.counts.revocationBlockers >= 5, true);
+  const watchdog = m.outOfPerimeter.find((x) => x.name === 'maximus-watchdog-oidc');
+  assert.equal(watchdog.reason, 'USES_DB_URL_NOT_SERVICE_ROLE');
+  assert.equal(watchdog.blocksRevocation, false);
+  assert.equal(m.counts.revocationBlockers, 4);
   assert.equal(m.revocationAllowed, false);
 });
 
@@ -765,16 +769,17 @@ test('le registre commité correspond aux sources actuelles', () => {
  */
 test('la version réelle de chaque orpheline est enregistrée dans le registre commité', () => {
   const committed = JSON.parse(readFileSync(LEDGER_PATH, 'utf8'));
-  const orphans = committed.outOfPerimeter.filter((x) => x.reason === 'SOURCE_ABSENT_FROM_REPO');
-  assert.equal(orphans.length, 5);
-  for (const o of orphans) {
+  const tracked = committed.outOfPerimeter.filter((x) =>
+    x.reason === 'SOURCE_REINTEGRATED_PENDING_DEPLOY' || x.reason === 'USES_DB_URL_NOT_SERVICE_ROLE');
+  assert.equal(tracked.length, 5);
+  for (const o of tracked) {
     assert.equal(
       Number.isInteger(o.prodVersion),
       true,
       `${o.name} : version fournisseur absente du registre, la dérive serait indétectable`,
     );
   }
-  const backfill = orphans.find((o) => o.name === 'scpi-parallel-backfill-worker');
+  const backfill = tracked.find((o) => o.name === 'scpi-parallel-backfill-worker');
   assert.equal(backfill.prodVersion, 8, 'la production sert v8, pas v11');
 });
 

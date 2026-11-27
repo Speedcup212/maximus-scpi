@@ -7,7 +7,7 @@
     "pendingKeyOnlyPatch": 1,
     "pendingCoordinatedLot": 2,
     "outOfPerimeter": 9,
-    "revocationBlockers": 5,
+    "revocationBlockers": 4,
     "preDeployReady": 0,
     "postDeployReady": 0,
     "rollbackReady": 0
@@ -248,33 +248,33 @@
   "outOfPerimeter": [
     {
       "name": "scpi-parallel-backfill-worker",
-      "reason": "SOURCE_ABSENT_FROM_REPO",
+      "reason": "SOURCE_REINTEGRATED_PENDING_DEPLOY",
       "prodVersion": 8,
       "blocksRevocation": true
     },
     {
       "name": "scpi-parallel-discover-worker",
-      "reason": "SOURCE_ABSENT_FROM_REPO",
+      "reason": "SOURCE_REINTEGRATED_PENDING_DEPLOY",
       "prodVersion": 11,
       "blocksRevocation": true
     },
     {
       "name": "scpi-annual-source-discover",
-      "reason": "SOURCE_ABSENT_FROM_REPO",
+      "reason": "SOURCE_REINTEGRATED_PENDING_DEPLOY",
       "prodVersion": 9,
       "blocksRevocation": true
     },
     {
       "name": "scpi-norma-quarterly-ingest",
-      "reason": "SOURCE_ABSENT_FROM_REPO",
+      "reason": "SOURCE_REINTEGRATED_PENDING_DEPLOY",
       "prodVersion": 11,
       "blocksRevocation": true
     },
     {
       "name": "maximus-watchdog-oidc",
-      "reason": "SOURCE_ABSENT_FROM_REPO",
+      "reason": "USES_DB_URL_NOT_SERVICE_ROLE",
       "prodVersion": 7,
-      "blocksRevocation": true
+      "blocksRevocation": false
     },
     {
       "name": "scpi-scoring",

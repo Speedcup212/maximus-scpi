@@ -24,7 +24,15 @@ import { fileURLToPath } from 'node:url';
 
 export const SERVICE_KEY_IMPORT = 'import { readServiceKey } from "../_shared/serviceKey.ts";';
 
+/** Ligne entière : `const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";` */
 const LEGACY_RESOLUTION = /^(\s*(?:const|let|var)\s+)([A-Za-z_$][\w$]*)\s*=\s*Deno\.env\.get\(\s*["']SUPABASE_SERVICE_ROLE_KEY["']\s*\)\s*(\|\||\?\?)\s*["']{2}\s*;?\s*$/;
+
+/**
+ * Forme inline des workers orphelins (bundles minifiés) :
+ * `const base=…,key=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')||'';`
+ * On ne remplace que le membre `key=Deno.env.get(…)||''`, rien d'autre sur la ligne.
+ */
+const INLINE_LEGACY_RESOLUTION = /([A-Za-z_$][\w$]*)\s*=\s*Deno\.env\.get\(\s*["']SUPABASE_SERVICE_ROLE_KEY["']\s*\)\s*(\|\||\?\?)\s*["']{2}/;
 
 export class PatchError extends Error {
   constructor(code, detail) {
@@ -32,6 +40,34 @@ export class PatchError extends Error {
     this.code = code;
     this.detail = detail;
   }
+}
+
+/** Localise une résolution legacy sur une ligne (forme dédiée ou inline). */
+export function findLegacyResolution(line) {
+  const dedicated = line.match(LEGACY_RESOLUTION);
+  if (dedicated) {
+    return {
+      kind: 'dedicated',
+      varName: dedicated[2],
+      replace(lineText, name) {
+        return `${dedicated[1]}${dedicated[2]} = readServiceKey((k) => Deno.env.get(k), "${name}");`;
+      },
+    };
+  }
+  const inline = INLINE_LEGACY_RESOLUTION.exec(line);
+  if (inline) {
+    return {
+      kind: 'inline',
+      varName: inline[1],
+      replace(lineText, name) {
+        return lineText.replace(
+          INLINE_LEGACY_RESOLUTION,
+          `${inline[1]}=readServiceKey((k)=>Deno.env.get(k),"${name}")`,
+        );
+      },
+    };
+  }
+  return null;
 }
 
 /** Repère la première ligne d'import pour y accrocher le nouvel import. */
@@ -62,27 +98,33 @@ export function applyKeyOnlyPatch(source, options = {}) {
     throw new PatchError('ALREADY_PATCHED', 'le bundle source utilise déjà readServiceKey');
   }
 
-  const legacyIndices = [];
+  const legacyHits = [];
   for (let i = 0; i < lines.length; i += 1) {
-    if (LEGACY_RESOLUTION.test(lines[i])) legacyIndices.push(i);
+    const hit = findLegacyResolution(lines[i]);
+    if (hit) legacyHits.push({ index: i, hit });
   }
-  if (legacyIndices.length === 0) {
+  if (legacyHits.length === 0) {
     throw new PatchError(
       'LEGACY_RESOLUTION_NOT_FOUND',
       'aucune ligne de résolution directe SUPABASE_SERVICE_ROLE_KEY reconnue',
     );
   }
-  if (legacyIndices.length > 1) {
+  if (legacyHits.length > 1) {
     throw new PatchError(
       'AMBIGUOUS_LEGACY_RESOLUTION',
-      `${legacyIndices.length} résolutions directes trouvées (lignes ${legacyIndices.map((i) => i + 1).join(', ')})`,
+      `${legacyHits.length} résolutions directes trouvées (lignes ${legacyHits.map((h) => h.index + 1).join(', ')})`,
     );
   }
 
-  const target = legacyIndices[0];
-  const match = lines[target].match(LEGACY_RESOLUTION);
-  const patchedLine = `${match[1]}${match[2]} = readServiceKey((k) => Deno.env.get(k), "${name}");`;
-  changes.push({ kind: 'KEY_RESOLUTION_REPLACED', line: target + 1, before: lines[target].trim(), after: patchedLine.trim() });
+  const { index: target, hit } = legacyHits[0];
+  const patchedLine = hit.replace(lines[target], name);
+  changes.push({
+    kind: 'KEY_RESOLUTION_REPLACED',
+    form: hit.kind,
+    line: target + 1,
+    before: lines[target].trim(),
+    after: patchedLine.trim(),
+  });
   lines[target] = patchedLine;
 
   const hasSharedImport = lines.some((l) => /from\s+["']\.\.\/_shared\/serviceKey(\.ts)?["']/.test(l));
@@ -116,9 +158,22 @@ export function assertOnlyKeyChanges(source, patched) {
   const touched = [{ line: importAt + 1, kind: 'INSERTED_IMPORT' }];
   for (let i = 0; i < before.length; i += 1) {
     if (before[i] === realigned[i]) continue;
-    const isKeyLine = LEGACY_RESOLUTION.test(before[i]) && /readServiceKey\s*\(/.test(realigned[i]);
+    const prior = findLegacyResolution(before[i]);
+    const isKeyLine = prior !== null && /readServiceKey\s*\(/.test(realigned[i]);
     if (!isKeyLine) {
       throw new PatchError('UNAUTHORIZED_EDIT', `ligne ${i + 1} modifiée hors patch clé`);
+    }
+    // Pour la forme inline : la ligne entière change, mais le reste du texte métier
+    // (hors le membre remplacé) doit être bit-à-bit identique.
+    if (prior.kind === 'inline') {
+      const strippedBefore = before[i].replace(INLINE_LEGACY_RESOLUTION, `${prior.varName}=__KEY__`);
+      const strippedAfter = realigned[i].replace(
+        /([A-Za-z_$][\w$]*)\s*=\s*readServiceKey\(\(k\)=>Deno\.env\.get\(k\),\s*"[^"]+"\)/,
+        `${prior.varName}=__KEY__`,
+      );
+      if (strippedBefore !== strippedAfter) {
+        throw new PatchError('UNAUTHORIZED_EDIT', `ligne ${i + 1} : dérive hors membre clé`);
+      }
     }
     touched.push({ line: i + 1, kind: 'KEY_LINE' });
   }

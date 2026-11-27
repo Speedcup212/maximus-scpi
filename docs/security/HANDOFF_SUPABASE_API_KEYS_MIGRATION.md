@@ -44,18 +44,21 @@ obtenues depuis l'API Management officielle (`GET /v1/projects/{ref}/functions/{
 `Accept: multipart/form-data`), qui rend le **source original** (et non le bundle transpilé).
 Versions **réelles** constatées, qui corrigent le tableau précédent :
 
-| Fonction | Version réelle en production | Consommation de clé (source déployée) | Verdict migration |
+| Fonction | Version réelle en production | Consommation de clé | Verdict migration |
 |---|---|---|---|
-| `scpi-parallel-backfill-worker` | **v8** (le registre disait 11) | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
-| `scpi-parallel-discover-worker` | **v11** | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
-| `scpi-annual-source-discover` | **v9** | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
-| `scpi-norma-quarterly-ingest` | **v11** | lit **directement** `SUPABASE_SERVICE_ROLE_KEY` | ❌ à migrer avant révocation |
-| `maximus-watchdog-oidc` | **v7** | `SUPABASE_DB_URL` uniquement (aucune famille de clés API) | ⚠️ dépendance indirecte non liée à la clé legacy |
+| `scpi-parallel-backfill-worker` | **v8** (le registre disait 11) | **repo** : `readServiceKey` ; **prod** : encore lecture directe legacy | ⏳ réintégré — déploiement ChatGPT requis |
+| `scpi-parallel-discover-worker` | **v11** | **repo** : `readServiceKey` ; **prod** : encore lecture directe legacy | ⏳ réintégré — déploiement ChatGPT requis |
+| `scpi-annual-source-discover` | **v9** | **repo** : `readServiceKey` ; **prod** : encore lecture directe legacy | ⏳ réintégré — déploiement ChatGPT requis |
+| `scpi-norma-quarterly-ingest` | **v11** | **repo** : `readServiceKey` ; **prod** : encore lecture directe legacy | ⏳ réintégré — déploiement ChatGPT requis |
+| `maximus-watchdog-oidc` | **v7** | `SUPABASE_DB_URL` uniquement (aucune famille de clés API) | ✅ audité — ne bloque plus la révocation API |
 
-Le fait bloquant est donc **mesuré sur la source réelle**, plus sur une inférence de logs :
-les **4** workers `scpi-parallel-*`, `scpi-annual-source-discover` et
-`scpi-norma-quarterly-ingest` lisent `SUPABASE_SERVICE_ROLE_KEY` en direct et ne passent pas
-par `readServiceKey`. La révocation reste **interdite** jusqu'à leur migration et leurs tests.
+**Mise à jour du 27/11 (soir).** Les cinq sources ont été réintégrées sous
+`supabase/functions/<name>/` (sceaux multipart du commentaire `7224163948`). Les **4** workers
+passent par `readServiceKey` + `_shared/serviceKey.ts` dans le dépôt ; la **production** reste
+sur les bundles legacy jusqu'au déploiement ChatGPT. Raison manifeste :
+`SOURCE_REINTEGRATED_PENDING_DEPLOY` (bloque encore la révocation). Watchdog :
+`USES_DB_URL_NOT_SERVICE_ROLE` (ne bloque plus). Raison historique encore documentée :
+`SOURCE_ABSENT_FROM_REPO` (état antérieur).
 
 **Correction du registre (27/11).** La version de `scpi-parallel-backfill-worker` était restée
 à `11` dans `edgeFunctionDeploymentManifest.mjs` alors que la production sert **v8**. La valeur
@@ -134,34 +137,26 @@ hors périmètre qui bloquent la révocation (§2.7.2).
 
 ---
 
-### 0.3 Plan de réintégration des 5 fonctions orphelines (hors dépôt)
+### 0.3 Plan de réintégration des 5 fonctions orphelines — **ÉTAPE PRÉPARATION FAITE (27/11)**
 
-Ces fonctions n'existent **ni** dans `supabase/functions/` **ni** dans l'historique git. Leur
-réintégration est un **prérequis bloquant à la révocation** de la clé legacy (§0.1). Elle se
-fait **fidèlement au dépôt** et **jamais** à l'aveugle : la source réellement déployée sert
-de base de vérité, pas un commit ancien.
+**État Cursor :** sources réintégrées + patch clé appliqué dans le dépôt ; déploiement
+Supabase **réservé à ChatGPT** (dérogation). Rollback = artefacts multipart scellés
+(`7224163948`), pas un commit inventé.
 
-**Ordre (exécution Supabase = ChatGPT ; préparation/relecture = Cursor)** :
+**Restant (ChatGPT) :**
 
-1. **Récupérer** chaque source via `get_edge_function` (déjà partiellement fait pour
-   l'analyse des clés) et la **committer** dans `supabase/functions/<name>/` (avec ses
-   dépendances locales — `_shared`, fichiers `.mjs` — fidèles au bundle déployé).
-2. **Migrer** la résolution de clé : remplacer toute lecture directe
-   `Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")` par `readServiceKey((k) => Deno.env.get(k), name)`
-   depuis `_shared/serviceKey.ts` (instrumentée `[key-source]`, repli legacy transitoire).
-   Pour `maximus-watchdog-oidc` : auditer les **dépendances indirectes** de `SUPABASE_DB_URL`
-   (aucune famille de clés en lecture directe constatée, à confirmer avant toute action).
-3. **Tester** en positif/négatif : appel authentifié → 200 ; clé manquante/incorrecte →
-   401/503 fail-closed ; aucun repli legacy observé dans les logs (`[key-source]`).
-4. **Redéployer** `--no-verify-jwt` (ou en conservant le `verify_jwt` constaté) et vérifier
-   l'incrément de version.
-5. **Rollback** : basé sur le **bundle effectivement déployé** (récupéré à l'étape 1),
-   pas sur un commit ancien — restaurer le bundle de prod en cas de régression.
+1. Déployer les **4** workers depuis le SHA de la PR orpheline, avec
+   `_shared/serviceKey.ts` instrumenté inclus ; conserver `verify_jwt=false`.
+2. Tests négatifs (sans `x-cron-token` → 401) et positifs contrôlés (auth OK, sans écriture
+   métier destructive) ; logs `[key-source]` sans repli legacy sur la fenêtre consultée.
+3. Ne **pas** déployer `maximus-watchdog-oidc` pour la migration des clés API (aucun
+   changement de résolution de clé ; `SUPABASE_DB_URL` inchangé).
+4. Rollback d'urgence : redéployer le bundle capturé dont l'`artifactSha256` figure dans
+   `7224163948` / le manifeste (`rollbackArtifactSha256`).
 
-> **Règle** : tant que les 4 consommateurs (`scpi-parallel-backfill-worker`,
-> `scpi-parallel-discover-worker`, `scpi-annual-source-discover`,
-> `scpi-norma-quarterly-ingest`) n'ont pas basculé sur `readServiceKey`/`SUPABASE_SECRET_KEYS`
-> **et** été testés en production, **ne pas révoquer** `SUPABASE_SERVICE_ROLE_KEY`.
+> **Règle** : tant que les 4 consumers n'ont pas basculé **en production** sur
+> `readServiceKey`/`SUPABASE_SECRET_KEYS` **et** été testés, **ne pas révoquer**
+> `SUPABASE_SERVICE_ROLE_KEY`.
 
 ---
 
@@ -402,18 +397,19 @@ et sont classés séparément dans le manifeste :
 
 | Fonction | Raison | Bloque la révocation |
 |---|---|---|
-| `scpi-parallel-backfill-worker` | `SOURCE_ABSENT_FROM_REPO` | ✅ oui |
-| `scpi-parallel-discover-worker` | `SOURCE_ABSENT_FROM_REPO` | ✅ oui |
-| `scpi-annual-source-discover` | `SOURCE_ABSENT_FROM_REPO` | ✅ oui |
-| `scpi-norma-quarterly-ingest` | `SOURCE_ABSENT_FROM_REPO` | ✅ oui |
-| `maximus-watchdog-oidc` | `SOURCE_ABSENT_FROM_REPO` (dépendances `SUPABASE_DB_URL` à confirmer) | ✅ oui |
+| `scpi-parallel-backfill-worker` | `SOURCE_REINTEGRATED_PENDING_DEPLOY` (ex-`SOURCE_ABSENT_FROM_REPO`) | ✅ oui (jusqu'au déploiement + tests) |
+| `scpi-parallel-discover-worker` | `SOURCE_REINTEGRATED_PENDING_DEPLOY` | ✅ oui |
+| `scpi-annual-source-discover` | `SOURCE_REINTEGRATED_PENDING_DEPLOY` | ✅ oui |
+| `scpi-norma-quarterly-ingest` | `SOURCE_REINTEGRATED_PENDING_DEPLOY` | ✅ oui |
+| `maximus-watchdog-oidc` | `USES_DB_URL_NOT_SERVICE_ROLE` | ❌ non (audit : pas de clé API) |
 | `scpi-scoring` | `NOT_DEPLOYED_NOT_CALLED` | ❌ non |
 | `maximus-search-agent-oidc` | `UNCHANGED_BY_MIGRATION` | ❌ non |
 | `client-access-admin` | `VERIFY_JWT_USER_SESSION` | ❌ non |
 | `client-surveillance` | `VERIFY_JWT_USER_SESSION` | ❌ non |
 
 Un test échoue si une fonction figure à la fois dans le périmètre et hors périmètre, ou si
-une fonction sans source dans le dépôt ne bloque pas la révocation.
+une fonction `SOURCE_REINTEGRATED_PENDING_DEPLOY` / `SOURCE_ABSENT_FROM_REPO` ne bloque pas
+la révocation.
 
 #### 2.7.3 Preuve par fonction (les logs agrégés ne suffisent pas)
 

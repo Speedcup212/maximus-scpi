@@ -117,6 +117,10 @@ export const DEPLOY_STATES = Object.freeze([
 /** Raisons d'exclusion du périmètre initial (jamais du déploiement en général). */
 export const EXCLUSION_REASONS = Object.freeze([
   'SOURCE_ABSENT_FROM_REPO',
+  /** Source réintégrée au dépôt + patch clé prêt ; prod encore sur le bundle legacy. */
+  'SOURCE_REINTEGRATED_PENDING_DEPLOY',
+  /** Connexion SQL directe (`SUPABASE_DB_URL`) — hors familles de clés API. */
+  'USES_DB_URL_NOT_SERVICE_ROLE',
   'NOT_DEPLOYED_NOT_CALLED',
   'UNCHANGED_BY_MIGRATION',
   'VERIFY_JWT_USER_SESSION',
@@ -362,38 +366,48 @@ const PERIMETER = [
 const OUT_OF_PERIMETER = [
   {
     name: 'scpi-parallel-backfill-worker',
-    reason: 'SOURCE_ABSENT_FROM_REPO',
+    reason: 'SOURCE_REINTEGRATED_PENDING_DEPLOY',
     prodVersion: 8,
-    keyConsumer: 'SUPABASE_SERVICE_ROLE_KEY (lecture directe)',
+    keyConsumer: 'readServiceKey (repo) ; prod v8 encore en lecture directe legacy',
     blocksRevocation: true,
+    rollbackArtifactSha256: 'cc5649910b6cfe475e8e97f02c12a9ec30d542ee5909c6565d520b4a27a6627d',
+    rollbackEzbrSha256: '2d9609af69ff6b012c50cc8c7e7eb0872dee998e5c337371afd1b2cdaa0ca2cc',
   },
   {
     name: 'scpi-parallel-discover-worker',
-    reason: 'SOURCE_ABSENT_FROM_REPO',
+    reason: 'SOURCE_REINTEGRATED_PENDING_DEPLOY',
     prodVersion: 11,
-    keyConsumer: 'SUPABASE_SERVICE_ROLE_KEY (lecture directe)',
+    keyConsumer: 'readServiceKey (repo) ; prod v11 encore en lecture directe legacy',
     blocksRevocation: true,
+    rollbackArtifactSha256: '30e83201faa1e17dbc32106c03a76ff9441e56398a203153e07ea204f063456f',
+    rollbackEzbrSha256: 'ac3332d75b84170dab2ba478bf436e2b5b81939cc64b359a53b410d7f4c835f6',
   },
   {
     name: 'scpi-annual-source-discover',
-    reason: 'SOURCE_ABSENT_FROM_REPO',
+    reason: 'SOURCE_REINTEGRATED_PENDING_DEPLOY',
     prodVersion: 9,
-    keyConsumer: 'SUPABASE_SERVICE_ROLE_KEY (lecture directe)',
+    keyConsumer: 'readServiceKey (repo) ; prod v9 encore en lecture directe legacy',
     blocksRevocation: true,
+    rollbackArtifactSha256: 'e889bc7e4238f94615d9fe64094f1c3472c51029758ee82b4378c470a12c20c9',
+    rollbackEzbrSha256: 'c6427880c3991d32cedce6db3886500d3e87b42ff53af467d9d2c3fe7c3e99ae',
   },
   {
     name: 'scpi-norma-quarterly-ingest',
-    reason: 'SOURCE_ABSENT_FROM_REPO',
+    reason: 'SOURCE_REINTEGRATED_PENDING_DEPLOY',
     prodVersion: 11,
-    keyConsumer: 'SUPABASE_SERVICE_ROLE_KEY (lecture directe)',
+    keyConsumer: 'readServiceKey (repo) ; prod v11 encore en lecture directe legacy',
     blocksRevocation: true,
+    rollbackArtifactSha256: '583cbadc4e021e5a646762b8b541b21485a72add6d21f7f40aeecc90ffb46038',
+    rollbackEzbrSha256: '2d55aa68f13d27a56df82ade45c15a333038071454825656a51fdc4ca67b9cf3',
   },
   {
     name: 'maximus-watchdog-oidc',
-    reason: 'SOURCE_ABSENT_FROM_REPO',
+    reason: 'USES_DB_URL_NOT_SERVICE_ROLE',
     prodVersion: 7,
-    keyConsumer: 'SUPABASE_DB_URL (dépendances indirectes à confirmer)',
-    blocksRevocation: true,
+    keyConsumer: 'SUPABASE_DB_URL uniquement (OIDC GitHub ; aucune famille de clés API)',
+    blocksRevocation: false,
+    rollbackArtifactSha256: 'aa2a69fbdcc114c4cb2f6ccebd98b37ae9db0871f105f82765da6b48b9bf00bb',
+    rollbackEzbrSha256: '5e4e16c796ec7bc7f3213be2826779c191127c48cb9f4f9f6ef5e99dd669f111',
   },
   {
     name: 'scpi-scoring',
@@ -1567,6 +1581,9 @@ export function validateManifest(manifest) {
     }
     if (x.reason === 'SOURCE_ABSENT_FROM_REPO' && !x.blocksRevocation) {
       v('ORPHAN_WITHOUT_REVOCATION_BLOCK', x.name);
+    }
+    if (x.reason === 'SOURCE_REINTEGRATED_PENDING_DEPLOY' && !x.blocksRevocation) {
+      v('REINTEGRATED_PENDING_WITHOUT_REVOCATION_BLOCK', x.name);
     }
   }
 

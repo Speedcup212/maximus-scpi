@@ -197,3 +197,28 @@ test('le patch n introduit aucune valeur de clé', () => {
   assert.doesNotMatch(patched, /eyJ[A-Za-z0-9_-]{10,}/);
   assert.ok(patched.includes(SERVICE_KEY_IMPORT));
 });
+
+const ORPHAN_INLINE_SHAPE = [
+  'import "jsr:@supabase/functions-js/edge-runtime.d.ts";',
+  'import { createClient } from "npm:@supabase/supabase-js@2";',
+  "Deno.serve(async(req:Request)=>{if(req.method!=='POST')return Response.json({error:'POST required'},{status:405});const base=Deno.env.get('SUPABASE_URL')||'',key=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')||'';if(!base||!key)return Response.json({error:'runtime config missing'},{status:500});const db=createClient(base,key,{auth:{persistSession:false,autoRefreshToken:false}});return Response.json({ok:true});});",
+  '',
+].join('\n');
+
+test('le patch reconnaît la forme inline minifiée des workers orphelins', () => {
+  const { patched, changes } = applyKeyOnlyPatch(ORPHAN_INLINE_SHAPE);
+  assert.equal(changes[0].form, 'inline');
+  assert.match(patched, /key=readServiceKey\(\(k\)=>Deno\.env\.get\(k\),"scpi_agents"\)/);
+  assert.doesNotMatch(patched, /Deno\.env\.get\(['"]SUPABASE_SERVICE_ROLE_KEY['"]\)/);
+  assert.match(patched, /import \{ readServiceKey \} from "\.\.\/_shared\/serviceKey\.ts";/);
+  assertOnlyKeyChanges(ORPHAN_INLINE_SHAPE, patched);
+});
+
+test('le patch refuse une dérive métier sur une ligne inline', () => {
+  const { patched } = applyKeyOnlyPatch(ORPHAN_INLINE_SHAPE);
+  const tampered = patched.replace('runtime config missing', 'changed message');
+  assert.throws(
+    () => assertOnlyKeyChanges(ORPHAN_INLINE_SHAPE, tampered),
+    (e) => e.code === 'UNAUTHORIZED_EDIT',
+  );
+});

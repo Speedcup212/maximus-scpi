@@ -136,7 +136,7 @@ test('le handoff attribue correctement le drift des gardes prix au dépôt, ant�
   assert.match(doc, /non\*\* introduit par/);
 });
 
-test('le handoff sépare explicitement les 5 fonctions sans source du périmètre des 16', () => {
+test('le handoff sépare explicitement les 5 fonctions hors périmètre des 16', () => {
   const doc = handoff();
   for (const name of [
     'scpi-parallel-backfill-worker',
@@ -147,7 +147,10 @@ test('le handoff sépare explicitement les 5 fonctions sans source du périmètr
   ]) {
     assert.ok(doc.includes(name), `${name} absent du handoff`);
   }
+  // Historique + état actuel : l'ancien motif reste documenté ; le nouveau est opérationnel.
   assert.match(doc, /SOURCE_ABSENT_FROM_REPO/);
+  assert.match(doc, /SOURCE_REINTEGRATED_PENDING_DEPLOY/);
+  assert.match(doc, /USES_DB_URL_NOT_SERVICE_ROLE/);
 });
 
 test('le handoff exige une preuve par fonction et rejette les agrégats', () => {
