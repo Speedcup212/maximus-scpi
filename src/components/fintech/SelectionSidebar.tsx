@@ -5,6 +5,7 @@ import { getScpiDiscountPremium, getScpiDiscountPremiumClass } from '../../utils
 import { normalizeGeoLabel } from '../../utils/geoNormalization';
 import LoadingSpinner from '../LoadingSpinner';
 import { PieChart as RechartsPie, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+import type { BaseTickContentProps } from 'recharts';
 import ZScoreBar from '../ZScoreBar';
 import { getInvestorProfile } from '../../utils/investorProfile';
 import { getZScoreAttention } from '../../utils/zScoreAttention';
@@ -12,6 +13,7 @@ import { isVeryWellDiversified } from '../../config/diversificationDoctrine';
 import { computePortfolioDiversificationScore } from '../../utils/portfolioDiversificationScore';
 import { CALENDLY_URL } from '../../config/calendly';
 import EricAvatar from '../EricAvatar';
+import { resolveRadarTickLayout } from '../../utils/radarTickLayout';
 
 interface SelectionSidebarProps {
   selectedScpis: SCPIExtended[];
@@ -67,6 +69,7 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
   zScoreVariant = 'full'
 }) => {
   const [isResultOpen, setIsResultOpen] = useState(false);
+  const [radarSize, setRadarSize] = useState({ width: 0, height: 0 });
   const [expandedScpiIds, setExpandedScpiIds] = useState<Set<number>>(new Set());
 
   const toggleExpandScpi = (id: number) => {
@@ -981,12 +984,40 @@ const SelectionSidebar: React.FC<SelectionSidebarProps> = ({
 
                   <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.35fr)_minmax(220px,0.65fr)] gap-5 items-center">
                     <div className="h-72 sm:h-80 w-full">
-                      <ResponsiveContainer width="100%" height="100%">
+                      <ResponsiveContainer
+                        width="100%"
+                        height="100%"
+                        onResize={(width, height) => setRadarSize({ width, height })}
+                      >
                         <RadarChart data={radarData} outerRadius="82%">
                           <PolarGrid stroke="#64748b" strokeOpacity={0.7} />
                           <PolarAngleAxis
                             dataKey="label"
-                            tick={{ fill: '#e2e8f0', fontSize: 11, fontWeight: 600 }}
+                            tick={(props: BaseTickContentProps) => {
+                              const { x, y, textAnchor, payload } = props;
+                              const label = String(payload.value);
+                              const layout = resolveRadarTickLayout({
+                                x: typeof x === 'number' ? x : Number(x),
+                                y: typeof y === 'number' ? y : Number(y),
+                                textAnchor,
+                                label,
+                                containerWidth: radarSize.width,
+                                containerHeight: radarSize.height,
+                              });
+                              return (
+                                <text
+                                  x={layout.x}
+                                  y={layout.y}
+                                  textAnchor={layout.textAnchor}
+                                  dominantBaseline="central"
+                                  fill="#e2e8f0"
+                                  fontSize={11}
+                                  fontWeight={600}
+                                >
+                                  {label}
+                                </text>
+                              );
+                            }}
                           />
                           <PolarRadiusAxis
                             angle={90}
