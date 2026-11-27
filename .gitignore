@@ -7,3 +7,6 @@ dist/
 # Local Netlify folder
 .netlify
 __pycache__/
+
+# Local agent poller state
+.cache/
