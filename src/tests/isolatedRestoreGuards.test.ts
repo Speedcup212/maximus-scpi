@@ -31,19 +31,22 @@ const DEPLOY = '6b099179864a5b75dd01616e';
 const deployMeta = (over = {}) => ({
   id: DEPLOY,
   state: 'ready',
-  context: 'deploy-preview',
-  branch: 'fix/home-agents-ia-20261127',
+  context: 'production',
+  branch: 'main',
   commit_ref: GOOD_SHA,
   site_id: SITE,
   ssl_url: 'https://example.invalid',
   ...over,
 });
 
+const PRIOR_DEPLOY = '6b093fce31a2c5175aa3378a';
+const PRIOR_COMMIT = '2f60880e0737d619d357c4b2941f6a463696f08e';
+
 const siteMeta = (over = {}) => ({
   id: SITE,
   name: 'maximusscpi',
-  deploy_id: '6b093fce31a2c5175aa3378a',
-  published_deploy: {id: '6b093fce31a2c5175aa3378a', commit_ref: '2f60880e0737d619d357c4b2941f6a463696f08e'},
+  deploy_id: PRIOR_DEPLOY,
+  published_deploy: {id: PRIOR_DEPLOY, commit_ref: PRIOR_COMMIT},
   ...over,
 });
 
@@ -79,6 +82,7 @@ const FIXTURES = new Map([
   ['/tmp/site_before.json', 'SITE_BEFORE_FILE'],
   ['/tmp/meta.json', 'META_FILE'],
   ['/tmp/artifact_manifest.json', 'ARTIFACT_MANIFEST_FILE'],
+  ['/tmp/rollback_manifest.json', 'ROLLBACK_MANIFEST_FILE'],
   ['/tmp/restore.json', 'RESTORE_FILE'],
   ['/tmp/site_after.json', 'SITE_AFTER_FILE'],
   ['/tmp/live_manifest.json', 'LIVE_MANIFEST_FILE'],
@@ -127,7 +131,16 @@ function localisedScript() {
   return out;
 }
 
-function runGuards({meta, siteBefore, siteAfter, expected = GOOD_SHA, deployId = DEPLOY, manifest = artifactManifest(), liveManifest = artifactManifest()}) {
+function runGuards({meta, siteBefore, siteAfter, expected = GOOD_SHA, deployId = DEPLOY, manifest = artifactManifest(), liveManifest = artifactManifest(), rollbackManifest = undefined}: {
+  meta: any;
+  siteBefore: any;
+  siteAfter: any;
+  expected?: string;
+  deployId?: string;
+  manifest?: any;
+  liveManifest?: any;
+  rollbackManifest?: any;
+}) {
   const dir = mkdtempSync(join(tmpdir(), 'restore-guards-'));
   try {
     const write = (name, value) => {
@@ -147,6 +160,10 @@ function runGuards({meta, siteBefore, siteAfter, expected = GOOD_SHA, deployId =
       META_FILE: write('meta.json', meta),
       SITE_BEFORE_FILE: write('site_before.json', siteBefore),
       ARTIFACT_MANIFEST_FILE: write('artifact_manifest.json', manifest),
+      ROLLBACK_MANIFEST_FILE: write(
+        'rollback_manifest.json',
+        rollbackManifest ?? {sha: PRIOR_COMMIT, deploy_id: PRIOR_DEPLOY, context: 'production'},
+      ),
       RESTORE_FILE: write('restore.json', deployMeta()),
       SITE_AFTER_FILE: write('site_after.json', siteAfter),
       LIVE_MANIFEST_FILE: write('live_manifest.json', liveManifest),
@@ -178,9 +195,7 @@ test('accepts the real candidate 9317fb0 and reports before/after production sta
   assert.match(result.stdout, /published_deploy_before= 6b093fce31a2c5175aa3378a/);
   assert.match(result.stdout, new RegExp(`published_deploy_after= ${DEPLOY}`));
   assert.match(result.stdout, new RegExp(`published_commit_after= ${GOOD_SHA}`));
-});
-
-test('refuses a deploy whose commit_ref is absent', () => {
+});test('refuses a deploy whose commit_ref is absent', () => {
   for (const commitRef of [null, '', undefined]) {
     expectRefusal(
       runGuards({meta: deployMeta({commit_ref: commitRef}), siteBefore: siteMeta(), siteAfter: siteMeta({deploy_id: DEPLOY})}),
@@ -223,6 +238,40 @@ test('refuses a deploy that is not ready', () => {
       'DEPLOY_NOT_READY',
     );
   }
+});
+
+/**
+ * The manifest a preview build could theoretically carry is not enough: the
+ * provider's own metadata decides what the artifact is. A preview that answers
+ * with a production-looking manifest is still a preview and must be refused.
+ */
+test('refuses a deploy whose provider context is not production', () => {
+  for (const context of ['deploy-preview', 'branch-deploy', 'dev', undefined]) {
+    expectRefusal(
+      runGuards({meta: deployMeta({context}), siteBefore: siteMeta(), siteAfter: siteMeta({deploy_id: DEPLOY})}),
+      'DEPLOY_CONTEXT_NOT_PRODUCTION',
+    );
+  }
+});
+
+test('refuses a deploy whose provider branch is not main', () => {
+  for (const branch of ['fix/home-agents-ia-20261127', 'release', undefined]) {
+    expectRefusal(
+      runGuards({meta: deployMeta({branch}), siteBefore: siteMeta(), siteAfter: siteMeta({deploy_id: DEPLOY})}),
+      'DEPLOY_BRANCH_NOT_MAIN',
+    );
+  }
+});
+
+test('refuses provider metadata naming another deploy id', () => {
+  expectRefusal(
+    runGuards({
+      meta: deployMeta({id: 'ffffffffffffffffffffffff'}),
+      siteBefore: siteMeta(),
+      siteAfter: siteMeta({deploy_id: DEPLOY}),
+    }),
+    'DEPLOY_META_ID_MISMATCH',
+  );
 });
 
 test('refuses a commit that differs from the expected one', () => {
@@ -402,6 +451,11 @@ test('fails when the live manifest is the SPA fallback instead of JSON', () => {
   );
 });
 
+/**
+ * The way back has to be established and proven BEFORE the promotion, not
+ * described after it. Each case below asserts that production is never touched
+ * when the rollback path is unknown or unusable.
+ */
 test('prints the exact rollback target before touching production', () => {
   const result = runGuards({
     meta: deployMeta(),
@@ -411,7 +465,107 @@ test('prints the exact rollback target before touching production', () => {
   assert.equal(result.ok, true, result.stdout);
   // The deploy production served before is the only valid way back.
   assert.match(result.stdout, /ROLLBACK_TARGET= 6b093fce31a2c5175aa3378a 2f60880e0737d619d357c4b2941f6a463696f08e/);
+  // It must be printed before the publication call, not after it. The match is
+  // anchored to a line start so the diagnostic variant cannot satisfy it.
+  const rollbackAt = result.stdout.search(/^ROLLBACK_TARGET= /m);
+  const restoreAt = result.stdout.indexOf('published_deploy_id=');
+  assert.ok(rollbackAt !== -1 && restoreAt !== -1, result.stdout);
+  assert.ok(rollbackAt < restoreAt, 'rollback target printed after the promotion');
+  assert.match(result.stdout, /rollback_manifest_sha= 2f60880e0737d619d357c4b2941f6a463696f08e/);
   assert.match(result.stdout, /live_manifest_sha= 9317fb0dce9119f9fe91672819a4e73d5123df9a/);
   assert.match(result.stdout, /live_manifest_context= production/);
+});
+
+/**
+ * Structural ordering, independent of what the script prints: the rollback
+ * target must be established before the POST that publishes. Asserting it on
+ * stdout alone is not enough, because a diagnostic printed right before the
+ * post-promotion readback would still look "early" to a print-based check.
+ */
+test('establishes the rollback target before the publication call in the workflow', () => {
+  const script = workflowScript();
+  const rollbackAt = script.search(/^echo "ROLLBACK_TARGET= /m);
+  const postAt = script.indexOf('/deploys/${DEPLOY_ID}/restore');
+  assert.ok(rollbackAt !== -1, 'no pre-publication rollback target in the workflow');
+  assert.ok(postAt !== -1, 'no publication call in the workflow');
+  assert.ok(rollbackAt < postAt, 'the rollback target is established after the publication call');
+  const rollbackManifestAt = script.indexOf('/tmp/rollback_manifest.json');
+  assert.ok(rollbackManifestAt !== -1 && rollbackManifestAt < postAt, 'the rollback deploy is not verified before publication');
+});
+
+test('refuses to promote when production serves no deploy to roll back to', () => {
+  const siteBefore: Record<string, unknown> = siteMeta();
+  delete siteBefore.published_deploy;
+  delete siteBefore.deploy_id;
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore,
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+    }),
+    'ROLLBACK_TARGET_ABSENT',
+  );
+});
+
+test('refuses a rollback target whose commit is absent or malformed', () => {
+  for (const commitRef of [null, '', '2f60880e']) {
+    expectRefusal(
+      runGuards({
+        meta: deployMeta(),
+        siteBefore: siteMeta({published_deploy: {id: PRIOR_DEPLOY, commit_ref: commitRef}}),
+        siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+      }),
+      'ROLLBACK_TARGET_COMMIT_ABSENT_OR_MALFORMED',
+    );
+  }
+});
+
+test('refuses a rollback target whose id is inconsistent with the site readback', () => {
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore: siteMeta({deploy_id: PRIOR_DEPLOY, published_deploy: {id: 'ffffffffffffffffffffffff', commit_ref: PRIOR_COMMIT}}),
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+    }),
+    'ROLLBACK_TARGET_ID_INCONSISTENT',
+  );
+});
+
+test('refuses to promote when the rollback deploy cannot attest itself', () => {
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore: siteMeta(),
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+      rollbackManifest: SPA_FALLBACK_HTML,
+    }),
+    'ROLLBACK_MANIFEST_NOT_JSON',
+  );
+});
+
+test('refuses a rollback manifest attesting another commit', () => {
+  expectRefusal(
+    runGuards({
+      meta: deployMeta(),
+      siteBefore: siteMeta(),
+      siteAfter: siteMeta({deploy_id: DEPLOY, published_deploy: {id: DEPLOY, commit_ref: GOOD_SHA}}),
+      rollbackManifest: {sha: OTHER_SHA, deploy_id: PRIOR_DEPLOY, context: 'production'},
+    }),
+    'ROLLBACK_MANIFEST_SHA_MISMATCH',
+  );
+});
+
+/**
+ * A failed promotion must carry the way back in the same block as the failure,
+ * so a reader of the failed run does not have to scroll for it.
+ */
+test('a failed promotion still reports the rollback target as a diagnostic', () => {
+  const result = runGuards({
+    meta: deployMeta(),
+    siteBefore: siteMeta(),
+    siteAfter: siteMeta({deploy_id: PRIOR_DEPLOY}),
+  });
+  expectRefusal(result, 'PRODUCTION_NOT_ON_REQUIRED_DEPLOY');
+  assert.match(result.stdout, /DIAGNOSTIC_ROLLBACK_TARGET= 6b093fce31a2c5175aa3378a 2f60880e0737d619d357c4b2941f6a463696f08e/);
 });
 });

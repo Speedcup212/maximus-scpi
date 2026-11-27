@@ -82,6 +82,17 @@ jobs:
               raise SystemExit('DEPLOY_COMMIT_ABSENT_OR_MALFORMED:'+repr(commit))
           if commit != exp:
               raise SystemExit('COMMIT_MISMATCH:'+commit)
+          # The deploy's own provider metadata must say production/main before it
+          # can be promoted. A preview deploy that happens to carry a manifest is
+          # still a preview; promoting it would publish an artifact no production
+          # build vouches for. Checking the metadata is what makes the manifest
+          # check below meaningful rather than decorative.
+          if d.get('id')!=os.environ['DEPLOY_ID']:
+              raise SystemExit('DEPLOY_META_ID_MISMATCH:'+repr(d.get('id')))
+          if d.get('context')!='production':
+              raise SystemExit('DEPLOY_CONTEXT_NOT_PRODUCTION:'+repr(d.get('context')))
+          if d.get('branch')!='main':
+              raise SystemExit('DEPLOY_BRANCH_NOT_MAIN:'+repr(d.get('branch')))
           PY
 
           # A deploy is promotable only if its own artifact carries the release
@@ -118,6 +129,65 @@ jobs:
               raise SystemExit('ARTIFACT_MANIFEST_CONTEXT_NOT_PRODUCTION:'+repr(d.get('context')))
           PY
 
+          # The way back must be known, and known to work, BEFORE production is
+          # touched. A rollback target printed only after the promotion is a
+          # description of a mistake, not a recovery path: by then the run may
+          # already have published an artifact it cannot undo. So the prior
+          # published deploy is identified, its SHA is validated, and its own
+          # manifest is read here - any failure leaves production untouched.
+          python3 - <<'PY'
+          import json,os,re
+          HEX40=re.compile(r'^[a-f0-9]{40}$')
+          HEX24=re.compile(r'^[a-f0-9]{24}$')
+          prior=json.load(open('/tmp/site_before.json'))
+          deploy=(prior.get('published_deploy') or {})
+          rollback_id=prior.get('deploy_id')
+          rollback_commit=deploy.get('commit_ref')
+          print('rollback_candidate_id=', rollback_id)
+          print('rollback_candidate_commit=', rollback_commit)
+          # An empty prior deploy means production serves nothing: there is no
+          # artefact to come back to, so a promotion would be irreversible.
+          if not rollback_id:
+              raise SystemExit('ROLLBACK_TARGET_ABSENT:no published deploy before promotion')
+          if not HEX24.match(str(rollback_id)):
+              raise SystemExit('ROLLBACK_TARGET_ID_MALFORMED:'+repr(rollback_id))
+          if deploy.get('id')!=rollback_id:
+              raise SystemExit('ROLLBACK_TARGET_ID_INCONSISTENT:'+repr(deploy.get('id')))
+          if not HEX40.match(str(rollback_commit or '')):
+              raise SystemExit('ROLLBACK_TARGET_COMMIT_ABSENT_OR_MALFORMED:'+repr(rollback_commit))
+          with open('/tmp/rollback_target.env','w') as fh:
+              fh.write('ROLLBACK_DEPLOY_ID=%s\nROLLBACK_COMMIT=%s\n'%(rollback_id,rollback_commit))
+          PY
+
+          ROLLBACK_DEPLOY_ID=$(sed -n 's/^ROLLBACK_DEPLOY_ID=//p' /tmp/rollback_target.env)
+          ROLLBACK_COMMIT=$(sed -n 's/^ROLLBACK_COMMIT=//p' /tmp/rollback_target.env)
+          test -n "$ROLLBACK_DEPLOY_ID"
+          test -n "$ROLLBACK_COMMIT"
+          export ROLLBACK_DEPLOY_ID ROLLBACK_COMMIT
+          echo "ROLLBACK_TARGET= ${ROLLBACK_DEPLOY_ID} ${ROLLBACK_COMMIT}"
+
+          # The rollback deploy must itself be able to attest: a target that
+          # cannot serve a coherent manifest is not a recovery path.
+          curl -fsS -H "Cache-Control: no-cache" \
+            "https://${ROLLBACK_DEPLOY_ID}--maximusscpi.netlify.app/scpi-release-manifest.json" \
+            -o /tmp/rollback_manifest.json
+          python3 - <<'PY'
+          import json,os
+          try:
+              d=json.loads(open('/tmp/rollback_manifest.json','rb').read().decode('utf-8'))
+          except Exception as exc:
+              raise SystemExit('ROLLBACK_MANIFEST_NOT_JSON:'+type(exc).__name__)
+          print('rollback_manifest_sha=', d.get('sha'))
+          print('rollback_manifest_deploy_id=', d.get('deploy_id'))
+          print('rollback_manifest_context=', d.get('context'))
+          if d.get('sha')!=os.environ['ROLLBACK_COMMIT']:
+              raise SystemExit('ROLLBACK_MANIFEST_SHA_MISMATCH:'+repr(d.get('sha')))
+          if d.get('deploy_id')!=os.environ['ROLLBACK_DEPLOY_ID']:
+              raise SystemExit('ROLLBACK_MANIFEST_DEPLOY_MISMATCH:'+repr(d.get('deploy_id')))
+          if d.get('context')!='production':
+              raise SystemExit('ROLLBACK_MANIFEST_CONTEXT_NOT_PRODUCTION:'+repr(d.get('context')))
+          PY
+
           curl -fsS -X POST \
             -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
             "https://api.netlify.com/api/v1/sites/${SITE_ID}/deploys/${DEPLOY_ID}/restore" \
@@ -143,14 +213,17 @@ jobs:
           import json,os
           d=json.load(open('/tmp/site_after.json'))
           published=d.get('deploy_id')
-          prior=json.load(open('/tmp/site_before.json')).get('deploy_id')
-          prior_commit=(json.load(open('/tmp/site_before.json')).get('published_deploy') or {}).get('commit_ref')
+          published_commit=(d.get('published_deploy') or {}).get('commit_ref')
           print('published_deploy_after=', published)
-          print('published_commit_after=', (d.get('published_deploy') or {}).get('commit_ref'))
-          print('previous_published_deploy=', prior)
-          print('previous_published_commit=', prior_commit)
-          print('ROLLBACK_TARGET=', prior, prior_commit)
+          print('published_commit_after=', published_commit)
+          print('previous_published_deploy=', os.environ['ROLLBACK_DEPLOY_ID'])
+          print('previous_published_commit=', os.environ['ROLLBACK_COMMIT'])
           if published!=os.environ['DEPLOY_ID']:
+              # Diagnostic first: whoever reads a failed run needs the way back
+              # in the same block as the failure, not in an earlier section.
+              print('DIAGNOSTIC=PROMOTION_FAILED')
+              print('DIAGNOSTIC_ROLLBACK_TARGET= %s %s'%(
+                  os.environ['ROLLBACK_DEPLOY_ID'],os.environ['ROLLBACK_COMMIT']))
               raise SystemExit('PRODUCTION_NOT_ON_REQUIRED_DEPLOY:'+repr(published))
           PY
 
