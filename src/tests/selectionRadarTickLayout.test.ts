@@ -44,9 +44,15 @@ const hexagonTicks = (containerWidth: number, containerHeight: number) => {
 
 describe('libellés du radar de sélection contenus dans le cadre', () => {
   it('garde chaque libellé dans les bornes du SVG quelle que soit la largeur', () => {
-    // Largeurs réellement atteignables : la modale n'est montée qu'à partir de lg (1024 px).
+    // Largeurs réellement atteignables : la modale est montée en desktop (lg et plus)
+    // et désormais aussi dans le parcours mobile (barre « Voir ma sélection », #463).
     const sizes: Array<[number, number]> = [
+      [258, 288],
+      [273, 288],
+      [288, 288],
+      [328, 288],
       [399, 320],
+      [431, 320],
       [640, 320],
       [900, 320],
       [1200, 320],
@@ -126,6 +132,40 @@ describe('libellés du radar de sélection contenus dans le cadre', () => {
     expect(bottom.y).toBe(320);
     expect(top.textAnchor).toBe('middle');
     expect(bottom.textAnchor).toBe('middle');
+  });
+
+  it('replace les libellés aux bornes mesurées en mobile (390 px, SVG 288)', () => {
+    // Valeurs relevées dans Chromium sur le parcours mobile réel :
+    // « Concentration 60 » commençait à -55,9 px, faute de cadre assez large.
+    const cases = [
+      { label: 'Géographie 100', x: 38.36, y: 204.99, textAnchor: 'end' as const },
+      { label: 'Concentration 60', x: 38.36, y: 83.01, textAnchor: 'end' as const },
+      { label: 'Liquidité 60', x: 249.64, y: 83.01, textAnchor: 'start' as const },
+      { label: 'Diversif. 60', x: 249.64, y: 204.99, textAnchor: 'start' as const },
+    ];
+
+    for (const tick of cases) {
+      const layout = resolveRadarTickLayout({ ...tick, containerWidth: 288, containerHeight: 288 });
+      expect(layout.moved).toBe(true);
+      expect(leftEdge(layout, tick.label)).toBeGreaterThanOrEqual(RADAR_TICK_PADDING);
+      expect(leftEdge(layout, tick.label) + measure(tick.label))
+        .toBeLessThanOrEqual(288 - RADAR_TICK_PADDING);
+    }
+  });
+
+  it('ne déplace pas les libellés déjà contenus en mobile (Rendement, Secteurs)', () => {
+    for (const tick of [
+      { label: 'Rendement 100', x: 144, y: 22.02, textAnchor: 'middle' as const },
+      { label: 'Secteurs 100', x: 144, y: 265.98, textAnchor: 'middle' as const },
+    ]) {
+      const layout = resolveRadarTickLayout({ ...tick, containerWidth: 288, containerHeight: 288 });
+      expect(layout).toEqual({
+        x: tick.x,
+        y: tick.y,
+        textAnchor: tick.textAnchor,
+        moved: false,
+      });
+    }
   });
 
   it('ne modifie jamais les scores affichés par les libellés', () => {
