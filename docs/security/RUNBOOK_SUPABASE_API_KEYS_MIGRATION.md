@@ -507,3 +507,83 @@ préserve le patron Vault pour l'avenir. ✅ Le secret Vault `pgnet_webhooks` es
 
 **Non-fusion / non-révocation** : la PR reste **non fusionnée**, aucune clé legacy n'est
 révoquée, aucun `db push` global, 69/69 PASS_100 maintenu.
+
+---
+
+## 11. Conservation de l'archive de custody : accès restreint, mesuré et non revendiqué
+
+L'arbitrage du 2026-11-27 19:33Z refuse de considérer le store persistant comme un coffre
+durci. Le fait est mesuré, et il est **reproductible** :
+
+| Contrôle | Résultat sur le store `fuse.agent-store` | Résultat sur ext4 |
+|---|---|---|
+| `chmod 600` puis `stat` | mode inchangé `0o666`, `chmod` sort en succès | mode `0o600` |
+| Lecture par un autre uid | **autorisée** | refusée |
+| `mkdir 0700` | `0o777` | `0o700` |
+| `chmod 700` sur le répertoire | `Operation not permitted` | autorisé |
+
+Conséquence : sur ce store, déposer la phrase secrète à côté de l'archive chiffrée ne
+protège **pas plus** que de ne pas chiffrer. La durabilité y est acquise ; la restriction
+d'accès ne l'est pas.
+
+### Outil de mesure
+
+```bash
+node scripts/security/auditCustodyConservation.mjs \
+  --store-root <dir> --archive <archive.tar.enc> --secret <phrase.txt> \
+  [--off-store-copy <chemin>]... [--json]
+```
+
+Sortie **0** si `RESTRICTED_ACCESS`, **1** sinon, **2** si l'usage est invalide. L'outil ne
+lit jamais le contenu du secret (`stat` seulement), n'écrit aucun fichier hors de la sonde
+temporaire qu'il retire, et ne lit aucune variable d'environnement.
+
+Verdicts possibles, tous nommés :
+
+| Verdict | Signification |
+|---|---|
+| `RESTRICTED_ACCESS` | tous les faits mesurés sont conformes ; **jamais** qualifié de durci |
+| `UNRESTRICTED` | au moins un fait contredit la restriction (codes ci-dessous) |
+| `UNDETERMINED` | aucun fait ne contredit, mais un fait manque — jamais traité comme succès |
+
+Codes de refus : `PATH_OUTSIDE_DECLARED_ROOT`, `MODE_ENFORCEMENT_ABSENT`,
+`SECRET_READABLE_BY_OTHER_USERS`, `SECRET_COLOCATED_WITH_ARCHIVE`, `SINGLE_FACTOR_SECRET`,
+`NO_OFF_STORE_COPY` ; codes d'incertitude : `MODE_ENFORCEMENT_UNDETERMINED`,
+`MOUNT_TYPE_UNDETERMINED`.
+
+### Mesure du 2026-11-27 20:27Z (état réel, non corrigé)
+
+Verdict `UNRESTRICTED`, `hardened=false`, cinq motifs : `MODE_ENFORCEMENT_ABSENT` (chmod
+sans effet, mode observé `0o666`), `SECRET_READABLE_BY_OTHER_USERS` (secret en `0o666`),
+`SECRET_COLOCATED_WITH_ARCHIVE` (secret et archive sur `/cursor/stores`),
+`SINGLE_FACTOR_SECRET` (un seul custodian : le pod), `NO_OFF_STORE_COPY` (aucune copie hors
+store). Ce résultat est le **résultat honnête** : il n'y a rien à « corriger » dans le
+rapport.
+
+### Seul levier disponible dans ce périmètre : deux custodiens
+
+Le store ne peut pas restreindre les droits, mais un secret à deux parts rend la
+compromission du pod **insuffisante** à elle seule :
+
+1. le propriétaire crée une part de 256 bits **hors du pod** et la garde dans son
+   gestionnaire de mots de passe ;
+2. l'archive est rescellée avec `buildCustodiedPassphrase(podPart, ownerPart)` — même AEAD,
+   phrase d'entrée différente ;
+3. la part `pod` seule **échoue** (`CUSTODY_AUTHENTICATION_FAILED`), la part `owner` seule
+   aussi, la paire réussit. Cette propriété est **testée** contre le chiffrement réel
+   (`custodyConservation.test.mjs`), pas seulement décrite ;
+4. une copie de l'archive est déclarée hors du store **avant** toute suppression du secret
+   local.
+
+`conservationPlan()` énumère ces étapes avec leur détenteur et leur preuve. **Aucune étape
+du propriétaire n'est exécutée par l'agent** : la part hors pod et la copie hors store
+supposent un humain hors du pod.
+
+### Ce qui reste faux, et doit rester écrit ainsi
+
+- Aucune restauration exercée : `restoreExercised=false`, `rollbackReady` 0/16,
+  `AUTHORIZED_RESTORE_PROJECT_REFS` vide, ancre `keyId`/`publicKeyPem` `null`.
+- Le store n'est **pas** un coffre durci, et aucun verdict de cet outil ne l'affirmera.
+- La migration vers deux custodiens est **préparée**, pas faite : elle change la phrase
+  secrète de l'archive réelle et appartient au propriétaire.
+
