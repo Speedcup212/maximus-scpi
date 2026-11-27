@@ -740,7 +740,10 @@ multipart **bruts**, les métadonnées et la configuration de la même version s
 4. **Restauration exercée hors production** : déployer la requête dans le projet non-prod
    autorisé, puis **relire** (`--function`) et comparer version, `verify_jwt`, `bundleSha256`
    et `configSha256` au sceau. Écrire un journal identifiable et son empreinte.
-5. **Attestation** : le contrôle indépendant signe (`ed25519`) les 11 affirmations ; la clé
+5. **Attestation** : le contrôle indépendant signe (`ed25519`) les 22 affirmations — le
+   décompte et la forme exacte sont produits par le dépôt
+   (`node scripts/security/edgeFunctionDeploymentManifest.mjs --attestation-claims <fonction>
+   <évidence hors dépôt>`), jamais recopiés d'une prose ; la clé
    publique doit être épinglée dans `rollbackVerifierTrustAnchor.json` par une PR relue.
 6. **Seulement ensuite** `custody` + `restoreDrill` peuvent être renseignés, et
    `rollbackReady` peut passer de 0/16.
@@ -1564,8 +1567,26 @@ fait **deux lectures** dans le projet jetable (métadonnées + corps) et compare
 
 **Étape E — Attestation indépendante (hors dépôt).**
 
-Aucune commande de dépôt : le contrôle indépendant signe (`ed25519`) les 11 affirmations avec
-sa clé privée, qui ne quitte pas son poste. Sa clé **publique** est publiée dans
+Aucune commande de dépôt pour signer : le contrôle indépendant signe (`ed25519`) les
+22 affirmations avec sa clé privée, qui ne quitte pas son poste. La **forme exacte** de ces
+affirmations n'est pas à recopier depuis ce document : elle est produite par le dépôt à
+partir de l'évidence réelle, ce qui interdit toute dérive entre le payload signé et le
+payload vérifié.
+
+```bash
+# lit l'évidence hors dépôt et imprime les affirmations exactes + l'empreinte à signer
+node scripts/security/edgeFunctionDeploymentManifest.mjs --attestation-claims \
+  <fonction> <chemin-évidence-hors-dépôt> [verifiedAt ISO]
+```
+
+> **Défaut corrigé le 27/11** : ce chapitre annonçait « les onze affirmations » alors que
+> `crossCheckAttestation` en exige `ATTESTATION_REQUIRED_CLAIMS.length` (22). Un contrôle
+> indépendant suivant le document signait onze affirmations et recevait onze
+> `MISSING_attestation_claim_*` — une signature valide, mais un payload incomplet, donc un
+> refus **après** l'exercice de restauration. Le décompte est désormais vérifié par test
+> contre le contrôleur réel, et le CLI `--attestation-claims` produit les affirmations.
+
+Sa clé **publique** est publiée dans
 `rollbackVerifierTrustAnchor.json` par une PR relue. Tant que `keyId`/`publicKeyPem` valent
 `null`, le gate reste fermé en `ANCHOR_KEY_NOT_PROVISIONED` : c'est l'état correct.
 

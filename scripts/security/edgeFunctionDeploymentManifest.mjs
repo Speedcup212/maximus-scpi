@@ -530,6 +530,62 @@ export const ATTESTATION_REQUIRED_CLAIMS = Object.freeze([
   'verifier', 'verifierIdentity', 'operator', 'independentOfOperator', 'verifiedAt',
 ]);
 
+/**
+ * Affirmations qu'une attestation doit porter, dérivées de l'évidence.
+ *
+ * Pourquoi cette fonction existe : le handoff annonçait « les 11 affirmations » alors que
+ * `crossCheckAttestation` en exige **22**. Un contrôle indépendant suivant le document
+ * signait donc un payload incomplet et le gate répondait onze
+ * `MISSING_attestation_claim_*` — après l'exercice de restauration, donc au pire moment.
+ *
+ * La cause n'était pas la liste elle-même mais son **absence de source unique** : la forme
+ * des affirmations n'était écrite qu'en prose dans la documentation, et recopiée à la main
+ * dans le test. Elle est désormais produite ici, et le test comme le document en dérivent.
+ *
+ * Les champs non encore connus valent `null` plutôt que d'être omis : une affirmation
+ * absente produit `MISSING_attestation_claim_*`, une affirmation nulle produit
+ * `ATTESTATION_CLAIM_MISMATCH_*`. Les deux refusent, mais le second nomme le champ.
+ *
+ * @param {object} evidence Évidence de production (`security-prod-evidence-v3`).
+ * @param {{verifiedAt: string, independentOfOperator?: boolean}} options
+ * @returns {object} Affirmations prêtes à être canonisées puis signées.
+ */
+export function buildAttestationClaims(evidence, options) {
+  const ev = evidence ?? {};
+  const claims = {
+    schemaVersion: ATTESTATION_SCHEMA_VERSION,
+    function: ev.function ?? null,
+    stage: ev.stage ?? null,
+    observedBundleSha256: ev.observed?.bundleSha256 ?? null,
+    rollbackTargetBundleSha256: ev.rollbackTarget?.bundleSha256 ?? null,
+    custodyArtifactSha256: ev.custody?.artifactSha256 ?? null,
+    custodyArtifactRef: ev.custody?.artifactRef ?? null,
+    restoreJournalSha256: ev.restoreDrill?.journalSha256 ?? null,
+    restoredBundleSha256: ev.restoreDrill?.restoredBundleSha256 ?? null,
+    restoreDestination: ev.restoreDrill?.destination ?? null,
+    restoreResult: ev.restoreDrill?.result ?? null,
+    projectRef: ev.observed?.readback?.projectRef ?? null,
+    observedVersion: ev.observed?.version ?? null,
+    observedVerifyJwt: ev.observed?.verifyJwt ?? null,
+    observedConfigSha256: ev.observed?.readback?.configSha256 ?? null,
+    readbackSource: ev.observed?.readback?.source ?? null,
+    readbackFetchedAt: ev.observed?.readback?.fetchedAt ?? null,
+    verifier: ev.attestation?.verifier ?? null,
+    verifierIdentity: ev.attestation?.verifierIdentity ?? null,
+    operator: ev.restoreDrill?.performedBy ?? null,
+    independentOfOperator: options?.independentOfOperator ?? true,
+    verifiedAt: options?.verifiedAt ?? null,
+  };
+  const missing = ATTESTATION_REQUIRED_CLAIMS.filter((f) => !(f in claims));
+  if (missing.length > 0) {
+    // Garde de cohérence interne : elle ne peut se déclencher que si la liste des
+    // affirmations exigées et leur production divergent, c'est-à-dire dans le défaut même
+    // que cette fonction corrige.
+    throw new Error(`ATTESTATION_CLAIMS_INCOMPLETE:${missing.join(',')}`);
+  }
+  return claims;
+}
+
 const HEX64 = /^[0-9a-f]{64}$/;
 
 function sha256File(relPath) {
@@ -1581,6 +1637,53 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   if (mode === '--json') {
     process.stdout.write(`${JSON.stringify(ledgerSnapshot(manifest), null, 2)}\n`);
     process.exit(violations.length > 0 ? 1 : 0);
+  }
+
+  /**
+   * Émet les affirmations exactes à signer, pour une fonction donnée.
+   *
+   * Sans ce mode, le contrôle indépendant devait reconstituer les 22 champs à la main depuis
+   * une prose — et se trompait (cf. `buildAttestationClaims`). Il lit désormais l'évidence
+   * réelle et reçoit l'objet exact que `crossCheckAttestation` recalculera.
+   *
+   * L'évidence est lue **hors dépôt** : une attestation dont les affirmations viennent d'un
+   * fichier versionné ne prouverait rien de plus que ce fichier.
+   */
+  if (mode === '--attestation-claims') {
+    const name = process.argv[3];
+    const evidencePath = process.argv[4];
+    if (!name || !evidencePath) {
+      console.error('Usage : node scripts/security/edgeFunctionDeploymentManifest.mjs '
+        + '--attestation-claims <fonction> <chemin-évidence-hors-dépôt>');
+      process.exit(2);
+    }
+    if (resolvesInsideRepo(evidencePath)) {
+      console.error('EVIDENCE_DOCUMENT_INSIDE_REPO: l\'évidence lue doit être hors du dépôt.');
+      process.exit(1);
+    }
+    let evidence;
+    try {
+      evidence = JSON.parse(readFileSync(evidencePath, 'utf8'));
+    } catch {
+      console.error('DOCUMENT_UNREADABLE: évidence illisible ou non JSON.');
+      process.exit(1);
+    }
+    if (evidence?.function !== name) {
+      console.error(`EVIDENCE_OTHER_FUNCTION: l'évidence décrit « ${evidence?.function} », pas « ${name} ».`);
+      process.exit(1);
+    }
+    const claims = buildAttestationClaims(evidence, {
+      verifiedAt: process.argv[5] ?? new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
+    });
+    process.stdout.write(`${JSON.stringify({
+      function: name,
+      claimCount: ATTESTATION_REQUIRED_CLAIMS.length,
+      claims,
+      attestationSha256: canonicalJsonSha256(claims),
+      signingInstruction: 'Signer canonicalJsonSha256(claims) tel quel (UTF-8) avec ed25519 ; '
+        + 'recopier claims et attestationSha256 dans l\'attestation avec la signature.',
+    }, null, 2)}\n`);
+    process.exit(0);
   }
 
   console.log(JSON.stringify({ counts: manifest.counts, violations }, null, 2));

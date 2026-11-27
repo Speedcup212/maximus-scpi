@@ -62,6 +62,7 @@ jobs:
           node --test scripts/security/restoreProtocol.test.mjs
           node --test scripts/security/prepareRestore.test.mjs
           node --test scripts/security/restoreTargetAuthorization.test.mjs
+          node --test scripts/security/attestationClaimsSingleSource.test.mjs
           node scripts/security/edgeFunctionDeploymentManifest.mjs --check
           node scripts/security/restoreTargetAuthorization.mjs --check
 

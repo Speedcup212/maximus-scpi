@@ -226,6 +226,29 @@ vérifier portent donc sur le même octet. **La signature couvre le projet cible
 du 25/11 a établi qu'« une égalité de SHA de code seule ne prouve pas l'égalité de
 configuration ».
 
+### Ne jamais reconstituer les affirmations à la main
+
+La liste des affirmations exigées est `ATTESTATION_REQUIRED_CLAIMS`
+(`22` entrées au 27/11). Elle n'est **pas** à recopier depuis une prose : elle est produite
+par le dépôt à partir de l'évidence réelle.
+
+```bash
+node scripts/security/edgeFunctionDeploymentManifest.mjs --attestation-claims \
+  <fonction> <chemin-évidence-hors-dépôt> [verifiedAt ISO]
+```
+
+Sortie : `claims` (les 22 affirmations), `attestationSha256` (l'empreinte à signer) et
+`claimCount`. La commande refuse une évidence située dans le dépôt
+(`EVIDENCE_DOCUMENT_INSIDE_REPO`) ou décrivant une autre fonction
+(`EVIDENCE_OTHER_FUNCTION`).
+
+> **Défaut corrigé le 27/11.** Le handoff annonçait « les onze affirmations » alors que le
+> contrôleur en exige 22. Un contrôle indépendant suivant le document produisait donc un
+> payload incomplet : **signature valide, onze `MISSING_attestation_claim_*`**, refus après
+> l'exercice de restauration. `attestationClaimsSingleSource.test.mjs` compare désormais le
+> décompte annoncé par le document au contrôleur réel, et le module expose
+> `buildAttestationClaims()` afin que la forme des affirmations n'existe qu'à un seul endroit.
+
 ## Readback fournisseur : la seule pièce qui dise ce que la prod contient
 
 `observed` ne doit **jamais** être recopié du registre du dépôt : ce serait comparer une
