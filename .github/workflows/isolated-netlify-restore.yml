@@ -1,0 +1,65 @@
+name: Isolated Netlify restore (one-shot)
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_id:
+        description: Netlify deploy id to publish to production
+        required: true
+        type: string
+      expected_commit:
+        description: Expected commit SHA (40 hex) for safety check
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Publish specific Netlify deploy as production
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          SITE_ID: e4f16f87-663d-4965-8de8-00f6840f1aa7
+          DEPLOY_ID: ${{ inputs.deploy_id }}
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+        run: |
+          set -euo pipefail
+          test -n "$NETLIFY_AUTH_TOKEN"
+          test -n "$DEPLOY_ID"
+          test -n "$EXPECTED_COMMIT"
+
+          META=$(curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            "https://api.netlify.com/api/v1/deploys/${DEPLOY_ID}")
+          echo "$META" > /tmp/meta.json
+          python3 - <<'PY'
+          import json,os
+          d=json.load(open('/tmp/meta.json'))
+          exp=os.environ['EXPECTED_COMMIT']
+          commit=d.get('commit_ref') or ''
+          print('deploy_state=', d.get('state'))
+          print('deploy_context=', d.get('context'))
+          print('commit_ref=', commit)
+          print('expected=', exp)
+          if d.get('state') not in ('ready','current'):
+              raise SystemExit('DEPLOY_NOT_READY:'+str(d.get('state')))
+          if commit and commit != exp:
+              raise SystemExit('COMMIT_MISMATCH:'+commit)
+          PY
+
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            "https://api.netlify.com/api/v1/sites/${SITE_ID}/deploys/${DEPLOY_ID}/restore" \
+            -o /tmp/restore.json
+
+          python3 - <<'PY'
+          import json
+          d=json.load(open('/tmp/restore.json'))
+          print('published_deploy_id=', d.get('id'))
+          print('published_state=', d.get('state'))
+          print('published_commit=', d.get('commit_ref'))
+          print('published_url=', d.get('ssl_url') or d.get('url'))
+          PY
