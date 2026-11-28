@@ -83,7 +83,13 @@ test('chaque montant par part reste attaché à son propre libellé', () => {
 });
 
 test('aucune graduation de jauge ne devient un ratio d’endettement publié', () => {
-  assert.equal(extracted.maximus_indicators.endettement, undefined);
+  // Le ratio publié est la phrase « La dette représente 25 % de la valeur de
+  // réalisation ». La jauge (0 %, 25 %, 50 %) n'est qu'une échelle : elle ne
+  // doit jamais fournir la valeur, même quand elle coïncide avec le ratio.
+  assert.equal(extracted.maximus_indicators.endettement, 0.25);
+
+  const gaugeOnly = extractFromText('Ratio de dettes\n0%\n\n25%\n\n50%\n');
+  assert.equal(gaugeOnly.maximus_indicators.endettement, undefined);
 });
 
 test('le nombre d’actifs est le stock, pas le flux d’acquisitions', () => {
@@ -104,8 +110,8 @@ test('le texte natif de la page 4 officielle produit exactement ces valeurs', ()
   assert.equal(result.valorisation_risque.prix_reconstitution, published.valeur_reconstitution);
   assert.equal(result.maximus_indicators.prix_retrait, published.valeur_retrait);
   assert.equal(result.maximus_indicators.nombre_immeubles, published.nombre_actifs);
-  // La jauge n'est pas un ratio : rien ne doit être enregistré.
-  assert.equal(result.maximus_indicators.endettement, undefined);
+  // Le ratio publié (25 %) est lu ; la jauge seule ne l'est jamais.
+  assert.equal(result.maximus_indicators.endettement, 0.25);
 });
 
 test('le bloc officiel archivé reproduit exactement ces valeurs de référence', {skip: !fs.existsSync(PDF)}, () => {

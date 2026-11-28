@@ -10,15 +10,34 @@
 --     alors que la page 4 publie « Valeur de reconstitution* 225,02 € » ;
 --   * extraction_json.maximus_indicators.prix_retrait = 225,02
 --     alors que la page 4 publie « Valeur de retrait* 199,36 € » ;
---   * extraction_json.maximus_indicators.endettement = 0 alors que le bulletin
---     ne publie aucun ratio (0 % et 25 % sont des graduations de jauge) ;
+--   * extraction_json.maximus_indicators.endettement = 0 alors que la page 4
+--     porte une jauge (0 % / 25 % / 50 %) et la phrase « La dette représente
+--     25 % de la valeur de réalisation ». Le 0 enregistré est le premier cran
+--     de la jauge, pas le ratio publié (25 %).
 --   * extraction_json.maximus_indicators.nombre_immeubles = 8 (acquisitions du
 --     trimestre) au lieu de « Nombre d'actifs : 666 ».
 --
 -- Ce script ne touche AUCUNE donnée financière certifiée, aucun seuil strict et
 -- aucune vue. Il (1) vérifie que l'état attendu est bien celui observé,
--- (2) inscrit la ligne dans la quarantaine de provenance existante, (3) refuse
--- toute promotion tant que la ré-extraction corrigée n'est pas prouvée.
+-- (2) inscrit la ligne dans la quarantaine de provenance existante, (3) vérifie
+-- que la ligne décalée n'a atteint aucune surface publiée.
+--
+-- ## Ce que ce script NE fait pas (limite mesurée, à ne pas surinterpréter)
+--
+-- Il ne pose aucun verrou de promotion. Le refus de promouvoir la ligne est
+-- porté par deux gardes déjà en place, exercés hors de ce fichier :
+--   * `scpi_commit_certified_promotion` exige `qa_status='auto_verified'` sur le
+--     bulletin et un certificat `auto_verified_with_evidence` par métrique
+--     (`pdf_page_text_match`, page > 0, valeur identique). La ligne est en
+--     `auto_partial_review` : elle ne peut donc pas être promue.
+--   * `validateIndicatorPatch` (netlify/functions/utils/scpi-bulletin-ingestion.ts)
+--     refuse les variations extrêmes, désormais aussi celles des stocks
+--     (`nombre_immeubles`, `nombre_locataires`, `nombre_associes`,
+--     `nombre_parts`) — 8 actifs contre 666 certifiés est refusé.
+-- Ces deux gardes sont testés respectivement par
+-- `scripts/industrial/recovery227PromotionGuard.test.mjs` (10 tests) et par les
+-- contraintes du RPC. Le présent script ajoute la trace de provenance, pas le
+-- verrou.
 --
 -- Exécution : psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f scripts/industrial/sql/recovery227_kyaneos_t3_stale_extraction_quarantine.sql
 
@@ -111,11 +130,13 @@ begin
           'valeur_realisation', 186.49,
           'valeur_reconstitution', 225.02,
           'valeur_retrait', 199.36,
-          'nombre_actifs', 666
+          'nombre_actifs', 666,
+          'ratio_dette_publie_pct', 25
         ),
         'readers', jsonb_build_array('MuPDF', 'Poppler'),
         'reference_date_on_page', '2026-06-30',
-        'reference_date_anomaly', 'le bulletin 3T 2026 porte encore la date de valeur du 30/06/2026 ; aucune valeur financière n''en est déduite ici'
+        'reference_date_anomaly', 'le bloc « Valeurs de part » du bulletin 3T 2026 porte la date du 30/06/2026 alors que la période publiée est 2026-T3 : la date de valeur est qualifiée séparément de la période du document et aucune valorisation n''est datée par déduction',
+        'debt_ratio_definition', 'le ratio publié « La dette représente 25 % de la valeur de réalisation » est distinct de la jauge 0/25/50 % ; ni l''un ni l''autre n''est converti ici en endettement certifié'
       ),
       'financial_certified', false,
       'deploy_allowed', false,

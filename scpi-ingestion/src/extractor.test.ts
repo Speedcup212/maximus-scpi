@@ -146,10 +146,12 @@ Ratio de dettes
   assert.notEqual(result.valorisation_risque.prix_reconstitution, 224);
 });
 
-test('Kyaneos Pierre T3 2026 : une absence d’endettement publié ne devient pas 0 %', () => {
+test('Kyaneos Pierre T3 2026 : la jauge n’est pas un ratio mais la dette publiée est lue', () => {
   // « Ratio de dettes » est le titre d’une jauge dont les graduations sont
-  // 0 %, 25 %, 50 %. Le ratio lui-même n’est pas publié dans ce bloc : le
-  // convertir en 0 % serait une valeur rassurante inventée.
+  // 0 %, 25 %, 50 %. Le convertir en 0 % serait une valeur rassurante inventée.
+  // En revanche la phrase « La dette représente 25 % de la valeur de
+  // réalisation » est un ratio publié par l’émetteur : il doit être lu, et non
+  // remplacé par la première graduation de la jauge.
   const text = `
 La dette représente 25%
 de la valeur de réalisation
@@ -165,7 +167,8 @@ Ratio de dettes
 50%
 `;
   const result = extractFromText(text);
-  assert.equal(result.maximus_indicators.endettement, undefined);
+  assert.equal(result.maximus_indicators.endettement, 0.25);
+  assert.notEqual(result.maximus_indicators.endettement, 0);
 });
 
 test('n’utilise pas le flux trimestriel d’acquisitions comme nombre d’actifs', () => {
@@ -175,4 +178,134 @@ Total de la SCPI Nombre d'actifs : 666   Nombre de lots : 5 162
 `;
   const result = extractFromText(text);
   assert.equal(result.maximus_indicators.nombre_immeubles, 666);
+});
+
+test('une jauge sans ratio publié ne produit aucun endettement', () => {
+  // Graduations seules : aucune valeur mesurée. Rien ne doit être enregistré,
+  // en particulier pas le premier cran de la jauge (0 %).
+  const text = `
+Ratio de dettes
+0%
+
+25%
+
+50%
+`;
+  const result = extractFromText(text);
+  assert.equal(result.maximus_indicators.endettement, undefined);
+});
+
+// Les deux ordres de mise en page coexistent dans les bulletins émetteurs.
+// Les deux produisent la même suite « montant / libellé / montant » : seul le
+// début du bloc (« Valeurs de part ») les distingue. Lire le mauvais sens
+// renvoie le montant du champ voisin.
+const perShareLayouts = {
+  'libellé puis valeur': `
+Valeurs de part
+
+au 30/06/2026
+
+Prix de souscription
+
+224 €
+
+Valeur IFI*
+
+184,42 €
+
+Valeur de réalisation*
+
+186,49 €
+
+Valeur de reconstitution*
+
+225,02 €
+
+Valeur de retrait*
+
+199,36 €
+`,
+  'valeur puis libellé': `
+Valeurs de part
+
+250€/part
+prix de souscription
+225€
+valeur de retrait
+217,17€
+valeur de réalisation(1)
+254,73€
+valeur de reconstitution (1)
+`,
+  'valeur puis libellé, lignes serrées': `
+Valeurs de part
+186,49 €
+Valeur de réalisation
+225,02 €
+Valeur de reconstitution
+199,36 €
+Valeur de retrait
+`,
+};
+
+test('les deux ordres de bloc « valeurs de part » restent alignés', () => {
+  const attendu = {
+    'libellé puis valeur': { realisation: 186.49, reconstitution: 225.02, retrait: 199.36 },
+    'valeur puis libellé': { realisation: 217.17, reconstitution: 254.73, retrait: 225 },
+    'valeur puis libellé, lignes serrées': { realisation: 186.49, reconstitution: 225.02, retrait: 199.36 },
+  } as const;
+
+  for (const [nom, text] of Object.entries(perShareLayouts)) {
+    const result = extractFromText(text);
+    const expected = attendu[nom as keyof typeof attendu];
+    assert.equal(result.maximus_indicators.valeur_realisation, expected.realisation, `${nom} — réalisation`);
+    assert.equal(result.valorisation_risque.prix_reconstitution, expected.reconstitution, `${nom} — reconstitution`);
+    assert.equal(result.maximus_indicators.prix_retrait, expected.retrait, `${nom} — retrait`);
+  }
+});
+
+test('un montant hors du bloc « valeurs de part » ne décide pas de l’ordre', () => {
+  // Le total d'acquisitions précède le bloc dans le bulletin réel. S'il servait
+  // de repère, le sens de lecture serait inversé et chaque valeur décalée.
+  const text = `
+Patrimoine de la SCPI
+Acquisitions du trimestre : 8 962 781 € acte en main
+
+Valeurs de part
+
+au 30/06/2026
+
+Valeur de réalisation*
+
+186,49 €
+
+Valeur de reconstitution*
+
+225,02 €
+
+Valeur de retrait*
+
+199,36 €
+`;
+  const result = extractFromText(text);
+  assert.equal(result.maximus_indicators.valeur_realisation, 186.49);
+  assert.equal(result.valorisation_risque.prix_reconstitution, 225.02);
+  assert.equal(result.maximus_indicators.prix_retrait, 199.36);
+});
+
+test('le qualificatif « par part » et l’appel de note restent reconnus', () => {
+  const text = `
+Valeurs de part
+
+Valeur de réalisation par part
+
+186,49 €
+
+Valeur de retrait par part
+
+199,36 €
+`;
+  const result = extractFromText(text);
+  assert.equal(result.maximus_indicators.valeur_realisation, 186.49);
+  assert.equal(result.maximus_indicators.prix_retrait, 199.36);
 });

@@ -95,6 +95,9 @@ jobs:
       - name: Kyaneos 2026-T3 shifted extraction is quarantined, never certified
         run: node --import tsx/esm --test scripts/industrial/recovery227KyaneosT3Extraction.test.mjs
 
+      - name: Promotion guard refuses collapsed or shifted metrics (effective)
+        run: node --import tsx/esm --test scripts/industrial/recovery227PromotionGuard.test.mjs
+
       - name: Baseline cohort isolation and worker recovery regression
         run: node --test scripts/agents/watchdogCohortInvariant.test.mjs
 

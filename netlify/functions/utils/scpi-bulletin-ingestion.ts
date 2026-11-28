@@ -482,7 +482,7 @@ function buildIndicatorPatch(extraction: ExtractionResult) {
   return Object.fromEntries(Object.entries(patch).filter(([, value]) => value !== undefined));
 }
 
-function validateIndicatorPatch(
+export function validateIndicatorPatch(
   patch: Record<string, unknown>,
   current: Record<string, unknown> | null
 ): { accepted: Record<string, unknown>; rejected: string[] } {
@@ -556,6 +556,16 @@ function validateIndicatorPatch(
         if (key === 'endettement' && Math.abs(value - old) > 40) {
           rejected.push(`${key}: variation > 40 points`);
           continue;
+        }
+        // Stock counts are cumulative and cannot legitimately collapse in one
+        // quarter. A reading of `8 immeubles` where 666 were certified is the
+        // quarterly acquisition flow, already seen on Kyaneos Pierre 3T 2026.
+        if (['nombre_immeubles', 'nombre_locataires', 'nombre_associes', 'nombre_parts'].includes(key)) {
+          const ratio = value / old;
+          if (ratio < 0.5 || ratio > 3) {
+            rejected.push(`${key}: variation extrême ${old} → ${value}`);
+            continue;
+          }
         }
       }
     }
