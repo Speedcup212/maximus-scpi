@@ -22,6 +22,8 @@ on:
       - "supabase/migrations/20261016_deepseek_scoped_corrective_worker.sql"
       - "supabase/migrations/20261016_p0_strict_public_approval_gate.sql"
       - "scripts/scpi-candidates/corumFeeTiers.test.mjs"
+      - "scripts/agents/deepseekApiPreflight.mjs"
+      - "scripts/agents/deepseekApiPreflight.test.mjs"
   pull_request:
     branches: [main]
     paths:
@@ -31,6 +33,8 @@ on:
       - "scripts/agents/deepseekWorkflowContract.test.mjs"
       - "supabase/migrations/20261016_p0_strict_public_approval_gate.sql"
       - "scripts/scpi-candidates/corumFeeTiers.test.mjs"
+      - "scripts/agents/deepseekApiPreflight.mjs"
+      - "scripts/agents/deepseekApiPreflight.test.mjs"
 
 permissions:
   contents: write
@@ -56,6 +60,8 @@ jobs:
           node --check scripts/agents/deepseekCorrectiveRunner.mjs
           node --test scripts/agents/deepseekCorrectiveRunner.test.mjs
           node --test scripts/agents/deepseekWorkflowContract.test.mjs
+          node --check scripts/agents/deepseekApiPreflight.mjs
+          node --test scripts/agents/deepseekApiPreflight.test.mjs
 
   # One-time diagnostic, only for a specially flagged merge; no DeepSeek calls.
   pull_request_permission_smoke:
@@ -120,6 +126,13 @@ jobs:
         run: |
           test -n "$DEEPSEEK_API_KEY" || { echo "::error::DEEPSEEK_API_KEY absent"; exit 1; }
           case "$CORRECTIVE_ROLE" in DATA|SEARCH) ;; *) exit 1;; esac
+      # GET /models authenticates the key and confirms the stable Flash alias.
+      # No model inference is invoked, no tokens are billed by this step.
+      - name: Verify DeepSeek Flash account credentials (zero model calls)
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/agents/deepseekApiPreflight.mjs
       - name: Claim one existing exact-scope task with GitHub OIDC
         id: claim
         uses: actions/github-script@v7
@@ -139,6 +152,7 @@ jobs:
             if(!result.task){
               core.setOutput('claimed','no');
               core.notice('Worker ready / no eligible DATA or SEARCH exact-scope task. Zero model calls. '+String(result.reason||''));
+              await core.summary.addHeading('MaximusSCPI DeepSeek — no eligible correction').addRaw('Authenticated Flash API catalog PASS. No eligible exact-scope DATA/SEARCH task: no model inference, no candidate PR, no release.').write();
             }else{
               const t=result.task;
               if(t.role!==process.env.CORRECTIVE_ROLE||t.kind!=='execute'||!t.lease_token||
