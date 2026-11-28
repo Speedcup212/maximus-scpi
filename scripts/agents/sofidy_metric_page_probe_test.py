@@ -14,7 +14,7 @@ class SofidyPageProofTests(unittest.TestCase):
     def load(self):
         return json.loads(MANIFEST.read_text(encoding="utf-8"))
 
-    def test_three_funds_six_originals_and_49_source_claims_with_quarter_reconciliation(self):
+    def test_three_funds_six_originals_and_58_source_claims_with_quarter_reconciliation(self):
         m=self.load()
         self.assertFalse(m["financial_qa_autoapprove"])
         names={x["slug"] for x in m["candidates"]}
@@ -22,12 +22,13 @@ class SofidyPageProofTests(unittest.TestCase):
         for slug in names:
             candidate.validate_manifest(m,slug)
         self.assertEqual(sum(len(x["documents"]) for x in m["candidates"]),6)
-        self.assertEqual(sum(len(d["metrics"]) for x in m["candidates"] for d in x["documents"]),49)
+        self.assertEqual(sum(len(d["metrics"]) for x in m["candidates"] for d in x["documents"]),58)
         for fund in m["candidates"]:
             q=next(d for d in fund["documents"] if d["source_period"]=="2026-T2")
-            self.assertEqual(len(q["metrics"]),9)
+            self.assertEqual(len(q["metrics"]),12)
             values={x["metric"]:float(x["value"]) for x in q["metrics"]}
             self.assertEqual(values["nombre_parts"]*values["prix_souscription"],values["capitalisation"])
+            self.assertTrue({"endettement","valeur_realisation_par_part","valeur_reconstitution_par_part"}.issubset(values))
             self.assertTrue({"tof_quarterly","distribution_brute_par_part","prix_souscription",
                              "nombre_parts","parts_attente_retrait"}.issubset(values))
         self.assertTrue(all(v["qa_status"]=="pending_independent_qa"

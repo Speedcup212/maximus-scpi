@@ -152,6 +152,30 @@
               "value_basis": "FINANCIAL_OCCUPANCY_Q2_2026_POINT_IN_TIME",
               "source_page": 1,
               "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "endettement",
+              "value": "26.4",
+              "unit": "PERCENT",
+              "value_basis": "RATIO_BANK_DEBT_TO_PROPERTY_VALUE_AT_2026_06_30_NOT_WEIGHTED_INTEREST_RATE",
+              "source_page": 2,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "valeur_realisation_par_part",
+              "value": "250.9",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_12_31_REPORTED_AGAIN_IN_2026_T2_NOT_2026_VALUATION",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "valeur_reconstitution_par_part",
+              "value": "309.05",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_12_31_REPORTED_AGAIN_IN_2026_T2_NOT_2026_VALUATION",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
             }
           ]
         }
@@ -313,6 +337,30 @@
               "value_basis": "FINANCIAL_OCCUPANCY_Q2_2026_POINT_IN_TIME",
               "source_page": 1,
               "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "endettement",
+              "value": "19.5",
+              "unit": "PERCENT",
+              "value_basis": "RATIO_BANK_DEBT_TO_PROPERTY_VALUE_AT_2026_06_30_NOT_WEIGHTED_INTEREST_RATE",
+              "source_page": 2,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "valeur_realisation_par_part",
+              "value": "196.26",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_12_31_REPORTED_AGAIN_IN_2026_T2_NOT_2026_VALUATION",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "valeur_reconstitution_par_part",
+              "value": "228.77",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_12_31_REPORTED_AGAIN_IN_2026_T2_NOT_2026_VALUATION",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
             }
           ]
         }
@@ -465,6 +513,30 @@
               "unit": "PERCENT",
               "value_basis": "FINANCIAL_OCCUPANCY_Q2_2026_POINT_IN_TIME",
               "source_page": 1,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "endettement",
+              "value": "24.6",
+              "unit": "PERCENT",
+              "value_basis": "RATIO_BANK_DEBT_TO_PROPERTY_VALUE_AT_2026_06_30_NOT_WEIGHTED_INTEREST_RATE",
+              "source_page": 2,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "valeur_realisation_par_part",
+              "value": "484.19",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_12_31_REPORTED_AGAIN_IN_2026_T2_NOT_2026_VALUATION",
+              "source_page": 5,
+              "qa_status": "pending_independent_qa"
+            },
+            {
+              "metric": "valeur_reconstitution_par_part",
+              "value": "588.46",
+              "unit": "EUR_PER_PART",
+              "value_basis": "2025_12_31_REPORTED_AGAIN_IN_2026_T2_NOT_2026_VALUATION",
+              "source_page": 5,
               "qa_status": "pending_independent_qa"
             }
           ]
