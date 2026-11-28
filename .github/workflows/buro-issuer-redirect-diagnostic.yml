@@ -1,0 +1,43 @@
+name: Buroboutic issuer redirect diagnosis — no PDF bypass
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/agents/buroIssuerRedirectProbe.py'
+      - 'scripts/agents/buroIssuerRedirectProbe_test.py'
+      - '.github/workflows/buro-issuer-redirect-diagnostic.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/agents/buroIssuerRedirectProbe.py'
+      - 'scripts/agents/buroIssuerRedirectProbe_test.py'
+      - '.github/workflows/buro-issuer-redirect-diagnostic.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  read-only-redirect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Negative hostname and redirect tests
+        run: python -m unittest discover -s scripts/agents -p 'buroIssuerRedirectProbe_test.py' -v
+      - name: Inspect only original issuer HTTP response headers without redirects
+        run: python scripts/agents/buroIssuerRedirectProbe.py test-results/buro-source-mapping
+      - name: Retain sanitized official transport metadata for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: buroboutic-official-redirect-${{ github.run_id }}
+          path: test-results/buro-source-mapping/redirect.json
+          retention-days: 7
+          if-no-files-found: warn
