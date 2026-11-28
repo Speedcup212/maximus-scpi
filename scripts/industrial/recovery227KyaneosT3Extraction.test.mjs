@@ -13,6 +13,9 @@ const sql = fs.readFileSync(SQL, 'utf8');
 // Valeurs publiées page 4 du bulletin officiel 3T 2026 (SHA-256 4def42a5…),
 // relues par MuPDF et Poppler.
 const PDF = process.env.KYANEOS_T3_PDF || '/opt/cursor/artifacts/kyaneos-t3/kyaneos-pierre-3T2026.pdf';
+// Texte natif de la page 4 du même octet, capturé par Poppler. Il permet de
+// rejouer la mise en page émetteur en CI, où le PDF privé n'est pas disponible.
+const PAGE4 = 'scripts/industrial/fixtures/kyaneos-pierre-3T2026-page4.txt';
 const published = {
   valeur_ifi: 184.42,
   valeur_realisation: 186.49,
@@ -85,6 +88,24 @@ test('aucune graduation de jauge ne devient un ratio d’endettement publié', (
 
 test('le nombre d’actifs est le stock, pas le flux d’acquisitions', () => {
   assert.equal(extracted.maximus_indicators.nombre_immeubles, published.nombre_actifs);
+});
+
+test('le texte natif de la page 4 officielle produit exactement ces valeurs', () => {
+  const page4 = fs.readFileSync(PAGE4, 'utf8');
+  // Les quatre montants et le stock d'actifs sont bien dans la page publiée.
+  for (const amount of ['184,42 €', '186,49 €', '225,02 €', '199,36 €', '224 €']) {
+    assert.ok(page4.includes(amount), `montant absent de la page 4 : ${amount}`);
+  }
+  assert.match(page4, /Nombre d’actifs\s*:\s*666/);
+  assert.match(page4, /Valeurs de part\s*\n\s*\n?\s*au 30\/06\/2026/);
+
+  const result = extractFromText(page4);
+  assert.equal(result.maximus_indicators.valeur_realisation, published.valeur_realisation);
+  assert.equal(result.valorisation_risque.prix_reconstitution, published.valeur_reconstitution);
+  assert.equal(result.maximus_indicators.prix_retrait, published.valeur_retrait);
+  assert.equal(result.maximus_indicators.nombre_immeubles, published.nombre_actifs);
+  // La jauge n'est pas un ratio : rien ne doit être enregistré.
+  assert.equal(result.maximus_indicators.endettement, undefined);
 });
 
 test('le bloc officiel archivé reproduit exactement ces valeurs de référence', {skip: !fs.existsSync(PDF)}, () => {
