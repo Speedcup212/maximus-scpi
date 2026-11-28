@@ -192,14 +192,63 @@ Le script :
 
 1. verrouille consultatif `recovery227:kyaneos-pierre:2026-T3` ;
 2. vérifie les préconditions §3.1 **et échoue** si elles ne sont plus vraies
-   (`REC227_PREIMAGE_MISMATCH`, `REC227_STALE_VALUES_PUBLISHED`, …) ;
+   (`REC227_PREIMAGE_MISMATCH`, `REC227_BULLETIN_ROW_ABSENT`, …) ;
 3. écrit dans `extraction_json` un bloc `recovery227_reextraction` contenant,
    **par champ**, la valeur, la page, la date de référence, le lecteur, et
    l'empreinte du PDF ;
 4. remplace les sept valeurs décalées par les valeurs publiées ;
 5. recalcule `extraction_confidence` à partir des champs lus ;
-6. vérifie que le compteur strict est inchangé, sinon `RAISE` et rollback ;
-7. inscrit un événement `scpi_ingestion_events` nommé.
+6. **relit sa propre postimage** et échoue si elle diffère
+   (`REC227_POSTIMAGE_MISMATCH_REVIEW_REQUIRED`) ;
+7. vérifie que le compteur strict est inchangé, sinon `RAISE` et rollback ;
+8. capture une préimage **complète** (`extraction_json`,
+   `extraction_confidence`, `qa_status` et **`processed_at`**) et une postimage
+   complète, puis inscrit un événement `scpi_ingestion_events` distinct d'une
+   certification.
+
+### 3.2 bis Ce que la revue indépendante du 28/11 a corrigé
+
+La revue du commentaire `#issuecomment-7237468468` a relevé trois défauts réels
+dans le paquet initial. Les trois sont corrigés et prouvés par rejeu hors
+production (`src/tests/recovery227Reextraction.test.ts`) :
+
+| Défaut relevé | Correction | Preuve |
+|---|---|---|
+| `processed_at` modifié sans être sauvegardé ni restauré | capturé dans `bulletin_before` **et** comparé dans `bulletin_after` ; restauré par le rollback | `le rollback restaure la préimage exacte, processed_at compris` |
+| `confiance` et `qa_status` préimage codés en dur (`0.3` / `'auto_partial_review'`) | lus sur la ligne réelle (`before_confidence`, `before_qa_status`) et écrits dans la trace | contrat statique : aucune constante de préimage |
+| le rollback n'inspectait pas la postimage avant d'écraser | `REC227_ROLLBACK_POSTIMAGE_DRIFT_REVIEW_REQUIRED` si la ligne n'est plus celle écrite par le script | `le rollback refuse d'écraser un état qui n'est plus celui du script` |
+| aucune trace d'annulation distincte | nouvel `event_key` `…:rollback-applied`, la trace d'exécution n'est jamais supprimée | `le rollback laisse une trace d'annulation distincte` |
+| événement d'ingestion indistinguable d'une certification | statut `manual_review_required`, message explicite, `certifies_nothing=true`, aucun certificat créé | `distingue l'événement d'ingestion d'une certification` |
+
+Deux durcissements supplémentaires, mesurés sur la préimage réelle du
+2026-11-28 :
+
+- la préimage de la fixture est désormais une **copie fidèle** de la ligne de
+  production (`_meta`, `structure_frais`, les douze entrées de
+  `repartition_sectorielle`) : le test prouve que la transaction **préserve**
+  ces blocs au lieu de les reconstruire ;
+- `SELECT … INTO STRICT` remplacé par un contrôle explicite, pour que l'absence
+  de ligne produise `REC227_BULLETIN_ROW_ABSENT` et non un `NO_DATA_FOUND` brut.
+
+### 3.2 ter Définition canonique du ratio de dette
+
+La revue demande de vérifier que « 25 % » correspond bien à la définition
+canonique avant toute promotion. Vérifié dans le code réellement monté :
+
+| Couche | Ce qu'elle appelle `endettement` | Unité |
+|---|---|---|
+| `src/indicators/scpiIndicatorRegistry.ts` | `Endettement (LTV)`, `validate: inRange(0, 60)` | pourcentage |
+| `netlify/functions/utils/scpi-bulletin-ingestion.ts` | `endettement: pct(m.endettement)` → `× 100` | `extraction_json` = **fraction**, `scpi_indicators` = pourcentage |
+| `supabase/functions/scpi-certified-promote/index.ts` | `DEBT_OUT_OF_RANGE` hors `[0 ; 80]` | pourcentage |
+| `scripts/agents/bulletin_fields.py` | `'endettement': ('%', …)` | pourcentage |
+
+La phrase du bulletin — « La dette représente 25 % de la valeur de réalisation
+de la SCPI » — **est** ce ratio canonique (dettes / valeur de réalisation), et
+non la jauge `0 % / 25 % / 50 %` qui n'est qu'une échelle. Conséquence
+appliquée : `extraction_json.maximus_indicators.endettement` reçoit `0.25`
+(fraction) et non `25`, sinon `pct()` publierait **2500 %**, valeur refusée par
+la borne `[0 ; 80]`. Le script contrôle cette unité et échoue avec
+`REC227_DEBT_RATIO_UNIT_OR_DEFINITION_REVIEW_REQUIRED` si la constante change.
 
 ### 3.3 Provenance et date, champ par champ
 
@@ -231,25 +280,37 @@ la valeur de réalisation de la SCPI qui est autorisée à s'endetter au maximum
 `extractFromText('Ratio de dettes\n0%\n\n25%\n\n50%\n')` → `endettement`
 `undefined`). Le 25 % enregistré est celui de la phrase, pas la graduation.
 
-### 3.4 Rollback ciblé
+### 3.4 Rollback ciblé — exécutable, pas seulement documenté
 
-Le script capture la ligne complète avant écriture dans
-`maximus_agents.scpi_replay_provenance_quarantine` (snapshot `bulletin_before`).
-Le rollback est donc une seule instruction, sans reconstruire l'état à la main :
+Le retour arrière est un **script versionné**, pas un extrait à recopier :
 
-```sql
--- rollback : restaurer l'extraction_json d'avant l'écriture
-UPDATE public.scpi_bulletins b
-SET extraction_json = q.snapshot->'bulletin_before'->'extraction_json',
-    extraction_confidence = (q.snapshot->'bulletin_before'->>'extraction_confidence')::numeric,
-    qa_status = q.snapshot->'bulletin_before'->>'qa_status'
-FROM maximus_agents.scpi_replay_provenance_quarantine q
-WHERE q.event_key='recovery227:kyaneos-pierre:2026-T3:reextracted-from-archived-pdf'
-  AND b.id=(q.snapshot->>'bulletin_id')::uuid;
+```bash
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 \
+  -f scripts/industrial/sql/recovery227_kyaneos_t3_reextraction_rollback.sql
 ```
+
+Il corrige les trois défauts du rollback initial :
+
+1. il **refuse d'écraser** un état qui n'est plus la postimage écrite par la
+   transaction (`REC227_ROLLBACK_POSTIMAGE_DRIFT_REVIEW_REQUIRED`) — une
+   ré-extraction ultérieure ou une correction manuelle survivent ;
+2. il restaure **`processed_at`** en plus de `extraction_json`,
+   `extraction_confidence` et `qa_status`, tous lus depuis la préimage
+   réellement capturée, jamais recalculés ;
+3. il **trace son annulation** sous un `event_key` distinct
+   (`recovery227:kyaneos-pierre:2026-T3:rollback-applied`), sans jamais
+   supprimer la trace d'exécution d'origine.
+
+Codes d'échec nommés : `REC227_ROLLBACK_WITHOUT_EXECUTION_TRACE`,
+`REC227_ROLLBACK_PREIMAGE_INCOMPLETE`, `REC227_ROLLBACK_BULLETIN_ROW_ABSENT`,
+`REC227_ROLLBACK_WRONG_ROW`, `REC227_ROLLBACK_POSTIMAGE_DRIFT_REVIEW_REQUIRED`,
+`REC227_ROLLBACK_PUBLIC_SURFACE_CHANGED`,
+`REC227_ROLLBACK_RESTORE_MISMATCH_REVIEW_REQUIRED`,
+`REC227_ROLLBACK_ALREADY_EXECUTED`.
 
 Aucune autre ligne n'est concernée : le script ne touche ni `scpi_indicators`,
 ni `scpi_indicator_history`, ni `scpi_metric_certifications`, ni les vues.
+Une seconde exécution du rollback est refusée, elle n'écrase rien deux fois.
 
 ---
 
@@ -301,7 +362,44 @@ sous la clé `recovery227:kyaneos-pierre:2026-T3:reextracted-from-archived-pdf`.
 
 ---
 
-## 7. Blocage restant, hors de portée de Cursor
+## 7. Chemin minimal vers `source_ready` — décrit, jamais forcé
+
+Une extraction correcte ne rend **pas** `source_ready` vrai, et ce paquet ne le
+prétend pas. Le chemin minimal, pour que ChatGPT puisse le suivre sans le
+déduire, est une chaîne de quatre conditions distinctes dont **la troisième est
+hors de portée de ce paquet**.
+
+| Étape | Ce qui doit être vrai | Qui peut le faire | État |
+|---|---|---|---|
+| 1 | `scpi_operational_status.last_document_period = '2026-T3'` | écriture privilégiée | **bloqué** (403 `projects_read`) |
+| 2 | `qa_status` du bulletin passe à `auto_verified` — exige un certificat `auto_verified_with_evidence` **par métrique**, page > 0, texte de page identique | revue financière indépendante | hors paquet |
+| 3 | `source_ready = true` sur `scpi_operational_status` | décision humaine explicite | **jamais déduit d'une extraction** |
+| 4 | `operational_status = 'DONE'`, `missing_tof = 0`, `missing_source = 0`, `source_confidence >= 0.95`, aucune quarantaine TOF | conséquence des étapes 1–3 | — |
+
+Rappel de lecture de la vue stricte (`scpi_crash_test_strict_v2`) :
+
+```sql
+CASE WHEN operational_status = 'DONE'
+      AND missing_source_url = 0 AND source_host_violations = 0
+      AND missing_tof = 0 AND cap_consistency_issues = 0
+      AND uncertified_tof_periods = 0
+      AND NOT EXISTS (… tof_policy_quarantine_audit_20261028 x WHERE x.scpi_slug = b.scpi_slug)
+     THEN 'PASS_100' ELSE 'FAIL_STRICT' END
+```
+
+`source_ready` n'apparaît pas dans cette expression : il conditionne les
+**routes d'admission** (`20261108_recovery179_true_strict_admission_routes.sql`,
+`20261107_recovery176/177`), pas le verdict `PASS_100`. Les deux doivent être
+vrais pour une publication ; aucun des deux n'est atteignable par une simple
+ré-écriture d'`extraction_json`, et c'est exactement pourquoi cette transaction
+laisse `qa_status='auto_partial_review'`.
+
+Conséquence vérifiable : après §3.2, le compteur attendu est **68 / 69
+inchangé**, avec une extraction T3 exacte et non publiable.
+
+---
+
+## 8. Blocage restant, hors de portée de Cursor
 
 `SUPABASE_ACCESS_TOKEN` est injecté mais `GET /v1/projects` répond **403
 `projects_read`**. Cursor ne peut ni lire ni écrire par le management Supabase.
@@ -311,7 +409,10 @@ La chaîne complète exige donc, côté ChatGPT :
 
 1. exécuter §3.2 (écriture `extraction_json`) ;
 2. la revue indépendante §4 ;
-3. la décision explicite sur `source_ready` / `operational_status`.
+3. la décision explicite sur `source_ready` / `operational_status` (§7).
 
 Les points 1 et 2 sont dans le périmètre de ce paquet. Le point 3 en est
 délibérément exclu : il ne peut pas être déduit d'une extraction correcte.
+#470-#473 (cible Supabase hors production) restent un besoin **séparé** : ni ce
+paquet ni l'accès `projects_read` n'en sont une condition préalable, puisque
+ChatGPT dispose du SQL.

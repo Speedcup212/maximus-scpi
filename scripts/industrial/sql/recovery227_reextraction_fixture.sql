@@ -69,22 +69,48 @@ on conflict do nothing;
 create or replace view public.scpi_crash_test_strict_v2 as
   select * from public.strict_fixture;
 
--- Préimage : la ligne T3 réellement observée le 2026-11-28 03:30:53Z,
--- extraction décalée d'un champ.
+-- Préimage : copie FIDÈLE de la ligne T3 réellement lue en production le
+-- 2026-11-28 (REST `anon`, GET seul : qa_status, extraction_confidence,
+-- processed_at, extraction_json). Les blocs oubliés par les versions
+-- précédentes de cette fixture (`_meta`, `structure_frais`, répartition
+-- sectorielle réelle) sont conservés tels quels : la transaction doit préserver
+-- l'extraction existante au lieu de la reconstruire.
 insert into public.scpi_bulletins(scpi_slug, period, qa_status, pdf_sha256, source_url,
   extraction_confidence, extraction_json, processed_at)
 values ('kyaneos-pierre','2026-T3','auto_partial_review',
   '4def42a528fa1b75372bc132607895169dbc75899c824a55756ddefdff69413c',
   'https://kyaneosam.com/wp-content/uploads/2026/11/SCPI-KP-Bulletin-trimestriel-3T2026.pdf',
   0.3,
-  '{"confidence":0.3,"chiffres_cles":{"prix_part":224,"capitalisation":224},
-    "maximus_indicators":{"endettement":0.25,"capital_type":"variable","prix_retrait":225.02,
-      "nombre_immeubles":8,"valeur_realisation":184.42},
+  '{"_meta":{"critical_fields_found":3,"critical_fields_total":10},
+    "actualite_trimestrielle":{"acquisitions":[],"arbitrages":[]},
+    "chiffres_cles":{"capitalisation":224,"prix_part":224},
+    "confidence":0.3,
+    "indicateurs_locatifs":{},
+    "maximus_indicators":{"capital_type":"variable","endettement":0.25,
+      "nombre_immeubles":8,"prix_retrait":225.02,"valeur_realisation":184.42},
+    "profil_risque":{},
+    "repartition_geographique":[],
+    "repartition_sectorielle":[
+      {"poids":0.904,"secteur":"Habitations"},
+      {"poids":0.36200000000000004,"secteur":"soit un taux global de"},
+      {"poids":0.25,"secteur":"La dette représente"},
+      {"poids":0.25,"secteur":"Ratio de dettes"},
+      {"poids":0.19,"secteur":"pr élèvement forfaitaire de"},
+      {"poids":0.172,"secteur":"des prélèvements sociaux de"},
+      {"poids":0.128,"secteur":"d''impôt sur le revenu au taux de"},
+      {"poids":0.11,"secteur":"de souscription"},
+      {"poids":0.08,"secteur":"- les frais de collecte à hauteur de"},
+      {"poids":0.08,"secteur":"perçoit une commission de gestion annuelle maximale de"},
+      {"poids":0.03,"secteur":"réalisation des augmentations de capital à hauteur de"},
+      {"poids":0.009000000000000001,"secteur":"Professionnels"}],
+    "strategie_investissement":{},
+    "structure_frais":{"frais_souscription":0.11},
     "valorisation_risque":{"prix_reconstitution":186.49}}'::jsonb,
-  '2026-11-28T03:30:53Z')
+  '2026-11-28T03:30:53.286Z')
 on conflict (scpi_slug, period) do nothing;
 
 -- Surface publiée : T2 uniquement, jamais contaminée par la ligne T3.
+-- `endettement` y est en POURCENTAGE (25), unité de `scpi_indicators`.
 insert into public.scpi_indicators(scpi_slug, source_period, qa_status,
   valeur_realisation, prix_reconstitution, prix_retrait, endettement)
 values ('kyaneos-pierre','2026-T2','manual_verified',187.10,225.26,199.36,25)

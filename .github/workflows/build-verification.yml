@@ -98,6 +98,9 @@ jobs:
       - name: Promotion guard refuses collapsed or shifted metrics (effective)
         run: npx vitest run src/tests/recovery227PromotionGuard.test.ts
 
+      - name: Re-extraction package replays, rolls back and refuses drift
+        run: npx vitest run src/tests/recovery227Reextraction.test.ts
+
       - name: Baseline cohort isolation and worker recovery regression
         run: node --test scripts/agents/watchdogCohortInvariant.test.mjs
 
