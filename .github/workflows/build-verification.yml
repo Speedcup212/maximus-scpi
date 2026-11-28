@@ -92,6 +92,9 @@ jobs:
       - name: 211 SCPI single-queue delivery gate and privacy regression
         run: node --test scripts/scpi-candidates/delivery211Queue.test.mjs
 
+      - name: Kyaneos 2026-T3 shifted extraction is quarantined, never certified
+        run: node --import tsx/esm --test scripts/industrial/recovery227KyaneosT3Extraction.test.mjs
+
       - name: Baseline cohort isolation and worker recovery regression
         run: node --test scripts/agents/watchdogCohortInvariant.test.mjs
 

@@ -782,6 +782,33 @@ function extractIndicateursLocatifs(text: string): IndicateursLocatifs {
   return result;
 }
 
+/**
+ * Per-share valuation labels are stacked as `LABEL\n\nVALUE €` in the issuer
+ * PDFs. A greedy `[\d\s.,]+` before the label starts on a preceding line and
+ * captures the neighbouring field's amount, so every valuation is off by one.
+ * Anchoring the amount on its own line (no newline inside the capture) fixes it.
+ * Labels are followed by an optional footnote asterisk, which is not a word
+ * character, so `\b` must not terminate the label.
+ */
+const MONEY_ON_LINE = "([0-9][0-9 \\u00a0\\u202f.,]*)";
+const LABEL_END = "(?![a-zà-öø-ÿ])";
+
+function perShareAmountBefore(text: string, label: string): number | null {
+  const re = new RegExp(MONEY_ON_LINE + "\\s*€\\s*\\n\\s*" + label + LABEL_END, "i");
+  const m = re.exec(text);
+  if (!m) return null;
+  const v = parseFrNum(m[1] as string);
+  return v !== null && v > 0 ? v : null;
+}
+
+function perShareAmountAfter(text: string, label: string): number | null {
+  const re = new RegExp(label + LABEL_END + "\\s*[:=\\-]?\\s*" + MONEY_ON_LINE + "\\s*€", "i");
+  const m = re.exec(text);
+  if (!m) return null;
+  const v = parseFrNum(m[1] as string);
+  return v !== null && v > 0 ? v : null;
+}
+
 function extractValorisationRisque(text: string): ValorisationRisque {
   const result: ValorisationRisque = {};
 
@@ -809,15 +836,10 @@ function extractValorisationRisque(text: string): ValorisationRisque {
   }
 
   // Prix de reconstitution (per share)
-  const prStr = firstMatch(text, [
-    /([\d\s\u00a0.,]+)\s*€\s*\n?\s*valeur\s+de\s+reconstitution\b/i,
-    /prix\s+de\s+reconstitution\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
-    /valeur\s+de\s+reconstitution\s*[:\-=]?\s*([\d\s\u00a0.,]+)\s*€/i,
-  ]);
-  if (prStr !== null) {
-    const v = parseFrNum(prStr);
-    if (v !== null && v > 0) result.prix_reconstitution = v;
-  }
+  const reconstitution =
+    perShareAmountAfter(text, "(?:prix|valeur)\\s+de\\s+reconstitution\\*?") ??
+    perShareAmountBefore(text, "valeur\\s+de\\s+reconstitution\\*?");
+  if (reconstitution !== null) result.prix_reconstitution = reconstitution;
 
   // Prime / décote vs reconstitution price
   const primeCtx = /(?:prime|d[eé]cote)\s*(?:\/\s*d[eé]cote)?\s*[:\-=]\s*([+\-]?[\d,\.]+)\s*%/i.exec(text);
@@ -955,36 +977,32 @@ function extractActualiteTrimestrielle(text: string): ActualiteTrimestrielle {
 function extractMaximusIndicators(text: string): MaximusIndicators {
   const result: MaximusIndicators = {};
 
+  // A gauge caption ("Ratio de dettes\n0%\n25%\n50%") exposes the chart axis,
+  // not the issuer's ratio; reading the first tick records a comfortable 0 %.
+  // The scale ticks are consecutive round milestones, so a percentage directly
+  // followed by the next tick cannot be the measured value.
   const debtStr = firstMatch(text, [
-    /(?:taux|ratio)\s+(?:d['’]?endettement|des?\s+dettes?(?:\s+et\s+autres?\s+engagements?)?)[^%]{0,80}?([\d,.]+)\s*%/i,
-    /endettement\s*(?:\([^)]*\))?\s*[:=\-]?\s*([\d,.]+)\s*%/i,
-    /([\d,.]+)\s*%\s*(?:d['’]?endettement|endettement)/i,
     /([\d,.]+)\s*%\s*\n?\s*dettes?\s+et\s+autres?\s+engagements?/i,
+    /endettement\s*(?:\([^)]*\))?\s*[:=\-]\s*([\d,.]+)\s*%/i,
+    /(?:taux|ratio)\s+d['’]?endettement\s*[:=\-]?\s*([\d,.]+)\s*%/i,
+    /(?:taux|ratio)\s+(?:d['’]?endettement|des?\s+dettes?(?:\s+et\s+autres?\s+engagements?)?)[^%]{0,80}?([\d,.]+)\s*%(?!\s*\n\s*(?:[\d,.]+\s*%\s*\n\s*){1,3})/i,
+    /([\d,.]+)\s*%\s*(?:d['’]?endettement|endettement)/i,
   ]);
   if (debtStr !== null) {
     const v = parsePct(debtStr);
     if (v !== null) result.endettement = v;
   }
 
-  const retraitStr = firstMatch(text, [
-    /([\d\s\u00a0.,]+)\s*€\s*\n?\s*(?:prix|valeur)\s+de\s+retrait\b/i,
-    /(?:prix|valeur)\s+de\s+retrait\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
-    /retrait\s+(?:par\s+part|d['’]?une\s+part)\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
-  ]);
-  if (retraitStr !== null) {
-    const v = parseFrNum(retraitStr);
-    if (v !== null && v > 0) result.prix_retrait = v;
-  }
+  const retrait =
+    perShareAmountAfter(text, "(?:prix|valeur)\\s+de\\s+retrait\\*?") ??
+    perShareAmountBefore(text, "(?:prix|valeur)\\s+de\\s+retrait\\*?") ??
+    perShareAmountAfter(text, "retrait\\s+(?:par\\s+part|d['’]?une\\s+part)");
+  if (retrait !== null) result.prix_retrait = retrait;
 
-  const realisationStr = firstMatch(text, [
-    /([\d\s\u00a0.,]+)\s*€\s*\n?\s*valeur\s+de\s+r[eé]alisation\b/i,
-    /valeur\s+de\s+r[eé]alisation(?:\s+par\s+part)?\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
-    /prix\s+de\s+r[eé]alisation\s*[:=\-]?\s*([\d\s\u00a0.,]+)\s*€/i,
-  ]);
-  if (realisationStr !== null) {
-    const v = parseFrNum(realisationStr);
-    if (v !== null && v > 0) result.valeur_realisation = v;
-  }
+  const realisation =
+    perShareAmountAfter(text, "(?:valeur|prix)\\s+de\\s+r[eé]alisation\\*?") ??
+    perShareAmountBefore(text, "valeur\\s+de\\s+r[eé]alisation\\*?");
+  if (realisation !== null) result.valeur_realisation = realisation;
 
   const collecteMatch =
     /collecte\s+nette(?:\s+(?:du|au)\s+(?:trimestre|T[1-4]))?\s*[:=\-]?\s*([+\-]?[\d\s\u00a0.,]+)\s*(Md€|M€|k€|€|milliards?|millions?|milliers?)/i.exec(text) ||
@@ -1019,11 +1037,14 @@ function extractMaximusIndicators(text: string): MaximusIndicators {
     if (!isNaN(v) && v > 0) result.nombre_locataires = v;
   }
 
+  // "a fait l'acquisition de 8 immeubles" and "Nombre d'actifs : 666" both match
+  // a generic "N immeubles" pattern; the first describes a quarterly flow, the
+  // second the portfolio stock. Prefer the explicit stock statement.
   const immeublesStr = firstMatch(text, [
-    /([\d\s\u00a0]+)\s+(?:immeubles|actifs\s+immobiliers)\b/i,
+    /(?:nombre\s+d['’]?\s*)?(?:actifs|immeubles|actifs\s+immobiliers)\s*[:=\-]\s*([\d\s\u00a0]+)\b/i,
     /\bActifs\s+\d+\s+\d+(?:\([^)]*\))?\s*[-–]\s*(\d+)\b/i,
-    /(?:nombre\s+d['’]?)?(?:immeubles|actifs\s+immobiliers)\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
     /actifs\s+au\s+\d{1,2}[./-]\d{1,2}[./-]\d{2,4}\s*[:=\-]?\s*([\d\s\u00a0]+)/i,
+    /(?<!acquisition\s+de\s)(?<!acquisitions?\s+de\s)([\d\s\u00a0]+)\s+(?:immeubles|actifs\s+immobiliers)\b/i,
   ]);
   if (immeublesStr !== null) {
     const v = parseInt(immeublesStr.replace(/[\s\u00a0]/g, ""), 10);
