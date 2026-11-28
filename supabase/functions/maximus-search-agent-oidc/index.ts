@@ -4,7 +4,12 @@ const issuer = "https://token.actions.githubusercontent.com";
 const jwks = createRemoteJWKSet(new URL(issuer + "/.well-known/jwks"));
 const audience = "maximus-agent-worker-ygvsddcpohsnaowofuwc";
 const repo = "Speedcup212/maximus-scpi";
-const workflowRef = repo + "/.github/workflows/maximus-deepseek-search.yml@refs/heads/main";
+// A second, subscription-only local runner is permitted under the SAME scoped
+// queue and lease contract. No new credential endpoint or blanket worker role.
+const allowedWorkflowRefs = new Set([
+  repo + "/.github/workflows/maximus-deepseek-search.yml@refs/heads/main",
+  repo + "/.github/workflows/maximus-claude-local-worker.yml@refs/heads/main",
+]);
 const connection = Deno.env.get("SUPABASE_DB_URL");
 if (!connection) throw new Error("Database connection unavailable");
 const sql = postgres(connection,{max:1,prepare:false,ssl:"require",connect_timeout:10,idle_timeout:15});
@@ -15,7 +20,7 @@ Deno.serve(async req => {
   try{
     const {payload}=await jwtVerify(auth.slice(7),jwks,{issuer,audience,algorithms:["RS256"],clockTolerance:"30s"});
     if(payload.repository!==repo||String(payload.repository_id)!=="1125202916"||
-       payload.ref!=="refs/heads/main"||payload.workflow_ref!==workflowRef||
+       payload.ref!=="refs/heads/main"||!allowedWorkflowRefs.has(String(payload.workflow_ref))||
        !["schedule","workflow_dispatch","push"].includes(String(payload.event_name)))
        return new Response("Forbidden",{status:403});
     const body=await req.json().catch(()=>({}));
