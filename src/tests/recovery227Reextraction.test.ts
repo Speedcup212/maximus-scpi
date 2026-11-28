@@ -246,8 +246,7 @@ describeOrSkip('RECOVERY-227 — transaction de ré-extraction, hors production'
       .toBe('manual_review_required');
   });
 
-  it('le rollback refuse un second passage', () => {
-    freshDatabase();
+  it('le rollback refuse un second passage', () => {    freshDatabase();
     run(db, ['-v', 'ON_ERROR_STOP=1', '-f', SQL]);
     run(db, ['-v', 'ON_ERROR_STOP=1', '-f', ROLLBACK]);
     const out = run(db, ['-v', 'ON_ERROR_STOP=1', '-f', ROLLBACK]);
@@ -266,6 +265,85 @@ describeOrSkip('RECOVERY-227 — transaction de ré-extraction, hors production'
     const out = run(db, ['-v', 'ON_ERROR_STOP=1', '-f', ROLLBACK]);
     expect(out).toContain('REC227_ROLLBACK_POSTIMAGE_DRIFT_REVIEW_REQUIRED');
     expect(at('maximus_indicators.nombre_immeubles')).toBe('667');
+  });
+
+  // Le rollback réécrit `processed_at`, `pdf_sha256` et `source_url` (ou les
+  // protège) : la revue du 28/11 12:47Z a montré que seule l'extraction était
+  // comparée. Chaque champ a désormais sa propre dérive, prouvée séparément.
+  const driftCases: Array<{name: string; write: string; read: string; before: string}> = [
+    {
+      name: 'processed_at dérive seul',
+      write: `update public.scpi_bulletins
+                 set processed_at = processed_at + interval '7 seconds'
+               where period='2026-T3'`,
+      read: "select processed_at::text from public.scpi_bulletins where period='2026-T3'",
+      before: '2026-11-28T03:30:53.286+00:00',
+    },
+    {
+      name: 'pdf_sha256 dérive seul (nouveau PDF)',
+      write: `update public.scpi_bulletins set pdf_sha256 = repeat('b',64) where period='2026-T3'`,
+      read: "select pdf_sha256 from public.scpi_bulletins where period='2026-T3'",
+      before: '4def42a528fa1b75372bc132607895169dbc75899c824a55756ddefdff69413c',
+    },
+    {
+      name: 'source_url dérive seule (nouvelle source)',
+      write: `update public.scpi_bulletins
+                 set source_url = 'https://kyaneosam.com/wp-content/uploads/2026/12/SCPI-KP-Bulletin-4T2026.pdf'
+               where period='2026-T3'`,
+      read: "select source_url from public.scpi_bulletins where period='2026-T3'",
+      before: 'https://kyaneosam.com/wp-content/uploads/2026/11/SCPI-KP-Bulletin-trimestriel-3T2026.pdf',
+    },
+  ];
+
+  for (const drift of driftCases) {
+    it(`le rollback refuse sans écrire quand ${drift.name}`, () => {
+      freshDatabase();
+      run(db, ['-v', 'ON_ERROR_STOP=1', '-f', SQL]);
+      const drifted = query(db, drift.read);
+      run(db, ['-q', '-c', drift.write]);
+      const afterWrite = query(db, drift.read);
+      // La dérive doit être réelle, sinon le test ne prouve rien.
+      expect(afterWrite).not.toBe(drifted);
+
+      const out = run(db, ['-v', 'ON_ERROR_STOP=1', '-f', ROLLBACK]);
+      expect(out).toContain('REC227_ROLLBACK_POSTIMAGE_DRIFT_REVIEW_REQUIRED');
+      expect(out).not.toContain('COMMIT');
+
+      // Aucune écriture : la valeur dérivée survit, l'extraction du script aussi.
+      expect(query(db, drift.read)).toBe(afterWrite);
+      expect(at('maximus_indicators.valeur_realisation')).toBe('186.49');
+      // Aucune trace d'annulation n'est créée par un refus.
+      expect(query(db, `select count(*) from maximus_agents.scpi_replay_provenance_quarantine
+                        where event_key='${EVENT_ROLLBACK}'`)).toBe('0');
+      expect(query(db, `select count(*) from maximus_agents.scpi_replay_provenance_quarantine
+                        where event_key='${EVENT_EXEC}'`)).toBe('1');
+    });
+  }
+
+  it('le rollback refuse une trace sans processed_at de postimage au lieu de sauter le contrôle', () => {
+    freshDatabase();
+    run(db, ['-v', 'ON_ERROR_STOP=1', '-f', SQL]);
+    // Une trace antérieure au correctif ne porte pas `bulletin_after.processed_at`.
+    run(db, ['-q', '-c',
+      `update maximus_agents.scpi_replay_provenance_quarantine
+          set snapshot = snapshot #- '{bulletin_after,processed_at}'
+        where event_key='${EVENT_EXEC}'`]);
+    const out = run(db, ['-v', 'ON_ERROR_STOP=1', '-f', ROLLBACK]);
+    expect(out).toContain('REC227_ROLLBACK_PREIMAGE_INCOMPLETE');
+    expect(out).not.toContain('COMMIT');
+    expect(at('maximus_indicators.valeur_realisation')).toBe('186.49');
+  });
+
+  it('le rollback refuse une postimage dont l’identité du document manque', () => {
+    freshDatabase();
+    run(db, ['-v', 'ON_ERROR_STOP=1', '-f', SQL]);
+    run(db, ['-q', '-c',
+      `update maximus_agents.scpi_replay_provenance_quarantine
+          set snapshot = snapshot #- '{bulletin_before,source_url}'
+        where event_key='${EVENT_EXEC}'`]);
+    const out = run(db, ['-v', 'ON_ERROR_STOP=1', '-f', ROLLBACK]);
+    expect(out).toContain('REC227_ROLLBACK_PREIMAGE_INCOMPLETE');
+    expect(out).not.toContain('COMMIT');
   });
 
   it('le rollback refuse une préimage incomplète', () => {
@@ -322,6 +400,26 @@ describe('RECOVERY-227 — contrat statique du paquet (toujours exécuté)', () 
     // La trace d'annulation est distincte de la trace d'exécution.
     expect(sql).toContain('recovery227:kyaneos-pierre:2026-T3:rollback-applied');
     expect(sql).not.toMatch(/delete\s+from\s+maximus_agents\.scpi_replay_provenance_quarantine/i);
+  });
+
+  it('la postimage est contrôlée sur les cinq champs, pas seulement sur l’extraction', () => {
+    const sql = fs.readFileSync(ROLLBACK, 'utf8');
+    // La revue du 28/11 12:47Z a relevé que le contrôle ne comparait que
+    // `extraction_json`, `extraction_confidence` et `qa_status` alors que le
+    // rollback réécrit `processed_at` : chaque champ déplacé doit être comparé.
+    const driftBlock = sql.slice(
+      sql.indexOf('REC227_ROLLBACK_POSTIMAGE_DRIFT_REVIEW_REQUIRED') - 1400,
+      sql.indexOf('REC227_ROLLBACK_POSTIMAGE_DRIFT_REVIEW_REQUIRED'),
+    );
+    expect(driftBlock).toContain('b.processed_at is distinct from after_processed_at');
+    expect(driftBlock).toContain('b.pdf_sha256 is distinct from before_pdf_sha256');
+    expect(driftBlock).toContain('b.source_url is distinct from before_source_url');
+    // Les valeurs de référence viennent des traces, jamais de constantes.
+    expect(sql).not.toMatch(/after_processed_at\s+constant/);
+    // Une trace incomplète est refusée, pas tolérée en silence.
+    expect(sql).toContain('or after_processed_at is null');
+    expect(sql).toContain('or before_pdf_sha256 is null');
+    expect(sql).toContain('or before_source_url is null');
   });
 
   it('la transaction capture processed_at et vérifie sa postimage', () => {

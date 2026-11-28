@@ -293,13 +293,32 @@ Il corrige les trois défauts du rollback initial :
 
 1. il **refuse d'écraser** un état qui n'est plus la postimage écrite par la
    transaction (`REC227_ROLLBACK_POSTIMAGE_DRIFT_REVIEW_REQUIRED`) — une
-   ré-extraction ultérieure ou une correction manuelle survivent ;
+   ré-extraction ultérieure ou une correction manuelle survivent. La comparaison
+   est null-safe et porte sur les **cinq** champs que la transaction a déplacés :
+
+   | Champ comparé | Référence | Test de dérive dédié |
+   |---|---|---|
+   | `extraction_json` | postimage | `le rollback refuse d'écraser un état qui n'est plus celui du script` |
+   | `extraction_confidence` | postimage | idem |
+   | `qa_status` | postimage | idem |
+   | `processed_at` | `bulletin_after.processed_at` | `le rollback refuse sans écrire quand processed_at dérive seul` |
+   | `pdf_sha256` | préimage | `… quand pdf_sha256 dérive seul (nouveau PDF)` |
+   | `source_url` | préimage | `… quand source_url dérive seule (nouvelle source)` |
+
+   Chaque cas de dérive est prouvé séparément : la valeur dérivée doit survivre,
+   `extraction_json` doit rester celle du script, et **aucune** trace
+   d'annulation ne doit être créée par un refus ;
 2. il restaure **`processed_at`** en plus de `extraction_json`,
    `extraction_confidence` et `qa_status`, tous lus depuis la préimage
    réellement capturée, jamais recalculés ;
 3. il **trace son annulation** sous un `event_key` distinct
    (`recovery227:kyaneos-pierre:2026-T3:rollback-applied`), sans jamais
    supprimer la trace d'exécution d'origine.
+
+Une trace **antérieure au correctif** ne porte pas de `processed_at` de
+postimage. Le rollback ne saute pas ce contrôle en silence : il lève
+`REC227_ROLLBACK_PREIMAGE_INCOMPLETE` (tests « trace sans processed_at de
+postimage » et « identité du document manquante »).
 
 Codes d'échec nommés : `REC227_ROLLBACK_WITHOUT_EXECUTION_TRACE`,
 `REC227_ROLLBACK_PREIMAGE_INCOMPLETE`, `REC227_ROLLBACK_BULLETIN_ROW_ABSENT`,
@@ -347,6 +366,15 @@ Kyaneos est aujourd'hui `INCOMPLETE` avec `last_document_period IS NULL` et
 `source_ready IS NULL` : il **ne peut pas** passer `PASS_100` par cette seule
 ré-écriture, et ce paquet ne le prétend pas. Le résultat attendu après
 exécution est **68 / 69 inchangé**, avec une extraction T3 désormais exacte.
+
+**Aucun script de ce paquet n'écrit `last_document_period`.** Le champ est lu
+par les routes d'admission (`recovery176/177/179`), pas par la ré-extraction :
+`grep -n last_document_period` sur les trois SQL du paquet ne renvoie rien. Si
+la vue stricte réelle portait déjà `2026-T3` pour Kyaneos au moment de
+l'exécution, cette observation est celle de ChatGPT (accès SQL direct) et ne
+change rien à l'ordre des étapes ni à l'écriture : l'étape 1 du tableau §7 reste
+la propriété du rôle privilégié, et le paquet ne la réécrit jamais « pour être
+sûr ».
 
 ---
 

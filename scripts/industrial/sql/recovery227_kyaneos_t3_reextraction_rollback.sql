@@ -5,9 +5,15 @@
 --
 --   * il exige que la ligne soit TOUJOURS la postimage écrite par
 --     `recovery227_kyaneos_t3_reextraction.sql` (sinon `REC227_ROLLBACK_POSTIMAGE_DRIFT`) ;
+--     la comparaison est null-safe et porte sur LES CINQ champs que la
+--     transaction peut avoir déplacés : `extraction_json`,
+--     `extraction_confidence`, `qa_status`, `processed_at`, et l'identité du
+--     document (`pdf_sha256`, `source_url`) — un nouveau PDF n'est jamais écrasé ;
 --   * il restaure `extraction_json`, `extraction_confidence`, `qa_status` ET
 --     `processed_at` depuis une préimage réellement capturée, jamais recalculée ;
---   * il refuse une préimage incomplète (`REC227_ROLLBACK_PREIMAGE_INCOMPLETE`) ;
+--   * il refuse une préimage incomplète (`REC227_ROLLBACK_PREIMAGE_INCOMPLETE`),
+--     y compris une trace antérieure au correctif qui ne porte pas de
+--     `processed_at` de postimage : aucune comparaison n'est sautée en silence ;
 --   * il laisse une trace d'annulation sous un `event_key` distinct, sans jamais
 --     supprimer la trace d'exécution d'origine ;
 --   * il n'écrit dans aucune surface publiée et n'abaisse aucun seuil.
@@ -33,6 +39,9 @@ declare
   restore_confidence numeric;
   restore_qa_status text;
   restore_processed_at timestamptz;
+  after_processed_at timestamptz;
+  before_pdf_sha256 text;
+  before_source_url text;
 begin
   perform pg_advisory_xact_lock(hashtext('recovery227:kyaneos-pierre:2026-T3'));
 
@@ -56,6 +65,12 @@ begin
   restore_confidence := (q.snapshot -> 'bulletin_before' ->> 'extraction_confidence')::numeric;
   restore_qa_status := q.snapshot -> 'bulletin_before' ->> 'qa_status';
   restore_processed_at := (q.snapshot -> 'bulletin_before' ->> 'processed_at')::timestamptz;
+  -- La postimage de `processed_at` n'existe que dans les traces capturées
+  -- depuis le correctif : une trace plus ancienne n'a pas de valeur à
+  -- comparer, et le rollback doit alors le dire au lieu de sauter le contrôle.
+  after_processed_at := (q.snapshot -> 'bulletin_after' ->> 'processed_at')::timestamptz;
+  before_pdf_sha256 := q.snapshot -> 'bulletin_before' ->> 'pdf_sha256';
+  before_source_url := q.snapshot -> 'bulletin_before' ->> 'source_url';
 
   if restore_extraction is null
      or restore_extraction = 'null'::jsonb
@@ -63,7 +78,12 @@ begin
      or restore_qa_status is null
      or restore_qa_status = ''
      or restore_processed_at is null
-     or q.snapshot -> 'bulletin_after' -> 'extraction_json' is null then
+     or q.snapshot -> 'bulletin_after' -> 'extraction_json' is null
+     or after_processed_at is null
+     or before_pdf_sha256 is null
+     or before_pdf_sha256 = ''
+     or before_source_url is null
+     or before_source_url = '' then
     raise exception 'REC227_ROLLBACK_PREIMAGE_INCOMPLETE';
   end if;
 
@@ -80,9 +100,15 @@ begin
 
   -- On n'écrase que notre propre écriture. Toute autre valeur (ré-extraction
   -- ultérieure, correction manuelle, nouveau PDF) doit être relue par un humain.
+  -- Les cinq champs sont comparés null-safe : `processed_at` et l'identité du
+  -- document (`pdf_sha256`, `source_url`) sont écrits indirectement par la
+  -- chaîne d'ingestion, et un nouveau PDF ne doit jamais être écrasé.
   if b.extraction_json is distinct from (q.snapshot -> 'bulletin_after' -> 'extraction_json')
      or b.extraction_confidence is distinct from (q.snapshot -> 'bulletin_after' ->> 'extraction_confidence')::numeric
-     or b.qa_status is distinct from (q.snapshot -> 'bulletin_after' ->> 'qa_status') then
+     or b.qa_status is distinct from (q.snapshot -> 'bulletin_after' ->> 'qa_status')
+     or b.processed_at is distinct from after_processed_at
+     or b.pdf_sha256 is distinct from before_pdf_sha256
+     or b.source_url is distinct from before_source_url then
     raise exception 'REC227_ROLLBACK_POSTIMAGE_DRIFT_REVIEW_REQUIRED';
   end if;
 
