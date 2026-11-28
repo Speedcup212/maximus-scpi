@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Activity, BarChart3, Database, ShieldAlert, ShieldCheck } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { onlyCurrentScpiRow } from '../utils/scpiRowScope';
 import {
   type CertifiedLiquiditySnapshot,
   type LiquiditySignalGate,
@@ -34,6 +35,8 @@ type ChangeRow = {
   current_walb: number | string | null;
   walb_delta: number | string | null;
 };
+
+type ScpiScopedLiquiditySignalGate = LiquiditySignalGate & { scpi_slug: string };
 
 type SourceRow = {
   scpi_slug: string;
@@ -87,7 +90,7 @@ const liquidityLevel = (value: number | null, basis: ReturnType<typeof resolveCe
 const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, scpiName }) => {
   const [data, setData] = useState<ChangeRow | null>(null);
   const [liquidity, setLiquidity] = useState<CertifiedLiquiditySnapshot | null>(null);
-  const [gate, setGate] = useState<LiquiditySignalGate | null>(null);
+  const [gate, setGate] = useState<ScpiScopedLiquiditySignalGate | null>(null);
   const [source, setSource] = useState<SourceRow | null>(null);
 
   useEffect(() => {
@@ -111,7 +114,7 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
       if (!active) return;
       setData(changesResult.error || !changesResult.data ? null : changesResult.data as ChangeRow);
       setLiquidity(liquidityResult.error || !liquidityResult.data ? null : liquidityResult.data as CertifiedLiquiditySnapshot);
-      setGate(gateResult.error || !gateResult.data ? null : gateResult.data as LiquiditySignalGate);
+      setGate(gateResult.error || !gateResult.data ? null : gateResult.data as ScpiScopedLiquiditySignalGate);
       setSource(sourceResult.error || !sourceResult.data ? null : sourceResult.data as SourceRow);
     };
 
@@ -119,22 +122,30 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
     return () => { active = false; };
   }, [scpiSlug]);
 
+  // Derive every displayed value from this render's selected fund, before any
+  // memoized metric or certification calculation. Old asynchronous state is
+  // never a valid source for another scpiSlug.
+  const currentData = onlyCurrentScpiRow(data, scpiSlug);
+  const currentLiquidity = onlyCurrentScpiRow(liquidity, scpiSlug);
+  const currentGate = onlyCurrentScpiRow(gate, scpiSlug);
+  const currentSource = onlyCurrentScpiRow(source, scpiSlug);
+
   const metrics = useMemo<Metric[]>(() => {
-    if (!data) return [];
+    if (!currentData) return [];
     const raw = [
-      { key: 'tof', label: 'TOF', previous: toFiniteNumber(data.previous_tof), current: toFiniteNumber(data.current_tof), delta: toFiniteNumber(data.tof_delta), format: formatPct, deltaFormat: formatDeltaPoints },
-      { key: 'endettement', label: 'Endettement', previous: toFiniteNumber(data.previous_endettement), current: toFiniteNumber(data.current_endettement), delta: toFiniteNumber(data.endettement_delta), format: formatPct, deltaFormat: formatDeltaPoints },
-      { key: 'capitalisation', label: 'Capitalisation', previous: toFiniteNumber(data.previous_capitalisation), current: toFiniteNumber(data.current_capitalisation), delta: toFiniteNumber(data.capitalisation_delta), format: formatMillions, deltaFormat: (v: number) => formatDeltaValue(v, ' M€') },
-      { key: 'prix_souscription', label: 'Prix de la part', previous: toFiniteNumber(data.previous_prix_souscription), current: toFiniteNumber(data.current_prix_souscription), delta: toFiniteNumber(data.prix_souscription_delta), format: formatEuros, deltaFormat: (v: number) => formatDeltaValue(v, ' €') },
-      { key: 'walt', label: 'WALT', previous: toFiniteNumber(data.previous_walt), current: toFiniteNumber(data.current_walt), delta: toFiniteNumber(data.walt_delta), format: formatYears, deltaFormat: (v: number) => formatDeltaValue(v, ' an') },
-      { key: 'walb', label: 'WALB', previous: toFiniteNumber(data.previous_walb), current: toFiniteNumber(data.current_walb), delta: toFiniteNumber(data.walb_delta), format: formatYears, deltaFormat: (v: number) => formatDeltaValue(v, ' an') },
+      { key: 'tof', label: 'TOF', previous: toFiniteNumber(currentData.previous_tof), current: toFiniteNumber(currentData.current_tof), delta: toFiniteNumber(currentData.tof_delta), format: formatPct, deltaFormat: formatDeltaPoints },
+      { key: 'endettement', label: 'Endettement', previous: toFiniteNumber(currentData.previous_endettement), current: toFiniteNumber(currentData.current_endettement), delta: toFiniteNumber(currentData.endettement_delta), format: formatPct, deltaFormat: formatDeltaPoints },
+      { key: 'capitalisation', label: 'Capitalisation', previous: toFiniteNumber(currentData.previous_capitalisation), current: toFiniteNumber(currentData.current_capitalisation), delta: toFiniteNumber(currentData.capitalisation_delta), format: formatMillions, deltaFormat: (v: number) => formatDeltaValue(v, ' M€') },
+      { key: 'prix_souscription', label: 'Prix de la part', previous: toFiniteNumber(currentData.previous_prix_souscription), current: toFiniteNumber(currentData.current_prix_souscription), delta: toFiniteNumber(currentData.prix_souscription_delta), format: formatEuros, deltaFormat: (v: number) => formatDeltaValue(v, ' €') },
+      { key: 'walt', label: 'WALT', previous: toFiniteNumber(currentData.previous_walt), current: toFiniteNumber(currentData.current_walt), delta: toFiniteNumber(currentData.walt_delta), format: formatYears, deltaFormat: (v: number) => formatDeltaValue(v, ' an') },
+      { key: 'walb', label: 'WALB', previous: toFiniteNumber(currentData.previous_walb), current: toFiniteNumber(currentData.current_walb), delta: toFiniteNumber(currentData.walb_delta), format: formatYears, deltaFormat: (v: number) => formatDeltaValue(v, ' an') },
     ];
     return raw
       .filter((metric) => metric.previous !== null && metric.current !== null && metric.delta !== null)
       .map((metric) => ({ ...metric, previous: metric.previous as number, current: metric.current as number, delta: metric.delta as number }));
-  }, [data]);
+  }, [currentData]);
 
-  const certified = useMemo(() => resolveCertifiedLiquidity(liquidity, gate), [liquidity, gate]);
+  const certified = useMemo(() => resolveCertifiedLiquidity(currentLiquidity, currentGate), [currentLiquidity, currentGate]);
   const level = liquidityLevel(certified.currentPct, certified.basis);
 
   const trendLabel = certified.comparableTrend && certified.deltaPct !== null
@@ -149,8 +160,9 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
     return 'Le régime ne permet pas de produire un ratio comparable de liquidité.';
   }, [certified]);
 
-  const hasHistory = Boolean(data && data.previous_period && data.current_period && metrics.length > 0);
-  const hasLiquidity = Boolean(liquidity || gate);
+
+  const hasHistory = Boolean(currentData && currentData.previous_period && currentData.current_period && metrics.length > 0);
+  const hasLiquidity = Boolean(currentLiquidity || currentGate);
   if (!hasHistory && !hasLiquidity) return null;
 
   return (
@@ -197,13 +209,13 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
               <div className="rounded-2xl border border-white/10 bg-[#162229] p-4">
                 <div className="text-xs font-bold uppercase tracking-wide text-slate-400">Certification</div>
                 <div className="mt-2 text-xl font-black text-white">{certified.certification || 'N/D'}</div>
-                <div className="mt-1 text-xs text-slate-300">Gate : {gate?.liquidity_gate || 'N/D'}</div>
+                <div className="mt-1 text-xs text-slate-300">Gate : {currentGate?.liquidity_gate || 'N/D'}</div>
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-[#162229] p-4">
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-400"><Database className="w-4 h-4" />Source</div>
-                <div className="mt-2 text-lg font-black text-white">{liquidity?.source_period || source?.source_period || 'N/D'}</div>
-                <div className="mt-1 text-xs text-slate-300">{source?.source_document || 'Document officiel certifié / registre Maximus'}</div>
+                <div className="mt-2 text-lg font-black text-white">{currentLiquidity?.source_period || currentSource?.source_period || 'N/D'}</div>
+                <div className="mt-1 text-xs text-slate-300">{currentSource?.source_document || 'Document officiel certifié / registre Maximus'}</div>
               </div>
             </div>
 
@@ -216,7 +228,7 @@ const ScpiIndicatorHistory: React.FC<ScpiIndicatorHistoryProps> = ({ scpiSlug, s
             <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-sky-300">
               <Activity className="w-4 h-4" /> Évolution des indicateurs
             </div>
-            <h3 className="mt-2 text-xl sm:text-2xl font-black text-white">{data?.previous_period} → {data?.current_period}</h3>
+            <h3 className="mt-2 text-xl sm:text-2xl font-black text-white">{currentData?.previous_period} → {currentData?.current_period}</h3>
             <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {metrics.map((metric) => (
                 <div key={metric.key} className="rounded-2xl border border-white/10 bg-[#162229] p-4">
