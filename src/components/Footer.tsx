@@ -180,6 +180,11 @@ const Footer: React.FC = () => {
                 <li>
                   <a href="/partenaire-cabinet/" className="hover:text-blue-400 transition-colors">Espace partenaire</a>
                 </li>
+                {import.meta.env.VITE_PARTNER_RECRUITMENT_ENABLED === 'true' && (
+                  <li>
+                    <a href="/partenaires/" className="hover:text-blue-400 transition-colors">Devenir apporteur d’affaires</a>
+                  </li>
+                )}
                 <li>
                   <a href="/expertise-orias-cif/" className="hover:text-blue-400 transition-colors">Expertise ORIAS/CIF</a>
                 </li>
